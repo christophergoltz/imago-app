@@ -11,7 +11,7 @@ namespace Imago
         public AppShell()
         {
             InitializeComponent();
-            //Routing.RegisterRoute(nameof(CharacterInfoPage), typeof(CharacterInfoPage));
+            Routing.RegisterRoute(nameof(SkillPage), typeof(SkillPage));
             //Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
         }
 

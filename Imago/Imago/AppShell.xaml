@@ -81,12 +81,9 @@
     <FlyoutItem Title="Übersicht" Icon="icon_about.png">
         <ShellContent Route="CharacterInfoPage" ContentTemplate="{DataTemplate local:CharacterInfoPage}" />
     </FlyoutItem>
-    <!--<FlyoutItem Title="Fertigkeiten" Icon="icon_about.png">
-        <ShellContent Route="CharacterInfoPage" ContentTemplate="{DataTemplate local:CharacterInfoPage}" />
-    </FlyoutItem>-->
-    <!--<FlyoutItem Title="Browse" Icon="icon_feed.png">
-        <ShellContent Route="ItemsPage" ContentTemplate="{DataTemplate local:ItemsPage}" />
-    </FlyoutItem>-->
+    <FlyoutItem Title="Fertigkeiten" Icon="icon_about.png">
+        <ShellContent Route="SkillPage" ContentTemplate="{DataTemplate local:SkillPage}" />
+    </FlyoutItem>
 
     <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->
     <MenuItem Text="Logout" StyleClass="MenuItemLayoutStyle" Clicked="OnMenuItemClicked">

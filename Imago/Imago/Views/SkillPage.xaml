@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:customControls="clr-namespace:Imago.Views.CustomControls;assembly=Imago"
+             xmlns:viewModels="clr-namespace:Imago.ViewModels;assembly=Imago"
+             x:Class="Imago.Views.SkillPage"  
+             BindingContext="{Binding SkillPageViewModel, Source={StaticResource ViewModelLocator}}"
+             x:DataType="viewModels:SkillPageViewModel">
+    <ContentPage.Content>
+        <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+            <customControls:SkillGroupView Grid.Row="0" Grid.Column="0" 
+                                           SkillGroup="{Binding Character.BewegungGroup}" 
+                                           Skills="{Binding Character.Bewegung}"/>
+            <customControls:SkillGroupView Grid.Row="0" Grid.Column="1" 
+                                           SkillGroup="{Binding Character.NahkampfGroup}" 
+                                           Skills="{Binding Character.Nahkampf}"/>
+            <customControls:SkillGroupView Grid.Row="0" Grid.Column="2" 
+                                           SkillGroup="{Binding Character.FernkampfGroup}" 
+                                           Skills="{Binding Character.Fernkampf}"/>
+
+            <customControls:SkillGroupView Grid.Row="1" Grid.Column="0" 
+                                           SkillGroup="{Binding Character.HeimlichkeitGroup}" 
+                                           Skills="{Binding Character.Heimlichkeit}"/>
+            <customControls:SkillGroupView Grid.Row="1" Grid.Column="1" 
+                                           SkillGroup="{Binding Character.WissenschaftGroup}" 
+                                           Skills="{Binding Character.Wissenschaft}"/>
+            <customControls:SkillGroupView Grid.Row="1" Grid.Column="2" 
+                                           SkillGroup="{Binding Character.SozialesGroup}" 
+                                           Skills="{Binding Character.Soziales}"/>
+
+            <customControls:SkillGroupView Grid.Row="2" Grid.Column="0" 
+                                           SkillGroup="{Binding Character.WebkunstGroup}" 
+                                           Skills="{Binding Character.Webkunst}"/>
+            <customControls:SkillGroupView Grid.Row="2" Grid.Column="1" 
+                                           SkillGroup="{Binding Character.HandwerkGroup}" 
+                                           Skills="{Binding Character.Handwerk}"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

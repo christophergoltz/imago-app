@@ -22,6 +22,7 @@ namespace Imago.Util
         public static Character CurrentCharacter { private get; set; }
 
         public CharacterInfoPageViewModel CharacterInfo => new CharacterInfoPageViewModel(CurrentCharacter, _attributeService.Value);
+        public SkillPageViewModel SkillPageViewModel => new SkillPageViewModel(CurrentCharacter);
         public StartPageViewModel StartPage => new StartPageViewModel(_characterRepository.Value);
     }
 }
