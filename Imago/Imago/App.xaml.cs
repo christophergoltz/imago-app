@@ -8,13 +8,17 @@ namespace Imago
 {
     public partial class App : Application
     {
-
         public App()
         {
             InitializeComponent();
-
             DependencyService.Register<MockDataStore>();
-            MainPage = new AppShell();
+            var appShell = new AppShell
+            {
+                //disable flyout to prevent startpage bypassing
+                FlyoutBehavior = FlyoutBehavior.Disabled
+            };
+            MainPage = appShell;
+            Shell.Current.GoToAsync($"//{nameof(StartPage)}");
         }
 
         protected override void OnStart()

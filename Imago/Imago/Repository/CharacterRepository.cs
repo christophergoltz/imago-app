@@ -7,7 +7,12 @@ using Attribute = Imago.Models.Attribute;
 
 namespace Imago.Repository
 {
-    public class CharacterRepository
+    public interface ICharacterRepository
+    {
+        Character CreateNewCharacter();
+    }
+
+    public class CharacterRepository : ICharacterRepository
     {
         public Character CreateNewCharacter()
         {
