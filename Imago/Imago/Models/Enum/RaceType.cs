@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Imago.Models.Enum
 {
-    public enum Race
+    public enum RaceType
     {
         Unknown = 0,
         Mensch = 1,

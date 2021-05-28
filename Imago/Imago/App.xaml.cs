@@ -11,7 +11,6 @@ namespace Imago
         public App()
         {
             InitializeComponent();
-            DependencyService.Register<MockDataStore>();
             var appShell = new AppShell
             {
                 //disable flyout to prevent startpage bypassing

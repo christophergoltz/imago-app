@@ -38,7 +38,23 @@ namespace Imago.Repository
                 CreatedAt = DateTime.Now,
                 LastModifiedAt = DateTime.Now,
                 Id = Guid.NewGuid(),
-                GameVersion = new Version(1,0)
+                GameVersion = new Version(1,0),
+                Professions = CreateProfessions()
+            };
+        }
+
+        private List<Profession> CreateProfessions()
+        {
+            return new List<Profession>
+            {
+                new Profession(ProfessionType.Initiative, "(GE+GE+WA+WI)/4",
+                    new List<AttributeType>
+                    {
+                        AttributeType.Geschicklichkeit, AttributeType.Willenskraft, AttributeType.Wahrnehmung
+                    }),
+                new Profession(ProfessionType.SchadensModifikator,"(ST/10)-5", new List<AttributeType> {AttributeType.Staerke}),
+                new Profession(ProfessionType.EgoRegeneration, "WI/5",new List<AttributeType>() {AttributeType.Willenskraft}),
+                new Profession(ProfessionType.LastGrenze, "(KO+ST+ST)/10",new List<AttributeType>(){AttributeType.Konstitution, AttributeType.Staerke}),
             };
         }
 

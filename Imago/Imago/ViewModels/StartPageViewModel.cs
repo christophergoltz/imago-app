@@ -9,7 +9,7 @@ using Xamarin.Forms;
 
 namespace Imago.ViewModels
 {
-    public class StartPageViewModel : BaseViewModel
+    public class StartPageViewModel : BindableBase
     {
         private readonly ICharacterRepository _characterRepository;
 
@@ -26,7 +26,7 @@ namespace Imago.ViewModels
             var newChar = _characterRepository.CreateNewCharacter();
 
             newChar.Name = "Testspieler";
-            newChar.Race = Race.Mensch;
+            newChar.RaceType = RaceType.Mensch;
             newChar.CreatedBy = "System";
             newChar.Owner = "Testuser";
 

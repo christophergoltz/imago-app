@@ -10,7 +10,7 @@ namespace Imago.Models
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public Race Race { get; set; }
+        public RaceType RaceType { get; set; }
 
         public DateTime CreatedAt { get; set; }
         public DateTime LastModifiedAt { get; set; }
@@ -45,5 +45,7 @@ namespace Imago.Models
 
         public List<Skill> Soziales { get; set; }
         public SkillGroup SozialesGroup { get; set; }
+
+        public List<Profession> Professions { get; set; }
     }
 }

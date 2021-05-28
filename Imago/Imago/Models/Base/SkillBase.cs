@@ -9,7 +9,7 @@ namespace Imago.Models.Base
     {
         private int _naturalValue;
         private int _modificationValue;
-       // protected int _faktischerWert;
+        private int _finalValue;
         
         public int NaturalValue
         {
@@ -17,19 +17,11 @@ namespace Imago.Models.Base
             set => SetProperty(ref _naturalValue ,value);
         }
 
-
-        //public int FaktischerWert
-        //{
-        //    get
-        //    {
-        //        return _faktischerWert;
-        //    }
-        //    set
-        //    {
-        //        _faktischerWert = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
+        public int FinalValue
+        {
+            get => _finalValue;
+            set => SetProperty(ref _finalValue ,value);
+        }
 
         public int ModificationValue
         {
