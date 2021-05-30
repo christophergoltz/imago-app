@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:Imago.Models;assembly=Imago"
              x:Class="Imago.Views.CustomControls.SkillGroupView" x:Name="SkillGroupViewControl">
-    <Frame BorderColor="Black" Margin="2"  CornerRadius="0">
+    <Frame BorderColor="Black" CornerRadius="0">
         <Grid Padding="0" Margin="-19" >
             <Grid.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -19,56 +19,47 @@
             <!-- header -->
             <Grid Grid.Column="0" Grid.Row="0" BindingContext="{Binding SkillGroup, Source={x:Reference SkillGroupViewControl}}">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5*"/>
                     <ColumnDefinition Width="3*"/>
                     <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="1"/>
                 </Grid.RowDefinitions>
                 <Label Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Text="{Binding Type}"
                    Margin="5,5,0,0" FontAttributes="Bold" FontSize="22"/>
 
-                <Label Grid.Column="1" Grid.Row="0" Text="{Binding SkillSource, Converter={StaticResource AttributeSkillSourceToStringConverter}}"/>
-                <Label Grid.Column="1" Grid.Row="1">
-                    <Label.Text>
-                        <MultiBinding StringFormat="{}SW: {0}">
-                            <Binding Path="IncreaseValue"/>
-                        </MultiBinding>
-                    </Label.Text>
-                </Label>
+                <Label Grid.Column="1" FontAttributes="Bold" Grid.Row="0" Text="{Binding SkillSource, Converter={StaticResource AttributeSkillSourceToStringConverter}}"/>
 
-                <Label Grid.Column="2" Grid.Row="0">
-                    <Label.Text>
-                        <MultiBinding StringFormat="{}NW: {0}">
-                            <Binding Path="NaturalValue"/>
-                        </MultiBinding>
-                    </Label.Text>
-                </Label>
-                <Label Grid.Column="2" Grid.Row="1">
-                    <Label.Text>
-                        <MultiBinding StringFormat="{}Mod: {0}">
-                            <Binding Path="ModificationValue"/>
-                        </MultiBinding>
-                    </Label.Text>
-                </Label>
+                <StackLayout Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
+                    <Label Text="SW: " FontAttributes="Bold"/>
+                    <Label Text="{Binding IncreaseValue}"/>
+                </StackLayout>
 
-                <Label Grid.Column="3" Grid.Row="0">
-                    <Label.Text>
-                        <MultiBinding StringFormat="{}EP: {0}">
-                            <Binding Path="Experience"/>
-                        </MultiBinding>
-                    </Label.Text>
-                </Label>
-                <Label Grid.Column="3" Grid.Row="1">
-                    <Label.Text>
-                        <MultiBinding StringFormat="{}FW: {0}">
-                            <Binding Path="FinalValue"/>
-                        </MultiBinding>
-                    </Label.Text>
-                </Label>
+                <StackLayout Grid.Column="2" Grid.Row="0" Orientation="Horizontal">
+                    <Label Text="NW: " FontAttributes="Bold"/>
+                    <Label Text="{Binding NaturalValue}"/>
+                </StackLayout>
+
+                <StackLayout Grid.Column="2" Grid.Row="1" Orientation="Horizontal">
+                    <Label Text="Mod: " FontAttributes="Bold"/>
+                    <Label Text="{Binding ModificationValue}"/>
+                </StackLayout>
+
+                <StackLayout Grid.Column="3" Grid.Row="0" Orientation="Horizontal">
+                    <Label Text="EP: " FontAttributes="Bold"/>
+                    <Label Text="{Binding Experience}"/>
+                </StackLayout>
+
+                <StackLayout Grid.Column="3" Grid.Row="1" Orientation="Horizontal">
+                    <Label Text="FW: " FontAttributes="Bold"/>
+                    <Label Text="{Binding FinalValue}"/>
+                </StackLayout>
+
+                <BoxView Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4" Color="Black"/>
             </Grid>
 
             <!-- skills -->
@@ -86,12 +77,12 @@
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="1"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <Label Grid.Row="0" Grid.Column="0" Text="Fertigkeit" Margin="5,0,0,0" FontAttributes="Bold"/>
-                        <Label Grid.Row="0" Grid.Column="1" Text="EP" FontAttributes="Bold"/>
-                        <Label Grid.Row="0" Grid.Column="2" Text="SW" FontAttributes="Bold"/>
-                        <Label Grid.Row="0" Grid.Column="3" Text="Mod" FontAttributes="Bold"/>
-                        <Label Grid.Row="0" Grid.Column="4" Text="FW" FontAttributes="Bold"/>
-                        <BoxView Grid.Column="0" HeightRequest="1" Grid.Row="1" Grid.ColumnSpan="5" Color="Black"/>
+                        <Label Grid.Row="0" Grid.Column="0" Text="Fertigkeit" Margin="5,0,0,0" />
+                        <Label Grid.Row="0" Grid.Column="1" Text="EP"/>
+                        <Label Grid.Row="0" Grid.Column="2" Text="SW" />
+                        <Label Grid.Row="0" Grid.Column="3" Text="Mod" />
+                        <Label Grid.Row="0" Grid.Column="4" Text="FW" />
+                        <BoxView Grid.Column="0" HeightRequest="1" Grid.Row="1" Grid.ColumnSpan="5" Color="Gray"/>
                     </Grid>
                 </CollectionView.Header>
                 <CollectionView.ItemTemplate>
