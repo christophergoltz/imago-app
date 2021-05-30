@@ -1,0 +1,14 @@
+ImagoApp todo
+
+
+
+SkillPage
+- Freie EP
+- Kein Scrollen (ListView?)
+
+
+WikiPage
+
+
+
+
