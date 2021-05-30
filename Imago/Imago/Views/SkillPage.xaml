@@ -8,40 +8,54 @@
              x:DataType="viewModels:SkillPageViewModel">
     <ContentPage.Content>
         <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-        </Grid.RowDefinitions>
-            <customControls:SkillGroupView Grid.Row="0" Grid.Column="0" 
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <!-- Header -->
+            <Grid BackgroundColor="Aqua" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="1"></RowDefinition>
+                </Grid.RowDefinitions>
+                <StackLayout Grid.Row="0" Orientation="Horizontal">
+                    <Label Text="Freie EP:"></Label>
+                    <Button Text="Edit"></Button>
+                </StackLayout>
+                <BoxView Grid.Row="1" Color="Black"/>
+            </Grid>
+
+            <customControls:SkillGroupView Grid.Row="1" Grid.Column="0" 
                                            SkillGroup="{Binding Character.BewegungGroup}" 
                                            Skills="{Binding Character.Bewegung}"/>
-            <customControls:SkillGroupView Grid.Row="0" Grid.Column="1" 
+            <customControls:SkillGroupView Grid.Row="1" Grid.Column="1" 
                                            SkillGroup="{Binding Character.NahkampfGroup}" 
                                            Skills="{Binding Character.Nahkampf}"/>
-            <customControls:SkillGroupView Grid.Row="0" Grid.Column="2" 
+            <customControls:SkillGroupView Grid.Row="1" Grid.Column="2" 
                                            SkillGroup="{Binding Character.FernkampfGroup}" 
                                            Skills="{Binding Character.Fernkampf}"/>
 
-            <customControls:SkillGroupView Grid.Row="1" Grid.Column="0" 
+            <customControls:SkillGroupView Grid.Row="2" Grid.Column="0" 
                                            SkillGroup="{Binding Character.HeimlichkeitGroup}" 
                                            Skills="{Binding Character.Heimlichkeit}"/>
-            <customControls:SkillGroupView Grid.Row="1" Grid.Column="1" 
+            <customControls:SkillGroupView Grid.Row="2" Grid.Column="1" 
                                            SkillGroup="{Binding Character.WissenschaftGroup}" 
                                            Skills="{Binding Character.Wissenschaft}"/>
-            <customControls:SkillGroupView Grid.Row="1" Grid.Column="2" 
+            <customControls:SkillGroupView Grid.Row="2" Grid.Column="2" 
                                            SkillGroup="{Binding Character.SozialesGroup}" 
                                            Skills="{Binding Character.Soziales}"/>
 
-            <customControls:SkillGroupView Grid.Row="2" Grid.Column="0" 
+            <customControls:SkillGroupView Grid.Row="3" Grid.Column="0" 
                                            SkillGroup="{Binding Character.WebkunstGroup}" 
                                            Skills="{Binding Character.Webkunst}"/>
-            <customControls:SkillGroupView Grid.Row="2" Grid.Column="1" 
+            <customControls:SkillGroupView Grid.Row="3" Grid.Column="1" 
                                            SkillGroup="{Binding Character.HandwerkGroup}" 
                                            Skills="{Binding Character.Handwerk}"/>
         </Grid>
