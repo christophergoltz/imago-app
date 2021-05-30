@@ -12,7 +12,6 @@ namespace Imago
         {
             InitializeComponent();
             Routing.RegisterRoute(nameof(SkillPage), typeof(SkillPage));
-            //Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
         }
 
         private async void OnMenuItemClicked(object sender, EventArgs e)
