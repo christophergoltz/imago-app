@@ -1,21 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Text;
+using Imago.Attributes;
 using Imago.Models.Enum;
 using Xamarin.Forms;
 
 namespace Imago.Converter
 {
-    public class AttributeSkillSourceToStringConverter : IValueConverter
+    public class TypeToDisplayTextConverter : IValueConverter
     {
-        private TypeToAbbreviationextConverter x = new TypeToAbbreviationextConverter();
-
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var list = (List<AttributeType>)value;
-            return string.Join("+", list.Select(attributeType => x.Convert(attributeType, null, null, CultureInfo.InvariantCulture)));
+            if (value is AttributeType attributeType)
+            {
+                var attr = EnumExtensions.GetAttribute<DisplayTextAttribute>(attributeType);
+                if (attr == null || string.IsNullOrEmpty(attr.Text))
+                    return attributeType.ToString();
+
+                return attr.Text;
+            }
+            throw new NotImplementedException();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

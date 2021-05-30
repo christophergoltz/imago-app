@@ -12,6 +12,8 @@
         <ResourceDictionary>
             <converter:AttributeSkillSourceToStringConverter x:Key="AttributeSkillSourceToStringConverter"/>
             <converter:InverseBoolConverter x:Key="InverseBoolConverter"/>
+            <converter:TypeToAbbreviationextConverter x:Key="TypeToAbbreviationextConverter"/>
+            <converter:TypeToDisplayTextConverter x:Key="TypeToDisplayTextConverter"/>
 
             <util:ViewModelLocator x:Key="ViewModelLocator"/>
 
