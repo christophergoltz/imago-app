@@ -10,7 +10,7 @@
     <Application.Resources>
         
         <ResourceDictionary>
-            <converter:AttributeSkillSourceToStringConverter x:Key="AttributeSkillSourceToStringConverter"/>
+            <converter:SkillGroupTypeToAttributeSourceStringConverter x:Key="SkillGroupTypeToAttributeSourceStringConverter"/>
             <converter:InverseBoolConverter x:Key="InverseBoolConverter"/>
             <converter:TypeToAbbreviationextConverter x:Key="TypeToAbbreviationextConverter"/>
             <converter:TypeToDisplayTextConverter x:Key="TypeToDisplayTextConverter"/>

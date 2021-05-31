@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using Imago.Models;
 using Imago.Models.Enum;
@@ -16,23 +17,16 @@ namespace Imago.Repository
     {
         public Character CreateNewCharacter()
         {
-            return new Character()
+            var character = new Character()
             {
                 Attributes = CreateAttributes(),
-                Nahkampf = CreateSkillGroups(SkillGroupType.Nahkampf),
-                Heimlichkeit = CreateSkillGroups(SkillGroupType.Heimlichkeit),
-                Fernkampf = CreateSkillGroups( SkillGroupType.Fernkampf),
-                Bewegung = CreateSkillGroups(SkillGroupType.Bewegung),
-                Handwerk = CreateSkillGroups(SkillGroupType.Handwerk),
-                Soziales = CreateSkillGroups(SkillGroupType.Soziales),
-                Webkunst = CreateSkillGroups(SkillGroupType.Webkunst),
-                Wissenschaft = CreateSkillGroups(SkillGroupType.Wissenschaft),
+                SkillGroups = new Dictionary<SkillGroupType, SkillGroup>(),
                 CreatedAt = DateTime.Now,
                 LastModifiedAt = DateTime.Now,
                 Id = Guid.NewGuid(),
                 GameVersion = new Version(1,0),
                 Professions = CreateProfessions(),
-                OpenAttributeIncreases = new List<SkillGroupType>(),
+                OpenAttributeIncreases = new ObservableCollection<SkillGroupType>(),
                 Age = "62",
                 EyeColor = "Blau",
                 HairColor = "Schwarz",
@@ -44,20 +38,28 @@ namespace Imago.Repository
                 SkinColor = "Hell",
                 CreatedBy = "Testuser"
             };
+
+            //add skillgroups
+            character.SkillGroups.Add(SkillGroupType.Nahkampf, CreateSkillGroups(SkillGroupType.Nahkampf));
+            character.SkillGroups.Add(SkillGroupType.Heimlichkeit, CreateSkillGroups(SkillGroupType.Heimlichkeit));
+            character.SkillGroups.Add(SkillGroupType.Fernkampf, CreateSkillGroups(SkillGroupType.Fernkampf));
+            character.SkillGroups.Add(SkillGroupType.Bewegung, CreateSkillGroups(SkillGroupType.Bewegung));
+            character.SkillGroups.Add(SkillGroupType.Handwerk, CreateSkillGroups(SkillGroupType.Handwerk));
+            character.SkillGroups.Add(SkillGroupType.Soziales, CreateSkillGroups(SkillGroupType.Soziales));
+            character.SkillGroups.Add(SkillGroupType.Webkunst, CreateSkillGroups(SkillGroupType.Webkunst));
+            character.SkillGroups.Add(SkillGroupType.Wissenschaft, CreateSkillGroups(SkillGroupType.Wissenschaft));
+
+            return character;
         }
 
         private List<Profession> CreateProfessions()
         {
             return new List<Profession>
             {
-                new Profession(ProfessionType.Initiative, "(GE+GE+WA+WI)/4",
-                    new List<AttributeType>
-                    {
-                        AttributeType.Geschicklichkeit, AttributeType.Willenskraft, AttributeType.Wahrnehmung
-                    }),
-                new Profession(ProfessionType.SchadensModifikator,"(ST/10)-5", new List<AttributeType> {AttributeType.Staerke}),
-                new Profession(ProfessionType.EgoRegeneration, "WI/5",new List<AttributeType>() {AttributeType.Willenskraft}),
-                new Profession(ProfessionType.LastGrenze, "(KO+ST+ST)/10",new List<AttributeType>(){AttributeType.Konstitution, AttributeType.Staerke}),
+                new Profession(ProfessionType.Initiative, "(GE+GE+WA+WI)/4"),
+                new Profession(ProfessionType.SchadensModifikator,"(ST/10)-5"),
+                new Profession(ProfessionType.EgoRegeneration, "WI/5"),
+                new Profession(ProfessionType.LastGrenze, "(KO+ST+ST)/10"),
             };
         }
 
@@ -81,36 +83,6 @@ namespace Imago.Repository
             {
                 Skills = CreateSkills(type)
             };
-
-            switch (type)
-            {
-                case SkillGroupType.Bewegung:
-                    skillGroup.SkillSource = new List<AttributeType> { AttributeType.Staerke, AttributeType.Geschicklichkeit, AttributeType.Konstitution, AttributeType.Konstitution };
-                    break;
-                case SkillGroupType.Nahkampf:
-                    skillGroup.SkillSource = new List<AttributeType> { AttributeType.Staerke, AttributeType.Geschicklichkeit, AttributeType.Konstitution, AttributeType.Wahrnehmung };
-                    break;
-                case SkillGroupType.Heimlichkeit:
-                    skillGroup.SkillSource = new List<AttributeType> { AttributeType.Geschicklichkeit, AttributeType.Intelligenz, AttributeType.Willenskraft, AttributeType.Wahrnehmung };
-                    break;
-                case SkillGroupType.Fernkampf:
-                    skillGroup.SkillSource = new List<AttributeType> { AttributeType.Staerke, AttributeType.Geschicklichkeit, AttributeType.Geschicklichkeit, AttributeType.Wahrnehmung };
-                    break;
-                case SkillGroupType.Webkunst:
-                    skillGroup.SkillSource = new List<AttributeType> { AttributeType.Willenskraft, AttributeType.Willenskraft, AttributeType.Charisma, AttributeType.Charisma };
-                    break;
-                case SkillGroupType.Wissenschaft:
-                    skillGroup.SkillSource = new List<AttributeType> { AttributeType.Intelligenz, AttributeType.Intelligenz, AttributeType.Intelligenz, AttributeType.Wahrnehmung };
-                    break;
-                case SkillGroupType.Handwerk:
-                    skillGroup.SkillSource = new List<AttributeType> { AttributeType.Geschicklichkeit, AttributeType.Intelligenz, AttributeType.Charisma, AttributeType.Wahrnehmung };
-                    break;
-                case SkillGroupType.Soziales:
-                    skillGroup.SkillSource = new List<AttributeType> { AttributeType.Willenskraft, AttributeType.Charisma, AttributeType.Charisma, AttributeType.Wahrnehmung };
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
-            }
             return skillGroup;     
         }
 

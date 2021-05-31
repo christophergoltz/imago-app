@@ -12,11 +12,13 @@ namespace Imago.Util
     {
         private readonly Lazy<ICharacterRepository> _characterRepository;
         private readonly Lazy<ICharacterService> _characterService;
+        private readonly Lazy<IRuleRepository> _ruleRepository;
 
         public ViewModelLocator()
         {
             _characterRepository = new Lazy<ICharacterRepository>(() => new CharacterRepository());
-            _characterService = new Lazy<ICharacterService>(() => new CharacterService());
+            _ruleRepository = new Lazy<IRuleRepository>(() => new RuleRepository());
+            _characterService = new Lazy<ICharacterService>(() => new CharacterService(_ruleRepository.Value));
         }
         
         public CharacterInfoPageViewModel CharacterInfo => new CharacterInfoPageViewModel(App.CurrentCharacter, _characterService.Value);

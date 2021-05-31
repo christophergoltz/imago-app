@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:customControls="clr-namespace:Imago.Views.CustomControls;assembly=Imago"
              xmlns:viewModels="clr-namespace:Imago.ViewModels;assembly=Imago"
+             xmlns:local="clr-namespace:Imago.Models.Enum;assembly=Imago"
              x:Class="Imago.Views.SkillPage" Title="Fertigkeiten"
              BindingContext="{Binding SkillPageViewModel, Source={StaticResource ViewModelLocator}}"
              x:DataType="viewModels:SkillPageViewModel">
@@ -29,30 +30,30 @@
 
                 <customControls:SkillGroupView Grid.Row="0" Grid.Column="1" Margin="0,4,0,0" 
                                                Command="{Binding OpenSelectedSkill}"
-                                               SkillGroup="{Binding Character.Bewegung}"/>
+                                               SkillGroup="{Binding Bewegung}"/>
                 <customControls:SkillGroupView Grid.Row="0" Grid.Column="2" Margin="0,4,4,0" 
                                                Command="{Binding OpenSelectedSkill}"
-                                               SkillGroup="{Binding Character.Wissenschaft}"/>
+                                               SkillGroup="{Binding Wissenschaft}"/>
 
                 <customControls:SkillGroupView Grid.Row="1" Grid.Column="0" Margin="4,0,0,0" 
                                                Command="{Binding OpenSelectedSkill}"
-                                               SkillGroup="{Binding Character.Heimlichkeit}"/>
+                                               SkillGroup="{Binding Heimlichkeit}"/>
                 <customControls:SkillGroupView Grid.Row="1" Grid.Column="1" 
                                                Command="{Binding OpenSelectedSkill}"
-                                               SkillGroup="{Binding Character.Nahkampf}"/>
+                                               SkillGroup="{Binding Nahkampf}"/>
                 <customControls:SkillGroupView Grid.Row="1" Grid.Column="2" Margin="0,0,4,0"
                                                Command="{Binding OpenSelectedSkill}"
-                                               SkillGroup="{Binding Character.Soziales}"/>
+                                               SkillGroup="{Binding Soziales}"/>
 
                 <customControls:SkillGroupView Grid.Row="2" Grid.Column="0" Margin="4,0,0,4"
                                                Command="{Binding OpenSelectedSkill}"
-                                               SkillGroup="{Binding Character.Webkunst}"/>
+                                               SkillGroup="{Binding Webkunst}"/>
                 <customControls:SkillGroupView Grid.Row="2" Grid.Column="1" Margin="0,0,0,4"
                                                Command="{Binding OpenSelectedSkill}"
-                                               SkillGroup="{Binding Character.Fernkampf}"/>
+                                               SkillGroup="{Binding Fernkampf}"/>
                 <customControls:SkillGroupView Grid.Row="2" Grid.Column="2" Margin="0,0,4,4"
                                                Command="{Binding OpenSelectedSkill}"
-                                               SkillGroup="{Binding Character.Handwerk}"/>
+                                               SkillGroup="{Binding Handwerk}"/>
             </Grid>
 
             <!-- dialog -->

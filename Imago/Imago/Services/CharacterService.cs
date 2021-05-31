@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Imago.Models;
 using Imago.Models.Base;
 using Imago.Models.Enum;
+using Imago.Repository;
 using Imago.Util;
 using Attribute = Imago.Models.Attribute;
 
@@ -20,6 +22,13 @@ namespace Imago.Services
 
     public class CharacterService : ICharacterService
     {
+        private readonly IRuleRepository _ruleRepository;
+
+        public CharacterService(IRuleRepository ruleRepository)
+        {
+            _ruleRepository = ruleRepository;
+        }
+
         public void SetModificationValue(Skill skill, int newModificationValue)
         {
             skill.ModificationValue = newModificationValue;
@@ -43,7 +52,13 @@ namespace Imago.Services
             attribute.ModificationValue = newModificationValue;
             attribute.RecalculateFinalValue();
 
-            foreach (var skillGroup in character.GetAllSkillGroupsByAttribute(attribute.Type))
+            var affectedSkillGroupTypes = _ruleRepository.GetSkillGroupsByAttribute(attribute.Type);
+            var skillGroups = character.SkillGroups
+                .Where(pair => affectedSkillGroupTypes
+                    .Contains(pair.Key))
+                .Select(pair => pair.Value);
+            
+            foreach (var skillGroup in skillGroups)
             {
                 skillGroup.NaturalValue = attribute.FinalValue;
                 skillGroup.RecalculateFinalValue();
