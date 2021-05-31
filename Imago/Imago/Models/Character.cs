@@ -30,6 +30,8 @@ namespace Imago.Models
         public Version GameVersion { get; set; }
 
         public List<Attribute> Attributes { get; set; }
+        public List<DerivedAttribute> DerivedAttributes { get; set; }
+        public List<SpecialAttribute> SpecialAttributes { get; set; }
 
         public Dictionary<SkillGroupType, SkillGroup> SkillGroups { get; set; }
         
