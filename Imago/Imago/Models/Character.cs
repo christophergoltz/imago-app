@@ -19,7 +19,8 @@ namespace Imago.Models
         public string HairColor { get; set; }
         public string SkinColor { get; set; }
         public string Age { get; set; }
-        
+        public string DivineSoul { get; set; }
+
         public DateTime CreatedAt { get; set; }
         public DateTime LastModifiedAt { get; set; }
 

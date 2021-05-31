@@ -35,7 +35,8 @@ namespace Imago.Repository
                 Owner = "System",
                 Weight = "93kg",
                 SkinColor = "Hell",
-                CreatedBy = "Testuser"
+                CreatedBy = "Testuser",
+                DivineSoul = "40"
             };
 
             //add skillgroups

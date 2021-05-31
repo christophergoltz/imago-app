@@ -31,6 +31,7 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
                 <StackLayout Grid.Row="0" VerticalOptions="Center" Orientation="Horizontal" Margin="0,5,0,0">
@@ -71,6 +72,11 @@
                 <StackLayout Grid.Row="7" VerticalOptions="Center" Orientation="Horizontal">
                     <Label Text="Alter: " FontSize="18"  FontAttributes="Bold"/>
                     <Label FontSize="18" Text="{Binding Character.Age}"/>
+                </StackLayout>
+
+                <StackLayout Grid.Row="8" VerticalOptions="Center" Orientation="Horizontal">
+                    <Label Text="Göttliche Seele: " FontSize="18"  FontAttributes="Bold"/>
+                    <Label FontSize="18" Text="{Binding Character.DivineSoul}"/>
                 </StackLayout>
             </Grid>
 
