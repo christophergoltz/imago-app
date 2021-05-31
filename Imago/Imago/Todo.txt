@@ -3,27 +3,9 @@ Allgemein
 	- AddExperience
 		- Nur positive Wert erlauben, fuer absenken neue Mothode schaffen
 
-- AbgeleitetAttribute : Derived attribute
-	Egoregenration
-	Schadensmod
-	Traglast
-	Sprungreichweite
-	Sprunghöhe
-	TaktischeBewegung
-	Sprint
-	- Formel
-	- Wert
-
-Göttliche Seele
-- Freitext
-
-InitiativeAttribute : SpezialAttribut
-
-SpezialAttribut : Skillbase (Initiative)
-
 Charakter Info
-- Bluttraeger
 - Korrosion
+- Modification
 
 KampfbogenPage
 
@@ -32,10 +14,8 @@ InventarPage
 SkillPage
 - Freie EP
 - Searchbar
-- Keine EP bei Gruppen
 
 WikiPage
-
 
 Bugs
 - keine bekannten :O
@@ -55,7 +35,7 @@ Was nicht enthalten/unterstuetz wird
 - Kampfbogen
 - Heilung
 - Subspezies und Schwaerme von Gamen
-
+- Bluttraeger
 
 Wiki
 - Versionnierung 

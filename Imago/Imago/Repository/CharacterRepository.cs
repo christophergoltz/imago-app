@@ -25,7 +25,6 @@ namespace Imago.Repository
                 LastModifiedAt = DateTime.Now,
                 Id = Guid.NewGuid(),
                 GameVersion = new Version(1,0),
-                Professions = CreateProfessions(),
                 OpenAttributeIncreases = new ObservableCollection<SkillGroupType>(),
                 Age = "62",
                 EyeColor = "Blau",
@@ -51,18 +50,7 @@ namespace Imago.Repository
 
             return character;
         }
-
-        private List<Profession> CreateProfessions()
-        {
-            return new List<Profession>
-            {
-                new Profession(ProfessionType.Initiative, "(GE+GE+WA+WI)/4"),
-                new Profession(ProfessionType.SchadensModifikator,"(ST/10)-5"),
-                new Profession(ProfessionType.EgoRegeneration, "WI/5"),
-                new Profession(ProfessionType.LastGrenze, "(KO+ST+ST)/10"),
-            };
-        }
-
+        
         private List<Attribute> CreateAttributes()
         {
             return new List<Attribute>

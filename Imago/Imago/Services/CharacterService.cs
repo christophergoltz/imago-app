@@ -70,7 +70,7 @@ namespace Imago.Services
                 }
             }
 
-            //todo recalculate professions
+            //todo recalculate DerivedAttributes & SpecialAttributes
         }
 
         public void AddCorrosion(Attribute attribute, int corrosion)

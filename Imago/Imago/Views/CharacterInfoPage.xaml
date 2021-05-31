@@ -123,49 +123,11 @@
                 </CollectionView>
             </Frame>
 
-            <!-- professions -->
+            <!-- derived attributes -->
             <Frame Grid.Column="0" Grid.Row="1" CornerRadius="0" BorderColor="Black">
-                <CollectionView ItemsSource="{Binding Character.Professions}">
-                    <CollectionView.Header>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="200" />
-                                <ColumnDefinition Width="50" />
-                                <ColumnDefinition Width="70" />
-                                <ColumnDefinition Width="50" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="1"></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <Label Grid.Row="0" Grid.Column="0" Text="Fähigkeit" Margin="5,0,0,0" FontAttributes="Bold"/>
-                            <Label Grid.Row="0" Grid.Column="1" Text="Formel" FontAttributes="Bold"/>
-                            <Label Grid.Row="0" Grid.Column="2" Text="NW" FontAttributes="Bold"/>
-                            <Label Grid.Row="0" Grid.Column="3" Text="Mod" FontAttributes="Bold"/>
-                            <Label Grid.Row="0" Grid.Column="4" Text="FW" FontAttributes="Bold"/>
-                            <BoxView Grid.Column="0" HeightRequest="1" Grid.Row="1" Grid.ColumnSpan="5" Color="Black"/>
-                        </Grid>
-                    </CollectionView.Header>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="models:Profession">
-                            <Grid Padding="10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="200" />
-                                    <ColumnDefinition Width="50" />
-                                    <ColumnDefinition Width="70" />
-                                    <ColumnDefinition Width="50" />
-                                </Grid.ColumnDefinitions>
-                                <Label Grid.Column="0" VerticalOptions="Center" Text="{Binding Type}"/>
-                                <Label Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" Text="{Binding Formula}"/>
-                                <Label Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding NaturalValue}"/>
-                                <Entry Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding ModificationValue}"/>
-                                <Label Grid.Column="4" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding FinalValue}"/>
-                            </Grid>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                <StackLayout >
+                    <Label Text="Abgeleitete Attribute und Spezialattribute: [tbd]" FontSize="18"/>
+                </StackLayout>
             </Frame>
 
             <!-- blood carrier -->

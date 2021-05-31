@@ -10,7 +10,6 @@ namespace Imago.Repository
     {
         IEnumerable<SkillGroupType> GetSkillGroupsByAttribute(AttributeType type);
         List<AttributeType> GetSkillGroupSources(SkillGroupType type);
-        List<AttributeType> GetProfessionGroupSources(ProfessionType type);
     }
 
     public class RuleRepository : IRuleRepository
@@ -28,15 +27,6 @@ namespace Imago.Repository
                 {SkillGroupType.Soziales, new List<AttributeType> { AttributeType.Willenskraft, AttributeType.Charisma, AttributeType.Charisma, AttributeType.Wahrnehmung }}
             };
 
-        private static readonly Dictionary<ProfessionType, List<AttributeType>> ProfessionGroupAttributeLookUpDictionary =
-            new Dictionary<ProfessionType, List<AttributeType>>()
-            {
-                {ProfessionType.Initiative, new List<AttributeType> { AttributeType.Geschicklichkeit, AttributeType.Willenskraft, AttributeType.Wahrnehmung}},
-                {ProfessionType.SchadensModifikator, new List<AttributeType> { AttributeType.Staerke}},
-                {ProfessionType.EgoRegeneration, new List<AttributeType> { AttributeType.Willenskraft}},
-                {ProfessionType.LastGrenze, new List<AttributeType> { AttributeType.Konstitution, AttributeType.Staerke}},
-             };
-
         public IEnumerable<SkillGroupType> GetSkillGroupsByAttribute(AttributeType type)
         {
             foreach (var kvp in SkillGroupAttributeLookUpDictionary)
@@ -51,11 +41,6 @@ namespace Imago.Repository
         public List<AttributeType> GetSkillGroupSources(SkillGroupType type)
         {
             return SkillGroupAttributeLookUpDictionary[type];
-        }
-
-        public List<AttributeType> GetProfessionGroupSources(ProfessionType type)
-        {
-            return ProfessionGroupAttributeLookUpDictionary[type];
         }
     }
 }
