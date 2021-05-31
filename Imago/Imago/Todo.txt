@@ -12,4 +12,13 @@ WikiPage
 
 
 
+Bugs
+- SkillPage
+	1. Skill oeffen, Mod 2 einstellen, schliessen
+	2. Von dem Skill die Kategorie oeffen, Mod 4 eintragen, schliessen
+	3. Gleichen Skill wie bei 1. oeffen, ein paar EP hinzufuegen, schliessen
+	4. Gleiche Kategorie wie bei 2. oeffen, UI friert ein
 
+
+Ideen
+- Insgesammte EP

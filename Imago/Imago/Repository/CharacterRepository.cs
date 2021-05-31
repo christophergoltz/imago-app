@@ -31,7 +31,8 @@ namespace Imago.Repository
                 LastModifiedAt = DateTime.Now,
                 Id = Guid.NewGuid(),
                 GameVersion = new Version(1,0),
-                Professions = CreateProfessions()
+                Professions = CreateProfessions(),
+                OpenAttributeIncreases = new List<SkillGroupType>()
             };
         }
 

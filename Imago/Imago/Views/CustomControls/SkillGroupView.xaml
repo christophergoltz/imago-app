@@ -19,7 +19,7 @@
             <!-- header -->
             <Grid Grid.Column="0" Grid.Row="0" BindingContext="{Binding SkillGroup, Source={x:Reference SkillGroupViewControl}}">
                 <Grid.GestureRecognizers>
-                    <TapGestureRecognizer NumberOfTapsRequired="2" Command="{Binding SkillDoubleTapCommand, Source={x:Reference SkillGroupViewControl}}" CommandParameter="{Binding .}"/>
+                    <TapGestureRecognizer Command="{Binding SkillDoubleTapCommand, Source={x:Reference SkillGroupViewControl}}" CommandParameter="{Binding .}"/>
                 </Grid.GestureRecognizers>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="5*"/>
@@ -93,7 +93,7 @@
                         <ViewCell>
                         <Grid Padding="10,0,10,3">
                             <Grid.GestureRecognizers>
-                                <TapGestureRecognizer NumberOfTapsRequired="2" Command="{Binding SkillDoubleTapCommand, Source={x:Reference SkillGroupViewControl}}" CommandParameter="{Binding .}"/>
+                                <TapGestureRecognizer Command="{Binding SkillDoubleTapCommand, Source={x:Reference SkillGroupViewControl}}" CommandParameter="{Binding .}"/>
                             </Grid.GestureRecognizers>
                                 <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />

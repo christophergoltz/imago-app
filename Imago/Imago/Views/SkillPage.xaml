@@ -96,13 +96,13 @@
 
                         <StackLayout Grid.Row="3"  VerticalOptions="Center" Orientation="Horizontal" Margin="0,5,0,0">
                             <Label VerticalOptions="Center" Text="Mod: " FontAttributes="Bold"/>
-                            <Entry Text="{Binding SelectedSkill.ModificationValue}"/>
+                            <Entry Keyboard="Numeric" Text="{Binding SelectedSkillModification}"/>
                         </StackLayout>
 
                         <StackLayout Grid.Row="4"  VerticalOptions="Center" Orientation="Horizontal" Margin="0,5,0,0">
                             <Label VerticalOptions="Center" Text="EP: " FontAttributes="Bold"/>
-                            <Label VerticalOptions="Center" Text="{Binding SelectedSkill.Experience}"/>
-                            <Stepper Increment="1" Minimum="0" Value="{Binding SelectedSkill.Experience}"></Stepper>
+                            <Label VerticalOptions="Center" Text="{Binding SelectedSkillExperience}"/>
+                            <Stepper Increment="1" Minimum="0" Value="{Binding SelectedSkillExperience}"></Stepper>
                         </StackLayout>
 
                         <StackLayout Grid.Row="5" VerticalOptions="Center" Orientation="Horizontal" Margin="0,5,0,0">

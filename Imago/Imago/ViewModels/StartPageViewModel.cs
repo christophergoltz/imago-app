@@ -34,9 +34,8 @@ namespace Imago.ViewModels
             if (Application.Current.MainPage is AppShell app)
                 app.FlyoutBehavior = FlyoutBehavior.Locked;
 
-            ViewModelLocator.CurrentCharacter = newChar;
+            App.CurrentCharacter = newChar;
             await Shell.Current.GoToAsync($"//{nameof(CharacterInfoPage)}");
         }
-
     }
 }

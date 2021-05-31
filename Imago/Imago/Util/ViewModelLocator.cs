@@ -8,21 +8,19 @@ using Imago.ViewModels;
 
 namespace Imago.Util
 {
-    public class ViewModelLocator
+    public sealed class ViewModelLocator
     {
         private readonly Lazy<ICharacterRepository> _characterRepository;
-        private readonly Lazy<IAttributeService> _attributeService;
+        private readonly Lazy<ICharacterService> _characterService;
 
         public ViewModelLocator()
         {
             _characterRepository = new Lazy<ICharacterRepository>(() => new CharacterRepository());
-            _attributeService = new Lazy<IAttributeService>(() => new AttributeService());
+            _characterService = new Lazy<ICharacterService>(() => new CharacterService());
         }
         
-        public static Character CurrentCharacter { private get; set; }
-
-        public CharacterInfoPageViewModel CharacterInfo => new CharacterInfoPageViewModel(CurrentCharacter, _attributeService.Value);
-        public SkillPageViewModel SkillPageViewModel => new SkillPageViewModel(CurrentCharacter);
+        public CharacterInfoPageViewModel CharacterInfo => new CharacterInfoPageViewModel(App.CurrentCharacter, _characterService.Value);
+        public SkillPageViewModel SkillPageViewModel => new SkillPageViewModel(App.CurrentCharacter, _characterService.Value);
         public StartPageViewModel StartPage => new StartPageViewModel(_characterRepository.Value);
     }
 }

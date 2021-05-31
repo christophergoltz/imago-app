@@ -1,6 +1,7 @@
 ﻿using Imago.Services;
 using Imago.Views;
 using System;
+using Imago.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -8,6 +9,8 @@ namespace Imago
 {
     public partial class App : Application
     {
+        public  static Character CurrentCharacter { get; set; }
+
         public App()
         {
             InitializeComponent();

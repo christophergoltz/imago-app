@@ -32,5 +32,7 @@ namespace Imago.Models
         public SkillGroup Soziales { get; set; }
 
         public List<Profession> Professions { get; set; }
+
+        public List<SkillGroupType> OpenAttributeIncreases { get; set; }
     }
 }

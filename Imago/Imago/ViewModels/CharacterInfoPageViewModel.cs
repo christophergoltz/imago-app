@@ -19,11 +19,11 @@ namespace Imago.ViewModels
             set => SetProperty(ref _title , value);
         }
 
-        public CharacterInfoPageViewModel(Character character, IAttributeService attributeService)
+        public CharacterInfoPageViewModel(Character character, ICharacterService characterService)
         {
             Title = character.Name;
             Character = character;
-            AttributeViewModels = Character.Attributes.Select(attribute => new AttributeViewModel(attributeService, attribute)).ToList();
+            AttributeViewModels = Character.Attributes.Select(attribute => new AttributeViewModel(characterService, attribute)).ToList();
         }
 
         public Character Character { get; private set; }

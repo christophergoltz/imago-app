@@ -10,22 +10,22 @@ namespace Imago.ViewModels
 {
     public class AttributeViewModel : BindableBase
     {
-        private readonly IAttributeService _attributeService;
+        private readonly ICharacterService _characterService;
 
-        public AttributeViewModel(IAttributeService attributeService, Attribute attribute)
+        public AttributeViewModel(ICharacterService characterService, Attribute attribute)
         {
-            _attributeService = attributeService;
+            _characterService = characterService;
             Attribute = attribute;
         }
 
-        public Models.Attribute Attribute { get; set; }
+        public Attribute Attribute { get; set; }
 
         public int Corrosion
         {
             get => Attribute.Corrosion;
             set
             {
-                _attributeService.AddCorrosion(Attribute.Type, value - Attribute.Corrosion);
+                _characterService.AddCorrosion(Attribute, value - Attribute.Corrosion);
                 OnPropertyChanged(nameof(Corrosion));
             }
         }
