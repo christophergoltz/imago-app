@@ -18,39 +18,12 @@ namespace Imago.ViewModels
     public class SkillPageViewModel : BindableBase
     {
         private readonly ICharacterService _characterService;
-        private AttributeSkillSourceToStringConverter _converter = new AttributeSkillSourceToStringConverter();
+        private readonly AttributeSkillSourceToStringConverter _converter = new AttributeSkillSourceToStringConverter();
         private UpgradeableSkillBase _selectedSkill;
         private string _selectedSkillName;
         private string _selectedSkillSourceName;
-
-        public ICommand IncreaseExperienceCommand { get; set; }
-        public ICommand DecreaseExperienceCommand { get; set; }
-        
-        public SkillPageViewModel(Character character, ICharacterService characterService)
-        {
-            _characterService = characterService;
-            Character = character;
-
-            IncreaseExperienceCommand = new Command(() =>
-            {
-                if (SelectedSkill is SkillGroup)
-                    throw new InvalidOperationException("Cannot change Experience of Skillgroup via UI");
-                
-                var newOpenAttributeIncreases = _characterService.AddExperienceToSkill((Skill)SelectedSkill, _skillParent, 1).ToList();
-                if (newOpenAttributeIncreases.Any())
-                    Character.OpenAttributeIncreases.AddRange(newOpenAttributeIncreases);
-            });
-
-            DecreaseExperienceCommand = new Command(() =>
-            {
-                if (SelectedSkill is SkillGroup)
-                    throw new InvalidOperationException("Cannot change Experience of Skillgroup via UI");
-
-                var newOpenAttributeIncreases = _characterService.AddExperienceToSkill((Skill)SelectedSkill, _skillParent, -1).ToList();
-                if (newOpenAttributeIncreases.Any())
-                    Character.OpenAttributeIncreases.AddRange(newOpenAttributeIncreases);
-            });
-        }
+        private SkillGroup _skillParent;
+        private bool _isSelectedSkillNotAGroup;
 
         public Character Character { get; private set; }
 
@@ -63,7 +36,13 @@ namespace Imago.ViewModels
                 SetProperty(ref _selectedSkill, value);
             }
         }
-        
+
+        public bool IsSelectedSkillNotAGroup
+        {
+            get => _isSelectedSkillNotAGroup;
+            set => SetProperty(ref _isSelectedSkillNotAGroup, value);
+        }
+
         public int SelectedSkillModification
         {
             get => SelectedSkill?.ModificationValue ?? 0;
@@ -85,49 +64,86 @@ namespace Imago.ViewModels
             }
         }
 
-        private SkillGroup _skillParent;
-
-        public ICommand CloseSelectedSkill => new Command(() =>
-        {
-            Debug.WriteLine("Closing detail dialog");
-            SelectedSkill = null;
-        });
-
-        public ICommand OpenSelectedSkill => new Command<(SkillGroup SkillGroup, UpgradeableSkillBase SelectedUpgradeableSkill)>(parameter =>
-        {
-            Debug.WriteLine($"Callback [OpenSelectedSkill]: Skill {parameter.SelectedUpgradeableSkill}, Group {parameter.SkillGroup}" );
-
-            SelectedSkill = parameter.SelectedUpgradeableSkill;
-
-            if (SelectedSkill is Skill skill)
-            {
-                SelectedSkillName = skill.Type.ToString();
-                _skillParent = parameter.SkillGroup;
-            }
-
-            if (SelectedSkill is SkillGroup group)
-            {
-                SelectedSkillName = group.Type.ToString();
-                _skillParent = null;
-            }
-
-            //todo helper, keinen converter verwenden
-            SelectedSkillSourceName = _converter.Convert(parameter.SkillGroup.SkillSource, null, null, CultureInfo.InvariantCulture).ToString();
-            
-            //update dependet properties
-            OnPropertyChanged(nameof(SelectedSkillModification));
-        });
-
         public string SelectedSkillName
         {
             get => _selectedSkillName;
-            set => SetProperty(ref _selectedSkillName , value);
+            set => SetProperty(ref _selectedSkillName, value);
         }
 
         public string SelectedSkillSourceName
         {
             get => _selectedSkillSourceName;
-            set => SetProperty(ref _selectedSkillSourceName , value);
+            set => SetProperty(ref _selectedSkillSourceName, value);
+        }
+
+        public ICommand IncreaseExperienceCommand { get; set; }
+        public ICommand DecreaseExperienceCommand { get; set; }
+        public ICommand OpenSelectedSkill { get; set; }
+        public ICommand CloseSelectedSkill { get; set; }
+
+        public SkillPageViewModel(Character character, ICharacterService characterService)
+        {
+            _characterService = characterService;
+            Character = character;
+
+            IncreaseExperienceCommand = new Command(() =>
+            {
+                if (SelectedSkill is SkillGroup)
+                    throw new InvalidOperationException("Cannot change Experience of Skillgroup via UI");
+
+                var newOpenAttributeIncreases =
+                    _characterService.AddExperienceToSkill((Skill) SelectedSkill, _skillParent, 1).ToList();
+                if (newOpenAttributeIncreases.Any())
+                    Character.OpenAttributeIncreases.AddRange(newOpenAttributeIncreases);
+            });
+
+            DecreaseExperienceCommand = new Command(() =>
+            {
+                if (SelectedSkill is SkillGroup)
+                    throw new InvalidOperationException("Cannot change Experience of Skillgroup via UI");
+
+                var newOpenAttributeIncreases = _characterService
+                    .AddExperienceToSkill((Skill) SelectedSkill, _skillParent, -1).ToList();
+                if (newOpenAttributeIncreases.Any())
+                    Character.OpenAttributeIncreases.AddRange(newOpenAttributeIncreases);
+            });
+
+            OpenSelectedSkill = new Command<(SkillGroup SkillGroup, UpgradeableSkillBase SelectedUpgradeableSkill)>(
+                parameter =>
+                {
+                    Debug.WriteLine(
+                        $"Callback [OpenSelectedSkill]: Skill {parameter.SelectedUpgradeableSkill}, Group {parameter.SkillGroup}");
+
+                    SelectedSkill = parameter.SelectedUpgradeableSkill;
+
+                    if (SelectedSkill is Skill skill)
+                    {
+                        IsSelectedSkillNotAGroup = true;
+                        SelectedSkillName = skill.Type.ToString();
+                        _skillParent = parameter.SkillGroup;
+                    }
+
+                    if (SelectedSkill is SkillGroup group)
+                    {
+                        IsSelectedSkillNotAGroup = false;
+                        SelectedSkillName = group.Type.ToString();
+                        _skillParent = null;
+                    }
+
+                    //todo helper, keinen converter verwenden
+                    SelectedSkillSourceName = _converter.Convert(parameter.SkillGroup.SkillSource, null, null,
+                        CultureInfo.InvariantCulture).ToString();
+
+                    //update dependet properties
+                    OnPropertyChanged(nameof(SelectedSkillModification));
+                });
+
+            CloseSelectedSkill = new Command(() =>
+            {
+                Debug.WriteLine("Closing detail dialog");
+                SelectedSkill = null;
+            });
+
         }
     }
 }

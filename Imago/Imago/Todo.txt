@@ -1,9 +1,6 @@
-ImagoApp todo
-
 SkillPage
 - Freie EP
 - Searchbar
-- EP Stepper
 - Keine EP bei Gruppen
 
 WikiPage
@@ -14,3 +11,6 @@ Bugs
 
 Ideen
 - Insgesammte EP
+
+UI
+- Flyout farben
