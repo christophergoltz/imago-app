@@ -29,14 +29,7 @@ namespace Imago.Models
 
         public List<Attribute> Attributes { get; set; }
 
-        public SkillGroup Bewegung { get; set; }
-        public SkillGroup Nahkampf { get; set; }
-        public SkillGroup Heimlichkeit { get; set; }
-        public SkillGroup Fernkampf { get; set; }
-        public SkillGroup Webkunst { get; set; }
-        public SkillGroup Wissenschaft { get; set; }
-        public SkillGroup Handwerk { get; set; }
-        public SkillGroup Soziales { get; set; }
+        public Dictionary<SkillGroupType, SkillGroup> SkillGroups { get; set; }
 
         public List<Profession> Professions { get; set; }
 

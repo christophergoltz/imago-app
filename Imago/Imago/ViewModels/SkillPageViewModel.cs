@@ -18,7 +18,7 @@ namespace Imago.ViewModels
     public class SkillPageViewModel : BindableBase
     {
         private readonly ICharacterService _characterService;
-        private readonly AttributeSkillSourceToStringConverter _converter = new AttributeSkillSourceToStringConverter();
+        private readonly SkillGroupTypeToAttributeSourceStringConverter _converter = new SkillGroupTypeToAttributeSourceStringConverter();
         private UpgradeableSkillBase _selectedSkill;
         private string _selectedSkillName;
         private string _selectedSkillSourceName;
@@ -26,6 +26,15 @@ namespace Imago.ViewModels
         private bool _isSelectedSkillNotAGroup;
 
         public Character Character { get; private set; }
+
+        public SkillGroup Bewegung => Character.SkillGroups[SkillGroupType.Bewegung];
+        public SkillGroup Nahkampf => Character.SkillGroups[SkillGroupType.Nahkampf];
+        public SkillGroup Heimlichkeit => Character.SkillGroups[SkillGroupType.Heimlichkeit];
+        public SkillGroup Fernkampf => Character.SkillGroups[SkillGroupType.Fernkampf];
+        public SkillGroup Webkunst => Character.SkillGroups [SkillGroupType.Webkunst];
+        public SkillGroup Wissenschaft => Character.SkillGroups[SkillGroupType.Wissenschaft];
+        public SkillGroup Handwerk => Character.SkillGroups[SkillGroupType.Handwerk];
+        public SkillGroup Soziales => Character.SkillGroups[SkillGroupType.Soziales];
 
         public UpgradeableSkillBase SelectedSkill
         {
@@ -145,7 +154,7 @@ namespace Imago.ViewModels
                     }
 
                     //todo helper, keinen converter verwenden
-                    SelectedSkillSourceName = _converter.Convert(parameter.SkillGroup.SkillSource, null, null,
+                    SelectedSkillSourceName = _converter.Convert(parameter.SkillGroup.Type, null, null,
                         CultureInfo.InvariantCulture).ToString();
 
                     //update dependet properties

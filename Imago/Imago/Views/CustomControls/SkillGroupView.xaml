@@ -35,7 +35,7 @@
                 <Label Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Text="{Binding Type}"
                    Margin="5,5,0,0" FontAttributes="Bold" FontSize="22"/>
 
-                <Label Grid.Column="1" FontAttributes="Bold" Grid.Row="0" Text="{Binding SkillSource, Converter={StaticResource AttributeSkillSourceToStringConverter}}"/>
+                <Label Grid.Column="1" FontAttributes="Bold" Grid.Row="0" Text="{Binding Type, Converter={StaticResource SkillGroupTypeToAttributeSourceStringConverter}}"/>
 
                 <StackLayout Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
                     <Label Text="SW: " FontAttributes="Bold"/>

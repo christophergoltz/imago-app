@@ -4,18 +4,23 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using Imago.Models.Enum;
+using Imago.Repository;
 using Xamarin.Forms;
 
 namespace Imago.Converter
 {
-    public class AttributeSkillSourceToStringConverter : IValueConverter
+    public class SkillGroupTypeToAttributeSourceStringConverter : IValueConverter
     {
         private readonly TypeToAbbreviationextConverter _abbreviationextConverter = new TypeToAbbreviationextConverter();
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var list = (List<AttributeType>)value;
-            return string.Join("+", list.Select(attributeType => _abbreviationextConverter.Convert(attributeType, null, null, CultureInfo.InvariantCulture)));
+            var skillGroupType = (SkillGroupType)value;
+
+            //todo meh, remove direct access to repo
+            var sources = RuleRepository.SkillGroupAttributeLookUpDictionary[skillGroupType];
+
+            return string.Join("+", sources.Select(attributeType => _abbreviationextConverter.Convert(attributeType, null, null, CultureInfo.InvariantCulture)));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
