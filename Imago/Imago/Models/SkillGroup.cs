@@ -23,5 +23,10 @@ namespace Imago.Models
         }
 
         public List<Skill> Skills { get; set; }
+
+        public override string ToString()
+        {
+            return Type.ToString();
+        }
     }
 }

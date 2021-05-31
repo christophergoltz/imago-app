@@ -27,5 +27,10 @@ namespace Imago.Models
             get => _corrosion;
             set => SetProperty(ref _corrosion , value);
         }
+
+        public override string ToString()
+        {
+            return Type.ToString();
+        }
     }
 }
