@@ -121,6 +121,14 @@
                                 </Button.Style>
                             </Button>
                             <Button FontSize="30" IsVisible="{Binding IsSelectedSkillNotAGroup}"  Padding="0,-8,0,0" WidthRequest="35" HeightRequest="35" FontAttributes="Bold" Text="+" Command="{Binding IncreaseExperienceCommand}"/>
+
+                            <Label FontSize="18" VerticalOptions="Center" HorizontalOptions="EndAndExpand">
+                                <Label.Text>
+                                    <MultiBinding StringFormat="{}Steigerung in {0}">
+                                        <Binding Path="ExperienceReqiredForLevelUp"/>
+                                    </MultiBinding>
+                                </Label.Text>
+                            </Label>
                         </StackLayout>
 
                         <StackLayout Grid.Row="5" VerticalOptions="Center" Orientation="Horizontal" Margin="0,5,0,0">
