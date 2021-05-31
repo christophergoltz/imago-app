@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Dynamic;
 using System.Text;
 using Imago.Models.Enum;
@@ -33,6 +34,6 @@ namespace Imago.Models
 
         public List<Profession> Professions { get; set; }
 
-        public List<SkillGroupType> OpenAttributeIncreases { get; set; }
+        public ObservableCollection<SkillGroupType> OpenAttributeIncreases { get; set; }
     }
 }

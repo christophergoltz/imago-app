@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using Imago.Models;
 using Imago.Models.Enum;
@@ -25,7 +26,7 @@ namespace Imago.Repository
                 Id = Guid.NewGuid(),
                 GameVersion = new Version(1,0),
                 Professions = CreateProfessions(),
-                OpenAttributeIncreases = new List<SkillGroupType>(),
+                OpenAttributeIncreases = new ObservableCollection<SkillGroupType>(),
                 Age = "62",
                 EyeColor = "Blau",
                 HairColor = "Schwarz",
