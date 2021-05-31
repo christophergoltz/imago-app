@@ -6,7 +6,6 @@ using Imago.Models.Enum;
 
 namespace Imago.Models
 {
-    //todo vererbung notwendig oder UpgradeableSkillBase in Skill umbenennbar?
     public class Skill : UpgradeableSkillBase
     {
         public Skill()

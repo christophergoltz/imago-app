@@ -4,8 +4,9 @@ ImagoApp todo
 
 SkillPage
 - Freie EP
-- Kein Scrollen (ListView?)
-
+- Searchbar
+- EP Stepper
+- Keine EP bei Gruppen
 
 WikiPage
 

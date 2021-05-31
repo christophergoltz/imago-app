@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using Imago.Models.Base;
@@ -22,5 +21,7 @@ namespace Imago.Models
         {
             Type = type;
         }
+
+        public List<Skill> Skills { get; set; }
     }
 }

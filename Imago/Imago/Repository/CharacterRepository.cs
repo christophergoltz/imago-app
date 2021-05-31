@@ -19,22 +19,14 @@ namespace Imago.Repository
             return new Character()
             {
                 Attributes = CreateAttributes(),
-                Nahkampf = CreateSkills(SkillGroupType.Nahkampf),
-                NahkampfGroup = CreateSkillGroups(SkillGroupType.Nahkampf),
-                Heimlichkeit = CreateSkills(SkillGroupType.Heimlichkeit),
-                HeimlichkeitGroup = CreateSkillGroups(SkillGroupType.Heimlichkeit),
-                Fernkampf = CreateSkills(SkillGroupType.Fernkampf),
-                FernkampfGroup = CreateSkillGroups( SkillGroupType.Fernkampf),
-                Bewegung = CreateSkills(SkillGroupType.Bewegung),
-                BewegungGroup = CreateSkillGroups(SkillGroupType.Bewegung),
-                Handwerk = CreateSkills(SkillGroupType.Handwerk),
-                HandwerkGroup = CreateSkillGroups(SkillGroupType.Handwerk),
-                Soziales = CreateSkills(SkillGroupType.Soziales),
-                SozialesGroup = CreateSkillGroups(SkillGroupType.Soziales),
-                Webkunst = CreateSkills(SkillGroupType.Webkunst),
-                WebkunstGroup = CreateSkillGroups(SkillGroupType.Webkunst),
-                Wissenschaft = CreateSkills(SkillGroupType.Wissenschaft),
-                WissenschaftGroup = CreateSkillGroups(SkillGroupType.Wissenschaft),
+                Nahkampf = CreateSkillGroups(SkillGroupType.Nahkampf),
+                Heimlichkeit = CreateSkillGroups(SkillGroupType.Heimlichkeit),
+                Fernkampf = CreateSkillGroups( SkillGroupType.Fernkampf),
+                Bewegung = CreateSkillGroups(SkillGroupType.Bewegung),
+                Handwerk = CreateSkillGroups(SkillGroupType.Handwerk),
+                Soziales = CreateSkillGroups(SkillGroupType.Soziales),
+                Webkunst = CreateSkillGroups(SkillGroupType.Webkunst),
+                Wissenschaft = CreateSkillGroups(SkillGroupType.Wissenschaft),
                 CreatedAt = DateTime.Now,
                 LastModifiedAt = DateTime.Now,
                 Id = Guid.NewGuid(),
@@ -74,7 +66,11 @@ namespace Imago.Repository
         
         private SkillGroup CreateSkillGroups(SkillGroupType type)
         {
-            var skillGroup = new SkillGroup(type);
+            var skillGroup = new SkillGroup(type)
+            {
+                Skills = CreateSkills(type)
+            };
+
             switch (type)
             {
                 case SkillGroupType.Bewegung:

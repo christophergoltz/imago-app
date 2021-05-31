@@ -8,53 +8,127 @@
              x:DataType="viewModels:SkillPageViewModel">
     <ContentPage.Content>
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-            </Grid.RowDefinitions>
-            <!-- Header -->
-            <Frame Grid.Row="0" Grid.Column="0" BorderColor="Black" CornerRadius="0" Margin="4,4,0,0">
-                <StackLayout>
-                    <Label Text="Freie EP: 0"></Label>
-                    <StackLayout Orientation="Horizontal">
-                        <Label Text="Edit" VerticalOptions="Center"></Label>
-                        <Switch VerticalOptions="Center"></Switch>
+            <!-- list groups -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <!-- Header -->
+                <Frame Grid.Row="0" Grid.Column="0" BorderColor="Black" CornerRadius="0" Margin="4,4,0,0">
+                    <StackLayout>
+                        <Label Text="Freie EP: 0"></Label>
                     </StackLayout>
-                </StackLayout>
-            </Frame>
+                </Frame>
 
-            <customControls:SkillGroupView Grid.Row="0" Grid.Column="1" Margin="0,4,0,0"
-                                           SkillGroup="{Binding Character.BewegungGroup}" 
-                                           Skills="{Binding Character.Bewegung}"/>
-            <customControls:SkillGroupView Grid.Row="0" Grid.Column="2" Margin="0,4,4,0"
-                                           SkillGroup="{Binding Character.WissenschaftGroup}" 
-                                           Skills="{Binding Character.Wissenschaft}"/>
+                <customControls:SkillGroupView Grid.Row="0" Grid.Column="1" Margin="0,4,0,0" 
+                                               Command="{Binding OpenSelectedSkill}"
+                                               SkillGroup="{Binding Character.Bewegung}"/>
+                <customControls:SkillGroupView Grid.Row="0" Grid.Column="2" Margin="0,4,4,0" 
+                                               Command="{Binding OpenSelectedSkill}"
+                                               SkillGroup="{Binding Character.Wissenschaft}"/>
 
-            <customControls:SkillGroupView Grid.Row="1" Grid.Column="0" Margin="4,0,0,0"
-                                           SkillGroup="{Binding Character.HeimlichkeitGroup}" 
-                                           Skills="{Binding Character.Heimlichkeit}"/>
-            <customControls:SkillGroupView Grid.Row="1" Grid.Column="1" 
-                                           SkillGroup="{Binding Character.NahkampfGroup}" 
-                                           Skills="{Binding Character.Nahkampf}"/>
-            <customControls:SkillGroupView Grid.Row="1" Grid.Column="2" Margin="0,0,4,0"
-                                           SkillGroup="{Binding Character.SozialesGroup}" 
-                                           Skills="{Binding Character.Soziales}"/>
+                <customControls:SkillGroupView Grid.Row="1" Grid.Column="0" Margin="4,0,0,0" 
+                                               Command="{Binding OpenSelectedSkill}"
+                                               SkillGroup="{Binding Character.Heimlichkeit}"/>
+                <customControls:SkillGroupView Grid.Row="1" Grid.Column="1" 
+                                               Command="{Binding OpenSelectedSkill}"
+                                               SkillGroup="{Binding Character.Nahkampf}"/>
+                <customControls:SkillGroupView Grid.Row="1" Grid.Column="2" Margin="0,0,4,0"
+                                               Command="{Binding OpenSelectedSkill}"
+                                               SkillGroup="{Binding Character.Soziales}"/>
 
-            <customControls:SkillGroupView Grid.Row="2" Grid.Column="0" Margin="4,0,0,4"
-                                           SkillGroup="{Binding Character.WebkunstGroup}" 
-                                           Skills="{Binding Character.Webkunst}"/>
-            <customControls:SkillGroupView Grid.Row="2" Grid.Column="1" Margin="0,0,0,4"
-                                           SkillGroup="{Binding Character.FernkampfGroup}" 
-                                           Skills="{Binding Character.Fernkampf}"/>
-            <customControls:SkillGroupView Grid.Row="2" Grid.Column="2" Margin="0,0,4,4"
-                                           SkillGroup="{Binding Character.HandwerkGroup}" 
-                                           Skills="{Binding Character.Handwerk}"/>
+                <customControls:SkillGroupView Grid.Row="2" Grid.Column="0" Margin="4,0,0,4"
+                                               Command="{Binding OpenSelectedSkill}"
+                                               SkillGroup="{Binding Character.Webkunst}"/>
+                <customControls:SkillGroupView Grid.Row="2" Grid.Column="1" Margin="0,0,0,4"
+                                               Command="{Binding OpenSelectedSkill}"
+                                               SkillGroup="{Binding Character.Fernkampf}"/>
+                <customControls:SkillGroupView Grid.Row="2" Grid.Column="2" Margin="0,0,4,4"
+                                               Command="{Binding OpenSelectedSkill}"
+                                               SkillGroup="{Binding Character.Handwerk}"/>
+            </Grid>
+
+            <!-- dialog -->
+            <Grid IsVisible="{Binding SelectedSkill, Converter={StaticResource ObjectNotNullToBoolConverter}}">
+               <ContentView BackgroundColor="black" Opacity="0.3"/>
+                <Grid BackgroundColor="White" WidthRequest="800" HeightRequest="600"
+                      VerticalOptions="Center" HorizontalOptions="Center" Padding="20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="1"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="1"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" Grid.Column="0" Margin="0,0,0,10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row="0"  FontSize="24" FontAttributes="Bold" Text="{Binding SelectedSkillName}"/>
+
+                        <StackLayout Grid.Row="1" VerticalOptions="Center" Orientation="Horizontal">
+                            <Label Text="GW: " FontAttributes="Bold"/>
+                            <Label Text="{Binding SelectedSkill.NaturalValue}"/>
+                            <Label Text="{Binding SelectedSkillSourceName}"/>
+                        </StackLayout>
+
+                        <StackLayout Grid.Row="2" VerticalOptions="Center" Orientation="Horizontal" Margin="0,5,0,0">
+                            <Label Text="SW: " FontAttributes="Bold"/>
+                            <Label Text="{Binding SelectedSkill.IncreaseValue}"/>
+                        </StackLayout>
+
+                        <StackLayout Grid.Row="3"  VerticalOptions="Center" Orientation="Horizontal" Margin="0,5,0,0">
+                            <Label VerticalOptions="Center" Text="Mod: " FontAttributes="Bold"/>
+                            <Entry Text="{Binding SelectedSkill.ModificationValue}"/>
+                        </StackLayout>
+
+                        <StackLayout Grid.Row="4"  VerticalOptions="Center" Orientation="Horizontal" Margin="0,5,0,0">
+                            <Label VerticalOptions="Center" Text="EP: " FontAttributes="Bold"/>
+                            <Label VerticalOptions="Center" Text="{Binding SelectedSkill.Experience}"/>
+                            <Stepper Increment="1" Minimum="0" Value="{Binding SelectedSkill.Experience}"></Stepper>
+                        </StackLayout>
+
+                        <StackLayout Grid.Row="5" VerticalOptions="Center" Orientation="Horizontal" Margin="0,5,0,0">
+                            <Label Text="FW: " FontAttributes="Bold"/>
+                            <Label Text="{Binding SelectedSkill.FinalValue}"/>
+                        </StackLayout>
+                    </Grid>
+
+                    <BoxView Grid.Column="1" Grid.Row="0" Color="Black"/>
+
+                    <Grid Grid.Row="0" Grid.Column="2">
+                        <StackLayout>
+                            <Label Text="Probe: [tbd]" FontSize="18"/>
+                        </StackLayout>
+                        <Button Text="X" FontSize="22"  VerticalOptions="Start" HorizontalOptions="End" TextColor="Red" BackgroundColor="Gray" 
+                                Command="{Binding CloseSelectedSkill}"/>
+                    </Grid>
+                 
+                   
+                    <BoxView Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Color="Black"/>
+
+                    <StackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
+                        <Label Text="Meisterschaften: [tbd]" FontSize="18"/>
+                    </StackLayout>
+                </Grid>
+            </Grid>
         </Grid>
     </ContentPage.Content>
 </ContentPage>
