@@ -15,20 +15,67 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="500"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="3*"></RowDefinition>
+                <RowDefinition Height="2*"></RowDefinition>
+                <RowDefinition Height="3*"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <TableView Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">
-                <TableRoot>
-                    <TableSection Title="Rasse">
-                        <TextCell Text="{Binding Character.RaceType}"/>
-                    </TableSection>
-                </TableRoot>
-            </TableView>
+            <!-- character info -->
+            <Grid Grid.Column="0" Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-            <Frame Grid.Column="0" Grid.Row="0" BorderColor="Black" CornerRadius="0">
+                <StackLayout Grid.Row="0" VerticalOptions="Center" Orientation="Horizontal" Margin="0,5,0,0">
+                    <Label Text="Name: " FontSize="18"  FontAttributes="Bold"/>
+                    <Label FontSize="18" Text="{Binding Character.Name}"/>
+                </StackLayout>
+
+                <StackLayout Grid.Row="1" VerticalOptions="Center" Orientation="Horizontal">
+                    <Label Text="Rasse: " FontSize="18"  FontAttributes="Bold"/>
+                    <Label FontSize="18" Text="{Binding Character.RaceType}"/>
+                </StackLayout>
+
+                <StackLayout Grid.Row="2" VerticalOptions="Center" Orientation="Horizontal">
+                    <Label Text="Größe: " FontSize="18"  FontAttributes="Bold"/>
+                    <Label FontSize="18" Text="{Binding Character.Height}"/>
+                </StackLayout>
+
+                <StackLayout Grid.Row="3" VerticalOptions="Center" Orientation="Horizontal">
+                    <Label Text="Gewicht: " FontSize="18"  FontAttributes="Bold"/>
+                    <Label FontSize="18" Text="{Binding Character.Weight}"/>
+                </StackLayout>
+
+                <StackLayout Grid.Row="4" VerticalOptions="Center" Orientation="Horizontal">
+                    <Label Text="Augenfarbe: " FontSize="18"  FontAttributes="Bold"/>
+                    <Label FontSize="18" Text="{Binding Character.EyeColor}"/>
+                </StackLayout>
+
+                <StackLayout Grid.Row="5" VerticalOptions="Center" Orientation="Horizontal">
+                    <Label Text="Haarfarbe: " FontSize="18"  FontAttributes="Bold"/>
+                    <Label FontSize="18" Text="{Binding Character.HairColor}"/>
+                </StackLayout>
+
+                <StackLayout Grid.Row="6" VerticalOptions="Center" Orientation="Horizontal">
+                    <Label Text="Hautfarbe: " FontSize="18"  FontAttributes="Bold"/>
+                    <Label FontSize="18" Text="{Binding Character.SkinColor}"/>
+                </StackLayout>
+
+                <StackLayout Grid.Row="7" VerticalOptions="Center" Orientation="Horizontal">
+                    <Label Text="Alter: " FontSize="18"  FontAttributes="Bold"/>
+                    <Label FontSize="18" Text="{Binding Character.Age}"/>
+                </StackLayout>
+            </Grid>
+
+            <!-- attributes -->
+            <Frame Grid.Column="1" Grid.Row="0" BorderColor="Black" CornerRadius="0">
                 <CollectionView ItemsSource="{Binding AttributeViewModels}" VerticalOptions="Start" VerticalScrollBarVisibility="Never">
                     <CollectionView.Header>
                         <Grid>
@@ -76,6 +123,7 @@
                 </CollectionView>
             </Frame>
 
+            <!-- professions -->
             <Frame Grid.Column="0" Grid.Row="1" CornerRadius="0" BorderColor="Black">
                 <CollectionView ItemsSource="{Binding Character.Professions}">
                     <CollectionView.Header>
@@ -118,6 +166,27 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
+            </Frame>
+
+            <!-- blood carrier -->
+            <Frame Grid.Row="1" Grid.Column="1"  BorderColor="Black" CornerRadius="0">
+                <StackLayout >
+                    <Label Text="Blutträger: [tbd]" FontSize="18"/>
+                </StackLayout>
+            </Frame>
+
+            <!-- advantages -->
+            <Frame Grid.Row="2" Grid.Column="0"  BorderColor="Black" CornerRadius="0">
+                <StackLayout >
+                    <Label Text="Vorteile: [tbd]" FontSize="18"/>
+                </StackLayout>
+            </Frame>
+
+            <!-- disadvantages  -->
+            <Frame Grid.Row="2" Grid.Column="1"  BorderColor="Black" CornerRadius="0">
+                <StackLayout >
+                    <Label Text="Nachteile: [tbd]" FontSize="18"/>
+                </StackLayout>
             </Frame>
         </Grid>
     </ContentPage.Content>

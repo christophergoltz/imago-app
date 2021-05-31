@@ -32,7 +32,17 @@ namespace Imago.Repository
                 Id = Guid.NewGuid(),
                 GameVersion = new Version(1,0),
                 Professions = CreateProfessions(),
-                OpenAttributeIncreases = new List<SkillGroupType>()
+                OpenAttributeIncreases = new List<SkillGroupType>(),
+                Age = "62",
+                EyeColor = "Blau",
+                HairColor = "Schwarz",
+                RaceType = RaceType.Mensch,
+                Height = "178cm",
+                Name = "Klaus",
+                Owner = "System",
+                Weight = "93kg",
+                SkinColor = "Hell",
+                CreatedBy = "Testuser"
             };
         }
 

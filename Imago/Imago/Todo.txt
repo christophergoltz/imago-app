@@ -1,3 +1,7 @@
+Charakter Info
+- Bluttraeger
+- Korrosion
+
 SkillPage
 - Freie EP
 - Searchbar
