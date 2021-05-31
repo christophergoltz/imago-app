@@ -1,6 +1,33 @@
+Allgemein
+- CharacterService
+	- AddExperience
+		- Nur positive Wert erlauben, fuer absenken neue Mothode schaffen
+
+- AbgeleitetAttribute : Derived attribute
+	Egoregenration
+	Schadensmod
+	Traglast
+	Sprungreichweite
+	Sprunghöhe
+	TaktischeBewegung
+	Sprint
+	- Formel
+	- Wert
+
+Göttliche Seele
+- Freitext
+
+InitiativeAttribute : SpezialAttribut
+
+SpezialAttribut : Skillbase (Initiative)
+
 Charakter Info
 - Bluttraeger
 - Korrosion
+
+KampfbogenPage
+
+InventarPage
 
 SkillPage
 - Freie EP
@@ -18,3 +45,21 @@ Ideen
 
 UI
 - Flyout farben
+
+
+Was nicht enthalten/unterstuetz wird
+- Kuenst
+- Meisterschaften
+- Vor und Nachteile
+- Ausruestung
+- Kampfbogen
+- Heilung
+- Subspezies und Schwaerme von Gamen
+
+
+Wiki
+- Versionnierung 
+	- Des Regelwerkes
+		- Version 7.0.0.0 in arbeit
+	- Wiki
+	- App
