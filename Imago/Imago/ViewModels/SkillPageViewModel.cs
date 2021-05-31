@@ -23,10 +23,33 @@ namespace Imago.ViewModels
         private string _selectedSkillName;
         private string _selectedSkillSourceName;
 
+        public ICommand IncreaseExperienceCommand { get; set; }
+        public ICommand DecreaseExperienceCommand { get; set; }
+        
         public SkillPageViewModel(Character character, ICharacterService characterService)
         {
             _characterService = characterService;
             Character = character;
+
+            IncreaseExperienceCommand = new Command(() =>
+            {
+                if (SelectedSkill is SkillGroup)
+                    throw new InvalidOperationException("Cannot change Experience of Skillgroup via UI");
+                
+                var newOpenAttributeIncreases = _characterService.AddExperienceToSkill((Skill)SelectedSkill, _skillParent, 1).ToList();
+                if (newOpenAttributeIncreases.Any())
+                    Character.OpenAttributeIncreases.AddRange(newOpenAttributeIncreases);
+            });
+
+            DecreaseExperienceCommand = new Command(() =>
+            {
+                if (SelectedSkill is SkillGroup)
+                    throw new InvalidOperationException("Cannot change Experience of Skillgroup via UI");
+
+                var newOpenAttributeIncreases = _characterService.AddExperienceToSkill((Skill)SelectedSkill, _skillParent, -1).ToList();
+                if (newOpenAttributeIncreases.Any())
+                    Character.OpenAttributeIncreases.AddRange(newOpenAttributeIncreases);
+            });
         }
 
         public Character Character { get; private set; }
@@ -36,43 +59,18 @@ namespace Imago.ViewModels
             get => _selectedSkill;
             set
             {
-                Debug.WriteLine("Set [SelectedSkill] to " + value ?? "null");
+                Debug.WriteLine("Set [SelectedSkill] to " + (value == null ? "null" : value.ToString()));
                 SetProperty(ref _selectedSkill, value);
-
-                //update dependet properties
-                OnPropertyChanged(nameof(SelectedSkillExperience));
-                OnPropertyChanged(nameof(SelectedSkillModification));
             }
         }
-
-        public int SelectedSkillExperience
-        {
-            get => SelectedSkill?.Experience ?? 0;
-            set
-            {
-                //catch closing event, when SelectedSkill is set to null
-                if (SelectedSkill == null)
-                    return;
-
-                var newOpenAttributeIncreases = new List<SkillGroupType>();
-
-                if (SelectedSkill is Skill skill)
-                    newOpenAttributeIncreases = _characterService.AddExperienceToSkill(skill, _skillParent, 1).ToList();
-                
-                if (SelectedSkill is SkillGroup skillGroup)
-                    newOpenAttributeIncreases = _characterService.AddExperienceToSkillGroup(skillGroup, 1).ToList();
-                
-                if (newOpenAttributeIncreases.Any())
-                    Character.OpenAttributeIncreases.AddRange(newOpenAttributeIncreases);
-                OnPropertyChanged(nameof(SelectedSkillExperience));
-            }
-        }
-
+        
         public int SelectedSkillModification
         {
             get => SelectedSkill?.ModificationValue ?? 0;
             set
             {
+                Debug.WriteLine("Set SelectedSkillModification to " + value);
+
                 //catch closing event, when SelectedSkill is set to null
                 if (SelectedSkill == null)
                     return;
@@ -89,7 +87,11 @@ namespace Imago.ViewModels
 
         private SkillGroup _skillParent;
 
-        public ICommand CloseSelectedSkill => new Command(() => SelectedSkill = null);
+        public ICommand CloseSelectedSkill => new Command(() =>
+        {
+            Debug.WriteLine("Closing detail dialog");
+            SelectedSkill = null;
+        });
 
         public ICommand OpenSelectedSkill => new Command<(SkillGroup SkillGroup, UpgradeableSkillBase SelectedUpgradeableSkill)>(parameter =>
         {
@@ -111,6 +113,9 @@ namespace Imago.ViewModels
 
             //todo helper, keinen converter verwenden
             SelectedSkillSourceName = _converter.Convert(parameter.SkillGroup.SkillSource, null, null, CultureInfo.InvariantCulture).ToString();
+            
+            //update dependet properties
+            OnPropertyChanged(nameof(SelectedSkillModification));
         });
 
         public string SelectedSkillName

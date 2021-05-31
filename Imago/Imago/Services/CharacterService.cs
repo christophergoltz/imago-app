@@ -13,7 +13,6 @@ namespace Imago.Services
     {
         void AddCorrosion(Attribute attribute, int corrosion);
         IEnumerable<SkillGroupType> AddExperienceToSkill(Skill skill, SkillGroup skillGroup, int experience);
-        IEnumerable<SkillGroupType> AddExperienceToSkillGroup(SkillGroup skillGroup, int experience);
         void SetModificationValue(Skill skill, int newModificationValue);
         void SetModificationValue(SkillGroup skillGroup, int newModificationValue);
         void SetModificationValue(Attribute attribute, int newModificationValue, Character character);
@@ -92,7 +91,7 @@ namespace Imago.Services
             return new List<SkillGroupType>();
         }
 
-        public IEnumerable<SkillGroupType> AddExperienceToSkillGroup(SkillGroup skillGroup, int experience)
+        private IEnumerable<SkillGroupType> AddExperienceToSkillGroup(SkillGroup skillGroup, int experience)
         {
             skillGroup.Experience += experience;
             while (SkillIncreaseHelper.CanSkillBeIncreased(skillGroup))
