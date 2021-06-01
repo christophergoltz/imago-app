@@ -14,7 +14,8 @@ namespace Imago.Services
     public interface ICharacterService
     {
         void SetCorrosionValue(Attribute attribute, int corrosionValue, Character character);
-        IEnumerable<SkillGroupType> AddExperienceToSkill(Skill skill, SkillGroup skillGroup, int experience);
+        IEnumerable<SkillGroupType> AddOneExperienceToSkill(Skill skill, SkillGroup skillGroup);
+        void RemoveOneExperienceFromSkill(Skill skill, SkillGroup skillGroup);
         void SetModificationValue(Skill skill, int modificationValue);
         void SetModificationValue(SkillGroup skillGroup, int modificationValue);
         void SetModificationValue(Attribute attribute, int modificationValue, Character character);
@@ -86,9 +87,10 @@ namespace Imago.Services
                 UpdateNewBaseValueToSkillsOfGroup(skillGroup);
             }
         }
-        public IEnumerable<SkillGroupType> AddExperienceToSkill(Skill skill, SkillGroup skillGroup, int experience)
+
+        public IEnumerable<SkillGroupType> AddOneExperienceToSkill(Skill skill, SkillGroup skillGroup)
         {
-            skill.ExperienceValue += experience;
+            skill.ExperienceValue += 1;
             int openSkillGroupExperience = 0;
             while (SkillIncreaseHelper.CanSkillBeIncreased(skill))
             {
@@ -103,6 +105,14 @@ namespace Imago.Services
                 return AddExperienceToSkillGroup(skillGroup, openSkillGroupExperience);
 
             return new List<SkillGroupType>();
+        }
+
+        public void RemoveOneExperienceFromSkill(Skill skill, SkillGroup skillGroup)
+        {
+            if (skill.ExperienceValue == 0)
+                throw new InvalidOperationException("Cant remove experience from skill, value is alredy 0");
+
+            skill.ExperienceValue -= 1;
         }
 
 

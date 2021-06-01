@@ -118,7 +118,7 @@ namespace Imago.ViewModels
                     throw new InvalidOperationException("Cannot change Experience of Skillgroup via UI");
 
                 var newOpenAttributeIncreases =
-                    _characterService.AddExperienceToSkill((Skill) SelectedSkill, _skillParent, 1).ToList();
+                    _characterService.AddOneExperienceToSkill((Skill) SelectedSkill, _skillParent).ToList();
                 if (newOpenAttributeIncreases.Any())
                 {
                     foreach (var increase in newOpenAttributeIncreases)
@@ -134,7 +134,7 @@ namespace Imago.ViewModels
                 if (SelectedSkill is SkillGroup)
                     throw new InvalidOperationException("Cannot change Experience of Skillgroup via UI");
 
-                _characterService.AddExperienceToSkill((Skill) SelectedSkill, _skillParent, -1);
+                _characterService.RemoveOneExperienceFromSkill((Skill) SelectedSkill, _skillParent);
                 OnPropertyChanged(nameof(ExperienceReqiredForLevelUp));
             });
 

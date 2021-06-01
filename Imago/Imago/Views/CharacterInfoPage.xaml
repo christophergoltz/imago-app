@@ -210,7 +210,9 @@
                                         </Grid.ColumnDefinitions>
                                         <Label Grid.Column="0" FontSize="18" VerticalOptions="Center" Text="{Binding Source}"/>
                                         <Picker Grid.Column="1" FontSize="18" WidthRequest="300" HorizontalOptions="FillAndExpand" ItemsSource="{Binding TargetAttributes}"
-                                                SelectedItem="{Binding SelectedAttribute}" x:Name="PickerControl"/>
+                                                SelectedItem="{Binding SelectedAttribute}" 
+                                                x:Name="PickerControl"
+                                                ItemDisplayBinding="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
                                         <Button Grid.Column="2" FontSize="18" VerticalOptions="Center" HorizontalOptions="Center" Text="✔" 
                                                 Command="{Binding AddExperienceToAttributeCommand, Source={RelativeSource AncestorType={x:Type viewModels:CharacterInfoPageViewModel}}}"
                                                 CommandParameter="{Binding .}">

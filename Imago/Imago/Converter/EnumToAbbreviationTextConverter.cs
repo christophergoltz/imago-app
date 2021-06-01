@@ -12,11 +12,11 @@ namespace Imago.Converter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is AttributeType attributeType)
+            if (value is Enum enumValue)
             {
-                var attr = EnumExtensions.GetAttribute<AbbreviationAttribute>(attributeType);
+                var attr = EnumExtensions.GetAttribute<AbbreviationAttribute>(enumValue);
                 if (attr == null || string.IsNullOrEmpty(attr.Abbreviation))
-                    return attributeType.ToString();
+                    return enumValue.ToString();
 
                 return attr.Abbreviation;
             }

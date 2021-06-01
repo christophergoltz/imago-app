@@ -4,8 +4,7 @@ Allgemein
 		- Nur positive Wert erlauben, fuer absenken neue Mothode schaffen
 
 Charakter Info
-- Korrosion > recalc with /6
-- Modification > recalc with /6
+- Abgeleitete Attribute und Spezialattribute
 
 KampfbogenPage
 

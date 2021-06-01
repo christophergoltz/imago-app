@@ -35,32 +35,32 @@
                 <Label Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Text="{Binding Type}"
                    Margin="5,5,0,0" FontAttributes="Bold" FontSize="22"/>
 
-                <Label Grid.Column="1" FontAttributes="Bold" Grid.Row="0" Text="{Binding Type, Converter={StaticResource SkillGroupTypeToAttributeSourceStringConverter}}"/>
+                <StackLayout Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
+                    <Label Text="GW: " FontAttributes="Bold"/>
+                    <Label Text="{Binding BaseValue}"/>
+                </StackLayout>
+
+                <StackLayout Grid.Column="2" Grid.Row="0" Orientation="Horizontal">
+                    <Label Text="Mod: " FontAttributes="Bold"/>
+                    <Label Text="{Binding ModificationValue}"/>
+                </StackLayout>
+
+                <StackLayout Grid.Column="3" Grid.Row="0" Orientation="Horizontal">
+                    <Label Text="FW: " FontAttributes="Bold"/>
+                    <Label Text="{Binding FinalValue}"/>
+                </StackLayout>
 
                 <StackLayout Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
                     <Label Text="SW: " FontAttributes="Bold"/>
                     <Label Text="{Binding IncreaseValue}"/>
                 </StackLayout>
 
-                <StackLayout Grid.Column="2" Grid.Row="0" Orientation="Horizontal">
-                    <Label Text="GW: " FontAttributes="Bold"/>
-                    <Label Text="{Binding BaseValue}"/>
-                </StackLayout>
-
                 <StackLayout Grid.Column="2" Grid.Row="1" Orientation="Horizontal">
-                    <Label Text="Mod: " FontAttributes="Bold"/>
-                    <Label Text="{Binding ModificationValue}"/>
-                </StackLayout>
-
-                <StackLayout Grid.Column="3" Grid.Row="0" Orientation="Horizontal">
                     <Label Text="EP: " FontAttributes="Bold"/>
                     <Label Text="{Binding ExperienceValue}"/>
                 </StackLayout>
 
-                <StackLayout Grid.Column="3" Grid.Row="1" Orientation="Horizontal">
-                    <Label Text="FW: " FontAttributes="Bold"/>
-                    <Label Text="{Binding FinalValue}"/>
-                </StackLayout>
+           
 
                 <BoxView Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4" Color="Black"/>
             </Grid>
@@ -81,7 +81,8 @@
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="1"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <Label Grid.Row="0" Grid.Column="0" FontSize="14" FontAttributes="Bold" Text="Fertigkeit" Margin="5,0,0,0" />
+                        <Label Grid.Column="0" Grid.Row="0" FontSize="14" FontAttributes="Bold"  Margin="5,0,0,0" 
+                               Text="{Binding SkillGroup.Type, Source={x:Reference SkillGroupViewControl}, Converter={StaticResource SkillGroupTypeToAttributeSourceStringConverter}}"/>
                         <Label Grid.Row="0" Grid.Column="1" FontSize="14" FontAttributes="Bold" Text="EP"/>
                         <Label Grid.Row="0" Grid.Column="2" FontSize="14" FontAttributes="Bold" Text="SW" />
                         <Label Grid.Row="0" Grid.Column="3" FontSize="14" FontAttributes="Bold" Text="Mod" />
