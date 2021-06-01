@@ -125,7 +125,7 @@
                                 <Label Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Attribute.IncreaseValue}"/>
                                 <Label Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Attribute.Experience}"/>
                                 <Entry Grid.Column="4" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Corrosion}"/>
-                                <Entry Grid.Column="5" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Attribute.ModificationValue}"/>
+                                <Entry Grid.Column="5" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Modification}"/>
                                 <Label Grid.Column="6" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Attribute.FinalValue}"/>
                             </Grid>
                         </DataTemplate>

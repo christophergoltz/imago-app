@@ -23,7 +23,7 @@ namespace Imago.ViewModels
         {
             Title = character.Name;
             Character = character;
-            AttributeViewModels = Character.Attributes.Select(attribute => new AttributeViewModel(characterService, attribute)).ToList();
+            AttributeViewModels = Character.Attributes.Select(attribute => new AttributeViewModel(characterService, attribute, Character)).ToList();
         }
 
         public Character Character { get; private set; }

@@ -13,7 +13,7 @@ namespace Imago.Services
 {
     public interface ICharacterService
     {
-        void AddCorrosion(Attribute attribute, int corrosion);
+        void SetCorrosion(Attribute attribute, int corrosion);
         IEnumerable<SkillGroupType> AddExperienceToSkill(Skill skill, SkillGroup skillGroup, int experience);
         void SetModificationValue(Skill skill, int newModificationValue);
         void SetModificationValue(SkillGroup skillGroup, int newModificationValue);
@@ -40,42 +40,22 @@ namespace Imago.Services
             skillGroup.ModificationValue = newModificationValue;
             skillGroup.RecalculateFinalValue();
 
-            foreach (var skill in skillGroup.Skills)
-            {
-                skill.NaturalValue = skillGroup.FinalValue;
-                skill.RecalculateFinalValue();
-            }
+            UpdateNewNaturalValuesOfGroup(skillGroup);
         }
-
+        
         public void SetModificationValue(Attribute attribute, int newModificationValue, Character character)
         {
             attribute.ModificationValue = newModificationValue;
             attribute.RecalculateFinalValue();
 
-            var affectedSkillGroupTypes = _ruleRepository.GetSkillGroupsByAttribute(attribute.Type);
-            var skillGroups = character.SkillGroups
-                .Where(pair => affectedSkillGroupTypes
-                    .Contains(pair.Key))
-                .Select(pair => pair.Value);
-            
-            foreach (var skillGroup in skillGroups)
-            {
-                skillGroup.NaturalValue = attribute.FinalValue;
-                skillGroup.RecalculateFinalValue();
-
-                foreach (var skill in skillGroup.Skills)
-                {
-                    skill.NaturalValue = skillGroup.FinalValue;
-                    skill.RecalculateFinalValue();
-                }
-            }
+            UpdateNewNaturalValuesOfAttribute(attribute, character.SkillGroups);
 
             //todo recalculate DerivedAttributes & SpecialAttributes
         }
 
-        public void AddCorrosion(Attribute attribute, int corrosion)
+        public void SetCorrosion(Attribute attribute, int corrosion)
         {
-            attribute.Corrosion += corrosion;
+            attribute.Corrosion = corrosion;
             attribute.RecalculateFinalValue();
             UpdateDependentSkills(attribute.Type, attribute.FinalValue);
         }
@@ -116,16 +96,33 @@ namespace Imago.Services
                 skillGroup.IncreaseValue++;
                 skillGroup.RecalculateFinalValue();
                 yield return skillGroup.Type;
-                UpdateNewNaturalValuesOfGroup(skillGroup, skillGroup.FinalValue);
+                UpdateNewNaturalValuesOfGroup(skillGroup);
             }
         }
 
-        private void UpdateNewNaturalValuesOfGroup(SkillGroup skillgroup, int newNaturalValue)
+        private void UpdateNewNaturalValuesOfGroup(SkillGroup skillgroup)
         {
             foreach (var skill in skillgroup.Skills)
             {
-                skill.NaturalValue = newNaturalValue;
+                skill.NaturalValue = skillgroup.NaturalValue;
                 skill.RecalculateFinalValue();
+            }
+        }
+        
+        private void UpdateNewNaturalValuesOfAttribute(Attribute attribute, Dictionary<SkillGroupType, SkillGroup> allSkillGroups)
+        {
+            var affectedSkillGroupTypes = _ruleRepository.GetSkillGroupsByAttribute(attribute.Type);
+            var skillGroups = allSkillGroups
+                .Where(pair => affectedSkillGroupTypes
+                    .Contains(pair.Key))
+                .Select(pair => pair.Value);
+
+            foreach (var skillGroup in skillGroups)
+            {
+                skillGroup.NaturalValue = attribute.FinalValue;
+                skillGroup.RecalculateFinalValue();
+
+                UpdateNewNaturalValuesOfGroup(skillGroup);
             }
         }
     }
