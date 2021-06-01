@@ -134,7 +134,7 @@ namespace Imago.ViewModels
                 if (SelectedSkill is SkillGroup)
                     throw new InvalidOperationException("Cannot change Experience of Skillgroup via UI");
 
-                _characterService.RemoveOneExperienceFromSkill((Skill) SelectedSkill, _skillParent);
+                _characterService.RemoveOneExperienceFromSkill((Skill) SelectedSkill);
                 OnPropertyChanged(nameof(ExperienceReqiredForLevelUp));
             });
 

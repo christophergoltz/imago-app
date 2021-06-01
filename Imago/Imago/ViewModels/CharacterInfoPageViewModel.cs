@@ -42,8 +42,8 @@ namespace Imago.ViewModels
             Title = character.Name;
             Character = character;
 
-            AttributeViewModels = Character.Attributes
-                .Select(attribute => new AttributeViewModel(characterService, attribute, Character)).ToList();
+            AttributeViewModels = Character.Attributes.Select(_ => new AttributeViewModel(characterService, _, Character)).ToList();
+            SpecialAttributeViewModels = Character.SpecialAttributes.Select(_ => new SpecialAttributeViewModel(characterService, _, character)).ToList();
             OpenAttributeExperienceViewModels = new ObservableCollection<OpenAttributeExperienceViewModel>();
 
             OpenAttributeExperienceDialogIfNeeded();
@@ -55,7 +55,7 @@ namespace Imago.ViewModels
                 if (viewModel.SelectedAttribute == null)
                     return; 
 
-                characterService.AddOneExperienceToAttribute(viewModel.SelectedAttribute, Character.Attributes,Character.SkillGroups);
+                characterService.AddOneExperienceToAttribute(viewModel.SelectedAttribute, Character);
                 
                 OpenAttributeExperienceViewModels.Remove(viewModel);
                 Character.OpenAttributeIncreases.Remove(
@@ -84,6 +84,7 @@ namespace Imago.ViewModels
         public Character Character { get; private set; }
 
         public List<AttributeViewModel> AttributeViewModels { get; set; }
+        public List<SpecialAttributeViewModel> SpecialAttributeViewModels { get; set; }
 
         public ObservableCollection<OpenAttributeExperienceViewModel> OpenAttributeExperienceViewModels { get; set; }
     }

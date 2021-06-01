@@ -21,5 +21,10 @@ namespace Imago.Util
         {
             attribute.FinalValue = attribute.IncreaseValue + attribute.ModificationValue - attribute.Corrosion;
         }
+
+        public static void RecalculateFinalValue(this SpecialAttribute specialAttribute)
+        {
+            specialAttribute.FinalValue = specialAttribute.BaseValue + specialAttribute.ModificationValue;
+        }
     }
 }

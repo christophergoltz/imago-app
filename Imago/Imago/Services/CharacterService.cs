@@ -15,13 +15,14 @@ namespace Imago.Services
     {
         void SetCorrosionValue(Attribute attribute, int corrosionValue, Character character);
         IEnumerable<SkillGroupType> AddOneExperienceToSkill(Skill skill, SkillGroup skillGroup);
-        void RemoveOneExperienceFromSkill(Skill skill, SkillGroup skillGroup);
+        void RemoveOneExperienceFromSkill(Skill skill);
         void SetModificationValue(Skill skill, int modificationValue);
         void SetModificationValue(SkillGroup skillGroup, int modificationValue);
         void SetModificationValue(Attribute attribute, int modificationValue, Character character);
-        void AddOneExperienceToAttribute(Attribute attribute,List<Attribute> allAttributes, Dictionary<SkillGroupType, SkillGroup> allSkillGroups);
+        void SetModificationValue(SpecialAttribute specialAttribute, int modificationValue, Character character);
+        void AddOneExperienceToAttribute(Attribute attribute, Character character);
     }
-
+    
     public class CharacterService : ICharacterService
     {
         private readonly IRuleRepository _ruleRepository;
@@ -49,17 +50,23 @@ namespace Imago.Services
         {
             attribute.ModificationValue = modificationValue;
             attribute.RecalculateFinalValue();
-            UpdateNewFinalValueOfAttribute(attribute, character.Attributes, character.SkillGroups);
+            UpdateNewFinalValueOfAttribute(attribute, character);
+        }
+
+        public void SetModificationValue(SpecialAttribute specialAttribute, int modificationValue, Character character)
+        {
+            specialAttribute.ModificationValue = modificationValue;
+            specialAttribute.RecalculateFinalValue();
         }
 
         public void SetCorrosionValue(Attribute attribute, int corrosionValue, Character character)
         {
             attribute.Corrosion = corrosionValue;
             attribute.RecalculateFinalValue();
-            UpdateNewFinalValueOfAttribute(attribute, character.Attributes, character.SkillGroups);
+            UpdateNewFinalValueOfAttribute(attribute, character);
         }
         
-        public void AddOneExperienceToAttribute(Attribute attribute, List<Attribute> allAttributes, Dictionary<SkillGroupType, SkillGroup> allSkillGroups)
+        public void AddOneExperienceToAttribute(Attribute attribute, Character character)
         {
             attribute.Experience += 1;
 
@@ -70,7 +77,7 @@ namespace Imago.Services
                 attribute.IncreaseValue++;
                 attribute.RecalculateFinalValue();
 
-                UpdateNewFinalValueOfAttribute(attribute, allAttributes, allSkillGroups);
+                UpdateNewFinalValueOfAttribute(attribute, character);
             }
         }
 
@@ -107,7 +114,7 @@ namespace Imago.Services
             return new List<SkillGroupType>();
         }
 
-        public void RemoveOneExperienceFromSkill(Skill skill, SkillGroup skillGroup)
+        public void RemoveOneExperienceFromSkill(Skill skill)
         {
             if (skill.ExperienceValue == 0)
                 throw new InvalidOperationException("Cant remove experience from skill, value is alredy 0");
@@ -125,11 +132,11 @@ namespace Imago.Services
             }
         }
         
-        private void UpdateNewFinalValueOfAttribute(Attribute changedAttribute, List<Attribute> allAttributes, Dictionary<SkillGroupType, SkillGroup> allSkillGroups)
+        private void UpdateNewFinalValueOfAttribute(Attribute changedAttribute, Character character)
         {
             //updating all dependent skillgroups
             var affectedSkillGroupTypes = _ruleRepository.GetSkillGroupsByAttribute(changedAttribute.Type);
-            var skillGroups = allSkillGroups
+            var skillGroups = character.SkillGroups
                 .Where(pair => affectedSkillGroupTypes
                     .Contains(pair.Key))
                 .Select(pair => pair.Value);
@@ -141,7 +148,7 @@ namespace Imago.Services
                 double tmp = 0;
                 foreach (var attributeType in attributeTypesForCalculation)
                 {
-                    tmp += allAttributes.First(attribute => attribute.Type == attributeType).FinalValue;
+                    tmp += character.Attributes.First(attribute => attribute.Type == attributeType).FinalValue;
                 }
                 var newBaseValue = (int)Math.Round((tmp / 6), MidpointRounding.AwayFromZero);
                 
@@ -153,7 +160,27 @@ namespace Imago.Services
 
             //todo update derived attributes
 
-            //todo update special attribues
+            //update special attribues
+            foreach (var specialAttribute in character.SpecialAttributes)
+            {
+                switch (specialAttribute.Type)
+                {
+                    case SpecialAttributeType.Initiative:
+                    {
+                        var tmp = (character.Attributes.GetFinalValueOfAttributeType(AttributeType.Geschicklichkeit) * 2) +
+                                   character.Attributes.GetFinalValueOfAttributeType(AttributeType.Wahrnehmung) +
+                                   character.Attributes.GetFinalValueOfAttributeType(AttributeType.Willenskraft);
+
+                        var newValue = (double) tmp / 4;
+                        var newBaseValue = (int)Math.Round(newValue, MidpointRounding.AwayFromZero);
+
+                        specialAttribute.BaseValue = newBaseValue;
+                        break;
+                    }
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(SpecialAttributeType));
+                }
+            }
         }
     }
 }

@@ -10,11 +10,29 @@ namespace Imago.Models
     public class SpecialAttribute : DependentBase
     {
         private SpecialAttributeType _type;
+        private string _formula;
+
+        public SpecialAttribute()
+        {
+            
+        }
+
+        public SpecialAttribute(SpecialAttributeType type, string formula)
+        {
+            Type = type;
+            Formula = formula;
+        }
 
         public SpecialAttributeType Type
         {
             get => _type;
             set => SetProperty(ref _type, value);
+        }
+
+        public string Formula
+        {
+            get => _formula;
+            set => SetProperty(ref _formula, value);
         }
     }
 }

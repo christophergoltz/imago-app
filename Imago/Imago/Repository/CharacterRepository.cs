@@ -36,7 +36,8 @@ namespace Imago.Repository
                 Weight = "93kg",
                 SkinColor = "Hell",
                 CreatedBy = "Testuser",
-                DivineSoul = "40"
+                DivineSoul = "40",
+                SpecialAttributes = CreateSpecialAttributes()
             };
 
             //add skillgroups
@@ -63,6 +64,14 @@ namespace Imago.Repository
                 new Attribute(AttributeType.Willenskraft),
                 new Attribute(AttributeType.Charisma),
                 new Attribute(AttributeType.Wahrnehmung)
+            };
+        }
+
+        public List<SpecialAttribute> CreateSpecialAttributes()
+        {
+            return new List<SpecialAttribute>
+            {
+                new SpecialAttribute(SpecialAttributeType.Initiative, "(GE+GE+WA+WI)/4")
             };
         }
         
