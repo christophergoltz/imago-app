@@ -172,7 +172,7 @@
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
 
-                    <Label Grid.Row="0" FontSize="20" Margin="0,0,50,30" Text="Durch Steigerungen innerhalb der Fertigkeitskategorien müssen noch Erfahrungspunkt auf die Attribute verteilt werden:"/>
+                    <Label Grid.Row="0" FontSize="20" Margin="0,0,50,30" Text="Offene Erfahrungspunkt auf Attribute verteilen:"/>
                     <Button Grid.Row="0" Text="X" Padding="0,-4,0,0" WidthRequest="35" HeightRequest="35"  FontSize="22"  VerticalOptions="Start" 
                             HorizontalOptions="End" TextColor="Red" BackgroundColor="LightGray" 
                             Command="{Binding CloseOpenAttributeExperienceCommand, Source={RelativeSource AncestorType={x:Type viewModels:CharacterInfoPageViewModel}}}"/>
@@ -209,12 +209,6 @@
                                         <Button Grid.Column="2" FontSize="18" VerticalOptions="Center" HorizontalOptions="Center" Text="✔" 
                                                 Command="{Binding AddExperienceToAttributeCommand, Source={RelativeSource AncestorType={x:Type viewModels:CharacterInfoPageViewModel}}}"
                                                 CommandParameter="{Binding .}">
-                                            <!--<Button.CommandParameter>
-                                                <MultiBinding Converter="{StaticResource MultiValueParameterCloneConverter}">
-                                                    <Binding Path="Source" Source="{RelativeSource AncestorType={x:Type viewModels:OpenAttributeExperienceViewModel}}"/>
-                                                    <Binding Path="SelectedAttribute" Source="{RelativeSource AncestorType={x:Type viewModels:OpenAttributeExperienceViewModel}}"/>
-                                                </MultiBinding>
-                                            </Button.CommandParameter>-->
                                             <Button.Style>
                                                 <Style TargetType="Button">
                                                     <Style.Triggers>
