@@ -13,11 +13,11 @@ namespace Imago.Services
 {
     public interface ICharacterService
     {
-        void SetCorrosion(Attribute attribute, int corrosion);
+        void SetCorrosionValue(Attribute attribute, int corrosionValue, Character character);
         IEnumerable<SkillGroupType> AddExperienceToSkill(Skill skill, SkillGroup skillGroup, int experience);
-        void SetModificationValue(Skill skill, int newModificationValue);
-        void SetModificationValue(SkillGroup skillGroup, int newModificationValue);
-        void SetModificationValue(Attribute attribute, int newModificationValue, Character character);
+        void SetModificationValue(Skill skill, int modificationValue);
+        void SetModificationValue(SkillGroup skillGroup, int modificationValue);
+        void SetModificationValue(Attribute attribute, int modificationValue, Character character);
         void AddOneExperienceToAttribute(Attribute attribute,List<Attribute> allAttributes, Dictionary<SkillGroupType, SkillGroup> allSkillGroups);
     }
 
@@ -30,43 +30,34 @@ namespace Imago.Services
             _ruleRepository = ruleRepository;
         }
 
-        public void SetModificationValue(Skill skill, int newModificationValue)
+        public void SetModificationValue(Skill skill, int modificationValue)
         {
-            skill.ModificationValue = newModificationValue;
+            skill.ModificationValue = modificationValue;
             skill.RecalculateFinalValue();
         }
 
-        public void SetModificationValue(SkillGroup skillGroup, int newModificationValue)
+        public void SetModificationValue(SkillGroup skillGroup, int modificationValue)
         {
-            skillGroup.ModificationValue = newModificationValue;
+            skillGroup.ModificationValue = modificationValue;
             skillGroup.RecalculateFinalValue();
 
             UpdateNewNaturalValuesOfGroup(skillGroup);
         }
         
-        public void SetModificationValue(Attribute attribute, int newModificationValue, Character character)
+        public void SetModificationValue(Attribute attribute, int modificationValue, Character character)
         {
-            attribute.ModificationValue = newModificationValue;
+            attribute.ModificationValue = modificationValue;
             attribute.RecalculateFinalValue();
-
             UpdateNewFinalValueOfAttribute(attribute, character.Attributes, character.SkillGroups);
-
-            //todo recalculate DerivedAttributes & SpecialAttributes
         }
 
-        public void SetCorrosion(Attribute attribute, int corrosion)
+        public void SetCorrosionValue(Attribute attribute, int corrosionValue, Character character)
         {
-            attribute.Corrosion = corrosion;
+            attribute.Corrosion = corrosionValue;
             attribute.RecalculateFinalValue();
-            UpdateDependentSkills(attribute.Type, attribute.FinalValue);
+            UpdateNewFinalValueOfAttribute(attribute, character.Attributes, character.SkillGroups);
         }
-
-        //todo alle nw von skillgroup andern und alle skills neu berechnen
-        private void UpdateDependentSkills(AttributeType type, int newFinalValue)
-        {
-            //todo
-        }
-
+        
         public void AddOneExperienceToAttribute(Attribute attribute, List<Attribute> allAttributes, Dictionary<SkillGroupType, SkillGroup> allSkillGroups)
         {
             attribute.Experience += 1;
@@ -126,6 +117,7 @@ namespace Imago.Services
         
         private void UpdateNewFinalValueOfAttribute(Attribute changedAttribute, List<Attribute> allAttributes, Dictionary<SkillGroupType, SkillGroup> allSkillGroups)
         {
+            //updating all dependent skillgroups
             var affectedSkillGroupTypes = _ruleRepository.GetSkillGroupsByAttribute(changedAttribute.Type);
             var skillGroups = allSkillGroups
                 .Where(pair => affectedSkillGroupTypes
@@ -148,6 +140,10 @@ namespace Imago.Services
 
                 UpdateNewNaturalValuesOfGroup(affectedSkillGroup);
             }
+
+            //todo update derived attributes
+
+            //todo update special attribues
         }
     }
 }

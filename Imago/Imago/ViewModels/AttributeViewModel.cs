@@ -28,7 +28,7 @@ namespace Imago.ViewModels
             get => Attribute.Corrosion;
             set
             {
-                _characterService.SetCorrosion(Attribute, value);
+                _characterService.SetCorrosionValue(Attribute, value, Character);
                 OnPropertyChanged(nameof(Corrosion));
             }
         }
