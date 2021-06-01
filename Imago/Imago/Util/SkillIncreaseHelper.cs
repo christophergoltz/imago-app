@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
 using Imago.Models;
 using Imago.Models.Base;
-using Attribute = System.Attribute;
+using Attribute = Imago.Models.Attribute;
 
 namespace Imago.Util
 {
@@ -12,46 +13,46 @@ namespace Imago.Util
         //todo als formel abloesen, start bei 2, dann i=1; zahl plus i, dann i++
         public static readonly int[] ImagoFolge = { 2, 3, 5, 8, 12, 17, 23, 30, 38, 47 };
 
-        public static bool CanSkillBeIncreased(UpgradeableSkillBase skill)
+        public static bool CanSkillBeIncreased(Attribute attribute)
+        {
+            //reached local maximum
+            if (attribute.IncreaseValue == 100)
+                return false;
+
+            var requiredExperienceForNextLevel = GetExperienceForNextAttributeLevel(attribute.IncreaseValue);
+            return attribute.Experience>= requiredExperienceForNextLevel;
+        }
+
+        public static bool CanSkillBeIncreased(SkillGroup skillGroup)
+        {
+            //reached local maximum
+            if (skillGroup.IncreaseValue == 100)
+                return false;
+
+            var requiredExperienceForNextLevel = GetExperienceForNextSkillGroupLevel(skillGroup.IncreaseValue);
+            return skillGroup.Experience >= requiredExperienceForNextLevel;
+        }
+
+        public static bool CanSkillBeIncreased(Skill skill)
         {
             //reached local maximum
             if (skill.IncreaseValue == 100)
                 return false;
 
-            var requiredExperienceForNextLevel = GetExperienceForNextLevel(skill);
+            var requiredExperienceForNextLevel = GetExperienceForNextSkillLevel(skill.IncreaseValue);
             return skill.Experience >= requiredExperienceForNextLevel;
         }
-
-        public static int GetExperienceForNextLevel(UpgradeableSkillBase skill)
-        {
-            int? requiredExperience = null;
-
-            if (skill is Attribute)
-                requiredExperience = GetExperienceForNextAttributeLevel(skill.IncreaseValue);
-
-            if (skill is SkillGroup)
-                requiredExperience = GetExperienceForNextSkillGroupLevel(skill.IncreaseValue);
-
-            if (skill is Skill)
-                requiredExperience = GetExperienceForNextSkillLevel(skill.IncreaseValue);
-
-            if (requiredExperience == null)
-                throw new InvalidOperationException($"Unable to get experiencecost for next upgrade by current {skill.IncreaseValue} value of type: " + skill.GetType());
-
-            return requiredExperience.Value;
-        }
-
 
         /// <summary>
         /// Gibt die Kosten der nächsten Steigerung für ein Attribut zurück.
         /// </summary>
         /// <param name="currentIncreaseValue">Der aktuelle Steigerungswert</param>
         /// <returns>Die Anzahl der Erfahrungspunkte, die für den nächsten Aufstieg bezahlt werden müssen.</returns>
-        private static int? GetExperienceForNextAttributeLevel(int currentIncreaseValue)
+        public static int GetExperienceForNextAttributeLevel(int currentIncreaseValue)
         {
             if (currentIncreaseValue == 100)
-                return null;
-
+                throw new DeletedRowInaccessibleException("Attribute cant be increased above 100");
+            
             double steigerungsWertFaktisch = (double)currentIncreaseValue / 10;
             var temp = (int)Math.Floor(steigerungsWertFaktisch);
 
@@ -75,10 +76,10 @@ namespace Imago.Util
         /// </summary>
         /// <param name="currentIncreaseValue">Der aktuelle Steigerungswert</param>
         /// <returns>Die Anzahl der Erfahrungspunkte, die für den nächsten Aufstieg bezahlt werden müssen.</returns>
-        private static int? GetExperienceForNextSkillGroupLevel(int currentIncreaseValue)
+        public static int GetExperienceForNextSkillGroupLevel(int currentIncreaseValue)
         {
             if (currentIncreaseValue == 100)
-                return null;
+                throw new DeletedRowInaccessibleException("Skillgroup cant be increased above 100");
 
             double steigerungsWertFaktisch = (double)currentIncreaseValue / 5;
             var resultIndex = ((int)Math.Floor(steigerungsWertFaktisch)) + 2;
@@ -101,10 +102,10 @@ namespace Imago.Util
         /// </summary>
         /// <param name="currentIncreaseValue">Der aktuelle Steigerungswert</param>
         /// <returns>Die Anzahl der Erfahrungspunkte, die für den nächsten Aufstieg bezahlt werden müssen.</returns>
-        private static int? GetExperienceForNextSkillLevel(int currentIncreaseValue)
+        public static int GetExperienceForNextSkillLevel(int currentIncreaseValue)
         {
             if (currentIncreaseValue == 100)
-                return null;
+                throw new DeletedRowInaccessibleException("Skill cant be increased above 100");
 
             double steigerungsWertFaktisch = (double)currentIncreaseValue / 15;
             var resultIndex = ((int)Math.Floor(steigerungsWertFaktisch));

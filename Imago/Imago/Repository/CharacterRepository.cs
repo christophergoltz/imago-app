@@ -25,7 +25,7 @@ namespace Imago.Repository
                 LastModifiedAt = DateTime.Now,
                 Id = Guid.NewGuid(),
                 GameVersion = new Version(1,0),
-                OpenAttributeIncreases = new ObservableCollection<SkillGroupType>(),
+                OpenAttributeIncreases = new ObservableCollection<SkillGroupType>() {SkillGroupType.Bewegung, SkillGroupType.Fernkampf},
                 Age = "62",
                 EyeColor = "Blau",
                 HairColor = "Schwarz",

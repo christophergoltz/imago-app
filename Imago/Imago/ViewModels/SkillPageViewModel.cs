@@ -89,9 +89,16 @@ namespace Imago.ViewModels
         {
             get
             {
-                if (SelectedSkill == null) return 0;
+                if (SelectedSkill == null) 
+                    return 0;
+
+                if (SelectedSkill is SkillGroup group)
+                    return SkillIncreaseHelper.GetExperienceForNextSkillGroupLevel(group.IncreaseValue) - SelectedSkill.Experience;
                 
-                return SkillIncreaseHelper.GetExperienceForNextLevel(SelectedSkill) - SelectedSkill.Experience;
+                if (SelectedSkill is Skill skill)
+                    return SkillIncreaseHelper.GetExperienceForNextSkillLevel(skill.IncreaseValue) - SelectedSkill.Experience;
+
+                throw new InvalidOperationException($"Unknown SelectedSkill type: {SelectedSkill.GetType()} for [{nameof(ExperienceReqiredForLevelUp)}]");
             }
         }
 

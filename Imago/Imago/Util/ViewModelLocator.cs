@@ -21,7 +21,7 @@ namespace Imago.Util
             _characterService = new Lazy<ICharacterService>(() => new CharacterService(_ruleRepository.Value));
         }
         
-        public CharacterInfoPageViewModel CharacterInfo => new CharacterInfoPageViewModel(App.CurrentCharacter, _characterService.Value);
+        public CharacterInfoPageViewModel CharacterInfo => new CharacterInfoPageViewModel(App.CurrentCharacter, _characterService.Value, _ruleRepository.Value);
         public SkillPageViewModel SkillPageViewModel => new SkillPageViewModel(App.CurrentCharacter, _characterService.Value);
         public StartPageViewModel StartPage => new StartPageViewModel(_characterRepository.Value);
     }
