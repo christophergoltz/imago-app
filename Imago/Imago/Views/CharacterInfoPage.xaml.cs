@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Imago.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,6 +15,11 @@ namespace Imago.Views
         public CharacterInfoPage()
         {
             InitializeComponent();
+        }
+
+        private void CharacterInfoPage_OnAppearing(object sender, EventArgs e)
+        {
+            ((CharacterInfoPageViewModel) BindingContext).OpenAttributeExperienceDialogIfNeeded();
         }
     }
 }

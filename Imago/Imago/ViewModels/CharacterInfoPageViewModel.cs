@@ -41,13 +41,12 @@ namespace Imago.ViewModels
             _ruleRepository = ruleRepository;
             Title = character.Name;
             Character = character;
-            Character.OpenAttributeIncreases.CollectionChanged += OpenAttributeIncreases_CollectionChanged;
 
             AttributeViewModels = Character.Attributes
                 .Select(attribute => new AttributeViewModel(characterService, attribute, Character)).ToList();
             OpenAttributeExperienceViewModels = new ObservableCollection<OpenAttributeExperienceViewModel>();
 
-            CheckForOpenAttributeExperience();
+            OpenAttributeExperienceDialogIfNeeded();
 
             CloseOpenAttributeExperienceCommand = new Command(() => AttributeExperienceOpen = false);
          
@@ -67,13 +66,7 @@ namespace Imago.ViewModels
             });
         }
 
-        private void OpenAttributeIncreases_CollectionChanged(object sender,
-            System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            CheckForOpenAttributeExperience();
-        }
-
-        private void CheckForOpenAttributeExperience()
+        public void OpenAttributeExperienceDialogIfNeeded()
         {
             OpenAttributeExperienceViewModels.Clear();
 

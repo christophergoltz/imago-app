@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:Imago.ViewModels;assembly=Imago"
              Title="{Binding Title}"
-             x:Class="Imago.Views.CharacterInfoPage"
+             x:Class="Imago.Views.CharacterInfoPage" Appearing="CharacterInfoPage_OnAppearing"
              BindingContext="{Binding CharacterInfo, Source={StaticResource ViewModelLocator}}"
              x:DataType="viewModels:CharacterInfoPageViewModel" x:Name="CharacterInfoPageControl">
     <ContentPage.Content>
