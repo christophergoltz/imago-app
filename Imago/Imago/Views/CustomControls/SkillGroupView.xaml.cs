@@ -41,7 +41,7 @@ namespace Imago.Views.CustomControls
         }
 
         // Helper method for invoking commands safely
-        public static void Execute(ICommand command, (SkillGroup SkillGroup, UpgradeableSkillBase SelectedUpgradeableSkill) parameter)
+        public static void Execute(ICommand command, (SkillGroup SkillGroup, SkillBase SelectedUpgradeableSkill) parameter)
         {
             if (command == null) return;
             if (command.CanExecute(parameter))
@@ -50,7 +50,7 @@ namespace Imago.Views.CustomControls
             }
         }
         
-        public ICommand SkillDoubleTapCommand => new Command<UpgradeableSkillBase>(parameter =>
+        public ICommand SkillDoubleTapCommand => new Command<SkillBase>(parameter =>
         {
             if(parameter is SkillGroup group)
                 Execute(Command, (group, group));

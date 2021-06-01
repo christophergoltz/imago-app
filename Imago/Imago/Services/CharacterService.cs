@@ -41,7 +41,7 @@ namespace Imago.Services
             skillGroup.ModificationValue = modificationValue;
             skillGroup.RecalculateFinalValue();
 
-            UpdateNewNaturalValuesOfGroup(skillGroup);
+            UpdateNewBaseValueToSkillsOfGroup(skillGroup);
         }
         
         public void SetModificationValue(Attribute attribute, int modificationValue, Character character)
@@ -75,25 +75,25 @@ namespace Imago.Services
 
         private IEnumerable<SkillGroupType> AddExperienceToSkillGroup(SkillGroup skillGroup, int experience)
         {
-            skillGroup.Experience += experience;
+            skillGroup.ExperienceValue += experience;
             while (SkillIncreaseHelper.CanSkillBeIncreased(skillGroup))
             {
                 var requiredExperienceForNextLevel = SkillIncreaseHelper.GetExperienceForNextSkillGroupLevel(skillGroup.IncreaseValue);
-                skillGroup.Experience -= requiredExperienceForNextLevel;
+                skillGroup.ExperienceValue -= requiredExperienceForNextLevel;
                 skillGroup.IncreaseValue++;
                 skillGroup.RecalculateFinalValue();
                 yield return skillGroup.Type;
-                UpdateNewNaturalValuesOfGroup(skillGroup);
+                UpdateNewBaseValueToSkillsOfGroup(skillGroup);
             }
         }
         public IEnumerable<SkillGroupType> AddExperienceToSkill(Skill skill, SkillGroup skillGroup, int experience)
         {
-            skill.Experience += experience;
+            skill.ExperienceValue += experience;
             int openSkillGroupExperience = 0;
             while (SkillIncreaseHelper.CanSkillBeIncreased(skill))
             {
                 var requiredExperienceForNextLevel = SkillIncreaseHelper.GetExperienceForNextSkillLevel(skill.IncreaseValue);
-                skill.Experience -= requiredExperienceForNextLevel;
+                skill.ExperienceValue -= requiredExperienceForNextLevel;
                 skill.IncreaseValue++;
                 skill.RecalculateFinalValue();
                 openSkillGroupExperience++;
@@ -106,11 +106,11 @@ namespace Imago.Services
         }
 
 
-        private void UpdateNewNaturalValuesOfGroup(SkillGroup skillgroup)
+        private void UpdateNewBaseValueToSkillsOfGroup(SkillGroup skillgroup)
         {
             foreach (var skill in skillgroup.Skills)
             {
-                skill.NaturalValue = skillgroup.FinalValue;
+                skill.BaseValue = skillgroup.FinalValue;
                 skill.RecalculateFinalValue();
             }
         }
@@ -133,12 +133,12 @@ namespace Imago.Services
                 {
                     tmp += allAttributes.First(attribute => attribute.Type == attributeType).FinalValue;
                 }
-                var newNaturalValue = (int)Math.Round((tmp / 6), MidpointRounding.AwayFromZero);
+                var newBaseValue = (int)Math.Round((tmp / 6), MidpointRounding.AwayFromZero);
                 
-                affectedSkillGroup.NaturalValue = newNaturalValue;
+                affectedSkillGroup.BaseValue = newBaseValue;
                 affectedSkillGroup.RecalculateFinalValue();
 
-                UpdateNewNaturalValuesOfGroup(affectedSkillGroup);
+                UpdateNewBaseValueToSkillsOfGroup(affectedSkillGroup);
             }
 
             //todo update derived attributes

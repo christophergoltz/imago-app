@@ -6,7 +6,7 @@ using Imago.Models.Enum;
 
 namespace Imago.Models
 {
-    public class Attribute : UpgradeableSkillBase
+    public class Attribute : ModifiableBase
     {
         //required for deserialization
         public Attribute()
@@ -26,6 +26,21 @@ namespace Imago.Models
         {
             get => _corrosion;
             set => SetProperty(ref _corrosion , value);
+        }
+
+        private int _experience;
+        private int _increaseValue;
+
+        public int Experience
+        {
+            get => _experience;
+            set => SetProperty(ref _experience, value);
+        }
+
+        public int IncreaseValue
+        {
+            get => _increaseValue;
+            set => SetProperty(ref _increaseValue, value);
         }
 
         public override string ToString()

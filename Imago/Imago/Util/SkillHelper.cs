@@ -9,18 +9,17 @@ namespace Imago.Util
     {
         public static void RecalculateFinalValue(this Skill skill)
         {
-            skill.FinalValue = skill.NaturalValue + skill.IncreaseValue + skill.ModificationValue;
+            skill.FinalValue = skill.BaseValue + skill.IncreaseValue + skill.ModificationValue;
         }
 
         public static void RecalculateFinalValue(this SkillGroup skillGroup)
         {
-            skillGroup.FinalValue = skillGroup.NaturalValue + skillGroup.IncreaseValue + skillGroup.ModificationValue;
+            skillGroup.FinalValue = skillGroup.BaseValue + skillGroup.IncreaseValue + skillGroup.ModificationValue;
         }
 
         public static void RecalculateFinalValue(this Attribute attribute)
         {
-            attribute.FinalValue = attribute.NaturalValue + attribute.IncreaseValue + attribute.ModificationValue -
-                                   attribute.Corrosion;
+            attribute.FinalValue = attribute.IncreaseValue + attribute.ModificationValue - attribute.Corrosion;
         }
     }
 }

@@ -7,7 +7,7 @@ using Imago.Models.Enum;
 namespace Imago.Models
 {
     //eg. Initiative
-    public class SpecialAttribute : SkillBase
+    public class SpecialAttribute : DependentBase
     {
         private SpecialAttributeType _type;
 

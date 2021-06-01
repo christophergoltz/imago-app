@@ -19,7 +19,7 @@ namespace Imago.ViewModels
     {
         private readonly ICharacterService _characterService;
         private readonly SkillGroupTypeToAttributeSourceStringConverter _converter = new SkillGroupTypeToAttributeSourceStringConverter();
-        private UpgradeableSkillBase _selectedSkill;
+        private SkillBase _selectedSkill;
         private string _selectedSkillName;
         private string _selectedSkillSourceName;
         private SkillGroup _skillParent;
@@ -36,7 +36,7 @@ namespace Imago.ViewModels
         public SkillGroup Handwerk => Character.SkillGroups[SkillGroupType.Handwerk];
         public SkillGroup Soziales => Character.SkillGroups[SkillGroupType.Soziales];
 
-        public UpgradeableSkillBase SelectedSkill
+        public SkillBase SelectedSkill
         {
             get => _selectedSkill;
             set
@@ -93,10 +93,10 @@ namespace Imago.ViewModels
                     return 0;
 
                 if (SelectedSkill is SkillGroup group)
-                    return SkillIncreaseHelper.GetExperienceForNextSkillGroupLevel(group.IncreaseValue) - SelectedSkill.Experience;
+                    return SkillIncreaseHelper.GetExperienceForNextSkillGroupLevel(group.IncreaseValue) - SelectedSkill.ExperienceValue;
                 
                 if (SelectedSkill is Skill skill)
-                    return SkillIncreaseHelper.GetExperienceForNextSkillLevel(skill.IncreaseValue) - SelectedSkill.Experience;
+                    return SkillIncreaseHelper.GetExperienceForNextSkillLevel(skill.IncreaseValue) - SelectedSkill.ExperienceValue;
 
                 throw new InvalidOperationException($"Unknown SelectedSkill type: {SelectedSkill.GetType()} for [{nameof(ExperienceReqiredForLevelUp)}]");
             }
@@ -138,7 +138,7 @@ namespace Imago.ViewModels
                 OnPropertyChanged(nameof(ExperienceReqiredForLevelUp));
             });
 
-            OpenSelectedSkill = new Command<(SkillGroup SkillGroup, UpgradeableSkillBase SelectedUpgradeableSkill)>(
+            OpenSelectedSkill = new Command<(SkillGroup SkillGroup, SkillBase SelectedUpgradeableSkill)>(
                 parameter =>
                 {
                     Debug.WriteLine(

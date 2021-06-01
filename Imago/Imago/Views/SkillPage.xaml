@@ -87,7 +87,7 @@
 
                         <StackLayout Grid.Row="1" VerticalOptions="Center" Orientation="Horizontal">
                             <Label  FontSize="18" Text="GW: " FontAttributes="Bold"/>
-                            <Label  FontSize="18" Text="{Binding SelectedSkill.NaturalValue}"/>
+                            <Label  FontSize="18" Text="{Binding SelectedSkill.BaseValue}"/>
                             <Label  FontSize="18">
                                 <Label.Text>
                                     <MultiBinding StringFormat="{}({0})">
@@ -109,12 +109,12 @@
 
                         <StackLayout Grid.Row="4" VerticalOptions="Center" Orientation="Horizontal" Margin="0,5,0,0">
                             <Label VerticalOptions="Center" Text="EP: " FontSize="18" FontAttributes="Bold"/>
-                            <Label VerticalOptions="Center" FontSize="18" Text="{Binding SelectedSkill.Experience}"/>
+                            <Label VerticalOptions="Center" FontSize="18" Text="{Binding SelectedSkill.ExperienceValue}"/>
                             <Button IsVisible="{Binding IsSelectedSkillNotAGroup}" Margin="3,0,0,0" FontSize="30" Padding="0,-9,0,0" WidthRequest="35" HeightRequest="35" FontAttributes="Bold" Text="-" Command="{Binding DecreaseExperienceCommand}">
                                 <Button.Style>
                                     <Style TargetType="Button">
                                         <Style.Triggers>
-                                            <DataTrigger TargetType="Button" Binding="{Binding SelectedSkill.Experience}" Value="0" >
+                                            <DataTrigger TargetType="Button" Binding="{Binding SelectedSkill.ExperienceValue}" Value="0" >
                                                 <Setter Property="IsEnabled" Value="False"/>
                                             </DataTrigger>
                                         </Style.Triggers>

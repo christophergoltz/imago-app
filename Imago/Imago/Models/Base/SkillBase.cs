@@ -5,28 +5,21 @@ using Imago.Util;
 
 namespace Imago.Models.Base
 {
-    public abstract class SkillBase : BindableBase
+    public abstract class SkillBase : DependentBase
     {
-        private int _naturalValue;
-        private int _modificationValue;
-        private int _finalValue;
-        
-        public int NaturalValue
+        private int _experienceValue;
+        private int _increaseValue;
+
+        public int ExperienceValue
         {
-            get => _naturalValue;
-            set => SetProperty(ref _naturalValue ,value);
+            get => _experienceValue;
+            set => SetProperty(ref _experienceValue ,value);
         }
 
-        public int FinalValue
+        public int IncreaseValue
         {
-            get => _finalValue;
-            set => SetProperty(ref _finalValue ,value);
-        }
-
-        public int ModificationValue
-        {
-            get => _modificationValue;
-            set => SetProperty(ref _modificationValue , value);
+            get => _increaseValue;
+            set => SetProperty(ref _increaseValue ,value);
         }
     }
 }

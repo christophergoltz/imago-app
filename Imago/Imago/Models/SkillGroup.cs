@@ -6,14 +6,11 @@ using Imago.Models.Enum;
 
 namespace Imago.Models
 {
-    public class SkillGroup : UpgradeableSkillBase
+    public class SkillGroup : SkillBase
     {
         public SkillGroupType Type { get; set; }
 
-        public SkillGroup()
-        {
-            
-        }
+        public SkillGroup() { }
 
         public SkillGroup(SkillGroupType type)
         {

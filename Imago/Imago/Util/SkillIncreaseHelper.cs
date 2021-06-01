@@ -30,7 +30,7 @@ namespace Imago.Util
                 return false;
 
             var requiredExperienceForNextLevel = GetExperienceForNextSkillGroupLevel(skillGroup.IncreaseValue);
-            return skillGroup.Experience >= requiredExperienceForNextLevel;
+            return skillGroup.ExperienceValue >= requiredExperienceForNextLevel;
         }
 
         public static bool CanSkillBeIncreased(Skill skill)
@@ -40,7 +40,7 @@ namespace Imago.Util
                 return false;
 
             var requiredExperienceForNextLevel = GetExperienceForNextSkillLevel(skill.IncreaseValue);
-            return skill.Experience >= requiredExperienceForNextLevel;
+            return skill.ExperienceValue >= requiredExperienceForNextLevel;
         }
 
         /// <summary>

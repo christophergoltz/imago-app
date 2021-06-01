@@ -6,7 +6,7 @@ using Imago.Models.Enum;
 
 namespace Imago.Models
 {
-    public class Skill : UpgradeableSkillBase
+    public class Skill : SkillBase
     {
         public Skill()
         {
