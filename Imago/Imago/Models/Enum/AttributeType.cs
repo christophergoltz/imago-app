@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using Imago.Attributes;
+using Imago.Util;
 
 namespace Imago.Models.Enum
 {
@@ -11,18 +11,25 @@ namespace Imago.Models.Enum
     {
         Unknown = 0,
 
-        [DisplayText("Stärke", "ST")] Staerke = 1,
+        [DisplayText("Stärke"), Abbreviation("ST")] 
+        Staerke = 1,
 
-        [DisplayText("GE")] Geschicklichkeit = 2,
+        [Abbreviation("GE")] 
+        Geschicklichkeit = 2,
 
-        [DisplayText("KO")] Konstitution = 3,
+        [Abbreviation("KO")]
+        Konstitution = 3,
 
-        [DisplayText("IN")] Intelligenz = 4,
+        [Abbreviation("IN")]
+        Intelligenz = 4,
 
-        [DisplayText("Wi")] Willenskraft = 5,
+        [Abbreviation("Wi")] 
+        Willenskraft = 5,
 
-        [DisplayText("CH")] Charisma = 6,
+        [Abbreviation("CH")] 
+        Charisma = 6,
 
-        [DisplayText("WA")] Wahrnehmung = 7
+        [Abbreviation("WA")]
+        Wahrnehmung = 7
     }
 }

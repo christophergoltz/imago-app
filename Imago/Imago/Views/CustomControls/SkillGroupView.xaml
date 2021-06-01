@@ -102,7 +102,7 @@
                                 <ColumnDefinition Width="50" />
                                 <ColumnDefinition Width="50" />
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" FontSize="18" VerticalOptions="Center" Text="{Binding Type}"/>
+                            <Label Grid.Column="0" FontSize="18" VerticalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
                             <Label Grid.Column="1" FontSize="18" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding ExperienceValue}"/>
                             <Label Grid.Column="2" FontSize="18" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding IncreaseValue}"/>
                             <Label Grid.Column="3" FontSize="18" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding ModificationValue}"/>

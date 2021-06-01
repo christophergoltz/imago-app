@@ -11,7 +11,7 @@ namespace Imago.Converter
 {
     public class SkillGroupTypeToAttributeSourceStringConverter : IValueConverter
     {
-        private readonly TypeToAbbreviationextConverter _abbreviationextConverter = new TypeToAbbreviationextConverter();
+        private readonly EnumToDisplayTextConverter _enumToDisplayTextConverter = new EnumToDisplayTextConverter();
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -20,7 +20,7 @@ namespace Imago.Converter
             //todo meh, remove direct access to repo
             var sources = RuleRepository.SkillGroupAttributeLookUpDictionary[skillGroupType];
 
-            return string.Join("+", sources.Select(attributeType => _abbreviationextConverter.Convert(attributeType, null, null, CultureInfo.InvariantCulture)));
+            return string.Join("+", sources.Select(attributeType => _enumToDisplayTextConverter.Convert(attributeType, null, null, CultureInfo.InvariantCulture)));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

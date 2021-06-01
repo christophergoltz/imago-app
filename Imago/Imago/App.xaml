@@ -12,8 +12,8 @@
         <ResourceDictionary>
             <converter:SkillGroupTypeToAttributeSourceStringConverter x:Key="SkillGroupTypeToAttributeSourceStringConverter"/>
             <converter:InverseBoolConverter x:Key="InverseBoolConverter"/>
-            <converter:TypeToAbbreviationextConverter x:Key="TypeToAbbreviationextConverter"/>
-            <converter:TypeToDisplayTextConverter x:Key="TypeToDisplayTextConverter"/>
+            <converter:EnumToDisplayTextConverter x:Key="EnumToDisplayTextConverter"/>
+            <converter:EnumToAbbreviationTextConverter x:Key="EnumToAbbreviationTextConverter"/>
             <converter:ObjectNullToBoolConverter x:Key="ObjectNullToBoolConverter"/>
             <converter:ObjectNotNullToBoolConverter x:Key="ObjectNotNullToBoolConverter"/>
 

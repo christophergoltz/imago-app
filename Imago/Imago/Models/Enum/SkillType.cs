@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Imago.Util;
 
 namespace Imago.Models.Enum
 {
@@ -9,7 +10,9 @@ namespace Imago.Models.Enum
         Unbekannt = 0,
         Alchemie = 1,
         Anatomie = 2,
+        [DisplayText("Anführen")]
         Anfuehren = 3,
+        [DisplayText("Armbrüste")]
         Armbrueste = 4,
         Ausdruck = 5,
         Ausweichen = 6,
@@ -19,6 +22,7 @@ namespace Imago.Models.Enum
         Chaos = 10,
         Dolche = 11,
         Einfalt = 12,
+        [DisplayText("Einschüchtern")]
         Einschuechtern = 13,
         Ekstase = 14,
         Empathie = 15,
@@ -26,6 +30,7 @@ namespace Imago.Models.Enum
         Hiebwaffen = 17,
         Heiler = 18,
         Klettern = 19,
+        [DisplayText("Körperbeherrschung")]
         Koerperbeherrschung = 20,
         Kontrolle = 21,
         Laufen = 22,
@@ -46,10 +51,12 @@ namespace Imago.Models.Enum
         Sicherheit = 37,
         SozialeAdaption = 38,
         Soziologie = 39,
+        [DisplayText("Sphärologie")]
         Sphaerologie = 40,
         Sprache = 41,
         Springen = 42,
         SpurenLesen = 43,
+        [DisplayText("Stäbe / Speere")]
         StaebeSpeere = 44,
         Strategie = 45,
         Struktur = 46,
@@ -63,6 +70,7 @@ namespace Imago.Models.Enum
         Wurfgeschosse = 54,
         Wurfwaffen = 55,
         Wundscher = 56,
+        [DisplayText("Zweihänder")]
         Zweihaender = 57,
     }
 }

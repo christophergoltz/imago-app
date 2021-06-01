@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:customControls="clr-namespace:Imago.Views.CustomControls;assembly=Imago"
              xmlns:viewModels="clr-namespace:Imago.ViewModels;assembly=Imago"
-             xmlns:local="clr-namespace:Imago.Models.Enum;assembly=Imago"
              x:Class="Imago.Views.SkillPage" Title="Fertigkeiten"
              BindingContext="{Binding SkillPageViewModel, Source={StaticResource ViewModelLocator}}"
              x:DataType="viewModels:SkillPageViewModel">

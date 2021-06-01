@@ -86,7 +86,7 @@
                             </LinearGradientBrush>
                         </Grid.Background>
 
-                        <ListView Margin="20" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
+                        <ListView Margin="15" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
                               ItemsSource="{Binding AttributeViewModels}">
                             <ListView.Header>
                                 <Grid>
@@ -123,11 +123,11 @@
                                                 <ColumnDefinition Width="100" />
                                                 <ColumnDefinition Width="100" />
                                             </Grid.ColumnDefinitions>
-                                            <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Attribute.Type}"/>
+                                            <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Attribute.Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
                                             <Label FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Attribute.IncreaseValue}"/>
                                             <Label FontSize="18" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Attribute.Experience}"/>
-                                            <Entry FontSize="18" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Corrosion}"/>
-                                            <Entry FontSize="18" Grid.Column="4" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Modification}"/>
+                                            <Entry FontSize="16" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Corrosion}"/>
+                                            <Entry FontSize="16" Grid.Column="4" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Modification}"/>
                                             <Label FontSize="18" Grid.Column="5" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Attribute.FinalValue}"/>
                                         </Grid>
                                     </ViewCell>
