@@ -159,6 +159,49 @@ namespace Imago.Services
             }
 
             //todo update derived attributes
+            foreach (var derivedAttribute in character.DerivedAttributes)
+            {
+                switch (derivedAttribute.Type)
+                {
+                    case DerivedAttributeType.Egoregenration:
+                    {
+                        var tmp = character.Attributes.GetFinalValueOfAttributeType(AttributeType.Willenskraft);
+                        var baseValue = (double) tmp / 5;
+                        var newBaseValue = (int) Math.Round(baseValue, MidpointRounding.AwayFromZero);
+                        derivedAttribute.FinalValue = newBaseValue;
+                        break;
+                    }
+                    case DerivedAttributeType.Schadensmod:
+                    {
+                        var tmp = character.Attributes.GetFinalValueOfAttributeType(AttributeType.Staerke);
+                        var baseValue = ((double) tmp / 10) - 5;
+                        var newBaseValue = (int) Math.Round(baseValue, MidpointRounding.AwayFromZero);
+                        derivedAttribute.FinalValue = newBaseValue;
+                        break;
+                    }
+                    case DerivedAttributeType.Traglast:
+                    {
+                        var tmp = character.Attributes.GetFinalValueOfAttributeType(AttributeType.Konstitution) 
+                                  + character.Attributes.GetFinalValueOfAttributeType(AttributeType.Konstitution)
+                                  + character.Attributes.GetFinalValueOfAttributeType(AttributeType.Staerke);
+                        var baseValue = (double) tmp / 10;
+                        var newBaseValue = (int) Math.Round(baseValue, MidpointRounding.AwayFromZero);
+                        derivedAttribute.FinalValue = newBaseValue;
+                        break;
+                    }
+                    case DerivedAttributeType.Sprungreichweite:
+                    case DerivedAttributeType.Sprunghoehe:
+                    case DerivedAttributeType.TaktischeBewegung:
+                    case DerivedAttributeType.Sprintreichweite:
+                    {
+                        derivedAttribute.FinalValue = -1;
+                        break;
+                    }
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+
 
             //update special attribues
             foreach (var specialAttribute in character.SpecialAttributes)

@@ -13,6 +13,12 @@ namespace Imago.Models
         private DerivedAttributeType _type;
         private string _formula;
 
+        public DerivedAttribute(DerivedAttributeType type, string formula)
+        {
+            Type = type;
+            Formula = formula;
+        }
+
         public DerivedAttributeType Type
         {
             get => _type;

@@ -20,6 +20,7 @@ namespace Imago.Models.Enum
         [DisplayText("Sprunghöhe")]
         Sprunghoehe = 5,
 
+        [DisplayText("Taktische Bewegung")]
         TaktischeBewegung = 6,
 
         Sprintreichweite = 7

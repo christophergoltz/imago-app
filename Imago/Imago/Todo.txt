@@ -3,9 +3,6 @@ Allgemein
 	- AddExperience
 		- Nur positive Wert erlauben, fuer absenken neue Mothode schaffen
 
-Charakter Info
-- Abgeleitete Attribute und Spezialattribute
-
 KampfbogenPage
 
 InventarPage

@@ -37,7 +37,8 @@ namespace Imago.Repository
                 SkinColor = "Hell",
                 CreatedBy = "Testuser",
                 DivineSoul = "40",
-                SpecialAttributes = CreateSpecialAttributes()
+                SpecialAttributes = CreateSpecialAttributes(),
+                DerivedAttributes = CreateDerivedAttributes()
             };
 
             //add skillgroups
@@ -74,7 +75,21 @@ namespace Imago.Repository
                 new SpecialAttribute(SpecialAttributeType.Initiative, "(GE+GE+WA+WI)/4")
             };
         }
-        
+
+        public List<DerivedAttribute> CreateDerivedAttributes()
+        {
+            return new List<DerivedAttribute>
+            {
+                new DerivedAttribute(DerivedAttributeType.Egoregenration, "WI/5"),
+                new DerivedAttribute(DerivedAttributeType.Schadensmod, "(ST/10)-5"),
+                new DerivedAttribute(DerivedAttributeType.Traglast, "(KO+ST+ST)/10"),
+                new DerivedAttribute(DerivedAttributeType.Sprungreichweite, "n/a"),
+                new DerivedAttribute(DerivedAttributeType.Sprunghoehe, "n/a"),
+                new DerivedAttribute(DerivedAttributeType.TaktischeBewegung, "n/a"),
+                new DerivedAttribute(DerivedAttributeType.Sprintreichweite, "n/a"),
+            };
+        }
+
         private SkillGroup CreateSkillGroups(SkillGroupType type)
         {
             var skillGroup = new SkillGroup(type)
