@@ -11,7 +11,8 @@
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="70*"></RowDefinition>
+                <RowDefinition Height="30*"></RowDefinition>
+                <RowDefinition Height="40*"></RowDefinition>
                 <RowDefinition Height="30*"></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -21,7 +22,7 @@
             </Grid.ColumnDefinitions>
 
             <!-- body image -->
-            <Frame Grid.Column="0" Grid.Row="0" BorderColor="Black" CornerRadius="0">
+            <Frame Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" BorderColor="Black" CornerRadius="0">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="10*"/>
@@ -50,8 +51,33 @@
                 </Grid>
             </Frame>
 
+            <!-- armor -->
+            <Frame Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="1"  BorderColor="Black" CornerRadius="0">
+                <StackLayout >
+                    <Label Text="Rüstung: [tbd]" FontSize="18"/>
+                </StackLayout>
+            </Frame>
 
+            <!-- weapons -->
+            <Frame Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="1"  BorderColor="Black" CornerRadius="0">
+                <StackLayout >
+                    <Label Text="Waffen: [tbd]" FontSize="18"/>
+                </StackLayout>
+            </Frame>
 
+            <!-- load -->
+            <Frame Grid.Row="2" Grid.Column="0"  BorderColor="Black" CornerRadius="0">
+                <StackLayout >
+                    <Label Text="Belasung / Traglast: [tbd]" FontSize="18"/>
+                </StackLayout>
+            </Frame>
+
+            <!-- healing -->
+            <Frame Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"  BorderColor="Black" CornerRadius="0">
+                <StackLayout >
+                    <Label Text="Heilung oder sowas?: [tbd]" FontSize="18"/>
+                </StackLayout>
+            </Frame>
         </Grid>
     </ContentPage.Content>
 </ContentPage>
