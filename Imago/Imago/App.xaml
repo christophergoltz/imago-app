@@ -16,6 +16,7 @@
             <converter:EnumToAbbreviationTextConverter x:Key="EnumToAbbreviationTextConverter"/>
             <converter:ObjectNullToBoolConverter x:Key="ObjectNullToBoolConverter"/>
             <converter:ObjectNotNullToBoolConverter x:Key="ObjectNotNullToBoolConverter"/>
+            <converter:DicionaryToBodyPartConverter x:Key="DicionaryToBodyPartConverter"/>
 
             <util:ViewModelLocator x:Key="ViewModelLocator"/>
 

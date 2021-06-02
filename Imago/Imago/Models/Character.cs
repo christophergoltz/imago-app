@@ -36,5 +36,7 @@ namespace Imago.Models
         public Dictionary<SkillGroupType, SkillGroup> SkillGroups { get; set; }
         
         public List<SkillGroupType> OpenAttributeIncreases { get; set; }
+
+        public Dictionary<BodyPartType, BodyPart> BodyParts { get; set; }
     }
 }

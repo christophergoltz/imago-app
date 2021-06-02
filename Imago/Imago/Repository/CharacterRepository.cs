@@ -17,7 +17,7 @@ namespace Imago.Repository
     {
         public Character CreateNewCharacter()
         {
-            var character = new Character()
+            var character = new Character
             {
                 Attributes = CreateAttributes(),
                 SkillGroups = new Dictionary<SkillGroupType, SkillGroup>(),
@@ -38,7 +38,8 @@ namespace Imago.Repository
                 CreatedBy = "Testuser",
                 DivineSoul = "40",
                 SpecialAttributes = CreateSpecialAttributes(),
-                DerivedAttributes = CreateDerivedAttributes()
+                DerivedAttributes = CreateDerivedAttributes(),
+                BodyParts = CreateBodyParts()
             };
 
             //add skillgroups
@@ -53,7 +54,56 @@ namespace Imago.Repository
 
             return character;
         }
-        
+
+        private Dictionary<BodyPartType, BodyPart> CreateBodyParts()
+        {
+            return new Dictionary<BodyPartType, BodyPart>
+            {
+                {
+                    BodyPartType.Kopf, new BodyPart(BodyPartType.Kopf, "KO/15+3", 7, new List<Armor>()
+                    {
+                        new Armor(ArmorType.Natuerlich, 2, 2),
+                        new Armor(ArmorType.Komposit, 1, 2)
+                    })
+                },
+                {
+                    BodyPartType.Torso, new BodyPart(BodyPartType.Torso, "KO/6+2", 12, new List<Armor>()
+                    {
+                        new Armor(ArmorType.Natuerlich, 2, 2),
+                        new Armor(ArmorType.Komposit, 2, 2)
+                    })
+                },
+                {
+                    BodyPartType.ArmLinks, new BodyPart(BodyPartType.ArmLinks, "KO/10+1", 8, new List<Armor>()
+                    {
+                        new Armor(ArmorType.Natuerlich, 2, 2),
+                        new Armor(ArmorType.Komposit, 1, 2)
+                    })
+                },
+                {
+                    BodyPartType.ArmRechts, new BodyPart(BodyPartType.ArmRechts, "KO/10+1", 8, new List<Armor>()
+                    {
+                        new Armor(ArmorType.Natuerlich, 2, 2),
+                        new Armor(ArmorType.Komposit, 1, 2)
+                    })
+                },
+                {
+                    BodyPartType.BeinLinks, new BodyPart(BodyPartType.BeinLinks, "KO/7+2", 11, new List<Armor>()
+                    {
+                        new Armor(ArmorType.Natuerlich, 2, 2),
+                        new Armor(ArmorType.Komposit, 2, 2)
+                    })
+                },
+                {
+                    BodyPartType.BeinRechts, new BodyPart(BodyPartType.BeinRechts, "KO/7+2", 11, new List<Armor>()
+                    {
+                        new Armor(ArmorType.Natuerlich, 2, 2),
+                        new Armor(ArmorType.Komposit, 2, 2)
+                    })
+                }
+            };
+        }
+
         private List<Attribute> CreateAttributes()
         {
             return new List<Attribute>

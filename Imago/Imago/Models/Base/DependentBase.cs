@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Imago.Models.Base
 {
-    public class DependentBase : ModifiableBase
+    public abstract class DependentBase : ModifiableBase
     {
         private int _baseValue;
 
