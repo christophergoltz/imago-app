@@ -39,7 +39,8 @@ namespace Imago.Repository
                 DivineSoul = "40",
                 SpecialAttributes = CreateSpecialAttributes(),
                 DerivedAttributes = CreateDerivedAttributes(),
-                BodyParts = CreateBodyParts()
+                BodyParts = CreateBodyParts(),
+                Weapon1 = CreateWeapon1()
             };
 
             //add skillgroups
@@ -102,6 +103,15 @@ namespace Imago.Repository
                     })
                 }
             };
+        }
+
+        public Weapon CreateWeapon1()
+        {
+            return new Weapon(WeaponType.HolzfaellerAxt, new Dictionary<WeaponStanceType, WeaponStance>()
+            {
+                {WeaponStanceType.Light, new WeaponStance( WeaponStanceType.Light, 5, "2W6 (P)", -60, null)},
+                {WeaponStanceType.Heavy, new WeaponStance( WeaponStanceType.Heavy, 6, "3W6+2 (P)", -40, null)},
+            });
         }
 
         private List<Attribute> CreateAttributes()

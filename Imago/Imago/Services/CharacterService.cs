@@ -22,7 +22,7 @@ namespace Imago.Services
         void SetModificationValue(SpecialAttribute specialAttribute, int modificationValue, Character character);
         void AddOneExperienceToAttribute(Attribute attribute, Character character);
     }
-    
+
     public class CharacterService : ICharacterService
     {
         private readonly IRuleRepository _ruleRepository;
@@ -45,7 +45,7 @@ namespace Imago.Services
 
             UpdateNewBaseValueToSkillsOfGroup(skillGroup);
         }
-        
+
         public void SetModificationValue(Attribute attribute, int modificationValue, Character character)
         {
             attribute.ModificationValue = modificationValue;
@@ -65,14 +65,15 @@ namespace Imago.Services
             attribute.RecalculateFinalValue();
             UpdateNewFinalValueOfAttribute(attribute, character);
         }
-        
+
         public void AddOneExperienceToAttribute(Attribute attribute, Character character)
         {
             attribute.Experience += 1;
 
             while (SkillIncreaseHelper.CanSkillBeIncreased(attribute))
             {
-                var requiredExperienceForNextLevel = SkillIncreaseHelper.GetExperienceForNextAttributeLevel(attribute.IncreaseValue);
+                var requiredExperienceForNextLevel =
+                    SkillIncreaseHelper.GetExperienceForNextAttributeLevel(attribute.IncreaseValue);
                 attribute.Experience -= requiredExperienceForNextLevel;
                 attribute.IncreaseValue++;
                 attribute.RecalculateFinalValue();
@@ -86,7 +87,8 @@ namespace Imago.Services
             skillGroup.ExperienceValue += experience;
             while (SkillIncreaseHelper.CanSkillBeIncreased(skillGroup))
             {
-                var requiredExperienceForNextLevel = SkillIncreaseHelper.GetExperienceForNextSkillGroupLevel(skillGroup.IncreaseValue);
+                var requiredExperienceForNextLevel =
+                    SkillIncreaseHelper.GetExperienceForNextSkillGroupLevel(skillGroup.IncreaseValue);
                 skillGroup.ExperienceValue -= requiredExperienceForNextLevel;
                 skillGroup.IncreaseValue++;
                 skillGroup.RecalculateFinalValue();
@@ -101,7 +103,8 @@ namespace Imago.Services
             int openSkillGroupExperience = 0;
             while (SkillIncreaseHelper.CanSkillBeIncreased(skill))
             {
-                var requiredExperienceForNextLevel = SkillIncreaseHelper.GetExperienceForNextSkillLevel(skill.IncreaseValue);
+                var requiredExperienceForNextLevel =
+                    SkillIncreaseHelper.GetExperienceForNextSkillLevel(skill.IncreaseValue);
                 skill.ExperienceValue -= requiredExperienceForNextLevel;
                 skill.IncreaseValue++;
                 skill.RecalculateFinalValue();
@@ -131,7 +134,7 @@ namespace Imago.Services
                 skill.RecalculateFinalValue();
             }
         }
-        
+
         private void UpdateNewFinalValueOfAttribute(Attribute changedAttribute, Character character)
         {
             //updating all dependent skillgroups
@@ -150,15 +153,16 @@ namespace Imago.Services
                 {
                     tmp += character.Attributes.First(attribute => attribute.Type == attributeType).FinalValue;
                 }
-                var newBaseValue = (int)Math.Round((tmp / 6), MidpointRounding.AwayFromZero);
-                
+
+                var newBaseValue = (int) Math.Round((tmp / 6), MidpointRounding.AwayFromZero);
+
                 affectedSkillGroup.BaseValue = newBaseValue;
                 affectedSkillGroup.RecalculateFinalValue();
 
                 UpdateNewBaseValueToSkillsOfGroup(affectedSkillGroup);
             }
 
-            //todo update derived attributes
+            //update derived attributes
             foreach (var derivedAttribute in character.DerivedAttributes)
             {
                 switch (derivedAttribute.Type)
@@ -166,28 +170,25 @@ namespace Imago.Services
                     case DerivedAttributeType.Egoregenration:
                     {
                         var tmp = character.Attributes.GetFinalValueOfAttributeType(AttributeType.Willenskraft);
-                        var baseValue = (double) tmp / 5;
-                        var newBaseValue = (int) Math.Round(baseValue, MidpointRounding.AwayFromZero);
-                        derivedAttribute.FinalValue = newBaseValue;
-                        break;
+                        var baseValue = tmp / 5;
+                        derivedAttribute.FinalValue = (int)Math.Round(baseValue, MidpointRounding.AwayFromZero);
+                            break;
                     }
                     case DerivedAttributeType.Schadensmod:
                     {
                         var tmp = character.Attributes.GetFinalValueOfAttributeType(AttributeType.Staerke);
-                        var baseValue = ((double) tmp / 10) - 5;
-                        var newBaseValue = (int) Math.Round(baseValue, MidpointRounding.AwayFromZero);
-                        derivedAttribute.FinalValue = newBaseValue;
-                        break;
+                        var baseValue = (tmp / 10) - 5;
+                        derivedAttribute.FinalValue = (int)Math.Round(baseValue, MidpointRounding.AwayFromZero);
+                            break;
                     }
                     case DerivedAttributeType.Traglast:
                     {
-                        var tmp = character.Attributes.GetFinalValueOfAttributeType(AttributeType.Konstitution) 
+                        var tmp = character.Attributes.GetFinalValueOfAttributeType(AttributeType.Konstitution)
                                   + character.Attributes.GetFinalValueOfAttributeType(AttributeType.Konstitution)
                                   + character.Attributes.GetFinalValueOfAttributeType(AttributeType.Staerke);
-                        var baseValue = (double) tmp / 10;
-                        var newBaseValue = (int) Math.Round(baseValue, MidpointRounding.AwayFromZero);
-                        derivedAttribute.FinalValue = newBaseValue;
-                        break;
+                        var baseValue = tmp / 10;
+                        derivedAttribute.FinalValue = (int)Math.Round(baseValue, MidpointRounding.AwayFromZero);
+                            break;
                     }
                     case DerivedAttributeType.Sprungreichweite:
                     case DerivedAttributeType.Sprunghoehe:
@@ -202,26 +203,63 @@ namespace Imago.Services
                 }
             }
 
-
-            //update special attribues
+            //update special attributes
             foreach (var specialAttribute in character.SpecialAttributes)
             {
                 switch (specialAttribute.Type)
                 {
                     case SpecialAttributeType.Initiative:
                     {
-                        var tmp = (character.Attributes.GetFinalValueOfAttributeType(AttributeType.Geschicklichkeit) * 2) +
-                                   character.Attributes.GetFinalValueOfAttributeType(AttributeType.Wahrnehmung) +
-                                   character.Attributes.GetFinalValueOfAttributeType(AttributeType.Willenskraft);
+                        var tmp =
+                            (character.Attributes.GetFinalValueOfAttributeType(AttributeType.Geschicklichkeit) * 2) +
+                            character.Attributes.GetFinalValueOfAttributeType(AttributeType.Wahrnehmung) +
+                            character.Attributes.GetFinalValueOfAttributeType(AttributeType.Willenskraft);
 
-                        var newValue = (double) tmp / 4;
-                        var newBaseValue = (int)Math.Round(newValue, MidpointRounding.AwayFromZero);
-
-                        specialAttribute.BaseValue = newBaseValue;
-                        break;
+                        var newValue = tmp / 4;
+                        specialAttribute.BaseValue = (int)Math.Round(newValue, MidpointRounding.AwayFromZero);
+                        specialAttribute.RecalculateFinalValue();
+                            break;
                     }
                     default:
                         throw new ArgumentOutOfRangeException(nameof(SpecialAttributeType));
+                }
+            }
+
+            //update bodyparts
+            foreach (var bodyPart in character.BodyParts)
+            {
+                var constFinalValue = character.Attributes.GetFinalValueOfAttributeType(AttributeType.Konstitution);
+
+                switch (bodyPart.Key)
+                {
+                    case BodyPartType.Kopf:
+                    {
+                        var newValue = (constFinalValue / 15) + 3;
+                        bodyPart.Value.MaxHitpoints = (int) Math.Round(newValue, MidpointRounding.AwayFromZero);
+                        break;
+                    }
+                    case BodyPartType.Torso:
+                    {
+                        var newValue = (constFinalValue / 6) + 2;
+                        bodyPart.Value.MaxHitpoints = (int) Math.Round(newValue, MidpointRounding.AwayFromZero);
+                        break;
+                    }
+                    case BodyPartType.ArmLinks:
+                    case BodyPartType.ArmRechts:
+                    {
+                        var newValue = (constFinalValue / 10) + 1;
+                        bodyPart.Value.MaxHitpoints = (int) Math.Round(newValue, MidpointRounding.AwayFromZero);
+                        break;
+                    }
+                    case BodyPartType.BeinLinks:
+                    case BodyPartType.BeinRechts:
+                    {
+                        var newValue = (constFinalValue / 7) + 2;
+                        bodyPart.Value.MaxHitpoints = (int) Math.Round(newValue, MidpointRounding.AwayFromZero);
+                        break;
+                    }
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
             }
         }

@@ -9,7 +9,7 @@ namespace Imago.Util
 {
     public static class AttributesExtension
     {
-        public static int GetFinalValueOfAttributeType(this List<Attribute> attributes, AttributeType type)
+        public static double GetFinalValueOfAttributeType(this List<Attribute> attributes, AttributeType type)
         {
             return attributes.First(_ => _.Type == type).FinalValue;
         }
