@@ -28,6 +28,8 @@ namespace Imago.Models
         public string CreatedBy { get; set; }
         public string Owner { get; set; }
 
+        public int FreeSkillExperience { get; set; }
+
         public Version GameVersion { get; set; }
 
         public List<Attribute> Attributes { get; set; }

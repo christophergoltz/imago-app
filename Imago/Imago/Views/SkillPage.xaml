@@ -30,7 +30,10 @@
 
                     <Frame BorderColor="Black" Grid.Row="0" CornerRadius="0">
                         <StackLayout >
-                            <Label Text="Freie EP: 0"></Label>
+                            <StackLayout Margin="10" VerticalOptions="Center" Orientation="Horizontal">
+                                <Label VerticalOptions="Center" Text="Freie Ep: " FontSize="18"  FontAttributes="Bold"/>
+                                <Entry Keyboard="Numeric" WidthRequest="100" VerticalOptions="Center"  FontSize="18" Text="{Binding Character.FreeSkillExperience}"/>
+                            </StackLayout>
                         </StackLayout>
                     </Frame>
 

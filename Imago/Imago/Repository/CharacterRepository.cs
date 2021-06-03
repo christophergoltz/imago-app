@@ -43,7 +43,8 @@ namespace Imago.Repository
                 BodyParts = CreateBodyParts(),
                 Weapon1 = CreateWeapon1(),
                 EquippedItems = CreateEquippedItems(),
-                Handicap = CreateHandicapAttributes()
+                Handicap = CreateHandicapAttributes(),
+                FreeSkillExperience = 6
             };
 
             //add skillgroups
