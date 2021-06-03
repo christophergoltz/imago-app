@@ -24,8 +24,9 @@ namespace Imago.Repository
                 CreatedAt = DateTime.Now,
                 LastModifiedAt = DateTime.Now,
                 Id = Guid.NewGuid(),
-                GameVersion = new Version(1,0),
-                OpenAttributeIncreases = new List<SkillGroupType>(),// {SkillGroupType.Bewegung, SkillGroupType.Fernkampf},
+                GameVersion = new Version(1, 0),
+                OpenAttributeIncreases =
+                    new List<SkillGroupType>(), // {SkillGroupType.Bewegung, SkillGroupType.Fernkampf},
                 Age = "62",
                 EyeColor = "Blau",
                 HairColor = "Schwarz",
@@ -40,7 +41,8 @@ namespace Imago.Repository
                 SpecialAttributes = CreateSpecialAttributes(),
                 DerivedAttributes = CreateDerivedAttributes(),
                 BodyParts = CreateBodyParts(),
-                Weapon1 = CreateWeapon1()
+                Weapon1 = CreateWeapon1(),
+                EquippedItems = CreateEquippedItems()
             };
 
             //add skillgroups
@@ -112,6 +114,16 @@ namespace Imago.Repository
                 {WeaponStanceType.Light, new WeaponStance( WeaponStanceType.Light, 5, "2W6 (P)", -60, null)},
                 {WeaponStanceType.Heavy, new WeaponStance( WeaponStanceType.Heavy, 6, "3W6+2 (P)", -40, null)},
             });
+        }
+
+        public ObservableCollection<EquipableItem> CreateEquippedItems()
+        {
+            return new ObservableCollection<EquipableItem>()
+            {
+                new EquipableItem("Mantel",  true, false, 1),
+                new EquipableItem("Gürtel", true, true, 1),
+                new EquipableItem("Heiler Material Stufe 2",false, false, 3)
+            };
         }
 
         private List<Attribute> CreateAttributes()

@@ -2,14 +2,78 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:Imago.ViewModels;assembly=Imago"
-             x:Class="Imago.Views.InventoryPage" Title="Inventar"
+             xmlns:models="clr-namespace:Imago.Models;assembly=Imago"
+             x:Class="Imago.Views.InventoryPage" Title="Inventar" x:Name="InventoryPageControl"
              BindingContext="{Binding InventoryViewModel, Source={StaticResource ViewModelLocator}}"
              x:DataType="viewModels:InventoryViewModel">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- equipped items -->
+            <Frame Grid.Column="0" CornerRadius="0" BorderColor="Black">
+                <Grid Margin="-19">
+                    <Grid.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#996633"/>
+                            <GradientStop Color="#fffdd0" Offset="0.201"/>
+                        </LinearGradientBrush>
+                    </Grid.Background>
+
+                    <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
+                              ItemsSource="{Binding Character.EquippedItems}">
+                        <ListView.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="50" />
+                                    <ColumnDefinition Width="50" />
+                                    <ColumnDefinition Width="50" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="1" />
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0" VerticalOptions="Center"  Grid.Column="0" Text="Gegenstand" FontAttributes="Bold"/>
+                                <Label Grid.Row="0" VerticalOptions="Center"  Grid.Column="1" Text="Anzahl" FontAttributes="Bold"/>
+                                <Label Grid.Row="0" VerticalOptions="Center"  Grid.Column="2" Text="Last" FontAttributes="Bold"/>
+                                <Image HeightRequest="30" WidthRequest="30" VerticalOptions="Center" Grid.Row="0" Grid.Column="3" Margin="10" Source="swords.png"></Image>
+                                <Image HeightRequest="30" WidthRequest="30" VerticalOptions="Center"  Grid.Row="0" Grid.Column="4"  Margin="10" Source="backpack.png"></Image>
+                                <BoxView Grid.Column="0" HeightRequest="1" Grid.Row="1" Grid.ColumnSpan="6" Color="Black"/>
+                            </Grid>
+                        </ListView.Header>
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="models:EquipableItem">
+                                <ViewCell>
+                                    <Grid Padding="10,4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition Width="50" />
+                                            <ColumnDefinition Width="50" />
+                                            <ColumnDefinition Width="50" />
+                                        </Grid.ColumnDefinitions>
+                                        <Entry FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Name}"/>
+                                        <Entry Keyboard="Numeric" FontSize="18" Grid.Column="1" VerticalOptions="Center" Text="{Binding Quantity}"/>
+                                        <Entry Keyboard="Numeric" FontSize="18" Grid.Column="2" VerticalOptions="Center" Text="{Binding LoadValue}"/>
+                                        <CheckBox Grid.Column="3" Margin="25,0,0,0" HorizontalOptions="Center" VerticalOptions="Center" IsChecked="{Binding Fight}"/>
+                                        <CheckBox Grid.Column="4" Margin="25,0,0,0" HorizontalOptions="Center" VerticalOptions="Center" IsChecked="{Binding Adventure}"/>
+                                        <Button Grid.Column="5" Text="X" Padding="0,-4,0,0" WidthRequest="35" HeightRequest="35"  FontSize="22"  VerticalOptions="Start" 
+                                                HorizontalOptions="End" TextColor="Red" BackgroundColor="LightGray" CommandParameter="{Binding .}"
+                                                Command="{Binding DeleteSelectedEquippedItem, Source={RelativeSource AncestorType={x:Type viewModels:InventoryViewModel}}}"/>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </Frame>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>
