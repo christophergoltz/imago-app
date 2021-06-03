@@ -312,7 +312,7 @@ namespace Imago.Services
                             break;
                         }
 
-                        var load = (armor + weaponLoad + otherFightingGear + adventureGear) / loadLimit;
+                        var load = (armor + weaponLoad + adventureGear) / loadLimit;
                         handicapAttribute.FinalValue = (int) Math.Round(load, MidpointRounding.AwayFromZero);
                         break;
                     }

@@ -8,8 +8,8 @@
             <Grid Margin="-19" BindingContext="{Binding BodyPart, Source={x:Reference BodyPartArmorListViewControl}}">
                 <Grid.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#996633"/>
-                        <GradientStop Color="#fffdd0" Offset="0.201"/>
+                        <GradientStop Color="DodgerBlue"/>
+                        <GradientStop Color="Cyan" Offset="0.501"/>
                     </LinearGradientBrush>
                 </Grid.Background>
 
