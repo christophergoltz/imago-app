@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:Imago.Models;assembly=Imago"
+             x:Class="Imago.Views.CustomControls.BodyPartArmorListView" x:Name="BodyPartArmorListViewControl">
+  <ContentView.Content>
+        <Frame Grid.Column="0" Grid.Row="0" CornerRadius="0" BorderColor="Black">
+            <Grid Margin="-19" BindingContext="{Binding BodyPart, Source={x:Reference BodyPartArmorListViewControl}}">
+                <Grid.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#996633"/>
+                        <GradientStop Color="#fffdd0" Offset="0.201"/>
+                    </LinearGradientBrush>
+                </Grid.Background>
+
+                <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
+                              ItemsSource="{Binding Armor}">
+                    <ListView.Header>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="35" />
+                                <ColumnDefinition Width="35" />
+                                <ColumnDefinition Width="35" />
+                                <ColumnDefinition Width="35" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="1" />
+                            </Grid.RowDefinitions>
+                            <Label Grid.Row="0" Grid.Column="0" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}" Margin="5,0,0,0" FontAttributes="Bold"/>
+                            <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="1" Text="PH" Margin="5,0,0,0" FontAttributes="Bold"/>
+                            <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="2" Text="E" Margin="5,0,0,0" FontAttributes="Bold"/>
+                            <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="3" Text="Last" Margin="5,0,0,0" FontAttributes="Bold"/>
+                            <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="4" Text="Zust." FontAttributes="Bold"/>
+                            <BoxView Grid.Column="0" HeightRequest="1" Grid.Row="1" Grid.ColumnSpan="5" Color="Black"/>
+                        </Grid>
+                    </ListView.Header>
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Armor">
+                            <ViewCell>
+                                <Grid Padding="10,4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="35" />
+                                        <ColumnDefinition Width="35" />
+                                        <ColumnDefinition Width="35" />
+                                        <ColumnDefinition Width="35" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
+                                    <Label FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding PhysicalDefense}"/>
+                                    <Label FontSize="18" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding EnergyDefense}"/>
+                                    <Label FontSize="18" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding LoadValue}"/>
+                                    <Label FontSize="18" Grid.Column="4" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding DurabilityValue}"/>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </Frame>
+    </ContentView.Content>
+</ContentView>

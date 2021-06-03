@@ -12,11 +12,12 @@ namespace Imago
         {
             InitializeComponent();
             Routing.RegisterRoute(nameof(SkillPage), typeof(SkillPage));
+            Routing.RegisterRoute(nameof(StatusPage), typeof(StatusPage));
         }
 
-        private async void OnMenuItemClicked(object sender, EventArgs e)
-        {
-            await Current.GoToAsync("//LoginPage");
-        }
+        //private async void OnMenuItemClicked(object sender, EventArgs e)
+        //{
+        //    await Current.GoToAsync("//LoginPage");
+        //}
     }
 }

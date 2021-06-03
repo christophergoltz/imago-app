@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:Imago.Models;assembly=Imago"
+             x:Class="Imago.Views.CustomControls.WeaponView" x:Name="WeaponViewControl">
+    <ContentView.Content>
+        <Frame Grid.Column="0" Grid.Row="0" CornerRadius="0" BorderColor="Black">
+            <Grid Margin="-19" BindingContext="{Binding Weapon, Source={x:Reference WeaponViewControl}}">
+                <Grid.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#996633"/>
+                        <GradientStop Color="#fffdd0" Offset="0.201"/>
+                    </LinearGradientBrush>
+                </Grid.Background>
+
+                <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
+                              ItemsSource="{Binding WeaponStances.Values}">
+                    <ListView.Header>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="125" />
+                                <ColumnDefinition Width="125" />
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="100" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="1" />
+                            </Grid.RowDefinitions>
+                            <Label Grid.Row="0" Grid.Column="0" FontAttributes="Bold" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}" />
+                            <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="1" Text="Phasen" FontAttributes="Bold"/>
+                            <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="2" Text="Schaden"  FontAttributes="Bold"/>
+                            <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="3" Text="Parademodi" FontAttributes="Bold"/>
+                            <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="4" Text="Reichweite" FontAttributes="Bold"/>
+                            <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="5" Text="Last" FontAttributes="Bold"/>
+                            <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="6" Text="Zustand" FontAttributes="Bold"/>
+                            <BoxView Grid.Column="0" HeightRequest="1" Grid.Row="1" Grid.ColumnSpan="7" Color="Black"/>
+                        </Grid>
+                    </ListView.Header>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell x:DataType="models:WeaponStance">
+                                <Grid Padding="10,4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="150" />
+                                        <ColumnDefinition Width="125" />
+                                        <ColumnDefinition Width="125" />
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="100" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
+                                    <Label FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding PhaseValue}"/>
+                                    <Label FontSize="18" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding DamageFormula}"/>
+                                    <Label FontSize="18" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding ParryModifier}"/>
+                                    <Label FontSize="18" Grid.Column="4" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Range}"/>
+                                    <Label FontSize="18" Grid.Column="5" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding LoadValue}"/>
+                                    <Label FontSize="18" Grid.Column="6" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding DurabilityValue}"/>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </Frame>
+    </ContentView.Content>
+</ContentView>

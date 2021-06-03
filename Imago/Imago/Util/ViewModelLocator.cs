@@ -24,5 +24,6 @@ namespace Imago.Util
         public CharacterInfoPageViewModel CharacterInfo => new CharacterInfoPageViewModel(App.CurrentCharacter, _characterService.Value, _ruleRepository.Value);
         public SkillPageViewModel SkillPageViewModel => new SkillPageViewModel(App.CurrentCharacter, _characterService.Value);
         public StartPageViewModel StartPage => new StartPageViewModel(_characterRepository.Value);
+        public StatusPageViewModel StatusPageViewModel => new StatusPageViewModel(App.CurrentCharacter);
     }
 }

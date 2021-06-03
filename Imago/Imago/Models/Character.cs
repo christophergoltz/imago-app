@@ -34,7 +34,13 @@ namespace Imago.Models
         public List<SpecialAttribute> SpecialAttributes { get; set; }
 
         public Dictionary<SkillGroupType, SkillGroup> SkillGroups { get; set; }
-        
+
         public List<SkillGroupType> OpenAttributeIncreases { get; set; }
+
+        public Dictionary<BodyPartType, BodyPart> BodyParts { get; set; }
+
+        public Weapon Weapon1 { get; set; }
+        public Weapon Weapon2 { get; set; }
+        public Weapon Weapon3 { get; set; }
     }
 }
