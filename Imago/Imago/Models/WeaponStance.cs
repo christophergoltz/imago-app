@@ -14,13 +14,14 @@ namespace Imago.Models
         private int? _parryModifier;
         private int? _range;
 
-        public WeaponStance(WeaponStanceType type, int phaseValue, string damageFormula, int? parryModifier, int? range)
+        public WeaponStance(WeaponStanceType type, int phaseValue, string damageFormula, int? parryModifier, int? range, int loadValue)
         {
             Type = type;
             ParryModifier = parryModifier;
             DamageFormula = damageFormula;
             PhaseValue = phaseValue;
             Range = range;
+            LoadValue = loadValue;
         }
 
         public WeaponStanceType Type

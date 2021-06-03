@@ -8,8 +8,8 @@
             <Grid Margin="-19" BindingContext="{Binding Weapon, Source={x:Reference WeaponViewControl}}">
                 <Grid.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#996633"/>
-                        <GradientStop Color="#fffdd0" Offset="0.201"/>
+                        <GradientStop Color="Orange"/>
+                        <GradientStop Color="Yellow" Offset="0.401"/>
                     </LinearGradientBrush>
                 </Grid.Background>
 

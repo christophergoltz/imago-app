@@ -13,5 +13,10 @@ namespace Imago.Util
         {
             return attributes.First(_ => _.Type == type).FinalValue;
         }
+
+        public static double GetFinalValueOfAttributeType(this List<DerivedAttribute> attributes, DerivedAttributeType type)
+        {
+            return attributes.First(_ => _.Type == type).FinalValue;
+        }
     }
 }

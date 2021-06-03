@@ -2,7 +2,10 @@
 <Shell xmlns="http://xamarin.com/schemas/2014/forms" 
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:Imago.Views"
-       Title="Imago"
+       xmlns:viewModels="clr-namespace:Imago.ViewModels;assembly=Imago"
+       Title="Imago"      
+       BindingContext="{Binding AppShellViewModel, Source={StaticResource ViewModelLocator}}"
+       x:DataType="viewModels:AppShellViewModel" 
        x:Class="Imago.AppShell">
 
     <!--
@@ -73,6 +76,24 @@
         </ResourceDictionary>
     </Shell.Resources>
 
+    <Shell.ItemTemplate>
+        <DataTemplate>
+            <Grid x:Name="GridControl"  Padding="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="15*" />
+                    <ColumnDefinition Width="5" />
+                    <ColumnDefinition Width="75*" />
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0" Source="{Binding BindingContext.Icon, Source={x:Reference GridControl}}"
+                       Margin="5"
+                       HeightRequest="35" />
+                <Label Grid.Column="2" FontSize="24"
+                       Text="{Binding BindingContext.Title, Source={x:Reference GridControl}}"
+                       VerticalTextAlignment="Center" />
+            </Grid>
+        </DataTemplate>
+    </Shell.ItemTemplate>
+
     <!-- 
         When the Flyout is visible this defines the content to display in the flyout.
         FlyoutDisplayOptions="AsMultipleItems" will create a separate flyout item for each child element    
@@ -86,6 +107,9 @@
     </FlyoutItem>
     <FlyoutItem Title="Zustand" Icon="swords.png">
         <ShellContent Route="StatusPage" ContentTemplate="{DataTemplate local:StatusPage}" />
+    </FlyoutItem>
+    <FlyoutItem Title="Inventar" Icon="backpack.png">
+        <ShellContent Route="InventoryPage" ContentTemplate="{DataTemplate local:InventoryPage}" />
     </FlyoutItem>
 
     <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->
@@ -103,37 +127,26 @@
         <ShellContent Route="StartPage" ContentTemplate="{DataTemplate local:StartPage}" />
     </TabBar>
 
-    <!-- Optional Templates 
-    // These may be provided inline as below or as separate classes.
-
-    // This header appears at the top of the Flyout.
-    // https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/flyout#flyout-header
     <Shell.FlyoutHeaderTemplate>
         <DataTemplate>
-            <Grid>ContentHere</Grid>
+            <Grid Padding="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="1"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Image Margin="5" Source="imago_big.png" VerticalOptions="Fill" HorizontalOptions="Fill"></Image>
+                <Label Grid.Row="1" Text="Imago.App" FontSize="30"/>
+
+                <StackLayout Grid.Row="2" Orientation="Horizontal">
+                    <Label Text="Version" FontSize="18"/>
+                    <Label Text="{Binding Version}" FontSize="18"/>
+                </StackLayout>
+
+                <BoxView Grid.Row="3" Color="Black"/>
+            </Grid>
         </DataTemplate>
     </Shell.FlyoutHeaderTemplate>
-
-    // ItemTemplate is for ShellItems as displayed in a Flyout
-    // https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/flyout#define-flyoutitem-appearance
-    <Shell.ItemTemplate>
-        <DataTemplate>
-            <ContentView>
-                Bindable Properties: Title, Icon
-            </ContentView>
-        </DataTemplate>
-    </Shell.ItemTemplate>
-
-    // MenuItemTemplate is for MenuItems as displayed in a Flyout
-    // https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/flyout#define-menuitem-appearance
-    <Shell.MenuItemTemplate>
-        <DataTemplate>
-            <ContentView>
-                Bindable Properties: Text, Icon
-            </ContentView>
-        </DataTemplate>
-    </Shell.MenuItemTemplate>
-
-    -->
-
 </Shell>

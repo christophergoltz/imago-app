@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:customControls="clr-namespace:Imago.Views.CustomControls;assembly=Imago"
              xmlns:viewModels="clr-namespace:Imago.ViewModels;assembly=Imago"
+             xmlns:models="clr-namespace:Imago.Models;assembly=Imago"
              x:Class="Imago.Views.SkillPage" Title="Fertigkeiten"
              BindingContext="{Binding SkillPageViewModel, Source={StaticResource ViewModelLocator}}"
              x:DataType="viewModels:SkillPageViewModel">
@@ -21,36 +22,87 @@
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
                 <!-- Header -->
-                <Frame Grid.Row="0" Grid.Column="0" BorderColor="Black" CornerRadius="0" Margin="4,4,0,0">
-                    <StackLayout>
-                        <Label Text="Freie EP: 0"></Label>
-                    </StackLayout>
-                </Frame>
+                <Grid Grid.Column="0" Grid.Row="0" Margin="4,4,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="150"></RowDefinition>
+                    </Grid.RowDefinitions>
 
-                <customControls:SkillGroupView Grid.Row="0" Grid.Column="1" Margin="0,4,0,0" 
+                    <Frame BorderColor="Black" Grid.Row="0" CornerRadius="0">
+                        <StackLayout >
+                            <Label Text="Freie EP: 0"></Label>
+                        </StackLayout>
+                    </Frame>
+
+                    <Frame Grid.Row="1" CornerRadius="0" BorderColor="Black" VerticalOptions="Start">
+                        <Grid Margin="-19">
+                            <Grid.Background>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#996633"/>
+                                    <GradientStop Color="#fffdd0" Offset="0.201"/>
+                                </LinearGradientBrush>
+                            </Grid.Background>
+
+                            <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
+                              ItemsSource="{Binding Character.Handicap}">
+                                <ListView.Header>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="150" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="1" />
+                                        </Grid.RowDefinitions>
+                                        <Label Grid.Row="0" Grid.Column="0" Text="Behinderung" Margin="5,0,0,0" FontAttributes="Bold"/>
+                                        <Label Grid.Row="0" Grid.Column="1" Text="Last/Traglast" Margin="5,0,0,0" FontAttributes="Bold"/>
+                                        <BoxView Grid.Column="0" HeightRequest="1" Grid.Row="1" Grid.ColumnSpan="2" Color="Black"/>
+                                    </Grid>
+                                </ListView.Header>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate x:DataType="models:DerivedAttribute">
+                                        <ViewCell>
+                                            <Grid Padding="10,4">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="150" />
+                                                </Grid.ColumnDefinitions>
+                                                <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
+                                                <Label FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding FinalValue}"/>
+                                            </Grid>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Grid>
+                    </Frame>
+                </Grid>
+
+                <customControls:SkillGroupView Grid.Row="0" Grid.Column="1"
                                                Command="{Binding OpenSelectedSkill}"
                                                SkillGroup="{Binding Bewegung}"/>
-                <customControls:SkillGroupView Grid.Row="0" Grid.Column="2" Margin="0,4,4,0" 
+                <customControls:SkillGroupView Grid.Row="0" Grid.Column="2"
                                                Command="{Binding OpenSelectedSkill}"
                                                SkillGroup="{Binding Wissenschaft}"/>
 
-                <customControls:SkillGroupView Grid.Row="1" Grid.Column="0" Margin="4,0,0,0" 
+                <customControls:SkillGroupView Grid.Row="1" Grid.Column="0" 
                                                Command="{Binding OpenSelectedSkill}"
                                                SkillGroup="{Binding Heimlichkeit}"/>
                 <customControls:SkillGroupView Grid.Row="1" Grid.Column="1" 
                                                Command="{Binding OpenSelectedSkill}"
                                                SkillGroup="{Binding Nahkampf}"/>
-                <customControls:SkillGroupView Grid.Row="1" Grid.Column="2" Margin="0,0,4,0"
+                <customControls:SkillGroupView Grid.Row="1" Grid.Column="2" 
                                                Command="{Binding OpenSelectedSkill}"
                                                SkillGroup="{Binding Soziales}"/>
 
-                <customControls:SkillGroupView Grid.Row="2" Grid.Column="0" Margin="4,0,0,4"
+                <customControls:SkillGroupView Grid.Row="2" Grid.Column="0" 
                                                Command="{Binding OpenSelectedSkill}"
                                                SkillGroup="{Binding Webkunst}"/>
-                <customControls:SkillGroupView Grid.Row="2" Grid.Column="1" Margin="0,0,0,4"
+                <customControls:SkillGroupView Grid.Row="2" Grid.Column="1" 
                                                Command="{Binding OpenSelectedSkill}"
                                                SkillGroup="{Binding Fernkampf}"/>
-                <customControls:SkillGroupView Grid.Row="2" Grid.Column="2" Margin="0,0,4,4"
+                <customControls:SkillGroupView Grid.Row="2" Grid.Column="2"
                                                Command="{Binding OpenSelectedSkill}"
                                                SkillGroup="{Binding Handwerk}"/>
             </Grid>
