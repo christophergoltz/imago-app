@@ -25,7 +25,7 @@ namespace Imago.Util
         public SkillPageViewModel SkillPageViewModel => new SkillPageViewModel(App.CurrentCharacter, _characterService.Value);
         public StartPageViewModel StartPage => new StartPageViewModel(_characterRepository.Value);
         public StatusPageViewModel StatusPageViewModel => new StatusPageViewModel(App.CurrentCharacter);
-        public InventoryViewModel InventoryViewModel => new InventoryViewModel(App.CurrentCharacter);
+        public InventoryViewModel InventoryViewModel => new InventoryViewModel(App.CurrentCharacter, _characterService.Value);
         public AppShellViewModel AppShellViewModel => new AppShellViewModel();
     }
 }

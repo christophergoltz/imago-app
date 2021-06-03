@@ -44,15 +44,8 @@ namespace Imago.Models
         public Weapon Weapon2 { get; set; }
         public Weapon Weapon3 { get; set; }
 
-        public ObservableCollection<EquipableItem> EquippedItems
-        {
-            get => _equippedItems;
-            set
-            {
-                //todo nofiy that load needs to be caluclated new
-                //todo inpc pro element auf load, quant
-                _equippedItems = value;
-            }
-        }
+        public ObservableCollection<EquipableItem> EquippedItems { get; set; }
+
+        public List<DerivedAttribute> Handicap { get; set; }
     }
 }

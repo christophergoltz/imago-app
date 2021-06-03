@@ -14,12 +14,13 @@ namespace Imago.Models
         private string _name;
         private int _quantity;
 
-        public EquipableItem(string name, bool adventure, bool fight, int quantity)
+        public EquipableItem(string name, bool adventure, bool fight, int quantity, int loadValue)
         {
             Name = name;
             Adventure = adventure;
             Fight = fight;
             Quantity = quantity;
+            LoadValue = loadValue;
         }
 
         public bool Fight

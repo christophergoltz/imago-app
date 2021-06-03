@@ -23,6 +23,13 @@ namespace Imago.Models.Enum
         [DisplayText("Taktische Bewegung")]
         TaktischeBewegung = 6,
 
-        Sprintreichweite = 7
+        Sprintreichweite = 7,
+
+        [DisplayText("Kampf")]
+        BehinderungKampf = 8,
+        [DisplayText("Abenteuer")]
+        BehinderungAbenteuer = 9,
+        [DisplayText("Gesamt")]
+        BehinderungGesamt = 10
     }
 }

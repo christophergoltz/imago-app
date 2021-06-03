@@ -7,11 +7,12 @@ namespace Imago.Models
 {
     public class Armor : DurabilityItem
     {
-        public Armor(ArmorType type, int physicalDefense, int energyDefense)
+        public Armor(ArmorType type, int physicalDefense, int energyDefense, int loadValue = 0)
         {
             Type = type;
             PhysicalDefense = physicalDefense;
             EnergyDefense = energyDefense;
+            LoadValue = loadValue;
         }
 
         private int _physicalDefense;

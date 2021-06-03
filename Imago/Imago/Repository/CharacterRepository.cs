@@ -42,7 +42,8 @@ namespace Imago.Repository
                 DerivedAttributes = CreateDerivedAttributes(),
                 BodyParts = CreateBodyParts(),
                 Weapon1 = CreateWeapon1(),
-                EquippedItems = CreateEquippedItems()
+                EquippedItems = CreateEquippedItems(),
+                Handicap = CreateHandicapAttributes()
             };
 
             //add skillgroups
@@ -66,44 +67,54 @@ namespace Imago.Repository
                     BodyPartType.Kopf, new BodyPart(BodyPartType.Kopf, "KO/15+3", 7, new List<Armor>()
                     {
                         new Armor(ArmorType.Natuerlich, 2, 2),
-                        new Armor(ArmorType.Komposit, 1, 2)
+                        new Armor(ArmorType.Komposit, 1, 2, 10)
                     })
                 },
                 {
                     BodyPartType.Torso, new BodyPart(BodyPartType.Torso, "KO/6+2", 12, new List<Armor>()
                     {
                         new Armor(ArmorType.Natuerlich, 2, 2),
-                        new Armor(ArmorType.Komposit, 2, 2)
+                        new Armor(ArmorType.Komposit, 2, 2, 25)
                     })
                 },
                 {
                     BodyPartType.ArmLinks, new BodyPart(BodyPartType.ArmLinks, "KO/10+1", 8, new List<Armor>()
                     {
                         new Armor(ArmorType.Natuerlich, 2, 2),
-                        new Armor(ArmorType.Komposit, 1, 2)
+                        new Armor(ArmorType.Komposit, 1, 2, 12)
                     })
                 },
                 {
                     BodyPartType.ArmRechts, new BodyPart(BodyPartType.ArmRechts, "KO/10+1", 8, new List<Armor>()
                     {
                         new Armor(ArmorType.Natuerlich, 2, 2),
-                        new Armor(ArmorType.Komposit, 1, 2)
+                        new Armor(ArmorType.Komposit, 1, 2,12)
                     })
                 },
                 {
                     BodyPartType.BeinLinks, new BodyPart(BodyPartType.BeinLinks, "KO/7+2", 11, new List<Armor>()
                     {
                         new Armor(ArmorType.Natuerlich, 2, 2),
-                        new Armor(ArmorType.Komposit, 2, 2)
+                        new Armor(ArmorType.Komposit, 2, 2,18)
                     })
                 },
                 {
                     BodyPartType.BeinRechts, new BodyPart(BodyPartType.BeinRechts, "KO/7+2", 11, new List<Armor>()
                     {
                         new Armor(ArmorType.Natuerlich, 2, 2),
-                        new Armor(ArmorType.Komposit, 2, 2)
+                        new Armor(ArmorType.Komposit, 2, 2,18)
                     })
                 }
+            };
+        }
+
+        private List<DerivedAttribute> CreateHandicapAttributes()
+        {
+            return new List<DerivedAttribute>
+            {
+                new DerivedAttribute(DerivedAttributeType.BehinderungKampf, "Last/Traglast"),
+                new DerivedAttribute(DerivedAttributeType.BehinderungAbenteuer, "Last/Traglast"),
+                new DerivedAttribute(DerivedAttributeType.BehinderungGesamt, "Last/Traglast")
             };
         }
 
@@ -111,8 +122,8 @@ namespace Imago.Repository
         {
             return new Weapon(WeaponType.HolzfaellerAxt, new Dictionary<WeaponStanceType, WeaponStance>()
             {
-                {WeaponStanceType.Light, new WeaponStance( WeaponStanceType.Light, 5, "2W6 (P)", -60, null)},
-                {WeaponStanceType.Heavy, new WeaponStance( WeaponStanceType.Heavy, 6, "3W6+2 (P)", -40, null)},
+                {WeaponStanceType.Light, new WeaponStance( WeaponStanceType.Light, 5, "2W6 (P)", -60, null, 55)},
+                {WeaponStanceType.Heavy, new WeaponStance( WeaponStanceType.Heavy, 6, "3W6+2 (P)", -40, null,55)},
             });
         }
 
@@ -120,9 +131,9 @@ namespace Imago.Repository
         {
             return new ObservableCollection<EquipableItem>()
             {
-                new EquipableItem("Mantel",  true, false, 1),
-                new EquipableItem("Gürtel", true, true, 1),
-                new EquipableItem("Heiler Material Stufe 2",false, false, 3)
+                new EquipableItem("Mantel",  true, false, 1, 20),
+                new EquipableItem("Gürtel", true, true, 1,5),
+                new EquipableItem("Heiler Material Stufe 2",false, false, 3,45)
             };
         }
 
@@ -130,13 +141,13 @@ namespace Imago.Repository
         {
             return new List<Attribute>
             {
-                new Attribute(AttributeType.Staerke),
-                new Attribute(AttributeType.Geschicklichkeit),
-                new Attribute(AttributeType.Konstitution),
-                new Attribute(AttributeType.Intelligenz),
-                new Attribute(AttributeType.Willenskraft),
-                new Attribute(AttributeType.Charisma),
-                new Attribute(AttributeType.Wahrnehmung)
+                new Attribute(AttributeType.Staerke) {IncreaseValue = 50, ModificationValue = 10},
+                new Attribute(AttributeType.Geschicklichkeit) {IncreaseValue = 45, ModificationValue = -10},
+                new Attribute(AttributeType.Konstitution) {IncreaseValue = 51, ModificationValue = 15},
+                new Attribute(AttributeType.Intelligenz) {IncreaseValue = 52},
+                new Attribute(AttributeType.Willenskraft) {IncreaseValue = 52},
+                new Attribute(AttributeType.Charisma) {IncreaseValue = 46},
+                new Attribute(AttributeType.Wahrnehmung) {IncreaseValue = 50, ModificationValue = -15}
             };
         }
 
