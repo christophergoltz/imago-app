@@ -1,14 +1,4 @@
-Allgemein
-- CharacterService
-	- AddExperience
-		- Nur positive Wert erlauben, fuer absenken neue Mothode schaffen
-
-KampfbogenPage
-
-InventarPage
-
 SkillPage
-- Freie EP
 - Searchbar
 
 WikiPage
@@ -21,7 +11,6 @@ Ideen
 
 UI
 - Flyout farben
-
 
 Was nicht enthalten/unterstuetz wird
 - Kuenst
