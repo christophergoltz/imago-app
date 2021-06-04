@@ -9,6 +9,7 @@ using Imago.Converter;
 using Imago.Models;
 using Imago.Models.Base;
 using Imago.Models.Enum;
+using Imago.Repository;
 using Imago.Services;
 using Imago.Util;
 using Imago.Views;
@@ -19,7 +20,11 @@ namespace Imago.ViewModels
     public class SkillPageViewModel : BindableBase
     {
         private readonly ICharacterService _characterService;
-        private readonly SkillGroupTypeToAttributeSourceStringConverter _converter = new SkillGroupTypeToAttributeSourceStringConverter();
+        private readonly IWikiRepository _wikiRepository;
+
+        private readonly SkillGroupTypeToAttributeSourceStringConverter _converter =
+            new SkillGroupTypeToAttributeSourceStringConverter();
+
         private SkillBase _selectedSkill;
         private string _selectedSkillName;
         private string _selectedSkillSourceName;
@@ -32,7 +37,7 @@ namespace Imago.ViewModels
         public SkillGroup Nahkampf => Character.SkillGroups[SkillGroupType.Nahkampf];
         public SkillGroup Heimlichkeit => Character.SkillGroups[SkillGroupType.Heimlichkeit];
         public SkillGroup Fernkampf => Character.SkillGroups[SkillGroupType.Fernkampf];
-        public SkillGroup Webkunst => Character.SkillGroups [SkillGroupType.Webkunst];
+        public SkillGroup Webkunst => Character.SkillGroups[SkillGroupType.Webkunst];
         public SkillGroup Wissenschaft => Character.SkillGroups[SkillGroupType.Wissenschaft];
         public SkillGroup Handwerk => Character.SkillGroups[SkillGroupType.Handwerk];
         public SkillGroup Soziales => Character.SkillGroups[SkillGroupType.Soziales];
@@ -90,16 +95,17 @@ namespace Imago.ViewModels
         {
             get
             {
-                if (SelectedSkill == null) 
+                if (SelectedSkill == null)
                     return 0;
 
                 if (SelectedSkill is SkillGroup group)
                     return SkillIncreaseHelper.GetExperienceForNextSkillGroupLevel(group.IncreaseValue);
-                
+
                 if (SelectedSkill is Skill skill)
                     return SkillIncreaseHelper.GetExperienceForNextSkillLevel(skill.IncreaseValue);
 
-                throw new InvalidOperationException($"Unknown SelectedSkill type: {SelectedSkill.GetType()} for [{nameof(ExperienceRequiredForLevelUp)}]");
+                throw new InvalidOperationException(
+                    $"Unknown SelectedSkill type: {SelectedSkill.GetType()} for [{nameof(ExperienceRequiredForLevelUp)}]");
             }
         }
 
@@ -109,9 +115,11 @@ namespace Imago.ViewModels
         public ICommand CloseSelectedSkill { get; set; }
         public ICommand OpenWikiCommand { get; set; }
 
-        public SkillPageViewModel(Character character, ICharacterService characterService)
+        public SkillPageViewModel(Character character, ICharacterService characterService,
+            IWikiRepository wikiRepository)
         {
             _characterService = characterService;
+            _wikiRepository = wikiRepository;
             Character = character;
 
             IncreaseExperienceCommand = new Command(() =>
@@ -128,6 +136,7 @@ namespace Imago.ViewModels
                         Character.OpenAttributeIncreases.Add(increase);
                     }
                 }
+
                 OnPropertyChanged(nameof(ExperienceRequiredForLevelUp));
             });
 
@@ -177,19 +186,22 @@ namespace Imago.ViewModels
                 SelectedSkill = null;
             });
 
-            OpenWikiCommand = new Command<object>(async parameter =>
+            OpenWikiCommand = new Command<SkillBase>(async parameter =>
             {
-                if (parameter is SkillType skillType)
-                {
+                var url = string.Empty;
+                if (parameter is Skill skill)
+                    url = _wikiRepository.GetWikiUrl(skill.Type);
 
+                if (parameter is SkillGroup skillGroup)
+                    url = _wikiRepository.GetWikiUrl(skillGroup.Type);
+
+                if (string.IsNullOrWhiteSpace(url))
+                {
+                    await Application.Current.MainPage.DisplayAlert("Fehlender Link", "Uups, hier ist wohl nichts hinterlegt..", "OK");
+                    return;
                 }
 
-                if (parameter is SkillGroupType skillGroupType)
-                {
-
-                }
-
-                WikiPageViewModel.RequestedWikiPage = new WikiPageEntry("http://imago-rp.de/index.php/Weben_(Regeln)");
+                WikiPageViewModel.RequestedWikiPage = new WikiPageEntry(url);
 
                 await Shell.Current.GoToAsync($"//{nameof(WikiPage)}");
                 SelectedSkill = null;
