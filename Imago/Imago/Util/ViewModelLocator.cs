@@ -30,5 +30,6 @@ namespace Imago.Util
         public InventoryViewModel InventoryViewModel => new InventoryViewModel(App.CurrentCharacter, _characterService.Value);
         public AppShellViewModel AppShellViewModel => new AppShellViewModel();
         public ChangelogViewModel ChangelogViewModel => new ChangelogViewModel(_changeLogRepository.Value);
+        public WikiPageViewModel WikiPageViewModel => new WikiPageViewModel();
     }
 }

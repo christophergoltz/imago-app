@@ -11,6 +11,7 @@ using Imago.Models.Base;
 using Imago.Models.Enum;
 using Imago.Services;
 using Imago.Util;
+using Imago.Views;
 using Xamarin.Forms;
 
 namespace Imago.ViewModels
@@ -106,6 +107,7 @@ namespace Imago.ViewModels
         public ICommand DecreaseExperienceCommand { get; set; }
         public ICommand OpenSelectedSkill { get; set; }
         public ICommand CloseSelectedSkill { get; set; }
+        public ICommand OpenWikiCommand { get; set; }
 
         public SkillPageViewModel(Character character, ICharacterService characterService)
         {
@@ -175,6 +177,23 @@ namespace Imago.ViewModels
                 SelectedSkill = null;
             });
 
+            OpenWikiCommand = new Command<object>(async parameter =>
+            {
+                if (parameter is SkillType skillType)
+                {
+
+                }
+
+                if (parameter is SkillGroupType skillGroupType)
+                {
+
+                }
+
+                WikiPageViewModel.RequestedWikiPage = new WikiPageEntry("http://imago-rp.de/index.php/Weben_(Regeln)");
+
+                await Shell.Current.GoToAsync($"//{nameof(WikiPage)}");
+                SelectedSkill = null;
+            });
         }
     }
 }
