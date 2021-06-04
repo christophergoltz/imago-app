@@ -9,8 +9,10 @@ using Imago.Converter;
 using Imago.Models;
 using Imago.Models.Base;
 using Imago.Models.Enum;
+using Imago.Repository;
 using Imago.Services;
 using Imago.Util;
+using Imago.Views;
 using Xamarin.Forms;
 
 namespace Imago.ViewModels
@@ -18,7 +20,11 @@ namespace Imago.ViewModels
     public class SkillPageViewModel : BindableBase
     {
         private readonly ICharacterService _characterService;
-        private readonly SkillGroupTypeToAttributeSourceStringConverter _converter = new SkillGroupTypeToAttributeSourceStringConverter();
+        private readonly IWikiRepository _wikiRepository;
+
+        private readonly SkillGroupTypeToAttributeSourceStringConverter _converter =
+            new SkillGroupTypeToAttributeSourceStringConverter();
+
         private SkillBase _selectedSkill;
         private string _selectedSkillName;
         private string _selectedSkillSourceName;
@@ -31,7 +37,7 @@ namespace Imago.ViewModels
         public SkillGroup Nahkampf => Character.SkillGroups[SkillGroupType.Nahkampf];
         public SkillGroup Heimlichkeit => Character.SkillGroups[SkillGroupType.Heimlichkeit];
         public SkillGroup Fernkampf => Character.SkillGroups[SkillGroupType.Fernkampf];
-        public SkillGroup Webkunst => Character.SkillGroups [SkillGroupType.Webkunst];
+        public SkillGroup Webkunst => Character.SkillGroups[SkillGroupType.Webkunst];
         public SkillGroup Wissenschaft => Character.SkillGroups[SkillGroupType.Wissenschaft];
         public SkillGroup Handwerk => Character.SkillGroups[SkillGroupType.Handwerk];
         public SkillGroup Soziales => Character.SkillGroups[SkillGroupType.Soziales];
@@ -85,20 +91,21 @@ namespace Imago.ViewModels
             set => SetProperty(ref _selectedSkillSourceName, value);
         }
 
-        public int ExperienceReqiredForLevelUp
+        public int ExperienceRequiredForLevelUp
         {
             get
             {
-                if (SelectedSkill == null) 
+                if (SelectedSkill == null)
                     return 0;
 
                 if (SelectedSkill is SkillGroup group)
-                    return SkillIncreaseHelper.GetExperienceForNextSkillGroupLevel(group.IncreaseValue) - SelectedSkill.ExperienceValue;
-                
-                if (SelectedSkill is Skill skill)
-                    return SkillIncreaseHelper.GetExperienceForNextSkillLevel(skill.IncreaseValue) - SelectedSkill.ExperienceValue;
+                    return SkillIncreaseHelper.GetExperienceForNextSkillGroupLevel(group.IncreaseValue);
 
-                throw new InvalidOperationException($"Unknown SelectedSkill type: {SelectedSkill.GetType()} for [{nameof(ExperienceReqiredForLevelUp)}]");
+                if (SelectedSkill is Skill skill)
+                    return SkillIncreaseHelper.GetExperienceForNextSkillLevel(skill.IncreaseValue);
+
+                throw new InvalidOperationException(
+                    $"Unknown SelectedSkill type: {SelectedSkill.GetType()} for [{nameof(ExperienceRequiredForLevelUp)}]");
             }
         }
 
@@ -106,10 +113,13 @@ namespace Imago.ViewModels
         public ICommand DecreaseExperienceCommand { get; set; }
         public ICommand OpenSelectedSkill { get; set; }
         public ICommand CloseSelectedSkill { get; set; }
+        public ICommand OpenWikiCommand { get; set; }
 
-        public SkillPageViewModel(Character character, ICharacterService characterService)
+        public SkillPageViewModel(Character character, ICharacterService characterService,
+            IWikiRepository wikiRepository)
         {
             _characterService = characterService;
+            _wikiRepository = wikiRepository;
             Character = character;
 
             IncreaseExperienceCommand = new Command(() =>
@@ -126,7 +136,8 @@ namespace Imago.ViewModels
                         Character.OpenAttributeIncreases.Add(increase);
                     }
                 }
-                OnPropertyChanged(nameof(ExperienceReqiredForLevelUp));
+
+                OnPropertyChanged(nameof(ExperienceRequiredForLevelUp));
             });
 
             DecreaseExperienceCommand = new Command(() =>
@@ -135,7 +146,7 @@ namespace Imago.ViewModels
                     throw new InvalidOperationException("Cannot change Experience of Skillgroup via UI");
 
                 _characterService.RemoveOneExperienceFromSkill((Skill) SelectedSkill);
-                OnPropertyChanged(nameof(ExperienceReqiredForLevelUp));
+                OnPropertyChanged(nameof(ExperienceRequiredForLevelUp));
             });
 
             OpenSelectedSkill = new Command<(SkillGroup SkillGroup, SkillBase SelectedUpgradeableSkill)>(
@@ -166,7 +177,7 @@ namespace Imago.ViewModels
 
                     //update dependet properties
                     OnPropertyChanged(nameof(SelectedSkillModification));
-                    OnPropertyChanged(nameof(ExperienceReqiredForLevelUp));
+                    OnPropertyChanged(nameof(ExperienceRequiredForLevelUp));
                 });
 
             CloseSelectedSkill = new Command(() =>
@@ -175,6 +186,26 @@ namespace Imago.ViewModels
                 SelectedSkill = null;
             });
 
+            OpenWikiCommand = new Command<SkillBase>(async parameter =>
+            {
+                var url = string.Empty;
+                if (parameter is Skill skill)
+                    url = _wikiRepository.GetWikiUrl(skill.Type);
+
+                if (parameter is SkillGroup skillGroup)
+                    url = _wikiRepository.GetWikiUrl(skillGroup.Type);
+
+                if (string.IsNullOrWhiteSpace(url))
+                {
+                    await Application.Current.MainPage.DisplayAlert("Fehlender Link", "Uups, hier ist wohl nichts hinterlegt..", "OK");
+                    return;
+                }
+
+                WikiPageViewModel.RequestedWikiPage = new WikiPageEntry(url);
+
+                await Shell.Current.GoToAsync($"//{nameof(WikiPage)}");
+                SelectedSkill = null;
+            });
         }
     }
 }

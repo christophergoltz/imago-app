@@ -137,8 +137,14 @@
                             <RowDefinition Height="*"></RowDefinition>
                         </Grid.RowDefinitions>
 
-                        <Label Grid.Row="0"  FontSize="24" FontAttributes="Bold" Text="{Binding SelectedSkillName}"/>
-
+                        <StackLayout Grid.Row="0" Orientation="Horizontal">
+                            <Label  FontSize="24" FontAttributes="Bold" Text="{Binding SelectedSkillName}"/>
+                            <Button Margin="10,-6,0,0" VerticalOptions="Center" Text="Wiki &#8599;" FontSize="20" 
+                                    Padding="7,3" Background="orange" 
+                                    Command="{Binding OpenWikiCommand}"
+                                    CommandParameter="{Binding SelectedSkill}"/>
+                        </StackLayout>
+                       
                         <StackLayout Grid.Row="1" VerticalOptions="Center" Orientation="Horizontal">
                             <Label  FontSize="18" Text="GW: " FontAttributes="Bold"/>
                             <Label  FontSize="18" Text="{Binding SelectedSkill.BaseValue}"/>
@@ -163,7 +169,15 @@
 
                         <StackLayout Grid.Row="4" VerticalOptions="Center" Orientation="Horizontal" Margin="0,5,0,0">
                             <Label VerticalOptions="Center" Text="EP: " FontSize="18" FontAttributes="Bold"/>
-                            <Label VerticalOptions="Center" FontSize="18" Text="{Binding SelectedSkill.ExperienceValue}"/>
+                            <Label VerticalOptions="Center" FontSize="18">
+                                <Label.Text>
+                                    <MultiBinding StringFormat="{}{0}/{1}">
+                                        <Binding Path="SelectedSkill.ExperienceValue"/>
+                                        <Binding Path="ExperienceRequiredForLevelUp"/>
+                                    </MultiBinding>
+                                </Label.Text>
+                            </Label>
+                          
                             <Button IsVisible="{Binding IsSelectedSkillNotAGroup}" Margin="3,0,0,0" FontSize="30" Padding="0,-9,0,0" WidthRequest="35" HeightRequest="35" FontAttributes="Bold" Text="-" Command="{Binding DecreaseExperienceCommand}">
                                 <Button.Style>
                                     <Style TargetType="Button">
@@ -175,15 +189,9 @@
                                     </Style>
                                 </Button.Style>
                             </Button>
-                            <Button FontSize="30" IsVisible="{Binding IsSelectedSkillNotAGroup}"  Padding="0,-8,0,0" WidthRequest="35" HeightRequest="35" FontAttributes="Bold" Text="+" Command="{Binding IncreaseExperienceCommand}"/>
-
-                            <Label FontSize="18" VerticalOptions="Center" HorizontalOptions="EndAndExpand">
-                                <Label.Text>
-                                    <MultiBinding StringFormat="{}Steigerung in {0}">
-                                        <Binding Path="ExperienceReqiredForLevelUp"/>
-                                    </MultiBinding>
-                                </Label.Text>
-                            </Label>
+                            <Button FontSize="30" IsVisible="{Binding IsSelectedSkillNotAGroup}" 
+                                    Padding="0,-8,0,0" WidthRequest="35" HeightRequest="35" FontAttributes="Bold" 
+                                    Text="+" Command="{Binding IncreaseExperienceCommand}"/>
                         </StackLayout>
 
                         <StackLayout Grid.Row="5" VerticalOptions="Center" Orientation="Horizontal" Margin="0,5,0,0">

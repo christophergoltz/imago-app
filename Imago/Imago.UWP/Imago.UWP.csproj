@@ -106,6 +106,7 @@
   <ItemGroup>
     <Content Include="backpack.png" />
     <Content Include="body_full_outline.jpg" />
+    <Content Include="book.png" />
     <Content Include="imago_big.png" />
     <Content Include="letter.png" />
     <Content Include="magic.png" />

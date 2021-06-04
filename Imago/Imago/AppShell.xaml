@@ -2,7 +2,7 @@
 <Shell xmlns="http://xamarin.com/schemas/2014/forms" 
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:Imago.Views"
-       xmlns:viewModels="clr-namespace:Imago.ViewModels;assembly=Imago"
+       xmlns:viewModels="clr-namespace:Imago.ViewModels;assembly=Imago" Navigated="AppShell_OnNavigated"
        Title="Imago"      
        BindingContext="{Binding AppShellViewModel, Source={StaticResource ViewModelLocator}}"
        x:DataType="viewModels:AppShellViewModel" 
@@ -110,6 +110,9 @@
     </FlyoutItem>
     <FlyoutItem Title="Inventar" Icon="backpack.png">
         <ShellContent Route="InventoryPage" ContentTemplate="{DataTemplate local:InventoryPage}" />
+    </FlyoutItem>
+    <FlyoutItem Title="Wiki" Icon="book.png">
+        <ShellContent Route="WikiPage" ContentTemplate="{DataTemplate local:WikiPage}" />
     </FlyoutItem>
 
     <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
