@@ -14,6 +14,7 @@ namespace Imago
             Routing.RegisterRoute(nameof(SkillPage), typeof(SkillPage));
             Routing.RegisterRoute(nameof(StatusPage), typeof(StatusPage));
             Routing.RegisterRoute(nameof(InventoryPage), typeof(InventoryPage));
+            Routing.RegisterRoute(nameof(ChangelogPage), typeof(ChangelogPage));
         }
 
         //private async void OnMenuItemClicked(object sender, EventArgs e)

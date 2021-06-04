@@ -1,0 +1,19 @@
+﻿Version 0.1.0 - 
+
+Hinzugefügt:
+
+- Spielerinfo
+	- Attribute
+	- Abgeleitete Attribute
+	- Spezialattribute
+	- Attributs-Steigerungen
+	
+- Fertigkeiten
+	- Fertigkeitssteigerungen
+	
+- Status
+	- Waffen
+	- Rüstungen
+	
+- Inventar
+	- Last/Behinderung

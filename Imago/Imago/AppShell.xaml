@@ -112,6 +112,10 @@
         <ShellContent Route="InventoryPage" ContentTemplate="{DataTemplate local:InventoryPage}" />
     </FlyoutItem>
 
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Route="ChangelogPage" Title="Changelog" Icon="letter.png" ContentTemplate="{DataTemplate local:ChangelogPage}" />
+    </FlyoutItem>
+
     <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->
     <!--<MenuItem Text="Logout" StyleClass="MenuItemLayoutStyle" Clicked="OnMenuItemClicked">
     </MenuItem>-->

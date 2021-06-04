@@ -13,11 +13,13 @@ namespace Imago.Util
         private readonly Lazy<ICharacterRepository> _characterRepository;
         private readonly Lazy<ICharacterService> _characterService;
         private readonly Lazy<IRuleRepository> _ruleRepository;
+        private readonly Lazy<IChangeLogRepository> _changeLogRepository;
 
         public ViewModelLocator()
         {
             _characterRepository = new Lazy<ICharacterRepository>(() => new CharacterRepository());
             _ruleRepository = new Lazy<IRuleRepository>(() => new RuleRepository());
+            _changeLogRepository = new Lazy<IChangeLogRepository>(() => new ChangeLogRepository());
             _characterService = new Lazy<ICharacterService>(() => new CharacterService(_ruleRepository.Value));
         }
         
@@ -27,5 +29,6 @@ namespace Imago.Util
         public StatusPageViewModel StatusPageViewModel => new StatusPageViewModel(App.CurrentCharacter);
         public InventoryViewModel InventoryViewModel => new InventoryViewModel(App.CurrentCharacter, _characterService.Value);
         public AppShellViewModel AppShellViewModel => new AppShellViewModel();
+        public ChangelogViewModel ChangelogViewModel => new ChangelogViewModel(_changeLogRepository.Value);
     }
 }

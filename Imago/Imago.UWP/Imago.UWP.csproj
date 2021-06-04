@@ -107,6 +107,7 @@
     <Content Include="backpack.png" />
     <Content Include="body_full_outline.jpg" />
     <Content Include="imago_big.png" />
+    <Content Include="letter.png" />
     <Content Include="magic.png" />
     <Content Include="person.png" />
     <Content Include="Properties\Default.rd.xml" />
