@@ -86,7 +86,7 @@ namespace Imago.ViewModels
             set => SetProperty(ref _selectedSkillSourceName, value);
         }
 
-        public int ExperienceReqiredForLevelUp
+        public int ExperienceRequiredForLevelUp
         {
             get
             {
@@ -94,12 +94,12 @@ namespace Imago.ViewModels
                     return 0;
 
                 if (SelectedSkill is SkillGroup group)
-                    return SkillIncreaseHelper.GetExperienceForNextSkillGroupLevel(group.IncreaseValue) - SelectedSkill.ExperienceValue;
+                    return SkillIncreaseHelper.GetExperienceForNextSkillGroupLevel(group.IncreaseValue);
                 
                 if (SelectedSkill is Skill skill)
-                    return SkillIncreaseHelper.GetExperienceForNextSkillLevel(skill.IncreaseValue) - SelectedSkill.ExperienceValue;
+                    return SkillIncreaseHelper.GetExperienceForNextSkillLevel(skill.IncreaseValue);
 
-                throw new InvalidOperationException($"Unknown SelectedSkill type: {SelectedSkill.GetType()} for [{nameof(ExperienceReqiredForLevelUp)}]");
+                throw new InvalidOperationException($"Unknown SelectedSkill type: {SelectedSkill.GetType()} for [{nameof(ExperienceRequiredForLevelUp)}]");
             }
         }
 
@@ -128,7 +128,7 @@ namespace Imago.ViewModels
                         Character.OpenAttributeIncreases.Add(increase);
                     }
                 }
-                OnPropertyChanged(nameof(ExperienceReqiredForLevelUp));
+                OnPropertyChanged(nameof(ExperienceRequiredForLevelUp));
             });
 
             DecreaseExperienceCommand = new Command(() =>
@@ -137,7 +137,7 @@ namespace Imago.ViewModels
                     throw new InvalidOperationException("Cannot change Experience of Skillgroup via UI");
 
                 _characterService.RemoveOneExperienceFromSkill((Skill) SelectedSkill);
-                OnPropertyChanged(nameof(ExperienceReqiredForLevelUp));
+                OnPropertyChanged(nameof(ExperienceRequiredForLevelUp));
             });
 
             OpenSelectedSkill = new Command<(SkillGroup SkillGroup, SkillBase SelectedUpgradeableSkill)>(
@@ -168,7 +168,7 @@ namespace Imago.ViewModels
 
                     //update dependet properties
                     OnPropertyChanged(nameof(SelectedSkillModification));
-                    OnPropertyChanged(nameof(ExperienceReqiredForLevelUp));
+                    OnPropertyChanged(nameof(ExperienceRequiredForLevelUp));
                 });
 
             CloseSelectedSkill = new Command(() =>
