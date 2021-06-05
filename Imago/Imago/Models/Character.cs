@@ -42,9 +42,9 @@ namespace Imago.Models
 
         public Dictionary<BodyPartType, BodyPart> BodyParts { get; set; }
 
-        public Weapon Weapon1 { get; set; }
-        public Weapon Weapon2 { get; set; }
-        public Weapon Weapon3 { get; set; }
+        public WeaponType Weapon1 { get; set; }
+        public WeaponType Weapon2 { get; set; }
+        public WeaponType Weapon3 { get; set; }
 
         public ObservableCollection<EquipableItem> EquippedItems { get; set; }
 

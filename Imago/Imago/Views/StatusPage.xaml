@@ -56,13 +56,13 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <customControls:BodyPartArmorListView Grid.Column="0" Grid.Row="0" BodyPart="{Binding Character.BodyParts, Converter={StaticResource DicionaryToBodyPartConverter}, ConverterParameter={x:Static enum:BodyPartType.Kopf}}"/>
-                <customControls:BodyPartArmorListView Grid.Column="1" Grid.Row="0" BodyPart="{Binding Character.BodyParts, Converter={StaticResource DicionaryToBodyPartConverter}, ConverterParameter={x:Static enum:BodyPartType.ArmLinks}}"/>
-                <customControls:BodyPartArmorListView Grid.Column="2" Grid.Row="0" BodyPart="{Binding Character.BodyParts, Converter={StaticResource DicionaryToBodyPartConverter}, ConverterParameter={x:Static enum:BodyPartType.ArmRechts}}"/>
+                <customControls:BodyPartArmorListView Grid.Column="0" Grid.Row="0" BodyPartArmorListViewModel="{Binding KopfViewModel}"/>
+                <customControls:BodyPartArmorListView Grid.Column="1" Grid.Row="0" BodyPartArmorListViewModel="{Binding ArmLinksViewModel}"/>
+                <customControls:BodyPartArmorListView Grid.Column="2" Grid.Row="0" BodyPartArmorListViewModel="{Binding ArmRechtsViewModel}"/>
 
-                <customControls:BodyPartArmorListView Grid.Column="0" Grid.Row="1" BodyPart="{Binding Character.BodyParts, Converter={StaticResource DicionaryToBodyPartConverter}, ConverterParameter={x:Static enum:BodyPartType.Torso}}"/>
-                <customControls:BodyPartArmorListView Grid.Column="1" Grid.Row="1" BodyPart="{Binding Character.BodyParts, Converter={StaticResource DicionaryToBodyPartConverter}, ConverterParameter={x:Static enum:BodyPartType.BeinLinks}}"/>
-                <customControls:BodyPartArmorListView Grid.Column="2" Grid.Row="1" BodyPart="{Binding Character.BodyParts, Converter={StaticResource DicionaryToBodyPartConverter}, ConverterParameter={x:Static enum:BodyPartType.BeinRechts}}"/>
+                <customControls:BodyPartArmorListView Grid.Column="0" Grid.Row="1" BodyPartArmorListViewModel="{Binding TorsoViewModel}"/>
+                <customControls:BodyPartArmorListView Grid.Column="1" Grid.Row="1" BodyPartArmorListViewModel="{Binding BeinLinksViewModel}"/>
+                <customControls:BodyPartArmorListView Grid.Column="2" Grid.Row="1" BodyPartArmorListViewModel="{Binding BeinRechtsViewModel}"/>
             </Grid>
 
             <!-- weapons -->

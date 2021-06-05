@@ -10,11 +10,11 @@ namespace Imago.Models
     {
         private int _maxHitpoints;
         private int _currentHitpoints;
-        private List<Armor> _armor;
+        private List<ArmorType> _armor;
         private BodyPartType _type;
         private string _formula;
 
-        public BodyPart(BodyPartType type, string formula, int currentHitpoints, List<Armor> armor)
+        public BodyPart(BodyPartType type, string formula, int currentHitpoints, List<ArmorType> armor)
         {
             Type = type;
             Formula = formula;
@@ -34,7 +34,7 @@ namespace Imago.Models
             set => SetProperty(ref _currentHitpoints, value);
         }
 
-        public List<Armor> Armor
+        public List<ArmorType> Armor
         {
             get => _armor;
             set => SetProperty(ref _armor, value);

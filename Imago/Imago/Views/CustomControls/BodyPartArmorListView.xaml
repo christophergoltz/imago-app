@@ -2,10 +2,12 @@
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:Imago.Models;assembly=Imago"
+             xmlns:enum="clr-namespace:Imago.Models.Enum;assembly=Imago"
              x:Class="Imago.Views.CustomControls.BodyPartArmorListView" x:Name="BodyPartArmorListViewControl">
-  <ContentView.Content>
+    <ContentView.Content>
         <Frame Grid.Column="0" Grid.Row="0" CornerRadius="0" BorderColor="Black">
-            <Grid Margin="-19" BindingContext="{Binding BodyPart, Source={x:Reference BodyPartArmorListViewControl}}">
+            <Grid Margin="-19" BindingContext="{Binding BodyPartArmorListViewModel,
+                Source={x:Reference BodyPartArmorListViewControl}}">
                 <Grid.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="DodgerBlue"/>
@@ -28,7 +30,7 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="1" />
                             </Grid.RowDefinitions>
-                            <Label Grid.Row="0" Grid.Column="0" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}" Margin="5,0,0,0" FontAttributes="Bold"/>
+                            <Label Grid.Row="0" Grid.Column="0" Text="{Binding BodyPart.Type, Converter={StaticResource EnumToDisplayTextConverter}}" Margin="5,0,0,0" FontAttributes="Bold"/>
                             <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="1" Text="PH" Margin="5,0,0,0" FontAttributes="Bold"/>
                             <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="2" Text="E" Margin="5,0,0,0" FontAttributes="Bold"/>
                             <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="3" Text="Last" Margin="5,0,0,0" FontAttributes="Bold"/>
@@ -40,6 +42,10 @@
                         <DataTemplate x:DataType="models:Armor">
                             <ViewCell>
                                 <Grid Padding="10,4">
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Path=ChangeArmorCommand, Source={x:Reference BodyPartArmorListViewControl}}"
+                                                              CommandParameter="{Binding Type}"/>
+                                    </Grid.GestureRecognizers>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="35" />
