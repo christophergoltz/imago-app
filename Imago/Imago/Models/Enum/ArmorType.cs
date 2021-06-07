@@ -10,6 +10,8 @@ namespace Imago.Models.Enum
         Unknown = 0,
         [DisplayText("Natürlich")]
         Natuerlich = 1,
-        Komposit = 2
+        Komposit = 2,
+        Chitin = 3,
+        Platten = 4,
     }
 }

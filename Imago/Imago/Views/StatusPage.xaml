@@ -11,75 +11,86 @@
              x:DataType="viewModels:StatusPageViewModel">
     <ContentPage.Content>
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30*"></RowDefinition>
-                <RowDefinition Height="40*"></RowDefinition>
-                <RowDefinition Height="30*"></RowDefinition>
-            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="40*"></ColumnDefinition>
-                <ColumnDefinition Width="30*"></ColumnDefinition>
-                <ColumnDefinition Width="30*"></ColumnDefinition>
+                <ColumnDefinition Width="65*"></ColumnDefinition>
+                <ColumnDefinition Width="15*"></ColumnDefinition>
+                <ColumnDefinition Width="20*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-
-            <!-- body image -->
-            <Frame Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" BorderColor="Black" CornerRadius="0">
-                <Grid>
-                    <Image Source="body_full_outline.jpg" Grid.Row="0" Grid.Column="0" />
-
-                    <customControls:QuickBodyPartView HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,0,550" 
-                                                      BodyPart="{Binding Character.BodyParts, Converter={StaticResource DicionaryToBodyPartConverter}, ConverterParameter={x:Static enum:BodyPartType.Kopf}}"/>
-                    <customControls:QuickBodyPartView HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,0,300" 
-                                                      BodyPart="{Binding Character.BodyParts, Converter={StaticResource DicionaryToBodyPartConverter}, ConverterParameter={x:Static enum:BodyPartType.Torso}}"/>
-
-                    <customControls:QuickBodyPartView  HorizontalOptions="Center" VerticalOptions="Center" Margin="300,0,0,100" 
-                                                       BodyPart="{Binding Character.BodyParts, Converter={StaticResource DicionaryToBodyPartConverter}, ConverterParameter={x:Static enum:BodyPartType.ArmLinks}}"/>
-                    <customControls:QuickBodyPartView HorizontalOptions="Center" VerticalOptions="Center"  Margin="0,0,300,100" 
-                                                      BodyPart="{Binding Character.BodyParts, Converter={StaticResource DicionaryToBodyPartConverter}, ConverterParameter={x:Static enum:BodyPartType.ArmRechts}}"/>
-
-                    <customControls:QuickBodyPartView  HorizontalOptions="Center" VerticalOptions="Center" Margin="225,300,0,0" 
-                                                       BodyPart="{Binding Character.BodyParts, Converter={StaticResource DicionaryToBodyPartConverter}, ConverterParameter={x:Static enum:BodyPartType.BeinLinks}}"/>
-                    <customControls:QuickBodyPartView HorizontalOptions="Center" VerticalOptions="Center"  Margin="0,300,225,0" 
-                                                      BodyPart="{Binding Character.BodyParts, Converter={StaticResource DicionaryToBodyPartConverter}, ConverterParameter={x:Static enum:BodyPartType.BeinRechts}}"/>
-                </Grid>
-            </Frame>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="55*"></RowDefinition>
+                <RowDefinition Height="45*"></RowDefinition>
+            </Grid.RowDefinitions>
 
             <!-- armor -->
-            <Grid Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="1" >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-
-                <customControls:BodyPartArmorListView Grid.Column="0" Grid.Row="0" BodyPart="{Binding Character.BodyParts, Converter={StaticResource DicionaryToBodyPartConverter}, ConverterParameter={x:Static enum:BodyPartType.Kopf}}"/>
-                <customControls:BodyPartArmorListView Grid.Column="1" Grid.Row="0" BodyPart="{Binding Character.BodyParts, Converter={StaticResource DicionaryToBodyPartConverter}, ConverterParameter={x:Static enum:BodyPartType.ArmLinks}}"/>
-                <customControls:BodyPartArmorListView Grid.Column="2" Grid.Row="0" BodyPart="{Binding Character.BodyParts, Converter={StaticResource DicionaryToBodyPartConverter}, ConverterParameter={x:Static enum:BodyPartType.ArmRechts}}"/>
-
-                <customControls:BodyPartArmorListView Grid.Column="0" Grid.Row="1" BodyPart="{Binding Character.BodyParts, Converter={StaticResource DicionaryToBodyPartConverter}, ConverterParameter={x:Static enum:BodyPartType.Torso}}"/>
-                <customControls:BodyPartArmorListView Grid.Column="1" Grid.Row="1" BodyPart="{Binding Character.BodyParts, Converter={StaticResource DicionaryToBodyPartConverter}, ConverterParameter={x:Static enum:BodyPartType.BeinLinks}}"/>
-                <customControls:BodyPartArmorListView Grid.Column="2" Grid.Row="1" BodyPart="{Binding Character.BodyParts, Converter={StaticResource DicionaryToBodyPartConverter}, ConverterParameter={x:Static enum:BodyPartType.BeinRechts}}"/>
-            </Grid>
-
-            <!-- weapons -->
-            <Grid  Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <customControls:WeaponView Grid.Row="0" Weapon="{Binding Character.Weapon1}"/>
-                <customControls:WeaponView Grid.Row="1" Weapon="{Binding Character.Weapon2}"/>
-                <customControls:WeaponView Grid.Row="2" Weapon="{Binding Character.Weapon3}"/>
+                <customControls:BodyPartArmorListView Grid.Column="0" Grid.Row="0" BodyPartArmorListViewModel="{Binding KopfViewModel}"/>
+                <customControls:BodyPartArmorListView Grid.Column="1" Grid.Row="0" BodyPartArmorListViewModel="{Binding TorsoViewModel}"/>
+
+                <customControls:BodyPartArmorListView Grid.Column="0" Grid.Row="1" BodyPartArmorListViewModel="{Binding ArmLinksViewModel}"/>
+                <customControls:BodyPartArmorListView Grid.Column="1" Grid.Row="1" BodyPartArmorListViewModel="{Binding ArmRechtsViewModel}"/>
+
+                <customControls:BodyPartArmorListView Grid.Column="0" Grid.Row="2" BodyPartArmorListViewModel="{Binding BeinLinksViewModel}"/>
+                <customControls:BodyPartArmorListView Grid.Column="1" Grid.Row="2" BodyPartArmorListViewModel="{Binding BeinRechtsViewModel}"/>
             </Grid>
 
+            <!-- weapons -->
+            <Frame Grid.Row="1" Grid.Column="0" CornerRadius="0" BorderColor="Black">
+                <Grid Margin="-19">
+                    <Grid.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#996633"/>
+                            <GradientStop Color="#fffdd0" Offset="0.201"/>
+                        </LinearGradientBrush>
+                    </Grid.Background>
+
+                    <ListView Margin="0,10,0,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
+                              ItemsSource="{Binding Character.Weapons}">
+                        <ListView.Header>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="1" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0" Margin="15,0,0,0" VerticalOptions="Center" FontSize="18" Text="Waffen"
+                                        FontAttributes="Bold"/>
+                                <Button Grid.Row="0" Grid.Column="1" Text="+" Padding="0,-6,0,0" WidthRequest="25" 
+                                        HeightRequest="25" FontSize="22" Margin="0,0,10,5"
+                                        VerticalOptions="Center" HorizontalOptions="Center" TextColor="Green" BackgroundColor="LightGray" 
+                                        Command="{Binding WeaponListViewModel.AddWeaponCommand}"/>
+
+                                <BoxView Grid.Column="0" Grid.ColumnSpan="2" HeightRequest="1" Grid.Row="1" Color="Black"/>
+                            </Grid>
+                        </ListView.Header>
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Weapon">
+                                <ViewCell>
+                                    <StackLayout>
+                                        <customControls:WeaponView Weapon="{Binding .}" Command="{Binding WeaponListViewModel.RemoveWeaponCommand,Source={RelativeSource AncestorType={x:Type viewModels:StatusPageViewModel}}}"/>
+                                        <BoxView HeightRequest="1" Color="Black"/>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </Frame>
+
             <!-- load -->
-            <Frame HeightRequest="150" Grid.Column="0" Grid.Row="2" CornerRadius="0" BorderColor="Black" VerticalOptions="Start">
+            <Frame HeightRequest="125" VerticalOptions="Start" Grid.Column="2" Grid.Row="0" CornerRadius="0" BorderColor="Black">
                 <Grid Margin="-19">
                     <Grid.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -94,7 +105,7 @@
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="200" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
@@ -111,7 +122,7 @@
                                     <Grid Padding="10,4">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="200" />
+                                            <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
                                         <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
                                         <Label FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding FinalValue}"/>
@@ -124,8 +135,8 @@
             </Frame>
 
             <!-- healing -->
-            <Frame Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"  BorderColor="Black" CornerRadius="0">
-                <StackLayout >
+            <Frame Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" BorderColor="Black" CornerRadius="0">
+                <StackLayout>
                     <Label Text="Heilung oder sowas?: [tbd]" FontSize="18"/>
                 </StackLayout>
             </Frame>

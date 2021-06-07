@@ -12,13 +12,4 @@
             <customControls:WikiEntryPage/>
         </DataTemplate>
     </TabbedPage.ItemTemplate>
-
-    <!--<TabbedPage.Children>
-        <ContentPage Title="Wiki Startseite">
-            <WebView Source="http://imago-rp.de/index.php/Imago" />
-        </ContentPage>
-        <ContentPage Title="Tab 2">
-            <Label Text="This is the content for the second tab" />
-        </ContentPage>
-    </TabbedPage.Children>-->
 </TabbedPage>

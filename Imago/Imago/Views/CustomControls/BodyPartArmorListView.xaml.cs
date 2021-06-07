@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Imago.Models;
+using Imago.Models.Enum;
+using Imago.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -17,15 +20,15 @@ namespace Imago.Views.CustomControls
             InitializeComponent();
         }
 
-        public static readonly BindableProperty BodyPartProperty = BindableProperty.Create(
-            "BodyPart", // the name of the bindable property
-            typeof(BodyPart), // the bindable property type
+        public static readonly BindableProperty BodyPartArmorListViewModelProperty = BindableProperty.Create(
+            "BodyPartArmorListViewModel", // the name of the bindable property
+            typeof(BodyPartArmorListViewModel), // the bindable property type
             typeof(BodyPartArmorListView));
 
-        public BodyPart BodyPart
+        public BodyPartArmorListViewModel BodyPartArmorListViewModel
         {
-            get => (BodyPart)GetValue(BodyPartProperty);
-            set => SetValue(BodyPartProperty, value);
+            get => (BodyPartArmorListViewModel) GetValue(BodyPartArmorListViewModelProperty);
+            set => SetValue(BodyPartArmorListViewModelProperty, value);
         }
     }
 }

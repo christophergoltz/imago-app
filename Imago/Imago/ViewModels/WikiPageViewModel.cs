@@ -12,7 +12,7 @@ namespace Imago.ViewModels
 {
     public class WikiPageViewModel : BindableBase
     {
-        public static readonly string WikiMainPageUrl = "http://imago-rp.de/index.php/Imago";
+        public static readonly string WikiMainPageUrl = "http://imago-rp.de/index.php/Hauptseite";
         public static readonly string WikiUrlPrefix = "http://imago-rp.de/index.php/";
 
         private WikiEntryPageViewModel _selectedWikiPageEntry;

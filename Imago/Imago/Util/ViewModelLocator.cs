@@ -15,6 +15,7 @@ namespace Imago.Util
         private readonly Lazy<IRuleRepository> _ruleRepository;
         private readonly Lazy<IChangeLogRepository> _changeLogRepository;
         private readonly Lazy<IWikiRepository> _wikiRepository;
+        private readonly Lazy<IItemRepository> _itemRepository;
 
         public ViewModelLocator()
         {
@@ -23,12 +24,13 @@ namespace Imago.Util
             _wikiRepository = new Lazy<IWikiRepository>(() => new WikiRepository());
             _changeLogRepository = new Lazy<IChangeLogRepository>(() => new ChangeLogRepository());
             _characterService = new Lazy<ICharacterService>(() => new CharacterService(_ruleRepository.Value));
+            _itemRepository = new Lazy<IItemRepository>(() => new ItemRepository());
         }
         
         public CharacterInfoPageViewModel CharacterInfo => new CharacterInfoPageViewModel(App.CurrentCharacter, _characterService.Value, _ruleRepository.Value);
         public SkillPageViewModel SkillPageViewModel => new SkillPageViewModel(App.CurrentCharacter, _characterService.Value, _wikiRepository.Value);
         public StartPageViewModel StartPage => new StartPageViewModel(_characterRepository.Value);
-        public StatusPageViewModel StatusPageViewModel => new StatusPageViewModel(App.CurrentCharacter);
+        public StatusPageViewModel StatusPageViewModel => new StatusPageViewModel(App.CurrentCharacter, _itemRepository.Value, _characterService.Value);
         public InventoryViewModel InventoryViewModel => new InventoryViewModel(App.CurrentCharacter, _characterService.Value);
         public AppShellViewModel AppShellViewModel => new AppShellViewModel();
         public ChangelogViewModel ChangelogViewModel => new ChangelogViewModel(_changeLogRepository.Value);
