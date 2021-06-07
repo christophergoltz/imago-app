@@ -27,7 +27,7 @@ namespace Imago.Models.Enum
 
         [DisplayText("Kampf")]
         BehinderungKampf = 8,
-        [DisplayText("Abenteuer")]
+        [DisplayText("Abenteuer / Reise")]
         BehinderungAbenteuer = 9,
         [DisplayText("Gesamt")]
         BehinderungGesamt = 10
