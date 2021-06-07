@@ -9,7 +9,6 @@ namespace Imago.Models
 {
     public class Character
     {
-        private ObservableCollection<EquipableItem> _equippedItems;
         public Guid Id { get; set; }
         public string Name { get; set; }
         public RaceType RaceType { get; set; }
@@ -42,9 +41,7 @@ namespace Imago.Models
 
         public Dictionary<BodyPartType, BodyPart> BodyParts { get; set; }
 
-        public WeaponType Weapon1 { get; set; }
-        public WeaponType Weapon2 { get; set; }
-        public WeaponType Weapon3 { get; set; }
+        public ObservableCollection<Weapon> Weapons { get; set; }
 
         public ObservableCollection<EquipableItem> EquippedItems { get; set; }
 

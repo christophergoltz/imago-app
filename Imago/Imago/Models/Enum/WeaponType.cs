@@ -9,6 +9,9 @@ namespace Imago.Models.Enum
     {
         Unknown,
         [DisplayText("Holzfälleraxt")]
-        HolzfaellerAxt = 1
+        HolzfaellerAxt = 1,
+        Dolch = 2,
+        Blankbogen = 3,
+        Schwert = 4,
     }
 }

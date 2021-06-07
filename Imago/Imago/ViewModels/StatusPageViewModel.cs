@@ -16,6 +16,8 @@ namespace Imago.ViewModels
         private readonly ICharacterService _characterService;
         public Character Character { get; }
 
+        public WeaponListViewModel WeaponListViewModel { get; set; }
+
         public StatusPageViewModel(Character character, IItemRepository itemRepository,
             ICharacterService characterService)
         {
@@ -35,6 +37,8 @@ namespace Imago.ViewModels
                 character.BodyParts[BodyPartType.BeinLinks], Character);
             BeinRechtsViewModel = new BodyPartArmorListViewModel(_itemRepository, _characterService,
                 character.BodyParts[BodyPartType.BeinRechts], Character);
+
+            WeaponListViewModel = new WeaponListViewModel(character, _characterService, _itemRepository);
         }
 
         public BodyPartArmorListViewModel KopfViewModel { get; set; }

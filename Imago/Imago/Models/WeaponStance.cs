@@ -6,22 +6,21 @@ using Imago.Util;
 
 namespace Imago.Models
 {
-    public class WeaponStance : DurabilityItem
+    public class WeaponStance : BindableBase
     {
         private WeaponStanceType _type;
-        private int _phaseValue;
+        private string _phaseValue;
         private string _damageFormula;
         private int? _parryModifier;
-        private int? _range;
+        private string _range;
 
-        public WeaponStance(WeaponStanceType type, int phaseValue, string damageFormula, int? parryModifier, int? range, int loadValue)
+        public WeaponStance(WeaponStanceType type, string phaseValue, string damageFormula, int? parryModifier, string range, int loadValue)
         {
             Type = type;
             ParryModifier = parryModifier;
             DamageFormula = damageFormula;
             PhaseValue = phaseValue;
             Range = range;
-            LoadValue = loadValue;
         }
 
         public WeaponStanceType Type
@@ -30,7 +29,7 @@ namespace Imago.Models
             set => SetProperty(ref _type, value);
         }
 
-        public int PhaseValue
+        public string PhaseValue
         {
             get => _phaseValue;
             set => SetProperty(ref _phaseValue, value);
@@ -48,7 +47,7 @@ namespace Imago.Models
             set => SetProperty(ref _parryModifier, value);
         }
 
-        public int? Range
+        public string Range
         {
             get => _range;
             set => SetProperty(ref _range, value);

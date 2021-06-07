@@ -27,12 +27,10 @@ namespace Imago.Services
     public class CharacterService : ICharacterService
     {
         private readonly IRuleRepository _ruleRepository;
-        private readonly IItemRepository _itemRepository;
 
-        public CharacterService(IRuleRepository ruleRepository, IItemRepository itemRepository)
+        public CharacterService(IRuleRepository ruleRepository)
         {
             _ruleRepository = ruleRepository;
-            _itemRepository = itemRepository;
         }
 
         public void SetModificationValue(Skill skill, int modificationValue)
@@ -274,31 +272,7 @@ namespace Imago.Services
         public void RecalculateHandicapAttributes(Character character)
         {
             var loadLimit = character.DerivedAttributes.GetFinalValueOfAttributeType(DerivedAttributeType.Traglast);
-
-            //fighting load
-            var armorLoadValue = 0;
-            foreach (var bodyPart in character.BodyParts)
-            {
-                var r = bodyPart.Value.Armor.Select(_ => _itemRepository.GetArmorSet(_).ArmorParts[bodyPart.Key])
-                    .Sum(armor1 => armor1.LoadValue);
-
-                armorLoadValue += r;
-            }
             
-            var weapon1 = character.Weapon1 == WeaponType.Unknown ? 0 : _itemRepository.GetWeapon(character.Weapon1).LoadValue;
-            var weapon2 = character.Weapon2 == WeaponType.Unknown ? 0 : _itemRepository.GetWeapon(character.Weapon1).LoadValue;
-            var weapon3 = character.Weapon3 == WeaponType.Unknown ? 0 : _itemRepository.GetWeapon(character.Weapon1).LoadValue;
-            var weaponLoad = weapon1 + weapon2 + weapon3;
-
-            var otherFightingGear = character.EquippedItems.Where(item => item.Fight).Sum(_ => _.LoadValue);
-
-            //adventure load
-            var adventureGear = character.EquippedItems.Where(item => !item.Fight && item.Adventure)
-                .Sum(_ => _.LoadValue);
-
-            //other load
-            var otherGear = character.EquippedItems.Where(item => !item.Fight && !item.Adventure).Sum(_ => _.LoadValue);
-
             //update handicap
             foreach (var handicapAttribute in character.Handicap)
             {
@@ -312,7 +286,12 @@ namespace Imago.Services
                             break;
                         }
 
-                        var load = (armorLoadValue + weaponLoad + otherFightingGear) / loadLimit;
+                        //fighting load
+                        var fightingArmorLoad = character.BodyParts.Values.Sum(bodyPart => bodyPart.Armor.Where(armor => armor.Fight).Sum(_ => _.LoadValue));
+                        var fightingWeaponLoad = character.Weapons.Sum(weapon => weapon.LoadValue);
+                        var fightingItemLoad = character.EquippedItems.Where(item => item.Fight).Sum(_ => _.LoadValue);
+
+                        var load = (fightingArmorLoad + fightingWeaponLoad + fightingItemLoad) / loadLimit;
                         handicapAttribute.FinalValue = (int) Math.Round(load, MidpointRounding.AwayFromZero);
                         break;
                     }
@@ -324,7 +303,14 @@ namespace Imago.Services
                             break;
                         }
 
-                        var load = (armorLoadValue + weaponLoad + adventureGear) / loadLimit;
+                        //adventure load
+                        var adventureItemLoad = character.EquippedItems.Where(item => !item.Fight && item.Adventure)
+                            .Sum(_ => _.LoadValue);
+                        var adventureArmorLoad = character.BodyParts.Values.Sum(bodyPart =>
+                            bodyPart.Armor.Where(armor => armor.Adventure).Sum(_ => _.LoadValue));
+                        var fightingWeaponLoad = character.Weapons.Sum(weapon => weapon.LoadValue);
+
+                        var load = (adventureArmorLoad + adventureItemLoad + fightingWeaponLoad) / loadLimit;
                         handicapAttribute.FinalValue = (int) Math.Round(load, MidpointRounding.AwayFromZero);
                         break;
                     }
@@ -336,7 +322,12 @@ namespace Imago.Services
                             break;
                         }
 
-                        var load = (armorLoadValue + weaponLoad + otherFightingGear + adventureGear + otherGear) / loadLimit;
+                        //other load
+                        var itemLoad = character.EquippedItems.Sum(_ => _.LoadValue);
+                        var armorLoad = character.BodyParts.Values.Sum(bodyPart => bodyPart.Armor.Sum(_ => _.LoadValue));
+                        var fightLoad = character.Weapons.Sum(weapon => weapon.LoadValue);
+
+                            var load = (itemLoad + armorLoad + fightLoad) / loadLimit;
                         handicapAttribute.FinalValue = (int) Math.Round(load, MidpointRounding.AwayFromZero);
                         break;
                     }

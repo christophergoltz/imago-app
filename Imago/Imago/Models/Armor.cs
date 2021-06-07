@@ -15,6 +15,8 @@ namespace Imago.Models
             LoadValue = loadValue;
         }
 
+        private bool _fight;
+        private bool _adventure;
         private int _physicalDefense;
         private int _energyDefense;
         private ArmorType _type;
@@ -35,6 +37,18 @@ namespace Imago.Models
         {
             get => _type;
             set => SetProperty(ref _type, value);
+        }
+
+        public bool Fight
+        {
+            get => _fight;
+            set => SetProperty(ref _fight, value);
+        }
+
+        public bool Adventure
+        {
+            get => _adventure;
+            set => SetProperty(ref _adventure, value);
         }
     }
 }

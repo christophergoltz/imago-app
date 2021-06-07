@@ -23,7 +23,7 @@ namespace Imago.Util
             _ruleRepository = new Lazy<IRuleRepository>(() => new RuleRepository());
             _wikiRepository = new Lazy<IWikiRepository>(() => new WikiRepository());
             _changeLogRepository = new Lazy<IChangeLogRepository>(() => new ChangeLogRepository());
-            _characterService = new Lazy<ICharacterService>(() => new CharacterService(_ruleRepository.Value, _itemRepository.Value));
+            _characterService = new Lazy<ICharacterService>(() => new CharacterService(_ruleRepository.Value));
             _itemRepository = new Lazy<IItemRepository>(() => new ItemRepository());
         }
         
