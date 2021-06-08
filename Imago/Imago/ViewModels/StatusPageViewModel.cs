@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Imago.Models;
 using Imago.Models.Enum;
@@ -16,6 +17,8 @@ namespace Imago.ViewModels
         private readonly ICharacterService _characterService;
         public Character Character { get; }
 
+        public List<DerivedAttribute> DerivedAttributes { get; set; }
+
         public WeaponListViewModel WeaponListViewModel { get; set; }
 
         public StatusPageViewModel(Character character, IItemRepository itemRepository,
@@ -24,6 +27,13 @@ namespace Imago.ViewModels
             _itemRepository = itemRepository;
             _characterService = characterService;
             Character = character;
+
+            DerivedAttributes = character.DerivedAttributes
+                .Where(_ => _.Type == DerivedAttributeType.SprungreichweiteKampf ||
+                            _.Type == DerivedAttributeType.SprunghoeheKampf ||
+                            _.Type == DerivedAttributeType.Sprintreichweite ||
+                            _.Type == DerivedAttributeType.TaktischeBewegung)
+                .ToList();
 
             KopfViewModel = new BodyPartArmorListViewModel(_itemRepository, _characterService,
                 character.BodyParts[BodyPartType.Kopf], Character);

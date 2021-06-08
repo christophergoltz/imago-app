@@ -32,6 +32,8 @@ namespace Imago.ViewModels
             set => SetProperty(ref _attributeExperienceOpen, value);
         }
 
+        public List<DerivedAttribute> DerivedAttributes { get; set; }
+
         public ICommand CloseOpenAttributeExperienceCommand { get; }
         public ICommand AddExperienceToAttributeCommand { get; }
 
@@ -41,6 +43,12 @@ namespace Imago.ViewModels
             _ruleRepository = ruleRepository;
             Title = character.Name;
             Character = character;
+
+            DerivedAttributes = character.DerivedAttributes
+                .Where(_ => _.Type == DerivedAttributeType.Egoregenration ||
+                            _.Type == DerivedAttributeType.Schadensmod ||
+                            _.Type == DerivedAttributeType.Traglast)
+                .ToList();
 
             AttributeViewModels = Character.Attributes.Select(_ => new AttributeViewModel(characterService, _, Character)).ToList();
             SpecialAttributeViewModels = Character.SpecialAttributes.Select(_ => new SpecialAttributeViewModel(characterService, _, character)).ToList();

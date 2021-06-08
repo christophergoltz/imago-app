@@ -115,7 +115,7 @@
                                     <Label.Text>
                                         <MultiBinding StringFormat="{}{0}/{1}">
                                             <Binding Path="ExperienceValue"  Source="{RelativeSource AncestorType={x:Type models:Skill}}"/>
-                                            <Binding Path="ExperienceForNextIncrease"  Source="{RelativeSource AncestorType={x:Type models:Skill}}"/>
+                                            <Binding Path="ExperienceForNextIncrease" Source="{RelativeSource AncestorType={x:Type models:Skill}}"/>
                                         </MultiBinding>
                                     </Label.Text>
                                 </Label>

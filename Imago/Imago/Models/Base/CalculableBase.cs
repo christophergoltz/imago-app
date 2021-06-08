@@ -7,9 +7,9 @@ namespace Imago.Models.Base
 {
     public abstract class CalculableBase : BindableBase
     {
-        private int _finalValue;
+        private double _finalValue;
 
-        public int FinalValue
+        public double FinalValue
         {
             get => _finalValue;
             set => SetProperty(ref _finalValue, value);

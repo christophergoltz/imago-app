@@ -145,10 +145,14 @@ namespace Imago.Repository
                 new DerivedAttribute(DerivedAttributeType.Egoregenration, "WI/5"),
                 new DerivedAttribute(DerivedAttributeType.Schadensmod, "(ST/10)-5"),
                 new DerivedAttribute(DerivedAttributeType.Traglast, "(KO+ST+ST)/10"),
-                new DerivedAttribute(DerivedAttributeType.Sprungreichweite, "n/a"),
-                new DerivedAttribute(DerivedAttributeType.Sprunghoehe, "n/a"),
-                new DerivedAttribute(DerivedAttributeType.TaktischeBewegung, "n/a"),
-                new DerivedAttribute(DerivedAttributeType.Sprintreichweite, "n/a"),
+                new DerivedAttribute(DerivedAttributeType.TaktischeBewegung, "GE/10"),
+                new DerivedAttribute(DerivedAttributeType.Sprintreichweite, "GE/5"),
+                new DerivedAttribute(DerivedAttributeType.SprungreichweiteKampf, "((GE+ST)-Last)/30"),
+                new DerivedAttribute(DerivedAttributeType.SprunghoeheKampf, "((GE+ST)-Last)/80"),
+                new DerivedAttribute(DerivedAttributeType.SprungreichweiteAbenteuer, "((GE+ST)-Last)/30"),
+                new DerivedAttribute(DerivedAttributeType.SprunghoeheAbenteuer, "((GE+ST)-Last)/80"),
+                new DerivedAttribute(DerivedAttributeType.SprungreichweiteGesamt, "((GE+ST)-Last)/30"),
+                new DerivedAttribute(DerivedAttributeType.SprunghoeheGesamt, "((GE+ST)-Last)/80")
             };
         }
 

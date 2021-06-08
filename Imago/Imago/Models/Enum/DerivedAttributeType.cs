@@ -13,13 +13,7 @@ namespace Imago.Models.Enum
 
         Schadensmod = 2, 
 
-        Traglast =3, 
-
-        Sprungreichweite =4,
-
-        [DisplayText("Sprunghöhe")]
-        Sprunghoehe = 5,
-
+        Traglast =3,
         [DisplayText("Taktische Bewegung")]
         TaktischeBewegung = 6,
 
@@ -30,6 +24,24 @@ namespace Imago.Models.Enum
         [DisplayText("Abenteuer / Reise")]
         BehinderungAbenteuer = 9,
         [DisplayText("Gesamt")]
-        BehinderungGesamt = 10
+        BehinderungGesamt = 10,
+
+        [DisplayText("Sprungreichweite Kampf")]
+        SprungreichweiteKampf = 20,
+
+        [DisplayText("Sprunghöhe Kampf")]
+        SprunghoeheKampf= 21,
+
+        [DisplayText("Sprungreichweite Abenteuer")]
+        SprungreichweiteAbenteuer =22,
+
+        [DisplayText("Sprunghöhe Abenteuer")]
+        SprunghoeheAbenteuer = 23,
+
+        [DisplayText("Sprungreichweite Gesamt")]
+        SprungreichweiteGesamt =24,
+
+        [DisplayText("Sprunghöhe Gesamt")]
+        SprunghoeheGesamt = 25,
     }
 }

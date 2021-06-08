@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using Imago.Models;
+using Imago.Models.Enum;
 using Imago.Services;
 using Xamarin.Forms;
 
@@ -18,12 +19,21 @@ namespace Imago.ViewModels
         public ICommand DeleteSelectedEquippedItem { get; }
         public ICommand AddNewEquippedItem { get; }
 
+        public List<DerivedAttribute> DerivedAttributes { get; set; }
+
         public ObservableCollection<EquippableItemViewModel> EquippableItemViewModels { get; set; }
 
         public InventoryViewModel(Character character, ICharacterService characterService)
         {
             _characterService = characterService;
             Character = character;
+
+            DerivedAttributes = character.DerivedAttributes
+                .Where(_ => _.Type == DerivedAttributeType.SprungreichweiteAbenteuer ||
+                            _.Type == DerivedAttributeType.SprunghoeheAbenteuer ||
+                            _.Type == DerivedAttributeType.SprungreichweiteGesamt ||
+                            _.Type == DerivedAttributeType.SprunghoeheGesamt)
+                .ToList();
 
             DeleteSelectedEquippedItem = new Command<EquippableItemViewModel>(item =>
             {
