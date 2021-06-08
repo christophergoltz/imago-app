@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Imago.Models.Base;
 using Imago.Models.Enum;
+using Imago.Util;
 
 namespace Imago.Models
 {
@@ -40,8 +41,15 @@ namespace Imago.Models
         public int IncreaseValue
         {
             get => _increaseValue;
-            set => SetProperty(ref _increaseValue, value);
+            set
+            {
+                SetProperty(ref _increaseValue, value);
+                OnPropertyChanged(nameof(ExperienceForNextIncrease));
+            }
         }
+
+
+        public int ExperienceForNextIncrease => SkillIncreaseHelper.GetExperienceForNextAttributeLevel(IncreaseValue);
 
         public override string ToString()
         {

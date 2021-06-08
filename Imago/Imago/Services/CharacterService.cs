@@ -88,8 +88,7 @@ namespace Imago.Services
             skillGroup.ExperienceValue += experience;
             while (SkillIncreaseHelper.CanSkillBeIncreased(skillGroup))
             {
-                var requiredExperienceForNextLevel =
-                    SkillIncreaseHelper.GetExperienceForNextSkillGroupLevel(skillGroup.IncreaseValue);
+                var requiredExperienceForNextLevel = SkillIncreaseHelper.GetExperienceForNextSkillBaseLevel(skillGroup);
                 skillGroup.ExperienceValue -= requiredExperienceForNextLevel;
                 skillGroup.IncreaseValue++;
                 skillGroup.RecalculateFinalValue();
@@ -104,8 +103,7 @@ namespace Imago.Services
             int openSkillGroupExperience = 0;
             while (SkillIncreaseHelper.CanSkillBeIncreased(skill))
             {
-                var requiredExperienceForNextLevel =
-                    SkillIncreaseHelper.GetExperienceForNextSkillLevel(skill.IncreaseValue);
+                var requiredExperienceForNextLevel = SkillIncreaseHelper.GetExperienceForNextSkillBaseLevel(skill);
                 skill.ExperienceValue -= requiredExperienceForNextLevel;
                 skill.IncreaseValue++;
                 skill.RecalculateFinalValue();

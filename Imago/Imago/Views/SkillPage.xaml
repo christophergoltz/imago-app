@@ -173,7 +173,7 @@
                                 <Label.Text>
                                     <MultiBinding StringFormat="{}{0}/{1}">
                                         <Binding Path="SelectedSkill.ExperienceValue"/>
-                                        <Binding Path="ExperienceRequiredForLevelUp"/>
+                                        <Binding Path="SelectedSkill.ExperienceForNextIncrease"/>
                                     </MultiBinding>
                                 </Label.Text>
                             </Label>
