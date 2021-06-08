@@ -44,19 +44,27 @@ namespace Imago.Views.CustomControls
         private void WebView_OnNavigating(object sender, WebNavigatingEventArgs e)
         {
             if (e.NavigationEvent != WebNavigationEvent.NewPage)
-                return; 
+                return;
 
             if (BindingContext is WikiEntryPageViewModel vm)
             {
-                var entry = vm.WikiPageEntry;
+                var onlyPage = vm.WikiPageEntry;
 
-                if (e.Url != entry.Url && e.Url.StartsWith(entry.Url))
+                if (e.Url != onlyPage.Url && e.Url.StartsWith(onlyPage.Url))
                 {
                     //bug: cancel due to uwp https://github.com/xamarin/Xamarin.Forms/issues/9005
                     e.Cancel = true;
                     DisplayAlert("Navigation abgebrochen",
                         $"Die Navigation zu{Environment.NewLine}\"{e.Url}\" wurde abgebrochen, da sonst die Anwendung abstürzten würde.{Environment.NewLine}{Environment.NewLine}Fehler: https://github.com/xamarin/Xamarin.Forms/issues/9005",
                         "OK");
+                    return;
+                }
+
+                if (onlyPage.Url != WikiPageViewModel.WikiMainPageUrl && e.Url == WikiPageViewModel.WikiMainPageUrl)
+                {
+                    //user wants to navigate to wiki mainpage, dont create a new one, focus first tab
+                    WikiPageViewModel.Instance.GoToStartWikiPage();
+                    e.Cancel = true;
                     return;
                 }
 

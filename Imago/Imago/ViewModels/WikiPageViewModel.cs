@@ -46,6 +46,11 @@ namespace Imago.ViewModels
             RequestedWikiPage = null;
         }
 
+        public void GoToStartWikiPage()
+        {
+            SelectedWikiPageEntry = WikiEntryList[0];
+        }
+
         private WikiEntryPageViewModel CreateNewWikiEntryPageViewModel(WikiPageEntry entry)
         {
             var vm = new WikiEntryPageViewModel(entry);
