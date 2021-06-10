@@ -17,7 +17,7 @@ namespace Imago.Repository
 
     public class WikiRepository : IWikiRepository
     {
-        private static Dictionary<SkillGroupType, string> _skillGroupTypeLookUp =
+        private static readonly Dictionary<SkillGroupType, string> SkillGroupTypeLookUp =
             new Dictionary<SkillGroupType, string>()
             {
                 {SkillGroupType.Bewegung, "http://imago-rp.de/index.php/Bewegung_(Fertigkeitsgruppe)"},
@@ -30,7 +30,7 @@ namespace Imago.Repository
                 {SkillGroupType.Soziales, "http://imago-rp.de/index.php/Soziales_(Fertigkeitsgruppe)"}
             };
 
-        private static Dictionary<SkillType, string> _skillTypeLookUp = new Dictionary<SkillType, string>()
+        private static readonly Dictionary<SkillType, string> SkillTypeLookUp = new Dictionary<SkillType, string>()
         {
             {SkillType.Alchemie, "http://imago-rp.de/index.php/Alchemie"},
             {SkillType.Anatomie, "http://imago-rp.de/index.php/Anatomie"},
@@ -93,7 +93,7 @@ namespace Imago.Repository
 
         public string GetTalentHtml(SkillType skillType)
         {
-            var url = _skillTypeLookUp[skillType];
+            var url = SkillTypeLookUp[skillType];
             var web = new HtmlWeb();
             var doc = web.Load(url);
             doc.GetElementbyId("mw-page-base")?.Remove();
@@ -119,7 +119,7 @@ namespace Imago.Repository
 
         public string GetMasteryHtml(SkillGroupType skillGroupType)
         {
-            var url = _skillGroupTypeLookUp[skillGroupType];
+            var url = SkillGroupTypeLookUp[skillGroupType];
             var web = new HtmlWeb();
             var doc = web.Load(url);
             doc.GetElementbyId("mw-page-base")?.Remove();
@@ -135,16 +135,16 @@ namespace Imago.Repository
 
         public string GetWikiUrl(SkillType skillType)
         {
-            if (_skillTypeLookUp.ContainsKey(skillType))
-                return _skillTypeLookUp[skillType];
+            if (SkillTypeLookUp.ContainsKey(skillType))
+                return SkillTypeLookUp[skillType];
 
             return string.Empty;
         }
 
         public string GetWikiUrl(SkillGroupType skillGroupType)
         {
-            if (_skillGroupTypeLookUp.ContainsKey(skillGroupType))
-                return _skillGroupTypeLookUp[skillGroupType];
+            if (SkillGroupTypeLookUp.ContainsKey(skillGroupType))
+                return SkillGroupTypeLookUp[skillGroupType];
 
             return string.Empty;
         }

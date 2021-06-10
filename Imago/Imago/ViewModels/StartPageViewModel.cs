@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using Imago.Models;
 using Imago.Models.Entity;
 using Imago.Models.Enum;
 using Imago.Repository;
+using Imago.Repository.WrappingDatabase;
 using Imago.Services;
 using Imago.Util;
 using Imago.Views;
@@ -20,18 +22,18 @@ namespace Imago.ViewModels
     {
         private readonly ICharacterRepository _characterRepository;
         private readonly IWikiParseService _wikiParseService;
-        private readonly IWrappingRepository<Weapon, WeaponEntity> _meleeWeaponRepository;
-        private readonly IWrappingRepository<Weapon, WeaponEntity> _rangedWeaponRepository;
-        private readonly IWrappingRepository<ArmorSet, ArmorSetEntity> _armorRepository;
+        private readonly IMeleeWeaponRepository _meleeWeaponRepository;
+        private readonly IRangedWeaponRepository _rangedWeaponRepository;
+        private readonly IArmorRepository _armorRepository;
         private Dictionary<TableInfoType, TableInfoModel> _tableInfos;
 
         public ICommand ParseDataFromWikiCommand { get; }
 
-        public StartPageViewModel(ICharacterRepository characterRepository, 
-            IWikiParseService wikiParseService, 
-            IWrappingRepository<Weapon, WeaponEntity> meleeWeaponRepository,
-            IWrappingRepository<Weapon, WeaponEntity> rangedWeaponRepository,
-            IWrappingRepository<ArmorSet, ArmorSetEntity> armorRepository)
+        public StartPageViewModel(ICharacterRepository characterRepository,
+            IWikiParseService wikiParseService,
+            IMeleeWeaponRepository meleeWeaponRepository,
+            IRangedWeaponRepository rangedWeaponRepository,
+            IArmorRepository armorRepository)
         {
             _characterRepository = characterRepository;
             _wikiParseService = wikiParseService;
@@ -44,49 +46,90 @@ namespace Imago.ViewModels
             {
                 foreach (var tableInfoModel in TableInfos.Values)
                 {
-                    tableInfoModel.State = TableInfoState.Loading;
-                    await _wikiParseService.RefreshWikiData(tableInfoModel.Type);
-                    tableInfoModel.State = TableInfoState.Okay;
+                    try
+                    {
+                        tableInfoModel.State = TableInfoState.Loading;
+                        var result = await _wikiParseService.RefreshWikiData(tableInfoModel.Type);
+                        if (result == null)
+                        {
+                            tableInfoModel.State = TableInfoState.Error;
+                            continue;
+                        }
+
+                        if (result.Value == 0)
+                        {
+                            tableInfoModel.State = TableInfoState.NoData;
+                            continue;
+                        }
+                        
+                        tableInfoModel.State = TableInfoState.Okay;
+                    }
+                    catch (Exception e)
+                    {
+                        tableInfoModel.State = TableInfoState.Error;
+                        Debug.WriteLine(e);
+                //        throw;
+                    }
+
                 }
 
-                await GetAllTableInfos();
+                await RefreshDatabaseInfos();
             });
 
-            GetAllTableInfos();
+#pragma warning disable 4014
+            InitLocalDatabase(); //needs to be executed in background
+#pragma warning restore 4014
         }
 
-        private async Task GetAllTableInfos()
+        private async Task InitLocalDatabase()
         {
             try
             {
-                foreach (var tableInfoType in ((TableInfoType[])Enum.GetValues(typeof(TableInfoType))))
-                {
-                    switch (tableInfoType)
-                    {
-                        case TableInfoType.Armor:
-                            break;
-                        case TableInfoType.MeleeWeapons:
-                            break;
-                        case TableInfoType.RangedWeapons:
-                            break;
-                        case TableInfoType.SpecialWeapons:
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-                }
-
-
-                var database = await DatabaseInfoRepository.Instance;
-                var data = await database.GetAllTableInfos();
-                TableInfos = data.ToDictionary(model => model.Type, model => model);
+                await _rangedWeaponRepository.EnsureTables();
+                await _meleeWeaponRepository.EnsureTables();
+                await _armorRepository.EnsureTables();
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
                 throw;
             }
-         
+
+            var allTableTypes = (TableInfoType[])Enum.GetValues(typeof(TableInfoType));
+            var list = allTableTypes.Select(tableInfoType => new TableInfoModel(tableInfoType)).ToList();
+            TableInfos = list.ToDictionary(model => model.Type, model => model);
+
+            await RefreshDatabaseInfos();
+        }
+
+        private async Task RefreshDatabaseInfos()
+        {
+            foreach (var tableInfo in TableInfos.Values)
+            {
+                switch (tableInfo.Type)
+                {
+                    case TableInfoType.Armor:
+                        tableInfo.Count = await _armorRepository.GetItemsCount();
+                        tableInfo.TimeStamp = _armorRepository.GetLastChangedDate();
+                        break;
+                    case TableInfoType.MeleeWeapons:
+                        tableInfo.Count = await _meleeWeaponRepository.GetItemsCount();
+                        tableInfo.TimeStamp = _meleeWeaponRepository.GetLastChangedDate();
+                        break;
+                    case TableInfoType.RangedWeapons:
+                        tableInfo.Count = await _rangedWeaponRepository.GetItemsCount();
+                        tableInfo.TimeStamp = _rangedWeaponRepository.GetLastChangedDate();
+                        break;
+                }
+
+                if (tableInfo.Count == 0)
+                    tableInfo.State = TableInfoState.NoData;
+                else
+                    tableInfo.State = TableInfoState.Okay;
+
+                if(tableInfo.TimeStamp == null)
+                    tableInfo.State = TableInfoState.NoDatebaseFile;
+            }
         }
 
         public Dictionary<TableInfoType, TableInfoModel> TableInfos

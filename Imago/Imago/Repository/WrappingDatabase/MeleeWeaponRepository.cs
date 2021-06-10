@@ -10,35 +10,13 @@ using SQLite;
 
 namespace Imago.Repository.WrappingDatabase
 {
-    public class MeleeWeaponRepository : IWrappingRepository<Weapon, WeaponEntity>
+    public class MeleeWeaponRepository : ObjectJsonRepositoryBase<Weapon, WeaponEntity>, IMeleeWeaponRepository
     {
-        private static SQLiteAsyncConnection _database;
+        public MeleeWeaponRepository(string databaseFolder) : base(databaseFolder, "Imago_MeleeWeapons.db3") { }
 
-        public static async Task<MeleeWeaponRepository> Setup(string databasePath)
+        public async Task EnsureTables()
         {
-            var databaseFile = Path.Combine(databasePath, "Imago_MeleeWeapons.db3");
-            _database = new SQLiteAsyncConnection(databasePath, DatabaseConstants.Flags);
-            await _database.CreateTableAsync<WeaponEntity>();
-            return new MeleeWeaponRepository();
-        }
-
-        private MeleeWeaponRepository() { }
-
-        public async Task<List<Weapon>> GetAllItemsAsync()
-        {
-            var items = await _database.Table<WeaponEntity>().ToListAsync();
-            return items.Select(entity => entity.MapToModel()).ToList();
-        }
-        
-        public Task DeleteAllItems()
-        {
-            return _database.DeleteAllAsync<WeaponEntity>();
-        }
-
-        public Task AddAllItems(IEnumerable<Weapon> items)
-        {
-            var entities = items.Select(JsonConvert.SerializeObject);
-            return _database.InsertAllAsync(entities);
+            await Database.CreateTableAsync<WeaponEntity>();
         }
     }
 }

@@ -326,7 +326,7 @@ namespace Imago.Services
                             if (derivedAttribute.Type == DerivedAttributeType.SprungreichweiteGesamt)
                                 tmp -= GetCompleteLoad(character);
 
-                            tmp = tmp / 30;
+                            tmp /= 30;
                             derivedAttribute.FinalValue = Math.Round(tmp, 2);
                             break;
                         }
@@ -344,7 +344,7 @@ namespace Imago.Services
                             if (derivedAttribute.Type == DerivedAttributeType.SprunghoeheGesamt)
                                 tmp -= GetCompleteLoad(character);
 
-                            tmp = tmp / 80;
+                            tmp /= 80;
                             derivedAttribute.FinalValue = Math.Round(tmp, 2);
                             break;
                         }

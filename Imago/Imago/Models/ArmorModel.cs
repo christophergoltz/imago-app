@@ -9,7 +9,7 @@
 
         public ArmorModel(string name, int physicalDefense, int energyDefense, int loadValue, int durability) : base(durability)
         {
-            Name = _name;
+            Name = name;
             PhysicalDefense = physicalDefense;
             EnergyDefense = energyDefense;
             LoadValue = loadValue;

@@ -41,7 +41,7 @@ namespace Imago.Repository
                 SpecialAttributes = CreateSpecialAttributes(),
                 DerivedAttributes = CreateDerivedAttributes(),
                 BodyParts = CreateBodyParts(),
-                Weapons = new ObservableCollection<Weapon>() {CreateWeapon1()},
+                Weapons = new ObservableCollection<Weapon>(),
                 EquippedItems = CreateEquippedItems(),
                 Handicap = CreateHandicapAttributes(),
                 FreeSkillExperience = 6
@@ -59,17 +59,7 @@ namespace Imago.Repository
 
             return character;
         }
-
-        public Weapon CreateWeapon1()
-        {
-            return new Weapon("HolzfaellerAxt", new Dictionary<WeaponStanceType, WeaponStance>()
-            {
-                {WeaponStanceType.Light, new WeaponStance( WeaponStanceType.Light, "5", "2W6 (P)", -60, "nah", 55)},
-                {WeaponStanceType.Heavy, new WeaponStance( WeaponStanceType.Heavy, "6", "3W6+2 (P)", -40, "nah",55)},
-            });
-        }
-
-
+        
         private Dictionary<BodyPartType, BodyPart> CreateBodyParts()
         {
             return new Dictionary<BodyPartType, BodyPart>

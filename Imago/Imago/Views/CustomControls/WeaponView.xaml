@@ -35,8 +35,7 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="1" />
                         </Grid.RowDefinitions>
-                        <Label Grid.Row="0" Grid.Column="0" FontAttributes="Bold" Text="{Binding Name,
-                                    Converter={StaticResource EnumToDisplayTextConverter}}" />
+                        <Label Grid.Row="0" VerticalOptions="End" VerticalTextAlignment="End" Grid.Column="0" FontSize="18" FontAttributes="Bold" Text="{Binding Name}" />
                         <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="1" Text="Phasen" FontAttributes="Bold"/>
                         <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="2" Text="Schaden"  FontAttributes="Bold"/>
                         <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="3" Text="Parademodi" FontAttributes="Bold"/>

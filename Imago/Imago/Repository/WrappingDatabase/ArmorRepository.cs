@@ -12,48 +12,13 @@ using SQLite;
 
 namespace Imago.Repository.WrappingDatabase
 {
-    public class ArmorRepository : IWrappingRepository<ArmorSet, ArmorSetEntity>
+    public class ArmorRepository : ObjectJsonRepositoryBase<ArmorSet, ArmorSetEntity>, IArmorRepository
     {
-        private static SQLiteAsyncConnection _database;
-        private static string _databaseFile;
+        public ArmorRepository(string databaseFolder) : base(databaseFolder, "Imago_Armor.db3") { }
 
-        public static async Task<ArmorRepository> Setup(string databasePath)
+        public async Task EnsureTables()
         {
-            _databaseFile = Path.Combine(databasePath, "Imago_Armor.db3");
-            _database = new SQLiteAsyncConnection(_databaseFile, DatabaseConstants.Flags);
-            await _database.CreateTableAsync<ArmorSetEntity>();
-            return new ArmorRepository();
-        }
-
-        private ArmorRepository()
-        {
-        }
-
-        public DateTime GetLastChangedDate()
-        {
-            return new FileInfo(_databaseFile).LastWriteTime;
-        }
-
-        public async Task<int> GetItemsCount()
-        {
-            return await _database.Table<ArmorSetEntity>().CountAsync();
-        }
-
-        public async Task<List<ArmorSet>> GetAllItemsAsync()
-        {
-            var items = await _database.Table<ArmorSetEntity>().ToListAsync();
-            return items.Select(entity => entity.MapToModel()).ToList();
-        }
-
-        public Task DeleteAllItems()
-        {
-            return _database.DeleteAllAsync<ArmorSetEntity>();
-        }
-
-        public Task AddAllItems(IEnumerable<ArmorSet> items)
-        {
-            var entities = items.Select(JsonConvert.SerializeObject);
-            return _database.InsertAllAsync(entities);
+            await Database.CreateTableAsync<ArmorSetEntity>();
         }
     }
 }

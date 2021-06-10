@@ -20,8 +20,8 @@
             <Button Grid.Column="0" Command="{Binding TestCharacterCommand}" Text="Testspieler" Margin="20"></Button>
 
             <Frame BorderColor="Black" CornerRadius="0" Grid.Column="1" Margin="10">
-                <CollectionView ItemsSource="{Binding TableInfos.Values}">
-                    <CollectionView.Header>
+                <ListView ItemsSource="{Binding TableInfos.Values}">
+                    <ListView.Header>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -36,69 +36,76 @@
                                     Command="{Binding ParseDataFromWikiCommand,Source={RelativeSource AncestorType={x:Type viewModels:StartPageViewModel}}}"></Button>
                             <BoxView Grid.Row="1"  Grid.ColumnSpan="2" Grid.Column="0" Color="Black"/>
                         </Grid>
-                    </CollectionView.Header>
-                    <CollectionView.ItemTemplate>
+                    </ListView.Header>
+                    <ListView.ItemTemplate>
                         <DataTemplate x:DataType="models:TableInfoModel">
-                            <Grid>
-                                <ActivityIndicator IsRunning="True" Background="cyan" >
-                                    <ActivityIndicator.Style>
-                                        <Style TargetType="ActivityIndicator">
-                                            <Style.Triggers>
-                                                <DataTrigger TargetType="ActivityIndicator" Binding="{Binding State}" Value="{x:Static enum:TableInfoState.Loading}">
-                                                    <Setter Property="IsVisible" Value="True"></Setter>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                            <Setter Property="IsVisible" Value="False"></Setter>
-                                        </Style>
-                                    </ActivityIndicator.Style>
-                                </ActivityIndicator>
-
-                                <Grid Margin="20,10">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                        <ColumnDefinition Width="*"></ColumnDefinition>
-                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                    </Grid.ColumnDefinitions>
-                                    <Label Grid.Column="0" FontSize="22" VerticalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"></Label>
-                                    <Label Grid.Column="1" FontSize="22" VerticalOptions="Center" >
-                                        <Label.Text>
-                                            <MultiBinding StringFormat="{}({0})">
-                                                <Binding Path="Count"/>
-                                            </MultiBinding>
-                                        </Label.Text>
-                                    </Label>
-                                    <Label  Grid.Column="3"  FontSize="22" VerticalOptions="Center" Text="{Binding TimeStamp, StringFormat='{0:HH:mm dd.MM.yyyy}'}"></Label>
-                                    <Label  Grid.Column="2"  FontSize="22" VerticalOptions="Center">
-                                        <Label.Text>
-                                            <MultiBinding StringFormat="{}[{0}]">
-                                                <Binding Path="State" Converter="{StaticResource EnumToDisplayTextConverter}"/>
-                                            </MultiBinding>
-                                        </Label.Text>
-                                        <Label.Style>
-                                            <Style TargetType="Label">
+                            <ViewCell>
+                                <Grid>
+                                    <ActivityIndicator IsRunning="True" Background="cyan" >
+                                        <ActivityIndicator.Style>
+                                            <Style TargetType="ActivityIndicator">
                                                 <Style.Triggers>
-                                                    <DataTrigger TargetType="Label" Binding="{Binding State}" Value="{x:Static enum:TableInfoState.Okay}">
-                                                        <Setter Property="TextColor" Value="Green"></Setter>
-                                                    </DataTrigger>
-                                                    <DataTrigger TargetType="Label" Binding="{Binding State}" Value="{x:Static enum:TableInfoState.Error}">
-                                                        <Setter Property="TextColor" Value="Red"></Setter>
-                                                    </DataTrigger>
-                                                    <DataTrigger TargetType="Label" Binding="{Binding State}" Value="{x:Static enum:TableInfoState.Loading}">
-                                                        <Setter Property="TextColor" Value="Orange"></Setter>
-                                                    </DataTrigger>
-                                                    <DataTrigger TargetType="Label" Binding="{Binding State}" Value="{x:Static enum:TableInfoState.NoData}">
-                                                        <Setter Property="TextColor" Value="Orange"></Setter>
+                                                    <DataTrigger TargetType="ActivityIndicator" Binding="{Binding State}" Value="{x:Static enum:TableInfoState.Loading}">
+                                                        <Setter Property="IsVisible" Value="True"></Setter>
                                                     </DataTrigger>
                                                 </Style.Triggers>
+                                                <Setter Property="IsVisible" Value="False"></Setter>
                                             </Style>
-                                        </Label.Style>
-                                    </Label>
+                                        </ActivityIndicator.Style>
+                                    </ActivityIndicator>
+
+                                    <Grid Margin="20,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" FontSize="22" VerticalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"></Label>
+                                        <Label Grid.Column="1" FontSize="22" VerticalOptions="Center" >
+                                            <Label.Text>
+                                                <MultiBinding StringFormat="{}({0})">
+                                                    <Binding Path="Count" Source="{RelativeSource AncestorType={x:Type models:TableInfoModel}}"/>
+                                                </MultiBinding>
+                                            </Label.Text>
+                                        </Label>
+                                        <Label  Grid.Column="3"  FontSize="22" VerticalOptions="Center" Text="{Binding TimeStamp, StringFormat='{0:HH:mm dd.MM.yyyy}'}"></Label>
+                                        <Label Grid.Column="2"  FontSize="22" VerticalOptions="Center">
+                                            <Label.Text>
+                                                <MultiBinding StringFormat="{}[{0}]">
+                                                    <Binding Path="State"
+                                                             Converter="{StaticResource EnumToDisplayTextConverter}"
+                                                             Source="{RelativeSource AncestorType={x:Type models:TableInfoModel}}"/>
+                                                </MultiBinding>
+                                            </Label.Text>
+                                            <Label.Style>
+                                                <Style TargetType="Label">
+                                                    <Style.Triggers>
+                                                        <DataTrigger TargetType="Label" Binding="{Binding State}" Value="{x:Static enum:TableInfoState.Okay}">
+                                                            <Setter Property="TextColor" Value="Green"></Setter>
+                                                        </DataTrigger>
+                                                        <DataTrigger TargetType="Label" Binding="{Binding State}" Value="{x:Static enum:TableInfoState.Error}">
+                                                            <Setter Property="TextColor" Value="Red"></Setter>
+                                                        </DataTrigger>
+                                                        <DataTrigger TargetType="Label" Binding="{Binding State}" Value="{x:Static enum:TableInfoState.Loading}">
+                                                            <Setter Property="TextColor" Value="Orange"></Setter>
+                                                        </DataTrigger>
+                                                        <DataTrigger TargetType="Label" Binding="{Binding State}" Value="{x:Static enum:TableInfoState.NoData}">
+                                                            <Setter Property="TextColor" Value="Orange"></Setter>
+                                                        </DataTrigger>
+                                                        <DataTrigger TargetType="Label" Binding="{Binding State}" Value="{x:Static enum:TableInfoState.NoDatebaseFile}">
+                                                            <Setter Property="TextColor" Value="Orange"></Setter>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Label.Style>
+                                        </Label>
+                                    </Grid>
                                 </Grid>
-                            </Grid>
+                            </ViewCell>
                         </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                    </ListView.ItemTemplate>
+                </ListView>
             </Frame>
         </Grid>
     </ContentPage.Content>

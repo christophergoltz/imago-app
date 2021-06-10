@@ -5,29 +5,31 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
+using System.Xml.XPath;
 using Imago.Models;
+using Imago.Models.Enum;
 using Imago.Repository;
+using Imago.Repository.WrappingDatabase;
 using Imago.Services;
+using Imago.Util;
 using Xamarin.Forms;
 
 namespace Imago.ViewModels
 {
     public class BodyPartArmorListViewModel
     {
-        private ICharacterService _characterService;
-        private IItemRepository _itemRepository;
-        private Character _character;
+        private readonly ICharacterService _characterService;
+        private readonly Character _character;
         public BodyPart BodyPart { get; }
         
 
         public ICommand RemoveArmorCommand { get; set; }
         public ICommand AddArmorCommand { get; set; }
 
-        public BodyPartArmorListViewModel(IItemRepository itemRepository, ICharacterService characterService,
+        public BodyPartArmorListViewModel( ICharacterService characterService, IArmorRepository armorRepository,
             BodyPart bodyPart, Character character)
         {
             _characterService = characterService;
-            _itemRepository = itemRepository;
             BodyPart = bodyPart;
             _character = character;
             foreach (var armor in bodyPart.Armor)
@@ -43,17 +45,22 @@ namespace Imago.ViewModels
 
             AddArmorCommand = new Command(async () =>
             {
-                var armor = _itemRepository
-                    .GetAllArmorParts(bodyPart.Type)
+                var currentBodyPart = bodyPart.Type.MapBodyPartTypeToArmorPartType();
+                var allArmor = await armorRepository.GetAllItemsAsync();
+                var armor = allArmor
+                    .SelectMany(armorSet => armorSet.ArmorParts)
+                    .Where(pair => pair.Key == currentBodyPart)
+                    .Select(pair => pair.Value)
                     .ToDictionary(_ => _.Name, _ => _);
-
+                
                 var result =
                     await Shell.Current.DisplayActionSheet($"Rüstung hinzufügen", "Abbrechen", null, armor.Keys.ToArray());
 
                 if (result == null || result.Equals("Abbrechen"))
                     return;
 
-                var newArmor = armor[result];
+                //copy object by value to prevent ref copy
+                var newArmor = armor[result].DeepCopy();
                 newArmor.PropertyChanged += OnArmorPropertyChanged;
                 BodyPart.Armor.Add(newArmor);
                 _characterService.RecalculateHandicapAttributes(_character);

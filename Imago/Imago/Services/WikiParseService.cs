@@ -9,12 +9,13 @@ using Imago.Models;
 using Imago.Models.Entity;
 using Imago.Models.Enum;
 using Imago.Repository;
+using Imago.Repository.WrappingDatabase;
 
 namespace Imago.Services
 {
     public interface IWikiParseService
     {
-        Task RefreshWikiData(TableInfoType type);
+        Task<int?> RefreshWikiData(TableInfoType type);
     }
 
     public class WikiParseService : IWikiParseService
@@ -23,23 +24,21 @@ namespace Imago.Services
         private static readonly string MeleeWeaponUrl = "http://imago-rp.de/index.php/Nahkampfwaffen";
         private static readonly string RangedWeaponUrl = "http://imago-rp.de/index.php/Fernkampfwaffen";
 
-        private readonly IWrappingRepository<Weapon, WeaponEntity> _meleeWeaponRepository;
-        private readonly IWrappingRepository<Weapon, WeaponEntity> _rangedWeaponRepository;
-        private readonly IWrappingRepository<ArmorSet, ArmorSetEntity> _armorWeaponRepository;
+        private readonly IMeleeWeaponRepository _meleeWeaponRepository;
+        private readonly IRangedWeaponRepository _rangedWeaponRepository;
+        private readonly IArmorRepository _armorWeaponRepository;
 
         public WikiParseService(
-            IWrappingRepository<Weapon, WeaponEntity> meleeWeaponRepository, 
-            IWrappingRepository<Weapon, WeaponEntity> rangedWeaponRepository,
-            IWrappingRepository<ArmorSet, ArmorSetEntity> armorWeaponRepository)
+            IMeleeWeaponRepository meleeWeaponRepository, 
+            IRangedWeaponRepository rangedWeaponRepository,
+            IArmorRepository armorWeaponRepository)
         {
             _meleeWeaponRepository = meleeWeaponRepository;
             _rangedWeaponRepository = rangedWeaponRepository;
             _armorWeaponRepository = armorWeaponRepository;
         }
-
-       
-
-        public async Task RefreshWikiData(TableInfoType type)
+        
+        public async Task<int?> RefreshWikiData(TableInfoType type)
         {
             switch (type)
             {
@@ -47,30 +46,25 @@ namespace Imago.Services
                 {
                     var armor = ParseArmorFromUrl(ArmorUrl);
                     await _armorWeaponRepository.DeleteAllItems();
-                    await _armorWeaponRepository.AddAllItems(armor);
-                    break;
+                    return await _armorWeaponRepository.AddAllItems(armor);
                 }
                 case TableInfoType.MeleeWeapons:
                 {
                     var meleeWeapons = ParseCloseRangeWeaponsFromUrl(MeleeWeaponUrl);
                     await _meleeWeaponRepository.DeleteAllItems();
-                    await _meleeWeaponRepository.AddAllItems(meleeWeapons);
-                    break;
+                    return await _meleeWeaponRepository.AddAllItems(meleeWeapons);
                 }
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
 
-            await database.Update(new TableInfoModel() { TimeStamp = DateTime.Now, Type = type });
+            Debug.WriteLine($"Unknown TableInfoType \"{type}\" for RefreshWikiData");
+            return null;
         }
 
         #region Armor
-        private List<ArmorSet> ParseArmorFromUrl(string url)
+        private IEnumerable<ArmorSet> ParseArmorFromUrl(string url)
         {
             var web = new HtmlWeb();
             var doc = web.Load(url);
-            var armorSets = new List<ArmorSet>();
 
             //parse complete table
             foreach (var table in doc.DocumentNode.SelectNodes("//table[@class='wikitable']"))
@@ -81,19 +75,18 @@ namespace Imago.Services
                 var header = rows[0];
                 var headerData = header.SelectNodes("th");
 
-                var armorName = headerData[0].InnerText;
-                CleanUpString(ref armorName);
+                var armorName = CleanUpString(headerData[0].InnerText);
 
                 //parse each row
                 foreach (var dataRow in rows.Skip(1))
                 {
                     var dataCells = dataRow.SelectNodes("td");
-                    var bodyPart = ParseBodyPart(dataCells[0].InnerText);
+                    var bodyPart = ParseBodyPart(CleanUpString(dataCells[0].InnerText));
                     
-                    var physical = dataCells[1].InnerText;
-                    var energy = dataCells[2].InnerText;
-                    var load = dataCells[3].InnerText;
-                    var durability = dataCells[4].InnerText;
+                    var physical = CleanUpString(dataCells[1].InnerText);
+                    var energy = CleanUpString(dataCells[2].InnerText);
+                    var load = CleanUpString(dataCells[3].InnerText);
+                    var durability = CleanUpString(dataCells[4].InnerText);
 
                     var armor = new ArmorModel(armorName, int.Parse(physical), int.Parse(energy),
                         int.Parse(load), int.Parse(durability));
@@ -101,16 +94,12 @@ namespace Imago.Services
                     armorParts.Add(bodyPart, armor);
                 }
 
-                armorSets.Add(new ArmorSet(armorParts));
+                yield return new ArmorSet(armorParts);
             }
-
-            return armorSets;
         }
       
         private ArmorPartType ParseBodyPart(string name)
         {
-            CleanUpString(ref name);
-
             if (name.Equals("Helm"))
                 return ArmorPartType.Helm;
             if (name.Equals("Torso"))
@@ -141,23 +130,22 @@ namespace Imago.Services
                 var header = rows[0];
                 var headerData = header.SelectNodes("th");
 
-                var weaponName = headerData[0].InnerText;
-                CleanUpString(ref weaponName);
+                var weaponName = CleanUpString(headerData[0].InnerText);
 
                 var firstRow = rows[1].SelectNodes("td");
 
-                var loadValue = firstRow[6].InnerText;
-                var durabilityValue = firstRow[7].InnerText;
+                var loadValue = CleanUpString(firstRow[5].InnerText);
+                var durabilityValue = CleanUpString(firstRow[6].InnerText);
 
                 //parse each row
                 foreach (var dataRow in rows.Skip(1))
                 {
                     var dataCells = dataRow.SelectNodes("td");
-                    var weaponStanceType = ParseWeaponStance(dataCells[0].InnerText);
+                    var weaponStanceType = ParseWeaponStance(CleanUpString(dataCells[0].InnerText));
 
-                    var phase = dataCells[2].InnerText;
-                    var damage = dataCells[3].InnerText;
-                    var parry = dataCells[4].InnerText;
+                    var phase = CleanUpString(dataCells[1].InnerText);
+                    var damage = CleanUpString(dataCells[2].InnerText);
+                    var parry = CleanUpString(dataCells[3].InnerText);
                     
                     var weaponStance = new WeaponStance(weaponStanceType, phase, damage, int.Parse(parry), "nah");
                     weaponStances.Add(weaponStanceType, weaponStance);
@@ -171,8 +159,6 @@ namespace Imago.Services
 
         private WeaponStanceType ParseWeaponStance(string name)
         {
-            CleanUpString(ref name);
-
             if (name.Equals("leichte Haltung"))
                 return WeaponStanceType.Light;
             if (name.Equals("schwere Haltung"))
@@ -183,9 +169,9 @@ namespace Imago.Services
         }
         #endregion
 
-        private void CleanUpString(ref string value)
+        private string CleanUpString(string value)
         {
-            value = value.Replace("\n", "").Replace("\r", "");
+           return value.Replace("\n", "").Replace("\r", "");
         }
     }
 }

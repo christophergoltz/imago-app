@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
+using SQLite;
+using SQLiteNetExtensions.Attributes;
 
 namespace Imago.Models.Entity
 {
@@ -12,11 +14,13 @@ namespace Imago.Models.Entity
             
         }
 
-        public string JsonArmorSetValue { get; set; }
-
-        public ArmorSet MapToModel()
+        public string ValueAsJson { get; set; }
+        
+        [Ignore]
+        public ArmorSet Value
         {
-            return JsonConvert.DeserializeObject<ArmorSet>(JsonArmorSetValue);
+            get => JsonConvert.DeserializeObject<ArmorSet>(ValueAsJson);
+            set => ValueAsJson = JsonConvert.SerializeObject(value);
         }
     }
 }

@@ -4,7 +4,6 @@ using System;
 using System.Diagnostics;
 using AutoMapper;
 using Imago.Models;
-using Imago.Models.Mappings;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -27,8 +26,6 @@ namespace Imago
 
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile<TableInfoMapping>();
-                cfg.AddProfile<ArmorMapping>();
             });
 #if DEBUG
             try
