@@ -49,6 +49,7 @@ namespace Imago.ViewModels
                     try
                     {
                         tableInfoModel.State = TableInfoState.Loading;
+                        await Task.Delay(500);
                         var result = await _wikiParseService.RefreshWikiData(tableInfoModel.Type);
                         if (result == null)
                         {
