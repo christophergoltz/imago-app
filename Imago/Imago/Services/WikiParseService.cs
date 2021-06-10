@@ -50,9 +50,15 @@ namespace Imago.Services
                 }
                 case TableInfoType.MeleeWeapons:
                 {
-                    var meleeWeapons = ParseCloseRangeWeaponsFromUrl(MeleeWeaponUrl);
+                    var meleeWeapons = ParseMeleeWeaponsFromUrl(MeleeWeaponUrl);
                     await _meleeWeaponRepository.DeleteAllItems();
                     return await _meleeWeaponRepository.AddAllItems(meleeWeapons);
+                }
+                case TableInfoType.RangedWeapons:
+                {
+                    var meleeWeapons = ParseRangedWeaponsFromUrl(RangedWeaponUrl);
+                    await _rangedWeaponRepository.DeleteAllItems();
+                    return await _rangedWeaponRepository.AddAllItems(meleeWeapons);
                 }
             }
 
@@ -113,9 +119,8 @@ namespace Imago.Services
             return ArmorPartType.Unknown;
         }
         #endregion
-
-        #region CloseRangeWeaons
-        public List<Weapon> ParseCloseRangeWeaponsFromUrl(string url)
+        
+        public List<Weapon> ParseMeleeWeaponsFromUrl(string url)
         {
             var web = new HtmlWeb();
             var doc = web.Load(url);
@@ -157,6 +162,50 @@ namespace Imago.Services
             return weapons;
         }
 
+
+        public List<Weapon> ParseRangedWeaponsFromUrl(string url)
+        {
+            var web = new HtmlWeb();
+            var doc = web.Load(url);
+            var weapons = new List<Weapon>();
+
+            //parse complete table
+            foreach (var table in doc.DocumentNode.SelectNodes("//table[@class='wikitable']"))
+            {
+                var weaponStances = new Dictionary<WeaponStanceType, WeaponStance>();
+
+                var rows = table.SelectNodes("tr");
+                var header = rows[0];
+                var headerData = header.SelectNodes("th");
+
+                var weaponName = CleanUpString(headerData[0].InnerText);
+
+                var firstRow = rows[1].SelectNodes("td");
+
+                var loadValue = CleanUpString(firstRow[5].InnerText);
+                var durabilityValue = CleanUpString(firstRow[6].InnerText);
+
+                //parse each row
+                foreach (var dataRow in rows.Skip(1))
+                {
+                    var dataCells = dataRow.SelectNodes("td");
+                    var weaponStanceType = ParseWeaponStance(CleanUpString(dataCells[0].InnerText));
+
+                    var phase = CleanUpString(dataCells[1].InnerText);
+                    var damage = CleanUpString(dataCells[2].InnerText);
+                    var range = CleanUpString(dataCells[3].InnerText);
+
+                    var weaponStance = new WeaponStance(weaponStanceType, phase, damage, null , range);
+                    weaponStances.Add(weaponStanceType, weaponStance);
+                }
+
+                weapons.Add(new Weapon(weaponName, weaponStances, int.Parse(loadValue), int.Parse(durabilityValue)));
+            }
+
+            return weapons;
+        }
+
+
         private WeaponStanceType ParseWeaponStance(string name)
         {
             if (name.Equals("leichte Haltung"))
@@ -167,7 +216,6 @@ namespace Imago.Services
             Debug.WriteLine($"Unable to parse {nameof(WeaponStanceType)} by value \"{name}\"");
             return WeaponStanceType.Unknown;
         }
-        #endregion
 
         private string CleanUpString(string value)
         {

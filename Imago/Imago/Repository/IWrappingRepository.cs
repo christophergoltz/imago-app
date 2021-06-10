@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,7 @@ namespace Imago.Repository
         {
             _databaseFolder = databaseFolder;
             _databaseFile = Path.Combine(_databaseFolder, databaseFile);
+            Debug.WriteLine("Database: " + _databaseFile);
             Database = new SQLiteAsyncConnection(_databaseFile, DatabaseConstants.Flags);
         }
 
