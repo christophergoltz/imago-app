@@ -2,36 +2,37 @@
 using System.Collections.Generic;
 using System.Text;
 using Imago.Models.Enum;
-using Imago.Shared.Models;
 
 namespace Imago.Models
 {
     public class Weapon : DurabilityItem
     {
+        private Dictionary<WeaponStanceType, WeaponStance> _weaponStances;
+        private string _name;
+
         public Weapon()
         {
             
         }
 
-        public WeaponType Type
+        public Weapon(string name, Dictionary<WeaponStanceType, WeaponStance> weaponStances, int loadValue, int durability)
         {
-            get => _type;
-            set => SetProperty(ref _type, value);
+            WeaponStances = weaponStances;
+            Name = name;
+            LoadValue = loadValue;
+            DurabilityValue = durability;
         }
 
-        private Dictionary<WeaponStanceType, WeaponStance> _weaponStances;
-        private WeaponType _type;
+        public string Name
+        {
+            get => _name;
+            set => SetProperty(ref _name, value);
+        }
 
         public Dictionary<WeaponStanceType, WeaponStance> WeaponStances
         {
             get => _weaponStances;
             set => SetProperty(ref _weaponStances, value);
-        }
-
-        public Weapon(WeaponType type ,Dictionary<WeaponStanceType, WeaponStance> weaponStances )
-        {
-            WeaponStances = weaponStances;
-            Type = type;
         }
     }
 }

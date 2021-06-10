@@ -4,7 +4,6 @@ using System.Data;
 using System.Reflection;
 using System.Text;
 using Imago.Models.Base;
-using Imago.Shared.Models;
 
 namespace Imago.Models
 {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Imago.Shared.Models
+﻿namespace Imago.Models
 {
     public class ArmorModel : DurabilityItem
     {
@@ -11,9 +7,9 @@ namespace Imago.Shared.Models
             
         }
 
-        public ArmorModel(ArmorModelType type, int physicalDefense, int energyDefense, int loadValue, int durability) : base(durability)
+        public ArmorModel(string name, int physicalDefense, int energyDefense, int loadValue, int durability) : base(durability)
         {
-            Type = type;
+            Name = _name;
             PhysicalDefense = physicalDefense;
             EnergyDefense = energyDefense;
             LoadValue = loadValue;
@@ -23,7 +19,7 @@ namespace Imago.Shared.Models
         private bool _adventure;
         private int _physicalDefense;
         private int _energyDefense;
-        private ArmorModelType _type;
+        private string _name;
 
         public int PhysicalDefense
         {
@@ -37,10 +33,10 @@ namespace Imago.Shared.Models
             set => SetProperty(ref _energyDefense, value);
         }
 
-        public ArmorModelType Type
+        public string Name
         {
-            get => _type;
-            set => SetProperty(ref _type, value);
+            get => _name;
+            set => SetProperty(ref _name, value);
         }
 
         public bool Fight

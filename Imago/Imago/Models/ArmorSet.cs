@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using Imago.Models.Enum;
-using Imago.Shared.Models;
 
 namespace Imago.Models
 {

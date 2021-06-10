@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using Imago.Models.Base;
 using Imago.Models.Enum;
-using Imago.Shared;
 
 namespace Imago.Models
 {

@@ -1,4 +1,4 @@
-﻿namespace Imago.Shared.Models
+﻿namespace Imago.Models
 {
     public class DurabilityItem : ItemBase
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Imago.Shared.Util
+namespace Imago.Util
 {
     public class DisplayTextAttribute : Attribute
     {

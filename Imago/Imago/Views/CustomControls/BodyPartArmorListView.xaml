@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:models="clr-namespace:Imago.Models;assembly=Imago"
+           
              xmlns:enum="clr-namespace:Imago.Models.Enum;assembly=Imago"
              xmlns:viewModels="clr-namespace:Imago.ViewModels;assembly=Imago"
-             xmlns:models1="clr-namespace:Imago.Shared.Models;assembly=Imago.Shared"
+             xmlns:models="clr-namespace:Imago.Models;assembly=Imago"
              x:Class="Imago.Views.CustomControls.BodyPartArmorListView" x:Name="BodyPartArmorListViewControl">
     <ContentView.Content>
         <Frame Grid.Column="0" Grid.Row="0" CornerRadius="0" BorderColor="Black">
@@ -62,7 +62,7 @@
                         </Grid>
                     </ListView.Header>
                     <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="models1:ArmorModel">
+                        <DataTemplate x:DataType="models:ArmorModel">
                             <ViewCell>
                                 <Grid Padding="10,4">
                                     <Grid.ColumnDefinitions>

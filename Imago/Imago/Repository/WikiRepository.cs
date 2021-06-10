@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using HtmlAgilityPack;
+using Imago.Models;
 using Imago.Models.Enum;
-using Imago.Shared;
 
 namespace Imago.Repository
 {

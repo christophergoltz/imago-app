@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using Imago.Models.Enum;
-using Imago.Shared.Models;
-using Imago.Shared.Util;
 using Imago.Util;
 using Xamarin.Forms;
 

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using Imago.Models.Enum;
-using Imago.Shared.Util;
 using Imago.Util;
 
 namespace Imago.Models
@@ -15,7 +14,7 @@ namespace Imago.Models
         private int? _parryModifier;
         private string _range;
 
-        public WeaponStance(WeaponStanceType type, string phaseValue, string damageFormula, int? parryModifier, string range, int loadValue)
+        public WeaponStance(WeaponStanceType type, string phaseValue, string damageFormula, int? parryModifier, string range)
         {
             Type = type;
             ParryModifier = parryModifier;

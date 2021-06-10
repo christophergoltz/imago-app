@@ -7,7 +7,6 @@ using System.Windows.Input;
 using Imago.Models;
 using Imago.Repository;
 using Imago.Services;
-using Imago.Shared.Util;
 using Imago.Util;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
@@ -37,7 +36,7 @@ namespace Imago.ViewModels
                 {
                     //todo use converter
                     var x = _itemRepository.GetAllWeapons()
-                        .ToDictionary(s => s.Type.ToString(), s => s);
+                        .ToDictionary(s => s.Name.ToString(), s => s);
 
                     var result =
                         await Shell.Current.DisplayActionSheet($"Waffe hinzufügen", "Abbrechen", null, x.Keys.ToArray());

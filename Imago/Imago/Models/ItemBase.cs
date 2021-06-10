@@ -1,6 +1,6 @@
-﻿using Imago.Shared.Util;
+﻿using Imago.Util;
 
-namespace Imago.Shared.Models
+namespace Imago.Models
 {
     public abstract class ItemBase : BindableBase
     {

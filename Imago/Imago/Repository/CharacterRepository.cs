@@ -4,8 +4,6 @@ using System.Collections.ObjectModel;
 using System.Text;
 using Imago.Models;
 using Imago.Models.Enum;
-using Imago.Shared;
-using Imago.Shared.Models;
 using Attribute = Imago.Models.Attribute;
 
 namespace Imago.Repository
@@ -64,7 +62,7 @@ namespace Imago.Repository
 
         public Weapon CreateWeapon1()
         {
-            return new Weapon(WeaponType.HolzfaellerAxt, new Dictionary<WeaponStanceType, WeaponStance>()
+            return new Weapon("HolzfaellerAxt", new Dictionary<WeaponStanceType, WeaponStance>()
             {
                 {WeaponStanceType.Light, new WeaponStance( WeaponStanceType.Light, "5", "2W6 (P)", -60, "nah", 55)},
                 {WeaponStanceType.Heavy, new WeaponStance( WeaponStanceType.Heavy, "6", "3W6+2 (P)", -40, "nah",55)},

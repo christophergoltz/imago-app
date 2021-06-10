@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Imago.Shared.Util
+namespace Imago.Util
 {
     public class BindableBase : INotifyPropertyChanged
     {

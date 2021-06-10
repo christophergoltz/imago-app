@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using Imago.Models;
 
-namespace Imago.Shared.Util
+namespace Imago.Util
 {
     public static class TalentLookUp
     {

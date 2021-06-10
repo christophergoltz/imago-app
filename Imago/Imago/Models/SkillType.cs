@@ -1,6 +1,6 @@
-﻿using Imago.Shared.Util;
+﻿using Imago.Util;
 
-namespace Imago.Shared
+namespace Imago.Models
 {
     public enum SkillType
     {

@@ -2,7 +2,6 @@
 using System.Text;
 using Imago.Models;
 using Imago.Services;
-using Imago.Shared.Util;
 using Imago.Util;
 
 namespace Imago.ViewModels

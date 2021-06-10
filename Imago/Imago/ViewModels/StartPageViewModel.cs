@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Imago.Database;
 using Imago.Models;
+using Imago.Models.Entity;
 using Imago.Models.Enum;
 using Imago.Repository;
 using Imago.Services;
-using Imago.Shared.Util;
 using Imago.Util;
 using Imago.Views;
 using Xamarin.Forms;
@@ -20,14 +20,24 @@ namespace Imago.ViewModels
     {
         private readonly ICharacterRepository _characterRepository;
         private readonly IWikiParseService _wikiParseService;
+        private readonly IWrappingRepository<Weapon, WeaponEntity> _meleeWeaponRepository;
+        private readonly IWrappingRepository<Weapon, WeaponEntity> _rangedWeaponRepository;
+        private readonly IWrappingRepository<ArmorSet, ArmorSetEntity> _armorRepository;
         private Dictionary<TableInfoType, TableInfoModel> _tableInfos;
 
         public ICommand ParseDataFromWikiCommand { get; }
 
-        public StartPageViewModel(ICharacterRepository characterRepository, IWikiParseService wikiParseService)
+        public StartPageViewModel(ICharacterRepository characterRepository, 
+            IWikiParseService wikiParseService, 
+            IWrappingRepository<Weapon, WeaponEntity> meleeWeaponRepository,
+            IWrappingRepository<Weapon, WeaponEntity> rangedWeaponRepository,
+            IWrappingRepository<ArmorSet, ArmorSetEntity> armorRepository)
         {
             _characterRepository = characterRepository;
             _wikiParseService = wikiParseService;
+            _meleeWeaponRepository = meleeWeaponRepository;
+            _rangedWeaponRepository = rangedWeaponRepository;
+            _armorRepository = armorRepository;
             TestCharacterCommand = new Command(OnTestCharacterClicked);
 
             ParseDataFromWikiCommand = new Command(async () =>
@@ -49,7 +59,25 @@ namespace Imago.ViewModels
         {
             try
             {
-                var database = await LocalDatabase.Instance;
+                foreach (var tableInfoType in ((TableInfoType[])Enum.GetValues(typeof(TableInfoType))))
+                {
+                    switch (tableInfoType)
+                    {
+                        case TableInfoType.Armor:
+                            break;
+                        case TableInfoType.MeleeWeapons:
+                            break;
+                        case TableInfoType.RangedWeapons:
+                            break;
+                        case TableInfoType.SpecialWeapons:
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                }
+
+
+                var database = await DatabaseInfoRepository.Instance;
                 var data = await database.GetAllTableInfos();
                 TableInfos = data.ToDictionary(model => model.Type, model => model);
             }

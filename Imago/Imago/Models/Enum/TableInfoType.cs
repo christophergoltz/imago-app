@@ -1,4 +1,4 @@
-﻿using Imago.Shared.Util;
+﻿using Imago.Util;
 
 namespace Imago.Models.Enum
 {
@@ -6,7 +6,11 @@ namespace Imago.Models.Enum
     {
         [DisplayText("Rüstungen")]
         Armor = 0,
-        [DisplayText("Waffen")]
-        Weapons = 1
+        [DisplayText("Nahkampfwaffen")]
+        MeleeWeapons = 1,
+        [DisplayText("Fernkampfwaffen")]
+        RangedWeapons = 2,
+        [DisplayText("Spezialwaffen")]
+        SpecialWeapons = 3,
     }
 }

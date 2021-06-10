@@ -8,7 +8,6 @@ using System.Windows.Input;
 using Imago.Models;
 using Imago.Repository;
 using Imago.Services;
-using Imago.Shared.Models;
 using Xamarin.Forms;
 
 namespace Imago.ViewModels
@@ -44,8 +43,9 @@ namespace Imago.ViewModels
 
             AddArmorCommand = new Command(async () =>
             {
-                //todo use converter
-                var armor = _itemRepository.GetAllArmorParts(bodyPart.Type).ToDictionary(s => s.Type.ToString(), s => s);
+                var armor = _itemRepository
+                    .GetAllArmorParts(bodyPart.Type)
+                    .ToDictionary(_ => _.Name, _ => _);
 
                 var result =
                     await Shell.Current.DisplayActionSheet($"Rüstung hinzufügen", "Abbrechen", null, armor.Keys.ToArray());

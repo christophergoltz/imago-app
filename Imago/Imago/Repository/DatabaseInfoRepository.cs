@@ -11,20 +11,19 @@ using SQLite;
 
 namespace Imago.Database
 {
-    public class LocalDatabase
+    public class DatabaseInfoRepository
     {
         private static SQLiteAsyncConnection _database;
 
-        public static readonly AsyncLazy<LocalDatabase> Instance = new AsyncLazy<LocalDatabase>(async () =>
+        public static readonly AsyncLazy<DatabaseInfoRepository> Instance = new AsyncLazy<DatabaseInfoRepository>(async () =>
         {
-            var instance = new LocalDatabase();
-            await _database.CreateTableAsync<TableInfoEntity>();
+            var instance = new DatabaseInfoRepository();
             await _database.CreateTableAsync<ArmorSetEntity>();
-            //await _database.CreateTableAsync<Weapon>();
+            await _database.CreateTableAsync();
             return instance;
         });
 
-        public LocalDatabase()
+        public DatabaseInfoRepository()
         {
             Debug.WriteLine("Database: " + DatabaseConstants.DatabasePath);
             _database = new SQLiteAsyncConnection(DatabaseConstants.DatabasePath, DatabaseConstants.Flags);
@@ -91,6 +90,11 @@ namespace Imago.Database
         public void DeleteAllArmor()
         {
             _database.DeleteAllAsync<ArmorSetEntity>();
+        }
+
+        public void DeleteAllMeleeWeapons()
+        {
+            _database.DeleteAllAsync<Weaent>();
         }
 
         public async Task InsertMany(List<ArmorSet>sets )

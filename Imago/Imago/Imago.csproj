@@ -15,10 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Imago.Shared\Imago.Shared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Update="Views\ChangelogPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -55,5 +51,9 @@
     <EmbeddedResource Update="Views\WikiPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\Mappings\" />
   </ItemGroup>
 </Project>
