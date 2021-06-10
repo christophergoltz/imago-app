@@ -1,62 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using System.Transactions;
 using Imago.Models;
 using Imago.Models.Enum;
+using Imago.Shared;
+using Imago.Shared.Models;
+using Newtonsoft.Json;
 
 namespace Imago.Repository
 {
     public interface IItemRepository
     {
-        ArmorSet GetArmorSet(ArmorType armorType);
-        Armor GetArmorPart(ArmorType armorType, BodyPartType bodyPart);
-        IEnumerable<Armor> GetAllArmorParts(BodyPartType bodyPart);
+        ArmorSet GetArmorSet(ArmorModelType armorType);
+        ArmorModel GetArmorPart(ArmorModelType armorType, BodyPartType bodyPart);
+        IEnumerable<ArmorModel> GetAllArmorParts(BodyPartType bodyPart);
         Weapon GetWeapon(WeaponType weaponType);
         List<Weapon> GetAllWeapons();
     }
 
     public class ItemRepository : IItemRepository
     {
-        private static readonly Dictionary<ArmorType, ArmorSet> ArmorLookUp = new Dictionary<ArmorType, ArmorSet>
+        public ItemRepository()
         {
-            {ArmorType.Komposit, new ArmorSet(new Dictionary<BodyPartType, Armor>
-                {
-                    {BodyPartType.Kopf, new Armor(ArmorType.Komposit, 2, 2, 10)},
-                    {BodyPartType.Torso, new Armor(ArmorType.Komposit, 2, 2, 25)},
-                    {BodyPartType.ArmLinks, new Armor(ArmorType.Komposit, 2, 2, 12)},
-                    {BodyPartType.ArmRechts, new Armor(ArmorType.Komposit, 2, 2, 12)},
-                    {BodyPartType.BeinLinks, new Armor(ArmorType.Komposit, 2, 2, 18)},
-                    {BodyPartType.BeinRechts, new Armor(ArmorType.Komposit, 2, 2, 18)},
-                })},
-            {ArmorType.Chitin, new ArmorSet(new Dictionary<BodyPartType, Armor>
-            {
-                {BodyPartType.Kopf, new Armor(ArmorType.Chitin, 1, 3, 10)},
-                {BodyPartType.Torso, new Armor(ArmorType.Chitin, 1, 4, 40)},
-                {BodyPartType.ArmLinks, new Armor(ArmorType.Chitin, 1, 3, 10)},
-                {BodyPartType.ArmRechts, new Armor(ArmorType.Chitin, 1, 3, 10)},
-                {BodyPartType.BeinLinks, new Armor(ArmorType.Chitin, 1, 3, 25)},
-                {BodyPartType.BeinRechts, new Armor(ArmorType.Chitin, 1, 3, 25)},
-            })},
-            {ArmorType.Platten, new ArmorSet(new Dictionary<BodyPartType, Armor>
-            {
-                {BodyPartType.Kopf, new Armor(ArmorType.Platten, 5, 1, 25)},
-                {BodyPartType.Torso, new Armor(ArmorType.Platten, 7, 1, 75)},
-                {BodyPartType.ArmLinks, new Armor(ArmorType.Platten, 5, 1, 30)},
-                {BodyPartType.ArmRechts, new Armor(ArmorType.Platten, 5, 1, 30)},
-                {BodyPartType.BeinLinks, new Armor(ArmorType.Platten, 6, 1, 40)},
-                {BodyPartType.BeinRechts, new Armor(ArmorType.Platten, 6, 1, 40)},
-            })},
-            {ArmorType.Natuerlich, new ArmorSet(new Dictionary<BodyPartType, Armor>
-            {
-                {BodyPartType.Kopf, new Armor(ArmorType.Natuerlich,0,0)},
-                {BodyPartType.Torso, new Armor(ArmorType.Natuerlich, 0,0)},
-                {BodyPartType.ArmLinks, new Armor(ArmorType.Natuerlich, 0,0)},
-                {BodyPartType.ArmRechts, new Armor(ArmorType.Natuerlich,0,0)},
-                {BodyPartType.BeinLinks, new Armor(ArmorType.Natuerlich,0,0)},
-                {BodyPartType.BeinRechts, new Armor(ArmorType.Natuerlich,0,0)},
-            })}
-        };
+            _armorLookUp = JsonConvert.DeserializeObject<Dictionary<ArmorModelType, ArmorSet>>(
+                "{\"Chitin\":{\"ArmorParts\":{\"Helm\":{\"PhysicalDefense\":1,\"EnergyDefense\":3,\"Type\":3,\"Fight\":false,\"Adventure\":false,\"DurabilityValue\":40,\"LoadValue\":10},\"Torso\":{\"PhysicalDefense\":1,\"EnergyDefense\":4,\"Type\":3,\"Fight\":false,\"Adventure\":false,\"DurabilityValue\":70,\"LoadValue\":40},\"Arm\":{\"PhysicalDefense\":1,\"EnergyDefense\":3,\"Type\":3,\"Fight\":false,\"Adventure\":false,\"DurabilityValue\":40,\"LoadValue\":10},\"Bein\":{\"PhysicalDefense\":1,\"EnergyDefense\":3,\"Type\":3,\"Fight\":false,\"Adventure\":false,\"DurabilityValue\":60,\"LoadValue\":25}}},\"HolzKnochen\":{\"ArmorParts\":{\"Helm\":{\"PhysicalDefense\":1,\"EnergyDefense\":5,\"Type\":7,\"Fight\":false,\"Adventure\":false,\"DurabilityValue\":35,\"LoadValue\":10},\"Torso\":{\"PhysicalDefense\":2,\"EnergyDefense\":6,\"Type\":7,\"Fight\":false,\"Adventure\":false,\"DurabilityValue\":65,\"LoadValue\":50},\"Arm\":{\"PhysicalDefense\":2,\"EnergyDefense\":5,\"Type\":7,\"Fight\":false,\"Adventure\":false,\"DurabilityValue\":35,\"LoadValue\":15},\"Bein\":{\"PhysicalDefense\":2,\"EnergyDefense\":5,\"Type\":7,\"Fight\":false,\"Adventure\":false,\"DurabilityValue\":60,\"LoadValue\":30}}},\"Ketten\":{\"ArmorParts\":{\"Helm\":{\"PhysicalDefense\":3,\"EnergyDefense\":1,\"Type\":5,\"Fight\":false,\"Adventure\":false,\"DurabilityValue\":70,\"LoadValue\":15},\"Torso\":{\"PhysicalDefense\":4,\"EnergyDefense\":1,\"Type\":5,\"Fight\":false,\"Adventure\":false,\"DurabilityValue\":120,\"LoadValue\":55},\"Arm\":{\"PhysicalDefense\":3,\"EnergyDefense\":1,\"Type\":5,\"Fight\":false,\"Adventure\":false,\"DurabilityValue\":80,\"LoadValue\":25},\"Bein\":{\"PhysicalDefense\":4,\"EnergyDefense\":1,\"Type\":5,\"Fight\":false,\"Adventure\":false,\"DurabilityValue\":100,\"LoadValue\":30}}},\"Komposit\":{\"ArmorParts\":{\"Helm\":{\"PhysicalDefense\":2,\"EnergyDefense\":2,\"Type\":2,\"Fight\":false,\"Adventure\":false,\"DurabilityValue\":30,\"LoadValue\":10},\"Torso\":{\"PhysicalDefense\":2,\"EnergyDefense\":2,\"Type\":2,\"Fight\":false,\"Adventure\":false,\"DurabilityValue\":50,\"LoadValue\":25},\"Arm\":{\"PhysicalDefense\":2,\"EnergyDefense\":2,\"Type\":2,\"Fight\":false,\"Adventure\":false,\"DurabilityValue\":30,\"LoadValue\":12},\"Bein\":{\"PhysicalDefense\":2,\"EnergyDefense\":2,\"Type\":2,\"Fight\":false,\"Adventure\":false,\"DurabilityValue\":40,\"LoadValue\":18}}},\"Platten\":{\"ArmorParts\":{\"Helm\":{\"PhysicalDefense\":5,\"EnergyDefense\":1,\"Type\":4,\"Fight\":false,\"Adventure\":false,\"DurabilityValue\":70,\"LoadValue\":25},\"Torso\":{\"PhysicalDefense\":7,\"EnergyDefense\":1,\"Type\":4,\"Fight\":false,\"Adventure\":false,\"DurabilityValue\":120,\"LoadValue\":70},\"Arm\":{\"PhysicalDefense\":5,\"EnergyDefense\":1,\"Type\":4,\"Fight\":false,\"Adventure\":false,\"DurabilityValue\":70,\"LoadValue\":30},\"Bein\":{\"PhysicalDefense\":6,\"EnergyDefense\":1,\"Type\":4,\"Fight\":false,\"Adventure\":false,\"DurabilityValue\":80,\"LoadValue\":40}}},\"Stepp\":{\"ArmorParts\":{\"Helm\":{\"PhysicalDefense\":1,\"EnergyDefense\":1,\"Type\":6,\"Fight\":false,\"Adventure\":false,\"DurabilityValue\":20,\"LoadValue\":5},\"Torso\":{\"PhysicalDefense\":1,\"EnergyDefense\":1,\"Type\":6,\"Fight\":false,\"Adventure\":false,\"DurabilityValue\":40,\"LoadValue\":20},\"Arm\":{\"PhysicalDefense\":1,\"EnergyDefense\":1,\"Type\":6,\"Fight\":false,\"Adventure\":false,\"DurabilityValue\":30,\"LoadValue\":2},\"Bein\":{\"PhysicalDefense\":1,\"EnergyDefense\":1,\"Type\":6,\"Fight\":false,\"Adventure\":false,\"DurabilityValue\":20,\"LoadValue\":10}}}}");
+        }
+
+        private static Dictionary<ArmorModelType, ArmorSet> _armorLookUp;
 
         private static readonly Dictionary<WeaponType, Weapon> WeaponLookUp = new Dictionary<WeaponType, Weapon>
         {
@@ -118,46 +93,68 @@ namespace Imago.Repository
             }
         };
         
-        public ArmorSet GetArmorSet(ArmorType armorType)
+        public ArmorSet GetArmorSet(ArmorModelType armorType)
         {
-            if (ArmorLookUp.ContainsKey(armorType))
-                return ArmorLookUp[armorType];
+            if (_armorLookUp.ContainsKey(armorType))
+                return _armorLookUp[armorType];
 
             return null;
         }
 
-        public Armor GetArmorPart(ArmorType armorType, BodyPartType bodyPart)
+        public ArmorModel GetArmorPart(ArmorModelType armorType, BodyPartType bodyPart)
         {
-            if (ArmorLookUp.ContainsKey(armorType))
+            var armorPartType = MapBodyPartTypeToArmorPartType(bodyPart);
+            if (_armorLookUp.ContainsKey(armorType))
             {
-                var armorSet = ArmorLookUp[armorType];
-                if (armorSet.ArmorParts.ContainsKey(bodyPart))
-                    return armorSet.ArmorParts[bodyPart];
+                var armorSet = _armorLookUp[armorType];
+                if (armorSet.ArmorParts.ContainsKey(armorPartType))
+                {
+                    return DeepCopy(armorSet.ArmorParts[armorPartType]);
+                }
             }
 
             return null;
         }
 
-        public IEnumerable<Armor> GetAllArmorParts(BodyPartType bodyPart)
+        private static T DeepCopy<T>(T other)
         {
-            foreach (var armorSet in ArmorLookUp.Values)
+            return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(other));
+        }
+
+        private ArmorPartType MapBodyPartTypeToArmorPartType(BodyPartType bodyPart)
+        {
+            var armorPartType = ArmorPartType.Unknown;
+
+            if (bodyPart == BodyPartType.Kopf)
+                armorPartType = ArmorPartType.Helm;
+            if (bodyPart == BodyPartType.Torso)
+                armorPartType = ArmorPartType.Torso;
+            if (bodyPart == BodyPartType.ArmLinks || bodyPart == BodyPartType.ArmRechts)
+                armorPartType = ArmorPartType.Arm;
+            if (bodyPart == BodyPartType.BeinLinks || bodyPart == BodyPartType.BeinRechts)
+                armorPartType = ArmorPartType.Bein;
+
+            return armorPartType;
+        }
+
+        public IEnumerable<ArmorModel> GetAllArmorParts(BodyPartType bodyPart)
+        {
+            var armorPartType = MapBodyPartTypeToArmorPartType(bodyPart);
+            foreach (var armorSet in _armorLookUp.Values.Where(armorSet => armorSet.ArmorParts.ContainsKey(armorPartType)))
             {
-                if (armorSet.ArmorParts.ContainsKey(bodyPart))
-                {
-                    yield return armorSet.ArmorParts[bodyPart];
-                }
+                yield return DeepCopy(armorSet.ArmorParts[armorPartType]);
             }
         }
 
         public List<Weapon> GetAllWeapons()
         {
-            return WeaponLookUp.Values.ToList();
+            return WeaponLookUp.Values.Select(DeepCopy).ToList();
         }
 
         public Weapon GetWeapon(WeaponType weaponType)
         {
             if (WeaponLookUp.ContainsKey(weaponType))
-                return WeaponLookUp[weaponType];
+                return DeepCopy(WeaponLookUp[weaponType]);
 
             return null;
         }

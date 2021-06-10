@@ -1,0 +1,23 @@
+﻿<Window x:Class="Imago.Wiki.Parser.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Imago.Wiki.Parser"
+        xmlns:viewModels="clr-namespace:Imago.Wiki.Parser.ViewModels"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+            <Label Content="Rüstungen"></Label>
+            <Button Content="Parsen" Command="{Binding ParseArmorCommand}"></Button>
+            <TextBox BorderThickness="1"
+                     Text="{Binding JsonArmorValue}"
+                     IsReadOnly="True" HorizontalAlignment="Stretch"
+                     TextWrapping="Wrap" />
+        </StackPanel>
+    </Grid>
+</Window>

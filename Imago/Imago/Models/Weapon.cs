@@ -2,11 +2,17 @@
 using System.Collections.Generic;
 using System.Text;
 using Imago.Models.Enum;
+using Imago.Shared.Models;
 
 namespace Imago.Models
 {
     public class Weapon : DurabilityItem
     {
+        public Weapon()
+        {
+            
+        }
+
         public WeaponType Type
         {
             get => _type;

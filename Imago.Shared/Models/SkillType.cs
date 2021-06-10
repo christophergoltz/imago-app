@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Imago.Util;
+﻿using Imago.Shared.Util;
 
-namespace Imago.Models.Enum
+namespace Imago.Shared
 {
     public enum SkillType
     {

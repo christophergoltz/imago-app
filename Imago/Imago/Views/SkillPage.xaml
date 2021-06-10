@@ -113,7 +113,7 @@
             <!-- dialog -->
             <Grid IsVisible="{Binding SelectedSkill, Converter={StaticResource ObjectNotNullToBoolConverter}}">
                <ContentView BackgroundColor="black" Opacity="0.3"/>
-                <Grid BackgroundColor="White" WidthRequest="800" HeightRequest="600"
+                <Grid BackgroundColor="White" WidthRequest="1200" HeightRequest="800"
                       VerticalOptions="Center" HorizontalOptions="Center" Padding="20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -121,7 +121,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="1"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
@@ -218,9 +218,12 @@
                     <BoxView Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Color="Black"/>
 
                     <!-- meisterschaften -->
-                    <StackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
-                        <Label Text="Meisterschaften: [tbd]" FontSize="18"/>
-                    </StackLayout>
+                    <WebView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" 
+                             Source="{Binding TalentWebViewSource}"></WebView>
+                    <!--<StackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
+                        --><!--<Label Text="Meisterschaften: [tbd]" FontSize="18"/>--><!--
+                       
+                    </StackLayout>-->
                 </Grid>
             </Grid>
         </Grid>

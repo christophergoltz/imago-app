@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace Imago.Util
+namespace Imago.Shared.Util
 {
     public class DisplayTextAttribute : Attribute
     {
         public string Text { get; }
 
-        internal DisplayTextAttribute(string text)
+        public DisplayTextAttribute(string text)
         {
             Text = text;
         }

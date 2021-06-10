@@ -160,6 +160,10 @@
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Imago.Shared\Imago.Shared.csproj">
+      <Project>{f1d7ec64-66ed-4ee6-b264-aaa6f2001a3a}</Project>
+      <Name>Imago.Shared</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Imago\Imago.csproj">
       <Project>{037E86B3-95AF-4963-9D1E-D4E3173ACE36}</Project>
       <Name>Imago</Name>

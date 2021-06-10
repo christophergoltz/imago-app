@@ -8,6 +8,7 @@ using System.Windows.Input;
 using Imago.Models;
 using Imago.Repository;
 using Imago.Services;
+using Imago.Shared.Models;
 using Xamarin.Forms;
 
 namespace Imago.ViewModels
@@ -35,7 +36,7 @@ namespace Imago.ViewModels
                 armor.PropertyChanged += OnArmorPropertyChanged;
             }
             
-            RemoveArmorCommand = new Command<Armor>(armor =>
+            RemoveArmorCommand = new Command<ArmorModel>(armor =>
             {
                 BodyPart.Armor.Remove(armor);
                 _characterService.RecalculateHandicapAttributes(_character);
@@ -61,9 +62,9 @@ namespace Imago.ViewModels
 
         private void OnArmorPropertyChanged(object sender, PropertyChangedEventArgs args)
         {
-            if (args.PropertyName.Equals(nameof(Armor.LoadValue))
-                || args.PropertyName.Equals(nameof(Armor.Fight))
-                || args.PropertyName.Equals(nameof(Armor.Adventure)))
+            if (args.PropertyName.Equals(nameof(ArmorModel.LoadValue))
+                || args.PropertyName.Equals(nameof(ArmorModel.Fight))
+                || args.PropertyName.Equals(nameof(ArmorModel.Adventure)))
             {
                 _characterService.RecalculateHandicapAttributes(_character);
             }

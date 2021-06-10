@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using Imago.Models.Enum;
+using Imago.Shared.Models;
+using Imago.Shared.Util;
 using Imago.Util;
 using Xamarin.Forms;
 
@@ -12,11 +14,11 @@ namespace Imago.Models
     {
         private int _maxHitpoints;
         private int _currentHitpoints;
-        private ObservableCollection<Armor> _armor;
+        private ObservableCollection<ArmorModel> _armor;
         private BodyPartType _type;
         private string _formula;
 
-        public BodyPart(BodyPartType type, string formula, int currentHitpoints, ObservableCollection<Armor> armor)
+        public BodyPart(BodyPartType type, string formula, int currentHitpoints, ObservableCollection<ArmorModel> armor)
         {
             Type = type;
             Formula = formula;
@@ -77,7 +79,7 @@ namespace Imago.Models
             }
         }
         
-        public ObservableCollection<Armor> Armor
+        public ObservableCollection<ArmorModel> Armor
         {
             get => _armor;
             set => SetProperty(ref _armor, value);

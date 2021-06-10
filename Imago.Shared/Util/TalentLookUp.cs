@@ -1,36 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using HtmlAgilityPack;
-using Imago.Models.Enum;
-using Imago.Shared;
 
-namespace Imago.Repository
+namespace Imago.Shared.Util
 {
-    public interface IWikiRepository
+    public static class TalentLookUp
     {
-        string GetWikiUrl(SkillType skillType);
-        string GetWikiUrl(SkillGroupType skillGroupType);
-        string GetTalentHtml(SkillType skillType);
-        string GetMasteryHtml(SkillGroupType skillGroupType);
-    }
-
-    public class WikiRepository : IWikiRepository
-    {
-        private static Dictionary<SkillGroupType, string> _skillGroupTypeLookUp =
-            new Dictionary<SkillGroupType, string>()
-            {
-                {SkillGroupType.Bewegung, "http://imago-rp.de/index.php/Bewegung_(Fertigkeitsgruppe)"},
-                {SkillGroupType.Nahkampf, "http://imago-rp.de/index.php/Nahkampf_(Fertigkeitsgruppe)"},
-                {SkillGroupType.Heimlichkeit, "http://imago-rp.de/index.php/Heimlichkeit_(Fertigkeitsgruppe)"},
-                {SkillGroupType.Fernkampf, "http://imago-rp.de/index.php/Fernkampf_(Fertigkeitsgruppe)"},
-                {SkillGroupType.Webkunst, "http://imago-rp.de/index.php/Weben_(Fertigkeitsgruppe)"},
-                {SkillGroupType.Wissenschaft, "http://imago-rp.de/index.php/Wissenschaft_(Fertigkeitsgruppe)"},
-                {SkillGroupType.Handwerk, "http://imago-rp.de/index.php/Handwerk_(Fertigkeitsgruppe)"},
-                {SkillGroupType.Soziales, "http://imago-rp.de/index.php/Soziales_(Fertigkeitsgruppe)"}
-            };
-
-        private static Dictionary<SkillType, string> _skillTypeLookUp = new Dictionary<SkillType, string>()
+        public static Dictionary<SkillType, string> WikiTalentLookUp = new Dictionary<SkillType, string>()
         {
             {SkillType.Alchemie, "http://imago-rp.de/index.php/Alchemie"},
             {SkillType.Anatomie, "http://imago-rp.de/index.php/Anatomie"},
@@ -39,10 +15,10 @@ namespace Imago.Repository
             {SkillType.Ausdruck, "http://imago-rp.de/index.php/Ausdruck"},
             {SkillType.Ausweichen, "http://imago-rp.de/index.php/Ausweichen"},
             {SkillType.Bewusstsein, "http://imago-rp.de/index.php/Bewusstsein"},
-            {SkillType.Blasrohre, "http://imago-rp.de/index.php/Blasrohr_(Fertigkeit)"},
+            {SkillType.Blasrohre, "http://imago-rp.de/index.php/Blasrohre"},
             {SkillType.Boegen, "http://imago-rp.de/index.php/B%C3%B6gen_(Fertigkeit)"},
             {SkillType.Chaos, "http://imago-rp.de/index.php/Chaos"},
-            {SkillType.Dolche, "http://imago-rp.de/index.php/Dolche_(Fertigkeit)"},
+            {SkillType.Dolche, "http://imago-rp.de/index.php/Blasrohr_(Fertigkeit)"},
             {SkillType.Einfalt, "http://imago-rp.de/index.php/Einfalt"},
             {SkillType.Einschuechtern, "http://imago-rp.de/index.php/Einsch%C3%BCchtern"},
             {SkillType.Ekstase, "http://imago-rp.de/index.php/Ekstase"},
@@ -90,63 +66,5 @@ namespace Imago.Repository
             {SkillType.Wundscher, "http://imago-rp.de/index.php/Wundscher"},
             {SkillType.Zweihaender, "http://imago-rp.de/index.php/Zweih%C3%A4nder_(Fertigkeit)"}
         };
-
-        public string GetTalentHtml(SkillType skillType)
-        {
-            var url = _skillTypeLookUp[skillType];
-            var web = new HtmlWeb();
-            var doc = web.Load(url);
-            doc.GetElementbyId("mw-page-base")?.Remove();
-            doc.GetElementbyId("mw-head-base")?.Remove();
-            doc.GetElementbyId("mw-navigation")?.Remove();
-            doc.GetElementbyId("footer")?.Remove();
-            doc.GetElementbyId("catlinks")?.Remove();
-            doc.GetElementbyId("toc")?.Remove();
-            //var t = doc.GetElementbyId("Beschreibung");
-            //var tt = t.ParentNode;
-
-            //while (tt.NextSibling.Name != "h2")
-            //{
-            //    tt.NextSibling.Remove();
-            //}
-
-            //tt.Remove();
-            
-            doc.GetElementbyId("content")?.SetAttributeValue("style", "margin-left: 0px;");
-
-            return doc.DocumentNode.OuterHtml;
-        }
-
-        public string GetMasteryHtml(SkillGroupType skillGroupType)
-        {
-            var url = _skillGroupTypeLookUp[skillGroupType];
-            var web = new HtmlWeb();
-            var doc = web.Load(url);
-            doc.GetElementbyId("mw-page-base")?.Remove();
-            doc.GetElementbyId("mw-head-base")?.Remove();
-            doc.GetElementbyId("mw-navigation")?.Remove();
-            doc.GetElementbyId("footer")?.Remove();
-            doc.GetElementbyId("catlinks")?.Remove();
-            doc.GetElementbyId("toc")?.Remove();
-            doc.GetElementbyId("content")?.SetAttributeValue("style", "margin-left: 0px;");
-
-            return doc.DocumentNode.OuterHtml;
-        }
-
-        public string GetWikiUrl(SkillType skillType)
-        {
-            if (_skillTypeLookUp.ContainsKey(skillType))
-                return _skillTypeLookUp[skillType];
-
-            return string.Empty;
-        }
-
-        public string GetWikiUrl(SkillGroupType skillGroupType)
-        {
-            if (_skillGroupTypeLookUp.ContainsKey(skillGroupType))
-                return _skillGroupTypeLookUp[skillGroupType];
-
-            return string.Empty;
-        }
     }
 }
