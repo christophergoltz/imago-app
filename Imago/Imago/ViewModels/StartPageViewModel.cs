@@ -68,7 +68,6 @@ namespace Imago.ViewModels
                     {
                         tableInfoModel.State = TableInfoState.Error;
                         Debug.WriteLine(e);
-                //        throw;
                     }
 
                 }

@@ -41,11 +41,12 @@
                         <DataTemplate x:DataType="models:TableInfoModel">
                             <ViewCell>
                                 <Grid>
-                                    <ActivityIndicator IsRunning="True" Background="cyan" >
+                                    <ActivityIndicator IsRunning="True">
                                         <ActivityIndicator.Style>
                                             <Style TargetType="ActivityIndicator">
                                                 <Style.Triggers>
-                                                    <DataTrigger TargetType="ActivityIndicator" Binding="{Binding State}" Value="{x:Static enum:TableInfoState.Loading}">
+                                                    <DataTrigger TargetType="ActivityIndicator" Binding="{Binding State, Source={RelativeSource AncestorType={x:Type models:TableInfoModel}}}" 
+                                                                 Value="{x:Static enum:TableInfoState.Loading}">
                                                         <Setter Property="IsVisible" Value="True"></Setter>
                                                     </DataTrigger>
                                                 </Style.Triggers>
@@ -65,7 +66,8 @@
                                         <Label Grid.Column="1" FontSize="22" VerticalOptions="Center" >
                                             <Label.Text>
                                                 <MultiBinding StringFormat="{}({0})">
-                                                    <Binding Path="Count" Source="{RelativeSource AncestorType={x:Type models:TableInfoModel}}"/>
+                                                    <Binding Path="Count" 
+                                                             Source="{RelativeSource AncestorType={x:Type models:TableInfoModel}}"/>
                                                 </MultiBinding>
                                             </Label.Text>
                                         </Label>
@@ -73,27 +75,31 @@
                                         <Label Grid.Column="2"  FontSize="22" VerticalOptions="Center">
                                             <Label.Text>
                                                 <MultiBinding StringFormat="{}[{0}]">
-                                                    <Binding Path="State"
-                                                             Converter="{StaticResource EnumToDisplayTextConverter}"
-                                                             Source="{RelativeSource AncestorType={x:Type models:TableInfoModel}}"/>
+                                                    <Binding  Path="State"
+                                                             Converter="{StaticResource EnumToDisplayTextConverter}" Source="{RelativeSource AncestorType={x:Type models:TableInfoModel}}"/>
                                                 </MultiBinding>
                                             </Label.Text>
                                             <Label.Style>
                                                 <Style TargetType="Label">
                                                     <Style.Triggers>
-                                                        <DataTrigger TargetType="Label" Binding="{Binding State}" Value="{x:Static enum:TableInfoState.Okay}">
+                                                        <DataTrigger TargetType="Label" Binding="{Binding State, Source={RelativeSource AncestorType={x:Type models:TableInfoModel}}}" 
+                                                                     Value="{x:Static enum:TableInfoState.Okay}">
                                                             <Setter Property="TextColor" Value="Green"></Setter>
                                                         </DataTrigger>
-                                                        <DataTrigger TargetType="Label" Binding="{Binding State}" Value="{x:Static enum:TableInfoState.Error}">
+                                                        <DataTrigger TargetType="Label" Binding="{Binding State, Source={RelativeSource AncestorType={x:Type models:TableInfoModel}}}"
+                                                                     Value="{x:Static enum:TableInfoState.Error}">
                                                             <Setter Property="TextColor" Value="Red"></Setter>
                                                         </DataTrigger>
-                                                        <DataTrigger TargetType="Label" Binding="{Binding State}" Value="{x:Static enum:TableInfoState.Loading}">
+                                                        <DataTrigger TargetType="Label" Binding="{Binding State, Source={RelativeSource AncestorType={x:Type models:TableInfoModel}}}"
+                                                                     Value="{x:Static enum:TableInfoState.Loading}">
                                                             <Setter Property="TextColor" Value="Orange"></Setter>
                                                         </DataTrigger>
-                                                        <DataTrigger TargetType="Label" Binding="{Binding State}" Value="{x:Static enum:TableInfoState.NoData}">
+                                                        <DataTrigger TargetType="Label" Binding="{Binding State, Source={RelativeSource AncestorType={x:Type models:TableInfoModel}}}"
+                                                                     Value="{x:Static enum:TableInfoState.NoData}">
                                                             <Setter Property="TextColor" Value="Orange"></Setter>
                                                         </DataTrigger>
-                                                        <DataTrigger TargetType="Label" Binding="{Binding State}" Value="{x:Static enum:TableInfoState.NoDatebaseFile}">
+                                                        <DataTrigger TargetType="Label" Binding="{Binding State, Source={RelativeSource AncestorType={x:Type models:TableInfoModel}}}"
+                                                                     Value="{x:Static enum:TableInfoState.NoDatebaseFile}">
                                                             <Setter Property="TextColor" Value="Orange"></Setter>
                                                         </DataTrigger>
                                                     </Style.Triggers>
