@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using Imago.Shared.Util;
 using Imago.Util;
 
 namespace Imago.Models.Enum
