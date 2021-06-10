@@ -44,7 +44,7 @@ namespace Imago.ViewModels
 
                 var result =
                     await Shell.Current.DisplayActionSheet($"Waffe hinzufügen", "Abbrechen", null,
-                        weapons.Keys.ToArray());
+                        weapons.Keys.OrderBy(s => s).ToArray());
 
                 if (result == null || result.Equals("Abbrechen"))
                     return;

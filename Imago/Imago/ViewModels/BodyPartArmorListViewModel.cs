@@ -54,7 +54,7 @@ namespace Imago.ViewModels
                     .ToDictionary(_ => _.Name, _ => _);
                 
                 var result =
-                    await Shell.Current.DisplayActionSheet($"Rüstung hinzufügen", "Abbrechen", null, armor.Keys.ToArray());
+                    await Shell.Current.DisplayActionSheet($"Rüstung hinzufügen", "Abbrechen", null, armor.Keys.OrderBy(s => s).ToArray());
 
                 if (result == null || result.Equals("Abbrechen"))
                     return;
