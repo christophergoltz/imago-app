@@ -12,9 +12,6 @@ namespace Imago.ViewModels
 {
     public class WikiPageViewModel : BindableBase
     {
-        public static readonly string WikiMainPageUrl = "http://imago-rp.de/index.php/Hauptseite";
-        public static readonly string WikiUrlPrefix = "http://imago-rp.de/index.php/";
-
         private WikiEntryPageViewModel _selectedWikiPageEntry;
         public static WikiPageEntry RequestedWikiPage { get; set; }
         public ObservableCollection<WikiEntryPageViewModel> WikiEntryList { get; set; }
@@ -30,7 +27,7 @@ namespace Imago.ViewModels
         {
             WikiEntryList = new ObservableCollection<WikiEntryPageViewModel>()
             {
-                CreateNewWikiEntryPageViewModel(new WikiPageEntry(WikiMainPageUrl) {Title = "Startseite"})
+                CreateNewWikiEntryPageViewModel(new WikiPageEntry(WikiConstants.WikiMainPageUrl) {Title = "Startseite"})
             };
         }
 

@@ -5,6 +5,7 @@
              xmlns:viewModels="clr-namespace:Imago.ViewModels;assembly=Imago"
              xmlns:models="clr-namespace:Imago.Models;assembly=Imago"
              xmlns:enum="clr-namespace:Imago.Models.Enum;assembly=Imago"
+             xmlns:util="clr-namespace:Imago.Util;assembly=Imago" Appearing="StartPage_OnAppearing"
              Title="Startseite"
              x:Class="Imago.Views.StartPage" Shell.NavBarIsVisible="False"
              BindingContext="{Binding StartPage, Source={StaticResource ViewModelLocator}}"
@@ -16,11 +17,16 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="*"></RowDefinition>
+              <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
 
-            <Button Grid.Column="0" Command="{Binding TestCharacterCommand}" Text="Testspieler" Margin="20"></Button>
+            <Button Grid.Row="1" Grid.Column="0" Command="{Binding TestCharacterCommand}" Text="Testspieler" Margin="20"></Button>
 
-            <Frame BorderColor="Black" CornerRadius="0" Grid.Column="1" Margin="10">
-                <ListView ItemsSource="{Binding TableInfos.Values}">
+            <!-- wiki parse-->
+            <Frame Grid.Row="0" BorderColor="Black" CornerRadius="0" Grid.Column="1" Margin="10">
+                <ListView  SelectionMode="None" ItemsSource="{Binding TableInfos.Values}">
                     <ListView.Header>
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -113,6 +119,54 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </Frame>
+
+
+            <!-- parse feed-->
+            <Frame Grid.Row="1" BorderColor="Black" CornerRadius="0" Grid.Column="1" Margin="10">
+                <ListView SelectionMode="None" HasUnevenRows="True" ItemsSource="{Binding WikiParseLog}" 
+                    x:Name="WikiParseFeedListView"    HorizontalScrollBarVisibility="Never"  Margin="-5" >
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="util:LogEntry">
+                            <ViewCell>
+                                <Grid Margin="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        <ColumnDefinition Width="115"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" FontSize="14" VerticalOptions="Center" Text="{Binding Timestamp, StringFormat='{0:HH:mm:ss}'}"></Label>
+                                    <Label Grid.Column="1" FontSize="14" VerticalOptions="Center" Text="{Binding Type}"></Label>
+                                    <Label LineBreakMode="WordWrap" HorizontalOptions="StartAndExpand" Grid.Column="2" FontSize="14" VerticalOptions="Center" Text="{Binding Text}">
+                                        <Label.Style>
+                                            <Style TargetType="Label">
+                                                <Style.Triggers>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding Type, Source={RelativeSource AncestorType={x:Type util:LogEntry}}}" 
+                                                                     Value="{x:Static util:LogEntryType.Info}">
+                                                        <Setter Property="TextColor" Value="Black"></Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding Type, Source={RelativeSource AncestorType={x:Type util:LogEntry}}}" 
+                                                                 Value="{x:Static util:LogEntryType.Warning}">
+                                                        <Setter Property="TextColor" Value="Orange"></Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding Type, Source={RelativeSource AncestorType={x:Type util:LogEntry}}}" 
+                                                                 Value="{x:Static util:LogEntryType.Error}">
+                                                        <Setter Property="TextColor" Value="Red"></Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding Type, Source={RelativeSource AncestorType={x:Type util:LogEntry}}}" 
+                                                                 Value="{x:Static util:LogEntryType.Success}">
+                                                        <Setter Property="TextColor" Value="Green"></Setter>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Label.Style>
+                                    </Label>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Frame>
+
         </Grid>
     </ContentPage.Content>
 </ContentPage>

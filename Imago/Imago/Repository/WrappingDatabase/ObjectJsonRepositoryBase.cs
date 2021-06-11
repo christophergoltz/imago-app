@@ -3,17 +3,23 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Imago.Database;
-using Imago.Models;
 using Imago.Models.Entity;
-using Imago.Repository.WrappingDatabase;
-using Newtonsoft.Json;
 using SQLite;
 
-namespace Imago.Repository
+namespace Imago.Repository.WrappingDatabase
 {
+    public interface IObjectJsonRepository<TModel>
+        where TModel : class, new()
+    {
+        DateTime GetLastChangedDate();
+        Task<int> GetItemsCount();
+        Task<List<TModel>> GetAllItemsAsync();
+        Task DeleteAllItems();
+        Task<int> AddAllItems(IEnumerable<TModel> items);
+    }
+
     public abstract class ObjectJsonRepositoryBase<TModel, TEntity> : IObjectJsonRepository<TModel>
         where TModel : class, new()
         where TEntity : IJsonValueWrapper<TModel>, new()

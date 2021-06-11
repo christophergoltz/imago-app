@@ -22,7 +22,7 @@ namespace Imago.ViewModels
     public class SkillPageViewModel : BindableBase
     {
         private readonly ICharacterService _characterService;
-        private readonly IWikiRepository _wikiRepository;
+        private readonly IWikiService _wikiService;
 
         private readonly SkillGroupTypeToAttributeSourceStringConverter _converter =
             new SkillGroupTypeToAttributeSourceStringConverter();
@@ -111,8 +111,8 @@ namespace Imago.ViewModels
         {
             if (skillBase is Skill skill)
             {
-                var html = _wikiRepository.GetTalentHtml(skill.Type);
-                var url = _wikiRepository.GetWikiUrl(skill.Type);
+                var html = _wikiService.GetTalentHtml(skill.Type);
+                var url = _wikiService.GetWikiUrl(skill.Type);
                 TalentWebViewSource = new HtmlWebViewSource()
                 {
                     BaseUrl = url,
@@ -122,8 +122,8 @@ namespace Imago.ViewModels
 
             if (skillBase is SkillGroup skillGroup)
             {
-                var html = _wikiRepository.GetMasteryHtml(skillGroup.Type);
-                var url = _wikiRepository.GetWikiUrl(skillGroup.Type);
+                var html = _wikiService.GetMasteryHtml(skillGroup.Type);
+                var url = _wikiService.GetWikiUrl(skillGroup.Type);
                 TalentWebViewSource = new HtmlWebViewSource()
                 {
                     BaseUrl = url,
@@ -133,10 +133,10 @@ namespace Imago.ViewModels
         }
 
         public SkillPageViewModel(Character character, ICharacterService characterService,
-            IWikiRepository wikiRepository)
+            IWikiService wikiService)
         {
             _characterService = characterService;
-            _wikiRepository = wikiRepository;
+            _wikiService = wikiService;
             Character = character;
 
             IncreaseExperienceCommand = new Command(() =>
@@ -225,10 +225,10 @@ namespace Imago.ViewModels
             {
                 var url = string.Empty;
                 if (parameter is Skill skill)
-                    url = _wikiRepository.GetWikiUrl(skill.Type);
+                    url = _wikiService.GetWikiUrl(skill.Type);
 
                 if (parameter is SkillGroup skillGroup)
-                    url = _wikiRepository.GetWikiUrl(skillGroup.Type);
+                    url = _wikiService.GetWikiUrl(skillGroup.Type);
 
                 if (string.IsNullOrWhiteSpace(url))
                 {

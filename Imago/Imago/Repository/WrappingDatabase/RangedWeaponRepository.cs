@@ -12,6 +12,11 @@ using SQLite;
 
 namespace Imago.Repository.WrappingDatabase
 {
+    public interface IRangedWeaponRepository : IObjectJsonRepository<Weapon>
+    {
+        Task EnsureTables();
+    }
+
     public class RangedWeaponRepository : ObjectJsonRepositoryBase<Weapon, WeaponEntity>, IRangedWeaponRepository
     {
         public RangedWeaponRepository(string databaseFolder) : base(databaseFolder, "Imago_RangedWeapons.db3") { }

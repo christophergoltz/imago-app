@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,7 @@ namespace Imago.ViewModels
         private readonly IMeleeWeaponRepository _meleeWeaponRepository;
         private readonly IRangedWeaponRepository _rangedWeaponRepository;
         private readonly IArmorRepository _armorRepository;
+        private readonly ITalentRepository _talentRepository;
         private Dictionary<TableInfoType, TableInfoModel> _tableInfos;
 
         public ICommand ParseDataFromWikiCommand { get; }
@@ -33,24 +35,27 @@ namespace Imago.ViewModels
             IWikiParseService wikiParseService,
             IMeleeWeaponRepository meleeWeaponRepository,
             IRangedWeaponRepository rangedWeaponRepository,
-            IArmorRepository armorRepository)
+            IArmorRepository armorRepository,
+            ITalentRepository talentRepository)
         {
             _characterRepository = characterRepository;
             _wikiParseService = wikiParseService;
             _meleeWeaponRepository = meleeWeaponRepository;
             _rangedWeaponRepository = rangedWeaponRepository;
             _armorRepository = armorRepository;
+            _talentRepository = talentRepository;
             TestCharacterCommand = new Command(OnTestCharacterClicked);
 
             ParseDataFromWikiCommand = new Command(async () =>
             {
+                WikiParseLog.Clear();
+
                 foreach (var tableInfoModel in TableInfos.Values)
                 {
                     try
                     {
                         tableInfoModel.State = TableInfoState.Loading;
-                        await Task.Delay(500);
-                        var result = await _wikiParseService.RefreshWikiData(tableInfoModel.Type);
+                        var result = await _wikiParseService.RefreshWikiData(tableInfoModel.Type, WikiParseLog);
                         if (result == null)
                         {
                             tableInfoModel.State = TableInfoState.Error;
@@ -81,6 +86,8 @@ namespace Imago.ViewModels
 #pragma warning restore 4014
         }
 
+        public ObservableCollection<LogEntry> WikiParseLog { get; set; } = new ObservableCollection<LogEntry>();
+
         private async Task InitLocalDatabase()
         {
             try
@@ -88,6 +95,7 @@ namespace Imago.ViewModels
                 await _rangedWeaponRepository.EnsureTables();
                 await _meleeWeaponRepository.EnsureTables();
                 await _armorRepository.EnsureTables();
+                await _talentRepository.EnsureTables();
             }
             catch (Exception e)
             {
@@ -119,6 +127,10 @@ namespace Imago.ViewModels
                     case TableInfoType.RangedWeapons:
                         tableInfo.Count = await _rangedWeaponRepository.GetItemsCount();
                         tableInfo.TimeStamp = _rangedWeaponRepository.GetLastChangedDate();
+                        break;
+                    case TableInfoType.Talents:
+                        tableInfo.Count = await _talentRepository.GetItemsCount();
+                        tableInfo.TimeStamp = _talentRepository.GetLastChangedDate();
                         break;
                 }
 

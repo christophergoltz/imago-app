@@ -1,23 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using HtmlAgilityPack;
 using Imago.Models;
 using Imago.Models.Enum;
 
-namespace Imago.Repository
+namespace Imago.Util
 {
-    public interface IWikiRepository
+    public static class WikiConstants
     {
-        string GetWikiUrl(SkillType skillType);
-        string GetWikiUrl(SkillGroupType skillGroupType);
-        string GetTalentHtml(SkillType skillType);
-        string GetMasteryHtml(SkillGroupType skillGroupType);
-    }
+        public static readonly string WikiMainPageUrl = "http://imago-rp.de/index.php/Hauptseite";
+        public static readonly string WikiUrlPrefix = "http://imago-rp.de/index.php/";
 
-    public class WikiRepository : IWikiRepository
-    {
-        private static readonly Dictionary<SkillGroupType, string> SkillGroupTypeLookUp =
+        public static readonly string ArmorUrl = "http://imago-rp.de/index.php/R%C3%BCstungen";
+        public static readonly string MeleeWeaponUrl = "http://imago-rp.de/index.php/Nahkampfwaffen";
+        public static readonly string RangedWeaponUrl = "http://imago-rp.de/index.php/Fernkampfwaffen";
+
+        public static readonly Dictionary<SkillGroupType, string> SkillGroupTypeLookUp =
             new Dictionary<SkillGroupType, string>()
             {
                 {SkillGroupType.Bewegung, "http://imago-rp.de/index.php/Bewegung_(Fertigkeitsgruppe)"},
@@ -30,7 +28,7 @@ namespace Imago.Repository
                 {SkillGroupType.Soziales, "http://imago-rp.de/index.php/Soziales_(Fertigkeitsgruppe)"}
             };
 
-        private static readonly Dictionary<SkillType, string> SkillTypeLookUp = new Dictionary<SkillType, string>()
+        public static readonly Dictionary<SkillType, string> SkillTypeLookUp = new Dictionary<SkillType, string>()
         {
             {SkillType.Alchemie, "http://imago-rp.de/index.php/Alchemie"},
             {SkillType.Anatomie, "http://imago-rp.de/index.php/Anatomie"},
@@ -86,67 +84,9 @@ namespace Imago.Repository
             {SkillType.Waffenlos, "http://imago-rp.de/index.php/Waffenlos_(Fertigkeit)"},
             {SkillType.WirtschaftRecht, "http://imago-rp.de/index.php/Wirtschaft/Recht"},
             {SkillType.Wurfgeschosse, "http://imago-rp.de/index.php/Wurfgeschosse"},
-            {SkillType.Wurfwaffen, "http://imago-rp.de/index.php/Wurfwaffen"},
+            {SkillType.Wurfwaffen, "http://imago-rp.de/index.php/Wurfwaffen_(Fertigkeit)"},
             {SkillType.Wundscher, "http://imago-rp.de/index.php/Wundscher"},
             {SkillType.Zweihaender, "http://imago-rp.de/index.php/Zweih%C3%A4nder_(Fertigkeit)"}
         };
-
-        public string GetTalentHtml(SkillType skillType)
-        {
-            var url = SkillTypeLookUp[skillType];
-            var web = new HtmlWeb();
-            var doc = web.Load(url);
-            doc.GetElementbyId("mw-page-base")?.Remove();
-            doc.GetElementbyId("mw-head-base")?.Remove();
-            doc.GetElementbyId("mw-navigation")?.Remove();
-            doc.GetElementbyId("footer")?.Remove();
-            doc.GetElementbyId("catlinks")?.Remove();
-            doc.GetElementbyId("toc")?.Remove();
-            //var t = doc.GetElementbyId("Beschreibung");
-            //var tt = t.ParentNode;
-
-            //while (tt.NextSibling.Name != "h2")
-            //{
-            //    tt.NextSibling.Remove();
-            //}
-
-            //tt.Remove();
-            
-            doc.GetElementbyId("content")?.SetAttributeValue("style", "margin-left: 0px;");
-
-            return doc.DocumentNode.OuterHtml;
-        }
-
-        public string GetMasteryHtml(SkillGroupType skillGroupType)
-        {
-            var url = SkillGroupTypeLookUp[skillGroupType];
-            var web = new HtmlWeb();
-            var doc = web.Load(url);
-            doc.GetElementbyId("mw-page-base")?.Remove();
-            doc.GetElementbyId("mw-head-base")?.Remove();
-            doc.GetElementbyId("mw-navigation")?.Remove();
-            doc.GetElementbyId("footer")?.Remove();
-            doc.GetElementbyId("catlinks")?.Remove();
-            doc.GetElementbyId("toc")?.Remove();
-            doc.GetElementbyId("content")?.SetAttributeValue("style", "margin-left: 0px;");
-
-            return doc.DocumentNode.OuterHtml;
-        }
-
-        public string GetWikiUrl(SkillType skillType)
-        {
-            if (SkillTypeLookUp.ContainsKey(skillType))
-                return SkillTypeLookUp[skillType];
-
-            return string.Empty;
-        }
-
-        public string GetWikiUrl(SkillGroupType skillGroupType)
-        {
-            if (SkillGroupTypeLookUp.ContainsKey(skillGroupType))
-                return SkillGroupTypeLookUp[skillGroupType];
-
-            return string.Empty;
-        }
     }
 }
