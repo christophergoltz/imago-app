@@ -109,7 +109,7 @@ namespace Imago.Services
                     armorParts.Add(bodyPart, armor);
                 }
 
-              
+                
                 result.Add(new ArmorSet(armorParts));
             }
 
@@ -329,12 +329,14 @@ namespace Imago.Services
 
                     var difficultyRaw = CleanUpString(dataCells[2].InnerText);
                     string parsedDifficulty = difficultyRaw;
-                    
-                    //todo clarify what if difficulty is empty
-                    if (string.IsNullOrWhiteSpace(parsedDifficulty))
-                        parsedDifficulty = "0";
 
-                    //todo clarify what if difficulty is empty
+                    if (string.IsNullOrWhiteSpace(parsedDifficulty))
+                    {
+                        logFeed.Add(new LogEntry(LogEntryType.Error, $"Unable to parse Difficulty \"{difficultyRaw}\" from \"{url}\""));
+                        continue;
+                    }
+
+                    //todo user can set value himself
                     if (parsedDifficulty.Equals("speziell"))
                         parsedDifficulty = null;
 
