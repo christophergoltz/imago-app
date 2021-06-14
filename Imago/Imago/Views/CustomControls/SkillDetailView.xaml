@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:Imago.ViewModels;assembly=Imago"
+             xmlns:customControls="clr-namespace:Imago.Views.CustomControls;assembly=Imago"
+             x:Class="Imago.Views.CustomControls.SkillDetailView" x:DataType="customControls:SkillDetailView">
+    <Grid BackgroundColor="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="1"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- header -->
+        <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Padding="15" Margin="0,0,0,-6">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#996633"/>
+                    <GradientStop Color="#fffdd0" Offset="0.201"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="1"/>
+            </Grid.RowDefinitions>
+
+            <StackLayout VerticalOptions="Center"  Grid.Column="0" Grid.Row="0" Orientation="Horizontal">
+                <Label  Text="{Binding SkillDetailViewModel.Skill.Type, Converter={StaticResource EnumToDisplayTextConverter}}"
+                            Margin="5,5,0,0" FontAttributes="Bold" FontSize="28"/>
+                <Button Margin="20,8,0,0" VerticalOptions="Center" Text="Wiki &#8599;" FontSize="20" 
+                            Padding="7,3" Background="limegreen" 
+                            Command="{Binding SkillDetailViewModel.OpenWikiCommand}"/>
+            </StackLayout>
+
+
+            <Label  VerticalOptions="Center" Margin="15,0,0,0" Grid.Column="0" Grid.Row="1" FontSize="20">
+                <Label.Text>
+                    <MultiBinding StringFormat="{}({0})">
+                        <Binding Path="SkillDetailViewModel.SourceFormula"/>
+                    </MultiBinding>
+                </Label.Text>
+            </Label>
+
+
+            <StackLayout Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
+                <Label FontSize="20" VerticalOptions="Center"  Text="GW: " FontAttributes="Bold"/>
+                <Label FontSize="20" VerticalOptions="Center"  Text="{Binding SkillDetailViewModel.Skill.BaseValue}"/>
+            </StackLayout>
+
+            <StackLayout Grid.Column="2" Grid.Row="0" Orientation="Horizontal">
+                <Label FontSize="20" VerticalOptions="Center" Text="Mod: " FontAttributes="Bold"/>
+                <Entry FontSize="18" VerticalOptions="Center"  Keyboard="Numeric" Text="{Binding SkillDetailViewModel.SelectedSkillModification}"/>
+            </StackLayout>
+
+            <StackLayout Grid.Column="3" Grid.Row="0" Orientation="Horizontal">
+                <Label FontSize="20" VerticalOptions="Center"  Text="FW: " FontAttributes="Bold"/>
+                <Label FontSize="20" VerticalOptions="Center"  Text="{Binding SkillDetailViewModel.Skill.FinalValue}"/>
+            </StackLayout>
+
+            <StackLayout Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
+                <Label FontSize="20"  VerticalOptions="Center" Text="SW: " FontAttributes="Bold"/>
+                <Label FontSize="20" VerticalOptions="Center"  Text="{Binding SkillDetailViewModel.Skill.IncreaseValue}"/>
+            </StackLayout>
+
+            <StackLayout Grid.Column="2" Grid.Row="1" Orientation="Horizontal" VerticalOptions="Center">
+                <Label FontSize="20"  VerticalOptions="Center"  Text="EP: " FontAttributes="Bold"></Label>
+                <Label FontSize="20"  VerticalOptions="Center" >
+                    <Label.Text>
+                        <MultiBinding StringFormat="{}{0}/{1}">
+                            <Binding Path="SkillDetailViewModel.Skill.ExperienceValue"/>
+                            <Binding Path="SkillDetailViewModel.Skill.ExperienceForNextIncrease"/>
+                        </MultiBinding>
+                    </Label.Text>
+                </Label>
+
+                <Button Margin="3,0,0,0" FontSize="30" Padding="0,-9,0,0" WidthRequest="35" HeightRequest="35"
+                        FontAttributes="Bold" Text="-" Command="{Binding SkillDetailViewModel.DecreaseExperienceCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <DataTrigger TargetType="Button" Binding="{Binding SkillDetailViewModel.Skill.ExperienceValue}" Value="0" >
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button FontSize="30"
+                        Padding="0,-8,0,0" WidthRequest="35" HeightRequest="35" FontAttributes="Bold" 
+                        Text="+" Command="{Binding SkillDetailViewModel.IncreaseExperienceCommand}"/>
+                <Button FontSize="22"
+                        Padding="0,-4,0,0" WidthRequest="35" HeightRequest="35" FontAttributes="Bold" 
+                        Text="+5" Command="{Binding SkillDetailViewModel.IncreaseExperienceByFiveCommand}"/>
+            </StackLayout>
+
+            <Button Grid.Column="4" Grid.Row="0" Grid.RowSpan="3"  Text="X" Padding="0,-4,0,0" WidthRequest="35" 
+                        HeightRequest="35"  FontSize="22"  VerticalOptions="Start" HorizontalOptions="End" TextColor="Red" BackgroundColor="LightGray" 
+                        Command="{Binding SkillDetailViewModel.CloseCommand}"/>
+        </Grid>
+
+        <BoxView Grid.Column="0" Grid.Row="1" Color="Black"  Grid.ColumnSpan="4" />
+
+        <WebView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Navigating="WebView_OnNavigating"
+                             Source="{Binding SkillDetailViewModel.QuickWikiView}"></WebView>
+
+        <BoxView Grid.Column="2" Grid.Row="2" Color="Black"/>
+
+        <!-- probe -->
+        <Grid Grid.Column="3" Grid.Row="2" WidthRequest="500" >
+            <Label Text="Probe: [tbd]" FontSize="18"/>
+        </Grid>
+    </Grid>
+</ContentView>
