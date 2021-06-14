@@ -6,7 +6,7 @@ namespace Imago.Util
     {
         public string Text { get; }
 
-        internal DisplayTextAttribute(string text)
+        public DisplayTextAttribute(string text)
         {
             Text = text;
         }

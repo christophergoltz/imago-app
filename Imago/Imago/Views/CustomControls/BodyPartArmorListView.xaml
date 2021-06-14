@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:models="clr-namespace:Imago.Models;assembly=Imago"
+           
              xmlns:enum="clr-namespace:Imago.Models.Enum;assembly=Imago"
              xmlns:viewModels="clr-namespace:Imago.ViewModels;assembly=Imago"
+             xmlns:models="clr-namespace:Imago.Models;assembly=Imago"
              x:Class="Imago.Views.CustomControls.BodyPartArmorListView" x:Name="BodyPartArmorListViewControl">
     <ContentView.Content>
         <Frame Grid.Column="0" Grid.Row="0" CornerRadius="0" BorderColor="Black">
@@ -61,7 +62,7 @@
                         </Grid>
                     </ListView.Header>
                     <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="models:Armor">
+                        <DataTemplate x:DataType="models:ArmorModel">
                             <ViewCell>
                                 <Grid Padding="10,4">
                                     <Grid.ColumnDefinitions>
@@ -74,7 +75,7 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
+                                    <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Name}"/>
                                     <Entry FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding PhysicalDefense}"/>
                                     <Entry FontSize="18" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding EnergyDefense}"/>
                                     <Entry FontSize="18" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding LoadValue}"/>

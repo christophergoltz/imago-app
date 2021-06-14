@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Imago.Converter;
 using Imago.Models;
@@ -20,7 +22,7 @@ namespace Imago.ViewModels
     public class SkillPageViewModel : BindableBase
     {
         private readonly ICharacterService _characterService;
-        private readonly IWikiRepository _wikiRepository;
+        private readonly IWikiService _wikiService;
 
         private readonly SkillGroupTypeToAttributeSourceStringConverter _converter =
             new SkillGroupTypeToAttributeSourceStringConverter();
@@ -30,8 +32,15 @@ namespace Imago.ViewModels
         private string _selectedSkillSourceName;
         private SkillGroup _skillParent;
         private bool _isSelectedSkillNotAGroup;
+        private HtmlWebViewSource _talentWebViewSource;
 
         public Character Character { get; private set; }
+
+        public HtmlWebViewSource TalentWebViewSource
+        {
+            get => _talentWebViewSource;
+            set => SetProperty(ref _talentWebViewSource, value);
+        }
 
         public SkillGroup Bewegung => Character.SkillGroups[SkillGroupType.Bewegung];
         public SkillGroup Nahkampf => Character.SkillGroups[SkillGroupType.Nahkampf];
@@ -98,11 +107,36 @@ namespace Imago.ViewModels
         public ICommand CloseSelectedSkill { get; set; }
         public ICommand OpenWikiCommand { get; set; }
 
+        private void LoadWikiPage(SkillBase skillBase)
+        {
+            if (skillBase is Skill skill)
+            {
+                var html = _wikiService.GetTalentHtml(skill.Type);
+                var url = _wikiService.GetWikiUrl(skill.Type);
+                TalentWebViewSource = new HtmlWebViewSource()
+                {
+                    BaseUrl = url,
+                    Html = html
+                };
+            }
+
+            if (skillBase is SkillGroup skillGroup)
+            {
+                var html = _wikiService.GetMasteryHtml(skillGroup.Type);
+                var url = _wikiService.GetWikiUrl(skillGroup.Type);
+                TalentWebViewSource = new HtmlWebViewSource()
+                {
+                    BaseUrl = url,
+                    Html = html
+                };
+            }
+        }
+
         public SkillPageViewModel(Character character, ICharacterService characterService,
-            IWikiRepository wikiRepository)
+            IWikiService wikiService)
         {
             _characterService = characterService;
-            _wikiRepository = wikiRepository;
+            _wikiService = wikiService;
             Character = character;
 
             IncreaseExperienceCommand = new Command(() =>
@@ -177,6 +211,8 @@ namespace Imago.ViewModels
 
                     //update dependet properties
                     OnPropertyChanged(nameof(SelectedSkillModification));
+
+                    Task.Run(() =>LoadWikiPage(SelectedSkill));
                 });
 
             CloseSelectedSkill = new Command(() =>
@@ -189,10 +225,10 @@ namespace Imago.ViewModels
             {
                 var url = string.Empty;
                 if (parameter is Skill skill)
-                    url = _wikiRepository.GetWikiUrl(skill.Type);
+                    url = _wikiService.GetWikiUrl(skill.Type);
 
                 if (parameter is SkillGroup skillGroup)
-                    url = _wikiRepository.GetWikiUrl(skillGroup.Type);
+                    url = _wikiService.GetWikiUrl(skillGroup.Type);
 
                 if (string.IsNullOrWhiteSpace(url))
                 {

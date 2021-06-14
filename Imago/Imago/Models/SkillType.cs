@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Imago.Util;
+﻿using Imago.Util;
 
-namespace Imago.Models.Enum
+namespace Imago.Models
 {
     public enum SkillType
     {
@@ -18,6 +15,7 @@ namespace Imago.Models.Enum
         Ausweichen = 6,
         Bewusstsein = 7,
         Blasrohre = 8,
+        [DisplayText("Bögen")]
         Boegen = 9,
         Chaos = 10,
         Dolche = 11,
@@ -49,12 +47,14 @@ namespace Imago.Models.Enum
         Schwerter = 35,
         Schwimmen = 36,
         Sicherheit = 37,
+        [DisplayText("Soziale Adaption")]
         SozialeAdaption = 38,
         Soziologie = 39,
         [DisplayText("Sphärologie")]
         Sphaerologie = 40,
         Sprache = 41,
         Springen = 42,
+        [DisplayText("Spuren Lesen")]
         SpurenLesen = 43,
         [DisplayText("Stäbe / Speere")]
         StaebeSpeere = 44,
@@ -66,6 +66,7 @@ namespace Imago.Models.Enum
         Verkleiden = 50,
         Verstecken = 51,
         Waffenlos = 52,
+        [DisplayText("Wirtschaft / Recht")]
         WirtschaftRecht = 53,
         Wurfgeschosse = 54,
         Wurfwaffen = 55,

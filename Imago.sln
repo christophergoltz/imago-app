@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31321.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Imago.UWP", "Imago\Imago.UWP\Imago.UWP.csproj", "{8F4F4DDC-C040-455D-B80A-BE5F5E2595C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Imago", "Imago\Imago\Imago.csproj", "{F3296353-99E5-4CF9-BF6E-BAB366A9D2EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Imago", "Imago\Imago\Imago.csproj", "{F3296353-99E5-4CF9-BF6E-BAB366A9D2EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

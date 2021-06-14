@@ -7,9 +7,14 @@ namespace Imago.Models
 {
     public class ArmorSet
     {
-        public Dictionary<BodyPartType, Armor> ArmorParts { get; set; }
+        public ArmorSet()
+        {
+            
+        }
 
-        public ArmorSet(Dictionary<BodyPartType, Armor> armorParts)
+        public Dictionary<ArmorPartType, ArmorModel> ArmorParts { get; set; }
+
+        public ArmorSet(Dictionary<ArmorPartType, ArmorModel> armorParts)
         {
             ArmorParts = armorParts;
         }

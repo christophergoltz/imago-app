@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Imago.Util;
+﻿using Imago.Util;
 
-namespace Imago.Models.Base
+namespace Imago.Models
 {
     public abstract class ItemBase : BindableBase
     {
+        public ItemBase()
+        {
+            
+        }
+
         private int _loadValue;
 
         public int LoadValue

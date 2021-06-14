@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Imago.Models.Base;
-
-namespace Imago.Models
+﻿namespace Imago.Models
 {
     public class DurabilityItem : ItemBase
     {
+        public DurabilityItem(int durability)
+        {
+            DurabilityValue = durability;
+        }
+
+        public DurabilityItem()
+        {
+            
+        }
+
         private int _durabilityValue;
 
         public int DurabilityValue

@@ -17,12 +17,12 @@
     <Shell.Resources>
         <ResourceDictionary>
             <Style x:Key="BaseStyle" TargetType="Element">
-                <Setter Property="Shell.BackgroundColor" Value="{StaticResource Primary}" />
+                <Setter Property="Shell.BackgroundColor" Value="black" />
                 <Setter Property="Shell.ForegroundColor" Value="White" />
                 <Setter Property="Shell.TitleColor" Value="White" />
                 <Setter Property="Shell.DisabledColor" Value="#B4FFFFFF" />
                 <Setter Property="Shell.UnselectedColor" Value="#95FFFFFF" />
-                <Setter Property="Shell.TabBarBackgroundColor" Value="{StaticResource Primary}" />
+                <Setter Property="Shell.TabBarBackgroundColor" Value="#996633" />
                 <Setter Property="Shell.TabBarForegroundColor" Value="White"/>
                 <Setter Property="Shell.TabBarUnselectedColor" Value="#95FFFFFF"/>
                 <Setter Property="Shell.TabBarTitleColor" Value="White"/>
@@ -84,9 +84,11 @@
                     <ColumnDefinition Width="5" />
                     <ColumnDefinition Width="75*" />
                 </Grid.ColumnDefinitions>
+                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
                 <Image Grid.Column="0" Source="{Binding BindingContext.Icon, Source={x:Reference GridControl}}"
                        Margin="5"
                        HeightRequest="35" />
+                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
                 <Label Grid.Column="2" FontSize="24"
                        Text="{Binding BindingContext.Title, Source={x:Reference GridControl}}"
                        VerticalTextAlignment="Center" />

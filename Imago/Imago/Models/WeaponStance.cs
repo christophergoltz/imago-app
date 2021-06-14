@@ -8,13 +8,14 @@ namespace Imago.Models
 {
     public class WeaponStance : BindableBase
     {
-        private WeaponStanceType _type;
+        private string _type;
         private string _phaseValue;
         private string _damageFormula;
-        private int? _parryModifier;
+        private string _parryModifier;
         private string _range;
 
-        public WeaponStance(WeaponStanceType type, string phaseValue, string damageFormula, int? parryModifier, string range, int loadValue)
+
+        public WeaponStance(string type, string phaseValue, string damageFormula, string parryModifier, string range)
         {
             Type = type;
             ParryModifier = parryModifier;
@@ -22,8 +23,8 @@ namespace Imago.Models
             PhaseValue = phaseValue;
             Range = range;
         }
-
-        public WeaponStanceType Type
+        
+        public string Type
         {
             get => _type;
             set => SetProperty(ref _type, value);
@@ -41,7 +42,7 @@ namespace Imago.Models
             set => SetProperty(ref _damageFormula, value);
         }
 
-        public int? ParryModifier
+        public string ParryModifier
         {
             get => _parryModifier;
             set => SetProperty(ref _parryModifier, value);

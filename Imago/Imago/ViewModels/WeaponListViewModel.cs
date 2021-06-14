@@ -6,6 +6,7 @@ using System.Text;
 using System.Windows.Input;
 using Imago.Models;
 using Imago.Repository;
+using Imago.Repository.WrappingDatabase;
 using Imago.Services;
 using Imago.Util;
 using Xamarin.Forms;
@@ -17,11 +18,18 @@ namespace Imago.ViewModels
     {
         private readonly Character _character;
         private readonly ICharacterService _characterService;
-        private readonly IItemRepository _itemRepository;
+        private readonly IMeleeWeaponRepository _meleeWeaponRepository;
+        private readonly IRangedWeaponRepository _rangedWeaponRepository;
+        private readonly ISpecialWeaponRepository _specialWeaponRepository;
+        private readonly IShieldRepository _shieldRepository;
         public ICommand AddWeaponCommand { get; }
         public ICommand RemoveWeaponCommand { get; set; }
 
-        public WeaponListViewModel(Character character, ICharacterService characterService, IItemRepository itemRepository)
+        public WeaponListViewModel(Character character, ICharacterService characterService, 
+            IMeleeWeaponRepository meleeWeaponRepository,
+            IRangedWeaponRepository rangedWeaponRepository,
+            ISpecialWeaponRepository specialWeaponRepository,
+            IShieldRepository shieldRepository)
         {
             _character = character;
             foreach (var weapon in _character.Weapons)
@@ -29,26 +37,33 @@ namespace Imago.ViewModels
                 weapon.PropertyChanged += OnWeaponLoadValueChanged;
             }
             _characterService = characterService;
-            _itemRepository = itemRepository;
-            AddWeaponCommand = new Command(() =>
+            _meleeWeaponRepository = meleeWeaponRepository;
+            _rangedWeaponRepository = rangedWeaponRepository;
+            _specialWeaponRepository = specialWeaponRepository;
+            _shieldRepository = shieldRepository;
+
+            AddWeaponCommand = new Command(async () =>
             {
-                Device.BeginInvokeOnMainThread(async () =>
-                {
-                    //todo use converter
-                    var x = _itemRepository.GetAllWeapons()
-                        .ToDictionary(s => s.Type.ToString(), s => s);
+                var allWeapons = await _meleeWeaponRepository.GetAllItemsAsync();
+                allWeapons.AddRange(await _rangedWeaponRepository.GetAllItemsAsync());
+                allWeapons.AddRange(await _specialWeaponRepository.GetAllItemsAsync());
+                allWeapons.AddRange(await _shieldRepository.GetAllItemsAsync());
 
-                    var result =
-                        await Shell.Current.DisplayActionSheet($"Waffe hinzufügen", "Abbrechen", null, x.Keys.ToArray());
+                var weapons = allWeapons
+                    .ToDictionary(weapon => weapon.Name.ToString(), weapon => weapon);
 
-                    if (result == null || result.Equals("Abbrechen"))
-                        return;
+                var result =
+                    await Shell.Current.DisplayActionSheet($"Waffe hinzufügen", "Abbrechen", null,
+                        weapons.Keys.OrderBy(s => s).ToArray());
 
-                    var newWeapon = x[result];
-                    _character.Weapons.Add(newWeapon);
-                    newWeapon.PropertyChanged += OnWeaponLoadValueChanged;
-                    _characterService.RecalculateHandicapAttributes(_character);
-                });
+                if (result == null || result.Equals("Abbrechen"))
+                    return;
+
+                //copy object by value to prevent ref copies
+                var newWeapon = weapons[result].DeepCopy();
+                _character.Weapons.Add(newWeapon);
+                newWeapon.PropertyChanged += OnWeaponLoadValueChanged;
+                _characterService.RecalculateHandicapAttributes(_character);
             });
 
             RemoveWeaponCommand = new Command<Weapon>(weapon =>

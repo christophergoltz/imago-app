@@ -41,7 +41,7 @@ namespace Imago.Repository
                 SpecialAttributes = CreateSpecialAttributes(),
                 DerivedAttributes = CreateDerivedAttributes(),
                 BodyParts = CreateBodyParts(),
-                Weapons = new ObservableCollection<Weapon>() {CreateWeapon1()},
+                Weapons = new ObservableCollection<Weapon>(),
                 EquippedItems = CreateEquippedItems(),
                 Handicap = CreateHandicapAttributes(),
                 FreeSkillExperience = 6
@@ -59,38 +59,28 @@ namespace Imago.Repository
 
             return character;
         }
-
-        public Weapon CreateWeapon1()
-        {
-            return new Weapon(WeaponType.HolzfaellerAxt, new Dictionary<WeaponStanceType, WeaponStance>()
-            {
-                {WeaponStanceType.Light, new WeaponStance( WeaponStanceType.Light, "5", "2W6 (P)", -60, "nah", 55)},
-                {WeaponStanceType.Heavy, new WeaponStance( WeaponStanceType.Heavy, "6", "3W6+2 (P)", -40, "nah",55)},
-            });
-        }
-
-
+        
         private Dictionary<BodyPartType, BodyPart> CreateBodyParts()
         {
             return new Dictionary<BodyPartType, BodyPart>
             {
                 {
-                    BodyPartType.Kopf, new BodyPart(BodyPartType.Kopf, "KO/15+3", 7, new ObservableCollection<Armor>())
+                    BodyPartType.Kopf, new BodyPart(BodyPartType.Kopf, "KO/15+3", 7, new ObservableCollection<ArmorModel>())
                 },
                 {
-                    BodyPartType.Torso, new BodyPart(BodyPartType.Torso, "KO/6+2", 12, new ObservableCollection<Armor>())
+                    BodyPartType.Torso, new BodyPart(BodyPartType.Torso, "KO/6+2", 12, new ObservableCollection<ArmorModel>())
                 },
                 {
-                    BodyPartType.ArmLinks, new BodyPart(BodyPartType.ArmLinks, "KO/10+1", 1, new ObservableCollection<Armor>())
+                    BodyPartType.ArmLinks, new BodyPart(BodyPartType.ArmLinks, "KO/10+1", 1, new ObservableCollection<ArmorModel>())
                 },
                 {
-                    BodyPartType.ArmRechts, new BodyPart(BodyPartType.ArmRechts, "KO/10+1", 8, new ObservableCollection<Armor>())
+                    BodyPartType.ArmRechts, new BodyPart(BodyPartType.ArmRechts, "KO/10+1", 8, new ObservableCollection<ArmorModel>())
                 },
                 {
-                    BodyPartType.BeinLinks, new BodyPart(BodyPartType.BeinLinks, "KO/7+2", 6, new ObservableCollection<Armor>())
+                    BodyPartType.BeinLinks, new BodyPart(BodyPartType.BeinLinks, "KO/7+2", 6, new ObservableCollection<ArmorModel>())
                 },
                 {
-                    BodyPartType.BeinRechts, new BodyPart(BodyPartType.BeinRechts, "KO/7+2", 3, new ObservableCollection<Armor>())
+                    BodyPartType.BeinRechts, new BodyPart(BodyPartType.BeinRechts, "KO/7+2", 3, new ObservableCollection<ArmorModel>())
                 }
             };
         }
