@@ -64,24 +64,29 @@ namespace Imago.ViewModels
                     try
                     {
                         tableInfoModel.State = TableInfoState.Loading;
+                        await Task.Delay(200);
                         var result = await _wikiParseService.RefreshWikiData(tableInfoModel.Type, WikiParseLog);
                         if (result == null)
                         {
                             tableInfoModel.State = TableInfoState.Error;
+                            await Task.Delay(200);
                             continue;
                         }
 
                         if (result.Value == 0)
                         {
                             tableInfoModel.State = TableInfoState.NoData;
+                            await Task.Delay(200);
                             continue;
                         }
                         
                         tableInfoModel.State = TableInfoState.Okay;
+                        await Task.Delay(200);
                     }
                     catch (Exception e)
                     {
                         tableInfoModel.State = TableInfoState.Error;
+                        await Task.Delay(200);
                         Debug.WriteLine(e);
                     }
 
