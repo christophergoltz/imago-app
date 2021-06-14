@@ -25,6 +25,7 @@ namespace Imago.Services
         private readonly ITalentRepository _talentRepository;
         private readonly ISpecialWeaponRepository _specialWeaponRepository;
         private readonly IShieldRepository _shieldRepository;
+        private readonly IMasteryRepository _masteryRepository;
 
         public WikiParseService(
             IMeleeWeaponRepository meleeWeaponRepository,
@@ -32,7 +33,8 @@ namespace Imago.Services
             IArmorRepository armorWeaponRepository,
             ITalentRepository talentRepository,
             ISpecialWeaponRepository specialWeaponRepository,
-            IShieldRepository shieldRepository)
+            IShieldRepository shieldRepository,
+            IMasteryRepository masteryRepository)
         {
             _meleeWeaponRepository = meleeWeaponRepository;
             _rangedWeaponRepository = rangedWeaponRepository;
@@ -40,6 +42,7 @@ namespace Imago.Services
             _talentRepository = talentRepository;
             _specialWeaponRepository = specialWeaponRepository;
             _shieldRepository = shieldRepository;
+            _masteryRepository = masteryRepository;
         }
 
         public async Task<int?> RefreshWikiData(TableInfoType type, ObservableCollection<LogEntry> logFeed)
@@ -82,6 +85,12 @@ namespace Imago.Services
                     await _talentRepository.DeleteAllItems();
                     return await _talentRepository.AddAllItems(talents);
                 }
+                case TableInfoType.Masteries:
+                {
+                    var masteries = ParseMasteriesFromUrls(WikiConstants.SkillGroupTypeLookUp, logFeed);
+                    await _masteryRepository.DeleteAllItems();
+                    return await _masteryRepository.AddAllItems(masteries);
+                }
             }
 
             logFeed.Add(new LogEntry(LogEntryType.Error, $"Keine Parse-Funktion für \"{type}\" hinterlegt"));
@@ -90,14 +99,11 @@ namespace Imago.Services
 
         private List<ArmorSet> ParseArmorFromUrl(string url, ObservableCollection<LogEntry> logFeed)
         {
-            var doc = LoadDocumentFromUrl(url);
-            if (doc == null)
-            {
-                logFeed.Add(new LogEntry(LogEntryType.Error, $"Seite nicht gefunden \"{url}\""));
-                return new List<ArmorSet>();
-            }
-
             var result = new List<ArmorSet>();
+
+            var doc = LoadDocumentFromUrl(url, logFeed);
+            if (doc == null)
+                return result;
 
             //parse complete table
             foreach (var table in doc.DocumentNode.SelectNodes("//table[@class='wikitable']"))
@@ -164,16 +170,14 @@ namespace Imago.Services
         
         private List<Weapon> ParseWeaponsFromUrl(string url, ObservableCollection<LogEntry> logFeed)
         {
-            var doc = LoadDocumentFromUrl(url);
-            if (doc == null)
-            {
-                logFeed.Add(new LogEntry(LogEntryType.Error, $"Seite nicht gefunden \"{url}\""));
-                return new List<Weapon>();
-            }
-
             var result = new List<Weapon>();
+            var doc = LoadDocumentFromUrl(url, logFeed);
+            if (doc == null)
+                return result;
 
-            //parse complete table
+
+
+                //parse complete table
             foreach (var table in doc.DocumentNode.SelectNodes("//table[@class='wikitable']"))
             {
                 var weaponName = string.Empty;
@@ -230,31 +234,12 @@ namespace Imago.Services
             return value.Replace("\n", "").Replace("\r", "").Trim();
         }
 
-        private List<SkillType> SpecialSkillTypeParseFilter = new List<SkillType>()
-        {
-            SkillType.Sprache,
-            SkillType.Bewusstsein,
-            SkillType.Chaos,
-            SkillType.Einfalt,
-            SkillType.Struktur,
-            SkillType.Leere,
-            SkillType.Materie,
-            SkillType.Ekstase,
-            SkillType.Kontrolle
-        };
-
         private IEnumerable<TalentModel> ParseTalentsFromUrls(Dictionary<SkillType, string> urls,
             ObservableCollection<LogEntry> logFeed)
         {
             var talents = new List<TalentModel>();
             foreach (var item in urls)
             {
-                if (SpecialSkillTypeParseFilter.Contains(item.Key))
-                {
-                    logFeed.Add(new LogEntry(LogEntryType.Info, $"Talentpage {item.Key} per definition skipped"));
-                    continue;
-                }
-
                 talents.AddRange(ParseTalentsFromUrl(item.Key, item.Value, logFeed));
             }
 
@@ -264,21 +249,17 @@ namespace Imago.Services
         private List<TalentModel> ParseTalentsFromUrl(SkillType type, string url,
             ObservableCollection<LogEntry> logFeed)
         {
-            var doc = LoadDocumentFromUrl(url);
+            var talents = new List<TalentModel>();
+            var doc = LoadDocumentFromUrl(url, logFeed);
             if (doc == null)
-            {
-                logFeed.Add(new LogEntry(LogEntryType.Error, $"Page not found \"{url}\" .. skipping"));
-                return new List<TalentModel>();
-            }
+                return talents;
 
             var table = doc.DocumentNode.SelectSingleNode("//table[@class='wikitable']");
             if (table == null)
             {
                 logFeed.Add(new LogEntry(LogEntryType.Warning, $"Keine Tabelle mit Werten auf \"{url}\" gefunden"));
-                return new List<TalentModel>();
+                return talents;
             }
-
-            var talents = new List<TalentModel>();
 
             var rows = table.SelectNodes("tr");
 
@@ -302,7 +283,7 @@ namespace Imago.Services
                         if (skill == SkillType.Unbekannt)
                         {
                             logFeed.Add(new LogEntry(LogEntryType.Error,
-                                $"Schwierigkeit \"{requirement}\" für Talent \"{name}\" kann nicht gelesen werden, Vorraussetztung wird ignoriert"));
+                                $"Vorraussetztung \"{requirement}\" für Talent \"{name}\" kann nicht gelesen werden .. wird ignoriert"));
                             continue;
                         }
 
@@ -315,8 +296,20 @@ namespace Imago.Services
                     var difficulty = ParseStringToDifficultyForTalent(difficultyValue, name, logFeed, url);
                     var activeUse = MapToActiveUse(CleanUpString(dataCells[3].InnerText), logFeed);
                     var phaseValueMod = CleanUpString(dataCells[4].InnerText);
+                    
+                    var shortDescription = string.Empty;
 
-                    talents.Add(new TalentModel(name, requirements, difficulty, activeUse, phaseValueMod));
+                    if (dataCells.Count > 5)
+                    {
+                        shortDescription = CleanUpString(dataCells[5].InnerText);
+                    }
+                    else
+                    {
+                        logFeed.Add(new LogEntry(LogEntryType.Warning, $"Talent \"{name}\" hat keine Kurzbeschreibung"));
+                    }
+
+                    talents.Add(new TalentModel(name, shortDescription, requirements, difficulty, activeUse,
+                        phaseValueMod));
                 }
                 catch (Exception exception)
                 {
@@ -379,6 +372,18 @@ namespace Imago.Services
             return SkillType.Unbekannt;
         }
 
+        private SkillGroupType MappingStringToSkillGroupType(string value, ObservableCollection<LogEntry> logFeed)
+        {
+            if (Enum.TryParse(value, out SkillGroupType castValue))
+                return castValue;
+
+            if (value.Equals("Weben"))
+                return SkillGroupType.Webkunst;
+
+            logFeed.Add(new LogEntry(LogEntryType.Error, $"Keine Fertigkeitskategorie für den Wert \"{value}\" hinterlegt"));
+            return SkillGroupType.Unbekannt;
+        }
+
         private bool MapToActiveUse(string value, ObservableCollection<LogEntry> logFeed)
         {
             if (value.Equals("passiv"))
@@ -390,16 +395,107 @@ namespace Imago.Services
             return false;
         }
 
-        private HtmlDocument LoadDocumentFromUrl(string url)
+        private HtmlDocument LoadDocumentFromUrl(string url, ObservableCollection<LogEntry> logFeed)
         {
             var htmlWeb = new HtmlWeb();
-
             var doc = htmlWeb.Load(url);
-
-
+            
             if (htmlWeb.StatusCode == HttpStatusCode.NotFound)
+            {
+                logFeed.Add(new LogEntry(LogEntryType.Error, $"Seite nicht gefunden \"{url}\""));
                 return null;
+            }
+
             return doc;
         }
+
+
+        private IEnumerable<MasteryModel> ParseMasteriesFromUrls(Dictionary<SkillGroupType, string> urls,
+            ObservableCollection<LogEntry> logFeed)
+        {
+            var talents = new List<MasteryModel>();
+            foreach (var item in urls)
+            {
+                talents.AddRange(ParseMasteriesFromUrl(item.Key, item.Value, logFeed));
+            }
+
+            return talents;
+        }
+
+        private List<MasteryModel> ParseMasteriesFromUrl(SkillGroupType type, string url,
+            ObservableCollection<LogEntry> logFeed)
+        {
+            var talents = new List<MasteryModel>();
+
+            var doc = LoadDocumentFromUrl(url, logFeed);
+            if (doc == null)
+                return talents;
+
+            var table = doc.DocumentNode.SelectSingleNode("//table[@class='wikitable']");
+            if (table == null)
+            {
+                logFeed.Add(new LogEntry(LogEntryType.Warning, $"Keine Tabelle mit Werten auf \"{url}\" gefunden"));
+                return talents;
+            }
+            
+            var rows = table.SelectNodes("tr");
+
+            //parse each row
+            foreach (var talentDataRow in rows.Skip(1))
+            {
+                var name = string.Empty;
+
+                try
+                {
+                    var dataCells = talentDataRow.SelectNodes("td");
+                    name = CleanUpString(dataCells[0].InnerText);
+                    var requirementsRawValue = CleanUpString(dataCells[1].InnerText);
+
+                    var requirements = new Dictionary<SkillGroupType, int>();
+
+                    foreach (var requirement in requirementsRawValue.Split(',').Select(s => s.Trim()))
+                    {
+                        var strings = requirement.Split(' ');
+                        var skill = MappingStringToSkillGroupType(strings[0], logFeed);
+                        if (skill == SkillGroupType.Unbekannt)
+                        {
+                            logFeed.Add(new LogEntry(LogEntryType.Error,
+                                $"Vorraussetztung \"{requirement}\" für Talent \"{name}\" kann nicht gelesen werden .. wird ignoriert"));
+                            continue;
+                        }
+
+                        var value = int.Parse(strings[1]);
+
+                        requirements.Add(skill, value);
+                    }
+
+                    var difficultyValue = CleanUpString(dataCells[2].InnerText);
+                    var difficulty = ParseStringToDifficultyForTalent(difficultyValue, name, logFeed, url);
+                    var activeUse = MapToActiveUse(CleanUpString(dataCells[3].InnerText), logFeed);
+                    var phaseValueMod = CleanUpString(dataCells[4].InnerText);
+
+                    var shortDescription = string.Empty;
+
+                    if (dataCells.Count > 5)
+                        shortDescription = CleanUpString(dataCells[5].InnerText);
+                    else
+                        logFeed.Add(new LogEntry(LogEntryType.Warning,
+                            $"Meisterschaft \"{name}\" hat keine Kurzbeschreibung"));
+
+                    talents.Add(new MasteryModel(name, shortDescription, requirements, difficulty, activeUse,
+                        phaseValueMod));
+                }
+                catch (Exception exception)
+                {
+                    logFeed.Add(new LogEntry(LogEntryType.Error,
+                        $"Talent \"{name}\" kann nicht von \"{url}\" gelesen werden.{Environment.NewLine}Fehler:{exception}"));
+                }
+            }
+
+            logFeed.Add(new LogEntry(LogEntryType.Success,
+                $"Talente für Fertigkeit \"{type}\" hinzugefügt [{string.Join(", ", talents.Select(model => model.Name))}]"));
+            return talents;
+        }
+
     }
 }

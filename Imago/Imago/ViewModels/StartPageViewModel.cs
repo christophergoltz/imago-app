@@ -29,6 +29,7 @@ namespace Imago.ViewModels
         private readonly ITalentRepository _talentRepository;
         private readonly ISpecialWeaponRepository _specialWeaponRepository;
         private readonly IShieldRepository _shieldRepository;
+        private readonly IMasteryRepository _masteryRepository;
         private Dictionary<TableInfoType, TableInfoModel> _tableInfos;
 
         public ICommand ParseDataFromWikiCommand { get; }
@@ -40,7 +41,8 @@ namespace Imago.ViewModels
             IArmorRepository armorRepository,
             ITalentRepository talentRepository,
             ISpecialWeaponRepository specialWeaponRepository,
-            IShieldRepository shieldRepository)
+            IShieldRepository shieldRepository,
+            IMasteryRepository masteryRepository)
         {
             _characterRepository = characterRepository;
             _wikiParseService = wikiParseService;
@@ -50,6 +52,7 @@ namespace Imago.ViewModels
             _talentRepository = talentRepository;
             _specialWeaponRepository = specialWeaponRepository;
             _shieldRepository = shieldRepository;
+            _masteryRepository = masteryRepository;
             TestCharacterCommand = new Command(OnTestCharacterClicked);
 
             ParseDataFromWikiCommand = new Command(async () =>
@@ -104,6 +107,7 @@ namespace Imago.ViewModels
                 await _talentRepository.EnsureTables();
                 await _specialWeaponRepository.EnsureTables();
                 await _shieldRepository.EnsureTables();
+                await _masteryRepository.EnsureTables();
             }
             catch (Exception e)
             {
@@ -147,6 +151,10 @@ namespace Imago.ViewModels
                     case TableInfoType.Talents:
                         tableInfo.Count = await _talentRepository.GetItemsCount();
                         tableInfo.TimeStamp = _talentRepository.GetLastChangedDate();
+                        break;
+                    case TableInfoType.Masteries:
+                        tableInfo.Count = await _masteryRepository.GetItemsCount();
+                        tableInfo.TimeStamp = _masteryRepository.GetLastChangedDate();
                         break;
                 }
 

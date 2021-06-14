@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Imago.Util;
+using Imago.Models.Enum;
 
 namespace Imago.Models
 {
-    public class TalentModel : TalentBase
+    public class MasteryModel : TalentBase
     {
-        private Dictionary<SkillType, int> _requirements;
+        private Dictionary<SkillGroupType, int> _requirements;
         private string _phaseValueMod;
 
-        public TalentModel() : base()
+        public MasteryModel() : base()
         {
-            
+
         }
 
-        public TalentModel(string name,string shortDescription, Dictionary<SkillType, int> requirements,
+        public MasteryModel(string name, string shortDescription, Dictionary<SkillGroupType, int> requirements,
             int? difficulty, bool activeUse, string phaseValueMod) : base(name, shortDescription, activeUse, difficulty)
         {
             Requirements = requirements;
@@ -23,10 +23,10 @@ namespace Imago.Models
         }
 
 
-        public Dictionary<SkillType, int> Requirements
+        public Dictionary<SkillGroupType, int> Requirements
         {
             get => _requirements;
-            set => SetProperty(ref _requirements, value);
+            set => SetProperty(ref _requirements , value);
         }
 
         public string PhaseValueMod

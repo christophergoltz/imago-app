@@ -106,6 +106,5 @@ namespace Imago.Util
             {SkillType.Wurfwaffen, "http://imago-rp.de/index.php/Wurfwaffen_(Fertigkeit)"},
             {SkillType.Zweihaender, "http://imago-rp.de/index.php/Zweih%C3%A4nder_(Fertigkeit)"}
         };
-
     }
 }
