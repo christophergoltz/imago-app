@@ -32,7 +32,6 @@ namespace Imago.Repository.WrappingDatabase
         {
             _databaseFolder = databaseFolder;
             _databaseFile = Path.Combine(_databaseFolder, databaseFile);
-            Debug.WriteLine("Database: " + _databaseFile);
             Database = new SQLiteAsyncConnection(_databaseFile, DatabaseConstants.Flags);
         }
 

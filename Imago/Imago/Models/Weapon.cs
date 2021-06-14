@@ -7,7 +7,7 @@ namespace Imago.Models
 {
     public class Weapon : DurabilityItem
     {
-        private Dictionary<WeaponStanceType, WeaponStance> _weaponStances;
+        private List<WeaponStance> _weaponStances;
         private string _name;
 
         public Weapon()
@@ -15,7 +15,7 @@ namespace Imago.Models
             
         }
 
-        public Weapon(string name, Dictionary<WeaponStanceType, WeaponStance> weaponStances, int loadValue, int durability)
+        public Weapon(string name, List<WeaponStance> weaponStances, int loadValue, int durability)
         {
             WeaponStances = weaponStances;
             Name = name;
@@ -29,10 +29,15 @@ namespace Imago.Models
             set => SetProperty(ref _name, value);
         }
 
-        public Dictionary<WeaponStanceType, WeaponStance> WeaponStances
+        public List<WeaponStance> WeaponStances
         {
             get => _weaponStances;
             set => SetProperty(ref _weaponStances, value);
+        }
+
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }

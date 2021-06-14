@@ -17,18 +17,23 @@ namespace Imago.ViewModels
         private readonly IMeleeWeaponRepository _meleeWeaponRepository;
         private readonly IRangedWeaponRepository _rangedWeaponRepository;
         private readonly ICharacterService _characterService;
+        private readonly ISpecialWeaponRepository _specialWeaponRepository;
+        private readonly IShieldRepository _shieldRepository;
         public Character Character { get; }
 
         public List<DerivedAttribute> DerivedAttributes { get; set; }
 
         public WeaponListViewModel WeaponListViewModel { get; set; }
 
-        public StatusPageViewModel(Character character, IArmorRepository armorRepository, IMeleeWeaponRepository meleeWeaponRepository, IRangedWeaponRepository rangedWeaponRepository,
-            ICharacterService characterService)
+        public StatusPageViewModel(Character character, IArmorRepository armorRepository, 
+            IMeleeWeaponRepository meleeWeaponRepository, IRangedWeaponRepository rangedWeaponRepository,
+            ICharacterService characterService, ISpecialWeaponRepository specialWeaponRepository, IShieldRepository  shieldRepository)
         {
             _meleeWeaponRepository = meleeWeaponRepository;
             _rangedWeaponRepository = rangedWeaponRepository;
             _characterService = characterService;
+            _specialWeaponRepository = specialWeaponRepository;
+            _shieldRepository = shieldRepository;
             Character = character;
 
             DerivedAttributes = character.DerivedAttributes
@@ -51,7 +56,8 @@ namespace Imago.ViewModels
             BeinRechtsViewModel = new BodyPartArmorListViewModel( _characterService, armorRepository,
                 character.BodyParts[BodyPartType.BeinRechts], Character);
 
-            WeaponListViewModel = new WeaponListViewModel(character, _characterService, _meleeWeaponRepository, _rangedWeaponRepository);
+            WeaponListViewModel = new WeaponListViewModel(character, _characterService, _meleeWeaponRepository, 
+                _rangedWeaponRepository, _specialWeaponRepository, _shieldRepository);
         }
 
         public BodyPartArmorListViewModel KopfViewModel { get; set; }

@@ -20,10 +20,16 @@ namespace Imago.ViewModels
         private readonly ICharacterService _characterService;
         private readonly IMeleeWeaponRepository _meleeWeaponRepository;
         private readonly IRangedWeaponRepository _rangedWeaponRepository;
+        private readonly ISpecialWeaponRepository _specialWeaponRepository;
+        private readonly IShieldRepository _shieldRepository;
         public ICommand AddWeaponCommand { get; }
         public ICommand RemoveWeaponCommand { get; set; }
 
-        public WeaponListViewModel(Character character, ICharacterService characterService, IMeleeWeaponRepository meleeWeaponRepository, IRangedWeaponRepository rangedWeaponRepository)
+        public WeaponListViewModel(Character character, ICharacterService characterService, 
+            IMeleeWeaponRepository meleeWeaponRepository,
+            IRangedWeaponRepository rangedWeaponRepository,
+            ISpecialWeaponRepository specialWeaponRepository,
+            IShieldRepository shieldRepository)
         {
             _character = character;
             foreach (var weapon in _character.Weapons)
@@ -33,11 +39,15 @@ namespace Imago.ViewModels
             _characterService = characterService;
             _meleeWeaponRepository = meleeWeaponRepository;
             _rangedWeaponRepository = rangedWeaponRepository;
+            _specialWeaponRepository = specialWeaponRepository;
+            _shieldRepository = shieldRepository;
 
             AddWeaponCommand = new Command(async () =>
             {
                 var allWeapons = await _meleeWeaponRepository.GetAllItemsAsync();
                 allWeapons.AddRange(await _rangedWeaponRepository.GetAllItemsAsync());
+                allWeapons.AddRange(await _specialWeaponRepository.GetAllItemsAsync());
+                allWeapons.AddRange(await _shieldRepository.GetAllItemsAsync());
 
                 var weapons = allWeapons
                     .ToDictionary(weapon => weapon.Name.ToString(), weapon => weapon);

@@ -14,6 +14,8 @@ namespace Imago.Util
         public static readonly string ArmorUrl = "http://imago-rp.de/index.php/R%C3%BCstungen";
         public static readonly string MeleeWeaponUrl = "http://imago-rp.de/index.php/Nahkampfwaffen";
         public static readonly string RangedWeaponUrl = "http://imago-rp.de/index.php/Fernkampfwaffen";
+        public static readonly string SpecialWeaponUrl = "http://imago-rp.de/index.php/Spezialwaffen";
+        public static readonly string ShieldsUrl = "http://imago-rp.de/index.php/Schilde";
 
         public static readonly Dictionary<SkillGroupType, string> SkillGroupTypeLookUp =
             new Dictionary<SkillGroupType, string>()
@@ -88,5 +90,22 @@ namespace Imago.Util
             {SkillType.Wundscher, "http://imago-rp.de/index.php/Wundscher"},
             {SkillType.Zweihaender, "http://imago-rp.de/index.php/Zweih%C3%A4nder_(Fertigkeit)"}
         };
+
+        public static readonly Dictionary<SkillType, string> ParsableSkillTypeLookUp = new Dictionary<SkillType, string>()
+        {
+            {SkillType.Armbrueste, "http://imago-rp.de/index.php/Armbr%C3%BCste_(Fertigkeit)"},
+            {SkillType.Blasrohre, "http://imago-rp.de/index.php/Blasrohr_(Fertigkeit)"},
+            {SkillType.Boegen, "http://imago-rp.de/index.php/B%C3%B6gen_(Fertigkeit)"},
+            {SkillType.Dolche, "http://imago-rp.de/index.php/Dolche_(Fertigkeit)"},
+            {SkillType.Hiebwaffen, "http://imago-rp.de/index.php/Hiebwaffen_(Fertigkeit)"},
+            {SkillType.Schilde, "http://imago-rp.de/index.php/Schild_(Fertigkeit)"},
+            {SkillType.Schleuder, "http://imago-rp.de/index.php/Schleudern_(Fertigkeit)"},
+            {SkillType.Schwerter, "http://imago-rp.de/index.php/Schwerter_(Fertigkeit)"},
+            {SkillType.StaebeSpeere, "http://imago-rp.de/index.php/St%C3%A4be/Speere_(Fertigkeit)"},
+            {SkillType.Waffenlos, "http://imago-rp.de/index.php/Waffenlos_(Fertigkeit)"},
+            {SkillType.Wurfwaffen, "http://imago-rp.de/index.php/Wurfwaffen_(Fertigkeit)"},
+            {SkillType.Zweihaender, "http://imago-rp.de/index.php/Zweih%C3%A4nder_(Fertigkeit)"}
+        };
+
     }
 }

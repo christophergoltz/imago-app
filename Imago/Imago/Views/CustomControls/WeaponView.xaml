@@ -20,7 +20,7 @@
             </Grid.ColumnDefinitions>
             <ListView Grid.Column="0" HeightRequest="150" Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand"
                           HasUnevenRows="True" VerticalScrollBarVisibility="Never" 
-                          ItemsSource="{Binding WeaponStances.Values}">
+                          ItemsSource="{Binding WeaponStances}">
                 <ListView.Header>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -58,7 +58,7 @@
                                     <ColumnDefinition Width="150" />
                                     <ColumnDefinition Width="40" />
                                 </Grid.ColumnDefinitions>
-                                <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
+                                <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Type}"/>
                                 <Entry FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Text="{Binding PhaseValue}"/>
                                 <Entry FontSize="18" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Text="{Binding DamageFormula}"/>
                                 <Entry Placeholder="-" Keyboard="Numeric" FontSize="18" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Text="{Binding ParryModifier}"/>

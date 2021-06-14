@@ -27,6 +27,8 @@ namespace Imago.ViewModels
         private readonly IRangedWeaponRepository _rangedWeaponRepository;
         private readonly IArmorRepository _armorRepository;
         private readonly ITalentRepository _talentRepository;
+        private readonly ISpecialWeaponRepository _specialWeaponRepository;
+        private readonly IShieldRepository _shieldRepository;
         private Dictionary<TableInfoType, TableInfoModel> _tableInfos;
 
         public ICommand ParseDataFromWikiCommand { get; }
@@ -36,7 +38,9 @@ namespace Imago.ViewModels
             IMeleeWeaponRepository meleeWeaponRepository,
             IRangedWeaponRepository rangedWeaponRepository,
             IArmorRepository armorRepository,
-            ITalentRepository talentRepository)
+            ITalentRepository talentRepository,
+            ISpecialWeaponRepository specialWeaponRepository,
+            IShieldRepository shieldRepository)
         {
             _characterRepository = characterRepository;
             _wikiParseService = wikiParseService;
@@ -44,6 +48,8 @@ namespace Imago.ViewModels
             _rangedWeaponRepository = rangedWeaponRepository;
             _armorRepository = armorRepository;
             _talentRepository = talentRepository;
+            _specialWeaponRepository = specialWeaponRepository;
+            _shieldRepository = shieldRepository;
             TestCharacterCommand = new Command(OnTestCharacterClicked);
 
             ParseDataFromWikiCommand = new Command(async () =>
@@ -96,6 +102,8 @@ namespace Imago.ViewModels
                 await _meleeWeaponRepository.EnsureTables();
                 await _armorRepository.EnsureTables();
                 await _talentRepository.EnsureTables();
+                await _specialWeaponRepository.EnsureTables();
+                await _shieldRepository.EnsureTables();
             }
             catch (Exception e)
             {
@@ -127,6 +135,14 @@ namespace Imago.ViewModels
                     case TableInfoType.RangedWeapons:
                         tableInfo.Count = await _rangedWeaponRepository.GetItemsCount();
                         tableInfo.TimeStamp = _rangedWeaponRepository.GetLastChangedDate();
+                        break;
+                    case TableInfoType.SpecialWeapons:
+                        tableInfo.Count = await _specialWeaponRepository.GetItemsCount();
+                        tableInfo.TimeStamp = _specialWeaponRepository.GetLastChangedDate();
+                        break;
+                    case TableInfoType.Shields:
+                        tableInfo.Count = await _shieldRepository.GetItemsCount();
+                        tableInfo.TimeStamp = _shieldRepository.GetLastChangedDate();
                         break;
                     case TableInfoType.Talents:
                         tableInfo.Count = await _talentRepository.GetItemsCount();
