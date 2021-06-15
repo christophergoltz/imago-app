@@ -12,21 +12,24 @@ namespace Imago.Models
         private int? _difficulty;
         private string _shortDescription;
         private string _phaseValueMod;
+        private string _description;
 
         public TalentBase()
         {
-            
+
         }
 
-        protected TalentBase(string name, string shortDescription, bool activeUse, int? difficulty, string phaseValueMod)
+        protected TalentBase(string name, string shortDescription, string description, bool activeUse, int? difficulty,
+            string phaseValueMod)
         {
             Name = name;
             ShortDescription = shortDescription;
+            Description = description;
             ActiveUse = activeUse;
             Difficulty = difficulty;
             PhaseValueMod = phaseValueMod;
         }
-        
+
         public string PhaseValueMod
         {
             get => _phaseValueMod;
@@ -36,7 +39,7 @@ namespace Imago.Models
         public string Name
         {
             get => _name;
-            set => SetProperty(ref _name , value);
+            set => SetProperty(ref _name, value);
         }
 
         public string ShortDescription
@@ -45,10 +48,16 @@ namespace Imago.Models
             set => SetProperty(ref _shortDescription, value);
         }
 
+        public string Description
+        {
+            get => _description;
+            set => SetProperty(ref _description, value);
+        }
+
         public bool ActiveUse
         {
             get => _activeUse;
-            set => SetProperty(ref _activeUse , value);
+            set => SetProperty(ref _activeUse, value);
         }
 
         public int? Difficulty

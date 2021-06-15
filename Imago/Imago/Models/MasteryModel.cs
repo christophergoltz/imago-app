@@ -16,8 +16,8 @@ namespace Imago.Models
 
         }
 
-        public MasteryModel(SkillGroupType targetSkill , string name, string shortDescription, Dictionary<SkillGroupType, int> requirements,
-            int? difficulty, bool activeUse, string phaseValueMod) : base(name, shortDescription, activeUse, difficulty, phaseValueMod)
+        public MasteryModel(SkillGroupType targetSkill , string name, string shortDescription,string description, Dictionary<SkillGroupType, int> requirements,
+            int? difficulty, bool activeUse, string phaseValueMod) : base(name, shortDescription, description, activeUse, difficulty, phaseValueMod)
         {
             TargetSkill = targetSkill;
             Requirements = requirements;

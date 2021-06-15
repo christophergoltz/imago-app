@@ -16,8 +16,8 @@ namespace Imago.Models
             
         }
 
-        public TalentModel(SkillType targetSkill, string name,string shortDescription, Dictionary<SkillType, int> requirements,
-            int? difficulty, bool activeUse, string phaseValueMod) : base(name, shortDescription, activeUse, difficulty, phaseValueMod)
+        public TalentModel(SkillType targetSkill, string name,string shortDescription, string description, Dictionary<SkillType, int> requirements,
+            int? difficulty, bool activeUse, string phaseValueMod) : base(name, shortDescription,description, activeUse, difficulty, phaseValueMod)
         {
             TargetSkill = targetSkill;
             Requirements = requirements;
