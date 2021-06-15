@@ -308,7 +308,7 @@ namespace Imago.Services
                         logFeed.Add(new LogEntry(LogEntryType.Warning, $"Talent \"{name}\" hat keine Kurzbeschreibung"));
                     }
 
-                    talents.Add(new TalentModel(name, shortDescription, requirements, difficulty, activeUse,
+                    talents.Add(new TalentModel(type, name, shortDescription, requirements, difficulty, activeUse,
                         phaseValueMod));
                 }
                 catch (Exception exception)
@@ -482,7 +482,7 @@ namespace Imago.Services
                         logFeed.Add(new LogEntry(LogEntryType.Warning,
                             $"Meisterschaft \"{name}\" hat keine Kurzbeschreibung"));
 
-                    talents.Add(new MasteryModel(name, shortDescription, requirements, difficulty, activeUse,
+                    talents.Add(new MasteryModel(type, name, shortDescription, requirements, difficulty, activeUse,
                         phaseValueMod));
                 }
                 catch (Exception exception)

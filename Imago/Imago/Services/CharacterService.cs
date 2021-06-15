@@ -22,6 +22,8 @@ namespace Imago.Services
         void SetModificationValue(SpecialAttribute specialAttribute, int modificationValue, Character character);
         void AddOneExperienceToAttribute(Attribute attribute, Character character);
         void RecalculateHandicapAttributes(Character character);
+        bool CheckTalentRequirement(Dictionary<SkillType, int> requirements, Character character);
+        bool CheckMasteryRequirement(Dictionary<SkillGroupType, int> requirements, Character character);
     }
 
     public class CharacterService : ICharacterService
@@ -81,6 +83,33 @@ namespace Imago.Services
 
                 UpdateNewFinalValueOfAttribute(attribute, character);
             }
+        }
+
+        public bool CheckTalentRequirement(Dictionary<SkillType, int> requirements, Character character)
+        {
+            foreach (var requirement in requirements)
+            {
+                var skill = character.SkillGroups.SelectMany(pair => pair.Value.Skills).First(_ => _.Type == requirement.Key);
+                if (skill.IncreaseValue < requirement.Value)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+
+        public bool CheckMasteryRequirement(Dictionary<SkillGroupType, int> requirements, Character character)
+        {
+            foreach (var requirement in requirements)
+            {
+                var skillGroup = character.SkillGroups[requirement.Key];
+                if (skillGroup.IncreaseValue < requirement.Value)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         private IEnumerable<SkillGroupType> AddExperienceToSkillGroup(SkillGroup skillGroup, int experience)

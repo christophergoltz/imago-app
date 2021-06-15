@@ -12,6 +12,7 @@ using Imago.Models;
 using Imago.Models.Base;
 using Imago.Models.Enum;
 using Imago.Repository;
+using Imago.Repository.WrappingDatabase;
 using Imago.Services;
 using Imago.Util;
 using Imago.Views;
@@ -50,13 +51,14 @@ namespace Imago.ViewModels
             set => SetProperty(ref _skillGroupDetailViewModel, value);
         }
 
-        public SkillPageViewModel(Character character, ICharacterService characterService, IWikiService wikiService)
+        public SkillPageViewModel(Character character, ICharacterService characterService, IWikiService wikiService, IMasteryRepository masteryRepository,
+            ITalentRepository talentRepository)
         {
             Character = character;
 
             OpenSkillDetailCommand = new Command<(Skill Skill, SkillGroup SkillGroup)>(parameter =>
             {
-                var vm = new SkillDetailViewModel(parameter.Skill, parameter.SkillGroup, character, characterService, wikiService);
+                var vm = new SkillDetailViewModel(parameter.Skill, parameter.SkillGroup, character, characterService, wikiService, masteryRepository, talentRepository);
                 vm.CloseRequested += (sender, args) => { SkillDetailViewModel = null; };
 
                 SkillDetailViewModel = vm;

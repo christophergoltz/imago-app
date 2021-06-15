@@ -59,28 +59,34 @@ namespace Imago.Repository
 
             return character;
         }
-        
+
         private Dictionary<BodyPartType, BodyPart> CreateBodyParts()
         {
             return new Dictionary<BodyPartType, BodyPart>
             {
                 {
-                    BodyPartType.Kopf, new BodyPart(BodyPartType.Kopf, "KO/15+3", 7, new ObservableCollection<ArmorModel>())
+                    BodyPartType.Kopf,
+                    new BodyPart(BodyPartType.Kopf, "KO/15+3", 7, new ObservableCollection<ArmorModel>())
                 },
                 {
-                    BodyPartType.Torso, new BodyPart(BodyPartType.Torso, "KO/6+2", 12, new ObservableCollection<ArmorModel>())
+                    BodyPartType.Torso,
+                    new BodyPart(BodyPartType.Torso, "KO/6+2", 12, new ObservableCollection<ArmorModel>())
                 },
                 {
-                    BodyPartType.ArmLinks, new BodyPart(BodyPartType.ArmLinks, "KO/10+1", 1, new ObservableCollection<ArmorModel>())
+                    BodyPartType.ArmLinks,
+                    new BodyPart(BodyPartType.ArmLinks, "KO/10+1", 1, new ObservableCollection<ArmorModel>())
                 },
                 {
-                    BodyPartType.ArmRechts, new BodyPart(BodyPartType.ArmRechts, "KO/10+1", 8, new ObservableCollection<ArmorModel>())
+                    BodyPartType.ArmRechts,
+                    new BodyPart(BodyPartType.ArmRechts, "KO/10+1", 8, new ObservableCollection<ArmorModel>())
                 },
                 {
-                    BodyPartType.BeinLinks, new BodyPart(BodyPartType.BeinLinks, "KO/7+2", 6, new ObservableCollection<ArmorModel>())
+                    BodyPartType.BeinLinks,
+                    new BodyPart(BodyPartType.BeinLinks, "KO/7+2", 6, new ObservableCollection<ArmorModel>())
                 },
                 {
-                    BodyPartType.BeinRechts, new BodyPart(BodyPartType.BeinRechts, "KO/7+2", 3, new ObservableCollection<ArmorModel>())
+                    BodyPartType.BeinRechts,
+                    new BodyPart(BodyPartType.BeinRechts, "KO/7+2", 3, new ObservableCollection<ArmorModel>())
                 }
             };
         }
@@ -100,9 +106,9 @@ namespace Imago.Repository
         {
             return new ObservableCollection<EquipableItem>()
             {
-                new EquipableItem("Mantel",  true, false, 1, 20),
-                new EquipableItem("Gürtel", true, true, 1,5),
-                new EquipableItem("Heiler Material Stufe 2",false, false, 3,45)
+                new EquipableItem("Mantel", true, false, 1, 20),
+                new EquipableItem("Gürtel", true, true, 1, 5),
+                new EquipableItem("Heiler Material Stufe 2", false, false, 3, 45)
             };
         }
 
@@ -152,7 +158,11 @@ namespace Imago.Repository
             {
                 Skills = CreateSkills(type)
             };
-            return skillGroup;     
+
+            if (type == SkillGroupType.Nahkampf)
+                skillGroup.IncreaseValue = 21;
+
+            return skillGroup;
         }
 
         public List<Skill> CreateSkills(SkillGroupType groupType)
@@ -164,7 +174,7 @@ namespace Imago.Repository
                     {
                         new Skill(SkillType.Ausweichen),
                         new Skill(SkillType.Klettern),
-                        new Skill(SkillType.Koerperbeherrschung),
+                        new Skill(SkillType.Koerperbeherrschung) {IncreaseValue = 36},
                         new Skill(SkillType.Laufen),
                         new Skill(SkillType.Reiten),
                         new Skill(SkillType.Schwimmen),
@@ -174,7 +184,7 @@ namespace Imago.Repository
                 case SkillGroupType.Nahkampf:
                     return new List<Skill>
                     {
-                        new Skill(SkillType.Dolche),
+                        new Skill(SkillType.Dolche) {IncreaseValue = 66},
                         new Skill(SkillType.Hiebwaffen),
                         new Skill(SkillType.Schilde),
                         new Skill(SkillType.Schwerter),
@@ -251,7 +261,7 @@ namespace Imago.Repository
                 default:
                     throw new ArgumentOutOfRangeException(nameof(groupType), groupType, null);
             }
-            
+
         }
     }
 }
