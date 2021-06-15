@@ -4,6 +4,25 @@
              xmlns:models="clr-namespace:Imago.Models;assembly=Imago"
              xmlns:viewModels="clr-namespace:Imago.ViewModels;assembly=Imago"
              x:Class="Imago.Views.CustomControls.WeaponView" x:Name="WeaponViewControl">
+    <ContentView.Resources>
+        <DataTemplate x:Key="WeaponStanceListViewItemTemplate" x:DataType="models:WeaponStance">
+            <Grid Padding="10,4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="150" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="150" />
+                    <ColumnDefinition Width="40" />
+                </Grid.ColumnDefinitions>
+                <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Type}"/>
+                <Entry FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Text="{Binding PhaseValue}"/>
+                <Entry FontSize="18" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Text="{Binding DamageFormula}"/>
+                <Entry Placeholder="-" Keyboard="Numeric" FontSize="18" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Text="{Binding ParryModifier}"/>
+                <Entry FontSize="18" Grid.Column="4" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Text="{Binding Range}"/>
+            </Grid>
+        </DataTemplate>
+    </ContentView.Resources>
     <ContentView.Content>
         <Grid BindingContext="{Binding Weapon, Source={x:Reference WeaponViewControl}}">
             <Grid.Background>
@@ -18,56 +37,39 @@
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <ListView Grid.Column="0" HeightRequest="150" Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand"
-                          HasUnevenRows="True" VerticalScrollBarVisibility="Never" 
-                          ItemsSource="{Binding WeaponStances}">
-                <ListView.Header>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="150" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="150" />
-                            <ColumnDefinition Width="50" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="1" />
-                        </Grid.RowDefinitions>
-                        <Label Grid.Row="0" VerticalOptions="End" VerticalTextAlignment="End" Grid.Column="0" FontSize="18" FontAttributes="Bold" Text="{Binding Name}" />
-                        <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="1" Text="Phasen" FontAttributes="Bold"/>
-                        <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="2" Text="Schaden"  FontAttributes="Bold"/>
-                        <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="3" Text="Parademodi" FontAttributes="Bold"/>
-                        <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="4" Text="Reichweite" FontAttributes="Bold"/>
-                        <Button Grid.Column="5" Grid.Row="0" Text="X" WidthRequest="35" HeightRequest="35" FontSize="16" VerticalOptions="Start" 
-                                HorizontalOptions="End" TextColor="Red" BackgroundColor="LightGray" CommandParameter="{Binding .}"
-                                Command="{Binding RemoveWeaponCommand, Source={x:Reference WeaponViewControl}}"/>
-                        <BoxView Grid.Column="0" HeightRequest="1" Grid.Row="1" Grid.ColumnSpan="6" Color="Black"/>
-                    </Grid>
-                </ListView.Header>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell x:DataType="models:WeaponStance">
-                            <Grid Padding="10,4">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="100" />
-                                    <ColumnDefinition Width="150" />
-                                    <ColumnDefinition Width="100" />
-                                    <ColumnDefinition Width="150" />
-                                    <ColumnDefinition Width="40" />
-                                </Grid.ColumnDefinitions>
-                                <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Type}"/>
-                                <Entry FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Text="{Binding PhaseValue}"/>
-                                <Entry FontSize="18" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Text="{Binding DamageFormula}"/>
-                                <Entry Placeholder="-" Keyboard="Numeric" FontSize="18" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Text="{Binding ParryModifier}"/>
-                                <Entry FontSize="18" Grid.Column="4" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Text="{Binding Range}"/>
-                            </Grid>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+
+            <StackLayout Grid.Column="0" >
+                <!-- header -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="50" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="1" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" VerticalOptions="End" VerticalTextAlignment="End" Grid.Column="0" FontSize="18" FontAttributes="Bold" Text="{Binding Name}" />
+                    <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="1" Text="Phasen" FontAttributes="Bold"/>
+                    <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="2" Text="Schaden"  FontAttributes="Bold"/>
+                    <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="3" Text="Parademodi" FontAttributes="Bold"/>
+                    <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="4" Text="Reichweite" FontAttributes="Bold"/>
+                    <Button Grid.Column="5" Grid.Row="0" Text="X" WidthRequest="35" HeightRequest="35" FontSize="16" VerticalOptions="Start" 
+                HorizontalOptions="End" TextColor="Red" BackgroundColor="LightGray" CommandParameter="{Binding .}"
+                Command="{Binding RemoveWeaponCommand, Source={x:Reference WeaponViewControl}}"/>
+                    <BoxView Grid.Column="0" HeightRequest="1" Grid.Row="1" Grid.ColumnSpan="6" Color="Black"/>
+                </Grid>
+
+                <!-- weaon stance list-->
+                <StackLayout Margin="15,15,15,0"  VerticalOptions="FillAndExpand"
+                 BindableLayout.ItemsSource="{Binding WeaponStances}"
+                 BindableLayout.ItemTemplate="{StaticResource WeaponStanceListViewItemTemplate}">
+                </StackLayout>
+            </StackLayout>
 
             <StackLayout Grid.Column="1" VerticalOptions="Center">
                 <Label FontAttributes="Bold" Text="Last"></Label>
