@@ -247,7 +247,7 @@ namespace Imago.Services
             return talents;
         }
 
-        private static List<string> DescriptionFilter = new List<string>()
+        private static readonly List<string> DescriptionFilter = new List<string>()
         {
             "Fertigkeit",
             "Freischaltung",
