@@ -12,7 +12,6 @@ namespace Imago.Models
         private int? _difficulty;
         private string _shortDescription;
         private string _phaseValueMod;
-        private bool _available;
 
         public TalentBase()
         {
@@ -56,12 +55,6 @@ namespace Imago.Models
         {
             get => _difficulty;
             set => SetProperty(ref _difficulty, value);
-        }
-
-        public bool Available
-        {
-            get => _available;
-            set => SetProperty(ref _available, value);
         }
     }
 }

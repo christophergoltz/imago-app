@@ -19,6 +19,13 @@ namespace Imago.ViewModels
             Talent = talent;
         }
 
+        public bool Available
+        {
+            get => _available;
+            set => SetProperty(ref _available, value);
+        }
+        private bool _available;
+
         public bool InUse
         {
             get => _inUse;

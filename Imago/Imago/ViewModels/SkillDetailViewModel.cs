@@ -21,7 +21,9 @@ namespace Imago.ViewModels
 {
     public class SkillDetailViewModel : BindableBase
     {
-        private readonly SkillGroupTypeToAttributeSourceStringConverter _converter = new SkillGroupTypeToAttributeSourceStringConverter();
+        private readonly SkillGroupTypeToAttributeSourceStringConverter _converter =
+            new SkillGroupTypeToAttributeSourceStringConverter();
+
         private readonly SkillGroup _parent;
         private readonly Character _character;
         private readonly ICharacterService _characterService;
@@ -80,14 +82,15 @@ namespace Imago.ViewModels
             get => _masteries;
             set => SetProperty(ref _masteries, value);
         }
-        
+
         public bool TestAvaiable
         {
             get => _testAvaiable;
             set => SetProperty(ref _testAvaiable, value);
         }
 
-        public SkillDetailViewModel(Skill skill, SkillGroup parent, Character character, ICharacterService characterService, 
+        public SkillDetailViewModel(Skill skill, SkillGroup parent, Character character,
+            ICharacterService characterService,
             IWikiService wikiService, IMasteryRepository masteryRepository, ITalentRepository talentRepository)
         {
             _parent = parent;
@@ -154,20 +157,14 @@ namespace Imago.ViewModels
                 WikiPageViewModel.RequestedWikiPage = null;
             });
 
-            CloseCommand = new Command(() =>
-            {
-                CloseRequested?.Invoke(this, EventArgs.Empty);
-            });
+            CloseCommand = new Command(() => { CloseRequested?.Invoke(this, EventArgs.Empty); });
 
             Task.Run(LoadWikiPage);
 
             if (WikiConstants.ParsableSkillTypeLookUp.ContainsKey(Skill.Type))
             {
                 TestAvaiable = true;
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    Task.Run(InitializeTalents);
-                });
+                Device.BeginInvokeOnMainThread(() => { Task.Run(InitializeTalents); });
             }
             else
             {
@@ -178,12 +175,15 @@ namespace Imago.ViewModels
         public int FinalTestValue
         {
             get => _finalTestValue;
-            set => SetProperty(ref _finalTestValue , value);
+            set => SetProperty(ref _finalTestValue, value);
         }
 
         private void RecalcTestValue()
         {
-            var result = (int)Skill.FinalValue;
+            if (!TestAvaiable)
+                return;
+
+            var result = (int) Skill.FinalValue;
 
             foreach (var mastery in Masteries)
             {
@@ -202,12 +202,15 @@ namespace Imago.ViewModels
 
         public void UpdateTalentRequirements()
         {
+            if (!TestAvaiable)
+                return;
+
             foreach (var mastery in Masteries)
             {
                 if (mastery.Talent is MasteryModel model)
                 {
                     var avaiable = _characterService.CheckMasteryRequirement(model.Requirements, _character);
-                    mastery.Talent.Available = avaiable;
+                    mastery.Available = avaiable;
                 }
             }
 
@@ -216,48 +219,52 @@ namespace Imago.ViewModels
                 if (talent.Talent is TalentModel model)
                 {
                     var avaiable = _characterService.CheckTalentRequirement(model.Requirements, _character);
-                    talent.Talent.Available = avaiable;
+                    talent.Available = avaiable;
                 }
             }
         }
 
         private async Task InitializeTalents()
         {
-                var masteries = new List<TalentListItemViewModel>();
-                var allMasteries = await _masteryRepository.GetAllItemsAsync();
-                foreach (var mastery in allMasteries)
+            var masteries = new List<TalentListItemViewModel>();
+            var allMasteries = await _masteryRepository.GetAllItemsAsync();
+            foreach (var mastery in allMasteries)
+            {
+                if (mastery.TargetSkill != _parent.Type)
+                    continue;
+
+                var avaiable = _characterService.CheckMasteryRequirement(mastery.Requirements, _character);
+
+                var vm = new TalentListItemViewModel(mastery)
                 {
-                    if (mastery.TargetSkill != _parent.Type)
-                        continue;
+                    Available = avaiable
+                };
+                vm.TalentValueChanged += (sender, args) => RecalcTestValue();
+                masteries.Add(vm);
+            }
 
-                    var avaiable = _characterService.CheckMasteryRequirement(mastery.Requirements, _character);
-                    mastery.Available = avaiable;
+            Masteries = masteries;
 
-                    var vm = new TalentListItemViewModel(mastery);
-                    vm.TalentValueChanged += (sender, args) => RecalcTestValue();
-                    masteries.Add(vm);
-                }
+            var talents = new List<TalentListItemViewModel>();
+            var allTalents = await _talentRepository.GetAllItemsAsync();
+            foreach (var talent in allTalents)
+            {
+                if (talent.TargetSkill != Skill.Type)
+                    continue;
 
-                Masteries = masteries;
+                var avaiable = _characterService.CheckTalentRequirement(talent.Requirements, _character);
 
-                var talents = new List<TalentListItemViewModel>();
-                var allTalents = await _talentRepository.GetAllItemsAsync();
-                foreach (var talent in allTalents)
+                var vm = new TalentListItemViewModel(talent)
                 {
-                    if (talent.TargetSkill != Skill.Type)
-                        continue;
+                    Available = avaiable
+                };
+                vm.TalentValueChanged += (sender, args) => RecalcTestValue();
+                talents.Add(vm);
+            }
 
-                    var avaiable = _characterService.CheckTalentRequirement(talent.Requirements, _character);
-                    talent.Available = avaiable;
+            Talents = talents;
 
-                    var vm = new TalentListItemViewModel(talent);
-                    vm.TalentValueChanged += (sender, args) => RecalcTestValue();
-                    talents.Add(vm);
-                }
-
-                Talents = talents;
-
-                UpdateTalentRequirements();
+            UpdateTalentRequirements();
             RecalcTestValue();
         }
 
