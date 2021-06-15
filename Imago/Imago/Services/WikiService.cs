@@ -1,4 +1,5 @@
-﻿using HtmlAgilityPack;
+﻿using System.Linq;
+using HtmlAgilityPack;
 using Imago.Models;
 using Imago.Models.Enum;
 using Imago.Util;
@@ -18,43 +19,42 @@ namespace Imago.Services
         public string GetTalentHtml(SkillType skillType)
         {
             var url = WikiConstants.SkillTypeLookUp[skillType];
-            var web = new HtmlWeb();
-            var doc = web.Load(url);
-            doc.GetElementbyId("mw-page-base")?.Remove();
-            doc.GetElementbyId("mw-head-base")?.Remove();
-            doc.GetElementbyId("mw-navigation")?.Remove();
-            doc.GetElementbyId("footer")?.Remove();
-            doc.GetElementbyId("catlinks")?.Remove();
-            doc.GetElementbyId("toc")?.Remove();
-            //var t = doc.GetElementbyId("Beschreibung");
-            //var tt = t.ParentNode;
-
-            //while (tt.NextSibling.Name != "h2")
-            //{
-            //    tt.NextSibling.Remove();
-            //}
-
-            //tt.Remove();
-            
-            doc.GetElementbyId("content")?.SetAttributeValue("style", "margin-left: 0px;");
-
-            return doc.DocumentNode.OuterHtml;
+            return GetHtml(url);
         }
 
+        private string GetHtml(string url)
+        {
+            var web = new HtmlWeb();
+            var document = web.Load(url);
+            
+            document.GetElementbyId("mw-page-base")?.Remove();
+            document.GetElementbyId("mw-head-base")?.Remove();
+            document.GetElementbyId("mw-navigation")?.Remove();
+            document.GetElementbyId("footer")?.Remove();
+            document.GetElementbyId("catlinks")?.Remove();
+            document.GetElementbyId("toc")?.Remove();
+            document.GetElementbyId("jump-to-nav")?.Remove();
+            document.GetElementbyId("mw-notification-area")?.Remove();
+
+            //kill all links
+            while (document.DocumentNode.Descendants("a").FirstOrDefault() != null)
+            {
+                var parent = document.DocumentNode.Descendants("a").First().ParentNode;
+
+                if (string.IsNullOrWhiteSpace(parent.InnerHtml))
+                    continue;
+
+                parent.InnerHtml = parent.InnerHtml.Replace("<a", "<span").Replace("</a", "</span");
+            }
+
+            document.GetElementbyId("content")?.SetAttributeValue("style", "margin-left: 0px;");
+            return document.DocumentNode.OuterHtml;
+        }
+        
         public string GetMasteryHtml(SkillGroupType skillGroupType)
         {
             var url = WikiConstants.SkillGroupTypeLookUp[skillGroupType];
-            var web = new HtmlWeb();
-            var doc = web.Load(url);
-            doc.GetElementbyId("mw-page-base")?.Remove();
-            doc.GetElementbyId("mw-head-base")?.Remove();
-            doc.GetElementbyId("mw-navigation")?.Remove();
-            doc.GetElementbyId("footer")?.Remove();
-            doc.GetElementbyId("catlinks")?.Remove();
-            doc.GetElementbyId("toc")?.Remove();
-            doc.GetElementbyId("content")?.SetAttributeValue("style", "margin-left: 0px;");
-
-            return doc.DocumentNode.OuterHtml;
+            return GetHtml(url);
         }
 
         public string GetWikiUrl(SkillType skillType)

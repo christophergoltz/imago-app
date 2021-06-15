@@ -83,8 +83,8 @@ namespace Imago.Util
 
             if (skillBase is Skill skill)
             {
-                double steigerungsWertFaktisch = (double) skillBase.IncreaseValue / 15;
-                var resultIndex = ((int) Math.Floor(steigerungsWertFaktisch));
+                double steigerungsWertFaktisch = (double)skill.IncreaseValue / 15;
+                var resultIndex = (int) Math.Floor(steigerungsWertFaktisch);
                 if (resultIndex < 0)
                 {
                     resultIndex = 0;
@@ -101,8 +101,8 @@ namespace Imago.Util
 
             if (skillBase is SkillGroup skillGroup)
             {
-                double steigerungsWertFaktisch = (double) skillBase.IncreaseValue / 5;
-                var resultIndex = ((int) Math.Floor(steigerungsWertFaktisch)) + 2;
+                double steigerungsWertFaktisch = (double)skillGroup.IncreaseValue / 5;
+                var resultIndex = (int) Math.Floor(steigerungsWertFaktisch) + 2;
                 if (resultIndex < 0)
                 {
                     resultIndex = 0;

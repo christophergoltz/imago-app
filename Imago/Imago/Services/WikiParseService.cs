@@ -6,6 +6,7 @@ using Imago.Util;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -246,6 +247,50 @@ namespace Imago.Services
             return talents;
         }
 
+        private static readonly List<string> DescriptionFilter = new List<string>()
+        {
+            "Fertigkeit",
+            "Freischaltung",
+            "Künste",
+            "Variationen"
+        };
+
+        private Dictionary<string, string> GetTalentDescriptions(HtmlDocument document)
+        {
+            var result = new Dictionary<string, string>();
+            var headLines = document.DocumentNode.SelectNodes("//span[@class='mw-headline']");
+
+            foreach (var headLine in headLines)
+            {
+                var header = CleanUpString(headLine.InnerText);
+
+                if (DescriptionFilter.Contains(header))
+                    continue;
+
+                var parent = headLine.ParentNode;
+                var description = "";
+
+                var next = parent?.NextSibling?.NextSibling;
+                if (next == null)
+                    continue;
+
+                while (next.Name.Equals("p"))
+                {
+                    description += next.InnerText;
+                    next = next.NextSibling?.NextSibling;
+                    if (next == null)
+                        break;
+                }
+
+                if (string.IsNullOrWhiteSpace(description))
+                    continue;
+
+                result.Add(header, description);
+            }
+
+            return result;
+        }
+
         private List<TalentModel> ParseTalentsFromUrl(SkillType type, string url,
             ObservableCollection<LogEntry> logFeed)
         {
@@ -253,6 +298,8 @@ namespace Imago.Services
             var doc = LoadDocumentFromUrl(url, logFeed);
             if (doc == null)
                 return talents;
+
+            var descriptions =  GetTalentDescriptions(doc);
 
             var table = doc.DocumentNode.SelectSingleNode("//table[@class='wikitable']");
             if (table == null)
@@ -308,7 +355,21 @@ namespace Imago.Services
                         logFeed.Add(new LogEntry(LogEntryType.Warning, $"Talent \"{name}\" hat keine Kurzbeschreibung"));
                     }
 
-                    talents.Add(new TalentModel(name, shortDescription, requirements, difficulty, activeUse,
+                    var desc = string.Empty;
+                    if (!descriptions.ContainsKey(name))
+                    {
+                        logFeed.Add(new LogEntry(LogEntryType.Warning, $"Keine Beschreibung zu \"{name}\" gefunden {url}"));
+                    }
+                    else
+                    {
+                        desc = descriptions[name];
+                        if (string.IsNullOrWhiteSpace(desc))
+                        {
+                            logFeed.Add(new LogEntry(LogEntryType.Warning, $"Nur eine leere Beschreibung zu \"{name}\" gefunden {url}"));
+                        }
+                    }
+
+                    talents.Add(new TalentModel(type, name, shortDescription, desc, requirements, difficulty, activeUse,
                         phaseValueMod));
                 }
                 catch (Exception exception)
@@ -431,6 +492,9 @@ namespace Imago.Services
             if (doc == null)
                 return talents;
 
+            var descriptions = GetTalentDescriptions(doc);
+
+
             var table = doc.DocumentNode.SelectSingleNode("//table[@class='wikitable']");
             if (table == null)
             {
@@ -482,8 +546,21 @@ namespace Imago.Services
                         logFeed.Add(new LogEntry(LogEntryType.Warning,
                             $"Meisterschaft \"{name}\" hat keine Kurzbeschreibung"));
 
-                    talents.Add(new MasteryModel(name, shortDescription, requirements, difficulty, activeUse,
-                        phaseValueMod));
+                    var desc = string.Empty;
+                    if (!descriptions.ContainsKey(name))
+                    {
+                        logFeed.Add(new LogEntry(LogEntryType.Warning, $"Keine Beschreibung zu \"{name}\" gefunden {url}"));
+                    }
+                    else
+                    {
+                        desc = descriptions[name];
+                        if (string.IsNullOrWhiteSpace(desc))
+                        {
+                            logFeed.Add(new LogEntry(LogEntryType.Warning, $"Nur eine leere Beschreibung zu \"{name}\" gefunden {url}"));
+                        }
+                    }
+
+                    talents.Add(new MasteryModel(type, name, shortDescription, desc, requirements, difficulty, activeUse, phaseValueMod));
                 }
                 catch (Exception exception)
                 {

@@ -30,33 +30,52 @@ namespace Imago.Views.CustomControls
             set => SetValue(SkillGroupProperty, value);
         }
         
-        // BindableProperty implementation
-        public static readonly BindableProperty CommandProperty =
-            BindableProperty.Create(nameof(Command), typeof(ICommand), typeof(SkillGroupView), null);
+        public static readonly BindableProperty OpenSkillCommandProperty = BindableProperty.Create(
+            "OpenSkillCommand", 
+            typeof(ICommand), 
+            typeof(SkillGroupView), 
+            null);
 
-        public ICommand Command
+        public ICommand OpenSkillCommand
         {
-            get { return (ICommand)GetValue(CommandProperty); }
-            set { SetValue(CommandProperty, value); }
+            get { return (ICommand)GetValue(OpenSkillCommandProperty); }
+            set { SetValue(OpenSkillCommandProperty, value); }
         }
 
-        // Helper method for invoking commands safely
-        public static void Execute(ICommand command, (SkillGroup SkillGroup, SkillBase SelectedUpgradeableSkill) parameter)
+        public static readonly BindableProperty OpenSkillGroupCommandProperty = BindableProperty.Create(
+            "OpenSkillGroupCommand",
+            typeof(ICommand),
+            typeof(SkillGroupView),
+            null);
+
+        public ICommand OpenSkillGroupCommand
         {
-            if (command == null) return;
-            if (command.CanExecute(parameter))
-            {
-                command.Execute(parameter);
-            }
+            get { return (ICommand)GetValue(OpenSkillGroupCommandProperty); }
+            set { SetValue(OpenSkillGroupCommandProperty, value); }
         }
         
-        public ICommand SkillDoubleTapCommand => new Command<SkillBase>(parameter =>
+        public ICommand SkillBaseTapCommand => new Command<SkillBase>(parameter =>
         {
-            if(parameter is SkillGroup group)
-                Execute(Command, (group, group));
+            if (parameter is SkillGroup group)
+            {
+                if (OpenSkillGroupCommand == null) 
+                    return;
+             
+                if (OpenSkillGroupCommand.CanExecute(group))
+                    OpenSkillGroupCommand.Execute(group);
 
+                return;
+            }
+            
             if (parameter is Skill skill)
-                Execute(Command, (SkillGroup, skill));
+            {
+                if (OpenSkillCommand == null)
+                    return;
+
+                if (OpenSkillCommand.CanExecute((skill, SkillGroup)))
+                    OpenSkillCommand.Execute((skill, SkillGroup));
+                
+            }
         });
     }
 }
