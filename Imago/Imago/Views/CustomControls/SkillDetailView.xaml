@@ -6,6 +6,7 @@
              xmlns:base="clr-namespace:Imago.Models.Base;assembly=Imago"
              xmlns:models="clr-namespace:Imago.Models;assembly=Imago"
              xmlns:views="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:enum="clr-namespace:Imago.Models.Enum;assembly=Imago"
              x:Class="Imago.Views.CustomControls.SkillDetailView" x:DataType="customControls:SkillDetailView">
     <ContentView.Resources>
         <ResourceDictionary>
@@ -177,7 +178,6 @@
                             Command="{Binding SkillDetailViewModel.OpenWikiCommand}"/>
             </StackLayout>
 
-
             <Label  VerticalOptions="Center" Margin="15,0,0,0" Grid.Column="0" Grid.Row="1" FontSize="20">
                 <Label.Text>
                     <MultiBinding StringFormat="{}({0})">
@@ -185,7 +185,6 @@
                     </MultiBinding>
                 </Label.Text>
             </Label>
-
 
             <StackLayout Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
                 <Label FontSize="20" VerticalOptions="Center"  Text="GW: " FontAttributes="Bold"/>
@@ -246,7 +245,7 @@
         <BoxView Grid.Column="2" Grid.Row="2" Color="Black"/>
 
         <!-- probe -->
-        <Grid Grid.Column="3" Grid.Row="2" WidthRequest="500" IsVisible="{Binding SkillDetailViewModel.TestAvaiable}">
+        <Grid Grid.Column="3" Grid.Row="2" WidthRequest="500">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
@@ -281,7 +280,47 @@
             </Grid>
 
             <ScrollView Grid.Row="1">
-                <StackLayout>
+                <StackLayout RadioButtonGroup.GroupName="Handicap"
+                             RadioButtonGroup.SelectedValue="{Binding SkillDetailViewModel.SelectedHandicap}">
+                    <Label FontAttributes="Bold" Text="Behinderung"/>
+
+                    <Grid Margin="10,0,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="80"></ColumnDefinition>
+                            <ColumnDefinition Width="60"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" HorizontalOptions="Start"  Source="swords.png" HeightRequest="25" WidthRequest="25" />
+                        <Label Grid.Column="1" FontSize="18" Text="{Binding SkillDetailViewModel.HandicapValueFight}"></Label>
+                        <RadioButton Grid.Column="2" Value="{x:Static enum:DerivedAttributeType.BehinderungKampf}"/>
+                    </Grid>
+
+                    <Grid  Margin="10,0,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="80"></ColumnDefinition>
+                            <ColumnDefinition Width="60"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" HorizontalOptions="Start"  Source="backpack.png" HeightRequest="25" WidthRequest="25" />
+                        <Label Grid.Column="1" FontSize="18" Text="{Binding SkillDetailViewModel.HandicapValueAdventure}"></Label>
+                        <RadioButton IsChecked="True" Grid.Column="2" Value="{x:Static enum:DerivedAttributeType.BehinderungAbenteuer}"/>
+                    </Grid>
+
+                    <Grid  Margin="10,0,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="80"></ColumnDefinition>
+                            <ColumnDefinition Width="60"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" FontSize="18" HorizontalOptions="Start" Text="Gesamt"/>
+                        <Label Grid.Column="1" FontSize="18" Text="{Binding SkillDetailViewModel.HandicapValueTotal}"></Label>
+                        <RadioButton Grid.Column="2" Value="{x:Static enum:DerivedAttributeType.BehinderungGesamt}"/>
+                    </Grid>
+
+                    <Grid Margin="10,0,0,0">                        <Grid.ColumnDefinitions>                            <ColumnDefinition Width="*"></ColumnDefinition>                            <ColumnDefinition Width="60">
+                            </ColumnDefinition>                        </Grid.ColumnDefinitions>                        <Label Grid.Column="0" FontSize="18" HorizontalOptions="Start" Text="Ignorieren"/>
+                        <RadioButton Grid.Column="1" Value="{x:Static enum:DerivedAttributeType.Unknown}"/>                    </Grid>
+
                     <Label FontAttributes="Bold" Text="Meisterschaften"/>
                     <StackLayout BindableLayout.ItemsSource="{Binding SkillDetailViewModel.Masteries}"
                                  BindableLayout.ItemTemplate="{StaticResource TalentBaseDetailTemplate}"/>

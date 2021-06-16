@@ -53,6 +53,7 @@ namespace Imago.ViewModels
         private List<TalentListItemViewModel> _masteries;
         private bool _testAvaiable = false;
         private int _finalTestValue;
+        private DerivedAttributeType _selectedHandicap;
 
         public string SourceFormula
         {
@@ -82,12 +83,20 @@ namespace Imago.ViewModels
             get => _masteries;
             set => SetProperty(ref _masteries, value);
         }
-
-        public bool TestAvaiable
+        
+        public DerivedAttributeType SelectedHandicap
         {
-            get => _testAvaiable;
-            set => SetProperty(ref _testAvaiable, value);
+            get => _selectedHandicap;
+            set
+            {
+                SetProperty(ref _selectedHandicap, value);
+                RecalcTestValue();
+            }
         }
+
+        public int HandicapValueFight => (int)_character.Handicap.First(attribute => attribute.Type == DerivedAttributeType.BehinderungKampf).FinalValue;
+        public int HandicapValueAdventure => (int)_character.Handicap.First(attribute => attribute.Type == DerivedAttributeType.BehinderungAbenteuer).FinalValue;
+        public int HandicapValueTotal => (int)_character.Handicap.First(attribute => attribute.Type == DerivedAttributeType.BehinderungGesamt).FinalValue;
 
         public SkillDetailViewModel(Skill skill, SkillGroup parent, Character character,
             ICharacterService characterService,
@@ -160,16 +169,9 @@ namespace Imago.ViewModels
             CloseCommand = new Command(() => { CloseRequested?.Invoke(this, EventArgs.Empty); });
 
             Task.Run(LoadWikiPage);
+            Task.Run(InitializeTalents);
 
-            if (WikiConstants.ParsableSkillTypeLookUp.ContainsKey(Skill.Type))
-            {
-                TestAvaiable = true;
-                Device.BeginInvokeOnMainThread(() => { Task.Run(InitializeTalents); });
-            }
-            else
-            {
-                TestAvaiable = false;
-            }
+            SelectedHandicap = DerivedAttributeType.BehinderungAbenteuer;
         }
 
         public int FinalTestValue
@@ -180,21 +182,40 @@ namespace Imago.ViewModels
 
         private void RecalcTestValue()
         {
-            if (!TestAvaiable)
-                return;
-
             var result = (int) Skill.FinalValue;
 
-            foreach (var mastery in Masteries)
+            //handicap
+            if (SelectedHandicap != DerivedAttributeType.Unknown)
             {
-                if (mastery.Talent.ActiveUse == false || mastery.Talent.ActiveUse && mastery.InUse)
-                    result -= mastery.Talent.Difficulty ?? mastery.DifficultyOverride ?? 0;
+                var val = _character.Handicap.First(attribute => attribute.Type == SelectedHandicap)
+                    .FinalValue;
+                result -= (int) val;
             }
 
-            foreach (var talent in Talents)
+            //masteries
+            if (Masteries != null)
             {
-                if (talent.Talent.ActiveUse == false || talent.Talent.ActiveUse && talent.InUse)
-                    result -= talent.Talent.Difficulty ?? talent.DifficultyOverride ?? 0;
+                foreach (var mastery in Masteries)
+                {
+                    if (!mastery.Available)
+                        continue;
+
+                    if (mastery.Talent.ActiveUse == false || mastery.Talent.ActiveUse && mastery.InUse)
+                        result -= mastery.Talent.Difficulty ?? mastery.DifficultyOverride ?? 0;
+                }
+            }
+
+            //talents
+            if (Talents != null)
+            {
+                foreach (var talent in Talents)
+                {
+                    if (!talent.Available)
+                        continue;
+
+                    if (talent.Talent.ActiveUse == false || talent.Talent.ActiveUse && talent.InUse)
+                        result -= talent.Talent.Difficulty ?? talent.DifficultyOverride ?? 0;
+                }
             }
 
             FinalTestValue = result;
@@ -202,24 +223,27 @@ namespace Imago.ViewModels
 
         public void UpdateTalentRequirements()
         {
-            if (!TestAvaiable)
-                return;
-
-            foreach (var mastery in Masteries)
+            if (Masteries != null)
             {
-                if (mastery.Talent is MasteryModel model)
+                foreach (var mastery in Masteries)
                 {
-                    var avaiable = _characterService.CheckMasteryRequirement(model.Requirements, _character);
-                    mastery.Available = avaiable;
+                    if (mastery.Talent is MasteryModel model)
+                    {
+                        var avaiable = _characterService.CheckMasteryRequirement(model.Requirements, _character);
+                        mastery.Available = avaiable;
+                    }
                 }
             }
 
-            foreach (var talent in Talents)
+            if(Talents != null)
             {
-                if (talent.Talent is TalentModel model)
+                foreach (var talent in Talents)
                 {
-                    var avaiable = _characterService.CheckTalentRequirement(model.Requirements, _character);
-                    talent.Available = avaiable;
+                    if (talent.Talent is TalentModel model)
+                    {
+                        var avaiable = _characterService.CheckTalentRequirement(model.Requirements, _character);
+                        talent.Available = avaiable;
+                    }
                 }
             }
         }
