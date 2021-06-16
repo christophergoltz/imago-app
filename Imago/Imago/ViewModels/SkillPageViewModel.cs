@@ -22,6 +22,7 @@ namespace Imago.ViewModels
 {
     public class SkillPageViewModel : BindableBase
     {
+        private readonly IRuleRepository _ruleRepository;
         private SkillGroupDetailViewModel _skillGroupDetailViewModel;
         private SkillDetailViewModel _skillDetailViewModel;
 
@@ -51,14 +52,18 @@ namespace Imago.ViewModels
             set => SetProperty(ref _skillGroupDetailViewModel, value);
         }
 
-        public SkillPageViewModel(Character character, ICharacterService characterService, IWikiService wikiService, IMasteryRepository masteryRepository,
-            ITalentRepository talentRepository)
+        public SkillPageViewModel(Character character, ICharacterService characterService, IWikiService wikiService, 
+            IMasteryRepository masteryRepository,
+            ITalentRepository talentRepository,
+            IRuleRepository ruleRepository)
         {
+            _ruleRepository = ruleRepository;
             Character = character;
 
             OpenSkillDetailCommand = new Command<(Skill Skill, SkillGroup SkillGroup)>(parameter =>
             {
-                var vm = new SkillDetailViewModel(parameter.Skill, parameter.SkillGroup, character, characterService, wikiService, masteryRepository, talentRepository);
+                var vm = new SkillDetailViewModel(parameter.Skill, parameter.SkillGroup, character, characterService,
+                    wikiService, masteryRepository, talentRepository, _ruleRepository);
                 vm.CloseRequested += (sender, args) => { SkillDetailViewModel = null; };
 
                 SkillDetailViewModel = vm;

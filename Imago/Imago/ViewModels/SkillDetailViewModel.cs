@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using System.Windows.Input;
 using Imago.Converter;
 using Imago.Models;
 using Imago.Models.Enum;
+using Imago.Repository;
 using Imago.Repository.WrappingDatabase;
 using Imago.Services;
 using Imago.Util;
@@ -30,6 +32,7 @@ namespace Imago.ViewModels
         private readonly IWikiService _wikiService;
         private readonly IMasteryRepository _masteryRepository;
         private readonly ITalentRepository _talentRepository;
+        private readonly IRuleRepository _ruleRepository;
 
         public event EventHandler CloseRequested;
         public Skill Skill { get; }
@@ -51,9 +54,8 @@ namespace Imago.ViewModels
         private string _sourceFormula;
         private List<TalentListItemViewModel> _talents;
         private List<TalentListItemViewModel> _masteries;
-        private bool _testAvaiable = false;
         private int _finalTestValue;
-        private DerivedAttributeType _selectedHandicap;
+        private List<HandicapListViewItemViewModel> _handicaps;
 
         public string SourceFormula
         {
@@ -83,24 +85,16 @@ namespace Imago.ViewModels
             get => _masteries;
             set => SetProperty(ref _masteries, value);
         }
-        
-        public DerivedAttributeType SelectedHandicap
-        {
-            get => _selectedHandicap;
-            set
-            {
-                SetProperty(ref _selectedHandicap, value);
-                RecalcTestValue();
-            }
-        }
 
-        public int HandicapValueFight => (int)_character.Handicap.First(attribute => attribute.Type == DerivedAttributeType.BehinderungKampf).FinalValue;
-        public int HandicapValueAdventure => (int)_character.Handicap.First(attribute => attribute.Type == DerivedAttributeType.BehinderungAbenteuer).FinalValue;
-        public int HandicapValueTotal => (int)_character.Handicap.First(attribute => attribute.Type == DerivedAttributeType.BehinderungGesamt).FinalValue;
+        public List<HandicapListViewItemViewModel> Handicaps
+        {
+            get => _handicaps;
+            set => SetProperty(ref _handicaps, value);
+        }
 
         public SkillDetailViewModel(Skill skill, SkillGroup parent, Character character,
             ICharacterService characterService,
-            IWikiService wikiService, IMasteryRepository masteryRepository, ITalentRepository talentRepository)
+            IWikiService wikiService, IMasteryRepository masteryRepository, ITalentRepository talentRepository, IRuleRepository ruleRepository)
         {
             _parent = parent;
             _character = character;
@@ -108,6 +102,7 @@ namespace Imago.ViewModels
             _wikiService = wikiService;
             _masteryRepository = masteryRepository;
             _talentRepository = talentRepository;
+            _ruleRepository = ruleRepository;
             Skill = skill;
 
             SourceFormula = _converter.Convert(parent.Type, null, null, CultureInfo.InvariantCulture).ToString();
@@ -169,9 +164,7 @@ namespace Imago.ViewModels
             CloseCommand = new Command(() => { CloseRequested?.Invoke(this, EventArgs.Empty); });
 
             Task.Run(LoadWikiPage);
-            Task.Run(InitializeTalents);
-
-            SelectedHandicap = DerivedAttributeType.BehinderungAbenteuer;
+            Task.Run(InitializeTestView);
         }
 
         public int FinalTestValue
@@ -185,11 +178,13 @@ namespace Imago.ViewModels
             var result = (int) Skill.FinalValue;
 
             //handicap
-            if (SelectedHandicap != DerivedAttributeType.Unknown)
+            if (Handicaps != null)
             {
-                var val = _character.Handicap.First(attribute => attribute.Type == SelectedHandicap)
-                    .FinalValue;
-                result -= (int) val;
+                foreach (var handicap in Handicaps)
+                {
+                    if (handicap.IsChecked)
+                        result -= handicap.HandiCapValue ?? 0;
+                }
             }
 
             //masteries
@@ -235,7 +230,7 @@ namespace Imago.ViewModels
                 }
             }
 
-            if(Talents != null)
+            if (Talents != null)
             {
                 foreach (var talent in Talents)
                 {
@@ -248,8 +243,18 @@ namespace Imago.ViewModels
             }
         }
 
-        private async Task InitializeTalents()
+        private static readonly List<(DerivedAttributeType Type, string Text, string IconSource)> HandicapDefinition =
+            new List<(DerivedAttributeType Type, string Text, string IconSource)>()
+            {
+                (DerivedAttributeType.BehinderungKampf, "Kampf", "swords.png"),
+                (DerivedAttributeType.BehinderungAbenteuer, "Abenteuer / Reise", "backpack.png"),
+                (DerivedAttributeType.BehinderungGesamt, "Gesamt", null),
+                (DerivedAttributeType.Unknown, "Ignorieren", null)
+            };
+
+        private async Task InitializeTestView()
         {
+            //masteries
             var masteries = new List<TalentListItemViewModel>();
             var allMasteries = await _masteryRepository.GetAllItemsAsync();
             foreach (var mastery in allMasteries)
@@ -269,6 +274,7 @@ namespace Imago.ViewModels
 
             Masteries = masteries;
 
+            //talents
             var talents = new List<TalentListItemViewModel>();
             var allTalents = await _talentRepository.GetAllItemsAsync();
             foreach (var talent in allTalents)
@@ -287,6 +293,31 @@ namespace Imago.ViewModels
             }
 
             Talents = talents;
+
+            //handicap
+            var handicaps = new List<HandicapListViewItemViewModel>();
+            if (_ruleRepository.GetSkillGroupSources(_parent.Type).Contains(AttributeType.Geschicklichkeit))
+            {
+                //only add handicap for attributessource with Geschicklichkeit
+                foreach (var tuple in HandicapDefinition)
+                {
+                    var handicapValue = tuple.Type == DerivedAttributeType.Unknown
+                        ? (int?) null
+                        : (int) _character.Handicap.First(attribute => attribute.Type == tuple.Type).FinalValue;
+
+                    //todo converter
+                    var vm = new HandicapListViewItemViewModel(tuple.Type, false, handicapValue, tuple.IconSource,
+                        tuple.Text);
+                    vm.HandicapValueChanged += (sender, args) => RecalcTestValue();
+
+                    if (vm.Type == DerivedAttributeType.BehinderungAbenteuer)
+                        vm.IsChecked = true;
+
+                    handicaps.Add(vm);
+                }
+            }
+
+            Handicaps = handicaps;
 
             UpdateTalentRequirements();
             RecalcTestValue();

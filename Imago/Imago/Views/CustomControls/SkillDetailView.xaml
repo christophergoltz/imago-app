@@ -134,6 +134,21 @@
                     </views:Expander.Content>
                 </views:Expander>
             </DataTemplate>
+
+            <DataTemplate x:Key="HandicapItemTemplate" x:DataType="viewModels:HandicapListViewItemViewModel">
+                <Grid Margin="10,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="80"></ColumnDefinition>
+                        <ColumnDefinition Width="60"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" HorizontalOptions="Start" Source="{Binding ImageSource}" HeightRequest="25" WidthRequest="25" />
+                    <Label Grid.Column="1" FontSize="18" Text="{Binding Text}"></Label>
+                    <Label Grid.Column="2" FontSize="18" Text="{Binding HandiCapValue}"></Label>
+                    <RadioButton IsChecked="{Binding IsChecked}" Grid.Column="3" Value="{Binding Type}"/>
+                </Grid>
+            </DataTemplate>
         </ResourceDictionary>
     </ContentView.Resources>
 
@@ -280,52 +295,56 @@
             </Grid>
 
             <ScrollView Grid.Row="1">
-                <StackLayout RadioButtonGroup.GroupName="Handicap"
-                             RadioButtonGroup.SelectedValue="{Binding SkillDetailViewModel.SelectedHandicap}">
-                    <Label FontAttributes="Bold" Text="Behinderung"/>
+                <StackLayout>
+                    <Label FontAttributes="Bold" Text="Behinderung">
+                        <Label.Style>
+                            <Style TargetType="Label">
+                                <Style.Triggers>
+                                    <DataTrigger TargetType="Label" 
+                                                 Binding="{Binding SkillDetailViewModel.Handicaps.Count}"
+                                                 Value="0">
+                                        <Setter Property="IsVisible" Value="False"></Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                                <Setter Property="IsVisible" Value="True"></Setter>
+                            </Style>
+                        </Label.Style>
+                    </Label>
+                    <StackLayout RadioButtonGroup.GroupName="Handicap" 
+                                 BindableLayout.ItemTemplate="{StaticResource HandicapItemTemplate}"
+                                 BindableLayout.ItemsSource="{Binding SkillDetailViewModel.Handicaps}"/>
 
-                    <Grid Margin="10,0,0,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="80"></ColumnDefinition>
-                            <ColumnDefinition Width="60"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" HorizontalOptions="Start"  Source="swords.png" HeightRequest="25" WidthRequest="25" />
-                        <Label Grid.Column="1" FontSize="18" Text="{Binding SkillDetailViewModel.HandicapValueFight}"></Label>
-                        <RadioButton Grid.Column="2" Value="{x:Static enum:DerivedAttributeType.BehinderungKampf}"/>
-                    </Grid>
-
-                    <Grid  Margin="10,0,0,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="80"></ColumnDefinition>
-                            <ColumnDefinition Width="60"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" HorizontalOptions="Start"  Source="backpack.png" HeightRequest="25" WidthRequest="25" />
-                        <Label Grid.Column="1" FontSize="18" Text="{Binding SkillDetailViewModel.HandicapValueAdventure}"></Label>
-                        <RadioButton IsChecked="True" Grid.Column="2" Value="{x:Static enum:DerivedAttributeType.BehinderungAbenteuer}"/>
-                    </Grid>
-
-                    <Grid  Margin="10,0,0,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="80"></ColumnDefinition>
-                            <ColumnDefinition Width="60"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" FontSize="18" HorizontalOptions="Start" Text="Gesamt"/>
-                        <Label Grid.Column="1" FontSize="18" Text="{Binding SkillDetailViewModel.HandicapValueTotal}"></Label>
-                        <RadioButton Grid.Column="2" Value="{x:Static enum:DerivedAttributeType.BehinderungGesamt}"/>
-                    </Grid>
-
-                    <Grid Margin="10,0,0,0">                        <Grid.ColumnDefinitions>                            <ColumnDefinition Width="*"></ColumnDefinition>                            <ColumnDefinition Width="60">
-                            </ColumnDefinition>                        </Grid.ColumnDefinitions>                        <Label Grid.Column="0" FontSize="18" HorizontalOptions="Start" Text="Ignorieren"/>
-                        <RadioButton Grid.Column="1" Value="{x:Static enum:DerivedAttributeType.Unknown}"/>                    </Grid>
-
-                    <Label FontAttributes="Bold" Text="Meisterschaften"/>
+                    <Label FontAttributes="Bold" Text="Meisterschaften">
+                        <Label.Style>
+                            <Style TargetType="Label">
+                                <Style.Triggers>
+                                    <DataTrigger TargetType="Label" 
+                                                 Binding="{Binding SkillDetailViewModel.Masteries.Count}"
+                                                 Value="0">
+                                        <Setter Property="IsVisible" Value="False"></Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                                <Setter Property="IsVisible" Value="True"></Setter>
+                            </Style>
+                        </Label.Style>
+                    </Label>
                     <StackLayout BindableLayout.ItemsSource="{Binding SkillDetailViewModel.Masteries}"
                                  BindableLayout.ItemTemplate="{StaticResource TalentBaseDetailTemplate}"/>
 
-                    <Label FontAttributes="Bold" Text="Künste"/>
+                    <Label FontAttributes="Bold" Text="Künste">
+                        <Label.Style>
+                            <Style TargetType="Label">
+                                <Style.Triggers>
+                                    <DataTrigger TargetType="Label" 
+                                                 Binding="{Binding SkillDetailViewModel.Talents.Count}"
+                                                 Value="0">
+                                        <Setter Property="IsVisible" Value="False"></Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                                <Setter Property="IsVisible" Value="True"></Setter>
+                            </Style>
+                        </Label.Style>
+                    </Label>
                     <StackLayout BindableLayout.ItemsSource="{Binding SkillDetailViewModel.Talents}"
                                  BindableLayout.ItemTemplate="{StaticResource TalentBaseDetailTemplate}">
                     </StackLayout>
