@@ -18,7 +18,7 @@ namespace Imago.Converter
             var skillGroupType = (SkillGroupType)value;
 
             //todo meh, remove direct access to repo
-            var sources = RuleRepository.SkillGroupAttributeLookUpDictionary[skillGroupType];
+            var sources = new RuleRepository().GetSkillGroupSources(skillGroupType);
 
             return string.Join("+", sources.Select(attributeType => _enumToAbbreviationTextConverter.Convert(attributeType, null, null, CultureInfo.InvariantCulture)));
         }

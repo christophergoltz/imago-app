@@ -14,7 +14,7 @@ namespace Imago.Repository
 
     public class RuleRepository : IRuleRepository
     {
-        public static readonly Dictionary<SkillGroupType, List<AttributeType>> SkillGroupAttributeLookUpDictionary =
+        private static readonly Dictionary<SkillGroupType, List<AttributeType>> SkillGroupAttributeLookUpDictionary =
             new Dictionary<SkillGroupType, List<AttributeType>>()
             {
                 {SkillGroupType.Bewegung, new List<AttributeType> { AttributeType.Staerke, AttributeType.Geschicklichkeit, AttributeType.Konstitution, AttributeType.Konstitution }},

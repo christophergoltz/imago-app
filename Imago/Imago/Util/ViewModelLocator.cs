@@ -54,7 +54,7 @@ namespace Imago.Util
         }
         
         public CharacterInfoPageViewModel CharacterInfo => new CharacterInfoPageViewModel(App.CurrentCharacter, _characterService.Value, _ruleRepository.Value);
-        public SkillPageViewModel SkillPageViewModel => new SkillPageViewModel(App.CurrentCharacter, _characterService.Value, _wikiRepository.Value, _masteryRepository, _talentRepository);
+        public SkillPageViewModel SkillPageViewModel => new SkillPageViewModel(App.CurrentCharacter, _characterService.Value, _wikiRepository.Value, _masteryRepository, _talentRepository, _ruleRepository.Value);
         public StartPageViewModel StartPage => new StartPageViewModel(_characterRepository.Value,_wikiParseService.Value,_meleeWeaponRepository, _rangedWeaponRepository, _armorRepository,_talentRepository, _specialWeaponRepository, _shieldRepository, _masteryRepository);
         public StatusPageViewModel StatusPageViewModel => new StatusPageViewModel(App.CurrentCharacter,_armorRepository, _meleeWeaponRepository, _rangedWeaponRepository, _characterService.Value, _specialWeaponRepository, _shieldRepository);
         public InventoryViewModel InventoryViewModel => new InventoryViewModel(App.CurrentCharacter, _characterService.Value);
