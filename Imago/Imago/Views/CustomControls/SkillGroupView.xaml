@@ -3,14 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:Imago.Models;assembly=Imago"
              x:Class="Imago.Views.CustomControls.SkillGroupView" x:Name="SkillGroupViewControl">
-    <Frame BorderColor="Black" CornerRadius="0">
-        <Grid Padding="0" Margin="-19" >
-            <Grid.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#996633"/>
-                    <GradientStop Color="#fffdd0" Offset="0.201"/>
-                </LinearGradientBrush>
-            </Grid.Background>
+    <Frame BorderColor="{StaticResource AntiUmbra}" CornerRadius="0">
+        <Grid Margin="-19" Padding="0" Background="{DynamicResource BraunVerlaufListe1}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
@@ -34,7 +28,7 @@
                     <RowDefinition Height="1"/>
                 </Grid.RowDefinitions>
                 <Label Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Text="{Binding Type}"
-                   Margin="5,5,0,0" FontAttributes="Bold" FontSize="22"/>
+                   Margin="10,5,0,0" FontAttributes="Bold" FontSize="22"/>
 
                 <StackLayout Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
                     <Label Text="GW: " FontAttributes="Bold"/>
@@ -67,8 +61,6 @@
                         </Label.Text>
                     </Label>
                 </StackLayout>
-
-                <BoxView Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4" Color="Black"/>
             </Grid>
 
             <!-- skills -->

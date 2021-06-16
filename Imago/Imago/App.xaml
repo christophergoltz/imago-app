@@ -21,7 +21,45 @@
             <util:ViewModelLocator x:Key="ViewModelLocator"/>
 
             <Color x:Key="Primary">#2196F3</Color>
-         
+
+            <!-- Colorset1 -->
+            <Color x:Key="Umbra1">#735e48</Color>
+            <Color x:Key="Umbra2">#9b856e</Color>
+            <Color x:Key="Umbra3">#e1d3c5</Color>
+            <Color x:Key="Umbra4">#fff8f1</Color>
+            <Color x:Key="Weiss">#ffffff</Color>
+
+            <Color x:Key="AntiUmbra">#202843</Color>
+            <Color x:Key="AntiUmbra1">#353b50</Color>
+            <Color x:Key="AntiUmbra2">#696e81</Color>
+            <Color x:Key="AntiUmbra3">#aeb0b7</Color>
+            <Color x:Key="AntiUmbra4">#e0e1e2</Color>
+
+            <Color x:Key="GruenesUmbra">#1e4a2a</Color>
+            <Color x:Key="GruenesUmbra1">#36593f</Color>
+            <Color x:Key="GruenesUmbra2">#6e9177</Color>
+            <Color x:Key="GruenesUmbra3">#98b19e</Color>
+
+            <LinearGradientBrush x:Key="BraunVerlauf1" EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="{DynamicResource Weiss}" Offset="1"/>
+                <GradientStop Color="{DynamicResource Umbra4}" Offset="0.9"/>
+                <GradientStop Color="{DynamicResource Umbra3}" Offset="0.7"/>
+                <GradientStop Color="{DynamicResource Umbra2}" Offset="0.4"/>
+                <GradientStop Color="{DynamicResource Umbra1}" Offset="0.1"/>
+            </LinearGradientBrush>
+
+            <LinearGradientBrush x:Key="BraunVerlaufListe1" EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="{DynamicResource Umbra4}" Offset="1"/>
+                <GradientStop Color="{DynamicResource Umbra2}" Offset="0.16"/>
+                <GradientStop Color="{DynamicResource Umbra1}" Offset="0.0"/>
+            </LinearGradientBrush>
+
+            <LinearGradientBrush x:Key="BraunVerlaufListe2" EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="{DynamicResource Umbra2}" Offset="0"/>
+                <GradientStop Color="{DynamicResource Umbra3}" Offset="0.125"/>
+                <GradientStop Color="{DynamicResource Umbra3}" Offset="0.875"/>
+                <GradientStop Color="{DynamicResource Umbra2}" Offset="1"/>
+            </LinearGradientBrush>
         </ResourceDictionary>        
     </Application.Resources>
 </Application>
