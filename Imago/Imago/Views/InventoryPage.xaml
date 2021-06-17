@@ -20,7 +20,7 @@
             </Grid.RowDefinitions>
 
             <!-- equipped items -->
-            <Frame Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" CornerRadius="0" BorderColor="Black">
+            <Frame Grid.Column="0" Grid.Row="0" Grid.RowSpan="3">
                 <Grid Margin="-19">
                     <Grid.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -88,7 +88,7 @@
             </Frame>
 
             <!-- load -->
-            <Frame Grid.Column="1" Grid.Row="0" CornerRadius="0" BorderColor="Black" VerticalOptions="Start">
+            <Frame Grid.Column="1" Grid.Row="0" VerticalOptions="Start">
                 <Grid Margin="-19">
                     <Grid.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -134,7 +134,7 @@
 
 
             <!-- derived attributes -->
-            <Frame Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" CornerRadius="0" BorderColor="Black">
+            <Frame Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2">
                 <Grid Margin="-19">
                     <Grid.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">

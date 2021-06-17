@@ -28,7 +28,7 @@
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
 
-                    <Frame BorderColor="Black" Grid.Row="1" CornerRadius="0">
+                    <Frame Grid.Row="1" >
                         <StackLayout >
                             <StackLayout Margin="10" VerticalOptions="Center" Orientation="Horizontal">
                                 <Label VerticalOptions="Center" Text="Freie Ep: " FontSize="18"  FontAttributes="Bold"/>
@@ -116,7 +116,7 @@
                         <TapGestureRecognizer Command="{Binding SkillDetailViewModel.CloseCommand}"/>
                     </ContentView.GestureRecognizers>
                 </ContentView>
-                <Frame WidthRequest="1400" HeightRequest="800" VerticalOptions="Center" HorizontalOptions="Center" BorderColor="Black" HasShadow="true" CornerRadius="0">
+                <Frame WidthRequest="1400" HeightRequest="800" VerticalOptions="Center" HorizontalOptions="Center">
                     <customControls:SkillDetailView Margin="-19" VerticalOptions="Fill" HorizontalOptions="Fill" SkillDetailViewModel="{Binding SkillDetailViewModel, Source={RelativeSource AncestorType={x:Type viewModels:SkillPageViewModel}}}"/>
                 </Frame>
             </Grid>
@@ -128,7 +128,7 @@
                         <TapGestureRecognizer Command="{Binding SkillGroupDetailViewModel.CloseCommand}"/>
                     </ContentView.GestureRecognizers>
                 </ContentView>
-                <Frame WidthRequest="1200" HeightRequest="850" VerticalOptions="Center" HorizontalOptions="Center" BorderColor="Black" HasShadow="false" CornerRadius="0">
+                <Frame WidthRequest="1200" HeightRequest="850" VerticalOptions="Center" HorizontalOptions="Center">
                     <customControls:SkillGroupDetailView Margin="-19" VerticalOptions="Fill" HorizontalOptions="Fill" SkillGroupDetailViewModel="{Binding SkillGroupDetailViewModel, Source={RelativeSource AncestorType={x:Type viewModels:SkillPageViewModel}}}"/>
                 </Frame>
             </Grid>
