@@ -3,15 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:Imago.Models;assembly=Imago"
              x:Class="Imago.Views.CustomControls.SkillGroupView" x:Name="SkillGroupViewControl">
-    <Frame BorderColor="{StaticResource AntiUmbra1}" CornerRadius="0">
-        <Grid Margin="-19" Padding="0" Background="{DynamicResource BraunVerlaufListe1}">
+    <Frame>
+        <Grid Margin="-19" Padding="0" Style="{StaticResource SingleGradiantStyle}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <!-- header -->
-            <Grid Grid.Column="0" Grid.Row="0" BindingContext="{Binding SkillGroup, Source={x:Reference SkillGroupViewControl}}">
+            <Grid Grid.Column="0" Grid.Row="0"
+                  BindingContext="{Binding SkillGroup, Source={x:Reference SkillGroupViewControl}}">
                 <Grid.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding SkillBaseTapCommand, Source={x:Reference SkillGroupViewControl}}" 
                                           CommandParameter="{Binding .}"/>

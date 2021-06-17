@@ -10,7 +10,7 @@
              BindingContext="{Binding StatusPageViewModel, Source={StaticResource ViewModelLocator}}"
              x:DataType="viewModels:StatusPageViewModel">
     <ContentPage.Content>
-        <Grid>
+        <Grid BackgroundColor="{StaticResource AntiUmbra2}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="65*"></ColumnDefinition>
                 <ColumnDefinition Width="15*"></ColumnDefinition>
@@ -45,15 +45,8 @@
             </Grid>
 
             <!-- weapons -->
-            <Frame Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" CornerRadius="0" BorderColor="Black">
+            <Frame Grid.Row="1" Grid.Column="0" Grid.RowSpan="2">
                 <Grid Margin="-19">
-                    <Grid.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="#996633"/>
-                            <GradientStop Color="#fffdd0" Offset="0.201"/>
-                        </LinearGradientBrush>
-                    </Grid.Background>
-
                     <ListView Margin="0,10,0,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
                               ItemsSource="{Binding Character.Weapons}">
                         <ListView.Header>
@@ -91,15 +84,8 @@
             </Frame>
 
             <!-- load -->
-            <Frame HeightRequest="125" VerticalOptions="Start" Grid.Column="2" Grid.Row="0" CornerRadius="0" BorderColor="Black">
-                <Grid Margin="-19">
-                    <Grid.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="#996633"/>
-                            <GradientStop Color="#fffdd0" Offset="0.201"/>
-                        </LinearGradientBrush>
-                    </Grid.Background>
-
+            <Frame HeightRequest="125" VerticalOptions="Start" Grid.Column="2" Grid.Row="0">
+                <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">
                     <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
                               ItemsSource="{Binding Character.Handicap}">
                         <ListView.Header>
@@ -136,23 +122,16 @@
             </Frame>
 
             <!-- healing -->
-            <Frame Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" BorderColor="Black" CornerRadius="0">
+            <Frame Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" >
                 <StackLayout>
                     <Label Text="Heilung oder sowas?: [tbd]" FontSize="18"/>
                 </StackLayout>
             </Frame>
 
             <!-- derived attributes -->
-            <Frame Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" CornerRadius="0" BorderColor="Black">
-                <Grid Margin="-19">
-                    <Grid.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="#996633"/>
-                            <GradientStop Color="#fffdd0" Offset="0.201"/>
-                        </LinearGradientBrush>
-                    </Grid.Background>
-
-                    <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
+            <Frame Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2">
+                <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">
+                  <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
                               ItemsSource="{Binding DerivedAttributes}">
                         <ListView.Header>
                             <Grid>

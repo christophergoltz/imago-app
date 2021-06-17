@@ -168,7 +168,7 @@
         </Grid.RowDefinitions>
 
         <!-- header -->
-        <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Padding="15" Margin="0,0,0,-6" Background="{StaticResource BraunVerlauf1}">
+        <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Padding="15" Margin="0,0,0,-6" Style="{StaticResource EvenGradiantStyle}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5*"/>
                 <ColumnDefinition Width="2*"/>

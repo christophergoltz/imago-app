@@ -12,7 +12,7 @@
              x:DataType="viewModels:StartPageViewModel">
 
     <ContentPage.Content>
-        <Grid>
+        <Grid Style="{StaticResource BackgroundGridStyle}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -26,7 +26,8 @@
 
             <!-- wiki parse-->
             <Frame Grid.Row="0" Grid.Column="1" Margin="10">
-                <ListView  SelectionMode="None" ItemsSource="{Binding TableInfos.Values}">
+                <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">
+                <ListView Margin="20"  SelectionMode="None" ItemsSource="{Binding TableInfos.Values}">
                     <ListView.Header>
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -117,7 +118,8 @@
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
-                </ListView>
+                    </ListView>
+                </Grid>
             </Frame>
 
 

@@ -8,7 +8,7 @@
              BindingContext="{Binding SkillPageViewModel, Source={StaticResource ViewModelLocator}}"
              x:DataType="viewModels:SkillPageViewModel">
     <ContentPage.Content>
-        <Grid BackgroundColor="{DynamicResource AntiUmbra2}">
+        <Grid BackgroundColor="{StaticResource AntiUmbra2}">
             <!-- list groups -->
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -37,41 +37,44 @@
                         </StackLayout>
                     </Frame>
 
-                    <Grid Grid.Row="0" Background="{DynamicResource BraunVerlauf1}">
-                        <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
+                    <Frame Grid.Row="0" >
+                        <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">
+                            <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
                                   ItemsSource="{Binding Character.Handicap}">
-                            <ListView.Header>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="150" />
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="1" />
-                                    </Grid.RowDefinitions>
-                                    <Label Grid.Row="0" Grid.Column="0" Text="Behinderung" Margin="5,0,0,0" FontAttributes="Bold"/>
-                                    <Label Grid.Row="0" Grid.Column="1" Text="Last/Traglast" Margin="5,0,0,0" FontAttributes="Bold"/>
-                                    <BoxView Grid.Column="0" HeightRequest="1" Grid.Row="1" Grid.ColumnSpan="2" Color="Black"/>
-                                </Grid>
-                            </ListView.Header>
-                            <ListView.ItemTemplate>
-                                <DataTemplate x:DataType="models:DerivedAttribute">
-                                    <ViewCell>
-                                        <Grid Padding="10,4">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="150" />
-                                            </Grid.ColumnDefinitions>
-                                            <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
-                                            <Label FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding FinalValue}"/>
-                                        </Grid>
-                                    </ViewCell>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </Grid>
+                                <ListView.Header>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="150" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="1" />
+                                        </Grid.RowDefinitions>
+                                        <Label Grid.Row="0" Grid.Column="0" Text="Behinderung" Margin="5,0,0,0" FontAttributes="Bold"/>
+                                        <Label Grid.Row="0" Grid.Column="1" Text="Last/Traglast" Margin="5,0,0,0" FontAttributes="Bold"/>
+                                        <BoxView Grid.Column="0" HeightRequest="1" Grid.Row="1" Grid.ColumnSpan="2" Color="Black"/>
+                                    </Grid>
+                                </ListView.Header>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate x:DataType="models:DerivedAttribute">
+                                        <ViewCell>
+                                            <Grid Padding="10,4">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="150" />
+                                                </Grid.ColumnDefinitions>
+                                                <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
+                                                <Label FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding FinalValue}"/>
+                                            </Grid>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Grid>
+                    </Frame>
                 </Grid>
+              
 
                 <customControls:SkillGroupView Grid.Row="0" Grid.Column="0" 
                                                OpenSkillCommand="{Binding OpenSkillDetailCommand}"

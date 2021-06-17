@@ -9,7 +9,7 @@
        BackgroundColor="black"
        ForegroundColor="black"
        TitleColor="White"
-       TabBarBackgroundColor="{DynamicResource AntiUmbra2}"
+       TabBarBackgroundColor="{DynamicResource AntiUmbra1}"
        TabBarForegroundColor="green"
        TabBarTitleColor="Cyan"
        TabBarUnselectedColor="Orange"

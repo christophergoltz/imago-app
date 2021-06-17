@@ -24,14 +24,8 @@
         </DataTemplate>
     </ContentView.Resources>
     <ContentView.Content>
-        <Grid BindingContext="{Binding Weapon, Source={x:Reference WeaponViewControl}}">
-            <Grid.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Orange"/>
-                    <GradientStop Color="Yellow" Offset="0.401"/>
-                </LinearGradientBrush>
-            </Grid.Background>
-
+        <Grid BindingContext="{Binding Weapon, Source={x:Reference WeaponViewControl}}" 
+              Style="{StaticResource SingleGradiantStyle}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
