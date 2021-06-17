@@ -8,7 +8,7 @@
              BindingContext="{Binding SkillPageViewModel, Source={StaticResource ViewModelLocator}}"
              x:DataType="viewModels:SkillPageViewModel">
     <ContentPage.Content>
-        <Grid BackgroundColor="{DynamicResource AntiUmbra1}">
+        <Grid BackgroundColor="{DynamicResource AntiUmbra2}">
             <!-- list groups -->
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -38,9 +38,8 @@
                     </Frame>
 
                     <Grid Grid.Row="0" Background="{DynamicResource BraunVerlauf1}">
-
                         <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
-                              ItemsSource="{Binding Character.Handicap}">
+                                  ItemsSource="{Binding Character.Handicap}">
                             <ListView.Header>
                                 <Grid>
                                     <Grid.ColumnDefinitions>

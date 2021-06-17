@@ -18,7 +18,7 @@
                                 <Style TargetType="Grid">
                                     <Style.Triggers>
                                         <DataTrigger TargetType="Grid" Binding="{Binding Available}" Value="false">
-                                            <Setter Property="BackgroundColor" Value="{DynamicResource AntiUmbra2}"></Setter>
+                                            <Setter Property="BackgroundColor" Value="{DynamicResource AntiUmbra3}"></Setter>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -52,12 +52,12 @@
                                             <DataTrigger TargetType="Label" Binding="{Binding Available}" Value="False">
                                                 <Setter Property="TextDecorations" Value="Strikethrough"></Setter>
                                                 <Setter Property="FontAttributes" Value="Italic"></Setter>
-                                                <Setter Property="TextColor" Value="white"></Setter>
+                                                <!--<Setter Property="TextColor" Value="white"></Setter>-->
                                             </DataTrigger>
                                         </Style.Triggers>
                                         <Setter Property="TextDecorations" Value="None"></Setter>
                                         <Setter Property="FontAttributes" Value="None"></Setter>
-                                        <Setter Property="TextColor" Value="Black"></Setter>
+                                        <!--<Setter Property="TextColor" Value="Black"></Setter>-->
                                     </Style>
                                 </Label.Style>
                             </Label>
@@ -168,20 +168,12 @@
         </Grid.RowDefinitions>
 
         <!-- header -->
-        <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Padding="15" Margin="0,0,0,-6">
-            <Grid.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="{DynamicResource Weiss}" Offset="1"/>
-                    <GradientStop Color="{DynamicResource Umbra4}" Offset="0.9"/>
-                    <GradientStop Color="{DynamicResource Umbra3}" Offset="0.7"/>
-                    <GradientStop Color="{DynamicResource Umbra2}" Offset="0.4"/>
-                    <GradientStop Color="{DynamicResource Umbra1}" Offset="0.1"/>
-                </LinearGradientBrush>
-            </Grid.Background>
+        <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Padding="15" Margin="0,0,0,-6" Background="{StaticResource BraunVerlauf1}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5*"/>
                 <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="3*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -198,7 +190,7 @@
                             Command="{Binding SkillDetailViewModel.OpenWikiCommand}"/>
             </StackLayout>
 
-            <Label  VerticalOptions="Center" Margin="15,0,0,0" Grid.Column="0" Grid.Row="1" FontSize="20">
+            <Label VerticalOptions="Center" Margin="15,0,0,0" Grid.Column="0" Grid.Row="1" FontSize="20">
                 <Label.Text>
                     <MultiBinding StringFormat="{}({0})">
                         <Binding Path="SkillDetailViewModel.SourceFormula"/>
@@ -252,7 +244,13 @@
                         Text="+5" Command="{Binding SkillDetailViewModel.IncreaseExperienceByFiveCommand}"/>
             </StackLayout>
 
-            <Button Grid.Column="3" Grid.Row="0" Grid.RowSpan="3"  Text="X" Padding="0,-4,0,0" WidthRequest="35" 
+            <StackLayout Grid.Column="3" Grid.RowSpan="2"  Grid.Row="0" Orientation="Horizontal">
+                <Label FontSize="28"  VerticalOptions="Center" Text="FW: " FontAttributes="Bold"/>
+                <Label FontSize="28" VerticalOptions="Center" Text="{Binding SkillDetailViewModel.Skill.FinalValue}"/>
+            </StackLayout>
+
+
+            <Button Grid.Column="4" Grid.Row="0" Grid.RowSpan="3"  Text="X" Padding="0,-4,0,0" WidthRequest="35" 
                         HeightRequest="35"  FontSize="22"  VerticalOptions="Start" HorizontalOptions="End" TextColor="Red" BackgroundColor="LightGray" 
                         Command="{Binding SkillDetailViewModel.CloseCommand}"/>
         </Grid>
@@ -265,28 +263,12 @@
         <!-- probe -->
         <Grid Grid.Column="3" Grid.Row="2" WidthRequest="500">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <!-- header 2 -->
-            <Grid Grid.Row="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="1"></RowDefinition>
-                </Grid.RowDefinitions>
-
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                    <Label HorizontalOptions="Center" VerticalOptions="Center" FontSize="22" Text="Faktischer Wert: "></Label>
-                    <Label HorizontalOptions="Center" VerticalOptions="Center"  FontSize="28" Text="{Binding SkillDetailViewModel.Skill.FinalValue}"></Label>
-                </StackLayout>
-
-                <BoxView Grid.Row="1" Color="Black"/>
-            </Grid>
-
             <!-- footer -->
-            <Grid Grid.Row="2">
+            <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
@@ -297,9 +279,11 @@
                 <Label Grid.Row="2" HorizontalOptions="Center" FontAttributes="Bold" FontSize="32" Text="{Binding SkillDetailViewModel.FinalTestValue}"></Label>
             </Grid>
 
-            <ScrollView Grid.Row="1">
+            <!-- probe -->
+            <ScrollView Grid.Row="0">
                 <StackLayout>
-                    <Label FontAttributes="Bold" Text="Behinderung">
+                    <Label TextColor="white" FontSize="14" FontAttributes="Bold" Text="Behinderung" 
+                           Padding="10,5,10,5" BackgroundColor="{StaticResource AntiUmbra2}">
                         <Label.Style>
                             <Style TargetType="Label">
                                 <Style.Triggers>
@@ -317,7 +301,8 @@
                                  BindableLayout.ItemTemplate="{StaticResource HandicapItemTemplate}"
                                  BindableLayout.ItemsSource="{Binding SkillDetailViewModel.Handicaps}"/>
 
-                    <Label FontAttributes="Bold" Text="Meisterschaften">
+                    <Label TextColor="white" FontSize="14" FontAttributes="Bold" Text="Meisterschaften" 
+                           Padding="10,5,10,5" BackgroundColor="{StaticResource AntiUmbra2}">
                         <Label.Style>
                             <Style TargetType="Label">
                                 <Style.Triggers>
@@ -334,7 +319,8 @@
                     <StackLayout BindableLayout.ItemsSource="{Binding SkillDetailViewModel.Masteries}"
                                  BindableLayout.ItemTemplate="{StaticResource TalentBaseDetailTemplate}"/>
 
-                    <Label FontAttributes="Bold" Text="Künste">
+                    <Label TextColor="white" FontSize="14" FontAttributes="Bold" Text="Künste" 
+                           Padding="10,5,10,5" BackgroundColor="{StaticResource AntiUmbra2}">
                         <Label.Style>
                             <Style TargetType="Label">
                                 <Style.Triggers>

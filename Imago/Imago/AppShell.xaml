@@ -4,12 +4,12 @@
        xmlns:local="clr-namespace:Imago.Views" FlyoutWidth="250"
        xmlns:viewModels="clr-namespace:Imago.ViewModels;assembly=Imago" 
        Navigated="AppShell_OnNavigated" 
-       FlyoutBackgroundColor="{StaticResource AntiUmbra}"
+       FlyoutBackgroundColor="{StaticResource AntiUmbra1}"
        Title="Imago"    
        BackgroundColor="black"
        ForegroundColor="black"
        TitleColor="White"
-       TabBarBackgroundColor="{DynamicResource AntiUmbra1}"
+       TabBarBackgroundColor="{DynamicResource AntiUmbra2}"
        TabBarForegroundColor="green"
        TabBarTitleColor="Cyan"
        TabBarUnselectedColor="Orange"
@@ -56,7 +56,7 @@
                                     <VisualState x:Name="Normal" />
                                     <VisualState x:Name="Selected">
                                         <VisualState.Setters>
-                                            <Setter Property="BackgroundColor" Value="{StaticResource AntiUmbra1}"/>
+                                            <Setter Property="BackgroundColor" Value="{StaticResource AntiUmbra2}"/>
                                             <Setter TargetName="FlyoutItemLabel" Property="Label.FontAttributes" Value="Bold" />
                                         </VisualState.Setters>
                                     </VisualState>

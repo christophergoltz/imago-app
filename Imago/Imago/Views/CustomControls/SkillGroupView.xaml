@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:Imago.Models;assembly=Imago"
              x:Class="Imago.Views.CustomControls.SkillGroupView" x:Name="SkillGroupViewControl">
-    <Frame BorderColor="{StaticResource AntiUmbra}" CornerRadius="0">
+    <Frame BorderColor="{StaticResource AntiUmbra1}" CornerRadius="0">
         <Grid Margin="-19" Padding="0" Background="{DynamicResource BraunVerlaufListe1}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
