@@ -29,7 +29,7 @@
                                 <RowDefinition Height="1" />
                             </Grid.RowDefinitions>
 
-                            <ProgressBar Grid.ColumnSpan="8" Margin="-5" BackgroundColor="Gray"
+                            <ProgressBar Grid.ColumnSpan="8" Margin="-5" BackgroundColor="Transparent"
                                    ProgressColor="{Binding BodyPart.HitpointsColor}"  
                                     Progress="{Binding BodyPart.CurrentHitpointsPercentage}" 
                                     HorizontalOptions="FillAndExpand"/>
