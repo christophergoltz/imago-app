@@ -37,6 +37,9 @@ namespace Imago.ViewModels
         public ICommand CloseOpenAttributeExperienceCommand { get; }
         public ICommand AddExperienceToAttributeCommand { get; }
 
+        public ICommand AddNewBloodCarrierCommand { get; set; }
+        public ICommand RemoveBloodCarrierCommand { get; set; }
+
         public CharacterInfoPageViewModel(Character character, ICharacterService characterService,
             IRuleRepository ruleRepository)
         {
@@ -71,6 +74,16 @@ namespace Imago.ViewModels
 
                 if (!OpenAttributeExperienceViewModels.Any())
                     AttributeExperienceOpen = false;
+            });
+
+            AddNewBloodCarrierCommand = new Command(() =>
+            {
+                character.BloodCarrier.Add(new BloodCarrierModel("", 0,0,0));
+            });
+
+            RemoveBloodCarrierCommand = new Command<BloodCarrierModel>(model =>
+            {
+                character.BloodCarrier.Remove(model);
             });
         }
 

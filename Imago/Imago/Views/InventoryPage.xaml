@@ -65,7 +65,7 @@
                                         <Entry Keyboard="Numeric" FontSize="18" Grid.Column="1" VerticalOptions="Center" Text="{Binding LoadValue}"/>
                                         <CheckBox Grid.Column="2" Margin="25,0,0,0" HorizontalOptions="Center" VerticalOptions="Center" IsChecked="{Binding Fight}"/>
                                         <CheckBox Grid.Column="3" Margin="25,0,0,0" HorizontalOptions="Center" VerticalOptions="Center" IsChecked="{Binding Adventure}"/>
-                                        <Button Grid.Column="4" Text="X" Padding="0,-4,0,0" WidthRequest="35" HeightRequest="35"  FontSize="22"  VerticalOptions="Start" 
+                                        <Button Grid.Column="4" Text="🗑" Padding="0,-4,0,0" WidthRequest="35" HeightRequest="35"  FontSize="22"  VerticalOptions="Start" 
                                                 HorizontalOptions="End" TextColor="Red" BackgroundColor="LightGray" CommandParameter="{Binding .}"
                                                 Command="{Binding DeleteSelectedEquippedItem, Source={RelativeSource AncestorType={x:Type viewModels:InventoryViewModel}}}"/>
                                     </Grid>

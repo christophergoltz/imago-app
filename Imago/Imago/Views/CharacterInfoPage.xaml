@@ -196,9 +196,58 @@
 
                 <!-- blood carrier -->
                 <Frame Grid.Row="2" Grid.Column="0">
-                    <StackLayout >
-                        <Label Text="Blutträger: [tbd]" FontSize="18"/>
-                    </StackLayout>
+                    <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">
+                        <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
+                                  ItemsSource="{Binding Character.BloodCarrier}">
+                            <ListView.Header>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="125" />
+                                        <ColumnDefinition Width="125" />
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="50" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="1" />
+                                    </Grid.RowDefinitions>
+                                    <Label Grid.Row="0" Grid.Column="0" Text="Bluträger" Margin="5,0,0,0" FontAttributes="Bold"/>
+                                    <Label Grid.Row="0" Grid.Column="1" Text="Aktuelle Kap." FontAttributes="Bold"/>
+                                    <Label Grid.Row="0" Grid.Column="2" Text="Maximale Kap." FontAttributes="Bold"/>
+                                    <Label Grid.Row="0" Grid.Column="3" Text="Reg." FontAttributes="Bold"/>
+                                    <Button Text="+" Grid.Column="4" Grid.Row="0" Padding="0,-6,0,0" WidthRequest="25" HeightRequest="25"  
+                                            FontSize="22" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Green" 
+                                            BackgroundColor="LightGray" 
+                                            Command="{Binding AddNewBloodCarrierCommand, Source={RelativeSource AncestorType={x:Type viewModels:CharacterInfoPageViewModel}}}"/>
+                                    <BoxView Grid.Column="0" HeightRequest="1" Grid.Row="1" Grid.ColumnSpan="5" Color="Black"/>
+                                </Grid>
+                            </ListView.Header>
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="models:BloodCarrierModel">
+                                    <ViewCell>
+                                        <Grid Padding="10,4">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="125" />
+                                                <ColumnDefinition Width="125" />
+                                                <ColumnDefinition Width="80" />
+                                                <ColumnDefinition Width="50" />
+                                            </Grid.ColumnDefinitions>
+                                            <Entry FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Name}"/>
+                                            <Entry Keyboard="Numeric" FontSize="18" Grid.Column="1" VerticalOptions="Center" Text="{Binding CurrentCapacity}"/>
+                                            <Entry Keyboard="Numeric" FontSize="18" Grid.Column="2" VerticalOptions="Center" Text="{Binding MaximumCapacity}"/>
+                                            <Entry Keyboard="Numeric" FontSize="16" Grid.Column="3" VerticalOptions="Center" Text="{Binding Regeneration}"/>
+                                            <Button Grid.Column="4" Text="🗑" WidthRequest="35" HeightRequest="35" FontSize="16" VerticalOptions="Start" 
+                                                    HorizontalOptions="End" TextColor="Red" BackgroundColor="LightGray" CommandParameter="{Binding .}"
+                                                    Command="{Binding RemoveBloodCarrierCommand, Source={RelativeSource AncestorType={x:Type viewModels:CharacterInfoPageViewModel}}}"/>
+
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
                 </Frame>
 
                 <!-- derived attributes -->

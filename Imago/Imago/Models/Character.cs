@@ -46,5 +46,7 @@ namespace Imago.Models
         public ObservableCollection<EquipableItem> EquippedItems { get; set; }
 
         public List<DerivedAttribute> Handicap { get; set; }
+
+        public ObservableCollection<BloodCarrierModel> BloodCarrier { get; set; }
     }
 }
