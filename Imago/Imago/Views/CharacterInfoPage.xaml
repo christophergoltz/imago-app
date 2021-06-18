@@ -88,6 +88,7 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="100" />
                                         <ColumnDefinition Width="80" />
                                         <ColumnDefinition Width="100" />
                                         <ColumnDefinition Width="100" />
@@ -98,12 +99,13 @@
                                         <RowDefinition Height="1" />
                                     </Grid.RowDefinitions>
                                     <Label Grid.Row="0" Grid.Column="0" Text="Attribut" Margin="5,0,0,0" FontAttributes="Bold"/>
-                                    <Label Grid.Row="0" Grid.Column="1" Text="NA (SW)" FontAttributes="Bold"/>
-                                    <Label Grid.Row="0" Grid.Column="2" Text="EP" FontAttributes="Bold"/>
-                                    <Label Grid.Row="0" Grid.Column="3" Text="Korr" FontAttributes="Bold"/>
-                                    <Label Grid.Row="0" Grid.Column="4" Text="Mod" FontAttributes="Bold"/>
-                                    <Label Grid.Row="0" Grid.Column="5" Text="FW" FontAttributes="Bold"/>
-                                    <BoxView Grid.Column="0" HeightRequest="1" Grid.Row="1" Grid.ColumnSpan="6" Color="Black"/>
+                                    <Label Grid.Row="0" Grid.Column="1" Text="NA/NW" FontAttributes="Bold"/>
+                                    <Label Grid.Row="0" Grid.Column="2" Text="SW" FontAttributes="Bold"/>
+                                    <Label Grid.Row="0" Grid.Column="3" Text="EP" FontAttributes="Bold"/>
+                                    <Label Grid.Row="0" Grid.Column="4" Text="Korr" FontAttributes="Bold"/>
+                                    <Label Grid.Row="0" Grid.Column="5" Text="Mod" FontAttributes="Bold"/>
+                                    <Label Grid.Row="0" Grid.Column="6" Text="FW" FontAttributes="Bold"/>
+                                    <BoxView Grid.Column="0" HeightRequest="1" Grid.Row="1" Grid.ColumnSpan="7" Color="Black"/>
                                 </Grid>
                             </ListView.Header>
                             <ListView.ItemTemplate>
@@ -113,24 +115,26 @@
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*" />
                                                 <ColumnDefinition Width="100" />
+                                                <ColumnDefinition Width="100" />
                                                 <ColumnDefinition Width="80" />
                                                 <ColumnDefinition Width="100" />
                                                 <ColumnDefinition Width="100" />
                                                 <ColumnDefinition Width="100" />
                                             </Grid.ColumnDefinitions>
                                             <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Attribute.Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
-                                            <Label FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Attribute.IncreaseValue}"/>
-                                            <Label FontSize="18" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center">
+                                            <Label FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Attribute.BaseValue}"/>
+                                            <Label FontSize="18" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Attribute.IncreaseValue}"/>
+                                            <Label FontSize="18" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center">
                                                 <Label.Text>
                                                     <MultiBinding StringFormat="{}{0}/{1}">
-                                                        <Binding Path="Attribute.Experience" Source="{RelativeSource AncestorType={x:Type viewModels:AttributeViewModel}}"/>
+                                                        <Binding Path="Attribute.ExperienceValue" Source="{RelativeSource AncestorType={x:Type viewModels:AttributeViewModel}}"/>
                                                         <Binding Path="Attribute.ExperienceForNextIncrease" Source="{RelativeSource AncestorType={x:Type viewModels:AttributeViewModel}}"/>
                                                     </MultiBinding>
                                                 </Label.Text>
                                             </Label>
-                                            <Entry FontSize="16" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Corrosion}"/>
-                                            <Entry FontSize="16" Grid.Column="4" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Modification}"/>
-                                            <Label FontSize="18" Grid.Column="5" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Attribute.FinalValue}"/>
+                                            <Entry FontSize="16" Grid.Column="4" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Corrosion}"/>
+                                            <Entry FontSize="16" Grid.Column="5" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Modification}"/>
+                                            <Label FontSize="18" Grid.Column="6" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Attribute.FinalValue}"/>
                                         </Grid>
                                     </ViewCell>
                                 </DataTemplate>

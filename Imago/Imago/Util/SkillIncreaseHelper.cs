@@ -19,8 +19,8 @@ namespace Imago.Util
             if (attribute.IncreaseValue == 100)
                 return false;
 
-            var requiredExperienceForNextLevel = GetExperienceForNextAttributeLevel(attribute.IncreaseValue);
-            return attribute.Experience >= requiredExperienceForNextLevel;
+            var requiredExperienceForNextLevel = GetExperienceForNextSkillBaseLevel(attribute);
+            return attribute.ExperienceValue >= requiredExperienceForNextLevel;
         }
 
         public static bool CanSkillBeIncreased(SkillGroup skillGroup)
@@ -44,37 +44,9 @@ namespace Imago.Util
         }
 
         /// <summary>
-        /// Gibt die Kosten der nächsten Steigerung für ein Attribut zurück.
+        /// Gibt die Kosten der nächsten Steigerung für einer Fertigkeit, Fertigkeitskategorie oder Attribut zurück.
         /// </summary>
-        /// <param name="currentIncreaseValue">Der aktuelle Steigerungswert</param>
-        /// <returns>Die Anzahl der Erfahrungspunkte, die für den nächsten Aufstieg bezahlt werden müssen.</returns>
-        public static int GetExperienceForNextAttributeLevel(int currentIncreaseValue)
-        {
-            if (currentIncreaseValue == 100)
-                throw new DeletedRowInaccessibleException("Attribute cant be increased above 100");
-
-            double steigerungsWertFaktisch = (double) currentIncreaseValue / 10;
-            var temp = (int) Math.Floor(steigerungsWertFaktisch);
-
-            var resultIndex = temp - 3;
-            if (resultIndex <= 0)
-            {
-                resultIndex = 0;
-            }
-
-            if (resultIndex > 9)
-            {
-                resultIndex = 9;
-            }
-
-            int benoetigteErfahrungspunkte = ImagoFolge[resultIndex];
-            return benoetigteErfahrungspunkte;
-        }
-
-        /// <summary>
-        /// Gibt die Kosten der nächsten Steigerung für eine Fertigkeitskategorie zurück.
-        /// </summary>
-        /// <param name="currentIncreaseValue">Der aktuelle Steigerungswert</param>
+        /// <param name="skillBase">Der aktuelle Steigerungswert</param>
         /// <returns>Die Anzahl der Erfahrungspunkte, die für den nächsten Aufstieg bezahlt werden müssen.</returns>
         public static int GetExperienceForNextSkillBaseLevel(SkillBase skillBase)
         {
@@ -104,6 +76,24 @@ namespace Imago.Util
                 double steigerungsWertFaktisch = (double)skillGroup.IncreaseValue / 5;
                 var resultIndex = (int) Math.Floor(steigerungsWertFaktisch) + 2;
                 if (resultIndex < 0)
+                {
+                    resultIndex = 0;
+                }
+
+                if (resultIndex > 9)
+                {
+                    resultIndex = 9;
+                }
+
+                int benoetigteErfahrungspunkte = ImagoFolge[resultIndex];
+                return benoetigteErfahrungspunkte;
+            }
+
+            if (skillBase is Attribute attribute)
+            {
+                double steigerungsWertFaktisch = (double)attribute.IncreaseValue / 10;
+                var resultIndex = (int)Math.Floor(steigerungsWertFaktisch) - 2;
+                if (resultIndex <= 0)
                 {
                     resultIndex = 0;
                 }

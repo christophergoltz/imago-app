@@ -71,13 +71,12 @@ namespace Imago.Services
 
         public void AddOneExperienceToAttribute(Attribute attribute, Character character)
         {
-            attribute.Experience += 1;
+            attribute.ExperienceValue += 1;
 
             while (SkillIncreaseHelper.CanSkillBeIncreased(attribute))
             {
-                var requiredExperienceForNextLevel =
-                    SkillIncreaseHelper.GetExperienceForNextAttributeLevel(attribute.IncreaseValue);
-                attribute.Experience -= requiredExperienceForNextLevel;
+                var requiredExperienceForNextLevel = SkillIncreaseHelper.GetExperienceForNextSkillBaseLevel(attribute);
+                attribute.ExperienceValue -= requiredExperienceForNextLevel;
                 attribute.IncreaseValue++;
                 attribute.RecalculateFinalValue();
 
