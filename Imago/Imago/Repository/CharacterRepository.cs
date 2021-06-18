@@ -44,7 +44,9 @@ namespace Imago.Repository
                 Weapons = new ObservableCollection<Weapon>(),
                 EquippedItems = CreateEquippedItems(),
                 Handicap = CreateHandicapAttributes(),
-                FreeSkillExperience = 6
+                FreeSkillExperience = 6,
+                BloodCarrier = new ObservableCollection<BloodCarrierModel>()
+                    {new BloodCarrierModel("Sakrament der Schmerzen", 25, 30, 3)}
             };
 
             //add skillgroups
