@@ -21,7 +21,7 @@ namespace Imago.ViewModels
 
         private void LoadWikiPage()
         {
-            var html = _wikiService.GetChangelogHtml(new List<string>() {"firstHeading", "siteSub", "contentSub", "jump-to-nav" });
+            var html = _wikiService.GetChangelogHtml();
             var url = _wikiService.GetChangelogUrl();
             ChangelogWikiView = new HtmlWebViewSource()
             {

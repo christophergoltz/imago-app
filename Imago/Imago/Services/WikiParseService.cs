@@ -102,7 +102,7 @@ namespace Imago.Services
         {
             var result = new List<ArmorSet>();
 
-            var doc = LoadDocumentFromUrl(url, logFeed);
+            var doc = WikiHelper.LoadDocumentFromUrl(url, logFeed);
             if (doc == null)
                 return result;
 
@@ -171,7 +171,7 @@ namespace Imago.Services
         private List<Weapon> ParseWeaponsFromUrl(string url, ObservableCollection<LogEntry> logFeed)
         {
             var result = new List<Weapon>();
-            var doc = LoadDocumentFromUrl(url, logFeed);
+            var doc = WikiHelper.LoadDocumentFromUrl(url, logFeed);
             if (doc == null)
                 return result;
 
@@ -294,7 +294,7 @@ namespace Imago.Services
             ObservableCollection<LogEntry> logFeed)
         {
             var talents = new List<TalentModel>();
-            var doc = LoadDocumentFromUrl(url, logFeed);
+            var doc = WikiHelper.LoadDocumentFromUrl(url, logFeed);
             if (doc == null)
                 return talents;
 
@@ -454,22 +454,7 @@ namespace Imago.Services
             logFeed.Add(new LogEntry(LogEntryType.Error, $"Keinen Einsatz für den Wert \"{value}\" hinterlegt"));
             return false;
         }
-
-        private HtmlDocument LoadDocumentFromUrl(string url, ObservableCollection<LogEntry> logFeed)
-        {
-            var htmlWeb = new HtmlWeb();
-            var doc = htmlWeb.Load(url);
-            
-            if (htmlWeb.StatusCode == HttpStatusCode.NotFound)
-            {
-                logFeed.Add(new LogEntry(LogEntryType.Error, $"Seite nicht gefunden \"{url}\""));
-                return null;
-            }
-
-            return doc;
-        }
-
-
+        
         private IEnumerable<MasteryModel> ParseMasteriesFromUrls(Dictionary<SkillGroupType, string> urls,
             ObservableCollection<LogEntry> logFeed)
         {
@@ -487,7 +472,7 @@ namespace Imago.Services
         {
             var talents = new List<MasteryModel>();
 
-            var doc = LoadDocumentFromUrl(url, logFeed);
+            var doc = WikiHelper.LoadDocumentFromUrl(url, logFeed);
             if (doc == null)
                 return talents;
 

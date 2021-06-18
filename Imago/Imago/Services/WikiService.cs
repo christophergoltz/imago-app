@@ -13,7 +13,7 @@ namespace Imago.Services
         string GetWikiUrl(SkillGroupType skillGroupType);
         string GetTalentHtml(SkillType skillType);
         string GetMasteryHtml(SkillGroupType skillGroupType);
-        string GetChangelogHtml(List<string> filterHtmlTags);
+        string GetChangelogHtml();
         string GetChangelogUrl();
     }
 
@@ -25,10 +25,10 @@ namespace Imago.Services
             return GetHtml(url);
         }
 
-        public string GetChangelogHtml(List<string> filterHtmlTags)
+        public string GetChangelogHtml()
         {
             var url = WikiConstants.ChangelogUrl;
-            return GetHtml(url, filterHtmlTags.ToArray());
+            return GetHtml(url);
         }
 
         public string GetChangelogUrl()
@@ -36,11 +36,12 @@ namespace Imago.Services
             return WikiConstants.ChangelogUrl;
         }
 
-        private string GetHtml(string url, params string[] filterHtmlTags)
+        private string GetHtml(string url)
         {
-            var web = new HtmlWeb();
-            var document = web.Load(url);
-            
+            var document = WikiHelper.LoadDocumentFromUrl(url, null);
+            if (document == null)
+                return "";
+
             document.GetElementbyId("mw-page-base")?.Remove();
             document.GetElementbyId("mw-head-base")?.Remove();
             document.GetElementbyId("mw-navigation")?.Remove();
@@ -49,7 +50,10 @@ namespace Imago.Services
             document.GetElementbyId("toc")?.Remove();
             document.GetElementbyId("jump-to-nav")?.Remove();
             document.GetElementbyId("mw-notification-area")?.Remove();
-
+            document.GetElementbyId("firstHeading")?.Remove();
+            document.GetElementbyId("siteSub")?.Remove();
+            document.GetElementbyId("contentSub")?.Remove();
+            
             //kill all links
             while (document.DocumentNode.Descendants("a").FirstOrDefault() != null)
             {
@@ -60,16 +64,7 @@ namespace Imago.Services
 
                 parent.InnerHtml = parent.InnerHtml.Replace("<a", "<span").Replace("</a", "</span");
             }
-
-            //extra html tags
-            if (filterHtmlTags != null && filterHtmlTags.Length > 0)
-            {
-                foreach (var filterHtmlTag in filterHtmlTags)
-                {
-                    document.GetElementbyId(filterHtmlTag)?.Remove();
-                }
-            }
-
+            
             document.GetElementbyId("content")?.SetAttributeValue("style", "margin-left: 0px;");
             return document.DocumentNode.OuterHtml;
         }
