@@ -56,6 +56,10 @@
                 <Setter Property="BackgroundColor" Value="{StaticResource AntiUmbra2}" />
             </Style>
 
+            <Style x:Key="LightTextLabel" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource AntiUmbra1}" />
+            </Style>
+
             <Style x:Key="EvenGradiantStyle" TargetType="Grid">
                 <Setter Property="Background">
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">

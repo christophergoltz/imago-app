@@ -20,15 +20,15 @@ namespace Imago.Views.CustomControls
             InitializeComponent();
         }
 
-        public static readonly BindableProperty WeaponProperty = BindableProperty.Create(
-            "Weapon", // the name of the bindable property
-            typeof(Weapon), // the bindable property type
+        public static readonly BindableProperty WeaponDetailViewModelProperty = BindableProperty.Create(
+            "WeaponDetailViewModel", // the name of the bindable property
+            typeof(WeaponDetailViewModel), // the bindable property type
             typeof(WeaponView));
 
-        public Weapon Weapon
+        public WeaponDetailViewModel WeaponDetailViewModel
         {
-            get => (Weapon)GetValue(WeaponProperty);
-            set => SetValue(WeaponProperty, value);
+            get => (WeaponDetailViewModel)GetValue(WeaponDetailViewModelProperty);
+            set => SetValue(WeaponDetailViewModelProperty, value);
         }
 
         public static readonly BindableProperty CommandProperty =

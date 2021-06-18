@@ -2,7 +2,6 @@
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:Imago.Models;assembly=Imago"
-             xmlns:viewModels="clr-namespace:Imago.ViewModels;assembly=Imago"
              x:Class="Imago.Views.CustomControls.WeaponView" x:Name="WeaponViewControl">
     <ContentView.Resources>
         <DataTemplate x:Key="WeaponStanceListViewItemTemplate" x:DataType="models:WeaponStance">
@@ -24,7 +23,7 @@
         </DataTemplate>
     </ContentView.Resources>
     <ContentView.Content>
-        <Grid BindingContext="{Binding Weapon, Source={x:Reference WeaponViewControl}}" 
+        <Grid BindingContext="{Binding WeaponDetailViewModel.Weapon, Source={x:Reference WeaponViewControl}}" 
               Style="{StaticResource SingleGradiantStyle}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>

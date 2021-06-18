@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Input;
 using Imago.Models;
 using Imago.Models.Enum;
 using Imago.Repository;
@@ -9,6 +10,7 @@ using Imago.Repository.WrappingDatabase;
 using Imago.Services;
 using Imago.Util;
 using Imago.Views.CustomControls;
+using Xamarin.Forms;
 
 namespace Imago.ViewModels
 {
@@ -19,11 +21,20 @@ namespace Imago.ViewModels
         private readonly ICharacterService _characterService;
         private readonly ISpecialWeaponRepository _specialWeaponRepository;
         private readonly IShieldRepository _shieldRepository;
+        private WeaponDetailViewModel _weaponDetailViewModel;
         public Character Character { get; }
 
         public List<DerivedAttribute> DerivedAttributes { get; set; }
 
+        public WeaponDetailViewModel WeaponDetailViewModel
+        {
+            get => _weaponDetailViewModel;
+            set => SetProperty(ref _weaponDetailViewModel, value);
+        }
+
         public WeaponListViewModel WeaponListViewModel { get; set; }
+
+        public ICommand OpenWeaponCommand { get; set; }
 
         public StatusPageViewModel(Character character, IArmorRepository armorRepository, 
             IMeleeWeaponRepository meleeWeaponRepository, IRangedWeaponRepository rangedWeaponRepository,
@@ -58,6 +69,13 @@ namespace Imago.ViewModels
 
             WeaponListViewModel = new WeaponListViewModel(character, _characterService, _meleeWeaponRepository, 
                 _rangedWeaponRepository, _specialWeaponRepository, _shieldRepository);
+
+            OpenWeaponCommand = new Command<Weapon>(weapon =>
+            {
+                var vm = new WeaponDetailViewModel(weapon);
+                vm.CloseRequested += (sender, args) => WeaponDetailViewModel = null;
+                WeaponDetailViewModel = vm;
+            });
         }
 
         public BodyPartArmorListViewModel KopfViewModel { get; set; }
