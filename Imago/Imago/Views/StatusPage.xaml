@@ -70,8 +70,8 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="55*"></RowDefinition>
-                    <RowDefinition Height="25*"></RowDefinition>
                     <RowDefinition Height="20*"></RowDefinition>
+                    <RowDefinition Height="15*"></RowDefinition>
                 </Grid.RowDefinitions>
 
                 <!-- armor -->

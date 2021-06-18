@@ -76,7 +76,7 @@
                                     <Entry FontSize="18" Grid.Column="4" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding DurabilityValue}"/>
                                     <CheckBox Grid.Column="5" HorizontalOptions="Center" VerticalOptions="Center" IsChecked="{Binding Fight}"/>
                                     <CheckBox Grid.Column="6" HorizontalOptions="Center" VerticalOptions="Center" IsChecked="{Binding Adventure}"/>
-                                    <Button Grid.Column="7" Text="X" WidthRequest="35" HeightRequest="35" FontSize="16" VerticalOptions="Start" 
+                                    <Button Grid.Column="7" Text="🗑" WidthRequest="35" HeightRequest="35" FontSize="16" VerticalOptions="Start" 
                                             HorizontalOptions="End" TextColor="Red" BackgroundColor="LightGray" CommandParameter="{Binding .}"
                                             Command="{Binding RemoveArmorCommand, Source={RelativeSource AncestorType={x:Type viewModels:BodyPartArmorListViewModel}}}"/>
                                 </Grid>
