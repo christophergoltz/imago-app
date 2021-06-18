@@ -8,7 +8,7 @@
              BindingContext="{Binding CharacterInfo, Source={StaticResource ViewModelLocator}}"
              x:DataType="viewModels:CharacterInfoPageViewModel" x:Name="CharacterInfoPageControl">
     <ContentPage.Content>
-        <Grid Style="{StaticResource BackgroundGridStyle}">
+        <Grid>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />

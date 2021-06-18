@@ -61,7 +61,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid BackgroundColor="{StaticResource AntiUmbra2}">
+        <Grid>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="40*"></ColumnDefinition>
