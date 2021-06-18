@@ -95,7 +95,7 @@
     <FlyoutItem Title="Fertigkeiten" Icon="magic.png">
         <ShellContent Route="SkillPage" ContentTemplate="{DataTemplate local:SkillPage}" />
     </FlyoutItem>
-    <FlyoutItem Title="Zustand" Icon="swords.png">
+    <FlyoutItem Title="Kampfbogen" Icon="swords.png">
         <ShellContent Route="StatusPage" ContentTemplate="{DataTemplate local:StatusPage}" />
     </FlyoutItem>
     <FlyoutItem Title="Inventar" Icon="backpack.png">

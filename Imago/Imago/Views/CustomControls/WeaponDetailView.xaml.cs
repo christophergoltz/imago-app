@@ -13,9 +13,9 @@ using Xamarin.Forms.Xaml;
 namespace Imago.Views.CustomControls
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class WeaponView : ContentView
+    public partial class WeaponDetailView : ContentView
     {
-        public WeaponView()
+        public WeaponDetailView()
         {
             InitializeComponent();
         }
@@ -23,7 +23,7 @@ namespace Imago.Views.CustomControls
         public static readonly BindableProperty WeaponDetailViewModelProperty = BindableProperty.Create(
             "WeaponDetailViewModel", // the name of the bindable property
             typeof(WeaponDetailViewModel), // the bindable property type
-            typeof(WeaponView));
+            typeof(WeaponDetailView));
 
         public WeaponDetailViewModel WeaponDetailViewModel
         {

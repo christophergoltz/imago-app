@@ -131,8 +131,7 @@ namespace Imago.Services
                         var load = CleanUpString(dataCells[3].InnerText);
                         var durability = CleanUpString(dataCells[4].InnerText);
 
-                        var armor = new ArmorModel(armorName, int.Parse(physical), int.Parse(energy),
-                            int.Parse(load), int.Parse(durability));
+                        var armor = new ArmorModel(armorName, int.Parse(load), false, false, int.Parse(durability), int.Parse(energy), int.Parse(physical));
 
                         armorParts.Add(bodyPart, armor);
                     }
@@ -216,7 +215,7 @@ namespace Imago.Services
                         weaponStances.Add(new WeaponStance(weaponStanceType, phase, damage, parry, range));
                     }
 
-                    result.Add(new Weapon(weaponName, weaponStances, int.Parse(loadValue), int.Parse(durabilityValue)));
+                    result.Add(new Weapon(weaponName, weaponStances, false, false, int.Parse(loadValue), int.Parse(durabilityValue)));
                 }
                 catch (Exception e)
                 {

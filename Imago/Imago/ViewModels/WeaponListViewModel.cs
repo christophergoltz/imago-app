@@ -23,7 +23,8 @@ namespace Imago.ViewModels
         private readonly ISpecialWeaponRepository _specialWeaponRepository;
         private readonly IShieldRepository _shieldRepository;
         public ICommand AddWeaponCommand { get; }
-        public ICommand RemoveWeaponCommand { get; set; }
+
+        public event EventHandler<Weapon> OpenWeaponRequested;
 
         public WeaponListViewModel(Character character, ICharacterService characterService, 
             IMeleeWeaponRepository meleeWeaponRepository,
@@ -61,15 +62,13 @@ namespace Imago.ViewModels
 
                 //copy object by value to prevent ref copies
                 var newWeapon = weapons[result].DeepCopy();
+                newWeapon.Fight = true;
+                newWeapon.Adventure = true;
                 _character.Weapons.Add(newWeapon);
                 newWeapon.PropertyChanged += OnWeaponLoadValueChanged;
                 _characterService.RecalculateHandicapAttributes(_character);
-            });
 
-            RemoveWeaponCommand = new Command<Weapon>(weapon =>
-            {
-                _character.Weapons.Remove(weapon);
-                _characterService.RecalculateHandicapAttributes(_character);
+                OpenWeaponRequested?.Invoke(this, newWeapon);
             });
         }
 

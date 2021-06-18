@@ -6,7 +6,7 @@
              xmlns:yournamespace="clr-namespace:System;assembly=netstandard"
              xmlns:enum="clr-namespace:Imago.Models.Enum;assembly=Imago"
              xmlns:models="clr-namespace:Imago.Models;assembly=Imago"
-             x:Class="Imago.Views.StatusPage" Title="Zustandsbogen"
+             x:Class="Imago.Views.StatusPage" Title="Kampfbogen"
              BindingContext="{Binding StatusPageViewModel, Source={StaticResource ViewModelLocator}}"
              x:DataType="viewModels:StatusPageViewModel">
     <ContentPage.Resources>
@@ -37,17 +37,22 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="Auto"></RowDefinition>
                         </Grid.RowDefinitions>
 
-                        <Label Margin="10,10,0,0" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" FontSize="18" FontAttributes="Bold" Text="{Binding Name}" />
+                        <Label Margin="10,10,0,0" Grid.Row="0" Grid.Column="0" FontSize="18" FontAttributes="Bold" Text="{Binding Name}" />
 
-                        <StackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+                        <StackLayout VerticalOptions="Center" Grid.Row="0" Grid.Column="1" Orientation="Horizontal" >
+                            <Image HeightRequest="25" WidthRequest="25" Margin="10" VerticalOptions="Center" Source="swords.png"
+                                   IsVisible="{Binding Fight}"/>
+                            <Image HeightRequest="25" WidthRequest="25" Margin="0,10,10,10" VerticalOptions="Center" Source="backpack.png"  
+                                   IsVisible="{Binding Adventure}" />
+                        </StackLayout>
+
+                        <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
                              BindableLayout.ItemsSource="{Binding WeaponStances}"
                              BindableLayout.ItemTemplate="{StaticResource WeaponStanceQuickViewTemplate}"/>
                     </Grid>
@@ -112,10 +117,12 @@
                                     Command="{Binding WeaponListViewModel.AddWeaponCommand}"/>
                             </Grid>
 
-                            <StackLayout Margin="0,10,0,0" VerticalOptions="FillAndExpand" 
-                                 BindableLayout.ItemTemplate="{StaticResource WeaponQuickViewTemplate}"
-                                 BindableLayout.ItemsSource="{Binding Character.Weapons}">
-                            </StackLayout>
+                            <ScrollView Margin="0,10,0,0" >
+                                <StackLayout
+                                    BindableLayout.ItemTemplate="{StaticResource WeaponQuickViewTemplate}"
+                                    BindableLayout.ItemsSource="{Binding Character.Weapons}">
+                                </StackLayout>
+                            </ScrollView>
                         </StackLayout>
                     </Grid>
                 </Frame>
@@ -215,8 +222,8 @@
                         <TapGestureRecognizer Command="{Binding WeaponDetailViewModel.CloseCommand}"/>
                     </ContentView.GestureRecognizers>
                 </ContentView>
-                <Frame WidthRequest="1200" HeightRequest="850" VerticalOptions="Center" HorizontalOptions="Center">
-                    <customControls:WeaponView Margin="-19" VerticalOptions="Fill" HorizontalOptions="Fill"
+                <Frame WidthRequest="1000" HeightRequest="600" VerticalOptions="Center" HorizontalOptions="Center">
+                    <customControls:WeaponDetailView Margin="-19" VerticalOptions="Fill" HorizontalOptions="Fill"
                                                WeaponDetailViewModel="{Binding WeaponDetailViewModel,
                                                     Source={RelativeSource AncestorType={x:Type viewModels:StatusPageViewModel}}}"/>
                 </Frame>
