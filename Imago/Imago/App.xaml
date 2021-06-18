@@ -51,9 +51,17 @@
                 <Setter Property="CornerRadius" Value="0" />
             </Style>
 
+            <Style TargetType="ContentPage" ApplyToDerivedTypes="True">
+                <Setter Property="BackgroundColor" Value="{StaticResource AntiUmbra2}" />
+            </Style>
+
             <!-- global explicit styles -->
             <Style x:Key="BackgroundGridStyle" TargetType="Grid">
                 <Setter Property="BackgroundColor" Value="{StaticResource AntiUmbra2}" />
+            </Style>
+
+            <Style x:Key="LightTextLabel" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource AntiUmbra1}" />
             </Style>
 
             <Style x:Key="EvenGradiantStyle" TargetType="Grid">

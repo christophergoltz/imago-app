@@ -9,9 +9,9 @@
     <ContentView.Content>
         <Frame Grid.Column="0" Grid.Row="0">
             <Grid Margin="-19" BindingContext="{Binding BodyPartArmorListViewModel,
-                Source={x:Reference BodyPartArmorListViewControl}}">
+                Source={x:Reference BodyPartArmorListViewControl}}"  Style="{StaticResource SingleGradiantStyle}">
                <ListView SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" VerticalScrollBarVisibility="Default"
-                              ItemsSource="{Binding BodyPart.Armor}" Style="{StaticResource SingleGradiantStyle}">
+                              ItemsSource="{Binding BodyPart.Armor}">
                    <ListView.Header>
                         <Grid Padding="5">
                             <Grid.ColumnDefinitions>

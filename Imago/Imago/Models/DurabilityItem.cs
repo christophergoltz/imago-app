@@ -1,8 +1,8 @@
 ﻿namespace Imago.Models
 {
-    public class DurabilityItem : ItemBase
+    public abstract class DurabilityItem : EquipableItem
     {
-        public DurabilityItem(int durability)
+        public DurabilityItem(string name,int load, bool fight, bool adventure, int durability) : base(name, load, adventure, fight)
         {
             DurabilityValue = durability;
         }

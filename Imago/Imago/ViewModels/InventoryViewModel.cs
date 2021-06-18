@@ -44,7 +44,7 @@ namespace Imago.ViewModels
 
             AddNewEquippedItem = new Command(() =>
             {
-                var equipableItem = new EquipableItem(string.Empty, false, false, 1, 0);
+                var equipableItem = new EquipableItem(string.Empty,0, false, false);
                 Character.EquippedItems.Add(equipableItem);
                 EquippableItemViewModels.Add(new EquippableItemViewModel(equipableItem, _characterService, Character));
             });

@@ -8,7 +8,7 @@
              BindingContext="{Binding SkillPageViewModel, Source={StaticResource ViewModelLocator}}"
              x:DataType="viewModels:SkillPageViewModel">
     <ContentPage.Content>
-        <Grid BackgroundColor="{StaticResource AntiUmbra2}">
+        <Grid>
             <!-- list groups -->
             <Grid>
                 <Grid.ColumnDefinitions>

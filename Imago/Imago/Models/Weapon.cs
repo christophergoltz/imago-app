@@ -8,27 +8,18 @@ namespace Imago.Models
     public class Weapon : DurabilityItem
     {
         private List<WeaponStance> _weaponStances;
-        private string _name;
 
         public Weapon()
         {
             
         }
 
-        public Weapon(string name, List<WeaponStance> weaponStances, int loadValue, int durability)
+        public Weapon(string name, List<WeaponStance> weaponStances, bool fight, bool adventure, int loadValue, int durability)
+        : base(name, loadValue, fight, adventure, durability )
         {
             WeaponStances = weaponStances;
-            Name = name;
-            LoadValue = loadValue;
-            DurabilityValue = durability;
         }
-
-        public string Name
-        {
-            get => _name;
-            set => SetProperty(ref _name, value);
-        }
-
+        
         public List<WeaponStance> WeaponStances
         {
             get => _weaponStances;

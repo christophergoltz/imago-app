@@ -11,40 +11,27 @@ namespace Imago.Models
     {
         private bool _fight;
         private bool _adventure;
-        private string _name;
-        private int _quantity;
 
-        public EquipableItem(string name, bool adventure, bool fight, int quantity, int loadValue)
+        public EquipableItem()
         {
-            Name = name;
+            }
+
+        public EquipableItem(string name, int loadValue, bool adventure, bool fight) : base(name, loadValue)
+        {
             Adventure = adventure;
             Fight = fight;
-            Quantity = quantity;
-            LoadValue = loadValue;
         }
 
         public bool Fight
         {
             get => _fight;
-            set => SetProperty(ref _fight ,value);
+            set => SetProperty(ref _fight, value);
         }
 
         public bool Adventure
         {
             get => _adventure;
             set => SetProperty(ref _adventure, value);
-        }
-        
-        public string Name
-        {
-            get => _name;
-            set => SetProperty(ref _name ,value);
-        }
-
-        public int Quantity
-        {
-            get => _quantity;
-            set => SetProperty(ref _quantity, value);
         }
     }
 }

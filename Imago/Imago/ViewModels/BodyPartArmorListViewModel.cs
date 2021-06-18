@@ -61,6 +61,8 @@ namespace Imago.ViewModels
 
                 //copy object by value to prevent ref copy
                 var newArmor = armor[result].DeepCopy();
+                newArmor.Adventure = true;
+                newArmor.Fight = true;
                 newArmor.PropertyChanged += OnArmorPropertyChanged;
                 BodyPart.Armor.Add(newArmor);
                 _characterService.RecalculateHandicapAttributes(_character);

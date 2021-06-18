@@ -106,9 +106,9 @@ namespace Imago.Repository
         {
             return new ObservableCollection<EquipableItem>()
             {
-                new EquipableItem("Mantel", true, false, 1, 20),
-                new EquipableItem("Gürtel", true, true, 1, 5),
-                new EquipableItem("Heiler Material Stufe 2", false, false, 3, 45)
+                new EquipableItem("Mantel",20, true, false),
+                new EquipableItem("Gürtel", 5, true, true),
+                new EquipableItem("Heiler Material Stufe 2", 45, false, false)
             };
         }
 
