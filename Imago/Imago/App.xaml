@@ -8,8 +8,8 @@
         Define global resources and styles here, that apply to all pages in your app.
     -->
     <Application.Resources>
-        
         <ResourceDictionary>
+            <!-- converter -->
             <converter:SkillGroupTypeToAttributeSourceStringConverter x:Key="SkillGroupTypeToAttributeSourceStringConverter"/>
             <converter:InverseBoolConverter x:Key="InverseBoolConverter"/>
             <converter:EnumToDisplayTextConverter x:Key="EnumToDisplayTextConverter"/>
@@ -21,7 +21,62 @@
             <util:ViewModelLocator x:Key="ViewModelLocator"/>
 
             <Color x:Key="Primary">#2196F3</Color>
+
+            <!-- Colorset1 -->
+            <Color x:Key="Umbra1">#735e48</Color>
+            <Color x:Key="Umbra2">#9b856e</Color>
+            <Color x:Key="Umbra3">#e1d3c5</Color>
+            <Color x:Key="Umbra4">#fff8f1</Color>
+            <Color x:Key="Weiss">#ffffff</Color>
+
+            <Color x:Key="AntiUmbra">#202843</Color>
+            <Color x:Key="AntiUmbra1">#353b50</Color>
+            <Color x:Key="AntiUmbra2">#696e81</Color>
+            <Color x:Key="AntiUmbra3">#aeb0b7</Color>
+            <Color x:Key="AntiUmbra4">#e0e1e2</Color>
+
+            <Color x:Key="GruenesUmbra">#1e4a2a</Color>
+            <Color x:Key="GruenesUmbra1">#36593f</Color>
+            <Color x:Key="GruenesUmbra2">#6e9177</Color>
+            <Color x:Key="GruenesUmbra3">#98b19e</Color>
+
+           
+
+     
+
          
+            <!-- default style -->
+            <Style TargetType="Frame">
+                <Setter Property="BorderColor" Value="{StaticResource AntiUmbra1}" />
+                <Setter Property="CornerRadius" Value="0" />
+            </Style>
+
+            <!-- global explicit styles -->
+            <Style x:Key="BackgroundGridStyle" TargetType="Grid">
+                <Setter Property="BackgroundColor" Value="{StaticResource AntiUmbra2}" />
+            </Style>
+
+            <Style x:Key="EvenGradiantStyle" TargetType="Grid">
+                <Setter Property="Background">
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="{StaticResource Weiss}" Offset="1"/>
+                        <GradientStop Color="{StaticResource Umbra4}" Offset="0.9"/>
+                        <GradientStop Color="{StaticResource Umbra3}" Offset="0.7"/>
+                        <GradientStop Color="{StaticResource Umbra2}" Offset="0.4"/>
+                        <GradientStop Color="{StaticResource Umbra1}" Offset="0.1"/>
+                    </LinearGradientBrush>
+                </Setter>
+            </Style>
+
+            <Style x:Key="SingleGradiantStyle" TargetType="Grid">
+                <Setter Property="Background">
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="{StaticResource Umbra4}" Offset="1"/>
+                        <GradientStop Color="{StaticResource Umbra2}" Offset="0.16"/>
+                        <GradientStop Color="{StaticResource Umbra1}" Offset="0.0"/>
+                    </LinearGradientBrush>
+                </Setter>
+            </Style>
         </ResourceDictionary>        
     </Application.Resources>
 </Application>

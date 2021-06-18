@@ -7,18 +7,12 @@
              xmlns:models="clr-namespace:Imago.Models;assembly=Imago"
              x:Class="Imago.Views.CustomControls.BodyPartArmorListView" x:Name="BodyPartArmorListViewControl">
     <ContentView.Content>
-        <Frame Grid.Column="0" Grid.Row="0" CornerRadius="0" BorderColor="Black">
+        <Frame Grid.Column="0" Grid.Row="0">
             <Grid Margin="-19" BindingContext="{Binding BodyPartArmorListViewModel,
                 Source={x:Reference BodyPartArmorListViewControl}}">
                <ListView SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" VerticalScrollBarVisibility="Default"
-                              ItemsSource="{Binding BodyPart.Armor}">
-                    <ListView.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="DodgerBlue"/>
-                            <GradientStop Color="Cyan" Offset="0.801"/>
-                        </LinearGradientBrush>
-                    </ListView.Background>
-                    <ListView.Header>
+                              ItemsSource="{Binding BodyPart.Armor}" Style="{StaticResource SingleGradiantStyle}">
+                   <ListView.Header>
                         <Grid Padding="5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -35,7 +29,7 @@
                                 <RowDefinition Height="1" />
                             </Grid.RowDefinitions>
 
-                            <ProgressBar Grid.ColumnSpan="8" Margin="-5" BackgroundColor="Gray"
+                            <ProgressBar Grid.ColumnSpan="8" Margin="-5" BackgroundColor="Transparent"
                                    ProgressColor="{Binding BodyPart.HitpointsColor}"  
                                     Progress="{Binding BodyPart.CurrentHitpointsPercentage}" 
                                     HorizontalOptions="FillAndExpand"/>

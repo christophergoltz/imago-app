@@ -1,61 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Shell xmlns="http://xamarin.com/schemas/2014/forms" 
-       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-       xmlns:local="clr-namespace:Imago.Views"
-       xmlns:viewModels="clr-namespace:Imago.ViewModels;assembly=Imago" Navigated="AppShell_OnNavigated"
-       Title="Imago"      
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+       xmlns:local="clr-namespace:Imago.Views" FlyoutWidth="250"
+       xmlns:viewModels="clr-namespace:Imago.ViewModels;assembly=Imago" 
+       Navigated="AppShell_OnNavigated" 
+       FlyoutBackgroundColor="{StaticResource AntiUmbra1}"
+       Title="Imago"    
+       BackgroundColor="black"
+       ForegroundColor="black"
+       TitleColor="White"
+       TabBarBackgroundColor="{DynamicResource AntiUmbra1}"
+       TabBarForegroundColor="green"
+       TabBarTitleColor="Cyan"
+       TabBarUnselectedColor="Orange"
+       DisabledColor="red"
+       UnselectedColor="Magenta"
        BindingContext="{Binding AppShellViewModel, Source={StaticResource ViewModelLocator}}"
-       x:DataType="viewModels:AppShellViewModel" 
+       x:DataType="viewModels:AppShellViewModel"  
        x:Class="Imago.AppShell">
-
     <!--
         The overall app visual hierarchy is defined here, along with navigation.
-    
         https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/
     -->
 
     <Shell.Resources>
         <ResourceDictionary>
-            <Style x:Key="BaseStyle" TargetType="Element">
-                <Setter Property="Shell.BackgroundColor" Value="black" />
-                <Setter Property="Shell.ForegroundColor" Value="White" />
-                <Setter Property="Shell.TitleColor" Value="White" />
-                <Setter Property="Shell.DisabledColor" Value="#B4FFFFFF" />
-                <Setter Property="Shell.UnselectedColor" Value="#95FFFFFF" />
-                <Setter Property="Shell.TabBarBackgroundColor" Value="#996633" />
-                <Setter Property="Shell.TabBarForegroundColor" Value="White"/>
-                <Setter Property="Shell.TabBarUnselectedColor" Value="#95FFFFFF"/>
-                <Setter Property="Shell.TabBarTitleColor" Value="White"/>
-            </Style>
-            <Style TargetType="TabBar" BasedOn="{StaticResource BaseStyle}" />
-            <Style TargetType="FlyoutItem" BasedOn="{StaticResource BaseStyle}" />
-
-            <!--
-            Default Styles for all Flyout Items
-            https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/flyout#flyoutitem-and-menuitem-style-classes
-            -->
-            <!--<Style Class="FlyoutItemLabelStyle" TargetType="Label">
-                <Setter Property="TextColor" Value="White"></Setter>
-            </Style>
-            <Style Class="FlyoutItemLayoutStyle" TargetType="Layout" ApplyToDerivedTypes="True">
-                <Setter Property="VisualStateManager.VisualStateGroups">
-                    <VisualStateGroupList>
-                        <VisualStateGroup x:Name="CommonStates">
-                            <VisualState x:Name="Normal">
-                                <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="{x:OnPlatform UWP=Transparent, iOS=White}" />
-                                    <Setter TargetName="FlyoutItemLabel" Property="Label.TextColor" Value="Black" />
-                                </VisualState.Setters>
-                            </VisualState>
-                            <VisualState x:Name="Selected">
-                                <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
-                                </VisualState.Setters>
-                            </VisualState>
-                        </VisualStateGroup>
-                    </VisualStateGroupList>
-                </Setter>
-            </Style>-->
 
             <!--
             Custom Style you can apply to any Flyout Item
@@ -79,6 +48,24 @@
     <Shell.ItemTemplate>
         <DataTemplate>
             <Grid x:Name="GridControl"  Padding="10">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="VisualStateManager.VisualStateGroups">
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="{StaticResource AntiUmbra2}"/>
+                                            <Setter TargetName="FlyoutItemLabel" Property="Label.FontAttributes" Value="Bold" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+                        </Setter>
+                    </Style>
+
+                </Grid.Style>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="15*" />
                     <ColumnDefinition Width="5" />
@@ -86,12 +73,13 @@
                 </Grid.ColumnDefinitions>
                 <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
                 <Image Grid.Column="0" Source="{Binding BindingContext.Icon, Source={x:Reference GridControl}}"
-                       Margin="5"
-                       HeightRequest="35" />
+                       Margin="5" 
+                       HeightRequest="30" />
                 <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
-                <Label Grid.Column="2" FontSize="24"
+                <Label Grid.Column="2" FontSize="22"  x:Name="FlyoutItemLabel" TextColor="White" 
                        Text="{Binding BindingContext.Title, Source={x:Reference GridControl}}"
-                       VerticalTextAlignment="Center" />
+                       VerticalTextAlignment="Center">
+                </Label>
             </Grid>
         </DataTemplate>
     </Shell.ItemTemplate>
@@ -146,15 +134,15 @@
                     <RowDefinition Height="1"></RowDefinition>
                 </Grid.RowDefinitions>
 
-                <Image Margin="5" Source="imago_big.png" VerticalOptions="Fill" HorizontalOptions="Fill"></Image>
-                <Label Grid.Row="1" Text="Imago.App" FontSize="30"/>
+                <Image Margin="5" Source="imago_logo_white.png" VerticalOptions="Fill" HorizontalOptions="Fill"></Image>
+                <Label Grid.Row="1" TextColor="White" Text="Imago.App" FontSize="30"/>
 
                 <StackLayout Grid.Row="2" Orientation="Horizontal">
-                    <Label Text="Version" FontSize="18"/>
-                    <Label Text="{Binding Version}" FontSize="18"/>
+                    <Label TextColor="White"  Text="Version" FontSize="18"/>
+                    <Label TextColor="White"  Text="{Binding Version}" FontSize="18"/>
                 </StackLayout>
 
-                <BoxView Grid.Row="3" Color="Black"/>
+                <BoxView Grid.Row="3" Color="White"/>
             </Grid>
         </DataTemplate>
     </Shell.FlyoutHeaderTemplate>

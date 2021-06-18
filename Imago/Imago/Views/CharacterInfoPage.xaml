@@ -8,7 +8,7 @@
              BindingContext="{Binding CharacterInfo, Source={StaticResource ViewModelLocator}}"
              x:DataType="viewModels:CharacterInfoPageViewModel" x:Name="CharacterInfoPageControl">
     <ContentPage.Content>
-        <Grid>
+        <Grid Style="{StaticResource BackgroundGridStyle}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -79,15 +79,8 @@
                 </Grid>
 
                 <!-- attributes -->
-                <Frame Grid.Column="1" Grid.Row="0" BorderColor="Black" CornerRadius="0">
-                    <Grid Margin="-19">
-                        <Grid.Background>
-                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                <GradientStop Color="#996633"/>
-                                <GradientStop Color="#fffdd0" Offset="0.201"/>
-                            </LinearGradientBrush>
-                        </Grid.Background>
-
+                <Frame Grid.Column="1" Grid.Row="0">
+                    <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">  
                         <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
                               ItemsSource="{Binding AttributeViewModels}">
                             <ListView.Header>
@@ -147,15 +140,9 @@
                 </Frame>
 
                 <!-- special attributes -->
-                <Frame Grid.Column="0" Grid.Row="1" CornerRadius="0" BorderColor="Black">
-                    <Grid Margin="-19">
-                        <Grid.Background>
-                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                <GradientStop Color="#996633"/>
-                                <GradientStop Color="#fffdd0" Offset="0.201"/>
-                            </LinearGradientBrush>
-                        </Grid.Background>
-
+                <Frame Grid.Column="0" Grid.Row="1">
+                    <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">
+                      
                         <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
                               ItemsSource="{Binding SpecialAttributeViewModels}">
                             <ListView.Header>
@@ -204,22 +191,15 @@
                 </Frame>
 
                 <!-- blood carrier -->
-                <Frame Grid.Row="2" Grid.Column="0"  BorderColor="Black" CornerRadius="0">
+                <Frame Grid.Row="2" Grid.Column="0">
                     <StackLayout >
                         <Label Text="Blutträger: [tbd]" FontSize="18"/>
                     </StackLayout>
                 </Frame>
 
                 <!-- derived attributes -->
-                <Frame Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" CornerRadius="0" BorderColor="Black">
-                    <Grid Margin="-19">
-                        <Grid.Background>
-                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                <GradientStop Color="#996633"/>
-                                <GradientStop Color="#fffdd0" Offset="0.201"/>
-                            </LinearGradientBrush>
-                        </Grid.Background>
-
+                <Frame Grid.Column="1" Grid.Row="1" Grid.RowSpan="2">
+                    <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">                     
                         <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
                               ItemsSource="{Binding DerivedAttributes}">
                             <ListView.Header>
@@ -260,14 +240,14 @@
                 </Frame>
           
                 <!-- advantages -->
-                <Frame Grid.Row="3" Grid.Column="0"  BorderColor="Black" CornerRadius="0">
+                <Frame Grid.Row="3" Grid.Column="0" >
                     <StackLayout >
                         <Label Text="Vorteile: [tbd]" FontSize="18"/>
                     </StackLayout>
                 </Frame>
 
                 <!-- disadvantages  -->
-                <Frame Grid.Row="3" Grid.Column="1"  BorderColor="Black" CornerRadius="0">
+                <Frame Grid.Row="3" Grid.Column="1" >
                     <StackLayout >
                         <Label Text="Nachteile: [tbd]" FontSize="18"/>
                     </StackLayout>

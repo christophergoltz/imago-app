@@ -7,7 +7,7 @@
              BindingContext="{Binding InventoryViewModel, Source={StaticResource ViewModelLocator}}"
              x:DataType="viewModels:InventoryViewModel">
     <ContentPage.Content>
-        <Grid>
+        <Grid Style="{StaticResource BackgroundGridStyle}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50*"/>
                 <ColumnDefinition Width="25*"/>
@@ -20,16 +20,9 @@
             </Grid.RowDefinitions>
 
             <!-- equipped items -->
-            <Frame Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" CornerRadius="0" BorderColor="Black">
-                <Grid Margin="-19">
-                    <Grid.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="#996633"/>
-                            <GradientStop Color="#fffdd0" Offset="0.201"/>
-                        </LinearGradientBrush>
-                    </Grid.Background>
-
-                    <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
+            <Frame Grid.Column="0" Grid.Row="0" Grid.RowSpan="3">
+                <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">
+                 <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
                               ItemsSource="{Binding EquippableItemViewModels}">
                         <ListView.Header>
                             <Grid>
@@ -88,15 +81,9 @@
             </Frame>
 
             <!-- load -->
-            <Frame Grid.Column="1" Grid.Row="0" CornerRadius="0" BorderColor="Black" VerticalOptions="Start">
-                <Grid Margin="-19">
-                    <Grid.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="#996633"/>
-                            <GradientStop Color="#fffdd0" Offset="0.201"/>
-                        </LinearGradientBrush>
-                    </Grid.Background>
-
+            <Frame Grid.Column="1" Grid.Row="0" VerticalOptions="Start">
+                <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">
+                  
                     <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
                               ItemsSource="{Binding Character.Handicap}">
                         <ListView.Header>
@@ -134,15 +121,8 @@
 
 
             <!-- derived attributes -->
-            <Frame Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" CornerRadius="0" BorderColor="Black">
-                <Grid Margin="-19">
-                    <Grid.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="#996633"/>
-                            <GradientStop Color="#fffdd0" Offset="0.201"/>
-                        </LinearGradientBrush>
-                    </Grid.Background>
-
+            <Frame Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2">
+                <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">
                     <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
                               ItemsSource="{Binding DerivedAttributes}">
                         <ListView.Header>

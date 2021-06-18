@@ -16,13 +16,7 @@
         </Grid.RowDefinitions>
 
         <!-- header -->
-        <Grid Grid.Column="0" Grid.Row="0" Padding="15" Margin="0,0,-6,-6">
-            <Grid.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#996633"/>
-                    <GradientStop Color="#fffdd0" Offset="0.201"/>
-                </LinearGradientBrush>
-            </Grid.Background>
+        <Grid Grid.Column="0" Grid.Row="0" Padding="15" Margin="0,0,-6,-6"  Background="{DynamicResource BraunVerlauf1}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5*"/>
                 <ColumnDefinition Width="3*"/>

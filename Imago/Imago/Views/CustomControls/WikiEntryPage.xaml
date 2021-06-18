@@ -17,7 +17,7 @@
                 <Entry IsReadOnly="True" Text="{Binding WikiPageEntry.Url}" HorizontalOptions="FillAndExpand"></Entry>
             </StackLayout>
 
-            <Frame Grid.Row="1" BorderColor="Black" CornerRadius="0">
+            <Frame Grid.Row="1">
                 <WebView Navigating="WebView_OnNavigating" Navigated="WebView_OnNavigated" Margin="-19" Source="{Binding WikiPageEntry.Url}" />
             </Frame>
         </Grid>
