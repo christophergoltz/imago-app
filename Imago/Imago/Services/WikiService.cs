@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using HtmlAgilityPack;
 using Imago.Models;
 using Imago.Models.Enum;
@@ -12,6 +13,8 @@ namespace Imago.Services
         string GetWikiUrl(SkillGroupType skillGroupType);
         string GetTalentHtml(SkillType skillType);
         string GetMasteryHtml(SkillGroupType skillGroupType);
+        string GetChangelogHtml(List<string> filterHtmlTags);
+        string GetChangelogUrl();
     }
 
     public class WikiService : IWikiService
@@ -22,7 +25,18 @@ namespace Imago.Services
             return GetHtml(url);
         }
 
-        private string GetHtml(string url)
+        public string GetChangelogHtml(List<string> filterHtmlTags)
+        {
+            var url = WikiConstants.ChangelogUrl;
+            return GetHtml(url, filterHtmlTags.ToArray());
+        }
+
+        public string GetChangelogUrl()
+        {
+            return WikiConstants.ChangelogUrl;
+        }
+
+        private string GetHtml(string url, params string[] filterHtmlTags)
         {
             var web = new HtmlWeb();
             var document = web.Load(url);
@@ -45,6 +59,15 @@ namespace Imago.Services
                     continue;
 
                 parent.InnerHtml = parent.InnerHtml.Replace("<a", "<span").Replace("</a", "</span");
+            }
+
+            //extra html tags
+            if (filterHtmlTags != null && filterHtmlTags.Length > 0)
+            {
+                foreach (var filterHtmlTag in filterHtmlTags)
+                {
+                    document.GetElementbyId(filterHtmlTag)?.Remove();
+                }
             }
 
             document.GetElementbyId("content")?.SetAttributeValue("style", "margin-left: 0px;");

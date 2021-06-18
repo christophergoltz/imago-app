@@ -17,6 +17,8 @@ namespace Imago.Util
         public static readonly string SpecialWeaponUrl = "http://imago-rp.de/index.php/Spezialwaffen";
         public static readonly string ShieldsUrl = "http://imago-rp.de/index.php/Schilde";
 
+        public static readonly string ChangelogUrl = "http://imago-rp.de/index.php/Imago.App_(Changelog)";
+
         public static readonly Dictionary<SkillGroupType, string> SkillGroupTypeLookUp =
             new Dictionary<SkillGroupType, string>()
             {
