@@ -6,8 +6,8 @@
              xmlns:models="clr-namespace:Imago.Models;assembly=Imago"
              xmlns:enum="clr-namespace:Imago.Models.Enum;assembly=Imago"
              xmlns:util="clr-namespace:Imago.Util;assembly=Imago" Appearing="StartPage_OnAppearing"
-             Title="Startseite"
-             x:Class="Imago.Views.StartPage" Shell.NavBarIsVisible="False"
+             Title="Startseite" Shell.FlyoutBehavior="Disabled"
+             x:Class="Imago.Views.StartPage" Shell.NavBarIsVisible="False" Shell.TabBarIsVisible="False"
              BindingContext="{Binding StartPage, Source={StaticResource ViewModelLocator}}"
              x:DataType="viewModels:StartPageViewModel">
 

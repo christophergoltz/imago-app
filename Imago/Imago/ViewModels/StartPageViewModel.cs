@@ -190,10 +190,6 @@ namespace Imago.ViewModels
             newChar.CreatedBy = "System";
             newChar.Owner = "Testuser";
 
-            //unlock flyout
-            if (Application.Current.MainPage is AppShell app)
-                app.FlyoutBehavior = FlyoutBehavior.Locked;
-
             App.CurrentCharacter = newChar;
             await Shell.Current.GoToAsync($"//{nameof(CharacterInfoPage)}");
         }

@@ -12,7 +12,7 @@
        TabBarBackgroundColor="{DynamicResource AntiUmbra1}"
        TabBarForegroundColor="green"
        TabBarTitleColor="Cyan"
-       TabBarUnselectedColor="Orange"
+       TabBarUnselectedColor="Orange" FlyoutBehavior="Locked"
        DisabledColor="red"
        UnselectedColor="Magenta"
        BindingContext="{Binding AppShellViewModel, Source={StaticResource ViewModelLocator}}"
