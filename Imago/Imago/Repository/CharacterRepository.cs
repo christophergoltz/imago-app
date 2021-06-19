@@ -92,15 +92,14 @@ namespace Imago.Repository
                 }
             };
         }
-
-
+        
         private List<DerivedAttribute> CreateHandicapAttributes()
         {
             return new List<DerivedAttribute>
             {
-                new DerivedAttribute(DerivedAttributeType.BehinderungKampf, "Last/Traglast"),
-                new DerivedAttribute(DerivedAttributeType.BehinderungAbenteuer, "Last/Traglast"),
-                new DerivedAttribute(DerivedAttributeType.BehinderungGesamt, "Last/Traglast")
+                new DerivedAttribute(DerivedAttributeType.BehinderungKampf),
+                new DerivedAttribute(DerivedAttributeType.BehinderungAbenteuer),
+                new DerivedAttribute(DerivedAttributeType.BehinderungGesamt)
             };
         }
 
@@ -140,17 +139,17 @@ namespace Imago.Repository
         {
             return new List<DerivedAttribute>
             {
-                new DerivedAttribute(DerivedAttributeType.Egoregenration, "WI/5"),
-                new DerivedAttribute(DerivedAttributeType.Schadensmod, "(ST/10)-5"),
-                new DerivedAttribute(DerivedAttributeType.Traglast, "(KO+ST+ST)/10"),
-                new DerivedAttribute(DerivedAttributeType.TaktischeBewegung, "GE/10"),
-                new DerivedAttribute(DerivedAttributeType.Sprintreichweite, "GE/5"),
-                new DerivedAttribute(DerivedAttributeType.SprungreichweiteKampf, "((GE+ST)-Last)/30"),
-                new DerivedAttribute(DerivedAttributeType.SprunghoeheKampf, "((GE+ST)-Last)/80"),
-                new DerivedAttribute(DerivedAttributeType.SprungreichweiteAbenteuer, "((GE+ST)-Last)/30"),
-                new DerivedAttribute(DerivedAttributeType.SprunghoeheAbenteuer, "((GE+ST)-Last)/80"),
-                new DerivedAttribute(DerivedAttributeType.SprungreichweiteGesamt, "((GE+ST)-Last)/30"),
-                new DerivedAttribute(DerivedAttributeType.SprunghoeheGesamt, "((GE+ST)-Last)/80")
+                new DerivedAttribute(DerivedAttributeType.Egoregenration),
+                new DerivedAttribute(DerivedAttributeType.Schadensmod),
+                new DerivedAttribute(DerivedAttributeType.Traglast),
+                new DerivedAttribute(DerivedAttributeType.TaktischeBewegung),
+                new DerivedAttribute(DerivedAttributeType.Sprintreichweite),
+                new DerivedAttribute(DerivedAttributeType.SprungreichweiteKampf),
+                new DerivedAttribute(DerivedAttributeType.SprunghoeheKampf),
+                new DerivedAttribute(DerivedAttributeType.SprungreichweiteAbenteuer),
+                new DerivedAttribute(DerivedAttributeType.SprunghoeheAbenteuer),
+                new DerivedAttribute(DerivedAttributeType.SprungreichweiteGesamt),
+                new DerivedAttribute(DerivedAttributeType.SprunghoeheGesamt)
             };
         }
 
