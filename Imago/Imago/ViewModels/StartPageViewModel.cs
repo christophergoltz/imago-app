@@ -183,7 +183,7 @@ namespace Imago.ViewModels
 
         private async void OnTestCharacterClicked(object obj)
         {
-            var newChar = _characterRepository.CreateNewCharacter();
+            var newChar = _characterRepository.CreateExampleCharacter();
 
             newChar.Name = "Testspieler";
             newChar.RaceType = RaceType.Mensch;

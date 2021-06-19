@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:Imago.ViewModels;assembly=Imago"
+             xmlns:customControls="clr-namespace:Imago.Views.CustomControls;assembly=Imago"
+             x:Class="Imago.Views.CharacterCreationPage"   
+             BindingContext="{Binding CharacterCreationViewModel, Source={StaticResource ViewModelLocator}}"
+             x:DataType="viewModels:CharacterCreationViewModel">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <Label FontSize="24" Text="Charakter"></Label>
+
+                <customControls:CharacterDetailView></customControls:CharacterDetailView>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

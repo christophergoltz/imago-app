@@ -29,8 +29,6 @@ namespace Imago.Models
 
         public int FreeSkillExperience { get; set; }
 
-        public Version GameVersion { get; set; }
-
         public List<Attribute> Attributes { get; set; }
         public List<DerivedAttribute> DerivedAttributes { get; set; }
         public List<SpecialAttribute> SpecialAttributes { get; set; }

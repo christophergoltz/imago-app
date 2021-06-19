@@ -11,6 +11,8 @@ namespace Imago.Repository
     public interface ICharacterRepository
     {
         Character CreateNewCharacter();
+
+        Character CreateExampleCharacter();
     }
 
     public class CharacterRepository : ICharacterRepository
@@ -24,7 +26,41 @@ namespace Imago.Repository
                 CreatedAt = DateTime.Now,
                 LastModifiedAt = DateTime.Now,
                 Id = Guid.NewGuid(),
-                GameVersion = new Version(1, 0),
+                OpenAttributeIncreases = new List<SkillGroupType>(),
+                RaceType = RaceType.Mensch,
+                SpecialAttributes = CreateSpecialAttributes(),
+                DerivedAttributes = CreateDerivedAttributes(),
+                BodyParts = CreateBodyParts(),
+                Weapons = new ObservableCollection<Weapon>(),
+                EquippedItems = CreateEquippedItems(),
+                Handicap = CreateHandicapAttributes(),
+                FreeSkillExperience = 6,
+                BloodCarrier = new ObservableCollection<BloodCarrierModel>()
+                    {new BloodCarrierModel("Sakrament der Schmerzen", 25, 30, 3)}
+            };
+
+            //add skillgroups
+            character.SkillGroups.Add(SkillGroupType.Nahkampf, CreateSkillGroups(SkillGroupType.Nahkampf));
+            character.SkillGroups.Add(SkillGroupType.Heimlichkeit, CreateSkillGroups(SkillGroupType.Heimlichkeit));
+            character.SkillGroups.Add(SkillGroupType.Fernkampf, CreateSkillGroups(SkillGroupType.Fernkampf));
+            character.SkillGroups.Add(SkillGroupType.Bewegung, CreateSkillGroups(SkillGroupType.Bewegung));
+            character.SkillGroups.Add(SkillGroupType.Handwerk, CreateSkillGroups(SkillGroupType.Handwerk));
+            character.SkillGroups.Add(SkillGroupType.Soziales, CreateSkillGroups(SkillGroupType.Soziales));
+            character.SkillGroups.Add(SkillGroupType.Webkunst, CreateSkillGroups(SkillGroupType.Webkunst));
+            character.SkillGroups.Add(SkillGroupType.Wissenschaft, CreateSkillGroups(SkillGroupType.Wissenschaft));
+
+            return character;
+        }
+
+        public Character CreateExampleCharacter()
+        {
+            var character = new Character
+            {
+                Attributes = CreateAttributes(),
+                SkillGroups = new Dictionary<SkillGroupType, SkillGroup>(),
+                CreatedAt = DateTime.Now,
+                LastModifiedAt = DateTime.Now,
+                Id = Guid.NewGuid(),
                 OpenAttributeIncreases =
                     new List<SkillGroupType>(), // {SkillGroupType.Bewegung, SkillGroupType.Fernkampf},
                 Age = "62",

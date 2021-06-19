@@ -59,5 +59,6 @@ namespace Imago.Util
         public AppShellViewModel AppShellViewModel => new AppShellViewModel();
         public ChangelogViewModel ChangelogViewModel => new ChangelogViewModel(_wikiService.Value);
         public WikiPageViewModel WikiPageViewModel => new WikiPageViewModel();
+        public CharacterCreationViewModel CharacterCreationViewModel => new CharacterCreationViewModel(_characterRepository.Value);
     }
 }
