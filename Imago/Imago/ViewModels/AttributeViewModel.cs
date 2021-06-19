@@ -11,24 +11,21 @@ namespace Imago.ViewModels
 {
     public class AttributeViewModel : BindableBase
     {
-        private readonly ICharacterService _characterService;
-
-        public AttributeViewModel(ICharacterService characterService, Attribute attribute, Character character)
+        public AttributeViewModel(Attribute attribute, CharacterViewModel characterViewModel)
         {
-            _characterService = characterService;
             Attribute = attribute;
-            Character = character;
+            CharacterViewModel = characterViewModel;
         }
 
         public Attribute Attribute { get; set; }
-        public Character Character { get; set; }
+        public CharacterViewModel CharacterViewModel { get; }
 
         public int Corrosion
         {
             get => Attribute.Corrosion;
             set
             {
-                _characterService.SetCorrosionValue(Attribute, value, Character);
+                CharacterViewModel.SetCorrosionValue(Attribute, value);
                 OnPropertyChanged(nameof(Corrosion));
             }
         }
@@ -38,7 +35,7 @@ namespace Imago.ViewModels
             get => Attribute.ModificationValue;
             set
             {
-                _characterService.SetModificationValue(Attribute, value, Character);
+                CharacterViewModel.SetModificationValue(Attribute, value);
                 OnPropertyChanged(nameof(Modification));
             }
         }

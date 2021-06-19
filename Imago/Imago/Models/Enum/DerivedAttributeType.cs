@@ -41,18 +41,23 @@ namespace Imago.Models.Enum
         [Formula("((GE+ST)-Last)/30")]
         SprungreichweiteKampf = 20,
 
+        [Formula("((GE+ST)-Last)/80")]
         [DisplayText("Sprunghöhe Kampf")]
         SprunghoeheKampf= 21,
 
+        [Formula("((GE+ST)-Last)/30")]
         [DisplayText("Sprungreichweite Abenteuer")]
         SprungreichweiteAbenteuer =22,
 
+        [Formula("((GE+ST)-Last)/80")]
         [DisplayText("Sprunghöhe Abenteuer")]
         SprunghoeheAbenteuer = 23,
 
+        [Formula("((GE+ST)-Last)/30")]
         [DisplayText("Sprungreichweite Gesamt")]
         SprungreichweiteGesamt =24,
 
+        [Formula("((GE+ST)-Last)/80")]
         [DisplayText("Sprunghöhe Gesamt")]
         SprunghoeheGesamt = 25,
     }

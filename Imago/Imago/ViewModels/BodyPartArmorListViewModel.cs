@@ -12,26 +12,23 @@ using Imago.Repository;
 using Imago.Repository.WrappingDatabase;
 using Imago.Services;
 using Imago.Util;
+using Newtonsoft.Json;
 using Xamarin.Forms;
 
 namespace Imago.ViewModels
 {
     public class BodyPartArmorListViewModel
     {
-        private readonly ICharacterService _characterService;
-        private readonly Character _character;
+        private readonly CharacterViewModel _characterViewModel;
         public BodyPart BodyPart { get; }
-        
 
         public ICommand RemoveArmorCommand { get; set; }
         public ICommand AddArmorCommand { get; set; }
 
-        public BodyPartArmorListViewModel( ICharacterService characterService, IArmorRepository armorRepository,
-            BodyPart bodyPart, Character character)
+        public BodyPartArmorListViewModel(CharacterViewModel characterViewModel,  IArmorRepository armorRepository, BodyPart bodyPart)
         {
-            _characterService = characterService;
+            _characterViewModel = characterViewModel;
             BodyPart = bodyPart;
-            _character = character;
             foreach (var armor in bodyPart.Armor)
             {
                 armor.PropertyChanged += OnArmorPropertyChanged;
@@ -40,11 +37,15 @@ namespace Imago.ViewModels
             RemoveArmorCommand = new Command<ArmorModel>(armor =>
             {
                 BodyPart.Armor.Remove(armor);
-                _characterService.RecalculateHandicapAttributes(_character);
+                characterViewModel.RecalculateHandicapAttributes();
             });
 
             AddArmorCommand = new Command(async () =>
             {
+                var c = JsonConvert.SerializeObject(characterViewModel.Character);
+
+
+
                 var currentBodyPart = bodyPart.Type.MapBodyPartTypeToArmorPartType();
                 var allArmor = await armorRepository.GetAllItemsAsync();
                 var armor = allArmor
@@ -65,7 +66,7 @@ namespace Imago.ViewModels
                 newArmor.Fight = true;
                 newArmor.PropertyChanged += OnArmorPropertyChanged;
                 BodyPart.Armor.Add(newArmor);
-                _characterService.RecalculateHandicapAttributes(_character);
+                characterViewModel.RecalculateHandicapAttributes();
             });
         }
 
@@ -75,7 +76,7 @@ namespace Imago.ViewModels
                 || args.PropertyName.Equals(nameof(ArmorModel.Fight))
                 || args.PropertyName.Equals(nameof(ArmorModel.Adventure)))
             {
-                _characterService.RecalculateHandicapAttributes(_character);
+                _characterViewModel.RecalculateHandicapAttributes();
             }
         }
     }

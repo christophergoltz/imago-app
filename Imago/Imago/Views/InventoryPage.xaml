@@ -81,7 +81,7 @@
                 <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">
                   
                     <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
-                              ItemsSource="{Binding Character.Handicap}">
+                              ItemsSource="{Binding CharacterViewModel.HandicapAttributes}">
                         <ListView.Header>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -115,12 +115,11 @@
                 </Grid>
             </Frame>
 
-
             <!-- derived attributes -->
             <Frame Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2">
                 <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">
                     <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
-                              ItemsSource="{Binding DerivedAttributes}">
+                              ItemsSource="{Binding CharacterViewModel.AdventureDerivedAttributes}">
                         <ListView.Header>
                             <Grid>
                                 <Grid.ColumnDefinitions>

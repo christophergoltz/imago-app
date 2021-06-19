@@ -16,8 +16,7 @@ namespace Imago.ViewModels
 {
     public class WeaponListViewModel :BindableBase
     {
-        private readonly Character _character;
-        private readonly ICharacterService _characterService;
+        private readonly CharacterViewModel _characterViewModel;
         private readonly IMeleeWeaponRepository _meleeWeaponRepository;
         private readonly IRangedWeaponRepository _rangedWeaponRepository;
         private readonly ISpecialWeaponRepository _specialWeaponRepository;
@@ -26,18 +25,17 @@ namespace Imago.ViewModels
 
         public event EventHandler<Weapon> OpenWeaponRequested;
 
-        public WeaponListViewModel(Character character, ICharacterService characterService, 
+        public WeaponListViewModel(CharacterViewModel  characterViewModel, 
             IMeleeWeaponRepository meleeWeaponRepository,
             IRangedWeaponRepository rangedWeaponRepository,
             ISpecialWeaponRepository specialWeaponRepository,
             IShieldRepository shieldRepository)
         {
-            _character = character;
-            foreach (var weapon in _character.Weapons)
+            foreach (var weapon in characterViewModel.Character.Weapons)
             {
                 weapon.PropertyChanged += OnWeaponLoadValueChanged;
             }
-            _characterService = characterService;
+            _characterViewModel = characterViewModel;
             _meleeWeaponRepository = meleeWeaponRepository;
             _rangedWeaponRepository = rangedWeaponRepository;
             _specialWeaponRepository = specialWeaponRepository;
@@ -64,9 +62,9 @@ namespace Imago.ViewModels
                 var newWeapon = weapons[result].DeepCopy();
                 newWeapon.Fight = true;
                 newWeapon.Adventure = true;
-                _character.Weapons.Add(newWeapon);
+                _characterViewModel.Character.Weapons.Add(newWeapon);
                 newWeapon.PropertyChanged += OnWeaponLoadValueChanged;
-                _characterService.RecalculateHandicapAttributes(_character);
+                _characterViewModel.RecalculateHandicapAttributes();
 
                 OpenWeaponRequested?.Invoke(this, newWeapon);
             });
@@ -76,7 +74,7 @@ namespace Imago.ViewModels
         {
             if (args.PropertyName.Equals(nameof(Weapon.LoadValue)))
             {
-                _characterService.RecalculateHandicapAttributes(_character);
+                _characterViewModel.RecalculateHandicapAttributes();
             }
         }
     }

@@ -19,7 +19,7 @@ namespace Imago.ViewModels
     {
         private readonly SkillGroupTypeToAttributeSourceStringConverter _converter = new SkillGroupTypeToAttributeSourceStringConverter();
 
-        private readonly ICharacterService _characterService;
+        private readonly CharacterViewModel _characterViewModel;
         private readonly IWikiService _wikiService;
         public SkillGroup SkillGroup { get; }
         public event EventHandler CloseRequested;
@@ -48,14 +48,14 @@ namespace Imago.ViewModels
             set
             {
                 Debug.WriteLine("Set SelectedSkillModification to " + value);
-                _characterService.SetModificationValue(SkillGroup, value);
+                _characterViewModel.SetModificationValue(SkillGroup, value);
                 OnPropertyChanged(nameof(SelectedSkillModification));
             }
         }
 
-        public SkillGroupDetailViewModel(SkillGroup skillGroup, ICharacterService characterService, IWikiService wikiService)
+        public SkillGroupDetailViewModel(SkillGroup skillGroup, CharacterViewModel characterViewModel, IWikiService wikiService)
         {
-            _characterService = characterService;
+            _characterViewModel = characterViewModel;
             _wikiService = wikiService;
             SkillGroup = skillGroup;
             SourceFormula = _converter.Convert(skillGroup.Type, null, null, CultureInfo.InvariantCulture).ToString();

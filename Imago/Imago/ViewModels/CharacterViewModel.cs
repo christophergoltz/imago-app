@@ -3,37 +3,89 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Imago.Models;
-using Imago.Models.Base;
 using Imago.Models.Enum;
 using Imago.Repository;
 using Imago.Util;
 using Attribute = Imago.Models.Attribute;
 
-namespace Imago.Services
+namespace Imago.ViewModels
 {
-    public interface ICharacterService
+    public class CharacterViewModel
     {
-        void SetCorrosionValue(Attribute attribute, int corrosionValue, Character character);
-        IEnumerable<SkillGroupType> AddOneExperienceToSkill(Skill skill, SkillGroup skillGroup);
-        void RemoveOneExperienceFromSkill(Skill skill);
-        void SetModificationValue(Skill skill, int modificationValue);
-        void SetModificationValue(SkillGroup skillGroup, int modificationValue);
-        void SetModificationValue(Attribute attribute, int modificationValue, Character character);
-        void SetModificationValue(SpecialAttribute specialAttribute, int modificationValue, Character character);
-        void AddOneExperienceToAttribute(Attribute attribute, Character character);
-        void RecalculateHandicapAttributes(Character character);
-        bool CheckTalentRequirement(Dictionary<SkillType, int> requirements, Character character);
-        bool CheckMasteryRequirement(Dictionary<SkillGroupType, int> requirements, Character character);
-    }
-
-    public class CharacterService : ICharacterService
-    {
+        public Character Character { get; }
         private readonly IRuleRepository _ruleRepository;
 
-        public CharacterService(IRuleRepository ruleRepository)
+        public CharacterViewModel(Character character, IRuleRepository ruleRepository)
         {
+            Character = character;
             _ruleRepository = ruleRepository;
+
+            //todo move to character service
+            var derivedAttributeTypes = new List<DerivedAttributeType>()
+            {
+                DerivedAttributeType.Egoregenration,
+                DerivedAttributeType.Schadensmod,
+                DerivedAttributeType.Traglast,
+                DerivedAttributeType.TaktischeBewegung,
+                DerivedAttributeType.Sprintreichweite,
+                DerivedAttributeType.SprungreichweiteKampf,
+                DerivedAttributeType.SprunghoeheKampf,
+                DerivedAttributeType.SprungreichweiteAbenteuer,
+                DerivedAttributeType.SprunghoeheAbenteuer,
+                DerivedAttributeType.SprungreichweiteGesamt,
+                DerivedAttributeType.SprunghoeheGesamt,
+
+                //second level attribute for calc
+                DerivedAttributeType.BehinderungKampf,
+                DerivedAttributeType.BehinderungAbenteuer,
+                DerivedAttributeType.BehinderungGesamt
+            };
+            DerivedAttributes = derivedAttributeTypes.Select(type => new DerivedAttribute(type)).ToList();
+
+            SpecialAttributes = new List<SpecialAttribute>() {new SpecialAttribute(SpecialAttributeType.Initiative)};
+
+
+
         }
+
+        public List<SpecialAttribute> SpecialAttributes { get; set; }
+        public List<DerivedAttribute> DerivedAttributes { get; set; }
+
+        public List<DerivedAttribute> FightDerivedAttributes => DerivedAttributes
+            .Where(_ => _.Type == DerivedAttributeType.SprungreichweiteKampf ||
+                        _.Type == DerivedAttributeType.SprunghoeheKampf ||
+                        _.Type == DerivedAttributeType.Sprintreichweite ||
+                        _.Type == DerivedAttributeType.TaktischeBewegung)
+            .ToList();
+
+        public List<DerivedAttribute> AdventureDerivedAttributes => DerivedAttributes
+            .Where(_ => _.Type == DerivedAttributeType.SprungreichweiteAbenteuer ||
+                        _.Type == DerivedAttributeType.SprunghoeheAbenteuer ||
+                        _.Type == DerivedAttributeType.SprungreichweiteGesamt ||
+                        _.Type == DerivedAttributeType.SprunghoeheGesamt)
+            .ToList();
+
+        public List<DerivedAttribute> HandicapAttributes => DerivedAttributes
+            .Where(_ => _.Type == DerivedAttributeType.BehinderungKampf ||
+                        _.Type == DerivedAttributeType.BehinderungAbenteuer ||
+                        _.Type == DerivedAttributeType.BehinderungGesamt)
+            .ToList();
+
+        public List<DerivedAttribute> CharacterInfoDerivedAttributes => DerivedAttributes
+            .Where(_ => _.Type == DerivedAttributeType.Egoregenration ||
+                                         _.Type == DerivedAttributeType.Schadensmod ||
+                                         _.Type == DerivedAttributeType.Traglast)
+                .ToList();
+
+        private void UpdateNewBaseValueToSkillsOfGroup(SkillGroup skillgroup)
+        {
+            foreach (var skill in skillgroup.Skills)
+            {
+                skill.BaseValue = (int) skillgroup.FinalValue;
+                skill.RecalculateFinalValue();
+            }
+        }
+
 
         public void SetModificationValue(Skill skill, int modificationValue)
         {
@@ -49,27 +101,27 @@ namespace Imago.Services
             UpdateNewBaseValueToSkillsOfGroup(skillGroup);
         }
 
-        public void SetModificationValue(Attribute attribute, int modificationValue, Character character)
+        public void SetModificationValue(Attribute attribute, int modificationValue)
         {
             attribute.ModificationValue = modificationValue;
             attribute.RecalculateFinalValue();
-            UpdateNewFinalValueOfAttribute(attribute, character);
+            UpdateNewFinalValueOfAttribute(attribute);
         }
 
-        public void SetModificationValue(SpecialAttribute specialAttribute, int modificationValue, Character character)
+        public void SetModificationValue(SpecialAttribute specialAttribute, int modificationValue)
         {
             specialAttribute.ModificationValue = modificationValue;
             specialAttribute.RecalculateFinalValue();
         }
 
-        public void SetCorrosionValue(Attribute attribute, int corrosionValue, Character character)
+        public void SetCorrosionValue(Attribute attribute, int corrosionValue)
         {
             attribute.Corrosion = corrosionValue;
             attribute.RecalculateFinalValue();
-            UpdateNewFinalValueOfAttribute(attribute, character);
+            UpdateNewFinalValueOfAttribute(attribute);
         }
 
-        public void AddOneExperienceToAttribute(Attribute attribute, Character character)
+        public void AddOneExperienceToAttribute(Attribute attribute)
         {
             attribute.ExperienceValue += 1;
 
@@ -80,15 +132,15 @@ namespace Imago.Services
                 attribute.IncreaseValue++;
                 attribute.RecalculateFinalValue();
 
-                UpdateNewFinalValueOfAttribute(attribute, character);
+                UpdateNewFinalValueOfAttribute(attribute);
             }
         }
 
-        public bool CheckTalentRequirement(Dictionary<SkillType, int> requirements, Character character)
+        public bool CheckTalentRequirement(Dictionary<SkillType, int> requirements)
         {
             foreach (var requirement in requirements)
             {
-                var skill = character.SkillGroups.SelectMany(pair => pair.Value.Skills).First(_ => _.Type == requirement.Key);
+                var skill = Character.SkillGroups.SelectMany(pair => pair.Value.Skills).First(_ => _.Type == requirement.Key);
                 if (skill.IncreaseValue < requirement.Value)
                 {
                     return false;
@@ -98,11 +150,11 @@ namespace Imago.Services
         }
 
 
-        public bool CheckMasteryRequirement(Dictionary<SkillGroupType, int> requirements, Character character)
+        public bool CheckMasteryRequirement(Dictionary<SkillGroupType, int> requirements)
         {
             foreach (var requirement in requirements)
             {
-                var skillGroup = character.SkillGroups[requirement.Key];
+                var skillGroup = Character.SkillGroups[requirement.Key];
                 if (skillGroup.IncreaseValue < requirement.Value)
                 {
                     return false;
@@ -153,20 +205,11 @@ namespace Imago.Services
         }
 
 
-        private void UpdateNewBaseValueToSkillsOfGroup(SkillGroup skillgroup)
-        {
-            foreach (var skill in skillgroup.Skills)
-            {
-                skill.BaseValue = (int)skillgroup.FinalValue;
-                skill.RecalculateFinalValue();
-            }
-        }
-
-        private void UpdateNewFinalValueOfAttribute(Attribute changedAttribute, Character character)
+        private void UpdateNewFinalValueOfAttribute(Attribute changedAttribute)
         {
             //updating all dependent skillgroups
             var affectedSkillGroupTypes = _ruleRepository.GetSkillGroupsByAttribute(changedAttribute.Type);
-            var skillGroups = character.SkillGroups
+            var skillGroups = Character.SkillGroups
                 .Where(pair => affectedSkillGroupTypes
                     .Contains(pair.Key))
                 .Select(pair => pair.Value);
@@ -178,7 +221,7 @@ namespace Imago.Services
                 double tmp = 0;
                 foreach (var attributeType in attributeTypesForCalculation)
                 {
-                    tmp += character.Attributes.First(attribute => attribute.Type == attributeType).FinalValue;
+                    tmp += Character.Attributes.First(attribute => attribute.Type == attributeType).FinalValue;
                 }
 
                 var newBaseValue = (int) Math.Round((tmp / 6), MidpointRounding.AwayFromZero);
@@ -190,44 +233,43 @@ namespace Imago.Services
             }
 
             //update derived attributes
-            foreach (var derivedAttribute in character.DerivedAttributes)
+            foreach (var derivedAttribute in DerivedAttributes)
             {
                 switch (derivedAttribute.Type)
                 {
                     case DerivedAttributeType.Egoregenration:
                     {
-                        var tmp = character.Attributes.GetFinalValueOfAttributeType(AttributeType.Willenskraft);
+                        var tmp = GetAttributeSum(AttributeType.Willenskraft);
                         var baseValue = tmp / 5;
                         derivedAttribute.FinalValue = (int) Math.Round(baseValue, MidpointRounding.AwayFromZero);
                         break;
                     }
                     case DerivedAttributeType.Schadensmod:
                     {
-                        var tmp = character.Attributes.GetFinalValueOfAttributeType(AttributeType.Staerke);
-                        var baseValue = (tmp / 10) - 5;
+                        var tmp = GetAttributeSum(AttributeType.Staerke);
+                            var baseValue = (tmp / 10) - 5;
                         derivedAttribute.FinalValue = (int) Math.Round(baseValue, MidpointRounding.AwayFromZero);
                         break;
                     }
                     case DerivedAttributeType.Traglast:
                     {
-                        var tmp = character.Attributes.GetFinalValueOfAttributeType(AttributeType.Konstitution)
-                                  + character.Attributes.GetFinalValueOfAttributeType(AttributeType.Konstitution)
-                                  + character.Attributes.GetFinalValueOfAttributeType(AttributeType.Staerke);
+                        var tmp = GetAttributeSum(AttributeType.Konstitution, AttributeType.Konstitution,
+                            AttributeType.Staerke);
                         var baseValue = tmp / 10;
                         derivedAttribute.FinalValue = (int) Math.Round(baseValue, MidpointRounding.AwayFromZero);
                         break;
                     }
                     case DerivedAttributeType.TaktischeBewegung:
                     {
-                        var tmp = character.Attributes.GetFinalValueOfAttributeType(AttributeType.Geschicklichkeit);
-                        var baseValue = tmp / 10;
+                        var tmp = GetAttributeSum(AttributeType.Geschicklichkeit);
+                            var baseValue = tmp / 10;
                         derivedAttribute.FinalValue = (int) Math.Round(baseValue, MidpointRounding.AwayFromZero);
                         break;
                     }
                     case DerivedAttributeType.Sprintreichweite:
                     {
-                        var tmp = character.Attributes.GetFinalValueOfAttributeType(AttributeType.Geschicklichkeit);
-                        var baseValue = tmp / 5;
+                        var tmp = GetAttributeSum(AttributeType.Geschicklichkeit);
+                            var baseValue = tmp / 5;
                         derivedAttribute.FinalValue = (int) Math.Round(baseValue, MidpointRounding.AwayFromZero);
                         break;
                     }
@@ -235,16 +277,14 @@ namespace Imago.Services
             }
 
             //update special attributes
-            foreach (var specialAttribute in character.SpecialAttributes)
+            foreach (var specialAttribute in SpecialAttributes)
             {
                 switch (specialAttribute.Type)
                 {
                     case SpecialAttributeType.Initiative:
                     {
-                        var tmp =
-                            (character.Attributes.GetFinalValueOfAttributeType(AttributeType.Geschicklichkeit) * 2) +
-                            character.Attributes.GetFinalValueOfAttributeType(AttributeType.Wahrnehmung) +
-                            character.Attributes.GetFinalValueOfAttributeType(AttributeType.Willenskraft);
+                        var tmp = GetAttributeSum(AttributeType.Geschicklichkeit, AttributeType.Geschicklichkeit,
+                            AttributeType.Wahrnehmung, AttributeType.Willenskraft);
 
                         var newValue = tmp / 4;
                         specialAttribute.BaseValue = (int) Math.Round(newValue, MidpointRounding.AwayFromZero);
@@ -257,9 +297,9 @@ namespace Imago.Services
             }
 
             //update bodyparts
-            foreach (var bodyPart in character.BodyParts)
+            foreach (var bodyPart in Character.BodyParts)
             {
-                var constFinalValue = character.Attributes.GetFinalValueOfAttributeType(AttributeType.Konstitution);
+                double constFinalValue = GetAttributeSum(AttributeType.Konstitution);
 
                 switch (bodyPart.Key)
                 {
@@ -295,15 +335,15 @@ namespace Imago.Services
             }
 
             //update handicap
-            RecalculateHandicapAttributes(character);
+            RecalculateHandicapAttributes();
         }
 
-        public void RecalculateHandicapAttributes(Character character)
+        public void RecalculateHandicapAttributes()
         {
-            var loadLimit = character.DerivedAttributes.GetFinalValueOfAttributeType(DerivedAttributeType.Traglast);
+            var loadLimit = GetDerivedAttributeSum(DerivedAttributeType.Traglast);
 
             //update handicap
-            foreach (var handicapAttribute in character.Handicap)
+            foreach (var handicapAttribute in DerivedAttributes)
             {
                 switch (handicapAttribute.Type)
                 {
@@ -320,89 +360,95 @@ namespace Imago.Services
                         int load = 0;
 
                         if (handicapAttribute.Type == DerivedAttributeType.BehinderungKampf)
-                            load = GetFightLoad(character);
+                            load = GetFightLoad();
                         if (handicapAttribute.Type == DerivedAttributeType.BehinderungAbenteuer)
-                            load = GetAdventureLoad(character);
+                            load = GetAdventureLoad();
                         if (handicapAttribute.Type == DerivedAttributeType.BehinderungGesamt)
-                            load = GetCompleteLoad(character);
+                            load = GetCompleteLoad();
 
                         handicapAttribute.FinalValue =
                             (int) Math.Round(load / loadLimit, MidpointRounding.AwayFromZero);
                         break;
                     }
-                    default:
-                        throw new ArgumentOutOfRangeException();
                 }
             }
 
             //update derived attributes based on handicap attributes
-            foreach (var derivedAttribute in character.DerivedAttributes)
+            foreach (var derivedAttribute in DerivedAttributes)
             {
                 switch (derivedAttribute.Type)
                 {
                     case DerivedAttributeType.SprungreichweiteKampf:
                     case DerivedAttributeType.SprungreichweiteAbenteuer:
                     case DerivedAttributeType.SprungreichweiteGesamt:
-                        {
-                            var tmp = character.Attributes.GetFinalValueOfAttributeType(AttributeType.Geschicklichkeit)
-                                      + character.Attributes.GetFinalValueOfAttributeType(AttributeType.Staerke);
+                    {
+                        double tmp = GetAttributeSum(AttributeType.Geschicklichkeit, AttributeType.Staerke);
+                            
+                        if (derivedAttribute.Type == DerivedAttributeType.SprungreichweiteKampf)
+                            tmp -= GetFightLoad();
+                        if (derivedAttribute.Type == DerivedAttributeType.SprungreichweiteAbenteuer)
+                            tmp -= GetAdventureLoad();
+                        if (derivedAttribute.Type == DerivedAttributeType.SprungreichweiteGesamt)
+                            tmp -= GetCompleteLoad();
 
-                            if (derivedAttribute.Type == DerivedAttributeType.SprungreichweiteKampf)
-                                tmp -= GetFightLoad(character);
-                            if (derivedAttribute.Type == DerivedAttributeType.SprungreichweiteAbenteuer)
-                                tmp -= GetAdventureLoad(character);
-                            if (derivedAttribute.Type == DerivedAttributeType.SprungreichweiteGesamt)
-                                tmp -= GetCompleteLoad(character);
-
-                            tmp /= 30;
-                            derivedAttribute.FinalValue = Math.Round(tmp, 2);
-                            break;
-                        }
+                        tmp /= 30;
+                        derivedAttribute.FinalValue = Math.Round(tmp, 2);
+                        break;
+                    }
                     case DerivedAttributeType.SprunghoeheKampf:
                     case DerivedAttributeType.SprunghoeheAbenteuer:
                     case DerivedAttributeType.SprunghoeheGesamt:
-                        {
-                            var tmp = character.Attributes.GetFinalValueOfAttributeType(AttributeType.Geschicklichkeit)
-                                      + character.Attributes.GetFinalValueOfAttributeType(AttributeType.Staerke);
+                    {
+                        double tmp = GetAttributeSum(AttributeType.Geschicklichkeit, AttributeType.Staerke);
 
-                            if (derivedAttribute.Type == DerivedAttributeType.SprunghoeheKampf)
-                                tmp -= GetFightLoad(character);
-                            if (derivedAttribute.Type == DerivedAttributeType.SprunghoeheAbenteuer)
-                                tmp -= GetAdventureLoad(character);
-                            if (derivedAttribute.Type == DerivedAttributeType.SprunghoeheGesamt)
-                                tmp -= GetCompleteLoad(character);
+                        if (derivedAttribute.Type == DerivedAttributeType.SprunghoeheKampf)
+                            tmp -= GetFightLoad();
+                        if (derivedAttribute.Type == DerivedAttributeType.SprunghoeheAbenteuer)
+                            tmp -= GetAdventureLoad();
+                        if (derivedAttribute.Type == DerivedAttributeType.SprunghoeheGesamt)
+                            tmp -= GetCompleteLoad();
 
-                            tmp /= 80;
-                            derivedAttribute.FinalValue = Math.Round(tmp, 2);
-                            break;
-                        }
+                        tmp /= 80;
+                        derivedAttribute.FinalValue = Math.Round(tmp, 2);
+                        break;
+                    }
                 }
             }
         }
 
-        private int GetFightLoad(Character character)
+        private int GetFightLoad()
         {
-            var fightingArmorLoad = character.BodyParts.Values.Sum(bodyPart => bodyPart.Armor.Where(armor => armor.Fight).Sum(_ => _.LoadValue));
-            var fightingWeaponLoad = character.Weapons.Sum(weapon => weapon.LoadValue);
-            var fightingItemLoad = character.EquippedItems.Where(item => item.Fight).Sum(_ => _.LoadValue);
+            var fightingArmorLoad = Character.BodyParts.Values.Sum(bodyPart =>
+                bodyPart.Armor.Where(armor => armor.Fight).Sum(_ => _.LoadValue));
+            var fightingWeaponLoad = Character.Weapons.Sum(weapon => weapon.LoadValue);
+            var fightingItemLoad = Character.EquippedItems.Where(item => item.Fight).Sum(_ => _.LoadValue);
             return fightingArmorLoad + fightingWeaponLoad + fightingItemLoad;
         }
 
-        private int GetAdventureLoad(Character character)
+        private int GetAdventureLoad()
         {
-            var adventureItemLoad = character.EquippedItems.Where(item => item.Adventure).Sum(_ => _.LoadValue);
-            var adventureArmorLoad = character.BodyParts.Values.Sum(bodyPart =>
+            var adventureItemLoad = Character.EquippedItems.Where(item => item.Adventure).Sum(_ => _.LoadValue);
+            var adventureArmorLoad = Character.BodyParts.Values.Sum(bodyPart =>
                 bodyPart.Armor.Where(armor => armor.Adventure).Sum(_ => _.LoadValue));
-            var fightingWeaponLoad = character.Weapons.Sum(weapon => weapon.LoadValue);
+            var fightingWeaponLoad = Character.Weapons.Sum(weapon => weapon.LoadValue);
             return adventureArmorLoad + fightingWeaponLoad + adventureItemLoad;
         }
 
-        private int GetCompleteLoad(Character character)
+        private int GetCompleteLoad()
         {
-            var itemLoad = character.EquippedItems.Sum(_ => _.LoadValue);
-            var armorLoad = character.BodyParts.Values.Sum(bodyPart => bodyPart.Armor.Sum(_ => _.LoadValue));
-            var fightLoad = character.Weapons.Sum(weapon => weapon.LoadValue);
+            var itemLoad = Character.EquippedItems.Sum(_ => _.LoadValue);
+            var armorLoad = Character.BodyParts.Values.Sum(bodyPart => bodyPart.Armor.Sum(_ => _.LoadValue));
+            var fightLoad = Character.Weapons.Sum(weapon => weapon.LoadValue);
             return armorLoad + fightLoad + itemLoad;
+        }
+
+        private double GetAttributeSum(params AttributeType[] attributes)
+        {
+            return attributes.Sum(attributeType => Character.Attributes.First(_ => _.Type == attributeType).FinalValue);
+        }
+        private double GetDerivedAttributeSum(params DerivedAttributeType[] attributes)
+        {
+            return attributes.Sum(attributeType => DerivedAttributes.First(_ => _.Type == attributeType).FinalValue);
         }
     }
 }

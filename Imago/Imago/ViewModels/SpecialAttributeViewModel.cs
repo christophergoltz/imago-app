@@ -8,13 +8,12 @@ namespace Imago.ViewModels
 {
     public class SpecialAttributeViewModel : BindableBase
     {
-        private readonly ICharacterService _characterService;
+        private readonly CharacterViewModel _characterViewModel;
 
-        public SpecialAttributeViewModel(ICharacterService characterService, SpecialAttribute specialAttribute, Character character)
+        public SpecialAttributeViewModel(CharacterViewModel characterViewModel, SpecialAttribute specialAttribute)
         {
-            _characterService = characterService;
+            _characterViewModel = characterViewModel;
             SpecialAttribute = specialAttribute;
-            Character = character;
         }
 
         public SpecialAttribute SpecialAttribute { get; set; }
@@ -25,7 +24,7 @@ namespace Imago.ViewModels
             get => SpecialAttribute.ModificationValue;
             set
             {
-                _characterService.SetModificationValue(SpecialAttribute, value, Character);
+                _characterViewModel.SetModificationValue(SpecialAttribute, value);
                 OnPropertyChanged(nameof(Modification));
             }
         }

@@ -32,29 +32,20 @@ namespace Imago.ViewModels
             set => SetProperty(ref _attributeExperienceOpen, value);
         }
 
-        public List<DerivedAttribute> DerivedAttributes { get; set; }
-
         public ICommand CloseOpenAttributeExperienceCommand { get; }
         public ICommand AddExperienceToAttributeCommand { get; }
 
         public ICommand AddNewBloodCarrierCommand { get; set; }
         public ICommand RemoveBloodCarrierCommand { get; set; }
 
-        public CharacterInfoPageViewModel(Character character, ICharacterService characterService,
-            IRuleRepository ruleRepository)
+        public CharacterInfoPageViewModel(CharacterViewModel characterViewModel, IRuleRepository ruleRepository)
         {
             _ruleRepository = ruleRepository;
-            Title = character.Name;
-            Character = character;
-
-            DerivedAttributes = character.DerivedAttributes
-                .Where(_ => _.Type == DerivedAttributeType.Egoregenration ||
-                            _.Type == DerivedAttributeType.Schadensmod ||
-                            _.Type == DerivedAttributeType.Traglast)
-                .ToList();
-
-            AttributeViewModels = Character.Attributes.Select(_ => new AttributeViewModel(characterService, _, Character)).ToList();
-            SpecialAttributeViewModels = Character.SpecialAttributes.Select(_ => new SpecialAttributeViewModel(characterService, _, character)).ToList();
+            Title = characterViewModel.Character.Name;
+            CharacterViewModel = characterViewModel;
+            
+            AttributeViewModels = characterViewModel.Character.Attributes.Select(_ => new AttributeViewModel(_,characterViewModel)).ToList();
+            SpecialAttributeViewModels = characterViewModel.SpecialAttributes.Select(_ => new SpecialAttributeViewModel(characterViewModel, _)).ToList();
             OpenAttributeExperienceViewModels = new ObservableCollection<OpenAttributeExperienceViewModel>();
 
             OpenAttributeExperienceDialogIfNeeded();
@@ -66,11 +57,11 @@ namespace Imago.ViewModels
                 if (viewModel.SelectedAttribute == null)
                     return; 
 
-                characterService.AddOneExperienceToAttribute(viewModel.SelectedAttribute, Character);
+                characterViewModel.AddOneExperienceToAttribute(viewModel.SelectedAttribute);
                 
                 OpenAttributeExperienceViewModels.Remove(viewModel);
-                Character.OpenAttributeIncreases.Remove(
-                    Character.OpenAttributeIncreases.First(type => type == viewModel.Source));
+                characterViewModel.Character.OpenAttributeIncreases.Remove(
+                    characterViewModel.Character.OpenAttributeIncreases.First(type => type == viewModel.Source));
 
                 if (!OpenAttributeExperienceViewModels.Any())
                     AttributeExperienceOpen = false;
@@ -78,12 +69,12 @@ namespace Imago.ViewModels
 
             AddNewBloodCarrierCommand = new Command(() =>
             {
-                character.BloodCarrier.Add(new BloodCarrierModel("", 0,0,0));
+                characterViewModel.Character.BloodCarrier.Add(new BloodCarrierModel("", 0,0,0));
             });
 
             RemoveBloodCarrierCommand = new Command<BloodCarrierModel>(model =>
             {
-                character.BloodCarrier.Remove(model);
+                characterViewModel.Character.BloodCarrier.Remove(model);
             });
         }
 
@@ -91,10 +82,10 @@ namespace Imago.ViewModels
         {
             OpenAttributeExperienceViewModels.Clear();
 
-            foreach (var attributeIncrease in Character.OpenAttributeIncreases)
+            foreach (var attributeIncrease in CharacterViewModel.Character.OpenAttributeIncreases)
             {
                 var affectedAttributeTypes = _ruleRepository.GetSkillGroupSources(attributeIncrease).Distinct().ToList();
-                var affectedAttributes = Character.Attributes.Where(attribute => affectedAttributeTypes.Contains(attribute.Type)).ToList();
+                var affectedAttributes = CharacterViewModel.Character.Attributes.Where(attribute => affectedAttributeTypes.Contains(attribute.Type)).ToList();
                 OpenAttributeExperienceViewModels.Add(new OpenAttributeExperienceViewModel(attributeIncrease, affectedAttributes));
             }
 
@@ -102,7 +93,7 @@ namespace Imago.ViewModels
                 AttributeExperienceOpen = true;
         }
 
-        public Character Character { get; private set; }
+        public CharacterViewModel CharacterViewModel { get; private set; }
 
         public List<AttributeViewModel> AttributeViewModels { get; set; }
         public List<SpecialAttributeViewModel> SpecialAttributeViewModels { get; set; }

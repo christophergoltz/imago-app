@@ -3,6 +3,7 @@ using Imago.Views;
 using System;
 using System.Diagnostics;
 using Imago.Models;
+using Imago.ViewModels;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
@@ -13,9 +14,9 @@ namespace Imago
 {
     public partial class App : Application
     {
-        public  static Character CurrentCharacter { get; set; }
-
-
+        //todo move to character service
+        public static CharacterViewModel CurrentCharacter { get; set; }
+        
         public App()
         {
             InitializeComponent();

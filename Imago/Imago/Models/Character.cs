@@ -30,9 +30,6 @@ namespace Imago.Models
         public int FreeSkillExperience { get; set; }
 
         public List<Attribute> Attributes { get; set; }
-        public List<DerivedAttribute> DerivedAttributes { get; set; }
-        public List<SpecialAttribute> SpecialAttributes { get; set; }
-
         public Dictionary<SkillGroupType, SkillGroup> SkillGroups { get; set; }
 
         public List<SkillGroupType> OpenAttributeIncreases { get; set; }
@@ -42,9 +39,7 @@ namespace Imago.Models
         public ObservableCollection<Weapon> Weapons { get; set; }
 
         public ObservableCollection<EquipableItem> EquippedItems { get; set; }
-
-        public List<DerivedAttribute> Handicap { get; set; }
-
+        
         public ObservableCollection<BloodCarrierModel> BloodCarrier { get; set; }
     }
 }

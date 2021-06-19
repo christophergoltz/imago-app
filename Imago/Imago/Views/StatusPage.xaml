@@ -120,7 +120,7 @@
                             <ScrollView Margin="0,10,0,0" >
                                 <StackLayout
                                     BindableLayout.ItemTemplate="{StaticResource WeaponQuickViewTemplate}"
-                                    BindableLayout.ItemsSource="{Binding Character.Weapons}">
+                                    BindableLayout.ItemsSource="{Binding CharacterViewModel.Character.Weapons}">
                                 </StackLayout>
                             </ScrollView>
                         </StackLayout>
@@ -131,7 +131,7 @@
                 <Frame VerticalOptions="Start" Grid.Column="0" Grid.Row="2">
                     <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">
                         <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
-                              ItemsSource="{Binding Character.Handicap}">
+                              ItemsSource="{Binding CharacterViewModel.HandicapAttributes}">
                             <ListView.Header>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -176,7 +176,7 @@
                 <Frame Grid.Column="0" Grid.Row="1">
                     <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">
                         <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
-                              ItemsSource="{Binding DerivedAttributes}">
+                              ItemsSource="{Binding CharacterViewModel.FightDerivedAttributes}">
                             <ListView.Header>
                                 <Grid>
                                     <Grid.ColumnDefinitions>

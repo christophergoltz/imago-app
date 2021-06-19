@@ -28,12 +28,9 @@ namespace Imago.Repository
                 Id = Guid.NewGuid(),
                 OpenAttributeIncreases = new List<SkillGroupType>(),
                 RaceType = RaceType.Mensch,
-                SpecialAttributes = CreateSpecialAttributes(),
-                DerivedAttributes = CreateDerivedAttributes(),
                 BodyParts = CreateBodyParts(),
                 Weapons = new ObservableCollection<Weapon>(),
                 EquippedItems = CreateEquippedItems(),
-                Handicap = CreateHandicapAttributes(),
                 FreeSkillExperience = 6,
                 BloodCarrier = new ObservableCollection<BloodCarrierModel>()
                     {new BloodCarrierModel("Sakrament der Schmerzen", 25, 30, 3)}
@@ -74,12 +71,9 @@ namespace Imago.Repository
                 SkinColor = "Hell",
                 CreatedBy = "Testuser",
                 DivineSoul = "40",
-                SpecialAttributes = CreateSpecialAttributes(),
-                DerivedAttributes = CreateDerivedAttributes(),
                 BodyParts = CreateBodyParts(),
                 Weapons = new ObservableCollection<Weapon>(),
                 EquippedItems = CreateEquippedItems(),
-                Handicap = CreateHandicapAttributes(),
                 FreeSkillExperience = 6,
                 BloodCarrier = new ObservableCollection<BloodCarrierModel>()
                     {new BloodCarrierModel("Sakrament der Schmerzen", 25, 30, 3)}
@@ -129,16 +123,6 @@ namespace Imago.Repository
             };
         }
         
-        private List<DerivedAttribute> CreateHandicapAttributes()
-        {
-            return new List<DerivedAttribute>
-            {
-                new DerivedAttribute(DerivedAttributeType.BehinderungKampf),
-                new DerivedAttribute(DerivedAttributeType.BehinderungAbenteuer),
-                new DerivedAttribute(DerivedAttributeType.BehinderungGesamt)
-            };
-        }
-
         public ObservableCollection<EquipableItem> CreateEquippedItems()
         {
             return new ObservableCollection<EquipableItem>()
@@ -160,32 +144,6 @@ namespace Imago.Repository
                 new Attribute(AttributeType.Willenskraft) {IncreaseValue = 52},
                 new Attribute(AttributeType.Charisma) {IncreaseValue = 46},
                 new Attribute(AttributeType.Wahrnehmung) {IncreaseValue = 50, BaseValue = -15}
-            };
-        }
-
-        public List<SpecialAttribute> CreateSpecialAttributes()
-        {
-            return new List<SpecialAttribute>
-            {
-                new SpecialAttribute(SpecialAttributeType.Initiative, "(GE+GE+WA+WI)/4")
-            };
-        }
-
-        public List<DerivedAttribute> CreateDerivedAttributes()
-        {
-            return new List<DerivedAttribute>
-            {
-                new DerivedAttribute(DerivedAttributeType.Egoregenration),
-                new DerivedAttribute(DerivedAttributeType.Schadensmod),
-                new DerivedAttribute(DerivedAttributeType.Traglast),
-                new DerivedAttribute(DerivedAttributeType.TaktischeBewegung),
-                new DerivedAttribute(DerivedAttributeType.Sprintreichweite),
-                new DerivedAttribute(DerivedAttributeType.SprungreichweiteKampf),
-                new DerivedAttribute(DerivedAttributeType.SprunghoeheKampf),
-                new DerivedAttribute(DerivedAttributeType.SprungreichweiteAbenteuer),
-                new DerivedAttribute(DerivedAttributeType.SprunghoeheAbenteuer),
-                new DerivedAttribute(DerivedAttributeType.SprungreichweiteGesamt),
-                new DerivedAttribute(DerivedAttributeType.SprunghoeheGesamt)
             };
         }
 

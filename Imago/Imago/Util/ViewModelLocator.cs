@@ -17,7 +17,6 @@ namespace Imago.Util
     public sealed class ViewModelLocator
     {
         private readonly Lazy<ICharacterRepository> _characterRepository;
-        private readonly Lazy<ICharacterService> _characterService;
         private readonly Lazy<IRuleRepository> _ruleRepository;
         private readonly Lazy<IWikiService> _wikiService;
         private readonly Lazy<IWikiParseService> _wikiParseService;
@@ -46,16 +45,16 @@ namespace Imago.Util
             _characterRepository = new Lazy<ICharacterRepository>(() => new CharacterRepository());
             _ruleRepository = new Lazy<IRuleRepository>(() => new RuleRepository());
             _wikiService = new Lazy<IWikiService>(() => new WikiService());
-            _characterService = new Lazy<ICharacterService>(() => new CharacterService(_ruleRepository.Value));
             _wikiParseService = new Lazy<IWikiParseService>(() => new WikiParseService(_meleeWeaponRepository, _rangedWeaponRepository,
                 _armorRepository, _talentRepository, _specialWeaponRepository, _shieldRepository, _masteryRepository));
         }
         
-        public CharacterInfoPageViewModel CharacterInfo => new CharacterInfoPageViewModel(App.CurrentCharacter, _characterService.Value, _ruleRepository.Value);
-        public SkillPageViewModel SkillPageViewModel => new SkillPageViewModel(App.CurrentCharacter, _characterService.Value, _wikiService.Value, _masteryRepository, _talentRepository, _ruleRepository.Value);
-        public StartPageViewModel StartPage => new StartPageViewModel(_characterRepository.Value,_wikiParseService.Value,_meleeWeaponRepository, _rangedWeaponRepository, _armorRepository,_talentRepository, _specialWeaponRepository, _shieldRepository, _masteryRepository);
-        public StatusPageViewModel StatusPageViewModel => new StatusPageViewModel(App.CurrentCharacter,_armorRepository, _meleeWeaponRepository, _rangedWeaponRepository, _characterService.Value, _specialWeaponRepository, _shieldRepository);
-        public InventoryViewModel InventoryViewModel => new InventoryViewModel(App.CurrentCharacter, _characterService.Value);
+        public CharacterInfoPageViewModel CharacterInfo => new CharacterInfoPageViewModel(App.CurrentCharacter, _ruleRepository.Value);
+        public SkillPageViewModel SkillPageViewModel => new SkillPageViewModel(App.CurrentCharacter,_wikiService.Value, _masteryRepository, _talentRepository, _ruleRepository.Value);
+        public StartPageViewModel StartPage => new StartPageViewModel(_characterRepository.Value,_wikiParseService.Value,_meleeWeaponRepository, _rangedWeaponRepository,
+            _armorRepository,_talentRepository, _specialWeaponRepository, _shieldRepository, _masteryRepository,_ruleRepository.Value);
+        public StatusPageViewModel StatusPageViewModel => new StatusPageViewModel(App.CurrentCharacter,_armorRepository, _meleeWeaponRepository, _rangedWeaponRepository, _specialWeaponRepository, _shieldRepository);
+        public InventoryViewModel InventoryViewModel => new InventoryViewModel(App.CurrentCharacter);
         public AppShellViewModel AppShellViewModel => new AppShellViewModel();
         public ChangelogViewModel ChangelogViewModel => new ChangelogViewModel(_wikiService.Value);
         public WikiPageViewModel WikiPageViewModel => new WikiPageViewModel();

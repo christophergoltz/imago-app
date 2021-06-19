@@ -23,7 +23,7 @@
                 </Grid.RowDefinitions>
 
                 <!-- character info -->
-                <customControls:CharacterDetailView Grid.Column="0" Grid.Row="0" Character="{Binding Character}"/>
+                <customControls:CharacterDetailView Grid.Column="0" Grid.Row="0" Character="{Binding CharacterViewModel.Character}"/>
 
                 <!-- attributes -->
                 <Frame Grid.Column="1" Grid.Row="0">
@@ -129,7 +129,7 @@
                                                 <ColumnDefinition Width="100" />
                                             </Grid.ColumnDefinitions>
                                             <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding SpecialAttribute.Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
-                                            <Label FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding SpecialAttribute.Formula}"/>
+                                            <Label FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding SpecialAttribute.Type, Converter={StaticResource EnumToFormulaConverter}}"/>
                                             <Label FontSize="18" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding SpecialAttribute.BaseValue}"/>
                                             <Entry FontSize="16" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Modification}"/>
                                             <Label FontSize="16" Grid.Column="4" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding SpecialAttribute.FinalValue}"/>
@@ -145,7 +145,7 @@
                 <Frame Grid.Row="2" Grid.Column="0">
                     <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">
                         <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
-                                  ItemsSource="{Binding Character.BloodCarrier}">
+                                  ItemsSource="{Binding CharacterViewModel.Character.BloodCarrier}">
                             <ListView.Header>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -201,7 +201,7 @@
                 <Frame Grid.Column="1" Grid.Row="1" Grid.RowSpan="2">
                     <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">                     
                         <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
-                              ItemsSource="{Binding DerivedAttributes}">
+                              ItemsSource="{Binding CharacterViewModel.CharacterInfoDerivedAttributes}">
                             <ListView.Header>
                                 <Grid>
                                     <Grid.ColumnDefinitions>

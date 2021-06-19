@@ -27,8 +27,7 @@ namespace Imago.ViewModels
             new SkillGroupTypeToAttributeSourceStringConverter();
 
         private readonly SkillGroup _parent;
-        private readonly Character _character;
-        private readonly ICharacterService _characterService;
+        private readonly CharacterViewModel _characterViewModel;
         private readonly IWikiService _wikiService;
         private readonly IMasteryRepository _masteryRepository;
         private readonly ITalentRepository _talentRepository;
@@ -69,7 +68,7 @@ namespace Imago.ViewModels
             set
             {
                 Debug.WriteLine("Set SelectedSkillModification to " + value);
-                _characterService.SetModificationValue(Skill, value);
+                _characterViewModel.SetModificationValue(Skill, value);
                 OnPropertyChanged(nameof(SelectedSkillModification));
             }
         }
@@ -92,13 +91,11 @@ namespace Imago.ViewModels
             set => SetProperty(ref _handicaps, value);
         }
 
-        public SkillDetailViewModel(Skill skill, SkillGroup parent, Character character,
-            ICharacterService characterService,
+        public SkillDetailViewModel(Skill skill, SkillGroup parent,CharacterViewModel characterViewModel,
             IWikiService wikiService, IMasteryRepository masteryRepository, ITalentRepository talentRepository, IRuleRepository ruleRepository)
         {
             _parent = parent;
-            _character = character;
-            _characterService = characterService;
+            _characterViewModel = characterViewModel;
             _wikiService = wikiService;
             _masteryRepository = masteryRepository;
             _talentRepository = talentRepository;
@@ -110,12 +107,12 @@ namespace Imago.ViewModels
             IncreaseExperienceCommand = new Command(() =>
             {
                 var newOpenAttributeIncreases =
-                    characterService.AddOneExperienceToSkill(Skill, parent).ToList();
+                    _characterViewModel.AddOneExperienceToSkill(Skill, parent).ToList();
                 if (newOpenAttributeIncreases.Any())
                 {
                     foreach (var increase in newOpenAttributeIncreases)
                     {
-                        character.OpenAttributeIncreases.Add(increase);
+                        _characterViewModel.Character.OpenAttributeIncreases.Add(increase);
                     }
                 }
 
@@ -128,14 +125,14 @@ namespace Imago.ViewModels
                 var newOpenAttributeIncreases = new List<SkillGroupType>();
                 for (var i = 0; i < 5; i++)
                 {
-                    newOpenAttributeIncreases.AddRange(characterService.AddOneExperienceToSkill(Skill, parent));
+                    newOpenAttributeIncreases.AddRange(_characterViewModel.AddOneExperienceToSkill(Skill, parent));
                 }
 
                 if (newOpenAttributeIncreases.Any())
                 {
                     foreach (var increase in newOpenAttributeIncreases)
                     {
-                        character.OpenAttributeIncreases.Add(increase);
+                        _characterViewModel.Character.OpenAttributeIncreases.Add(increase);
                     }
                 }
 
@@ -143,7 +140,7 @@ namespace Imago.ViewModels
                 RecalcTestValue();
             });
 
-            DecreaseExperienceCommand = new Command(() => { characterService.RemoveOneExperienceFromSkill(skill); });
+            DecreaseExperienceCommand = new Command(() => { _characterViewModel.RemoveOneExperienceFromSkill(skill); });
 
             OpenWikiCommand = new Command(async () =>
             {
@@ -224,7 +221,7 @@ namespace Imago.ViewModels
                 {
                     if (mastery.Talent is MasteryModel model)
                     {
-                        var avaiable = _characterService.CheckMasteryRequirement(model.Requirements, _character);
+                        var avaiable = _characterViewModel.CheckMasteryRequirement(model.Requirements);
                         mastery.Available = avaiable;
                     }
                 }
@@ -236,7 +233,7 @@ namespace Imago.ViewModels
                 {
                     if (talent.Talent is TalentModel model)
                     {
-                        var avaiable = _characterService.CheckTalentRequirement(model.Requirements, _character);
+                        var avaiable = _characterViewModel.CheckTalentRequirement(model.Requirements);
                         talent.Available = avaiable;
                     }
                 }
@@ -262,7 +259,7 @@ namespace Imago.ViewModels
                 if (mastery.TargetSkill != _parent.Type)
                     continue;
 
-                var avaiable = _characterService.CheckMasteryRequirement(mastery.Requirements, _character);
+                var avaiable = _characterViewModel.CheckMasteryRequirement(mastery.Requirements);
 
                 var vm = new TalentListItemViewModel(mastery)
                 {
@@ -282,7 +279,7 @@ namespace Imago.ViewModels
                 if (talent.TargetSkill != Skill.Type)
                     continue;
 
-                var avaiable = _characterService.CheckTalentRequirement(talent.Requirements, _character);
+                var avaiable = _characterViewModel.CheckTalentRequirement(talent.Requirements);
 
                 var vm = new TalentListItemViewModel(talent)
                 {
@@ -303,7 +300,7 @@ namespace Imago.ViewModels
                 {
                     var handicapValue = tuple.Type == DerivedAttributeType.Unknown
                         ? (int?) null
-                        : (int) _character.Handicap.First(attribute => attribute.Type == tuple.Type).FinalValue;
+                        : (int)_characterViewModel.DerivedAttributes.First(attribute => attribute.Type == tuple.Type).FinalValue;
 
                     //todo converter
                     var vm = new HandicapListViewItemViewModel(tuple.Type, false, handicapValue, tuple.IconSource,

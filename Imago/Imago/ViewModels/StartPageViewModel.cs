@@ -30,6 +30,7 @@ namespace Imago.ViewModels
         private readonly ISpecialWeaponRepository _specialWeaponRepository;
         private readonly IShieldRepository _shieldRepository;
         private readonly IMasteryRepository _masteryRepository;
+        private readonly IRuleRepository _ruleRepository;
         private Dictionary<TableInfoType, TableInfoModel> _tableInfos;
 
         public ICommand ParseDataFromWikiCommand { get; }
@@ -42,7 +43,8 @@ namespace Imago.ViewModels
             ITalentRepository talentRepository,
             ISpecialWeaponRepository specialWeaponRepository,
             IShieldRepository shieldRepository,
-            IMasteryRepository masteryRepository)
+            IMasteryRepository masteryRepository,
+            IRuleRepository ruleRepository)
         {
             _characterRepository = characterRepository;
             _wikiParseService = wikiParseService;
@@ -53,6 +55,7 @@ namespace Imago.ViewModels
             _specialWeaponRepository = specialWeaponRepository;
             _shieldRepository = shieldRepository;
             _masteryRepository = masteryRepository;
+            _ruleRepository = ruleRepository;
             TestCharacterCommand = new Command(OnTestCharacterClicked);
 
             ParseDataFromWikiCommand = new Command(async () =>
@@ -190,7 +193,7 @@ namespace Imago.ViewModels
             newChar.CreatedBy = "System";
             newChar.Owner = "Testuser";
 
-            App.CurrentCharacter = newChar;
+            App.CurrentCharacter = new CharacterViewModel(newChar, _ruleRepository);
             await Shell.Current.GoToAsync($"//{nameof(CharacterInfoPage)}");
         }
     }
