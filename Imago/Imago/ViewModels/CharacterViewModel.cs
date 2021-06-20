@@ -111,7 +111,7 @@ namespace Imago.ViewModels
         public void SetModificationValue(SpecialAttribute specialAttribute, int modificationValue)
         {
             specialAttribute.ModificationValue = modificationValue;
-            specialAttribute.RecalculateFinalValue();
+            RecalculateSpecialAttributes(specialAttribute);
         }
 
         public void SetCorrosionValue(Attribute attribute, int corrosionValue)
@@ -277,24 +277,7 @@ namespace Imago.ViewModels
             }
 
             //update special attributes
-            foreach (var specialAttribute in SpecialAttributes)
-            {
-                switch (specialAttribute.Type)
-                {
-                    case SpecialAttributeType.Initiative:
-                    {
-                        var tmp = GetAttributeSum(AttributeType.Geschicklichkeit, AttributeType.Geschicklichkeit,
-                            AttributeType.Wahrnehmung, AttributeType.Willenskraft);
-
-                        var newValue = tmp / 4;
-                        specialAttribute.BaseValue = (int) Math.Round(newValue, MidpointRounding.AwayFromZero);
-                        specialAttribute.RecalculateFinalValue();
-                        break;
-                    }
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(SpecialAttributeType));
-                }
-            }
+            RecalculateSpecialAttributes(SpecialAttributes.ToArray());
 
             //update bodyparts
             foreach (var bodyPart in Character.BodyParts)
@@ -336,6 +319,27 @@ namespace Imago.ViewModels
 
             //update handicap
             RecalculateHandicapAttributes();
+        }
+
+        public void RecalculateSpecialAttributes(params SpecialAttribute[] attributes)
+        {
+            foreach (var specialAttribute in attributes)
+            {
+                switch (specialAttribute.Type)
+                {
+                    case SpecialAttributeType.Initiative:
+                    {
+                        var tmp = GetAttributeSum(AttributeType.Geschicklichkeit, AttributeType.Geschicklichkeit,
+                            AttributeType.Wahrnehmung, AttributeType.Willenskraft);
+
+                        var newValue = tmp / 4;
+                        specialAttribute.FinalValue = ((int)Math.Round(newValue, MidpointRounding.AwayFromZero)) + specialAttribute.ModificationValue;
+                        break;
+                    }
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(SpecialAttributeType));
+                }
+            }
         }
 
         public void RecalculateHandicapAttributes()

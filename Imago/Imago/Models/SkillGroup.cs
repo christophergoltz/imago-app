@@ -6,7 +6,7 @@ using Imago.Models.Enum;
 
 namespace Imago.Models
 {
-    public class SkillGroup : SkillBase
+    public class SkillGroup : DependentBase
     {
         public SkillGroupType Type { get; set; }
 

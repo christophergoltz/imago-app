@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Imago.Util;
+using Newtonsoft.Json;
 
 namespace Imago.Models.Base
 {
@@ -9,6 +10,7 @@ namespace Imago.Models.Base
     {
         private double _finalValue;
 
+        [JsonIgnore]
         public double FinalValue
         {
             get => _finalValue;

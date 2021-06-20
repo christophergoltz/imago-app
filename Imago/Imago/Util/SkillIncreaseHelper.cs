@@ -46,14 +46,14 @@ namespace Imago.Util
         /// <summary>
         /// Gibt die Kosten der nächsten Steigerung für einer Fertigkeit, Fertigkeitskategorie oder Attribut zurück.
         /// </summary>
-        /// <param name="skillBase">Der aktuelle Steigerungswert</param>
+        /// <param name="increasableBase">Der aktuelle Steigerungswert</param>
         /// <returns>Die Anzahl der Erfahrungspunkte, die für den nächsten Aufstieg bezahlt werden müssen.</returns>
-        public static int GetExperienceForNextSkillBaseLevel(SkillBase skillBase)
+        public static int GetExperienceForNextSkillBaseLevel(IncreasableBase increasableBase)
         {
-            if (skillBase.IncreaseValue == 100)
+            if (increasableBase.IncreaseValue == 100)
                 throw new DeletedRowInaccessibleException("Skillgroup cant be increased above 100");
 
-            if (skillBase is Skill skill)
+            if (increasableBase is Skill skill)
             {
                 double steigerungsWertFaktisch = (double)skill.IncreaseValue / 15;
                 var resultIndex = (int) Math.Floor(steigerungsWertFaktisch);
@@ -71,7 +71,7 @@ namespace Imago.Util
                 return benoetigteErfahrungspunkte;
             }
 
-            if (skillBase is SkillGroup skillGroup)
+            if (increasableBase is SkillGroup skillGroup)
             {
                 double steigerungsWertFaktisch = (double)skillGroup.IncreaseValue / 5;
                 var resultIndex = (int) Math.Floor(steigerungsWertFaktisch) + 2;
@@ -89,7 +89,7 @@ namespace Imago.Util
                 return benoetigteErfahrungspunkte;
             }
 
-            if (skillBase is Attribute attribute)
+            if (increasableBase is Attribute attribute)
             {
                 double steigerungsWertFaktisch = (double)attribute.IncreaseValue / 10;
                 var resultIndex = (int)Math.Floor(steigerungsWertFaktisch) - 2;

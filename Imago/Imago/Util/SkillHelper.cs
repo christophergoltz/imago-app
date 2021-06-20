@@ -19,12 +19,7 @@ namespace Imago.Util
 
         public static void RecalculateFinalValue(this Attribute attribute)
         {
-            attribute.FinalValue = attribute.BaseValue + attribute.IncreaseValue + attribute.ModificationValue - attribute.Corrosion;
-        }
-
-        public static void RecalculateFinalValue(this SpecialAttribute specialAttribute)
-        {
-            specialAttribute.FinalValue = specialAttribute.BaseValue + specialAttribute.ModificationValue;
+            attribute.FinalValue = attribute.NaturalValue + attribute.IncreaseValue + attribute.ModificationValue - attribute.Corrosion;
         }
     }
 }

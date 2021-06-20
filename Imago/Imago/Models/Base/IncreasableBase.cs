@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using Imago.Repository;
 using Imago.Util;
+using Newtonsoft.Json;
 
 namespace Imago.Models.Base
 {
-    public abstract class SkillBase : DependentBase
+    public abstract class IncreasableBase : ModifiableBase
     {
         private int _experienceValue;
         private int _increaseValue;
@@ -27,6 +28,7 @@ namespace Imago.Models.Base
             }
         }
 
+        [JsonIgnore]
         public int ExperienceForNextIncrease => SkillIncreaseHelper.GetExperienceForNextSkillBaseLevel(this);
     }
 }

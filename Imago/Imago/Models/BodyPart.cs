@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Text;
 using Imago.Models.Enum;
 using Imago.Util;
+using Newtonsoft.Json;
 using Xamarin.Forms;
 
 namespace Imago.Models
@@ -66,8 +67,10 @@ namespace Imago.Models
             return d1 + (d2 - d1) * f;
         }
 
+        [JsonIgnore]
         public Color HitpointsColor => GetBlendedColor((int)(CurrentHitpointsPercentage*100));
 
+        [JsonIgnore]
         public double CurrentHitpointsPercentage
         {
             get

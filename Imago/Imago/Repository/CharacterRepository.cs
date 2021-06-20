@@ -137,13 +137,13 @@ namespace Imago.Repository
         {
             return new List<Attribute>
             {
-                new Attribute(AttributeType.Staerke) {IncreaseValue = 50, BaseValue = 10},
-                new Attribute(AttributeType.Geschicklichkeit) {IncreaseValue = 45, BaseValue = -10},
-                new Attribute(AttributeType.Konstitution) {IncreaseValue = 51, BaseValue = 15},
+                new Attribute(AttributeType.Staerke) {IncreaseValue = 50, NaturalValue = 10},
+                new Attribute(AttributeType.Geschicklichkeit) {IncreaseValue = 45, NaturalValue = -10},
+                new Attribute(AttributeType.Konstitution) {IncreaseValue = 51, NaturalValue = 15},
                 new Attribute(AttributeType.Intelligenz) {IncreaseValue = 39},
                 new Attribute(AttributeType.Willenskraft) {IncreaseValue = 52},
                 new Attribute(AttributeType.Charisma) {IncreaseValue = 46},
-                new Attribute(AttributeType.Wahrnehmung) {IncreaseValue = 50, BaseValue = -15}
+                new Attribute(AttributeType.Wahrnehmung) {IncreaseValue = 50, NaturalValue = -15}
             };
         }
 
