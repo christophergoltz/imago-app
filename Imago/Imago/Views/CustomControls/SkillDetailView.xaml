@@ -7,6 +7,7 @@
              xmlns:models="clr-namespace:Imago.Models;assembly=Imago"
              xmlns:views="http://xamarin.com/schemas/2020/toolkit"
              xmlns:enum="clr-namespace:Imago.Models.Enum;assembly=Imago"
+             xmlns:system="clr-namespace:System;assembly=netstandard"
              x:Class="Imago.Views.CustomControls.SkillDetailView" x:DataType="customControls:SkillDetailView">
     <ContentView.Resources>
         <ResourceDictionary>
@@ -52,12 +53,12 @@
                                             <DataTrigger TargetType="Label" Binding="{Binding Available}" Value="False">
                                                 <Setter Property="TextDecorations" Value="Strikethrough"></Setter>
                                                 <Setter Property="FontAttributes" Value="Italic"></Setter>
-                                                <!--<Setter Property="TextColor" Value="white"></Setter>-->
+                                                <Setter Property="TextColor" Value="white"></Setter>
                                             </DataTrigger>
                                         </Style.Triggers>
                                         <Setter Property="TextDecorations" Value="None"></Setter>
                                         <Setter Property="FontAttributes" Value="None"></Setter>
-                                        <!--<Setter Property="TextColor" Value="Black"></Setter>-->
+                                        <Setter Property="TextColor" Value="Black"></Setter>
                                     </Style>
                                 </Label.Style>
                             </Label>
@@ -219,7 +220,7 @@
                     <Label.Text>
                         <MultiBinding StringFormat="{}{0}/{1}">
                             <Binding Path="SkillDetailViewModel.Skill.ExperienceValue"/>
-                            <Binding Path="SkillDetailViewModel.Skill.ExperienceForNextIncrease"/>
+                            <Binding Path="SkillDetailViewModel.Skill.ExperienceForNextIncreasedRequired"/>
                         </MultiBinding>
                     </Label.Text>
                 </Label>
@@ -238,10 +239,18 @@
                 </Button>
                 <Button FontSize="30"
                         Padding="0,-8,0,0" WidthRequest="35" HeightRequest="35" FontAttributes="Bold" 
-                        Text="+" Command="{Binding SkillDetailViewModel.IncreaseExperienceCommand}"/>
+                        Text="+" Command="{Binding SkillDetailViewModel.IncreaseExperienceCommand}">
+                    <Button.CommandParameter>
+                        <system:Int32>1</system:Int32>
+                    </Button.CommandParameter>
+                </Button>
                 <Button FontSize="22"
                         Padding="0,-4,0,0" WidthRequest="35" HeightRequest="35" FontAttributes="Bold" 
-                        Text="+5" Command="{Binding SkillDetailViewModel.IncreaseExperienceByFiveCommand}"/>
+                        Text="+5" Command="{Binding SkillDetailViewModel.IncreaseExperienceCommand}">
+                    <Button.CommandParameter>
+                        <system:Int32>5</system:Int32>
+                    </Button.CommandParameter>
+                </Button>
             </StackLayout>
 
             <StackLayout Grid.Column="3" Grid.RowSpan="2"  Grid.Row="0" Orientation="Horizontal">

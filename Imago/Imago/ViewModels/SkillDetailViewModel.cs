@@ -37,7 +37,6 @@ namespace Imago.ViewModels
         public Skill Skill { get; }
 
         public ICommand IncreaseExperienceCommand { get; set; }
-        public ICommand IncreaseExperienceByFiveCommand { get; set; }
         public ICommand DecreaseExperienceCommand { get; set; }
         public ICommand OpenWikiCommand { get; set; }
         public ICommand CloseCommand { get; set; }
@@ -104,10 +103,9 @@ namespace Imago.ViewModels
 
             SourceFormula = _converter.Convert(parent.Type, null, null, CultureInfo.InvariantCulture).ToString();
 
-            IncreaseExperienceCommand = new Command(() =>
+            IncreaseExperienceCommand = new Command<int>(experience =>
             {
-                var newOpenAttributeIncreases =
-                    _characterViewModel.AddOneExperienceToSkill(Skill, parent).ToList();
+                var newOpenAttributeIncreases = _characterViewModel.AddExperienceToSkill(Skill, parent, experience).ToList();
                 if (newOpenAttributeIncreases.Any())
                 {
                     foreach (var increase in newOpenAttributeIncreases)
@@ -119,27 +117,7 @@ namespace Imago.ViewModels
                 UpdateTalentRequirements();
                 RecalcTestValue();
             });
-
-            IncreaseExperienceByFiveCommand = new Command(() =>
-            {
-                var newOpenAttributeIncreases = new List<SkillGroupType>();
-                for (var i = 0; i < 5; i++)
-                {
-                    newOpenAttributeIncreases.AddRange(_characterViewModel.AddOneExperienceToSkill(Skill, parent));
-                }
-
-                if (newOpenAttributeIncreases.Any())
-                {
-                    foreach (var increase in newOpenAttributeIncreases)
-                    {
-                        _characterViewModel.Character.OpenAttributeIncreases.Add(increase);
-                    }
-                }
-
-                UpdateTalentRequirements();
-                RecalcTestValue();
-            });
-
+            
             DecreaseExperienceCommand = new Command(() => { _characterViewModel.RemoveOneExperienceFromSkill(skill); });
 
             OpenWikiCommand = new Command(async () =>

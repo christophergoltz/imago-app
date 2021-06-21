@@ -74,8 +74,10 @@
                                             <Label FontSize="18" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center">
                                                 <Label.Text>
                                                     <MultiBinding StringFormat="{}{0}/{1}">
-                                                        <Binding Path="Attribute.ExperienceValue" Source="{RelativeSource AncestorType={x:Type viewModels:AttributeViewModel}}"/>
-                                                        <Binding Path="Attribute.ExperienceForNextIncrease" Source="{RelativeSource AncestorType={x:Type viewModels:AttributeViewModel}}"/>
+                                                        <Binding Path="Attribute.ExperienceValue" 
+                                                                 Source="{RelativeSource AncestorType={x:Type viewModels:AttributeViewModel}}"/>
+                                                        <Binding Path="Attribute.ExperienceForNextIncreasedRequired" 
+                                                                 Source="{RelativeSource AncestorType={x:Type viewModels:AttributeViewModel}}"/>
                                                     </MultiBinding>
                                                 </Label.Text>
                                             </Label>

@@ -74,7 +74,7 @@
                     <Label.Text>
                         <MultiBinding StringFormat="{}{0}/{1}">
                             <Binding Path="SkillGroupDetailViewModel.SkillGroup.ExperienceValue"/>
-                            <Binding Path="SkillGroupDetailViewModel.SkillGroup.ExperienceForNextIncrease"/>
+                            <Binding Path="SkillGroupDetailViewModel.SkillGroup.ExperienceForNextIncreasedRequired"/>
                         </MultiBinding>
                     </Label.Text>
                 </Label>

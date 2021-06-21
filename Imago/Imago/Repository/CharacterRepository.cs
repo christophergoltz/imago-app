@@ -137,13 +137,13 @@ namespace Imago.Repository
         {
             return new List<Attribute>
             {
-                new Attribute(AttributeType.Staerke) {IncreaseValue = 50, NaturalValue = 10},
-                new Attribute(AttributeType.Geschicklichkeit) {IncreaseValue = 45, NaturalValue = -10},
-                new Attribute(AttributeType.Konstitution) {IncreaseValue = 51, NaturalValue = 15},
-                new Attribute(AttributeType.Intelligenz) {IncreaseValue = 39},
-                new Attribute(AttributeType.Willenskraft) {IncreaseValue = 52},
-                new Attribute(AttributeType.Charisma) {IncreaseValue = 46},
-                new Attribute(AttributeType.Wahrnehmung) {IncreaseValue = 50, NaturalValue = -15}
+                new Attribute(AttributeType.Staerke) {TotalExperience = 300, NaturalValue = 10},
+                new Attribute(AttributeType.Geschicklichkeit) {TotalExperience = 200, NaturalValue = -10},
+                new Attribute(AttributeType.Konstitution) {TotalExperience = 400, NaturalValue = 15},
+                new Attribute(AttributeType.Intelligenz) {TotalExperience = 350},
+                new Attribute(AttributeType.Willenskraft) {TotalExperience = 500},
+                new Attribute(AttributeType.Charisma) {TotalExperience = 320},
+                new Attribute(AttributeType.Wahrnehmung) {TotalExperience = 400, NaturalValue = -15}
             };
         }
 
@@ -155,7 +155,7 @@ namespace Imago.Repository
             };
 
             if (type == SkillGroupType.Nahkampf)
-                skillGroup.IncreaseValue = 21;
+                skillGroup.TotalExperience = 210;
 
             return skillGroup;
         }
@@ -169,7 +169,7 @@ namespace Imago.Repository
                     {
                         new Skill(SkillType.Ausweichen),
                         new Skill(SkillType.Klettern),
-                        new Skill(SkillType.Koerperbeherrschung) {IncreaseValue = 36},
+                        new Skill(SkillType.Koerperbeherrschung) {TotalExperience = 360},
                         new Skill(SkillType.Laufen),
                         new Skill(SkillType.Reiten),
                         new Skill(SkillType.Schwimmen),
@@ -179,7 +179,7 @@ namespace Imago.Repository
                 case SkillGroupType.Nahkampf:
                     return new List<Skill>
                     {
-                        new Skill(SkillType.Dolche) {IncreaseValue = 66},
+                        new Skill(SkillType.Dolche) {TotalExperience = 450},
                         new Skill(SkillType.Hiebwaffen),
                         new Skill(SkillType.Schilde),
                         new Skill(SkillType.Schwerter),

@@ -55,9 +55,9 @@ namespace Imago.ViewModels
             AddExperienceToAttributeCommand = new Command<OpenAttributeExperienceViewModel>(viewModel =>
             {
                 if (viewModel.SelectedAttribute == null)
-                    return; 
+                    return;
 
-                characterViewModel.AddOneExperienceToAttribute(viewModel.SelectedAttribute);
+                viewModel.SelectedAttribute.TotalExperience += 1;
                 
                 OpenAttributeExperienceViewModels.Remove(viewModel);
                 characterViewModel.Character.OpenAttributeIncreases.Remove(

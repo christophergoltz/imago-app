@@ -97,7 +97,6 @@ namespace Imago.ViewModels
         {
             skillGroup.ModificationValue = modificationValue;
             skillGroup.RecalculateFinalValue();
-
             UpdateNewBaseValueToSkillsOfGroup(skillGroup);
         }
 
@@ -119,21 +118,6 @@ namespace Imago.ViewModels
             attribute.Corrosion = corrosionValue;
             attribute.RecalculateFinalValue();
             UpdateNewFinalValueOfAttribute(attribute);
-        }
-
-        public void AddOneExperienceToAttribute(Attribute attribute)
-        {
-            attribute.ExperienceValue += 1;
-
-            while (SkillIncreaseHelper.CanSkillBeIncreased(attribute))
-            {
-                var requiredExperienceForNextLevel = SkillIncreaseHelper.GetExperienceForNextSkillBaseLevel(attribute);
-                attribute.ExperienceValue -= requiredExperienceForNextLevel;
-                attribute.IncreaseValue++;
-                attribute.RecalculateFinalValue();
-
-                UpdateNewFinalValueOfAttribute(attribute);
-            }
         }
 
         public bool CheckTalentRequirement(Dictionary<SkillType, int> requirements)
@@ -165,30 +149,25 @@ namespace Imago.ViewModels
 
         private IEnumerable<SkillGroupType> AddExperienceToSkillGroup(SkillGroup skillGroup, int experience)
         {
-            skillGroup.ExperienceValue += experience;
-            while (SkillIncreaseHelper.CanSkillBeIncreased(skillGroup))
+            var oldIncreaseValue = skillGroup.IncreaseValue;
+            skillGroup.TotalExperience += experience;
+            var newIncreaseValue = skillGroup.IncreaseValue;
+            var openAttributeExperience = newIncreaseValue - oldIncreaseValue;
+
+            for (var i = 0; i < openAttributeExperience; i++)
             {
-                var requiredExperienceForNextLevel = SkillIncreaseHelper.GetExperienceForNextSkillBaseLevel(skillGroup);
-                skillGroup.ExperienceValue -= requiredExperienceForNextLevel;
-                skillGroup.IncreaseValue++;
-                skillGroup.RecalculateFinalValue();
                 yield return skillGroup.Type;
-                UpdateNewBaseValueToSkillsOfGroup(skillGroup);
             }
         }
 
-        public IEnumerable<SkillGroupType> AddOneExperienceToSkill(Skill skill, SkillGroup skillGroup)
+        public IEnumerable<SkillGroupType> AddExperienceToSkill(Skill skill, SkillGroup skillGroup, int experience)
         {
-            skill.ExperienceValue += 1;
-            int openSkillGroupExperience = 0;
-            while (SkillIncreaseHelper.CanSkillBeIncreased(skill))
-            {
-                var requiredExperienceForNextLevel = SkillIncreaseHelper.GetExperienceForNextSkillBaseLevel(skill);
-                skill.ExperienceValue -= requiredExperienceForNextLevel;
-                skill.IncreaseValue++;
-                skill.RecalculateFinalValue();
-                openSkillGroupExperience++;
-            }
+            var oldIncreaseValue = skill.IncreaseValue;
+            skill.TotalExperience += experience;
+            var newIncreaseValue = skill.IncreaseValue;
+            var openSkillGroupExperience = newIncreaseValue - oldIncreaseValue;
+
+            skill.RecalculateFinalValue();
 
             if (openSkillGroupExperience > 0)
                 return AddExperienceToSkillGroup(skillGroup, openSkillGroupExperience);
@@ -198,13 +177,12 @@ namespace Imago.ViewModels
 
         public void RemoveOneExperienceFromSkill(Skill skill)
         {
-            if (skill.ExperienceValue == 0)
-                throw new InvalidOperationException("Cant remove experience from skill, value is alredy 0");
+            skill.TotalExperience -= 1;
+            skill.RecalculateFinalValue();
 
-            skill.ExperienceValue -= 1;
+            //todo if sw was reduced, take exp from kategoriy
         }
-
-
+        
         private void UpdateNewFinalValueOfAttribute(Attribute changedAttribute)
         {
             //updating all dependent skillgroups

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Imago.Repository;
+using Imago.Services;
 using Imago.Util;
 using Newtonsoft.Json;
 
@@ -9,26 +10,35 @@ namespace Imago.Models.Base
 {
     public abstract class IncreasableBase : ModifiableBase
     {
-        private int _experienceValue;
-        private int _increaseValue;
+        private int _totalExperience;
 
-        public int ExperienceValue
+        public int TotalExperience
         {
-            get => _experienceValue;
-            set => SetProperty(ref _experienceValue, value);
-        }
-
-        public int IncreaseValue
-        {
-            get => _increaseValue;
+            get => _totalExperience;
             set
             {
-                SetProperty(ref _increaseValue, value);
-                OnPropertyChanged(nameof(ExperienceForNextIncrease));
+                SetProperty(ref _totalExperience, value);
+                (int IncreaseLevel, int LeftoverExperience, int ExperienceForNextIncrease) increaseInfo = (0,0,0);
+
+                if (this is Attribute)
+                    increaseInfo = IncreaseServices.GetIncreaseInfo(IncreaseType.Attribute, value);
+                if (this is SkillGroup)
+                    increaseInfo = IncreaseServices.GetIncreaseInfo(IncreaseType.Attribute, value);
+                if (this is Skill) 
+                    increaseInfo = IncreaseServices.GetIncreaseInfo(IncreaseType.Attribute, value);
+
+                ExperienceValue = increaseInfo.LeftoverExperience;
+                IncreaseValue = increaseInfo.IncreaseLevel;
+                ExperienceForNextIncreasedRequired = increaseInfo.ExperienceForNextIncrease;
+
+                OnPropertyChanged(nameof(IncreaseValue));
+                OnPropertyChanged(nameof(ExperienceValue));
+                OnPropertyChanged(nameof(ExperienceForNextIncreasedRequired));
             }
         }
 
-        [JsonIgnore]
-        public int ExperienceForNextIncrease => SkillIncreaseHelper.GetExperienceForNextSkillBaseLevel(this);
+        public int ExperienceValue { get; private set; }
+        public int IncreaseValue { get; private set; }
+        public int ExperienceForNextIncreasedRequired { get; private set; }
     }
 }
