@@ -8,12 +8,26 @@ namespace Imago.Models.Enum
     public enum BodyPartType
     {
         Unknown = 0,
+        [Formula("KO/15+3")]
         Kopf = 1,
+        [Formula("KO/6+2")]
         Torso = 2,
-        [DisplayText("Arm links")] ArmLinks = 3,
-        [DisplayText("Arm rechts")] ArmRechts = 4,
-        [DisplayText("Bein links")] BeinLinks = 5,
-        [DisplayText("Bein rechts")] BeinRechts = 6
+
+        [Formula("KO/10+1")]
+        [DisplayText("Arm links")] 
+        ArmLinks = 3,
+
+        [Formula("KO/10+1")]
+        [DisplayText("Arm rechts")] 
+        ArmRechts = 4,
+
+        [DisplayText("Bein links")]
+        [Formula("KO/7+2")]
+        BeinLinks = 5,
+
+        [DisplayText("Bein rechts")]
+        [Formula("KO/7+2")]
+        BeinRechts = 6
     }
 
     public static class BodyPartTypeExtension

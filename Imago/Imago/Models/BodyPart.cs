@@ -15,12 +15,10 @@ namespace Imago.Models
         private int _currentHitpoints;
         private ObservableCollection<ArmorModel> _armor;
         private BodyPartType _type;
-        private string _formula;
 
-        public BodyPart(BodyPartType type, string formula, int currentHitpoints, ObservableCollection<ArmorModel> armor)
+        public BodyPart(BodyPartType type, int currentHitpoints, ObservableCollection<ArmorModel> armor)
         {
             Type = type;
-            Formula = formula;
             CurrentHitpoints = currentHitpoints;
             Armor = armor;
         }
@@ -90,12 +88,6 @@ namespace Imago.Models
         {
             get => _type;
             set => SetProperty(ref _type, value);
-        }
-
-        public string Formula
-        {
-            get => _formula;
-            set => SetProperty(ref _formula, value);
         }
     }
 }
