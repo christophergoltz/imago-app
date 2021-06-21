@@ -34,6 +34,13 @@ namespace Imago.Models.Base
                 OnPropertyChanged(nameof(IncreaseValue));
                 OnPropertyChanged(nameof(ExperienceValue));
                 OnPropertyChanged(nameof(ExperienceForNextIncreasedRequired));
+
+                if (this is Attribute attribute)
+                    attribute.RecalculateFinalValue();
+                if (this is SkillGroup skillGroup) 
+                    skillGroup.RecalculateFinalValue();
+                if (this is Skill skill) 
+                    skill.RecalculateFinalValue();
             }
         }
 

@@ -101,6 +101,11 @@ namespace Imago.ViewModels
 #pragma warning disable 4014
             InitLocalDatabase(); //needs to be executed in background
 #pragma warning restore 4014
+
+            NewCharacterCommand = new Command(async () =>
+            {
+                await Shell.Current.GoToAsync($"{nameof(CharacterCreationPage)}");
+            });
         }
 
         public ObservableCollection<LogEntry> WikiParseLog { get; set; } = new ObservableCollection<LogEntry>();
@@ -183,6 +188,7 @@ namespace Imago.ViewModels
         }
 
         public Command TestCharacterCommand { get; }
+        public Command NewCharacterCommand { get; }
 
         private async void OnTestCharacterClicked(object obj)
         {

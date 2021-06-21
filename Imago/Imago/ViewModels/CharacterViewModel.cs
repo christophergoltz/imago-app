@@ -51,6 +51,16 @@ namespace Imago.ViewModels
         public List<SpecialAttribute> SpecialAttributes { get; set; }
         public List<DerivedAttribute> DerivedAttributes { get; set; }
 
+        public List<DerivedAttribute> CreationDerivedAttributes => DerivedAttributes
+            .Where(_ => _.Type == DerivedAttributeType.Egoregenration ||
+                        _.Type == DerivedAttributeType.Schadensmod ||
+                        _.Type == DerivedAttributeType.Traglast ||
+                        _.Type == DerivedAttributeType.TaktischeBewegung ||
+                        _.Type == DerivedAttributeType.Sprintreichweite ||
+                        _.Type == DerivedAttributeType.SprungreichweiteGesamt ||
+                        _.Type == DerivedAttributeType.SprunghoeheGesamt)
+            .ToList();
+
         public List<DerivedAttribute> FightDerivedAttributes => DerivedAttributes
             .Where(_ => _.Type == DerivedAttributeType.SprungreichweiteKampf ||
                         _.Type == DerivedAttributeType.SprunghoeheKampf ||
@@ -183,7 +193,7 @@ namespace Imago.ViewModels
             //todo if sw was reduced, take exp from kategoriy
         }
         
-        private void UpdateNewFinalValueOfAttribute(Attribute changedAttribute)
+        public void UpdateNewFinalValueOfAttribute(Attribute changedAttribute)
         {
             //updating all dependent skillgroups
             var affectedSkillGroupTypes = _ruleRepository.GetSkillGroupsByAttribute(changedAttribute.Type);

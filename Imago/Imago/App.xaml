@@ -18,6 +18,7 @@
             <converter:ObjectNotNullToBoolConverter x:Key="ObjectNotNullToBoolConverter"/>
             <converter:DicionaryToBodyPartConverter x:Key="DicionaryToBodyPartConverter"/>
             <converter:EnumToFormulaConverter x:Key="EnumToFormulaConverter"/>
+            <converter:PositiveIntegerToBoolConverter x:Key="PositiveIntegerToBoolConverter"/>
 
             <util:ViewModelLocator x:Key="ViewModelLocator"/>
 
