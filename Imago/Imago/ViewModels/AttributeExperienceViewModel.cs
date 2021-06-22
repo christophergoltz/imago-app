@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 using Imago.Models;
 using Imago.Util;
@@ -22,9 +21,8 @@ namespace Imago.ViewModels
             get => Attribute.TotalExperience;
             set
             {
-                Attribute.TotalExperience = value;
+                _characterViewModel.SetExperienceToAttribute(Attribute, value);
                 OnPropertyChanged(nameof(TotalExperienceValue));
-                _characterViewModel.UpdateNewFinalValueOfAttribute(Attribute);
             }
         }
     }

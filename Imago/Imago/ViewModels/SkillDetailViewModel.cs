@@ -105,19 +105,13 @@ namespace Imago.ViewModels
 
             IncreaseExperienceCommand = new Command<int>(experience =>
             {
-                var newOpenAttributeIncreases = _characterViewModel.AddExperienceToSkill(Skill, parent, experience).ToList();
-                if (newOpenAttributeIncreases.Any())
-                {
-                    foreach (var increase in newOpenAttributeIncreases)
-                    {
-                        _characterViewModel.Character.OpenAttributeIncreases.Add(increase);
-                    }
-                }
-
+                var newExp = Skill.TotalExperience + experience;
+                _characterViewModel.SetExperienceToSkill(Skill, parent, newExp);
                 UpdateTalentRequirements();
                 RecalcTestValue();
             });
-            
+
+            //todo parameter; _characterViewModel.SetExperienceToSkill
             DecreaseExperienceCommand = new Command(() => { _characterViewModel.RemoveOneExperienceFromSkill(skill); });
 
             OpenWikiCommand = new Command(async () =>

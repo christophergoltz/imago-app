@@ -3,8 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:Imago.ViewModels;assembly=Imago"
              xmlns:customControls="clr-namespace:Imago.Views.CustomControls;assembly=Imago"
-             xmlns:models="clr-namespace:Imago.Models;assembly=Imago"
-             x:Class="Imago.Views.CharacterCreationPage"   
+             xmlns:models="clr-namespace:Imago.Models;assembly=Imago"  Shell.FlyoutBehavior="Disabled"
+             xmlns:local="clr-namespace:Imago.Models.Enum;assembly=Imago"
+             x:Class="Imago.Views.CharacterCreationPage"    Shell.NavBarIsVisible="False" Shell.TabBarIsVisible="False"
              BindingContext="{Binding CharacterCreationViewModel, Source={StaticResource ViewModelLocator}}"
              x:DataType="viewModels:CharacterCreationViewModel">
     <ContentPage.Resources>
@@ -54,16 +55,61 @@
                   
                 </StackLayout>
             </DataTemplate>
+            <DataTemplate x:DataType="viewModels:SkillExperienceViewModel" x:Key="SkillQuickEditTemplate">
+                <StackLayout>
+                    <Grid Padding="10,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="175" />
+                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="80" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" FontSize="18" Grid.Column="0" VerticalOptions="Center" 
+                               Text="{Binding Skill.Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
+
+                        <StackLayout Grid.Column="1" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                            <Entry VerticalOptions="Center" Keyboard="Numeric" FontSize="18" Text="{Binding TotalExperienceValue}"></Entry>
+                            <Slider  ThumbColor="{StaticResource AntiUmbra1}"
+                                     MaximumTrackColor="{StaticResource AntiUmbra2}" 
+                                     MinimumTrackColor="{StaticResource AntiUmbra}"
+                                     VerticalOptions="Center" 
+                                     HorizontalOptions="FillAndExpand"
+                                     Minimum="0" Maximum="1039" 
+                                     Value="{Binding TotalExperienceValue}"/>
+                        </StackLayout>
+
+                        <!--<Label Grid.Row="0" FontSize="18" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Skill.NaturalValue}"/>-->
+                        <Label Grid.Row="0" FontSize="18" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Skill.IncreaseValue}"/>
+                        <Label Grid.Row="0" FontSize="18" Grid.Column="4" VerticalOptions="Center" HorizontalOptions="Center">
+                            <Label.Text>
+                                <MultiBinding StringFormat="{}{0}/{1}">
+                                    <Binding Path="Skill.ExperienceValue" 
+                                                                 Source="{RelativeSource AncestorType={x:Type viewModels:SkillExperienceViewModel}}"/>
+                                    <Binding Path="Skill.ExperienceForNextIncreasedRequired" 
+                                                                 Source="{RelativeSource AncestorType={x:Type viewModels:SkillExperienceViewModel}}"/>
+                                </MultiBinding>
+                            </Label.Text>
+                        </Label>
+
+                        <Label FontAttributes="Bold" Grid.Row="0" FontSize="18" Grid.Column="5" VerticalOptions="Center" 
+                               HorizontalOptions="Center" 
+                               Text="{Binding Skill.FinalValue}"/>
+                    </Grid>
+                </StackLayout>
+            </DataTemplate>
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
         <ScrollView>
             <StackLayout>
+                <!-- char detail -->
                 <Label FontSize="28" FontAttributes="Bold" Padding="10,5" Text="Charakter" BackgroundColor="{StaticResource Umbra3}"></Label>
-
                 <customControls:CharacterDetailView></customControls:CharacterDetailView>
 
-                <StackLayout Orientation="Horizontal"  Padding="10,5" BackgroundColor="{StaticResource Umbra3}">
+                <!-- attributes -->
+                <StackLayout Orientation="Horizontal" Padding="10,5" BackgroundColor="{StaticResource Umbra3}">
                     <Label FontSize="28" VerticalOptions="Center" FontAttributes="Bold" Text="Attribute" ></Label>
 
                     <Label FontSize="22" Margin="50,0,0,0" VerticalOptions="Center" Text="Erfahrungspunkte" ></Label>
@@ -90,7 +136,6 @@
                         </Label.Style>
                     </Label>
                 </StackLayout>
-                
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="60*"></ColumnDefinition>
@@ -217,6 +262,137 @@
                         </Grid>
                     </Frame>
 
+                </Grid>
+
+                <!-- vor und nachteile -->
+                <Label FontSize="28" FontAttributes="Bold" Padding="10,5" Text="Vor- und Nachteile" BackgroundColor="{StaticResource Umbra3}"></Label>
+                <Label FontSize="22" Margin="20" FontAttributes="Bold" Padding="10,5" Text="[tbd]" ></Label>
+
+                <!-- skillgroups and skills -->
+                <Label FontSize="28" FontAttributes="Bold" Padding="10,5" Text="Fertigkeiten" BackgroundColor="{StaticResource Umbra3}"></Label>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <!-- bewegung -->
+                    <Grid Grid.Row="0" Grid.Column="0" Style="{StaticResource SingleGradiantStyle}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <customControls:QuickSkillGroupHeaderView Grid.Row="0" SkillGroup="{Binding Bewegung}"/>
+                        <customControls:SkillListHeaderView Grid.Row="1" SkillGroup="{Binding Bewegung}"/>
+                        <StackLayout Grid.Row="2"
+                                     BindableLayout.ItemsSource="{Binding SkillExperienceViewModelBewegung}"
+                                     BindableLayout.ItemTemplate="{StaticResource SkillQuickEditTemplate}"></StackLayout>
+                    </Grid>
+
+                    <!-- Handwerk -->
+                    <Grid Grid.Row="0" Grid.Column="1" Style="{StaticResource SingleGradiantStyle}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <customControls:QuickSkillGroupHeaderView Grid.Row="0" SkillGroup="{Binding Handwerk}"/>
+                        <customControls:SkillListHeaderView Grid.Row="1" SkillGroup="{Binding Handwerk}"/>
+                        <StackLayout Grid.Row="2"
+                                     BindableLayout.ItemsSource="{Binding SkillExperienceViewModelHandwerk}"
+                                     BindableLayout.ItemTemplate="{StaticResource SkillQuickEditTemplate}"></StackLayout>
+                    </Grid>
+
+                    <!-- Wissenschaft -->
+                    <Grid Grid.Row="0" Grid.Column="2" Style="{StaticResource SingleGradiantStyle}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <customControls:QuickSkillGroupHeaderView Grid.Row="0" SkillGroup="{Binding Wissenschaft}"/>
+                        <customControls:SkillListHeaderView Grid.Row="1" SkillGroup="{Binding Wissenschaft}"/>
+                        <StackLayout Grid.Row="2"
+                                     BindableLayout.ItemsSource="{Binding SkillExperienceViewModelWissenschaft}"
+                                     BindableLayout.ItemTemplate="{StaticResource SkillQuickEditTemplate}"></StackLayout>
+                    </Grid>
+
+                    <!-- Heimlichkeit -->
+                    <Grid Grid.Row="1" Grid.Column="0" Style="{StaticResource SingleGradiantStyle}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <customControls:QuickSkillGroupHeaderView Grid.Row="0" SkillGroup="{Binding Heimlichkeit}"/>
+                        <customControls:SkillListHeaderView Grid.Row="1" SkillGroup="{Binding Heimlichkeit}"/>
+                        <StackLayout Grid.Row="2"
+                                     BindableLayout.ItemsSource="{Binding SkillExperienceViewModelHeimlichkeit}"
+                                     BindableLayout.ItemTemplate="{StaticResource SkillQuickEditTemplate}"></StackLayout>
+                    </Grid>
+
+                    <!-- Nahkampf -->
+                    <Grid Grid.Row="1" Grid.Column="1" Style="{StaticResource SingleGradiantStyle}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <customControls:QuickSkillGroupHeaderView Grid.Row="0" SkillGroup="{Binding Nahkampf}"/>
+                        <customControls:SkillListHeaderView Grid.Row="1" SkillGroup="{Binding Nahkampf}"/>
+                        <StackLayout Grid.Row="2"
+                                     BindableLayout.ItemsSource="{Binding SkillExperienceViewModelNahkampf}"
+                                     BindableLayout.ItemTemplate="{StaticResource SkillQuickEditTemplate}"></StackLayout>
+                    </Grid>
+
+                    <!-- Soziales -->
+                    <Grid Grid.Row="1" Grid.Column="2" Style="{StaticResource SingleGradiantStyle}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <customControls:QuickSkillGroupHeaderView Grid.Row="0" SkillGroup="{Binding Soziales}"/>
+                        <customControls:SkillListHeaderView Grid.Row="1" SkillGroup="{Binding Soziales}"/>
+                        <StackLayout Grid.Row="2"
+                                     BindableLayout.ItemsSource="{Binding SkillExperienceViewModelSoziales}"
+                                     BindableLayout.ItemTemplate="{StaticResource SkillQuickEditTemplate}"></StackLayout>
+                    </Grid>
+
+                    <!-- Webkunst -->
+                    <Grid Grid.Row="2" Grid.Column="0" Style="{StaticResource SingleGradiantStyle}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <customControls:QuickSkillGroupHeaderView Grid.Row="0" SkillGroup="{Binding Webkunst}"/>
+                        <customControls:SkillListHeaderView Grid.Row="1" SkillGroup="{Binding Webkunst}"/>
+                        <StackLayout Grid.Row="2"
+                                     BindableLayout.ItemsSource="{Binding SkillExperienceViewModelWebkunst}"
+                                     BindableLayout.ItemTemplate="{StaticResource SkillQuickEditTemplate}"></StackLayout>
+                    </Grid>
+
+                    <!-- Fernkampf -->
+                    <Grid Grid.Row="2" Grid.Column="1" Style="{StaticResource SingleGradiantStyle}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <customControls:QuickSkillGroupHeaderView Grid.Row="0" SkillGroup="{Binding Fernkampf}"/>
+                        <customControls:SkillListHeaderView Grid.Row="1" SkillGroup="{Binding Fernkampf}"/>
+                        <StackLayout Grid.Row="2"
+                                     BindableLayout.ItemsSource="{Binding SkillExperienceViewModelFernkampf}"
+                                     BindableLayout.ItemTemplate="{StaticResource SkillQuickEditTemplate}"></StackLayout>
+                    </Grid>
                 </Grid>
             </StackLayout>
         </ScrollView>

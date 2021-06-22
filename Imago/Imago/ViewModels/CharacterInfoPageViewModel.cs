@@ -57,8 +57,8 @@ namespace Imago.ViewModels
                 if (viewModel.SelectedAttribute == null)
                     return;
 
-                viewModel.SelectedAttribute.TotalExperience += 1;
-                
+                CharacterViewModel.SetExperienceToAttribute(viewModel.SelectedAttribute, viewModel.SelectedAttribute.TotalExperience +1);
+             
                 OpenAttributeExperienceViewModels.Remove(viewModel);
                 characterViewModel.Character.OpenAttributeIncreases.Remove(
                     characterViewModel.Character.OpenAttributeIncreases.First(type => type == viewModel.Source));

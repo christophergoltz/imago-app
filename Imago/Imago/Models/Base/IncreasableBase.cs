@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using Imago.Repository;
 using Imago.Services;
@@ -23,9 +24,9 @@ namespace Imago.Models.Base
                 if (this is Attribute)
                     increaseInfo = IncreaseServices.GetIncreaseInfo(IncreaseType.Attribute, value);
                 if (this is SkillGroup)
-                    increaseInfo = IncreaseServices.GetIncreaseInfo(IncreaseType.Attribute, value);
+                    increaseInfo = IncreaseServices.GetIncreaseInfo(IncreaseType.SkillGroup, value);
                 if (this is Skill) 
-                    increaseInfo = IncreaseServices.GetIncreaseInfo(IncreaseType.Attribute, value);
+                    increaseInfo = IncreaseServices.GetIncreaseInfo(IncreaseType.Skill, value);
 
                 ExperienceValue = increaseInfo.LeftoverExperience;
                 IncreaseValue = increaseInfo.IncreaseLevel;
@@ -41,6 +42,8 @@ namespace Imago.Models.Base
                     skillGroup.RecalculateFinalValue();
                 if (this is Skill skill) 
                     skill.RecalculateFinalValue();
+
+                OnPropertyChanged(nameof(FinalValue));
             }
         }
 

@@ -157,32 +157,45 @@ namespace Imago.ViewModels
             return true;
         }
 
-        private IEnumerable<SkillGroupType> AddExperienceToSkillGroup(SkillGroup skillGroup, int experience)
+        public void SetExperienceToAttribute(Attribute attribute, int experience)
+        {
+            attribute.TotalExperience = experience;
+            UpdateNewFinalValueOfAttribute(attribute);
+        }
+
+        private int SetExperienceToSkillGroup(SkillGroup skillGroup, int experience)
         {
             var oldIncreaseValue = skillGroup.IncreaseValue;
             skillGroup.TotalExperience += experience;
             var newIncreaseValue = skillGroup.IncreaseValue;
             var openAttributeExperience = newIncreaseValue - oldIncreaseValue;
-
-            for (var i = 0; i < openAttributeExperience; i++)
-            {
-                yield return skillGroup.Type;
-            }
+            return openAttributeExperience;
         }
 
-        public IEnumerable<SkillGroupType> AddExperienceToSkill(Skill skill, SkillGroup skillGroup, int experience)
+        public void SetExperienceToSkill(Skill skill, SkillGroup skillGroup, int experience)
         {
             var oldIncreaseValue = skill.IncreaseValue;
-            skill.TotalExperience += experience;
+            skill.TotalExperience = experience;
             var newIncreaseValue = skill.IncreaseValue;
             var openSkillGroupExperience = newIncreaseValue - oldIncreaseValue;
-
-            skill.RecalculateFinalValue();
-
-            if (openSkillGroupExperience > 0)
-                return AddExperienceToSkillGroup(skillGroup, openSkillGroupExperience);
-
-            return new List<SkillGroupType>();
+            
+            var openAttributeExperience = SetExperienceToSkillGroup(skillGroup, openSkillGroupExperience);
+            if (openAttributeExperience > 0)
+            {
+                //add
+                for (var i = 0; i < openAttributeExperience; i++)
+                {
+                    Character.OpenAttributeIncreases.Add(skillGroup.Type);
+                }
+            }
+            else if (openAttributeExperience < 0)
+            {
+                //remove
+                for (var i = 0; i < (openAttributeExperience *-1); i++)
+                {
+                    Character.OpenAttributeIncreases.Remove(skillGroup.Type);
+                }
+            }
         }
 
         public void RemoveOneExperienceFromSkill(Skill skill)
