@@ -47,8 +47,11 @@ namespace Imago.Models.Base
             }
         }
 
+        [JsonIgnore]
         public int ExperienceValue { get; private set; }
+        [JsonIgnore]
         public int IncreaseValue { get; private set; }
+        [JsonIgnore]
         public int ExperienceForNextIncreasedRequired { get; private set; }
     }
 }

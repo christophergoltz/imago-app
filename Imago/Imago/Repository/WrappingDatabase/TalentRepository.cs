@@ -7,7 +7,7 @@ using Imago.Models.Entity;
 
 namespace Imago.Repository.WrappingDatabase
 {
-    public interface ITalentRepository : IObjectJsonRepository<TalentModel>
+    public interface ITalentRepository : IObjectJsonRepository<TalentModel, TalentEntity>
     {
         Task EnsureTables();
     }

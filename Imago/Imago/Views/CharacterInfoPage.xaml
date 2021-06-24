@@ -177,7 +177,7 @@
                                 </Label>
                             </StackLayout>
 
-                            <Grid BackgroundColor="Red" Margin="10,5,10,0">
+                            <Grid Margin="10,5,10,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="100" />

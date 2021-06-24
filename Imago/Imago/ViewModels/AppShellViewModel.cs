@@ -2,13 +2,18 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Windows.Input;
 using Imago.Util;
+using Imago.Views;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace Imago.ViewModels
 {
     public class AppShellViewModel : BindableBase
     {
+        public ICommand GoToMainMenuCommand { get; }
+
         private bool _editMode;
         private string _version;
         public event EventHandler<bool> EditModeChanged;
@@ -17,6 +22,11 @@ namespace Imago.ViewModels
         {
             VersionTracking.Track();
             Version = VersionTracking.CurrentVersion;
+
+            GoToMainMenuCommand = new Command(async () =>
+            {
+                await Shell.Current.GoToAsync($"//{nameof(StartPage)}");
+            });
         }
 
         public string Version

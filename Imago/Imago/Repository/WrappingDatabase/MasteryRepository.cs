@@ -7,7 +7,7 @@ using Imago.Models.Entity;
 
 namespace Imago.Repository.WrappingDatabase
 {
-    public interface IMasteryRepository : IObjectJsonRepository<MasteryModel>
+    public interface IMasteryRepository : IObjectJsonRepository<MasteryModel, MasteryEntity>
     {
         Task EnsureTables();
     }

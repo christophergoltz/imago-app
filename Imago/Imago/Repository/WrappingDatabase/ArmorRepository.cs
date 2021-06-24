@@ -12,7 +12,7 @@ using SQLite;
 
 namespace Imago.Repository.WrappingDatabase
 {
-    public interface IArmorRepository : IObjectJsonRepository<ArmorSet>
+    public interface IArmorRepository : IObjectJsonRepository<ArmorSet, ArmorSetEntity>
     {
         Task EnsureTables();
     }

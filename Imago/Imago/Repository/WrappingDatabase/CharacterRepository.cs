@@ -2,30 +2,41 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading.Tasks;
 using Imago.Models;
+using Imago.Models.Entity;
 using Imago.Models.Enum;
 using Newtonsoft.Json;
 using Attribute = Imago.Models.Attribute;
 
-namespace Imago.Repository
+namespace Imago.Repository.WrappingDatabase
 {
-    public interface ICharacterRepository
+    public interface ICharacterRepository : IObjectJsonRepository<Character, CharacterEntity>
     {
+        Task EnsureTables();
+
         Character CreateNewCharacter();
 
         Character CreateExampleCharacter();
     }
 
-    public class CharacterRepository : ICharacterRepository
+    public class CharacterRepository : ObjectJsonRepositoryBase<Character, CharacterEntity>, ICharacterRepository
     {
+        public CharacterRepository(string databaseFolder) : base(databaseFolder, "Imago_Character.db3")
+        {
+        }
+
+        public async Task EnsureTables()
+        {
+            await Database.CreateTableAsync<CharacterEntity>();
+        }
+
         public Character CreateNewCharacter()
         {
             var character = new Character
             {
                 Attributes = CreateAttributes(),
                 SkillGroups = new Dictionary<SkillGroupModelType, SkillGroupModel>(),
-                CreatedAt = DateTime.Now,
-                LastModifiedAt = DateTime.Now,
                 Id = Guid.NewGuid(),
                 OpenAttributeIncreases = new List<SkillGroupModelType>(),
                 RaceType = RaceType.Mensch,
@@ -86,7 +97,7 @@ namespace Imago.Repository
                 }
             };
         }
-        
+
         private List<Attribute> CreateAttributes()
         {
             return new List<Attribute>
@@ -97,7 +108,7 @@ namespace Imago.Repository
                 new Attribute(AttributeType.Intelligenz) ,
                 new Attribute(AttributeType.Willenskraft),
                 new Attribute(AttributeType.Charisma) ,
-                new Attribute(AttributeType.Wahrnehmung) 
+                new Attribute(AttributeType.Wahrnehmung)
             };
         }
 
@@ -107,11 +118,11 @@ namespace Imago.Repository
             {
                 Skills = CreateSkills(modelType)
             };
-            
+
             return skillGroup;
         }
 
-        public List<SkillModel> CreateSkills(SkillGroupModelType groupModelType)
+        private List<SkillModel> CreateSkills(SkillGroupModelType groupModelType)
         {
             switch (groupModelType)
             {

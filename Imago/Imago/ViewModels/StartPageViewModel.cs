@@ -15,6 +15,7 @@ using Imago.Repository.WrappingDatabase;
 using Imago.Services;
 using Imago.Util;
 using Imago.Views;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace Imago.ViewModels
@@ -22,7 +23,6 @@ namespace Imago.ViewModels
     public class StartPageViewModel : BindableBase
     {
         private readonly ICharacterRepository _characterRepository;
-        private readonly IWikiParseService _wikiParseService;
         private readonly IMeleeWeaponRepository _meleeWeaponRepository;
         private readonly IRangedWeaponRepository _rangedWeaponRepository;
         private readonly IArmorRepository _armorRepository;
@@ -32,8 +32,18 @@ namespace Imago.ViewModels
         private readonly IMasteryRepository _masteryRepository;
         private readonly IRuleRepository _ruleRepository;
         private Dictionary<TableInfoType, TableInfoModel> _tableInfos;
+        private ObservableCollection<CharacterEntity> _characters;
+
+        public ObservableCollection<CharacterEntity> Characters
+        {
+            get => _characters;
+            set => SetProperty(ref _characters, value);
+        }
 
         public ICommand ParseDataFromWikiCommand { get; }
+        public ICommand OpenCharacterCommand { get; }
+        public ICommand TestCharacterCommand { get; }
+        public ICommand NewCharacterCommand { get; }
 
         public StartPageViewModel(ICharacterRepository characterRepository,
             IWikiParseService wikiParseService,
@@ -46,8 +56,9 @@ namespace Imago.ViewModels
             IMasteryRepository masteryRepository,
             IRuleRepository ruleRepository)
         {
+            VersionTracking.Track();
+
             _characterRepository = characterRepository;
-            _wikiParseService = wikiParseService;
             _meleeWeaponRepository = meleeWeaponRepository;
             _rangedWeaponRepository = rangedWeaponRepository;
             _armorRepository = armorRepository;
@@ -56,7 +67,34 @@ namespace Imago.ViewModels
             _shieldRepository = shieldRepository;
             _masteryRepository = masteryRepository;
             _ruleRepository = ruleRepository;
-            TestCharacterCommand = new Command(OnTestCharacterClicked);
+            
+            TestCharacterCommand = new Command(async () =>
+            {
+                var newGuid = Guid.NewGuid();
+
+                var newChar = _characterRepository.CreateExampleCharacter();
+                newChar.Name = "Testspieler";
+                newChar.RaceType = RaceType.Mensch;
+                newChar.CreatedBy = "System";
+                newChar.Owner = "Testuser";
+                newChar.Id = newGuid;
+                
+                var x = VersionTracking.CurrentVersion;
+
+                Version xx = Version.Parse(x);
+
+                var versionString = xx.ToString();
+                await _characterRepository.AddItemRawAsync(new CharacterEntity()
+                {
+                    CreatedAt = DateTime.Now,
+                    Value = newChar,
+                    Name = newChar.Name,
+                    LastModifiedAt = DateTime.Now,
+                    Id = newGuid,
+                    Version = versionString
+                });
+                 await RefreshCharacterList();
+            });
 
             ParseDataFromWikiCommand = new Command(async () =>
             {
@@ -64,11 +102,14 @@ namespace Imago.ViewModels
 
                 foreach (var tableInfoModel in TableInfos.Values)
                 {
+                    if(tableInfoModel.Type == TableInfoType.Character)
+                        continue;
+                    
                     try
                     {
                         tableInfoModel.State = TableInfoState.Loading;
                         await Task.Delay(200);
-                        var result = await _wikiParseService.RefreshWikiData(tableInfoModel.Type, WikiParseLog);
+                        var result = await wikiParseService.RefreshWikiData(tableInfoModel.Type, WikiParseLog);
                         if (result == null)
                         {
                             tableInfoModel.State = TableInfoState.Error;
@@ -102,16 +143,68 @@ namespace Imago.ViewModels
             InitLocalDatabase(); //needs to be executed in background
 #pragma warning restore 4014
 
-            NewCharacterCommand = new Command(async () =>
+            OpenCharacterCommand = new Command<CharacterEntity>(async entity =>
             {
-                var newChar = _characterRepository.CreateExampleCharacter();
-                var vm = new CharacterViewModel(newChar, _ruleRepository)
-                {
-                    EditMode = true
-                };
-
+                var c = entity.Value;
+                var vm = new CharacterViewModel(c, _ruleRepository);
                 App.CurrentCharacter = vm;
                 await Shell.Current.GoToAsync($"//{nameof(CharacterInfoPage)}");
+            });
+
+            NewCharacterCommand = new Command(async () =>
+            {
+                var newGuid = Guid.NewGuid();
+
+                var newChar = _characterRepository.CreateNewCharacter();
+                newChar.Name = newGuid.ToString();
+                newChar.RaceType = RaceType.Mensch;
+                newChar.Id = newGuid;
+
+                var x = VersionTracking.CurrentVersion;
+
+                Version xx = Version.Parse(x);
+
+                var versionString = xx.ToString();
+
+                var entity = new CharacterEntity()
+                {
+                    CreatedAt = DateTime.Now,
+                    Value = newChar,
+                    Name = newChar.Name,
+                    LastModifiedAt = DateTime.Now,
+                    Id = newGuid,
+                    Version = versionString
+                };
+                await _characterRepository.AddItemRawAsync(entity);
+                await RefreshCharacterList();
+
+
+                //use different open method
+                var c = entity.Value;
+                var vm = new CharacterViewModel(c, _ruleRepository);
+             //   vm.EditMode = true;
+                App.CurrentCharacter = vm;
+                await Shell.Current.GoToAsync($"//{nameof(CharacterInfoPage)}");
+
+                Element ce = Shell.Current.CurrentPage;
+
+                while (true)
+                {
+                    if (ce is AppShell shell)
+                    {
+                        if (shell.BindingContext is AppShellViewModel appShellViewModel)
+                        {
+                            appShellViewModel.EditMode = true;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        ce = ce.Parent;
+                    }
+                }
+
+
             });
         }
 
@@ -128,6 +221,7 @@ namespace Imago.ViewModels
                 await _specialWeaponRepository.EnsureTables();
                 await _shieldRepository.EnsureTables();
                 await _masteryRepository.EnsureTables();
+                await _characterRepository.EnsureTables();
             }
             catch (Exception e)
             {
@@ -140,6 +234,13 @@ namespace Imago.ViewModels
             TableInfos = list.ToDictionary(model => model.Type, model => model);
 
             await RefreshDatabaseInfos();
+            await RefreshCharacterList();
+        }
+
+        private async Task RefreshCharacterList()
+        {
+            var characterEntities = await _characterRepository.GetAllItemsRawAsync();
+            Characters = new ObservableCollection<CharacterEntity>(characterEntities.OrderByDescending(entity => entity.LastModifiedAt));
         }
 
         private async Task RefreshDatabaseInfos()
@@ -176,6 +277,10 @@ namespace Imago.ViewModels
                         tableInfo.Count = await _masteryRepository.GetItemsCount();
                         tableInfo.TimeStamp = _masteryRepository.GetLastChangedDate();
                         break;
+                    case TableInfoType.Character:
+                        tableInfo.Count = await _characterRepository.GetItemsCount();
+                        tableInfo.TimeStamp = _characterRepository.GetLastChangedDate();
+                        break;
                 }
 
                 if (tableInfo.Count == 0)
@@ -194,20 +299,6 @@ namespace Imago.ViewModels
             set => SetProperty(ref _tableInfos, value);
         }
 
-        public Command TestCharacterCommand { get; }
-        public Command NewCharacterCommand { get; }
 
-        private async void OnTestCharacterClicked(object obj)
-        {
-            var newChar = _characterRepository.CreateExampleCharacter();
-
-            newChar.Name = "Testspieler";
-            newChar.RaceType = RaceType.Mensch;
-            newChar.CreatedBy = "System";
-            newChar.Owner = "Testuser";
-
-            App.CurrentCharacter = new CharacterViewModel(newChar, _ruleRepository);
-            await Shell.Current.GoToAsync($"//{nameof(CharacterInfoPage)}");
-        }
     }
 }
