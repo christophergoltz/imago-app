@@ -6,18 +6,19 @@ using Imago.Models.Enum;
 
 namespace Imago.Models
 {
-    public class SkillGroup : DependentBase
+    public class SkillModel : DependentBase
     {
-        public SkillGroupType Type { get; set; }
+        public SkillModel()
+        {
+            
+        }
 
-        public SkillGroup() { }
+        public SkillModelType Type { get; set; }
 
-        public SkillGroup(SkillGroupType type)
+        public SkillModel(SkillModelType type)
         {
             Type = type;
         }
-
-        public List<Skill> Skills { get; set; }
 
         public override string ToString()
         {

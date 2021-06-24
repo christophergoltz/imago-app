@@ -21,12 +21,12 @@ namespace Imago.Views.CustomControls
        
         public static readonly BindableProperty SkillGroupProperty = BindableProperty.Create(
             "SkillGroup",        // the name of the bindable property
-            typeof(SkillGroup),     // the bindable property type
+            typeof(SkillGroupModel),     // the bindable property type
             typeof(SkillGroupView));
 
-        public SkillGroup SkillGroup
+        public SkillGroupModel SkillGroup
         {
-            get => (SkillGroup)GetValue(SkillGroupProperty);
+            get => (SkillGroupModel)GetValue(SkillGroupProperty);
             set => SetValue(SkillGroupProperty, value);
         }
         
@@ -56,7 +56,7 @@ namespace Imago.Views.CustomControls
         
         public ICommand SkillBaseTapCommand => new Command<IncreasableBase>(parameter =>
         {
-            if (parameter is SkillGroup group)
+            if (parameter is SkillGroupModel group)
             {
                 if (OpenSkillGroupCommand == null) 
                     return;
@@ -67,7 +67,7 @@ namespace Imago.Views.CustomControls
                 return;
             }
             
-            if (parameter is Skill skill)
+            if (parameter is SkillModel skill)
             {
                 if (OpenSkillCommand == null)
                     return;

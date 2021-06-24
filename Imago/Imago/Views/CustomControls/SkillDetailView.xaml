@@ -184,7 +184,7 @@
             </Grid.RowDefinitions>
 
             <StackLayout VerticalOptions="Center"  Grid.Column="0" Grid.Row="0" Orientation="Horizontal">
-                <Label  Text="{Binding SkillDetailViewModel.Skill.Type, Converter={StaticResource EnumToDisplayTextConverter}}"
+                <Label  Text="{Binding SkillDetailViewModel.SkillModel.Type, Converter={StaticResource EnumToDisplayTextConverter}}"
                             Margin="5,5,0,0" FontAttributes="Bold" FontSize="28"/>
                 <Button Margin="20,8,0,0" VerticalOptions="Center" Text="Wiki &#8599;" FontSize="20" 
                             Padding="7,3" Background="limegreen" 
@@ -201,7 +201,7 @@
 
             <StackLayout Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
                 <Label FontSize="20" VerticalOptions="Center"  Text="GW: " FontAttributes="Bold"/>
-                <Label FontSize="20" VerticalOptions="Center"  Text="{Binding SkillDetailViewModel.Skill.BaseValue}"/>
+                <Label FontSize="20" VerticalOptions="Center"  Text="{Binding SkillDetailViewModel.SkillModel.BaseValue}"/>
             </StackLayout>
 
             <StackLayout Grid.Column="2" Grid.Row="0" Orientation="Horizontal">
@@ -212,7 +212,7 @@
 
             <StackLayout Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
                 <Label FontSize="20"  VerticalOptions="Center" Text="SW: " FontAttributes="Bold"/>
-                <Label FontSize="20" VerticalOptions="Center"  Text="{Binding SkillDetailViewModel.Skill.IncreaseValue}"/>
+                <Label FontSize="20" VerticalOptions="Center"  Text="{Binding SkillDetailViewModel.SkillModel.IncreaseValue}"/>
             </StackLayout>
 
             <StackLayout Grid.Column="2" Grid.Row="1" Orientation="Horizontal" VerticalOptions="Center">
@@ -220,8 +220,8 @@
                 <Label FontSize="20"  VerticalOptions="Center" >
                     <Label.Text>
                         <MultiBinding StringFormat="{}{0}/{1}">
-                            <Binding Path="SkillDetailViewModel.Skill.ExperienceValue"/>
-                            <Binding Path="SkillDetailViewModel.Skill.ExperienceForNextIncreasedRequired"/>
+                            <Binding Path="SkillDetailViewModel.SkillModel.ExperienceValue"/>
+                            <Binding Path="SkillDetailViewModel.SkillModel.ExperienceForNextIncreasedRequired"/>
                         </MultiBinding>
                     </Label.Text>
                 </Label>
@@ -231,7 +231,7 @@
                     <Button.Style>
                         <Style TargetType="Button">
                             <Style.Triggers>
-                                <DataTrigger TargetType="Button" Binding="{Binding SkillDetailViewModel.Skill.ExperienceValue}" Value="0" >
+                                <DataTrigger TargetType="Button" Binding="{Binding SkillDetailViewModel.SkillModel.ExperienceValue}" Value="0" >
                                     <Setter Property="IsEnabled" Value="False"/>
                                 </DataTrigger>
                             </Style.Triggers>
@@ -256,7 +256,7 @@
 
             <StackLayout Grid.Column="3" Grid.RowSpan="2"  Grid.Row="0" Orientation="Horizontal">
                 <Label FontSize="28"  VerticalOptions="Center" Text="FW: " FontAttributes="Bold"/>
-                <Label FontSize="28" VerticalOptions="Center" Text="{Binding SkillDetailViewModel.Skill.FinalValue}"/>
+                <Label FontSize="28" VerticalOptions="Center" Text="{Binding SkillDetailViewModel.SkillModel.FinalValue}"/>
             </StackLayout>
 
 

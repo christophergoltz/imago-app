@@ -56,8 +56,8 @@
                     <Label>
                         <Label.Text>
                             <MultiBinding StringFormat="{}{0}/{1}">
-                                <Binding Path="ExperienceValue" Source="{RelativeSource AncestorType={x:Type models:SkillGroup}}"/>
-                                <Binding Path="ExperienceForNextIncreasedRequired" Source="{RelativeSource AncestorType={x:Type models:SkillGroup}}"/>
+                                <Binding Path="ExperienceValue" Source="{RelativeSource AncestorType={x:Type models:SkillGroupModel}}"/>
+                                <Binding Path="ExperienceForNextIncreasedRequired" Source="{RelativeSource AncestorType={x:Type models:SkillGroupModel}}"/>
                             </MultiBinding>
                         </Label.Text>
                     </Label>
@@ -89,7 +89,7 @@
                     </Grid>
                 </ListView.Header>
                 <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="models:Skill">
+                    <DataTemplate x:DataType="models:SkillModel">
                         <ViewCell>
                             <Grid Padding="10,0,10,3">
                                 <Grid.GestureRecognizers>
@@ -106,8 +106,8 @@
                                 <Label Grid.Column="1" FontSize="18" VerticalOptions="Center" HorizontalOptions="Center">
                                     <Label.Text>
                                         <MultiBinding StringFormat="{}{0}/{1}">
-                                            <Binding Path="ExperienceValue"  Source="{RelativeSource AncestorType={x:Type models:Skill}}"/>
-                                            <Binding Path="ExperienceForNextIncreasedRequired" Source="{RelativeSource AncestorType={x:Type models:Skill}}"/>
+                                            <Binding Path="ExperienceValue"  Source="{RelativeSource AncestorType={x:Type models:SkillModel}}"/>
+                                            <Binding Path="ExperienceForNextIncreasedRequired" Source="{RelativeSource AncestorType={x:Type models:SkillModel}}"/>
                                         </MultiBinding>
                                     </Label.Text>
                                 </Label>

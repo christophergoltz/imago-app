@@ -8,24 +8,24 @@ namespace Imago.ViewModels
 {
     public class SkillExperienceViewModel : BindableBase
     {
-        private readonly SkillGroup _skillGroup;
+        private readonly SkillGroupModel _skillGroupModel;
         private readonly CharacterViewModel _characterViewModel;
        
-        public Skill Skill { get; private set; }
+        public SkillModel SkillModel { get; private set; }
 
-        public SkillExperienceViewModel(Skill skill, SkillGroup skillGroup,  CharacterViewModel characterViewModel)
+        public SkillExperienceViewModel(SkillModel skillModel, SkillGroupModel skillGroupModel,  CharacterViewModel characterViewModel)
         {
-            _skillGroup = skillGroup;
+            _skillGroupModel = skillGroupModel;
             _characterViewModel = characterViewModel;
-            Skill = skill;
+            SkillModel = skillModel;
         }
 
         public int TotalExperienceValue
         {
-            get => Skill.TotalExperience;
+            get => SkillModel.TotalExperience;
             set
             {
-                _characterViewModel.SetExperienceToSkill(Skill, _skillGroup, value);
+                _characterViewModel.SetExperienceToSkill(SkillModel, _skillGroupModel, value);
                 OnPropertyChanged(nameof(TotalExperienceValue));
                 OnPropertyChanged(nameof(IncreaseValue));
             }
@@ -33,7 +33,7 @@ namespace Imago.ViewModels
 
         public int IncreaseValue
         {
-            get => Skill.IncreaseValue;
+            get => SkillModel.IncreaseValue;
             set
             {
                 var experienceRequired = IncreaseServices.GetExperienceRequiredForLevel(IncreaseType.Skill, value);

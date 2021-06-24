@@ -30,9 +30,9 @@ namespace Imago.Models
         public int FreeSkillExperience { get; set; }
 
         public List<Attribute> Attributes { get; set; }
-        public Dictionary<SkillGroupType, SkillGroup> SkillGroups { get; set; }
+        public Dictionary<SkillGroupModelType, SkillGroupModel> SkillGroups { get; set; }
 
-        public List<SkillGroupType> OpenAttributeIncreases { get; set; }
+        public List<SkillGroupModelType> OpenAttributeIncreases { get; set; }
 
         public Dictionary<BodyPartType, BodyPart> BodyParts { get; set; }
 

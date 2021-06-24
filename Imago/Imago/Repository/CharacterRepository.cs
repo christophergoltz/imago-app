@@ -23,11 +23,11 @@ namespace Imago.Repository
             var character = new Character
             {
                 Attributes = CreateAttributes(),
-                SkillGroups = new Dictionary<SkillGroupType, SkillGroup>(),
+                SkillGroups = new Dictionary<SkillGroupModelType, SkillGroupModel>(),
                 CreatedAt = DateTime.Now,
                 LastModifiedAt = DateTime.Now,
                 Id = Guid.NewGuid(),
-                OpenAttributeIncreases = new List<SkillGroupType>(),
+                OpenAttributeIncreases = new List<SkillGroupModelType>(),
                 RaceType = RaceType.Mensch,
                 BodyParts = CreateBodyParts(),
                 Weapons = new ObservableCollection<Weapon>(),
@@ -36,14 +36,14 @@ namespace Imago.Repository
             };
 
             //add skillgroups
-            character.SkillGroups.Add(SkillGroupType.Nahkampf, CreateSkillGroups(SkillGroupType.Nahkampf));
-            character.SkillGroups.Add(SkillGroupType.Heimlichkeit, CreateSkillGroups(SkillGroupType.Heimlichkeit));
-            character.SkillGroups.Add(SkillGroupType.Fernkampf, CreateSkillGroups(SkillGroupType.Fernkampf));
-            character.SkillGroups.Add(SkillGroupType.Bewegung, CreateSkillGroups(SkillGroupType.Bewegung));
-            character.SkillGroups.Add(SkillGroupType.Handwerk, CreateSkillGroups(SkillGroupType.Handwerk));
-            character.SkillGroups.Add(SkillGroupType.Soziales, CreateSkillGroups(SkillGroupType.Soziales));
-            character.SkillGroups.Add(SkillGroupType.Webkunst, CreateSkillGroups(SkillGroupType.Webkunst));
-            character.SkillGroups.Add(SkillGroupType.Wissenschaft, CreateSkillGroups(SkillGroupType.Wissenschaft));
+            character.SkillGroups.Add(SkillGroupModelType.Nahkampf, CreateSkillGroups(SkillGroupModelType.Nahkampf));
+            character.SkillGroups.Add(SkillGroupModelType.Heimlichkeit, CreateSkillGroups(SkillGroupModelType.Heimlichkeit));
+            character.SkillGroups.Add(SkillGroupModelType.Fernkampf, CreateSkillGroups(SkillGroupModelType.Fernkampf));
+            character.SkillGroups.Add(SkillGroupModelType.Bewegung, CreateSkillGroups(SkillGroupModelType.Bewegung));
+            character.SkillGroups.Add(SkillGroupModelType.Handwerk, CreateSkillGroups(SkillGroupModelType.Handwerk));
+            character.SkillGroups.Add(SkillGroupModelType.Soziales, CreateSkillGroups(SkillGroupModelType.Soziales));
+            character.SkillGroups.Add(SkillGroupModelType.Webkunst, CreateSkillGroups(SkillGroupModelType.Webkunst));
+            character.SkillGroups.Add(SkillGroupModelType.Wissenschaft, CreateSkillGroups(SkillGroupModelType.Wissenschaft));
 
             return character;
         }
@@ -101,111 +101,111 @@ namespace Imago.Repository
             };
         }
 
-        private SkillGroup CreateSkillGroups(SkillGroupType type)
+        private SkillGroupModel CreateSkillGroups(SkillGroupModelType modelType)
         {
-            var skillGroup = new SkillGroup(type)
+            var skillGroup = new SkillGroupModel(modelType)
             {
-                Skills = CreateSkills(type)
+                Skills = CreateSkills(modelType)
             };
             
             return skillGroup;
         }
 
-        public List<Skill> CreateSkills(SkillGroupType groupType)
+        public List<SkillModel> CreateSkills(SkillGroupModelType groupModelType)
         {
-            switch (groupType)
+            switch (groupModelType)
             {
-                case SkillGroupType.Bewegung:
-                    return new List<Skill>
+                case SkillGroupModelType.Bewegung:
+                    return new List<SkillModel>
                     {
-                        new Skill(SkillType.Ausweichen),
-                        new Skill(SkillType.Klettern),
-                        new Skill(SkillType.Koerperbeherrschung),
-                        new Skill(SkillType.Laufen),
-                        new Skill(SkillType.Reiten),
-                        new Skill(SkillType.Schwimmen),
-                        new Skill(SkillType.Springen),
-                        new Skill(SkillType.Tanzen)
+                        new SkillModel(SkillModelType.Ausweichen),
+                        new SkillModel(SkillModelType.Klettern),
+                        new SkillModel(SkillModelType.Koerperbeherrschung),
+                        new SkillModel(SkillModelType.Laufen),
+                        new SkillModel(SkillModelType.Reiten),
+                        new SkillModel(SkillModelType.Schwimmen),
+                        new SkillModel(SkillModelType.Springen),
+                        new SkillModel(SkillModelType.Tanzen)
                     };
-                case SkillGroupType.Nahkampf:
-                    return new List<Skill>
+                case SkillGroupModelType.Nahkampf:
+                    return new List<SkillModel>
                     {
-                        new Skill(SkillType.Dolche) ,
-                        new Skill(SkillType.Hiebwaffen),
-                        new Skill(SkillType.Schilde),
-                        new Skill(SkillType.Schwerter),
-                        new Skill(SkillType.StaebeSpeere),
-                        new Skill(SkillType.Waffenlos),
-                        new Skill(SkillType.Zweihaender),
+                        new SkillModel(SkillModelType.Dolche) ,
+                        new SkillModel(SkillModelType.Hiebwaffen),
+                        new SkillModel(SkillModelType.Schilde),
+                        new SkillModel(SkillModelType.Schwerter),
+                        new SkillModel(SkillModelType.StaebeSpeere),
+                        new SkillModel(SkillModelType.Waffenlos),
+                        new SkillModel(SkillModelType.Zweihaender),
                     };
-                case SkillGroupType.Heimlichkeit:
-                    return new List<Skill>
+                case SkillGroupModelType.Heimlichkeit:
+                    return new List<SkillModel>
                     {
-                        new Skill(SkillType.Schleichen),
-                        new Skill(SkillType.Sicherheit),
-                        new Skill(SkillType.SpurenLesen),
-                        new Skill(SkillType.Taschendiebstahl),
-                        new Skill(SkillType.Verstecken),
-                        new Skill(SkillType.Verbergen),
-                        new Skill(SkillType.Verkleiden),
+                        new SkillModel(SkillModelType.Schleichen),
+                        new SkillModel(SkillModelType.Sicherheit),
+                        new SkillModel(SkillModelType.SpurenLesen),
+                        new SkillModel(SkillModelType.Taschendiebstahl),
+                        new SkillModel(SkillModelType.Verstecken),
+                        new SkillModel(SkillModelType.Verbergen),
+                        new SkillModel(SkillModelType.Verkleiden),
                     };
-                case SkillGroupType.Fernkampf:
-                    return new List<Skill>
+                case SkillGroupModelType.Fernkampf:
+                    return new List<SkillModel>
                     {
-                        new Skill(SkillType.Armbrueste),
-                        new Skill(SkillType.Blasrohre),
-                        new Skill(SkillType.Boegen),
-                        new Skill(SkillType.Schleuder),
-                        new Skill(SkillType.Wurfgeschosse),
-                        new Skill(SkillType.Wurfwaffen),
+                        new SkillModel(SkillModelType.Armbrueste),
+                        new SkillModel(SkillModelType.Blasrohre),
+                        new SkillModel(SkillModelType.Boegen),
+                        new SkillModel(SkillModelType.Schleuder),
+                        new SkillModel(SkillModelType.Wurfgeschosse),
+                        new SkillModel(SkillModelType.Wurfwaffen),
                     };
-                case SkillGroupType.Webkunst:
-                    return new List<Skill>
+                case SkillGroupModelType.Webkunst:
+                    return new List<SkillModel>
                     {
-                        new Skill(SkillType.Bewusstsein),
-                        new Skill(SkillType.Chaos),
-                        new Skill(SkillType.Einfalt),
-                        new Skill(SkillType.Ekstase),
-                        new Skill(SkillType.Kontrolle),
-                        new Skill(SkillType.Leere),
-                        new Skill(SkillType.Materie),
-                        new Skill(SkillType.Struktur),
+                        new SkillModel(SkillModelType.Bewusstsein),
+                        new SkillModel(SkillModelType.Chaos),
+                        new SkillModel(SkillModelType.Einfalt),
+                        new SkillModel(SkillModelType.Ekstase),
+                        new SkillModel(SkillModelType.Kontrolle),
+                        new SkillModel(SkillModelType.Leere),
+                        new SkillModel(SkillModelType.Materie),
+                        new SkillModel(SkillModelType.Struktur),
                     };
-                case SkillGroupType.Wissenschaft:
-                    return new List<Skill>
+                case SkillGroupModelType.Wissenschaft:
+                    return new List<SkillModel>
                     {
-                        new Skill(SkillType.Anatomie),
-                        new Skill(SkillType.Literatur),
-                        new Skill(SkillType.Mathematik),
-                        new Skill(SkillType.Philosophie),
-                        new Skill(SkillType.Physik),
-                        new Skill(SkillType.Soziologie),
-                        new Skill(SkillType.Sphaerologie),
-                        new Skill(SkillType.WirtschaftRecht),
+                        new SkillModel(SkillModelType.Anatomie),
+                        new SkillModel(SkillModelType.Literatur),
+                        new SkillModel(SkillModelType.Mathematik),
+                        new SkillModel(SkillModelType.Philosophie),
+                        new SkillModel(SkillModelType.Physik),
+                        new SkillModel(SkillModelType.Soziologie),
+                        new SkillModel(SkillModelType.Sphaerologie),
+                        new SkillModel(SkillModelType.WirtschaftRecht),
                     };
-                case SkillGroupType.Handwerk:
-                    return new List<Skill>
+                case SkillGroupModelType.Handwerk:
+                    return new List<SkillModel>
                     {
-                        new Skill(SkillType.Alchemie),
-                        new Skill(SkillType.Heiler),
-                        new Skill(SkillType.Naturkunde),
-                        new Skill(SkillType.Sprache),
-                        new Skill(SkillType.Strategie),
-                        new Skill(SkillType.Wundscher),
+                        new SkillModel(SkillModelType.Alchemie),
+                        new SkillModel(SkillModelType.Heiler),
+                        new SkillModel(SkillModelType.Naturkunde),
+                        new SkillModel(SkillModelType.Sprache),
+                        new SkillModel(SkillModelType.Strategie),
+                        new SkillModel(SkillModelType.Wundscher),
                     };
-                case SkillGroupType.Soziales:
-                    return new List<Skill>
+                case SkillGroupModelType.Soziales:
+                    return new List<SkillModel>
                     {
-                        new Skill(SkillType.Anfuehren),
-                        new Skill(SkillType.Ausdruck),
-                        new Skill(SkillType.Einschuechtern),
-                        new Skill(SkillType.Empathie),
-                        new Skill(SkillType.Gesellschafter),
-                        new Skill(SkillType.Manipulation),
-                        new Skill(SkillType.SozialeAdaption),
+                        new SkillModel(SkillModelType.Anfuehren),
+                        new SkillModel(SkillModelType.Ausdruck),
+                        new SkillModel(SkillModelType.Einschuechtern),
+                        new SkillModel(SkillModelType.Empathie),
+                        new SkillModel(SkillModelType.Gesellschafter),
+                        new SkillModel(SkillModelType.Manipulation),
+                        new SkillModel(SkillModelType.SozialeAdaption),
                     };
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(groupType), groupType, null);
+                    throw new ArgumentOutOfRangeException(nameof(groupModelType), groupModelType, null);
             }
 
         }

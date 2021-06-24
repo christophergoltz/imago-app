@@ -23,9 +23,9 @@ namespace Imago.Models.Base
 
                 if (this is Attribute)
                     increaseInfo = IncreaseServices.GetIncreaseInfo(IncreaseType.Attribute, value);
-                if (this is SkillGroup)
+                if (this is SkillGroupModel)
                     increaseInfo = IncreaseServices.GetIncreaseInfo(IncreaseType.SkillGroup, value);
-                if (this is Skill) 
+                if (this is SkillModel) 
                     increaseInfo = IncreaseServices.GetIncreaseInfo(IncreaseType.Skill, value);
 
                 ExperienceValue = increaseInfo.LeftoverExperience;
@@ -38,9 +38,9 @@ namespace Imago.Models.Base
 
                 if (this is Attribute attribute)
                     attribute.RecalculateFinalValue();
-                if (this is SkillGroup skillGroup) 
+                if (this is SkillGroupModel skillGroup) 
                     skillGroup.RecalculateFinalValue();
-                if (this is Skill skill) 
+                if (this is SkillModel skill) 
                     skill.RecalculateFinalValue();
 
                 OnPropertyChanged(nameof(FinalValue));

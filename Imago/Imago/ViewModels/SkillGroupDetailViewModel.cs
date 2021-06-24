@@ -21,7 +21,7 @@ namespace Imago.ViewModels
 
         private readonly CharacterViewModel _characterViewModel;
         private readonly IWikiService _wikiService;
-        public SkillGroup SkillGroup { get; }
+        public SkillGroupModel SkillGroupModel { get; }
         public event EventHandler CloseRequested;
         public ICommand OpenWikiCommand { get; set; }
         public ICommand CloseCommand { get; set; }
@@ -44,25 +44,25 @@ namespace Imago.ViewModels
 
         public int SelectedSkillModification
         {
-            get => SkillGroup?.ModificationValue ?? 0;
+            get => SkillGroupModel?.ModificationValue ?? 0;
             set
             {
                 Debug.WriteLine("Set SelectedSkillModification to " + value);
-                _characterViewModel.SetModificationValue(SkillGroup, value);
+                _characterViewModel.SetModificationValue(SkillGroupModel, value);
                 OnPropertyChanged(nameof(SelectedSkillModification));
             }
         }
 
-        public SkillGroupDetailViewModel(SkillGroup skillGroup, CharacterViewModel characterViewModel, IWikiService wikiService)
+        public SkillGroupDetailViewModel(SkillGroupModel skillGroupModel, CharacterViewModel characterViewModel, IWikiService wikiService)
         {
             _characterViewModel = characterViewModel;
             _wikiService = wikiService;
-            SkillGroup = skillGroup;
-            SourceFormula = _converter.Convert(skillGroup.Type, null, null, CultureInfo.InvariantCulture).ToString();
+            SkillGroupModel = skillGroupModel;
+            SourceFormula = _converter.Convert(skillGroupModel.Type, null, null, CultureInfo.InvariantCulture).ToString();
 
             OpenWikiCommand = new Command(async () =>
             {
-                var url = wikiService.GetWikiUrl(skillGroup.Type);
+                var url = wikiService.GetWikiUrl(skillGroupModel.Type);
 
                 if (string.IsNullOrWhiteSpace(url))
                 {
@@ -86,8 +86,8 @@ namespace Imago.ViewModels
 
         private void LoadWikiPage()
         {
-            var html = _wikiService.GetMasteryHtml(SkillGroup.Type);
-            var url = _wikiService.GetWikiUrl(SkillGroup.Type);
+            var html = _wikiService.GetMasteryHtml(SkillGroupModel.Type);
+            var url = _wikiService.GetWikiUrl(SkillGroupModel.Type);
             QuickWikiView = new HtmlWebViewSource()
             {
                 BaseUrl = url,

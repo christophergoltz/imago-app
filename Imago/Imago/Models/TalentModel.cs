@@ -8,28 +8,28 @@ namespace Imago.Models
 {
     public class TalentModel : TalentBase
     {
-        private Dictionary<SkillType, int> _requirements;
-        private SkillType _targetSkill;
+        private Dictionary<SkillModelType, int> _requirements;
+        private SkillModelType _targetSkillModel;
 
         public TalentModel() : base()
         {
             
         }
 
-        public TalentModel(SkillType targetSkill, string name,string shortDescription, string description, Dictionary<SkillType, int> requirements,
+        public TalentModel(SkillModelType targetSkillModel, string name,string shortDescription, string description, Dictionary<SkillModelType, int> requirements,
             int? difficulty, bool activeUse, string phaseValueMod) : base(name, shortDescription,description, activeUse, difficulty, phaseValueMod)
         {
-            TargetSkill = targetSkill;
+            TargetSkillModel = targetSkillModel;
             Requirements = requirements;
         }
 
-        public SkillType TargetSkill
+        public SkillModelType TargetSkillModel
         {
-            get => _targetSkill;
-            set => SetProperty(ref _targetSkill, value);
+            get => _targetSkillModel;
+            set => SetProperty(ref _targetSkillModel, value);
         }
 
-        public Dictionary<SkillType, int> Requirements
+        public Dictionary<SkillModelType, int> Requirements
         {
             get => _requirements;
             set => SetProperty(ref _requirements, value);

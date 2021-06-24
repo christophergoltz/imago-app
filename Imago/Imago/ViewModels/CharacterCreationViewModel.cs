@@ -17,28 +17,28 @@ namespace Imago.ViewModels
         public List<AttributeExperienceViewModel> AttributeExperienceViewModel { get; set; }
         
         public List<SkillExperienceViewModel> SkillExperienceViewModelBewegung { get; set; }
-        public SkillGroup Bewegung => CharacterViewModel.Character.SkillGroups[SkillGroupType.Bewegung];
+        public SkillGroupModel Bewegung => CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Bewegung];
 
         public List<SkillExperienceViewModel> SkillExperienceViewModelNahkampf { get; set; }
-        public SkillGroup Nahkampf => CharacterViewModel.Character.SkillGroups[SkillGroupType.Nahkampf];
+        public SkillGroupModel Nahkampf => CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Nahkampf];
 
         public List<SkillExperienceViewModel> SkillExperienceViewModelHeimlichkeit { get; set; }
-        public SkillGroup Heimlichkeit => CharacterViewModel.Character.SkillGroups[SkillGroupType.Heimlichkeit];
+        public SkillGroupModel Heimlichkeit => CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Heimlichkeit];
 
         public List<SkillExperienceViewModel> SkillExperienceViewModelFernkampf { get; set; }
-        public SkillGroup Fernkampf => CharacterViewModel.Character.SkillGroups[SkillGroupType.Fernkampf];
+        public SkillGroupModel Fernkampf => CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Fernkampf];
 
         public List<SkillExperienceViewModel> SkillExperienceViewModelWebkunst { get; set; }
-        public SkillGroup Webkunst => CharacterViewModel.Character.SkillGroups[SkillGroupType.Webkunst];
+        public SkillGroupModel Webkunst => CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Webkunst];
 
         public List<SkillExperienceViewModel> SkillExperienceViewModelWissenschaft { get; set; }
-        public SkillGroup Wissenschaft => CharacterViewModel.Character.SkillGroups[SkillGroupType.Wissenschaft];
+        public SkillGroupModel Wissenschaft => CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Wissenschaft];
 
         public List<SkillExperienceViewModel> SkillExperienceViewModelHandwerk { get; set; }
-        public SkillGroup Handwerk => CharacterViewModel.Character.SkillGroups[SkillGroupType.Handwerk];
+        public SkillGroupModel Handwerk => CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Handwerk];
 
         public List<SkillExperienceViewModel> SkillExperienceViewModelSoziales { get; set; }
-        public SkillGroup Soziales => CharacterViewModel.Character.SkillGroups[SkillGroupType.Soziales];
+        public SkillGroupModel Soziales => CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Soziales];
 
         public int TotalAttributeExperience
         {

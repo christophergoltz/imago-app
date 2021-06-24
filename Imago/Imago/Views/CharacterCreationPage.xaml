@@ -65,7 +65,7 @@
                             <ColumnDefinition Width="50" />
                         </Grid.ColumnDefinitions>
                         <Label Grid.Row="0" FontSize="18" Grid.Column="0" VerticalOptions="Center" 
-                               Text="{Binding Skill.Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
+                               Text="{Binding SkillModel.Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
 
                         <Entry Grid.Column="1" VerticalOptions="Center" Keyboard="Numeric" FontSize="18" Text="{Binding TotalExperienceValue}"></Entry>
 
@@ -82,9 +82,9 @@
                         <Label Grid.Row="0" FontSize="18" Grid.Column="4" VerticalOptions="Center" HorizontalOptions="Center">
                             <Label.Text>
                                 <MultiBinding StringFormat="{}{0}/{1}">
-                                    <Binding Path="Skill.ExperienceValue" 
+                                    <Binding Path="SkillModel.ExperienceValue" 
                                                                  Source="{RelativeSource AncestorType={x:Type viewModels:SkillExperienceViewModel}}"/>
-                                    <Binding Path="Skill.ExperienceForNextIncreasedRequired" 
+                                    <Binding Path="SkillModel.ExperienceForNextIncreasedRequired" 
                                                                  Source="{RelativeSource AncestorType={x:Type viewModels:SkillExperienceViewModel}}"/>
                                 </MultiBinding>
                             </Label.Text>
@@ -92,7 +92,7 @@
 
                         <Label FontAttributes="Bold" Grid.Row="0" FontSize="18" Grid.Column="5" VerticalOptions="Center" 
                                HorizontalOptions="Center" 
-                               Text="{Binding Skill.FinalValue}"/>
+                               Text="{Binding SkillModel.FinalValue}"/>
                     </Grid>
                 </StackLayout>
             </DataTemplate>

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Imago.Models.Enum
 {
-    public enum SkillGroupType
+    public enum SkillGroupModelType
     {
         Unbekannt = 0,
         Bewegung = 1,

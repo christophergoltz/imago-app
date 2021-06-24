@@ -19,12 +19,12 @@ namespace Imago.Views.CustomControls
 
         public static readonly BindableProperty SkillGroupProperty = BindableProperty.Create(
             "SkillGroup",        // the name of the bindable property
-            typeof(SkillGroup),     // the bindable property type
+            typeof(SkillGroupModel),     // the bindable property type
             typeof(SkillListHeaderView));
 
-        public SkillGroup SkillGroup
+        public SkillGroupModel SkillGroup
         {
-            get => (SkillGroup)GetValue(SkillGroupProperty);
+            get => (SkillGroupModel)GetValue(SkillGroupProperty);
             set => SetValue(SkillGroupProperty, value);
         }
     }

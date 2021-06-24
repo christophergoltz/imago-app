@@ -15,7 +15,7 @@ namespace Imago.Converter
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var skillGroupType = (SkillGroupType)value;
+            var skillGroupType = (SkillGroupModelType)value;
 
             //todo meh, remove direct access to repo
             var sources = new RuleRepository().GetSkillGroupSources(skillGroupType);

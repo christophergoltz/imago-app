@@ -27,14 +27,14 @@ namespace Imago.ViewModels
         private SkillGroupDetailViewModel _skillGroupDetailViewModel;
         private SkillDetailViewModel _skillDetailViewModel;
         
-        public SkillGroup Bewegung => CharacterViewModel.Character.SkillGroups[SkillGroupType.Bewegung];
-        public SkillGroup Nahkampf => CharacterViewModel.Character.SkillGroups[SkillGroupType.Nahkampf];
-        public SkillGroup Heimlichkeit => CharacterViewModel.Character.SkillGroups[SkillGroupType.Heimlichkeit];
-        public SkillGroup Fernkampf => CharacterViewModel.Character.SkillGroups[SkillGroupType.Fernkampf];
-        public SkillGroup Webkunst => CharacterViewModel.Character.SkillGroups[SkillGroupType.Webkunst];
-        public SkillGroup Wissenschaft => CharacterViewModel.Character.SkillGroups[SkillGroupType.Wissenschaft];
-        public SkillGroup Handwerk => CharacterViewModel.Character.SkillGroups[SkillGroupType.Handwerk];
-        public SkillGroup Soziales => CharacterViewModel.Character.SkillGroups[SkillGroupType.Soziales];
+        public SkillGroupModel Bewegung => CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Bewegung];
+        public SkillGroupModel Nahkampf => CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Nahkampf];
+        public SkillGroupModel Heimlichkeit => CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Heimlichkeit];
+        public SkillGroupModel Fernkampf => CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Fernkampf];
+        public SkillGroupModel Webkunst => CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Webkunst];
+        public SkillGroupModel Wissenschaft => CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Wissenschaft];
+        public SkillGroupModel Handwerk => CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Handwerk];
+        public SkillGroupModel Soziales => CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Soziales];
 
         public ICommand OpenSkillDetailCommand { get; set; }
         public ICommand OpenSkillGroupDetailCommand { get; set; }
@@ -59,7 +59,7 @@ namespace Imago.ViewModels
             CharacterViewModel = characterViewModel;
             _ruleRepository = ruleRepository;
 
-            OpenSkillDetailCommand = new Command<(Skill Skill, SkillGroup SkillGroup)>(parameter =>
+            OpenSkillDetailCommand = new Command<(SkillModel Skill, SkillGroupModel SkillGroup)>(parameter =>
             {
                 var vm = new SkillDetailViewModel(parameter.Skill, parameter.SkillGroup, characterViewModel,
                     wikiService, masteryRepository, talentRepository, _ruleRepository);
@@ -68,7 +68,7 @@ namespace Imago.ViewModels
                 SkillDetailViewModel = vm;
             });
 
-            OpenSkillGroupDetailCommand = new Command<SkillGroup>(group =>
+            OpenSkillGroupDetailCommand = new Command<SkillGroupModel>(group =>
             {
                 var vm = new SkillGroupDetailViewModel(group, characterViewModel, wikiService);
                 vm.CloseRequested += (sender, args) => { SkillGroupDetailViewModel = null; };

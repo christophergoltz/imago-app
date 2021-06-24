@@ -94,7 +94,7 @@ namespace Imago.ViewModels
                                          _.Type == DerivedAttributeType.Traglast)
                 .ToList();
 
-        private void UpdateNewBaseValueToSkillsOfGroup(SkillGroup skillgroup)
+        private void UpdateNewBaseValueToSkillsOfGroup(SkillGroupModel skillgroup)
         {
             foreach (var skill in skillgroup.Skills)
             {
@@ -104,17 +104,17 @@ namespace Imago.ViewModels
         }
 
 
-        public void SetModificationValue(Skill skill, int modificationValue)
+        public void SetModificationValue(SkillModel skillModel, int modificationValue)
         {
-            skill.ModificationValue = modificationValue;
-            skill.RecalculateFinalValue();
+            skillModel.ModificationValue = modificationValue;
+            skillModel.RecalculateFinalValue();
         }
 
-        public void SetModificationValue(SkillGroup skillGroup, int modificationValue)
+        public void SetModificationValue(SkillGroupModel skillGroupModel, int modificationValue)
         {
-            skillGroup.ModificationValue = modificationValue;
-            skillGroup.RecalculateFinalValue();
-            UpdateNewBaseValueToSkillsOfGroup(skillGroup);
+            skillGroupModel.ModificationValue = modificationValue;
+            skillGroupModel.RecalculateFinalValue();
+            UpdateNewBaseValueToSkillsOfGroup(skillGroupModel);
         }
 
         public void SetModificationValue(Attribute attribute, int modificationValue)
@@ -137,7 +137,7 @@ namespace Imago.ViewModels
             UpdateNewFinalValueOfAttribute(attribute);
         }
 
-        public bool CheckTalentRequirement(Dictionary<SkillType, int> requirements)
+        public bool CheckTalentRequirement(Dictionary<SkillModelType, int> requirements)
         {
             foreach (var requirement in requirements)
             {
@@ -151,7 +151,7 @@ namespace Imago.ViewModels
         }
 
 
-        public bool CheckMasteryRequirement(Dictionary<SkillGroupType, int> requirements)
+        public bool CheckMasteryRequirement(Dictionary<SkillGroupModelType, int> requirements)
         {
             foreach (var requirement in requirements)
             {
@@ -170,29 +170,29 @@ namespace Imago.ViewModels
             UpdateNewFinalValueOfAttribute(attribute);
         }
 
-        private int SetExperienceToSkillGroup(SkillGroup skillGroup, int experience)
+        private int SetExperienceToSkillGroup(SkillGroupModel skillGroupModel, int experience)
         {
-            var oldIncreaseValue = skillGroup.IncreaseValue;
-            skillGroup.TotalExperience += experience;
-            var newIncreaseValue = skillGroup.IncreaseValue;
+            var oldIncreaseValue = skillGroupModel.IncreaseValue;
+            skillGroupModel.TotalExperience += experience;
+            var newIncreaseValue = skillGroupModel.IncreaseValue;
             var openAttributeExperience = newIncreaseValue - oldIncreaseValue;
             return openAttributeExperience;
         }
 
-        public void SetExperienceToSkill(Skill skill, SkillGroup skillGroup, int experience)
+        public void SetExperienceToSkill(SkillModel skillModel, SkillGroupModel skillGroupModel, int experience)
         {
-            var oldIncreaseValue = skill.IncreaseValue;
-            skill.TotalExperience = experience;
-            var newIncreaseValue = skill.IncreaseValue;
+            var oldIncreaseValue = skillModel.IncreaseValue;
+            skillModel.TotalExperience = experience;
+            var newIncreaseValue = skillModel.IncreaseValue;
             var openSkillGroupExperience = newIncreaseValue - oldIncreaseValue;
             
-            var openAttributeExperience = SetExperienceToSkillGroup(skillGroup, openSkillGroupExperience);
+            var openAttributeExperience = SetExperienceToSkillGroup(skillGroupModel, openSkillGroupExperience);
             if (openAttributeExperience > 0)
             {
                 //add
                 for (var i = 0; i < openAttributeExperience; i++)
                 {
-                    Character.OpenAttributeIncreases.Add(skillGroup.Type);
+                    Character.OpenAttributeIncreases.Add(skillGroupModel.Type);
                 }
             }
             else if (openAttributeExperience < 0)
@@ -200,15 +200,15 @@ namespace Imago.ViewModels
                 //remove
                 for (var i = 0; i < (openAttributeExperience *-1); i++)
                 {
-                    Character.OpenAttributeIncreases.Remove(skillGroup.Type);
+                    Character.OpenAttributeIncreases.Remove(skillGroupModel.Type);
                 }
             }
         }
 
-        public void RemoveOneExperienceFromSkill(Skill skill)
+        public void RemoveOneExperienceFromSkill(SkillModel skillModel)
         {
-            skill.TotalExperience -= 1;
-            skill.RecalculateFinalValue();
+            skillModel.TotalExperience -= 1;
+            skillModel.RecalculateFinalValue();
 
             //todo if sw was reduced, take exp from kategoriy
         }
