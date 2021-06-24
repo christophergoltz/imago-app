@@ -10,7 +10,8 @@
             <DataTemplate x:DataType="viewModels:SkillViewModel" x:Key="SkillModelListItemTemplate">
                 <Grid Padding="10,0,10,3">
                     <Grid.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding SkillBaseTapCommand, Source={x:Reference SkillGroupViewControl}}" CommandParameter="{Binding .}"/>
+                        <TapGestureRecognizer Command="{Binding SkillBaseTapCommand, Source={x:Reference SkillGroupViewControl}}" 
+                                              CommandParameter="{Binding Skill}"/>
                     </Grid.GestureRecognizers>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -35,9 +36,6 @@
             </DataTemplate>
             <DataTemplate x:DataType="viewModels:SkillViewModel" x:Key="SkillModelListEditItemTemplate">
                 <Grid Padding="10,0,10,3">
-                    <Grid.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding SkillBaseTapCommand, Source={x:Reference SkillGroupViewControl}}" CommandParameter="{Binding .}"/>
-                    </Grid.GestureRecognizers>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="75" />
@@ -78,7 +76,7 @@
             <Grid Grid.Column="0" Grid.Row="0" Margin="0,5">
                 <Grid.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding SkillBaseTapCommand, Source={x:Reference SkillGroupViewControl}}" 
-                                          CommandParameter="{Binding .}"/>
+                                          CommandParameter="{Binding SkillGroup}"/>
                 </Grid.GestureRecognizers>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="70*"/>

@@ -55,7 +55,7 @@ namespace Imago.Views.CustomControls
             set { SetValue(OpenSkillGroupCommandProperty, value); }
         }
         
-        public ICommand SkillBaseTapCommand => new Command<IncreasableBase>(parameter =>
+        public ICommand SkillBaseTapCommand => new Command<DependentBase>(parameter =>
         {
             if (parameter is SkillGroupModel group)
             {
