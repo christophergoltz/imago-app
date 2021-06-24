@@ -134,7 +134,7 @@
                     <RowDefinition Height="1"></RowDefinition>
                 </Grid.RowDefinitions>
 
-                <Image Margin="5" Source="imago_logo_white.png" VerticalOptions="Fill" HorizontalOptions="Fill"></Image>
+                <Image Margin="15,5" Source="imago_logo_white.png" VerticalOptions="Fill" HorizontalOptions="Fill"></Image>
                 <Label Grid.Row="1" TextColor="White" Text="Imago.App" FontSize="30"/>
 
                 <StackLayout Grid.Row="2" Orientation="Horizontal">
