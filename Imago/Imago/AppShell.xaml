@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Shell xmlns="http://xamarin.com/schemas/2014/forms" 
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-       xmlns:local="clr-namespace:Imago.Views" FlyoutWidth="250"
+       xmlns:local="clr-namespace:Imago.Views" FlyoutWidth="275"
        xmlns:viewModels="clr-namespace:Imago.ViewModels;assembly=Imago" 
        Navigated="AppShell_OnNavigated" 
        FlyoutBackgroundColor="{StaticResource AntiUmbra1}"
