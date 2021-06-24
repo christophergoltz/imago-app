@@ -104,7 +104,14 @@ namespace Imago.ViewModels
 
             NewCharacterCommand = new Command(async () =>
             {
-                await Shell.Current.GoToAsync($"{nameof(CharacterCreationPage)}");
+                var newChar = _characterRepository.CreateExampleCharacter();
+                var vm = new CharacterViewModel(newChar, _ruleRepository)
+                {
+                    EditMode = true
+                };
+
+                App.CurrentCharacter = vm;
+                await Shell.Current.GoToAsync($"//{nameof(CharacterInfoPage)}");
             });
         }
 

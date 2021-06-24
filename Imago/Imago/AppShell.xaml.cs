@@ -16,7 +16,6 @@ namespace Imago
             Routing.RegisterRoute(nameof(InventoryPage), typeof(InventoryPage));
             Routing.RegisterRoute(nameof(WikiPage), typeof(WikiPage));
             Routing.RegisterRoute(nameof(ChangelogPage), typeof(ChangelogPage));
-            Routing.RegisterRoute(nameof(CharacterCreationPage), typeof(CharacterCreationPage));
             Routing.RegisterRoute(nameof(PerksPage), typeof(PerksPage));
         }
         
