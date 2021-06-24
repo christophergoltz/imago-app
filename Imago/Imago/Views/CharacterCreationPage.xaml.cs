@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 namespace Imago.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class CharacterCreationPage : ContentPage
+    public partial class CharacterCreationPage : TabbedPage
     {
         public CharacterCreationPage()
         {

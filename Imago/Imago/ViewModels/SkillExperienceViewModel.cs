@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using Imago.Models;
+using Imago.Services;
 using Imago.Util;
 
 namespace Imago.ViewModels
@@ -26,6 +27,17 @@ namespace Imago.ViewModels
             {
                 _characterViewModel.SetExperienceToSkill(Skill, _skillGroup, value);
                 OnPropertyChanged(nameof(TotalExperienceValue));
+                OnPropertyChanged(nameof(IncreaseValue));
+            }
+        }
+
+        public int IncreaseValue
+        {
+            get => Skill.IncreaseValue;
+            set
+            {
+                var experienceRequired = IncreaseServices.GetExperienceRequiredForLevel(IncreaseType.Skill, value);
+                TotalExperienceValue = experienceRequired;
             }
         }
     }

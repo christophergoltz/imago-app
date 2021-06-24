@@ -1,87 +1,84 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:Imago.ViewModels;assembly=Imago"
              xmlns:customControls="clr-namespace:Imago.Views.CustomControls;assembly=Imago"
              xmlns:models="clr-namespace:Imago.Models;assembly=Imago"  Shell.FlyoutBehavior="Disabled"
              xmlns:local="clr-namespace:Imago.Models.Enum;assembly=Imago"
-             x:Class="Imago.Views.CharacterCreationPage"    Shell.NavBarIsVisible="False" Shell.TabBarIsVisible="False"
+             x:Class="Imago.Views.CharacterCreationPage"   
+             Shell.NavBarIsVisible="False" 
+             Shell.TabBarIsVisible="False"
+             Title="Charaktererschaffung"
+             BarBackgroundColor="{StaticResource AntiUmbra2}"
+             SelectedTabColor="{StaticResource Umbra4}" 
+             UnselectedTabColor="{StaticResource Umbra3}"
              BindingContext="{Binding CharacterCreationViewModel, Source={StaticResource ViewModelLocator}}"
              x:DataType="viewModels:CharacterCreationViewModel">
-    <ContentPage.Resources>
+    <TabbedPage.Resources>
         <ResourceDictionary>
             <DataTemplate x:DataType="viewModels:AttributeExperienceViewModel" x:Key="AttributeQuickEditTemplate">
-                <StackLayout>
-                    <Grid Padding="10,4">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="190" />
-                            <ColumnDefinition Width="325" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="80" />
-                            <ColumnDefinition Width="80" />
-                        </Grid.ColumnDefinitions>
-                        <Label Grid.Row="0" FontSize="18" Grid.Column="0" VerticalOptions="Center" 
+                <Grid Padding="10,4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="100" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" FontSize="18" Grid.Column="0" VerticalOptions="Center" 
                                Text="{Binding Attribute.Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
 
-                        <StackLayout Grid.Column="1" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                            <Entry VerticalOptions="Center" Keyboard="Numeric" FontSize="18" Text="{Binding TotalExperienceValue}"></Entry>
-                            <Slider  ThumbColor="{StaticResource AntiUmbra1}"
-                                     MaximumTrackColor="{StaticResource AntiUmbra2}" 
-                                     MinimumTrackColor="{StaticResource AntiUmbra}"
-                                     VerticalOptions="Center" 
-                                     HorizontalOptions="FillAndExpand"
-                                     Minimum="0" Maximum="1039" 
-                                     Value="{Binding TotalExperienceValue}"/>
-                        </StackLayout>
+                    <Label FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" 
+                               Text="{Binding Attribute.NaturalValue}"/>
 
-                        <Label Grid.Row="0" FontSize="18" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Attribute.NaturalValue}"/>
-                        <Label Grid.Row="0" FontSize="18" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Attribute.IncreaseValue}"/>
-                        <Label Grid.Row="0" FontSize="18" Grid.Column="4" VerticalOptions="Center" HorizontalOptions="Center">
-                            <Label.Text>
-                                <MultiBinding StringFormat="{}{0}/{1}">
-                                    <Binding Path="Attribute.ExperienceValue" 
-                                                                 Source="{RelativeSource AncestorType={x:Type viewModels:AttributeExperienceViewModel}}"/>
-                                    <Binding Path="Attribute.ExperienceForNextIncreasedRequired" 
-                                                                 Source="{RelativeSource AncestorType={x:Type viewModels:AttributeExperienceViewModel}}"/>
-                                </MultiBinding>
-                            </Label.Text>
-                        </Label>
+                    <Entry Grid.Column="2" VerticalOptions="Center" Keyboard="Numeric" FontSize="18" 
+                               Text="{Binding TotalExperienceValue}"></Entry>
+                    <Entry Grid.Column="3" VerticalOptions="Center" Keyboard="Numeric" FontSize="18" 
+                               Text="{Binding IncreaseValue}"></Entry>
 
-                        <Label FontAttributes="Bold" Grid.Row="0" FontSize="18" Grid.Column="5" VerticalOptions="Center" 
+                    <Label FontSize="18" Grid.Column="4" VerticalOptions="Center" HorizontalOptions="Center">
+                        <Label.Text>
+                            <MultiBinding StringFormat="{}{0}/{1}">
+                                <Binding Path="Attribute.ExperienceValue" 
+                                                                 Source="{RelativeSource AncestorType={x:Type viewModels:AttributeExperienceViewModel}}"/>
+                                <Binding Path="Attribute.ExperienceForNextIncreasedRequired" 
+                                                                 Source="{RelativeSource AncestorType={x:Type viewModels:AttributeExperienceViewModel}}"/>
+                            </MultiBinding>
+                        </Label.Text>
+                    </Label>
+
+                    <Label FontAttributes="Bold" Grid.Row="0" FontSize="18" Grid.Column="5" VerticalOptions="Center" 
                                HorizontalOptions="Center" 
                                Text="{Binding Attribute.FinalValue}"/>
-                    </Grid>
-                  
-                </StackLayout>
+                </Grid>
             </DataTemplate>
             <DataTemplate x:DataType="viewModels:SkillExperienceViewModel" x:Key="SkillQuickEditTemplate">
                 <StackLayout>
-                    <Grid Padding="10,4">
+                    <Grid Padding="15,0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="175" />
                             <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="50" />
                             <ColumnDefinition Width="50" />
-                            <ColumnDefinition Width="80" />
-                            <ColumnDefinition Width="80" />
                         </Grid.ColumnDefinitions>
                         <Label Grid.Row="0" FontSize="18" Grid.Column="0" VerticalOptions="Center" 
                                Text="{Binding Skill.Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
 
-                        <StackLayout Grid.Column="1" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                            <Entry VerticalOptions="Center" Keyboard="Numeric" FontSize="18" Text="{Binding TotalExperienceValue}"></Entry>
-                            <Slider  ThumbColor="{StaticResource AntiUmbra1}"
-                                     MaximumTrackColor="{StaticResource AntiUmbra2}" 
-                                     MinimumTrackColor="{StaticResource AntiUmbra}"
-                                     VerticalOptions="Center" 
-                                     HorizontalOptions="FillAndExpand"
-                                     Minimum="0" Maximum="1039" 
-                                     Value="{Binding TotalExperienceValue}"/>
-                        </StackLayout>
+                        <Entry Grid.Column="1" VerticalOptions="Center" Keyboard="Numeric" FontSize="18" Text="{Binding TotalExperienceValue}"></Entry>
 
-                        <!--<Label Grid.Row="0" FontSize="18" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Skill.NaturalValue}"/>-->
-                        <Label Grid.Row="0" FontSize="18" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Skill.IncreaseValue}"/>
+                        <Entry Grid.Column="2"  VerticalOptions="Center" Keyboard="Numeric" FontSize="18" Text="{Binding IncreaseValue}"></Entry>
+
+                        <Slider Grid.Column="3"  ThumbColor="{StaticResource AntiUmbra1}"
+                                 MaximumTrackColor="{StaticResource AntiUmbra2}" 
+                                 MinimumTrackColor="{StaticResource AntiUmbra}"
+                                 VerticalOptions="Center" 
+                                 HorizontalOptions="FillAndExpand"
+                                 Minimum="0" Maximum="100" 
+                                 Value="{Binding IncreaseValue}"/>
+
                         <Label Grid.Row="0" FontSize="18" Grid.Column="4" VerticalOptions="Center" HorizontalOptions="Center">
                             <Label.Text>
                                 <MultiBinding StringFormat="{}{0}/{1}">
@@ -100,301 +97,306 @@
                 </StackLayout>
             </DataTemplate>
         </ResourceDictionary>
-    </ContentPage.Resources>
-    <ContentPage.Content>
-        <ScrollView>
-            <StackLayout>
-                <!-- char detail -->
-                <Label FontSize="28" FontAttributes="Bold" Padding="10,5" Text="Charakter" BackgroundColor="{StaticResource Umbra3}"></Label>
-                <customControls:CharacterDetailView></customControls:CharacterDetailView>
+    </TabbedPage.Resources>
+    <ContentPage Title="1. Charakter" IconImageSource="person.png">
+        <!-- char detail -->
+        <!--<Label FontSize="28" FontAttributes="Bold" Padding="10,5" Text="Charakter" BackgroundColor="{StaticResource Umbra3}"></Label>-->
+        <customControls:CharacterDetailView></customControls:CharacterDetailView>
+    </ContentPage>
+    <ContentPage Title="2. Attribute" IconImageSource="person.png">
+        <StackLayout>
 
-                <!-- attributes -->
-                <StackLayout Orientation="Horizontal" Padding="10,5" BackgroundColor="{StaticResource Umbra3}">
-                    <Label FontSize="28" VerticalOptions="Center" FontAttributes="Bold" Text="Attribute" ></Label>
+            <!-- attributes -->
+            <StackLayout Orientation="Horizontal" Padding="10,5" BackgroundColor="{StaticResource Umbra3}">
+                <Label FontSize="28" VerticalOptions="Center" FontAttributes="Bold" Text="Attribute" ></Label>
 
-                    <Label FontSize="22" Margin="50,0,0,0" VerticalOptions="Center" Text="Erfahrungspunkte" ></Label>
-                    <Entry FontSize="22" VerticalOptions="Center" Keyboard="Numeric" WidthRequest="100"
+                <Label FontSize="22" Margin="50,0,0,0" VerticalOptions="Center" Text="Erfahrungspunkte" ></Label>
+                <Entry FontSize="22" VerticalOptions="Center" Keyboard="Numeric" WidthRequest="100"
                            Text="{Binding TotalAttributeExperience}"></Entry>
-                    <Label FontSize="22" VerticalOptions="Center" Margin="50,0,0,0" Text="Bilanz"></Label>
-                    <Label FontSize="22" VerticalOptions="Center" FontAttributes="Bold"
+                <Label FontSize="22" VerticalOptions="Center" Margin="50,0,0,0" Text="Bilanz"></Label>
+                <Label FontSize="22" VerticalOptions="Center" FontAttributes="Bold"
                            Text="{Binding AttributeExperienceBalance}">
-                        <Label.Style>
-                            <Style TargetType="Label">
-                                <Style.Triggers>
-                                    <DataTrigger TargetType="Label" 
+                    <Label.Style>
+                        <Style TargetType="Label">
+                            <Style.Triggers>
+                                <DataTrigger TargetType="Label" 
                                                  Binding="{Binding AttributeExperienceBalance, Converter={StaticResource PositiveIntegerToBoolConverter}}"
                                                  Value="True">
-                                        <Setter Property="TextColor" Value="Green"></Setter>
-                                    </DataTrigger>
-                                    <DataTrigger TargetType="Label" 
+                                    <Setter Property="TextColor" Value="Green"></Setter>
+                                </DataTrigger>
+                                <DataTrigger TargetType="Label" 
                                                  Binding="{Binding AttributeExperienceBalance, Converter={StaticResource PositiveIntegerToBoolConverter}}"
                                                  Value="False">
-                                        <Setter Property="TextColor" Value="Crimson"></Setter>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Label.Style>
-                    </Label>
-                </StackLayout>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="60*"></ColumnDefinition>
-                        <ColumnDefinition Width="40*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="325"></RowDefinition>
-                        <RowDefinition Height="125"></RowDefinition>
-                    </Grid.RowDefinitions>
+                                    <Setter Property="TextColor" Value="Crimson"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Label.Style>
+                </Label>
+            </StackLayout>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60*"></ColumnDefinition>
+                    <ColumnDefinition Width="40*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="325"></RowDefinition>
+                    <RowDefinition Height="125"></RowDefinition>
+                </Grid.RowDefinitions>
 
-                    <!-- attributes -->
-                    <Frame Grid.Column="0" Grid.Row="0" Grid.RowSpan="2">
-                        <Grid Margin="-19" Padding="20" Style="{StaticResource SingleGradiantStyle}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="200" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="80" />
-                                <ColumnDefinition Width="80" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="1" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <Label Grid.Row="0" Grid.Column="0" Text="Attribut" Margin="5,0,0,0" FontAttributes="Bold"/>
-                            <Label Grid.Row="0" Grid.Column="1" Text="EP" FontAttributes="Bold"/>
-                            <Label Grid.Row="0" Grid.Column="2" Text="NA/NW" FontAttributes="Bold"/>
-                            <Label Grid.Row="0" Grid.Column="3" Text="SW" FontAttributes="Bold"/>
-                            <Label Grid.Row="0" Grid.Column="4" Text="EP" FontAttributes="Bold"/>
-                            <Label Grid.Row="0" Grid.Column="5" Text="FW" FontAttributes="Bold"/>
-                            <BoxView Grid.Column="0" HeightRequest="1" Grid.Row="1" Grid.ColumnSpan="6" Color="Black"/>
+                <!-- attributes -->
+                <Frame Grid.Column="0" Grid.Row="0" Grid.RowSpan="2">
+                    <Grid Margin="-19" Padding="20" Style="{StaticResource SingleGradiantStyle}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="100" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="1" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0" Text="Attribut" Margin="5,0,0,0" FontAttributes="Bold"/>
+                        <Label Grid.Row="0" Grid.Column="1" Text="NA/NW" HorizontalOptions="Center" FontAttributes="Bold"/>
+                        <Label Grid.Row="0" Grid.Column="2" Text="Gesamte EP" FontAttributes="Bold"/>
+                        <Label Grid.Row="0" Grid.Column="3" Text="SW" FontAttributes="Bold"/>
+                        <Label Grid.Row="0" Grid.Column="4" Text="EP" FontAttributes="Bold"/>
+                        <Label Grid.Row="0" Grid.Column="5" Text="FW" FontAttributes="Bold"/>
+                        <BoxView Grid.Column="0" HeightRequest="1" Grid.Row="1" Grid.ColumnSpan="6" Color="Black"/>
 
-                            <StackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Margin="15,15,15,0" VerticalOptions="FillAndExpand" 
+                        <StackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="6" Margin="15,15,15,0" VerticalOptions="FillAndExpand" 
                                  BindableLayout.ItemTemplate="{StaticResource AttributeQuickEditTemplate}" 
                                  BindableLayout.ItemsSource="{Binding AttributeExperienceViewModel}"/>
-                        </Grid>
-                    </Frame>
+                    </Grid>
+                </Frame>
 
-                    <!-- derived attributes -->
-                    <Frame Grid.Column="1" Grid.Row="0">
-                        <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">
-                            <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
+                <!-- derived attributes -->
+                <Frame Grid.Column="1" Grid.Row="0">
+                    <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">
+                        <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
                               ItemsSource="{Binding CharacterViewModel.CreationDerivedAttributes}">
-                                <ListView.Header>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="200" />
-                                            <ColumnDefinition Width="100" />
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="1" />
-                                        </Grid.RowDefinitions>
-                                        <Label Grid.Row="0" Grid.Column="0" Text="Abgeleitetes Attribut" Margin="5,0,0,0" FontAttributes="Bold"/>
-                                        <Label Grid.Row="0" Grid.Column="1" Text="Formel" Margin="5,0,0,0" FontAttributes="Bold"/>
-                                        <Label Grid.Row="0" Grid.Column="2" Text="FW" FontAttributes="Bold"/>
-                                        <BoxView Grid.Column="0" HeightRequest="1" Grid.Row="1" Grid.ColumnSpan="3" Color="Black"/>
-                                    </Grid>
-                                </ListView.Header>
-                                <ListView.ItemTemplate>
-                                    <DataTemplate x:DataType="models:DerivedAttribute">
-                                        <ViewCell>
-                                            <Grid Padding="10,4">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="200" />
-                                                    <ColumnDefinition Width="100" />
-                                                </Grid.ColumnDefinitions>
-                                                <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
-                                                <Label FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToFormulaConverter}}"/>
-                                                <Label FontSize="18" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding FinalValue}"/>
-                                            </Grid>
-                                        </ViewCell>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                        </Grid>
-                    </Frame>
+                            <ListView.Header>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="200" />
+                                        <ColumnDefinition Width="100" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="1" />
+                                    </Grid.RowDefinitions>
+                                    <Label Grid.Row="0" Grid.Column="0" Text="Abgeleitetes Attribut" Margin="5,0,0,0" FontAttributes="Bold"/>
+                                    <Label Grid.Row="0" Grid.Column="1" Text="Formel" Margin="5,0,0,0" FontAttributes="Bold"/>
+                                    <Label Grid.Row="0" Grid.Column="2" Text="FW" FontAttributes="Bold"/>
+                                    <BoxView Grid.Column="0" HeightRequest="1" Grid.Row="1" Grid.ColumnSpan="3" Color="Black"/>
+                                </Grid>
+                            </ListView.Header>
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="models:DerivedAttribute">
+                                    <ViewCell>
+                                        <Grid Padding="10,4">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="200" />
+                                                <ColumnDefinition Width="100" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
+                                            <Label FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToFormulaConverter}}"/>
+                                            <Label FontSize="18" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding FinalValue}"/>
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </Frame>
 
 
-                    <!-- special attributes -->
-                    <Frame Grid.Column="1" Grid.Row="1">
-                        <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">
+                <!-- special attributes -->
+                <Frame Grid.Column="1" Grid.Row="1">
+                    <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">
 
-                            <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
+                        <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
                               ItemsSource="{Binding CharacterViewModel.SpecialAttributes}">
-                                <ListView.Header>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="200" />
-                                            <ColumnDefinition Width="100" />
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="1" />
-                                        </Grid.RowDefinitions>
-                                        <Label Grid.Row="0" Grid.Column="0" Text="Spezial Attribut" Margin="5,0,0,0" FontAttributes="Bold"/>
-                                        <Label Grid.Row="0" Grid.Column="1" Text="Formel" FontAttributes="Bold"/>
-                                        <Label Grid.Row="0" Grid.Column="2" Text="FW" FontAttributes="Bold"/>
-                                        <BoxView Grid.Column="0" HeightRequest="1" Grid.Row="1" Grid.ColumnSpan="3" Color="Black"/>
-                                    </Grid>
-                                </ListView.Header>
-                                <ListView.ItemTemplate>
-                                    <DataTemplate x:DataType="models:SpecialAttribute">
-                                        <ViewCell>
-                                            <Grid Padding="10,4">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="200" />
-                                                    <ColumnDefinition Width="100" />
-                                                </Grid.ColumnDefinitions>
-                                                <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
-                                                <Label FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToFormulaConverter}}"/>
-                                                <Label FontSize="16" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding FinalValue}"/>
-                                            </Grid>
-                                        </ViewCell>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                        </Grid>
-                    </Frame>
+                            <ListView.Header>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="200" />
+                                        <ColumnDefinition Width="100" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="1" />
+                                    </Grid.RowDefinitions>
+                                    <Label Grid.Row="0" Grid.Column="0" Text="Spezial Attribut" Margin="5,0,0,0" FontAttributes="Bold"/>
+                                    <Label Grid.Row="0" Grid.Column="1" Text="Formel" FontAttributes="Bold"/>
+                                    <Label Grid.Row="0" Grid.Column="2" Text="FW" FontAttributes="Bold"/>
+                                    <BoxView Grid.Column="0" HeightRequest="1" Grid.Row="1" Grid.ColumnSpan="3" Color="Black"/>
+                                </Grid>
+                            </ListView.Header>
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="models:SpecialAttribute">
+                                    <ViewCell>
+                                        <Grid Padding="10,4">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="200" />
+                                                <ColumnDefinition Width="100" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
+                                            <Label FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToFormulaConverter}}"/>
+                                            <Label FontSize="16" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding FinalValue}"/>
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </Frame>
+            </Grid>
+        </StackLayout>
+    </ContentPage>
+    <ContentPage Title="3. Vor- und Nachteile" IconImageSource="person.png">
+        <StackLayout>
+            <!-- vor und nachteile -->
+            <Label FontSize="28" FontAttributes="Bold" Padding="10,5" Text="Vor- und Nachteile" BackgroundColor="{StaticResource Umbra3}"></Label>
+            <Label FontSize="22" Margin="20" FontAttributes="Bold" Padding="10,5" Text="[tbd]" ></Label>
+        </StackLayout>
+    </ContentPage>
+    <ContentPage Title="4. Fertigkeiten"  IconImageSource="magic.png">
+        <StackLayout>
+            <!-- skillgroups and skills -->
+            <Label FontSize="28" FontAttributes="Bold" Padding="10,5" Text="Fertigkeiten" BackgroundColor="{StaticResource Umbra3}"></Label>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
 
-                </Grid>
-
-                <!-- vor und nachteile -->
-                <Label FontSize="28" FontAttributes="Bold" Padding="10,5" Text="Vor- und Nachteile" BackgroundColor="{StaticResource Umbra3}"></Label>
-                <Label FontSize="22" Margin="20" FontAttributes="Bold" Padding="10,5" Text="[tbd]" ></Label>
-
-                <!-- skillgroups and skills -->
-                <Label FontSize="28" FontAttributes="Bold" Padding="10,5" Text="Fertigkeiten" BackgroundColor="{StaticResource Umbra3}"></Label>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
+                <!-- bewegung -->
+                <Grid Grid.Row="0" Grid.Column="0" Style="{StaticResource SingleGradiantStyle}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
-
-                    <!-- bewegung -->
-                    <Grid Grid.Row="0" Grid.Column="0" Style="{StaticResource SingleGradiantStyle}">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <customControls:QuickSkillGroupHeaderView Grid.Row="0" SkillGroup="{Binding Bewegung}"/>
-                        <customControls:SkillListHeaderView Grid.Row="1" SkillGroup="{Binding Bewegung}"/>
-                        <StackLayout Grid.Row="2"
+                    <customControls:QuickSkillGroupHeaderView Grid.Row="0" SkillGroup="{Binding Bewegung}"/>
+                    <customControls:SkillListHeaderView Grid.Row="1" SkillGroup="{Binding Bewegung}"/>
+                    <StackLayout Grid.Row="2"
                                      BindableLayout.ItemsSource="{Binding SkillExperienceViewModelBewegung}"
                                      BindableLayout.ItemTemplate="{StaticResource SkillQuickEditTemplate}"></StackLayout>
-                    </Grid>
+                </Grid>
 
-                    <!-- Handwerk -->
-                    <Grid Grid.Row="0" Grid.Column="1" Style="{StaticResource SingleGradiantStyle}">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <customControls:QuickSkillGroupHeaderView Grid.Row="0" SkillGroup="{Binding Handwerk}"/>
-                        <customControls:SkillListHeaderView Grid.Row="1" SkillGroup="{Binding Handwerk}"/>
-                        <StackLayout Grid.Row="2"
+                <!-- Handwerk -->
+                <Grid Grid.Row="0" Grid.Column="1" Style="{StaticResource SingleGradiantStyle}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <customControls:QuickSkillGroupHeaderView Grid.Row="0" SkillGroup="{Binding Handwerk}"/>
+                    <customControls:SkillListHeaderView Grid.Row="1" SkillGroup="{Binding Handwerk}"/>
+                    <StackLayout Grid.Row="2"
                                      BindableLayout.ItemsSource="{Binding SkillExperienceViewModelHandwerk}"
                                      BindableLayout.ItemTemplate="{StaticResource SkillQuickEditTemplate}"></StackLayout>
-                    </Grid>
+                </Grid>
 
-                    <!-- Wissenschaft -->
-                    <Grid Grid.Row="0" Grid.Column="2" Style="{StaticResource SingleGradiantStyle}">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <customControls:QuickSkillGroupHeaderView Grid.Row="0" SkillGroup="{Binding Wissenschaft}"/>
-                        <customControls:SkillListHeaderView Grid.Row="1" SkillGroup="{Binding Wissenschaft}"/>
-                        <StackLayout Grid.Row="2"
+                <!-- Wissenschaft -->
+                <Grid Grid.Row="0" Grid.Column="2" Style="{StaticResource SingleGradiantStyle}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <customControls:QuickSkillGroupHeaderView Grid.Row="0" SkillGroup="{Binding Wissenschaft}"/>
+                    <customControls:SkillListHeaderView Grid.Row="1" SkillGroup="{Binding Wissenschaft}"/>
+                    <StackLayout Grid.Row="2"
                                      BindableLayout.ItemsSource="{Binding SkillExperienceViewModelWissenschaft}"
                                      BindableLayout.ItemTemplate="{StaticResource SkillQuickEditTemplate}"></StackLayout>
-                    </Grid>
+                </Grid>
 
-                    <!-- Heimlichkeit -->
-                    <Grid Grid.Row="1" Grid.Column="0" Style="{StaticResource SingleGradiantStyle}">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <customControls:QuickSkillGroupHeaderView Grid.Row="0" SkillGroup="{Binding Heimlichkeit}"/>
-                        <customControls:SkillListHeaderView Grid.Row="1" SkillGroup="{Binding Heimlichkeit}"/>
-                        <StackLayout Grid.Row="2"
+                <!-- Heimlichkeit -->
+                <Grid Grid.Row="1" Grid.Column="0" Style="{StaticResource SingleGradiantStyle}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <customControls:QuickSkillGroupHeaderView Grid.Row="0" SkillGroup="{Binding Heimlichkeit}"/>
+                    <customControls:SkillListHeaderView Grid.Row="1" SkillGroup="{Binding Heimlichkeit}"/>
+                    <StackLayout Grid.Row="2"
                                      BindableLayout.ItemsSource="{Binding SkillExperienceViewModelHeimlichkeit}"
                                      BindableLayout.ItemTemplate="{StaticResource SkillQuickEditTemplate}"></StackLayout>
-                    </Grid>
+                </Grid>
 
-                    <!-- Nahkampf -->
-                    <Grid Grid.Row="1" Grid.Column="1" Style="{StaticResource SingleGradiantStyle}">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <customControls:QuickSkillGroupHeaderView Grid.Row="0" SkillGroup="{Binding Nahkampf}"/>
-                        <customControls:SkillListHeaderView Grid.Row="1" SkillGroup="{Binding Nahkampf}"/>
-                        <StackLayout Grid.Row="2"
+                <!-- Nahkampf -->
+                <Grid Grid.Row="1" Grid.Column="1" Style="{StaticResource SingleGradiantStyle}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <customControls:QuickSkillGroupHeaderView Grid.Row="0" SkillGroup="{Binding Nahkampf}"/>
+                    <customControls:SkillListHeaderView Grid.Row="1" SkillGroup="{Binding Nahkampf}"/>
+                    <StackLayout Grid.Row="2"
                                      BindableLayout.ItemsSource="{Binding SkillExperienceViewModelNahkampf}"
                                      BindableLayout.ItemTemplate="{StaticResource SkillQuickEditTemplate}"></StackLayout>
-                    </Grid>
+                </Grid>
 
-                    <!-- Soziales -->
-                    <Grid Grid.Row="1" Grid.Column="2" Style="{StaticResource SingleGradiantStyle}">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <customControls:QuickSkillGroupHeaderView Grid.Row="0" SkillGroup="{Binding Soziales}"/>
-                        <customControls:SkillListHeaderView Grid.Row="1" SkillGroup="{Binding Soziales}"/>
-                        <StackLayout Grid.Row="2"
+                <!-- Soziales -->
+                <Grid Grid.Row="1" Grid.Column="2" Style="{StaticResource SingleGradiantStyle}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <customControls:QuickSkillGroupHeaderView Grid.Row="0" SkillGroup="{Binding Soziales}"/>
+                    <customControls:SkillListHeaderView Grid.Row="1" SkillGroup="{Binding Soziales}"/>
+                    <StackLayout Grid.Row="2"
                                      BindableLayout.ItemsSource="{Binding SkillExperienceViewModelSoziales}"
                                      BindableLayout.ItemTemplate="{StaticResource SkillQuickEditTemplate}"></StackLayout>
-                    </Grid>
+                </Grid>
 
-                    <!-- Webkunst -->
-                    <Grid Grid.Row="2" Grid.Column="0" Style="{StaticResource SingleGradiantStyle}">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <customControls:QuickSkillGroupHeaderView Grid.Row="0" SkillGroup="{Binding Webkunst}"/>
-                        <customControls:SkillListHeaderView Grid.Row="1" SkillGroup="{Binding Webkunst}"/>
-                        <StackLayout Grid.Row="2"
+                <!-- Webkunst -->
+                <Grid Grid.Row="2" Grid.Column="0" Style="{StaticResource SingleGradiantStyle}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <customControls:QuickSkillGroupHeaderView Grid.Row="0" SkillGroup="{Binding Webkunst}"/>
+                    <customControls:SkillListHeaderView Grid.Row="1" SkillGroup="{Binding Webkunst}"/>
+                    <StackLayout Grid.Row="2"
                                      BindableLayout.ItemsSource="{Binding SkillExperienceViewModelWebkunst}"
                                      BindableLayout.ItemTemplate="{StaticResource SkillQuickEditTemplate}"></StackLayout>
-                    </Grid>
+                </Grid>
 
-                    <!-- Fernkampf -->
-                    <Grid Grid.Row="2" Grid.Column="1" Style="{StaticResource SingleGradiantStyle}">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <customControls:QuickSkillGroupHeaderView Grid.Row="0" SkillGroup="{Binding Fernkampf}"/>
-                        <customControls:SkillListHeaderView Grid.Row="1" SkillGroup="{Binding Fernkampf}"/>
-                        <StackLayout Grid.Row="2"
+                <!-- Fernkampf -->
+                <Grid Grid.Row="2" Grid.Column="1" Style="{StaticResource SingleGradiantStyle}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <customControls:QuickSkillGroupHeaderView Grid.Row="0" SkillGroup="{Binding Fernkampf}"/>
+                    <customControls:SkillListHeaderView Grid.Row="1" SkillGroup="{Binding Fernkampf}"/>
+                    <StackLayout Grid.Row="2"
                                      BindableLayout.ItemsSource="{Binding SkillExperienceViewModelFernkampf}"
                                      BindableLayout.ItemTemplate="{StaticResource SkillQuickEditTemplate}"></StackLayout>
-                    </Grid>
                 </Grid>
-            </StackLayout>
-        </ScrollView>
-    </ContentPage.Content>
-</ContentPage>
+            </Grid>
+        </StackLayout>
+    </ContentPage>
+</TabbedPage>

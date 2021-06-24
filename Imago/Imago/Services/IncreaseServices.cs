@@ -55,6 +55,20 @@ namespace Imago.Services
             return ExperienceLookup[index];
         }
 
+        public static int GetExperienceRequiredForLevel(IncreaseType increaseType, int increaseValue)
+        {
+            var currentIncrease = 0;
+            var requiredExperience = 0;
+            while (currentIncrease < increaseValue)
+            {
+               var costForNextIncrease = GetExperienceRequiredForNextIncrease(increaseType, currentIncrease);
+               requiredExperience += costForNextIncrease;
+               currentIncrease++;
+            }
+
+            return requiredExperience;
+        }
+
         public static (int IncreaseLevel, int LeftoverExperience, int ExperienceForNextIncrease) GetIncreaseInfo(IncreaseType increaseType, 
             int totalExperience)
         {
