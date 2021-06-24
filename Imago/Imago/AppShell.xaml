@@ -92,6 +92,9 @@
     <FlyoutItem Title="Übersicht" Icon="person.png">
         <ShellContent Route="CharacterInfoPage" ContentTemplate="{DataTemplate local:CharacterInfoPage}" />
     </FlyoutItem>
+    <FlyoutItem Title="Vor- und Nachteile" Icon="person.png">
+        <ShellContent Route="PerksPage" ContentTemplate="{DataTemplate local:PerksPage}" />
+    </FlyoutItem>
     <FlyoutItem Title="Fertigkeiten" Icon="magic.png">
         <ShellContent Route="SkillPage" ContentTemplate="{DataTemplate local:SkillPage}" />
     </FlyoutItem>
