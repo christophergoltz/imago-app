@@ -11,10 +11,7 @@ namespace Imago.ViewModels
 {
     public class CharacterCreationViewModel : BindableBase
     {
-        private int _totalAttributeExperience;
         public CharacterViewModel CharacterViewModel { get; private set; }
-
-        public List<AttributeExperienceViewModel> AttributeExperienceViewModel { get; set; }
         
         public List<SkillExperienceViewModel> SkillExperienceViewModelBewegung { get; set; }
         public SkillGroupModel Bewegung => CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Bewegung];
@@ -39,40 +36,13 @@ namespace Imago.ViewModels
 
         public List<SkillExperienceViewModel> SkillExperienceViewModelSoziales { get; set; }
         public SkillGroupModel Soziales => CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Soziales];
-
-        public int TotalAttributeExperience
-        {
-            get => _totalAttributeExperience;
-            set
-            {
-                SetProperty(ref _totalAttributeExperience, value);
-                OnPropertyChanged(nameof(AttributeExperienceBalance));
-            }
-        }
-
-        public int AttributeExperienceBalance => TotalAttributeExperience - AttributeExperienceViewModel?.Sum(model => model.TotalExperienceValue) ?? 0;
-
+        
         public CharacterCreationViewModel(ICharacterRepository characterRepository, IRuleRepository ruleRepository)
         {
             var character = characterRepository.CreateNewCharacter();
             var characterViewModel = new CharacterViewModel(character, ruleRepository);
-
-            TotalAttributeExperience = 940;
-
+            
             CharacterViewModel = characterViewModel;
-            AttributeExperienceViewModel = characterViewModel.Character.Attributes.Select(_ => new AttributeExperienceViewModel(_, characterViewModel)).ToList();
-            foreach (var vm in AttributeExperienceViewModel)
-            {
-                vm.PropertyChanged += (sender, args) =>
-                {
-                    if (args.PropertyName.Equals(nameof(ViewModels.AttributeExperienceViewModel.TotalExperienceValue)))
-                    {
-                        OnPropertyChanged(nameof(AttributeExperienceBalance));
-                    }
-                };
-            }
-            OnPropertyChanged(nameof(AttributeExperienceBalance));
-
             SkillExperienceViewModelBewegung = Bewegung.Skills.Select(skill => new SkillExperienceViewModel(skill, Bewegung, characterViewModel)).ToList();
             SkillExperienceViewModelFernkampf = Fernkampf.Skills.Select(skill => new SkillExperienceViewModel(skill, Fernkampf, characterViewModel)).ToList();
             SkillExperienceViewModelHandwerk = Handwerk.Skills.Select(skill => new SkillExperienceViewModel(skill, Handwerk, characterViewModel)).ToList();

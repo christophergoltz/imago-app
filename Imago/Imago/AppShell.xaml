@@ -150,6 +150,21 @@
         </DataTemplate>
     </Shell.FlyoutHeaderTemplate>
     <Shell.FlyoutFooter>
-        <Switch IsToggled="{Binding EditMode}" ></Switch>
+        <StackLayout Margin="10,10,10,5" Padding="10">
+            <StackLayout.Style>
+                <Style TargetType="StackLayout">
+                    <Style.Triggers>
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding EditMode}" Value="True">
+                            <Setter Property="BackgroundColor" Value="{StaticResource GruenesUmbra1}"></Setter>
+                        </DataTrigger>
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding EditMode}" Value="False">
+                            <Setter Property="BackgroundColor" Value="{StaticResource AntiUmbra2}"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackLayout.Style>
+            <Label TextColor="White" FontSize="18" Text="Bearbeitungsmodus"></Label>
+            <Switch ThumbColor="White" OnColor="{StaticResource GruenesUmbra2}" IsToggled="{Binding EditMode}" ></Switch>
+        </StackLayout>
     </Shell.FlyoutFooter>
 </Shell>

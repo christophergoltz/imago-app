@@ -39,5 +39,15 @@ namespace Imago.ViewModels
                 OnPropertyChanged(nameof(Modification));
             }
         }
+
+
+        public int TotalExperienceValue
+        {
+            get => Attribute.TotalExperience;
+            set
+            {
+                CharacterViewModel.SetExperienceToAttribute(Attribute, value);
+            }
+        }
     }
 }

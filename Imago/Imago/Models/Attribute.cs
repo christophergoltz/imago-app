@@ -24,6 +24,7 @@ namespace Imago.Models
 
         private int _corrosion;
         private int _naturalValue;
+        private int _experienceBySkillGroup;
 
         public int Corrosion
         {
@@ -40,6 +41,12 @@ namespace Imago.Models
         {
             get => _naturalValue;
             set => SetProperty(ref _naturalValue ,value);
+        }
+
+        public int ExperienceBySkillGroup
+        {
+            get => _experienceBySkillGroup;
+            set => SetProperty(ref _experienceBySkillGroup, value);
         }
     }
 }

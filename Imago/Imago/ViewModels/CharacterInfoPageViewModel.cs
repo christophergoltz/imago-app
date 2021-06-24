@@ -38,13 +38,41 @@ namespace Imago.ViewModels
         public ICommand AddNewBloodCarrierCommand { get; set; }
         public ICommand RemoveBloodCarrierCommand { get; set; }
 
+        private int _totalAttributeExperience;
+        public int TotalAttributeExperience
+        {
+            get => _totalAttributeExperience;
+            set
+            {
+                SetProperty(ref _totalAttributeExperience, value);
+                OnPropertyChanged(nameof(AttributeExperienceBalance));
+            }
+        }
+
+        public int AttributeExperienceBalance => TotalAttributeExperience - AttributeViewModels?.Sum(model => model.TotalExperienceValue) ?? 0;
+
         public CharacterInfoPageViewModel(CharacterViewModel characterViewModel, IRuleRepository ruleRepository)
         {
+             TotalAttributeExperience = 940;
             _ruleRepository = ruleRepository;
             Title = characterViewModel.Character.Name;
             CharacterViewModel = characterViewModel;
-            
-            AttributeViewModels = characterViewModel.Character.Attributes.Select(_ => new AttributeViewModel(_,characterViewModel)).ToList();
+
+            AttributeViewModels = characterViewModel.Character.Attributes.Select(_ => new AttributeViewModel(_, characterViewModel)).ToList();
+            foreach (var vm in AttributeViewModels)
+            {
+                vm.PropertyChanged += (sender, args) =>
+                {
+                    if (args.PropertyName.Equals(nameof(AttributeViewModel.TotalExperienceValue)))
+                    {
+                        OnPropertyChanged(nameof(AttributeExperienceBalance));
+                    }
+                };
+            }
+            OnPropertyChanged(nameof(AttributeExperienceBalance));
+
+
+
             SpecialAttributeViewModels = characterViewModel.SpecialAttributes.Select(_ => new SpecialAttributeViewModel(characterViewModel, _)).ToList();
             OpenAttributeExperienceViewModels = new ObservableCollection<OpenAttributeExperienceViewModel>();
 
@@ -57,7 +85,7 @@ namespace Imago.ViewModels
                 if (viewModel.SelectedAttribute == null)
                     return;
 
-                CharacterViewModel.SetExperienceToAttribute(viewModel.SelectedAttribute, viewModel.SelectedAttribute.TotalExperience +1);
+                CharacterViewModel.AddOneExperienceToAttributeBySkillGroup(viewModel.SelectedAttribute);
              
                 OpenAttributeExperienceViewModels.Remove(viewModel);
                 characterViewModel.Character.OpenAttributeIncreases.Remove(

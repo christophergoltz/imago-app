@@ -11,66 +11,66 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <DataTemplate x:DataType="viewModels:AttributeViewModel" x:Key="AttributeViewModelListItemTemplate">
-                <ViewCell>
-                    <Grid Padding="10,4" BackgroundColor="Cyan">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="80" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="100" />
-                        </Grid.ColumnDefinitions>
-                        <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Attribute.Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
-                        <Label FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Attribute.NaturalValue}"/>
-                        <Label FontSize="18" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Attribute.IncreaseValue}"/>
-                        <Label FontSize="18" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center">
-                            <Label.Text>
-                                <MultiBinding StringFormat="{}{0}/{1}">
-                                    <Binding Path="Attribute.ExperienceValue" 
+                <Grid Padding="10,4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="100" />
+                    </Grid.ColumnDefinitions>
+                    <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Attribute.Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
+                    <Label FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Attribute.NaturalValue}"/>
+                    <Label FontSize="18" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Attribute.IncreaseValue}"/>
+                    <Label FontSize="18" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center">
+                        <Label.Text>
+                            <MultiBinding StringFormat="{}{0}/{1}">
+                                <Binding Path="Attribute.ExperienceValue" 
                                                                  Source="{RelativeSource AncestorType={x:Type viewModels:AttributeViewModel}}"/>
-                                    <Binding Path="Attribute.ExperienceForNextIncreasedRequired" 
+                                <Binding Path="Attribute.ExperienceForNextIncreasedRequired" 
                                                                  Source="{RelativeSource AncestorType={x:Type viewModels:AttributeViewModel}}"/>
-                                </MultiBinding>
-                            </Label.Text>
-                        </Label>
-                        <Entry FontSize="16" Grid.Column="4" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Corrosion}"/>
-                        <Entry FontSize="16" Grid.Column="5" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Modification}"/>
-                        <Label FontSize="18" Grid.Column="6" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Attribute.FinalValue}"/>
-                    </Grid>
-                </ViewCell>
+                            </MultiBinding>
+                        </Label.Text>
+                    </Label>
+                    <Entry FontSize="16" Grid.Column="4" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Corrosion}"/>
+                    <Entry FontSize="16" Grid.Column="5" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Modification}"/>
+                    <Label FontSize="18" Grid.Column="6" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Attribute.FinalValue}"/>
+                </Grid>
             </DataTemplate>
             <DataTemplate x:DataType="viewModels:AttributeViewModel" x:Key="AttributeViewModelListItemEditTemplate">
-                <ViewCell>
-                    <Grid Padding="10,4" BackgroundColor="Yellow">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="80" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="100" />
-                        </Grid.ColumnDefinitions>
-                        <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Attribute.Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
-                        <Label FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Attribute.NaturalValue}"/>
-                        <Label FontSize="18" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Attribute.IncreaseValue}"/>
-                        <Label FontSize="18" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center">
-                            <Label.Text>
-                                <MultiBinding StringFormat="{}{0}/{1}">
-                                    <Binding Path="Attribute.ExperienceValue" 
+                <Grid Padding="10,4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="75" />
+                        <ColumnDefinition Width="75" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="100" />
+                    </Grid.ColumnDefinitions>
+                    <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Attribute.Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
+                    <Label BackgroundColor="{StaticResource GruenesUmbra1}" Padding="5,2" TextColor="White" FontSize="18" Grid.Column="1" VerticalOptions="Center" Text="{Binding Attribute.ExperienceBySkillGroup}"/>
+                    <Entry TextColor="White" BackgroundColor="{StaticResource GruenesUmbra1}" FontSize="18" Grid.Column="2" Keyboard="Numeric" VerticalOptions="Center" Text="{Binding TotalExperienceValue}"/>
+                    <Label FontSize="18" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Attribute.NaturalValue}"/>
+                    <Label FontSize="18" Grid.Column="4" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Attribute.IncreaseValue}"/>
+                    <Label FontSize="18" Grid.Column="5" VerticalOptions="Center" HorizontalOptions="Center">
+                        <Label.Text>
+                            <MultiBinding StringFormat="{}{0}/{1}">
+                                <Binding Path="Attribute.ExperienceValue" 
                                                                  Source="{RelativeSource AncestorType={x:Type viewModels:AttributeViewModel}}"/>
-                                    <Binding Path="Attribute.ExperienceForNextIncreasedRequired" 
+                                <Binding Path="Attribute.ExperienceForNextIncreasedRequired" 
                                                                  Source="{RelativeSource AncestorType={x:Type viewModels:AttributeViewModel}}"/>
-                                </MultiBinding>
-                            </Label.Text>
-                        </Label>
-                        <Entry FontSize="16" Grid.Column="4" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Corrosion}"/>
-                        <Entry FontSize="16" Grid.Column="5" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Modification}"/>
-                        <Label FontSize="18" Grid.Column="6" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Attribute.FinalValue}"/>
-                    </Grid>
-                </ViewCell>
+                            </MultiBinding>
+                        </Label.Text>
+                    </Label>
+                    <Entry FontSize="16" Grid.Column="6" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Corrosion}"/>
+                    <Entry FontSize="16" Grid.Column="7" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Modification}"/>
+                    <Label FontSize="18" Grid.Column="8" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Attribute.FinalValue}"/>
+                </Grid>
             </DataTemplate>
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -82,7 +82,7 @@
                     <ColumnDefinition Width="60*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="40*" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="30*" />
                     <RowDefinition Height="15*" />
                     <RowDefinition Height="20*" />
@@ -146,51 +146,86 @@
 
                 <!-- attributes -->
                 <Frame Grid.Column="1" Grid.Row="0">
-                    <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">  
-                        <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
-                              ItemsSource="{Binding AttributeViewModels}">
-                            <ListView.Header>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="100" />
-                                        <ColumnDefinition Width="100" />
-                                        <ColumnDefinition Width="80" />
-                                        <ColumnDefinition Width="100" />
-                                        <ColumnDefinition Width="100" />
-                                        <ColumnDefinition Width="80" />
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="1" />
-                                    </Grid.RowDefinitions>
-                                    <Label Grid.Row="0" Grid.Column="0" Text="Attribut" Margin="5,0,0,0" FontAttributes="Bold"/>
-                                    <Label Grid.Row="0" Grid.Column="1" Text="NA/NW" FontAttributes="Bold"/>
-                                    <Label Grid.Row="0" Grid.Column="2" Text="SW" FontAttributes="Bold"/>
-                                    <Label Grid.Row="0" Grid.Column="3" Text="EP" FontAttributes="Bold"/>
-                                    <Label Grid.Row="0" Grid.Column="4" Text="Korr" FontAttributes="Bold"/>
-                                    <Label Grid.Row="0" Grid.Column="5" Text="Mod" FontAttributes="Bold"/>
-                                    <Label Grid.Row="0" Grid.Column="6" Text="FW" FontAttributes="Bold"/>
-                                    <BoxView Grid.Column="0" HeightRequest="1" Grid.Row="1" Grid.ColumnSpan="7" Color="Black"/>
-                                </Grid>
-                            </ListView.Header>
-                            <ListView.Style>
-                                <Style TargetType="ListView">
-                                    <Style.Triggers>
-                                        <DataTrigger TargetType="ListView" 
-                                                     Binding="{Binding CharacterViewModel.EditModel}" 
-                                                     Value="False">
-                                            <Setter Property="ItemTemplate" Value="{StaticResource AttributeViewModelListItemTemplate}"/>
-                                        </DataTrigger>
-                                        <DataTrigger TargetType="ListView" 
-                                                     Binding="{Binding CharacterViewModel.EditModel}" 
-                                                     Value="True">
-                                            <Setter Property="ItemTemplate" Value="{StaticResource AttributeViewModelListItemEditTemplate}"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ListView.Style>
-                        </ListView>
+                    <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">
+                        <StackLayout >
+                            <StackLayout Orientation="Horizontal" Padding="10,5"
+                                         BackgroundColor="{StaticResource GruenesUmbra1}" IsVisible="{Binding CharacterViewModel.EditMode}">
+                                <Label FontSize="28" VerticalOptions="Center" FontAttributes="Bold" Text="Attribute" ></Label>
+
+                                <Label FontSize="22" Margin="50,0,0,0" VerticalOptions="Center" Text="Erfahrungspunkte" ></Label>
+                                <Entry FontSize="22" VerticalOptions="Center" Keyboard="Numeric" WidthRequest="100"
+                           Text="{Binding TotalAttributeExperience}"></Entry>
+                                <Label FontSize="22" VerticalOptions="Center" Margin="50,0,0,0" Text="Bilanz"></Label>
+                                <Label FontSize="22" VerticalOptions="Center" FontAttributes="Bold"
+                           Text="{Binding AttributeExperienceBalance}">
+                                    <Label.Style>
+                                        <Style TargetType="Label">
+                                            <Style.Triggers>
+                                                <DataTrigger TargetType="Label" 
+                                                 Binding="{Binding AttributeExperienceBalance, Converter={StaticResource PositiveIntegerToBoolConverter}}"
+                                                 Value="True">
+                                                    <Setter Property="TextColor" Value="{StaticResource GruenesUmbra2}"></Setter>
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Label" 
+                                                 Binding="{Binding AttributeExperienceBalance, Converter={StaticResource PositiveIntegerToBoolConverter}}"
+                                                 Value="False">
+                                                    <Setter Property="TextColor" Value="Crimson"></Setter>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Label.Style>
+                                </Label>
+                            </StackLayout>
+
+                            <Grid BackgroundColor="Red" Margin="10,5,10,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="80" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Text="Attribut" Margin="5,0,0,0" FontAttributes="Bold"/>
+                                <Label Grid.Column="1" Text="EP aus Kategorie" FontAttributes="Bold" 
+                                       IsVisible="{Binding CharacterViewModel.EditMode}">
+                                </Label>
+                                <Label Grid.Column="2" Text="Gesamt EP" IsVisible="{Binding CharacterViewModel.EditMode}" 
+                                       FontAttributes="Bold">
+                                </Label>
+                                <Label Grid.Column="3" Text="NA/NW" FontAttributes="Bold"/>
+                                <Label Grid.Column="4" Text="SW" FontAttributes="Bold"/>
+                                <Label Grid.Column="5" Text="EP" FontAttributes="Bold"/>
+                                <Label Grid.Column="6" Text="Korr" FontAttributes="Bold"/>
+                                <Label Grid.Column="7" Text="Mod" FontAttributes="Bold"/>
+                                <Label Grid.Column="8" Text="FW" FontAttributes="Bold"/>
+                            </Grid>
+
+                            <BoxView  HeightRequest="1" Color="Black"/>
+
+                            <StackLayout Margin="10,0,10,10"
+                                         BindableLayout.ItemsSource="{Binding AttributeViewModels}">
+                                <StackLayout.Style>
+                                    <Style TargetType="StackLayout">
+                                        <Style.Triggers>
+                                            <DataTrigger TargetType="StackLayout" 
+                                                         Binding="{Binding CharacterViewModel.EditMode}" 
+                                                         Value="False">
+                                                <Setter Property="BindableLayout.ItemTemplate" Value="{StaticResource AttributeViewModelListItemTemplate}"/>
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="StackLayout" 
+                                                         Binding="{Binding CharacterViewModel.EditMode}" 
+                                                         Value="True">
+                                                <Setter Property="BindableLayout.ItemTemplate" Value="{StaticResource AttributeViewModelListItemEditTemplate}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </StackLayout.Style>
+                            </StackLayout>
+                        </StackLayout>
                     </Grid>
                 </Frame>
 

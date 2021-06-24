@@ -14,12 +14,12 @@ namespace Imago.ViewModels
     {
         public Character Character { get; }
         private readonly IRuleRepository _ruleRepository;
-        private bool _editModel;
+        private bool _editMode;
 
-        public bool EditModel
+        public bool EditMode
         {
-            get => _editModel;
-            set => SetProperty(ref _editModel, value);
+            get => _editMode;
+            set => SetProperty(ref _editMode, value);
         }
 
         public CharacterViewModel(Character character, IRuleRepository ruleRepository)
@@ -163,6 +163,17 @@ namespace Imago.ViewModels
             }
             return true;
         }
+
+        public void AddOneExperienceToAttributeBySkillGroup(Attribute attribute)
+        {
+            attribute.ExperienceBySkillGroup += 1;
+
+            //force recalc of increaseablebase
+            attribute.TotalExperience = attribute.TotalExperience;
+
+            UpdateNewFinalValueOfAttribute(attribute);
+        }
+
 
         public void SetExperienceToAttribute(Attribute attribute, int experience)
         {

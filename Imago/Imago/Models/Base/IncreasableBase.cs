@@ -21,8 +21,8 @@ namespace Imago.Models.Base
                 SetProperty(ref _totalExperience, value);
                 (int IncreaseLevel, int LeftoverExperience, int ExperienceForNextIncrease) increaseInfo = (0,0,0);
 
-                if (this is Attribute)
-                    increaseInfo = IncreaseServices.GetIncreaseInfo(IncreaseType.Attribute, value);
+                if (this is Attribute attribute)
+                    increaseInfo = IncreaseServices.GetIncreaseInfo(IncreaseType.Attribute, value + attribute.ExperienceBySkillGroup);
                 if (this is SkillGroupModel)
                     increaseInfo = IncreaseServices.GetIncreaseInfo(IncreaseType.SkillGroup, value);
                 if (this is SkillModel) 
@@ -36,8 +36,8 @@ namespace Imago.Models.Base
                 OnPropertyChanged(nameof(ExperienceValue));
                 OnPropertyChanged(nameof(ExperienceForNextIncreasedRequired));
 
-                if (this is Attribute attribute)
-                    attribute.RecalculateFinalValue();
+                if (this is Attribute attribute2)
+                    attribute2.RecalculateFinalValue();
                 if (this is SkillGroupModel skillGroup) 
                     skillGroup.RecalculateFinalValue();
                 if (this is SkillModel skill) 

@@ -51,7 +51,7 @@ namespace Imago.Util
             AppShellViewModel = new AppShellViewModel();
             AppShellViewModel.EditModeChanged += (sender, value) =>
             {
-                App.CurrentCharacter.EditModel = value;
+                App.CurrentCharacter.EditMode = value;
             };
         }
         
