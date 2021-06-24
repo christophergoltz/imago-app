@@ -10,10 +10,17 @@ using Attribute = Imago.Models.Attribute;
 
 namespace Imago.ViewModels
 {
-    public class CharacterViewModel
+    public class CharacterViewModel : BindableBase
     {
         public Character Character { get; }
         private readonly IRuleRepository _ruleRepository;
+        private bool _editModel;
+
+        public bool EditModel
+        {
+            get => _editModel;
+            set => SetProperty(ref _editModel, value);
+        }
 
         public CharacterViewModel(Character character, IRuleRepository ruleRepository)
         {

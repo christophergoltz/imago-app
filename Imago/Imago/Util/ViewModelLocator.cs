@@ -47,6 +47,12 @@ namespace Imago.Util
             _wikiService = new Lazy<IWikiService>(() => new WikiService());
             _wikiParseService = new Lazy<IWikiParseService>(() => new WikiParseService(_meleeWeaponRepository, _rangedWeaponRepository,
                 _armorRepository, _talentRepository, _specialWeaponRepository, _shieldRepository, _masteryRepository));
+
+            AppShellViewModel = new AppShellViewModel();
+            AppShellViewModel.EditModeChanged += (sender, value) =>
+            {
+                App.CurrentCharacter.EditModel = value;
+            };
         }
         
         public CharacterInfoPageViewModel CharacterInfo => new CharacterInfoPageViewModel(App.CurrentCharacter, _ruleRepository.Value);
@@ -55,7 +61,7 @@ namespace Imago.Util
             _armorRepository,_talentRepository, _specialWeaponRepository, _shieldRepository, _masteryRepository,_ruleRepository.Value);
         public StatusPageViewModel StatusPageViewModel => new StatusPageViewModel(App.CurrentCharacter,_armorRepository, _meleeWeaponRepository, _rangedWeaponRepository, _specialWeaponRepository, _shieldRepository);
         public InventoryViewModel InventoryViewModel => new InventoryViewModel(App.CurrentCharacter);
-        public AppShellViewModel AppShellViewModel => new AppShellViewModel();
+        public AppShellViewModel AppShellViewModel { get; }
         public ChangelogViewModel ChangelogViewModel => new ChangelogViewModel(_wikiService.Value);
         public WikiPageViewModel WikiPageViewModel => new WikiPageViewModel();
         public CharacterCreationViewModel CharacterCreationViewModel => new CharacterCreationViewModel(_characterRepository.Value, _ruleRepository.Value);

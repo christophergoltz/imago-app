@@ -146,4 +146,7 @@
             </Grid>
         </DataTemplate>
     </Shell.FlyoutHeaderTemplate>
+    <Shell.FlyoutFooter>
+        <Switch IsToggled="{Binding EditMode}" ></Switch>
+    </Shell.FlyoutFooter>
 </Shell>
