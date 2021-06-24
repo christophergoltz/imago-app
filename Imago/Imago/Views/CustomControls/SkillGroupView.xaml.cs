@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Imago.Models;
 using Imago.Models.Base;
+using Imago.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -19,15 +20,15 @@ namespace Imago.Views.CustomControls
             InitializeComponent();
         }
        
-        public static readonly BindableProperty SkillGroupProperty = BindableProperty.Create(
-            "SkillGroup",        // the name of the bindable property
-            typeof(SkillGroupModel),     // the bindable property type
+        public static readonly BindableProperty SkillGroupViewModelProperty = BindableProperty.Create(
+            "SkillGroupViewModel",        // the name of the bindable property
+            typeof(SkillGroupViewModel),     // the bindable property type
             typeof(SkillGroupView));
 
-        public SkillGroupModel SkillGroup
+        public SkillGroupViewModel SkillGroupViewModel
         {
-            get => (SkillGroupModel)GetValue(SkillGroupProperty);
-            set => SetValue(SkillGroupProperty, value);
+            get => (SkillGroupViewModel)GetValue(SkillGroupViewModelProperty);
+            set => SetValue(SkillGroupViewModelProperty, value);
         }
         
         public static readonly BindableProperty OpenSkillCommandProperty = BindableProperty.Create(
@@ -72,8 +73,8 @@ namespace Imago.Views.CustomControls
                 if (OpenSkillCommand == null)
                     return;
 
-                if (OpenSkillCommand.CanExecute((skill, SkillGroup)))
-                    OpenSkillCommand.Execute((skill, SkillGroup));
+                if (OpenSkillCommand.CanExecute((skill, SkillGroupViewModel.SkillGroup)))
+                    OpenSkillCommand.Execute((skill, SkillGroupViewModel.SkillGroup));
                 
             }
         });

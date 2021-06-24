@@ -23,18 +23,17 @@ namespace Imago.ViewModels
     public class SkillPageViewModel : BindableBase
     {
         public CharacterViewModel CharacterViewModel { get; }
-        private readonly IRuleRepository _ruleRepository;
         private SkillGroupDetailViewModel _skillGroupDetailViewModel;
         private SkillDetailViewModel _skillDetailViewModel;
         
-        public SkillGroupModel Bewegung => CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Bewegung];
-        public SkillGroupModel Nahkampf => CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Nahkampf];
-        public SkillGroupModel Heimlichkeit => CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Heimlichkeit];
-        public SkillGroupModel Fernkampf => CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Fernkampf];
-        public SkillGroupModel Webkunst => CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Webkunst];
-        public SkillGroupModel Wissenschaft => CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Wissenschaft];
-        public SkillGroupModel Handwerk => CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Handwerk];
-        public SkillGroupModel Soziales => CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Soziales];
+        public SkillGroupViewModel Bewegung => new SkillGroupViewModel(CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Bewegung], CharacterViewModel);
+        public SkillGroupViewModel Nahkampf => new SkillGroupViewModel(CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Nahkampf], CharacterViewModel);
+        public SkillGroupViewModel Heimlichkeit => new SkillGroupViewModel(CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Heimlichkeit], CharacterViewModel);
+        public SkillGroupViewModel Fernkampf => new SkillGroupViewModel(CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Fernkampf], CharacterViewModel);
+        public SkillGroupViewModel Webkunst => new SkillGroupViewModel(CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Webkunst], CharacterViewModel);
+        public SkillGroupViewModel Wissenschaft => new SkillGroupViewModel(CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Wissenschaft], CharacterViewModel);
+        public SkillGroupViewModel Handwerk => new SkillGroupViewModel(CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Handwerk], CharacterViewModel);
+        public SkillGroupViewModel Soziales => new SkillGroupViewModel(CharacterViewModel.Character.SkillGroups[SkillGroupModelType.Soziales], CharacterViewModel);
 
         public ICommand OpenSkillDetailCommand { get; set; }
         public ICommand OpenSkillGroupDetailCommand { get; set; }
@@ -51,18 +50,41 @@ namespace Imago.ViewModels
             set => SetProperty(ref _skillGroupDetailViewModel, value);
         }
 
+        private int _totalSkillExperience;
+        public int TotalSkillExperience
+        {
+            get => _totalSkillExperience;
+            set
+            {
+                SetProperty(ref _totalSkillExperience, value);
+                OnPropertyChanged(nameof(SkillExperienceBalance));
+            }
+        }
+        public int SkillExperienceBalance => TotalSkillExperience - CharacterViewModel.Character.SkillGroups.Values.SelectMany(model => model.Skills).Sum(model => model.TotalExperience);
+        
         public SkillPageViewModel(CharacterViewModel characterViewModel, IWikiService wikiService, 
             IMasteryRepository masteryRepository,
             ITalentRepository talentRepository,
             IRuleRepository ruleRepository)
         {
             CharacterViewModel = characterViewModel;
-            _ruleRepository = ruleRepository;
+            TotalSkillExperience = 1350;
+
+            foreach (var skill in characterViewModel.Character.SkillGroups.Values.SelectMany(model => model.Skills))
+            {
+                skill.PropertyChanged += (sender, args) =>
+                {
+                    if (args.PropertyName.Equals(nameof(SkillModel.TotalExperience)))
+                    {
+                        OnPropertyChanged(nameof(SkillExperienceBalance));
+                    }
+                };
+            }
 
             OpenSkillDetailCommand = new Command<(SkillModel Skill, SkillGroupModel SkillGroup)>(parameter =>
             {
                 var vm = new SkillDetailViewModel(parameter.Skill, parameter.SkillGroup, characterViewModel,
-                    wikiService, masteryRepository, talentRepository, _ruleRepository);
+                    wikiService, masteryRepository, talentRepository, ruleRepository);
                 vm.CloseRequested += (sender, args) => { SkillDetailViewModel = null; };
 
                 SkillDetailViewModel = vm;

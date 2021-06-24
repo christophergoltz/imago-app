@@ -2,123 +2,174 @@
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:Imago.Models;assembly=Imago"
+             xmlns:viewModels="clr-namespace:Imago.ViewModels;assembly=Imago"
+             xmlns:imago="clr-namespace:Imago;assembly=Imago"
              x:Class="Imago.Views.CustomControls.SkillGroupView" x:Name="SkillGroupViewControl">
-    <Frame>
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:DataType="viewModels:SkillViewModel" x:Key="SkillModelListItemTemplate">
+                <Grid Padding="10,0,10,3">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SkillBaseTapCommand, Source={x:Reference SkillGroupViewControl}}" CommandParameter="{Binding .}"/>
+                    </Grid.GestureRecognizers>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="50" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" FontSize="18" VerticalOptions="Center" Text="{Binding Skill.Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
+                    <Label Grid.Column="1" FontSize="18" VerticalOptions="Center" HorizontalOptions="Center">
+                        <Label.Text>
+                            <MultiBinding StringFormat="{}{0}/{1}">
+                                <Binding Path="Skill.ExperienceValue"  Source="{RelativeSource AncestorType={x:Type viewModels:SkillViewModel}}"/>
+                                <Binding Path="Skill.ExperienceForNextIncreasedRequired" Source="{RelativeSource AncestorType={x:Type viewModels:SkillViewModel}}"/>
+                            </MultiBinding>
+                        </Label.Text>
+                    </Label>
+                    <Label Grid.Column="2" FontSize="18" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Skill.IncreaseValue}"/>
+                    <Label Grid.Column="3" FontSize="18" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Skill.ModificationValue}"/>
+                    <Label Grid.Column="4" FontSize="18" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Skill.FinalValue}"/>
+                </Grid>
+            </DataTemplate>
+            <DataTemplate x:DataType="viewModels:SkillViewModel" x:Key="SkillModelListEditItemTemplate">
+                <Grid Padding="10,0,10,3">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SkillBaseTapCommand, Source={x:Reference SkillGroupViewControl}}" CommandParameter="{Binding .}"/>
+                    </Grid.GestureRecognizers>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="75" />
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="50" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" FontSize="18" VerticalOptions="Center" 
+                           Text="{Binding Skill.Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
+
+                    <Entry Grid.Column="1" Keyboard="Numeric" TextColor="White" BackgroundColor="{StaticResource GruenesUmbra1}" 
+                           FontSize="18" Text="{Binding TotalExperienceValue}"/>
+                    <Label Grid.Column="2" FontSize="18" VerticalOptions="Center" HorizontalOptions="Center">
+                        <Label.Text>
+                            <MultiBinding StringFormat="{}{0}/{1}">
+                                <Binding Path="Skill.ExperienceValue"  Source="{RelativeSource AncestorType={x:Type viewModels:SkillViewModel}}"/>
+                                <Binding Path="Skill.ExperienceForNextIncreasedRequired" Source="{RelativeSource AncestorType={x:Type viewModels:SkillViewModel}}"/>
+                            </MultiBinding>
+                        </Label.Text>
+                    </Label>
+                    <Label Grid.Column="3" FontSize="18" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Skill.IncreaseValue}"/>
+                    <Label Grid.Column="4" FontSize="18" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Skill.ModificationValue}"/>
+                    <Label Grid.Column="5" FontSize="18" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Skill.FinalValue}"/>
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <Frame BindingContext="{Binding SkillGroupViewModel, Source={x:Reference SkillGroupViewControl}}">
         <Grid Margin="-19" Padding="0" Style="{StaticResource SingleGradiantStyle}">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <!-- header -->
-            <Grid Grid.Column="0" Grid.Row="0"
-                  BindingContext="{Binding SkillGroup, Source={x:Reference SkillGroupViewControl}}">
+            <Grid Grid.Column="0" Grid.Row="0" Margin="0,5">
                 <Grid.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding SkillBaseTapCommand, Source={x:Reference SkillGroupViewControl}}" 
                                           CommandParameter="{Binding .}"/>
                 </Grid.GestureRecognizers>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="5*"/>
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="70*"/>
+                    <ColumnDefinition Width="30*"/>
+                    <ColumnDefinition Width="35*"/>
+                    <ColumnDefinition Width="30*"/>
+                    <ColumnDefinition Width="30*"/>
+                    <ColumnDefinition Width="30*"/>
                 </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="1"/>
-                </Grid.RowDefinitions>
-                <Label Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Text="{Binding Type}"
-                   Margin="10,5,0,0" FontAttributes="Bold" FontSize="22"/>
 
-                <StackLayout Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
-                    <Label Text="GW: " FontAttributes="Bold"/>
-                    <Label Text="{Binding BaseValue}"/>
+                <Label Grid.Column="0" VerticalOptions="Center"  Text="{Binding SkillGroup.Type}"
+                   Margin="10,0,0,0" FontAttributes="Bold" FontSize="22"/>
+
+                <StackLayout Grid.Column="1" VerticalOptions="Center" Orientation="Horizontal">
+                    <Label FontSize="16" Text="GW: " FontAttributes="Bold"/>
+                    <Label FontSize="16"  Text="{Binding SkillGroup.BaseValue}"/>
                 </StackLayout>
 
-                <StackLayout Grid.Column="2" Grid.Row="0" Orientation="Horizontal">
-                    <Label Text="Mod: " FontAttributes="Bold"/>
-                    <Label Text="{Binding ModificationValue}"/>
-                </StackLayout>
-
-                <StackLayout Grid.Column="3" Grid.Row="0" Orientation="Horizontal">
-                    <Label Text="FW: " FontAttributes="Bold"/>
-                    <Label Text="{Binding FinalValue}"/>
-                </StackLayout>
-
-                <StackLayout Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
-                    <Label Text="SW: " FontAttributes="Bold"/>
-                    <Label Text="{Binding IncreaseValue}"/>
-                </StackLayout>
-
-                <StackLayout Grid.Column="2" Grid.Row="1" Orientation="Horizontal">
-                    <Label Text="EP: " FontAttributes="Bold"></Label>
-                    <Label>
+                <StackLayout Grid.Column="2"  VerticalOptions="Center"  Orientation="Horizontal">
+                    <Label  FontSize="16" Text="EP: " FontAttributes="Bold"></Label>
+                    <Label  FontSize="16" >
                         <Label.Text>
                             <MultiBinding StringFormat="{}{0}/{1}">
-                                <Binding Path="ExperienceValue" Source="{RelativeSource AncestorType={x:Type models:SkillGroupModel}}"/>
-                                <Binding Path="ExperienceForNextIncreasedRequired" Source="{RelativeSource AncestorType={x:Type models:SkillGroupModel}}"/>
+                                <Binding Path="SkillGroup.ExperienceValue" Source="{RelativeSource AncestorType={x:Type viewModels:SkillGroupViewModel}}"/>
+                                <Binding Path="SkillGroup.ExperienceForNextIncreasedRequired" Source="{RelativeSource AncestorType={x:Type viewModels:SkillGroupViewModel}}"/>
                             </MultiBinding>
                         </Label.Text>
                     </Label>
                 </StackLayout>
+
+                <StackLayout Grid.Column="3"  VerticalOptions="Center"  Orientation="Horizontal">
+                    <Label  FontSize="16" Text="Mod: " FontAttributes="Bold"/>
+                    <Label  FontSize="16" Text="{Binding SkillGroup.ModificationValue}"/>
+                </StackLayout>
+
+
+                <StackLayout Grid.Column="4" VerticalOptions="Center"  Orientation="Horizontal">
+                    <Label  FontSize="16" Text="SW: " FontAttributes="Bold"/>
+                    <Label FontSize="16"  Text="{Binding SkillGroup.IncreaseValue}"/>
+                </StackLayout>
+
+
+                <StackLayout Grid.Column="5" VerticalOptions="Center"  Orientation="Horizontal">
+                    <Label  FontSize="16" Text="FW: " FontAttributes="Bold"/>
+                    <Label  FontSize="16" Text="{Binding SkillGroup.FinalValue}"/>
+                </StackLayout>
+
+                
+            </Grid>
+
+            <!-- skills header -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="55" />
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="50" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0" Grid.Row="0" FontSize="14" FontAttributes="Bold"  Margin="5,0,0,0" 
+                       Text="{Binding SkillGroupViewModel.SkillGroup.Type, Source={x:Reference SkillGroupViewControl}, Converter={StaticResource SkillGroupTypeToAttributeSourceStringConverter}}"/>
+                <Label Grid.Row="0" Grid.Column="1" FontSize="14" FontAttributes="Bold" Text="Gesamt EP" IsVisible="{Binding CharacterViewModel.EditMode}"/>
+                <Label Grid.Row="0" Grid.Column="2" FontSize="14" FontAttributes="Bold" Text="EP"/>
+                <Label Grid.Row="0" Grid.Column="3" FontSize="14" FontAttributes="Bold" Text="SW" />
+                <Label Grid.Row="0" Grid.Column="4" FontSize="14" FontAttributes="Bold" Text="Mod" />
+                <Label Grid.Row="0" Grid.Column="5" FontSize="14" FontAttributes="Bold" Text="FW" />
             </Grid>
 
             <!-- skills -->
-            <ListView SelectionMode="None" Grid.Column="0" Grid.Row="1" VerticalOptions="FillAndExpand" HasUnevenRows="True"
-                      ItemsSource="{Binding SkillGroup.Skills, Source={x:Reference SkillGroupViewControl}}">
-                <ListView.Header>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="50" />
-                            <ColumnDefinition Width="50" />
-                            <ColumnDefinition Width="50" />
-                            <ColumnDefinition Width="50" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="1"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <Label Grid.Column="0" Grid.Row="0" FontSize="14" FontAttributes="Bold"  Margin="5,0,0,0" 
-                               Text="{Binding SkillGroup.Type, Source={x:Reference SkillGroupViewControl}, Converter={StaticResource SkillGroupTypeToAttributeSourceStringConverter}}"/>
-                        <Label Grid.Row="0" Grid.Column="1" FontSize="14" FontAttributes="Bold" Text="EP"/>
-                        <Label Grid.Row="0" Grid.Column="2" FontSize="14" FontAttributes="Bold" Text="SW" />
-                        <Label Grid.Row="0" Grid.Column="3" FontSize="14" FontAttributes="Bold" Text="Mod" />
-                        <Label Grid.Row="0" Grid.Column="4" FontSize="14" FontAttributes="Bold" Text="FW" />
-                    </Grid>
-                </ListView.Header>
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="models:SkillModel">
-                        <ViewCell>
-                            <Grid Padding="10,0,10,3">
-                                <Grid.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding SkillBaseTapCommand, Source={x:Reference SkillGroupViewControl}}" CommandParameter="{Binding .}"/>
-                                </Grid.GestureRecognizers>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="50" />
-                                    <ColumnDefinition Width="50" />
-                                    <ColumnDefinition Width="50" />
-                                    <ColumnDefinition Width="50" />
-                                </Grid.ColumnDefinitions>
-                                <Label Grid.Column="0" FontSize="18" VerticalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
-                                <Label Grid.Column="1" FontSize="18" VerticalOptions="Center" HorizontalOptions="Center">
-                                    <Label.Text>
-                                        <MultiBinding StringFormat="{}{0}/{1}">
-                                            <Binding Path="ExperienceValue"  Source="{RelativeSource AncestorType={x:Type models:SkillModel}}"/>
-                                            <Binding Path="ExperienceForNextIncreasedRequired" Source="{RelativeSource AncestorType={x:Type models:SkillModel}}"/>
-                                        </MultiBinding>
-                                    </Label.Text>
-                                </Label>
-                                <Label Grid.Column="2" FontSize="18" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding IncreaseValue}"/>
-                                <Label Grid.Column="3" FontSize="18" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding ModificationValue}"/>
-                                <Label Grid.Column="4" FontSize="18" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding FinalValue}"/>
-                            </Grid>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+            <StackLayout Grid.Row="2" BindableLayout.ItemsSource="{Binding Skills}" Margin="10,0,10,10">
+                <StackLayout.Style>
+                    <Style TargetType="StackLayout">
+                        <Style.Triggers>
+                            <DataTrigger TargetType="StackLayout" 
+                                         Binding="{Binding CharacterViewModel.EditMode}" 
+                                         Value="False">
+                                <Setter Property="BindableLayout.ItemTemplate" Value="{StaticResource SkillModelListItemTemplate}"/>
+                            </DataTrigger>
+                            <DataTrigger TargetType="StackLayout" 
+                                         Binding="{Binding CharacterViewModel.EditMode}" 
+                                         Value="True">
+                                <Setter Property="BindableLayout.ItemTemplate" Value="{StaticResource SkillModelListEditItemTemplate}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackLayout.Style>
+            </StackLayout>
         </Grid>
     </Frame>
 </ContentView>
