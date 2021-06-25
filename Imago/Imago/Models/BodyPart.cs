@@ -64,10 +64,12 @@ namespace Imago.Models
         {
             return d1 + (d2 - d1) * f;
         }
-
+        
+        //todo move to vm
         [JsonIgnore]
         public Color HitpointsColor => GetBlendedColor((int)(CurrentHitpointsPercentage*100));
 
+        //todo move to vm
         [JsonIgnore]
         public double CurrentHitpointsPercentage
         {

@@ -23,6 +23,7 @@ namespace Imago.ViewModels
     public class StartPageViewModel : BindableBase
     {
         private readonly ICharacterRepository _characterRepository;
+        private readonly ICharacterService _characterService;
         private readonly IMeleeWeaponRepository _meleeWeaponRepository;
         private readonly IRangedWeaponRepository _rangedWeaponRepository;
         private readonly IArmorRepository _armorRepository;
@@ -46,6 +47,7 @@ namespace Imago.ViewModels
         public ICommand NewCharacterCommand { get; }
 
         public StartPageViewModel(ICharacterRepository characterRepository,
+            ICharacterService characterService,
             IWikiParseService wikiParseService,
             IMeleeWeaponRepository meleeWeaponRepository,
             IRangedWeaponRepository rangedWeaponRepository,
@@ -59,6 +61,7 @@ namespace Imago.ViewModels
             VersionTracking.Track();
 
             _characterRepository = characterRepository;
+            _characterService = characterService;
             _meleeWeaponRepository = meleeWeaponRepository;
             _rangedWeaponRepository = rangedWeaponRepository;
             _armorRepository = armorRepository;
@@ -147,7 +150,7 @@ namespace Imago.ViewModels
             {
                 var c = entity.Value;
                 var vm = new CharacterViewModel(c, _ruleRepository);
-                App.CurrentCharacter = vm;
+                _characterService.SetCurrentCharacter(vm);
                 await Shell.Current.GoToAsync($"//{nameof(CharacterInfoPage)}");
             });
 
@@ -182,8 +185,7 @@ namespace Imago.ViewModels
                 //use different open method
                 var c = entity.Value;
                 var vm = new CharacterViewModel(c, _ruleRepository);
-             //   vm.EditMode = true;
-                App.CurrentCharacter = vm;
+                _characterService.SetCurrentCharacter(vm);
                 await Shell.Current.GoToAsync($"//{nameof(CharacterInfoPage)}");
 
                 Element ce = Shell.Current.CurrentPage;

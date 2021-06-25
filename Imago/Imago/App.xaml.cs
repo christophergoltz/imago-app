@@ -14,9 +14,6 @@ namespace Imago
 {
     public partial class App : Application
     {
-        //todo move to character service
-        public static CharacterViewModel CurrentCharacter { get; set; }
-        
         public App()
         {
             InitializeComponent();
