@@ -22,11 +22,11 @@ namespace Imago.Models.Base
                 (int IncreaseLevel, int LeftoverExperience, int ExperienceForNextIncrease) increaseInfo = (0,0,0);
 
                 if (this is Attribute attribute)
-                    increaseInfo = IncreaseServices.GetIncreaseInfo(IncreaseType.Attribute, value + attribute.ExperienceBySkillGroup);
+                    increaseInfo = IncreaseService.GetIncreaseInfo(IncreaseType.Attribute, value + attribute.ExperienceBySkillGroup);
                 if (this is SkillGroupModel)
-                    increaseInfo = IncreaseServices.GetIncreaseInfo(IncreaseType.SkillGroup, value);
+                    increaseInfo = IncreaseService.GetIncreaseInfo(IncreaseType.SkillGroup, value);
                 if (this is SkillModel) 
-                    increaseInfo = IncreaseServices.GetIncreaseInfo(IncreaseType.Skill, value);
+                    increaseInfo = IncreaseService.GetIncreaseInfo(IncreaseType.Skill, value);
 
                 ExperienceValue = increaseInfo.LeftoverExperience;
                 IncreaseValue = increaseInfo.IncreaseLevel;

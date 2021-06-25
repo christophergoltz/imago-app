@@ -16,7 +16,7 @@ namespace Imago.Services
         Skill
     }
 
-    public static class IncreaseServices
+    public static class IncreaseService
     {
         private static readonly int[] ExperienceLookup = { 2, 3, 5, 8, 12, 17, 23, 30, 38, 47 };
 
