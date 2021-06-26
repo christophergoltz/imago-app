@@ -4,8 +4,10 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Xml.XPath;
+using Acr.UserDialogs;
 using Imago.Models;
 using Imago.Models.Enum;
 using Imago.Repository;
@@ -40,33 +42,50 @@ namespace Imago.ViewModels
                 characterViewModel.RecalculateHandicapAttributes();
             });
 
-            AddArmorCommand = new Command(async () =>
+            AddArmorCommand = new Command(() =>
             {
-                var c = JsonConvert.SerializeObject(characterViewModel.Character);
+                Task.Run(async () =>
+                {
+                    Dictionary<string, ArmorModel> armor;
 
+                    using (UserDialogs.Instance.Loading("Rüstungen werden geladen", null, null, true, MaskType.Black))
+                    {
+                        await Task.Delay(250);
 
+                        var currentBodyPart = bodyPart.Type.MapBodyPartTypeToArmorPartType();
+                        var allArmor = await armorRepository.GetAllItemsAsync();
+                        armor = allArmor
+                            .SelectMany(armorSet => armorSet.ArmorParts)
+                            .Where(pair => pair.Key == currentBodyPart)
+                            .Select(pair => pair.Value)
+                            .ToDictionary(_ => _.Name, _ => _);
 
-                var currentBodyPart = bodyPart.Type.MapBodyPartTypeToArmorPartType();
-                var allArmor = await armorRepository.GetAllItemsAsync();
-                var armor = allArmor
-                    .SelectMany(armorSet => armorSet.ArmorParts)
-                    .Where(pair => pair.Key == currentBodyPart)
-                    .Select(pair => pair.Value)
-                    .ToDictionary(_ => _.Name, _ => _);
-                
-                var result =
-                    await Shell.Current.DisplayActionSheet($"Rüstung hinzufügen", "Abbrechen", null, armor.Keys.OrderBy(s => s).ToArray());
+                        await Task.Delay(250);
+                    }
 
-                if (result == null || result.Equals("Abbrechen"))
-                    return;
+                    string result = null;
+                    
+                    await Device.InvokeOnMainThreadAsync(async () =>
+                    {
+                        result = await UserDialogs.Instance.ActionSheetAsync($"Rüstung hinzufügen", "Abbrechen", null, null,
+                            armor.Keys.OrderBy(s => s).ToArray());
+                    });
 
-                //copy object by value to prevent ref copy
-                var newArmor = armor[result].DeepCopy();
-                newArmor.Adventure = true;
-                newArmor.Fight = true;
-                newArmor.PropertyChanged += OnArmorPropertyChanged;
-                BodyPart.Armor.Add(newArmor);
-                characterViewModel.RecalculateHandicapAttributes();
+                    if (result == null || result.Equals("Abbrechen"))
+                        return;
+                    
+                    //copy object by value to prevent ref copy
+                    var newArmor = armor[result].DeepCopy();
+                    newArmor.Adventure = true;
+                    newArmor.Fight = true;
+                    await Device.InvokeOnMainThreadAsync(() =>
+                    {
+                        BodyPart.Armor.Add(newArmor);
+                    });
+
+                    newArmor.PropertyChanged += OnArmorPropertyChanged;
+                    characterViewModel.RecalculateHandicapAttributes();
+                });
             });
         }
 

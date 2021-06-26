@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Acr.UserDialogs;
 using Imago.Database;
 using Imago.Models;
 using Imago.Models.Entity;
@@ -24,6 +25,7 @@ namespace Imago.ViewModels
     {
         private readonly ICharacterRepository _characterRepository;
         private readonly ICharacterService _characterService;
+        private readonly IWikiParseService _wikiParseService;
         private readonly IMeleeWeaponRepository _meleeWeaponRepository;
         private readonly IRangedWeaponRepository _rangedWeaponRepository;
         private readonly IArmorRepository _armorRepository;
@@ -41,10 +43,6 @@ namespace Imago.ViewModels
             set => SetProperty(ref _characters, value);
         }
 
-        public ICommand ParseDataFromWikiCommand { get; }
-        public ICommand OpenCharacterCommand { get; }
-        public ICommand TestCharacterCommand { get; }
-        public ICommand NewCharacterCommand { get; }
 
         public StartPageViewModel(ICharacterRepository characterRepository,
             ICharacterService characterService,
@@ -62,6 +60,7 @@ namespace Imago.ViewModels
 
             _characterRepository = characterRepository;
             _characterService = characterService;
+            _wikiParseService = wikiParseService;
             _meleeWeaponRepository = meleeWeaponRepository;
             _rangedWeaponRepository = rangedWeaponRepository;
             _armorRepository = armorRepository;
@@ -70,145 +69,173 @@ namespace Imago.ViewModels
             _shieldRepository = shieldRepository;
             _masteryRepository = masteryRepository;
             _ruleRepository = ruleRepository;
-            
-            TestCharacterCommand = new Command(async () =>
-            {
-                var newGuid = Guid.NewGuid();
 
-                var newChar = _characterRepository.CreateExampleCharacter();
-                newChar.Name = "Testspieler";
-                newChar.RaceType = RaceType.Mensch;
-                newChar.CreatedBy = "System";
-                newChar.Owner = "Testuser";
-                newChar.Id = newGuid;
-                
-                var x = VersionTracking.CurrentVersion;
-
-                Version xx = Version.Parse(x);
-
-                var versionString = xx.ToString();
-                await _characterRepository.AddItemRawAsync(new CharacterEntity()
-                {
-                    CreatedAt = DateTime.Now,
-                    Value = newChar,
-                    Name = newChar.Name,
-                    LastModifiedAt = DateTime.Now,
-                    Id = newGuid,
-                    Version = versionString
-                });
-                 await RefreshCharacterList();
-            });
-
-            ParseDataFromWikiCommand = new Command(async () =>
-            {
-                WikiParseLog.Clear();
-
-                foreach (var tableInfoModel in TableInfos.Values)
-                {
-                    if(tableInfoModel.Type == TableInfoType.Character)
-                        continue;
-                    
-                    try
-                    {
-                        tableInfoModel.State = TableInfoState.Loading;
-                        await Task.Delay(200);
-                        var result = await wikiParseService.RefreshWikiData(tableInfoModel.Type, WikiParseLog);
-                        if (result == null)
-                        {
-                            tableInfoModel.State = TableInfoState.Error;
-                            await Task.Delay(200);
-                            continue;
-                        }
-
-                        if (result.Value == 0)
-                        {
-                            tableInfoModel.State = TableInfoState.NoData;
-                            await Task.Delay(200);
-                            continue;
-                        }
-                        
-                        tableInfoModel.State = TableInfoState.Okay;
-                        await Task.Delay(200);
-                    }
-                    catch (Exception e)
-                    {
-                        tableInfoModel.State = TableInfoState.Error;
-                        await Task.Delay(200);
-                        Debug.WriteLine(e);
-                    }
-
-                }
-
-                await RefreshDatabaseInfos();
-            });
 
 #pragma warning disable 4014
             InitLocalDatabase(); //needs to be executed in background
 #pragma warning restore 4014
+        }
 
-            OpenCharacterCommand = new Command<CharacterEntity>(async entity =>
+
+        private ICommand _parseWikiCommand;
+        public ICommand ParseWikiCommand => _parseWikiCommand ?? (_parseWikiCommand = new Command(async () =>
+        {
+            WikiParseLog.Clear();
+
+            foreach (var tableInfoModel in TableInfos.Values)
             {
-                var c = entity.Value;
-                var vm = new CharacterViewModel(c, _ruleRepository);
-                _characterService.SetCurrentCharacter(vm);
-                await Shell.Current.GoToAsync($"//{nameof(CharacterInfoPage)}");
-            });
+                if (tableInfoModel.Type == TableInfoType.Character)
+                    continue;
 
-            NewCharacterCommand = new Command(async () =>
-            {
-                var newGuid = Guid.NewGuid();
-
-                var newChar = _characterRepository.CreateNewCharacter();
-                newChar.Name = newGuid.ToString();
-                newChar.RaceType = RaceType.Mensch;
-                newChar.Id = newGuid;
-
-                var x = VersionTracking.CurrentVersion;
-
-                Version xx = Version.Parse(x);
-
-                var versionString = xx.ToString();
-
-                var entity = new CharacterEntity()
+                try
                 {
-                    CreatedAt = DateTime.Now,
-                    Value = newChar,
-                    Name = newChar.Name,
-                    LastModifiedAt = DateTime.Now,
-                    Id = newGuid,
-                    Version = versionString
-                };
-                await _characterRepository.AddItemRawAsync(entity);
-                await RefreshCharacterList();
+                    tableInfoModel.State = TableInfoState.Loading;
+                    await Task.Delay(200);
+                    var result = await _wikiParseService.RefreshWikiData(tableInfoModel.Type, WikiParseLog);
+                    if (result == null)
+                    {
+                        tableInfoModel.State = TableInfoState.Error;
+                        await Task.Delay(200);
+                        continue;
+                    }
 
+                    if (result.Value == 0)
+                    {
+                        tableInfoModel.State = TableInfoState.NoData;
+                        await Task.Delay(200);
+                        continue;
+                    }
 
-                //use different open method
-                var c = entity.Value;
-                var vm = new CharacterViewModel(c, _ruleRepository);
-                _characterService.SetCurrentCharacter(vm);
-                await Shell.Current.GoToAsync($"//{nameof(CharacterInfoPage)}");
-
-                Element ce = Shell.Current.CurrentPage;
-
-                while (true)
+                    tableInfoModel.State = TableInfoState.Okay;
+                    await Task.Delay(200);
+                }
+                catch (Exception e)
                 {
-                    if (ce is AppShell shell)
-                    {
-                        if (shell.BindingContext is AppShellViewModel appShellViewModel)
-                        {
-                            appShellViewModel.EditMode = true;
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        ce = ce.Parent;
-                    }
+                    tableInfoModel.State = TableInfoState.Error;
+                    await Task.Delay(200);
+                    Debug.WriteLine(e);
                 }
 
+            }
 
+            await RefreshDatabaseInfos();
+        }));
+
+        private ICommand _openCharacterCommand;
+        public ICommand OpenCharacterCommand => _openCharacterCommand ?? (_openCharacterCommand = new Command<CharacterEntity>(entity =>
+        {
+            Task.Run(async () =>
+            {
+                using (UserDialogs.Instance.Loading("Character wird geladen.."))
+                {
+                    await Task.Delay(250);
+                    var character = entity.Value;
+                    var viewModel = new CharacterViewModel(character, _ruleRepository);
+                    _characterService.SetCurrentCharacter(viewModel);
+
+                    await Device.InvokeOnMainThreadAsync(async () =>
+                    {
+                        await Shell.Current.GoToAsync($"//{nameof(CharacterInfoPage)}");
+                    });
+                    await Task.Delay(250);
+                }
             });
-        }
+        }));
+
+        private ICommand _createNewCharacterCommand;
+
+        public ICommand CreateNewCharacterCommand => _createNewCharacterCommand ?? (_createNewCharacterCommand =
+            new Command(() =>
+            {
+                Task.Run(async () =>
+                {
+                    using (UserDialogs.Instance.Loading("Neuer Charakter wird erstellt.."))
+                    {
+                        await Task.Delay(250);
+                        var newGuid = Guid.NewGuid();
+
+                        var newChar = _characterRepository.CreateNewCharacter();
+                        newChar.Name = newGuid.ToString().Substring(0, 4);
+                        newChar.RaceType = RaceType.Mensch;
+                        newChar.Id = newGuid;
+
+                        var currentAppVersion = VersionTracking.CurrentVersion;
+                        var entity = new CharacterEntity()
+                        {
+                            CreatedAt = DateTime.Now,
+                            Value = newChar,
+                            Name = newChar.Name,
+                            LastModifiedAt = DateTime.Now,
+                            Id = newGuid,
+                            Version = currentAppVersion
+                        };
+                        await _characterRepository.AddItemRawAsync(entity);
+                        await RefreshCharacterList();
+
+                        //use different open method
+                        var c = entity.Value;
+                        var vm = new CharacterViewModel(c, _ruleRepository);
+                        _characterService.SetCurrentCharacter(vm);
+
+                        Element ce = Shell.Current.CurrentPage;
+
+                        while (true)
+                        {
+                            if (ce is AppShell shell)
+                            {
+                                if (shell.BindingContext is AppShellViewModel appShellViewModel)
+                                {
+                                    appShellViewModel.EditMode = true;
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                ce = ce.Parent;
+                            }
+                        }
+
+                        await Device.InvokeOnMainThreadAsync(async () =>
+                        {
+                            await Shell.Current.GoToAsync($"//{nameof(CharacterInfoPage)}");
+                        });
+                        await Task.Delay(250);
+                    }
+                });
+            }));
+
+        private ICommand _generateTestCharacterCommand;
+        public ICommand GenerateTestCharacterCommand => _generateTestCharacterCommand ?? (_generateTestCharacterCommand = new Command(() =>
+            {
+                Task.Run(async () =>
+                {
+                    using (UserDialogs.Instance.Loading("Testcharacter wird geladen.."))
+                    {
+                        await Task.Delay(250);
+                        var newGuid = Guid.NewGuid();
+
+                        var newChar = _characterRepository.CreateExampleCharacter();
+                        newChar.Name = "Test - " + newGuid.ToString().Substring(0,4);
+                        newChar.RaceType = RaceType.Mensch;
+                        newChar.CreatedBy = "System";
+                        newChar.Owner = "Testuser";
+                        newChar.Id = newGuid;
+
+                        var currentAppVersion = VersionTracking.CurrentVersion;
+                        await _characterRepository.AddItemRawAsync(new CharacterEntity()
+                        {
+                            CreatedAt = DateTime.Now,
+                            Value = newChar,
+                            Name = newChar.Name,
+                            LastModifiedAt = DateTime.Now,
+                            Id = newGuid,
+                            Version = currentAppVersion
+                        });
+                        await RefreshCharacterList();
+                        await Task.Delay(250);
+                    }
+                });
+            }));
 
         public ObservableCollection<LogEntry> WikiParseLog { get; set; } = new ObservableCollection<LogEntry>();
 

@@ -5,13 +5,13 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Timers;
 using Imago.Models;
 using Imago.Repository.WrappingDatabase;
 using Imago.ViewModels;
 using Newtonsoft.Json;
 using Xamarin.Forms;
-using Timer = System.Timers.Timer;
 
 namespace Imago.Services
 {
@@ -19,6 +19,7 @@ namespace Imago.Services
     {
         void SetCurrentCharacter(CharacterViewModel character);
         CharacterViewModel GetCurrentCharacter();
+        Task<bool> SaveCurrentCharacter();
     }
 
     public class CharacterService : ICharacterService
@@ -32,87 +33,23 @@ namespace Imago.Services
 
         private CharacterViewModel _currentCharacter;
 
-        private Timer _timer;
-
         public void SetCurrentCharacter(CharacterViewModel character)
         {
             _currentCharacter = character;
-            Register(_currentCharacter);
-
-            _timer = new Timer(5000);
-            _timer.Elapsed += SaveTimerOnElapsed;
-            _timer.AutoReset = false;
         }
 
-        private void SaveTimerOnElapsed(object sender, ElapsedEventArgs e)
+        public async Task<bool> SaveCurrentCharacter()
         {
             Debug.WriteLine("Start saving..");
-            _characterRepository.Update(_currentCharacter.Character);
-            Thread.Sleep(500);
+            var result = await _characterRepository.Update(_currentCharacter.Character);
             Debug.WriteLine("Done saving..");
+
+            return result;
         }
         
-
         public CharacterViewModel GetCurrentCharacter()
         {
             return _currentCharacter;
-        }
-
-
-        private void Register(object obj)
-        {
-            if (obj is INotifyPropertyChanged inpcObj)
-            {
-                inpcObj.PropertyChanged += (sender, args) => { CharacterPropertyUpdated(args.PropertyName); };
-            }
-
-            var t = obj.GetType().GetProperties();
-            foreach (var propertyInfo in t)
-            {
-                if (propertyInfo.PropertyType == typeof(Guid))
-                    continue;
-                if (propertyInfo.PropertyType == typeof(string))
-                    continue;
-                if (propertyInfo.PropertyType == typeof(int))
-                    continue;
-                if (propertyInfo.PropertyType == typeof(Color))
-                    continue;
-                if (propertyInfo.PropertyType == typeof(System.Drawing.Color))
-                    continue;
-                if (propertyInfo.PropertyType == typeof(DateTime))
-                    continue;
-
-                if (System.Attribute.IsDefined(propertyInfo, typeof(JsonIgnoreAttribute)))
-                    continue;
-
-                if (typeof(IEnumerable).IsAssignableFrom(propertyInfo.PropertyType))
-                {
-                    var tt = propertyInfo.GetValue(obj);
-                    if (tt is IEnumerable e)
-                    {
-                        foreach (var item in e)
-                        {
-                            Register(item);
-                        }
-                    }
-
-                    continue;
-                }
-
-                var child = propertyInfo.GetValue(obj);
-                Register(child);
-            }
-        }
-
-        private void CharacterPropertyUpdated(string propertyName)
-        {
-            Debug.WriteLine("Char changed: " + propertyName);
-
-            if (_timer != null)
-            {
-                _timer.Stop();
-                _timer.Start();
-            }
         }
     }
 }

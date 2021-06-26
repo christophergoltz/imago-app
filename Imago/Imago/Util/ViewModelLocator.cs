@@ -51,7 +51,7 @@ namespace Imago.Util
                 _armorRepository, _talentRepository, _specialWeaponRepository, _shieldRepository, _masteryRepository));
             _characterService = new Lazy<ICharacterService>(() => new CharacterService(_characterRepository));
 
-            AppShellViewModel = new AppShellViewModel();
+            AppShellViewModel = new AppShellViewModel(_characterService.Value);
             AppShellViewModel.EditModeChanged += (sender, value) =>
             {
                 _characterService.Value.GetCurrentCharacter().EditMode = value;

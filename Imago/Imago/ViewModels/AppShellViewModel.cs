@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using Acr.UserDialogs;
+using Imago.Services;
 using Imago.Util;
 using Imago.Views;
 using Xamarin.Essentials;
@@ -12,20 +15,36 @@ namespace Imago.ViewModels
 {
     public class AppShellViewModel : BindableBase
     {
+        private readonly ICharacterService _characterService;
         public ICommand GoToMainMenuCommand { get; }
 
         private bool _editMode;
         private string _version;
         public event EventHandler<bool> EditModeChanged;
 
-        public AppShellViewModel()
+        public AppShellViewModel(ICharacterService characterService)
         {
+            _characterService = characterService;
             VersionTracking.Track();
             Version = VersionTracking.CurrentVersion;
 
-            GoToMainMenuCommand = new Command(async () =>
+            GoToMainMenuCommand = new Command(() =>
             {
-                await Shell.Current.GoToAsync($"//{nameof(StartPage)}");
+                Task.Run(async () =>
+                {
+                    using (UserDialogs.Instance.Loading("Charakter wird gespeichert", null, null, true, MaskType.Black))
+                    {
+                        await Task.Delay(250);
+                        var result = await _characterService.SaveCurrentCharacter();
+                        if (result)
+                            await Device.InvokeOnMainThreadAsync(async () =>
+                            {
+                                await Shell.Current.GoToAsync($"//{nameof(StartPage)}");
+                            });
+                            
+                        await Task.Delay(250);
+                    }
+                });
             });
         }
 

@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using Acr.UserDialogs;
 using Imago.Models;
 using Imago.Repository;
 using Imago.Repository.WrappingDatabase;
 using Imago.Services;
 using Imago.Util;
+using Imago.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
@@ -41,32 +45,52 @@ namespace Imago.ViewModels
             _specialWeaponRepository = specialWeaponRepository;
             _shieldRepository = shieldRepository;
 
-            AddWeaponCommand = new Command(async () =>
+            AddWeaponCommand = new Command(() =>
             {
-                var allWeapons = await _meleeWeaponRepository.GetAllItemsAsync();
-                allWeapons.AddRange(await _rangedWeaponRepository.GetAllItemsAsync());
-                allWeapons.AddRange(await _specialWeaponRepository.GetAllItemsAsync());
-                allWeapons.AddRange(await _shieldRepository.GetAllItemsAsync());
+                Task.Run(async () =>
+                {
+                    Dictionary<string, Weapon> weapons;
 
-                var weapons = allWeapons
-                    .ToDictionary(weapon => weapon.Name.ToString(), weapon => weapon);
+                    using (UserDialogs.Instance.Loading("Waffen werden geladen", null, null, true, MaskType.Black))
+                    {
+                        await Task.Delay(250);
 
-                var result =
-                    await Shell.Current.DisplayActionSheet($"Waffe hinzufügen", "Abbrechen", null,
-                        weapons.Keys.OrderBy(s => s).ToArray());
+                        var allWeapons = await _meleeWeaponRepository.GetAllItemsAsync();
+                        allWeapons.AddRange(await _rangedWeaponRepository.GetAllItemsAsync());
+                        allWeapons.AddRange(await _specialWeaponRepository.GetAllItemsAsync());
+                        allWeapons.AddRange(await _shieldRepository.GetAllItemsAsync());
 
-                if (result == null || result.Equals("Abbrechen"))
-                    return;
+                        weapons = allWeapons
+                            .ToDictionary(weapon => weapon.Name.ToString(), weapon => weapon);
 
-                //copy object by value to prevent ref copies
-                var newWeapon = weapons[result].DeepCopy();
-                newWeapon.Fight = true;
-                newWeapon.Adventure = true;
-                _characterViewModel.Character.Weapons.Add(newWeapon);
-                newWeapon.PropertyChanged += OnWeaponLoadValueChanged;
-                _characterViewModel.RecalculateHandicapAttributes();
+                        await Task.Delay(250);
+                    }
 
-                OpenWeaponRequested?.Invoke(this, newWeapon);
+                    string result = null;
+
+                    await Device.InvokeOnMainThreadAsync(async () =>
+                    {
+                        result = await UserDialogs.Instance.ActionSheetAsync($"Waffe hinzufügen", "Abbrechen", null,
+                                CancellationToken.None, weapons.Keys.OrderBy(s => s).ToArray());
+                    });
+
+                    if (result == null || result.Equals("Abbrechen"))
+                        return;
+
+                    //copy object by value to prevent ref copies
+                    var newWeapon = weapons[result].DeepCopy();
+                    newWeapon.Fight = true;
+                    newWeapon.Adventure = true;
+                    await Device.InvokeOnMainThreadAsync(() =>
+                    {
+                        _characterViewModel.Character.Weapons.Add(newWeapon);
+                    });
+                    
+                    newWeapon.PropertyChanged += OnWeaponLoadValueChanged;
+                    _characterViewModel.RecalculateHandicapAttributes();
+
+                    OpenWeaponRequested?.Invoke(this, newWeapon);
+                });
             });
         }
 

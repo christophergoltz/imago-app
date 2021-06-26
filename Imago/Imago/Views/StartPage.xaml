@@ -39,8 +39,8 @@
                                     <RowDefinition Height="1"></RowDefinition>
                                 </Grid.RowDefinitions>
                                 <Label Margin="20,0"  VerticalOptions="Center" FontSize="28" FontAttributes="Bold" Text="Charaktere" Grid.Column="0" Grid.Row="0"></Label>
-                                <Button Grid.Column="1" FontSize="18" Grid.Row="0" Text="Neuer Charakter erstellen" Margin="20" Command="{Binding NewCharacterCommand}"/>
-                                <Button Grid.Column="2" FontSize="18" Grid.Row="0" Command="{Binding TestCharacterCommand}" Text="Testspieler generieren" Margin="20"/>
+                                <Button Grid.Column="1" FontSize="18" Grid.Row="0" Text="Neuer Charakter erstellen" Margin="20" Command="{Binding CreateNewCharacterCommand}"/>
+                                <Button Grid.Column="2" FontSize="18" Grid.Row="0" Command="{Binding GenerateTestCharacterCommand}" Text="Testspieler generieren" Margin="20"/>
                                 <BoxView Grid.Row="1"  Grid.ColumnSpan="3" Grid.Column="0" Color="Black"/>
                             </Grid>
                         </ListView.Header>
@@ -84,7 +84,7 @@
                             </Grid.RowDefinitions>
                             <Label Margin="20,0" VerticalOptions="Center" FontSize="28" FontAttributes="Bold" Text="Lokale Datenbank" Grid.Column="0" Grid.Row="0"></Label>
                             <Button Grid.Column="1" Grid.Row="0" Text="Daten aus Wiki laden" VerticalOptions="Center" Margin="20"
-                                    Command="{Binding ParseDataFromWikiCommand,Source={RelativeSource AncestorType={x:Type viewModels:StartPageViewModel}}}"></Button>
+                                    Command="{Binding ParseWikiCommand,Source={RelativeSource AncestorType={x:Type viewModels:StartPageViewModel}}}"></Button>
                             <BoxView Grid.Row="1"  Grid.ColumnSpan="2" Grid.Column="0" Color="Black"/>
                         </Grid>
                     </ListView.Header>
