@@ -4,11 +4,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Text;
+using System.Threading;
 using System.Timers;
 using Imago.Models;
+using Imago.Repository.WrappingDatabase;
 using Imago.ViewModels;
 using Newtonsoft.Json;
 using Xamarin.Forms;
+using Timer = System.Timers.Timer;
 
 namespace Imago.Services
 {
@@ -20,9 +23,11 @@ namespace Imago.Services
 
     public class CharacterService : ICharacterService
     {
-        public CharacterService()
-        {
+        private readonly ICharacterRepository _characterRepository;
 
+        public CharacterService(ICharacterRepository characterRepository)
+        {
+            _characterRepository = characterRepository;
         }
 
         private CharacterViewModel _currentCharacter;
@@ -41,7 +46,10 @@ namespace Imago.Services
 
         private void SaveTimerOnElapsed(object sender, ElapsedEventArgs e)
         {
-            Debug.WriteLine("Saving..");
+            Debug.WriteLine("Start saving..");
+            _characterRepository.Update(_currentCharacter.Character);
+            Thread.Sleep(500);
+            Debug.WriteLine("Done saving..");
         }
         
 
@@ -61,11 +69,6 @@ namespace Imago.Services
             var t = obj.GetType().GetProperties();
             foreach (var propertyInfo in t)
             {
-                if (System.Attribute.IsDefined(propertyInfo, typeof(JsonIgnoreAttribute)))
-                {
-                    continue;
-                }
-
                 if (propertyInfo.PropertyType == typeof(Guid))
                     continue;
                 if (propertyInfo.PropertyType == typeof(string))
@@ -75,6 +78,11 @@ namespace Imago.Services
                 if (propertyInfo.PropertyType == typeof(Color))
                     continue;
                 if (propertyInfo.PropertyType == typeof(System.Drawing.Color))
+                    continue;
+                if (propertyInfo.PropertyType == typeof(DateTime))
+                    continue;
+
+                if (System.Attribute.IsDefined(propertyInfo, typeof(JsonIgnoreAttribute)))
                     continue;
 
                 if (typeof(IEnumerable).IsAssignableFrom(propertyInfo.PropertyType))

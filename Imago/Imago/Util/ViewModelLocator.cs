@@ -49,7 +49,7 @@ namespace Imago.Util
             _wikiParseService = new Lazy<IWikiParseService>(() => new WikiParseService(_meleeWeaponRepository,
                 _rangedWeaponRepository,
                 _armorRepository, _talentRepository, _specialWeaponRepository, _shieldRepository, _masteryRepository));
-            _characterService = new Lazy<ICharacterService>(() => new CharacterService());
+            _characterService = new Lazy<ICharacterService>(() => new CharacterService(_characterRepository));
 
             AppShellViewModel = new AppShellViewModel();
             AppShellViewModel.EditModeChanged += (sender, value) =>

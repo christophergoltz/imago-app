@@ -141,7 +141,7 @@
                         </StackLayout>
                     </StackLayout>
 
-                    <Editor FontSize="18" Grid.Row="1" Margin="5,5,0,5" Text="[tbd]"></Editor>
+                    <Editor FontSize="18" Grid.Row="1" Margin="5,5,0,5" Text="{Binding CharacterViewModel.Character.Note}"></Editor>
                 </Grid>
 
                 <!-- attributes -->

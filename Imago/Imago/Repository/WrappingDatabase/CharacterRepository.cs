@@ -18,6 +18,7 @@ namespace Imago.Repository.WrappingDatabase
         Character CreateNewCharacter();
 
         Character CreateExampleCharacter();
+        Task<bool> Update(Character character);
     }
 
     public class CharacterRepository : ObjectJsonRepositoryBase<Character, CharacterEntity>, ICharacterRepository
@@ -29,6 +30,21 @@ namespace Imago.Repository.WrappingDatabase
         public async Task EnsureTables()
         {
             await Database.CreateTableAsync<CharacterEntity>();
+        }
+
+        public async Task<bool> Update(Character character)
+        {
+            var c = new CharacterEntity()
+            {
+                Value = character,
+                Name = character.Name,
+                CreatedAt = character.CreatedAt,
+                Id = character.Id,
+                LastModifiedAt = character.LastModifiedAt,
+                Version = character.Version
+            };
+
+            return (await Database.UpdateAsync(c)) == 1;
         }
 
         public Character CreateNewCharacter()
