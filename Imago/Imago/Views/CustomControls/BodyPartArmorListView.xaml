@@ -8,7 +8,7 @@
              x:Class="Imago.Views.CustomControls.BodyPartArmorListView" x:Name="BodyPartArmorListViewControl">
     <ContentView.Content>
         <Frame Grid.Column="0" Grid.Row="0">
-            <Grid Margin="-19" BindingContext="{Binding BodyPartArmorListViewModel,
+            <Grid BindingContext="{Binding BodyPartArmorListViewModel,
                 Source={x:Reference BodyPartArmorListViewControl}}"  Style="{StaticResource SingleGradiantStyle}">
                <ListView SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" VerticalScrollBarVisibility="Default"
                               ItemsSource="{Binding BodyPart.Armor}">

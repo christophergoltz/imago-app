@@ -21,7 +21,7 @@
 
             <!-- equipped items -->
             <Frame Grid.Column="0" Grid.Row="0" Grid.RowSpan="3">
-                <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">
+                <Grid Style="{StaticResource SingleGradiantStyle}">
                  <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
                               ItemsSource="{Binding EquippableItemViewModels}">
                         <ListView.Header>
@@ -78,7 +78,7 @@
 
             <!-- load -->
             <Frame Grid.Column="1" Grid.Row="0" VerticalOptions="Start">
-                <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">
+                <Grid Style="{StaticResource SingleGradiantStyle}">
                   
                     <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
                               ItemsSource="{Binding CharacterViewModel.HandicapAttributes}">
@@ -117,7 +117,7 @@
 
             <!-- derived attributes -->
             <Frame Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2">
-                <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">
+                <Grid Style="{StaticResource SingleGradiantStyle}">
                     <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
                               ItemsSource="{Binding CharacterViewModel.AdventureDerivedAttributes}">
                         <ListView.Header>

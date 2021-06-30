@@ -69,7 +69,7 @@
                             </Frame>
 
                             <Frame Grid.Row="0" >
-                                <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">
+                                <Grid Style="{StaticResource SingleGradiantStyle}">
                                     <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
                                   ItemsSource="{Binding CharacterViewModel.HandicapAttributes}">
                                         <ListView.Header>
@@ -152,7 +152,7 @@
                     </ContentView.GestureRecognizers>
                 </ContentView>
                 <Frame WidthRequest="1400" HeightRequest="800" VerticalOptions="Center" HorizontalOptions="Center">
-                    <customControls:SkillDetailView Margin="-19" VerticalOptions="Fill" HorizontalOptions="Fill" SkillDetailViewModel="{Binding SkillDetailViewModel, Source={RelativeSource AncestorType={x:Type viewModels:SkillPageViewModel}}}"/>
+                    <customControls:SkillDetailView  VerticalOptions="Fill" HorizontalOptions="Fill" SkillDetailViewModel="{Binding SkillDetailViewModel, Source={RelativeSource AncestorType={x:Type viewModels:SkillPageViewModel}}}"/>
                 </Frame>
             </Grid>
 
@@ -164,7 +164,7 @@
                     </ContentView.GestureRecognizers>
                 </ContentView>
                 <Frame WidthRequest="1200" HeightRequest="850" VerticalOptions="Center" HorizontalOptions="Center">
-                    <customControls:SkillGroupDetailView Margin="-19" VerticalOptions="Fill" HorizontalOptions="Fill" SkillGroupDetailViewModel="{Binding SkillGroupDetailViewModel, Source={RelativeSource AncestorType={x:Type viewModels:SkillPageViewModel}}}"/>
+                    <customControls:SkillGroupDetailView  VerticalOptions="Fill" HorizontalOptions="Fill" SkillGroupDetailViewModel="{Binding SkillGroupDetailViewModel, Source={RelativeSource AncestorType={x:Type viewModels:SkillPageViewModel}}}"/>
                 </Frame>
             </Grid>
         </Grid>

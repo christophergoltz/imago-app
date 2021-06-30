@@ -25,7 +25,7 @@
             </Grid.RowDefinitions>
 
             <Frame Grid.RowSpan="2" Margin="10" >
-                <Grid Style="{StaticResource SingleGradiantStyle}" Margin="-19">
+                <Grid Style="{StaticResource SingleGradiantStyle}">
                     <ListView SelectionMode="None" ItemsSource="{Binding Characters}" >
                         <ListView.Header>
                             <Grid>
@@ -70,7 +70,7 @@
 
             <!-- wiki parse-->
             <Frame Grid.Row="0" Grid.Column="1" Margin="10">
-                <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">
+                <Grid Style="{StaticResource SingleGradiantStyle}">
                 <ListView SelectionMode="None" ItemsSource="{Binding TableInfos.Values}">
                     <ListView.Header>
                         <Grid>

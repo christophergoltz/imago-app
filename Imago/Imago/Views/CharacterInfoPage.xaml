@@ -146,7 +146,7 @@
 
                 <!-- attributes -->
                 <Frame Grid.Column="1" Grid.Row="0">
-                    <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">
+                    <Grid Style="{StaticResource SingleGradiantStyle}">
                         <StackLayout >
                             <StackLayout Orientation="Horizontal" Padding="10,5"
                                          BackgroundColor="{StaticResource GruenesUmbra1}" IsVisible="{Binding CharacterViewModel.EditMode}">
@@ -231,7 +231,7 @@
 
                 <!-- derived attributes -->
                 <Frame Grid.Column="1" Grid.Row="1">
-                    <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">
+                    <Grid Style="{StaticResource SingleGradiantStyle}">
                         <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
                               ItemsSource="{Binding CharacterViewModel.CharacterInfoDerivedAttributes}">
                             <ListView.Header>
@@ -273,8 +273,8 @@
 
                 <!-- special attributes -->
                 <Frame Grid.Column="1" Grid.Row="2">
-                    <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">
-                      
+                    <Grid Style="{StaticResource SingleGradiantStyle}">
+
                         <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
                               ItemsSource="{Binding SpecialAttributeViewModels}">
                             <ListView.Header>
@@ -320,7 +320,7 @@
 
                 <!-- blood carrier -->
                 <Frame Grid.Row="3" Grid.Column="1">
-                    <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">
+                    <Grid Style="{StaticResource SingleGradiantStyle}">
                         <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
                                   ItemsSource="{Binding CharacterViewModel.Character.BloodCarrier}">
                             <ListView.Header>

@@ -65,7 +65,7 @@
         </ResourceDictionary>
     </ContentView.Resources>
     <Frame BindingContext="{Binding SkillGroupViewModel, Source={x:Reference SkillGroupViewControl}}">
-        <Grid Margin="-19" Padding="0" Style="{StaticResource SingleGradiantStyle}">
+        <Grid Padding="0" Style="{StaticResource SingleGradiantStyle}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>

@@ -18,7 +18,7 @@
             </StackLayout>
 
             <Frame Grid.Row="1">
-                <WebView Navigating="WebView_OnNavigating" Navigated="WebView_OnNavigated" Margin="-19" Source="{Binding WikiPageEntry.Url}" />
+                <WebView Navigating="WebView_OnNavigating" Navigated="WebView_OnNavigated" Source="{Binding WikiPageEntry.Url}" />
             </Frame>
         </Grid>
     </ContentPage.Content>
