@@ -72,16 +72,10 @@ namespace Imago.ViewModels
             _shieldRepository = shieldRepository;
             _masteryRepository = masteryRepository;
             _ruleRepository = ruleRepository;
-
-
+            
 #pragma warning disable 4014
             InitLocalDatabase(); //needs to be executed in background
 #pragma warning restore 4014
-
-            _appShellViewModel.CharacterListReloadRequested += (sender, args) =>
-            {
-                RefreshCharacterList();
-            };
         }
 
 
@@ -178,9 +172,9 @@ namespace Imago.ViewModels
                 _appShellViewModel.EditMode = true;
             }
 
-            await Device.InvokeOnMainThreadAsync(async () =>
+            await Device.InvokeOnMainThreadAsync(() =>
             {
-                await Shell.Current.GoToAsync($"//{nameof(CharacterInfoPage)}");
+               Application.Current.MainPage = new AppShell();
             });
         }
 

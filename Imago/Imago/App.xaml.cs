@@ -24,8 +24,7 @@ namespace Imago
             AppCenter.Start("uwp=5b35b16b-6bde-4772-9972-b7d1809327fb;",typeof(Analytics), typeof(Crashes));
 #endif
 
-            MainPage = new AppShell();
-            Shell.Current.GoToAsync($"//{nameof(StartPage)}");
+            MainPage = new StartPage();
         }
 
         protected override void OnStart()

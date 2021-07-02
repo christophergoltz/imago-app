@@ -21,7 +21,6 @@ namespace Imago.ViewModels
         private bool _editMode;
         private string _version;
         public event EventHandler<bool> EditModeChanged;
-        public event EventHandler CharacterListReloadRequested;
 
         public AppShellViewModel(ICharacterService characterService)
         {
@@ -38,15 +37,13 @@ namespace Imago.ViewModels
                         await Task.Delay(250);
                         var result = await _characterService.SaveCurrentCharacter();
                         if (result)
-                            await Device.InvokeOnMainThreadAsync(async () =>
+                            await Device.InvokeOnMainThreadAsync(() =>
                             {
-                                await Shell.Current.GoToAsync($"//{nameof(StartPage)}");
+                                Application.Current.MainPage = new StartPage();
                             });
                             
                         await Task.Delay(250);
                     }
-
-                    CharacterListReloadRequested?.Invoke(this, EventArgs.Empty);
                 });
             });
         }
