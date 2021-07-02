@@ -47,9 +47,13 @@ namespace Imago.Models
 
         private Color GetBlendedColor(int percentage)
         {
+            var redHex = (Color)Application.Current.Resources["RotesUmbra1"];
+            var yellowHex = (Color)Application.Current.Resources["GelbesUmbra2"];
+            var greenHex = (Color)Application.Current.Resources["HellGruenesUmbra2"];
+           
             if (percentage < 50)
-                return Interpolate(Color.Red, Color.Yellow, percentage / 50.0);
-            return Interpolate(Color.Yellow, Color.Lime, (percentage - 50) / 50.0);
+                return Interpolate(redHex, yellowHex, percentage / 50.0);
+            return Interpolate(yellowHex, greenHex, (percentage - 50) / 50.0);
         }
 
         private Color Interpolate(Color color1, Color color2, double fraction)
