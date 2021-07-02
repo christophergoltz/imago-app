@@ -63,7 +63,7 @@ namespace Imago.Util
         public SkillPageViewModel SkillPageViewModel => new SkillPageViewModel(_characterService.Value.GetCurrentCharacter(), _wikiService.Value,
             _masteryRepository, _talentRepository, _ruleRepository.Value);
 
-        public StartPageViewModel StartPage => new StartPageViewModel(_characterRepository, _characterService.Value, _wikiParseService.Value,
+        public StartPageViewModel StartPage => new StartPageViewModel(AppShellViewModel, _characterRepository, _characterService.Value, _wikiParseService.Value,
             _meleeWeaponRepository, _rangedWeaponRepository,
             _armorRepository, _talentRepository, _specialWeaponRepository, _shieldRepository, _masteryRepository,
             _ruleRepository.Value);

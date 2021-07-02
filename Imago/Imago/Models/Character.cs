@@ -4,15 +4,21 @@ using System.Collections.ObjectModel;
 using System.Dynamic;
 using System.Text;
 using Imago.Models.Enum;
+using Newtonsoft.Json;
 
 namespace Imago.Models
 {
     public class Character
     {
+        [JsonIgnore]
         public Guid Id { get; set; }
+        [JsonIgnore]
         public string Version { get; set; }
+        [JsonIgnore]
         public DateTime CreatedAt { get; set; }
+        [JsonIgnore]
         public DateTime LastModifiedAt { get; set; }
+        [JsonIgnore]
         public string Name { get; set; }
         public RaceType RaceType { get; set; }
         public string Height { get; set; }
@@ -30,7 +36,7 @@ namespace Imago.Models
         public List<Attribute> Attributes { get; set; }
         public Dictionary<SkillGroupModelType, SkillGroupModel> SkillGroups { get; set; }
 
-        public List<SkillGroupModelType> OpenAttributeIncreases { get; set; }
+        public ObservableCollection<SkillGroupModelType> OpenAttributeIncreases { get; set; }
 
         public Dictionary<BodyPartType, BodyPart> BodyParts { get; set; }
 

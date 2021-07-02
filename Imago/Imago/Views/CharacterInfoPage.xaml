@@ -378,75 +378,12 @@
             </Grid>
 
             <!-- dialog -->
-            <Grid IsVisible="{Binding AttributeExperienceOpen}">
+            <Grid IsVisible="{Binding AttributeExperienceDialogViewModel, Converter={StaticResource ObjectNotNullToBoolConverter}}">
                 <ContentView BackgroundColor="black" Opacity="0.3"/>
-                <Grid BackgroundColor="White" WidthRequest="800" HeightRequest="600"
-                      VerticalOptions="Center" HorizontalOptions="Center" Padding="20">
-
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    <Label Grid.Row="0" FontSize="20" Margin="0,0,50,30" Text="Offene Erfahrungspunkt(e) auf Attribute verteilen:"/>
-                    <Button Grid.Row="0" Text="X" Padding="0,-4,0,0" WidthRequest="35" HeightRequest="35"  FontSize="22"  VerticalOptions="Start" 
-                            HorizontalOptions="End" TextColor="Red" BackgroundColor="LightGray" 
-                            Command="{Binding CloseOpenAttributeExperienceCommand, Source={RelativeSource AncestorType={x:Type viewModels:CharacterInfoPageViewModel}}}"/>
-
-                    <ListView Grid.Row="1" ItemsSource="{Binding OpenAttributeExperienceViewModels}">
-                        <ListView.Header>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="400" />
-                                    <ColumnDefinition Width="100" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="1" />
-                                </Grid.RowDefinitions>
-                                <Label Grid.Row="0" Grid.Column="0" FontSize="14" FontAttributes="Bold" Text="Quelle" Margin="5,0,0,0" />
-                                <Label Grid.Row="0" Grid.Column="1" FontSize="14" FontAttributes="Bold" Text="Ziel Attribut"/>
-                                <Label Grid.Row="0" Grid.Column="2" FontSize="14" FontAttributes="Bold" Text="Bestätigen" />
-                            </Grid>
-                        </ListView.Header>
-                        <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="viewModels:OpenAttributeExperienceViewModel">
-                                <ViewCell>
-                                    <Grid Padding="10,0,10,3" x:Name="Grid1">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="400" />
-                                            <ColumnDefinition Width="100" />
-                                        </Grid.ColumnDefinitions>
-                                        <Label Grid.Column="0" FontSize="18" VerticalOptions="Center" Text="{Binding Source}"/>
-                                        <Picker Grid.Column="1" FontSize="18" WidthRequest="300" HorizontalOptions="FillAndExpand" ItemsSource="{Binding TargetAttributes}"
-                                                SelectedItem="{Binding SelectedAttribute}" 
-                                                x:Name="PickerControl"
-                                                ItemDisplayBinding="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
-                                        <Button Grid.Column="2" FontSize="18" VerticalOptions="Center" HorizontalOptions="Center" Text="✔" 
-                                                Command="{Binding AddExperienceToAttributeCommand, Source={RelativeSource AncestorType={x:Type viewModels:CharacterInfoPageViewModel}}}"
-                                                CommandParameter="{Binding .}">
-                                            <Button.Style>
-                                                <Style TargetType="Button">
-                                                    <Style.Triggers>
-                                                        <DataTrigger TargetType="Button" Binding="{Binding SelectedItem, Source={x:Reference PickerControl}, Converter={StaticResource ObjectNotNullToBoolConverter}}" Value="True">
-                                                            <Setter Property="Background" Value="Green"/>
-                                                        </DataTrigger>
-                                                        <DataTrigger TargetType="Button" Binding="{Binding SelectedItem, Source={x:Reference PickerControl}, Converter={StaticResource ObjectNotNullToBoolConverter}}" Value="False">
-                                                            <Setter Property="Background" Value="Red"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                    <Setter Property="IsEnabled" Value="False"/>
-                                                </Style>
-                                            </Button.Style>
-                                        </Button>
-                                    </Grid>
-                                </ViewCell>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </Grid>
+                <customControls:AttributeExperienceDialogView 
+                    AttributeExperienceDialogViewModel="{Binding AttributeExperienceDialogViewModel}"
+                    CloseCommand="{Binding CancelOpenAttributeExperienceCommand}"
+                    SaveCommand="{Binding SaveOpenAttributeExperienceCommand}"/>
             </Grid>
         </Grid>
     </ContentPage.Content>

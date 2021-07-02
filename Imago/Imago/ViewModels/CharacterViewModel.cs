@@ -208,10 +208,12 @@ namespace Imago.ViewModels
             }
             else if (openAttributeExperience < 0)
             {
+                //todo this should never happen
+                throw new InvalidOperationException("Cannot reduce attribute");
                 //remove
                 for (var i = 0; i < (openAttributeExperience *-1); i++)
                 {
-                    Character.OpenAttributeIncreases.Remove(skillGroupModel.Type);
+#warning  todo Character.AttributeIncreases.Remove(skillGroupModel.Type);
                 }
             }
         }

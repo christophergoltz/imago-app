@@ -216,7 +216,7 @@ namespace Imago.ViewModels
             new List<(DerivedAttributeType Type, string Text, string IconSource)>()
             {
                 (DerivedAttributeType.BehinderungKampf, "Kampf", "swords.png"),
-                (DerivedAttributeType.BehinderungAbenteuer, "Abenteuer / Reise", "backpack.png"),
+                (DerivedAttributeType.BehinderungAbenteuer, "Abenteuer / Reise", "inventar_weiss.png"),
                 (DerivedAttributeType.BehinderungGesamt, "Gesamt", null),
                 (DerivedAttributeType.Unknown, "Ignorieren", null)
             };

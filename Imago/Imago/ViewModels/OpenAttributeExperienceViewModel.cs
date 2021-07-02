@@ -8,20 +8,13 @@ namespace Imago.ViewModels
 {
     public class OpenAttributeExperienceViewModel : BindableBase
     {
-        private Attribute _selectedAttribute;
-        public List<Attribute> TargetAttributes { get; set; }
-        public SkillGroupModelType Source { get; set; }
-
-        public Attribute SelectedAttribute
+        public SkillGroupModelType SourceType { get; set; }
+        public List<Attribute> PossibleTargets { get; set; }
+        
+        public OpenAttributeExperienceViewModel(SkillGroupModelType sourceType, List<Attribute> possibleTargets)
         {
-            get => _selectedAttribute;
-            set => SetProperty(ref _selectedAttribute ,value);
-        }
-
-        public OpenAttributeExperienceViewModel(SkillGroupModelType source, List<Attribute> targetAttributes)
-        {
-            Source = source;
-            TargetAttributes = targetAttributes;
+            SourceType = sourceType;
+            PossibleTargets = possibleTargets;
         }
     }
 }

@@ -34,7 +34,7 @@ namespace Imago.Repository.WrappingDatabase
 
         public async Task<bool> Update(Character character)
         {
-            var c = new CharacterEntity()
+            var characterEntity = new CharacterEntity()
             {
                 Value = character,
                 Name = character.Name,
@@ -44,7 +44,7 @@ namespace Imago.Repository.WrappingDatabase
                 Version = character.Version
             };
 
-            return (await Database.UpdateAsync(c)) == 1;
+            return (await Database.UpdateAsync(characterEntity)) == 1;
         }
 
         public Character CreateNewCharacter()
@@ -54,7 +54,7 @@ namespace Imago.Repository.WrappingDatabase
                 Attributes = CreateAttributes(),
                 SkillGroups = new Dictionary<SkillGroupModelType, SkillGroupModel>(),
                 Id = Guid.NewGuid(),
-                OpenAttributeIncreases = new List<SkillGroupModelType>(),
+                OpenAttributeIncreases = new ObservableCollection<SkillGroupModelType>(),
                 RaceType = RaceType.Mensch,
                 BodyParts = CreateBodyParts(),
                 Weapons = new ObservableCollection<Weapon>(),

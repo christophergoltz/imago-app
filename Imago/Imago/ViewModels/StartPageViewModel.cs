@@ -23,6 +23,7 @@ namespace Imago.ViewModels
 {
     public class StartPageViewModel : BindableBase
     {
+        private readonly AppShellViewModel _appShellViewModel;
         private readonly ICharacterRepository _characterRepository;
         private readonly ICharacterService _characterService;
         private readonly IWikiParseService _wikiParseService;
@@ -44,7 +45,8 @@ namespace Imago.ViewModels
         }
 
 
-        public StartPageViewModel(ICharacterRepository characterRepository,
+        public StartPageViewModel(AppShellViewModel appShellViewModel,
+            ICharacterRepository characterRepository,
             ICharacterService characterService,
             IWikiParseService wikiParseService,
             IMeleeWeaponRepository meleeWeaponRepository,
@@ -58,6 +60,7 @@ namespace Imago.ViewModels
         {
             VersionTracking.Track();
 
+            _appShellViewModel = appShellViewModel;
             _characterRepository = characterRepository;
             _characterService = characterService;
             _wikiParseService = wikiParseService;
@@ -74,6 +77,11 @@ namespace Imago.ViewModels
 #pragma warning disable 4014
             InitLocalDatabase(); //needs to be executed in background
 #pragma warning restore 4014
+
+            _appShellViewModel.CharacterListReloadRequested += (sender, args) =>
+            {
+                RefreshCharacterList();
+            };
         }
 
 
@@ -129,21 +137,54 @@ namespace Imago.ViewModels
                 using (UserDialogs.Instance.Loading("Character wird geladen.."))
                 {
                     await Task.Delay(250);
-                    var character = entity.Value;
-                    var viewModel = new CharacterViewModel(character, _ruleRepository);
-                    _characterService.SetCurrentCharacter(viewModel);
-
-                    await Device.InvokeOnMainThreadAsync(async () =>
-                    {
-                        await Shell.Current.GoToAsync($"//{nameof(CharacterInfoPage)}");
-                    });
+                    await OpenCharacter(entity, false);
                     await Task.Delay(250);
                 }
             });
         }));
 
-        private ICommand _createNewCharacterCommand;
+        private async Task OpenCharacter(CharacterEntity characterEntity, bool editMode)
+        {
+            var character = characterEntity.Value;
+            character.Name = characterEntity.Name;
+            character.Id = characterEntity.Id;
+            character.Version = characterEntity.Version;
+            character.CreatedAt = characterEntity.CreatedAt;
+            character.LastModifiedAt = characterEntity.LastModifiedAt;
 
+            var vm = new CharacterViewModel(character, _ruleRepository);
+            _characterService.SetCurrentCharacter(vm);
+
+            if (editMode)
+            {
+                //use different open method
+                //Element ce = Shell.Current.CurrentPage;
+
+                //while (true)
+                //{
+                //    if (ce is AppShell shell)
+                //    {
+                //        if (shell.BindingContext is AppShellViewModel appShellViewModel)
+                //        {
+                //            appShellViewModel.EditMode = true;
+                //            break;
+                //        }
+                //    }
+                //    else
+                //    {
+                //        ce = ce.Parent;
+                //    }
+                //}
+                _appShellViewModel.EditMode = true;
+            }
+
+            await Device.InvokeOnMainThreadAsync(async () =>
+            {
+                await Shell.Current.GoToAsync($"//{nameof(CharacterInfoPage)}");
+            });
+        }
+
+        private ICommand _createNewCharacterCommand;
         public ICommand CreateNewCharacterCommand => _createNewCharacterCommand ?? (_createNewCharacterCommand =
             new Command(() =>
             {
@@ -158,47 +199,23 @@ namespace Imago.ViewModels
                         newChar.Name = newGuid.ToString().Substring(0, 4);
                         newChar.RaceType = RaceType.Mensch;
                         newChar.Id = newGuid;
+                        newChar.CreatedAt = DateTime.Now;
+                        newChar.LastModifiedAt = DateTime.Now;
 
                         var currentAppVersion = VersionTracking.CurrentVersion;
                         var entity = new CharacterEntity()
                         {
-                            CreatedAt = DateTime.Now,
+                            CreatedAt = newChar.CreatedAt,
                             Value = newChar,
                             Name = newChar.Name,
-                            LastModifiedAt = DateTime.Now,
+                            LastModifiedAt = newChar.LastModifiedAt,
                             Id = newGuid,
                             Version = currentAppVersion
                         };
                         await _characterRepository.AddItemRawAsync(entity);
                         await RefreshCharacterList();
 
-                        //use different open method
-                        var c = entity.Value;
-                        var vm = new CharacterViewModel(c, _ruleRepository);
-                        _characterService.SetCurrentCharacter(vm);
-
-                        Element ce = Shell.Current.CurrentPage;
-
-                        while (true)
-                        {
-                            if (ce is AppShell shell)
-                            {
-                                if (shell.BindingContext is AppShellViewModel appShellViewModel)
-                                {
-                                    appShellViewModel.EditMode = true;
-                                    break;
-                                }
-                            }
-                            else
-                            {
-                                ce = ce.Parent;
-                            }
-                        }
-
-                        await Device.InvokeOnMainThreadAsync(async () =>
-                        {
-                            await Shell.Current.GoToAsync($"//{nameof(CharacterInfoPage)}");
-                        });
+                        await OpenCharacter(entity, true);
                         await Task.Delay(250);
                     }
                 });

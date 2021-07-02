@@ -18,7 +18,6 @@ namespace Imago.ViewModels
     {
         private readonly IRuleRepository _ruleRepository;
         private string _title;
-        private bool _attributeExperienceOpen;
 
         public string Title
         {
@@ -26,19 +25,39 @@ namespace Imago.ViewModels
             set => SetProperty(ref _title, value);
         }
 
-        public bool AttributeExperienceOpen
+        private ICommand _saveOpenAttributeExperienceCommand;
+        public ICommand SaveOpenAttributeExperienceCommand => _saveOpenAttributeExperienceCommand ?? (_saveOpenAttributeExperienceCommand = new Command(() =>
         {
-            get => _attributeExperienceOpen;
-            set => SetProperty(ref _attributeExperienceOpen, value);
-        }
+            var resolvedAttributeExperience = AttributeExperienceDialogViewModel.Charisma.ToList();
+            resolvedAttributeExperience.AddRange(AttributeExperienceDialogViewModel.Staerke);
+            resolvedAttributeExperience.AddRange(AttributeExperienceDialogViewModel.Geschicklichkeit);
+            resolvedAttributeExperience.AddRange(AttributeExperienceDialogViewModel.Intelligenz);
+            resolvedAttributeExperience.AddRange(AttributeExperienceDialogViewModel.Konstitution);
+            resolvedAttributeExperience.AddRange(AttributeExperienceDialogViewModel.Wahrnehmung);
+            resolvedAttributeExperience.AddRange(AttributeExperienceDialogViewModel.Willenskraft);
 
-        public ICommand CloseOpenAttributeExperienceCommand { get; }
+            foreach (var experienceViewModel in resolvedAttributeExperience)
+            {
+                CharacterViewModel.Character.OpenAttributeIncreases.Remove(experienceViewModel.SourceType);
+            }
+
+            AttributeExperienceDialogViewModel = null;
+        }));
+
+        private ICommand _cancelOpenAttributeExperienceCommand;
+        public ICommand CancelOpenAttributeExperienceCommand => _cancelOpenAttributeExperienceCommand ?? (_cancelOpenAttributeExperienceCommand = new Command(() =>
+        {
+            AttributeExperienceDialogViewModel = null;
+        }));
+      
         public ICommand AddExperienceToAttributeCommand { get; }
 
         public ICommand AddNewBloodCarrierCommand { get; set; }
         public ICommand RemoveBloodCarrierCommand { get; set; }
 
         private int _totalAttributeExperience;
+        private AttributeExperienceDialogViewModel _attributeExperienceDialogViewModel;
+
         public int TotalAttributeExperience
         {
             get => _totalAttributeExperience;
@@ -70,29 +89,26 @@ namespace Imago.ViewModels
                 };
             }
             OnPropertyChanged(nameof(AttributeExperienceBalance));
-
-
-
+            
             SpecialAttributeViewModels = characterViewModel.SpecialAttributes.Select(_ => new SpecialAttributeViewModel(characterViewModel, _)).ToList();
-            OpenAttributeExperienceViewModels = new ObservableCollection<OpenAttributeExperienceViewModel>();
-
+          
             OpenAttributeExperienceDialogIfNeeded();
-
-            CloseOpenAttributeExperienceCommand = new Command(() => AttributeExperienceOpen = false);
-         
+            
             AddExperienceToAttributeCommand = new Command<OpenAttributeExperienceViewModel>(viewModel =>
             {
-                if (viewModel.SelectedAttribute == null)
-                    return;
+                //if (viewModel.SelectedAttribute == null)
+                //    return;
 
-                CharacterViewModel.AddOneExperienceToAttributeBySkillGroup(viewModel.SelectedAttribute);
-             
-                OpenAttributeExperienceViewModels.Remove(viewModel);
-                characterViewModel.Character.OpenAttributeIncreases.Remove(
-                    characterViewModel.Character.OpenAttributeIncreases.First(type => type == viewModel.Source));
+                //CharacterViewModel.AddOneExperienceToAttributeBySkillGroup(viewModel.SelectedAttribute);
 
-                if (!OpenAttributeExperienceViewModels.Any())
-                    AttributeExperienceOpen = false;
+#warning  todo
+
+                //OpenAttributeExperienceViewModels.Remove(viewModel);
+                //characterViewModel.Character.AttributeIncreases.Remove(
+                //    characterViewModel.Character.AttributeIncreases.First(type => type == viewModel.Source));
+
+                //if (!OpenAttributeExperienceViewModels.Any())
+                //    AttributeExperienceOpen = false;
             });
 
             AddNewBloodCarrierCommand = new Command(() =>
@@ -108,17 +124,22 @@ namespace Imago.ViewModels
 
         public void OpenAttributeExperienceDialogIfNeeded()
         {
-            OpenAttributeExperienceViewModels.Clear();
+            if (CharacterViewModel.Character.OpenAttributeIncreases == null)
+                return;
+            
+            if (!CharacterViewModel.Character.OpenAttributeIncreases.Any())
+                return;
+
+            var list = new ObservableCollection<OpenAttributeExperienceViewModel>();
 
             foreach (var attributeIncrease in CharacterViewModel.Character.OpenAttributeIncreases)
             {
                 var affectedAttributeTypes = _ruleRepository.GetSkillGroupSources(attributeIncrease).Distinct().ToList();
                 var affectedAttributes = CharacterViewModel.Character.Attributes.Where(attribute => affectedAttributeTypes.Contains(attribute.Type)).ToList();
-                OpenAttributeExperienceViewModels.Add(new OpenAttributeExperienceViewModel(attributeIncrease, affectedAttributes));
+                list.Add(new OpenAttributeExperienceViewModel(attributeIncrease, affectedAttributes));
             }
 
-            if (OpenAttributeExperienceViewModels.Any())
-                AttributeExperienceOpen = true;
+            AttributeExperienceDialogViewModel = new AttributeExperienceDialogViewModel(list);
         }
 
         public CharacterViewModel CharacterViewModel { get; private set; }
@@ -126,6 +147,10 @@ namespace Imago.ViewModels
         public List<AttributeViewModel> AttributeViewModels { get; set; }
         public List<SpecialAttributeViewModel> SpecialAttributeViewModels { get; set; }
 
-        public ObservableCollection<OpenAttributeExperienceViewModel> OpenAttributeExperienceViewModels { get; set; }
+        public AttributeExperienceDialogViewModel AttributeExperienceDialogViewModel
+        {
+            get => _attributeExperienceDialogViewModel;
+            set => SetProperty(ref _attributeExperienceDialogViewModel,value);
+        }
     }
 }
