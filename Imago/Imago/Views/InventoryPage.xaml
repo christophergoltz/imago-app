@@ -21,7 +21,7 @@
 
             <!-- equipped items -->
             <Frame Grid.Column="0" Grid.Row="0" Grid.RowSpan="3">
-                <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">
+                <Grid Style="{StaticResource SingleGradiantStyle}">
                  <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
                               ItemsSource="{Binding EquippableItemViewModels}">
                         <ListView.Header>
@@ -46,7 +46,7 @@
                               
                                 <Label Grid.Row="0" VerticalOptions="Center"  Grid.Column="1" Text="Last" FontAttributes="Bold"/>
                                 <Image HeightRequest="30" WidthRequest="30" VerticalOptions="Center" Grid.Row="0" Grid.Column="2" Margin="10" Source="swords.png"></Image>
-                                <Image HeightRequest="30" WidthRequest="30" VerticalOptions="Center"  Grid.Row="0" Grid.Column="3"  Margin="10" Source="backpack.png"></Image>
+                                <Image HeightRequest="30" WidthRequest="30" VerticalOptions="Center"  Grid.Row="0" Grid.Column="3"  Margin="10" Source="inventar_weiss.png"></Image>
                                 <BoxView Grid.Column="0" HeightRequest="1" Grid.Row="1" Grid.ColumnSpan="5" Color="Black"/>
                             </Grid>
                         </ListView.Header>
@@ -78,10 +78,10 @@
 
             <!-- load -->
             <Frame Grid.Column="1" Grid.Row="0" VerticalOptions="Start">
-                <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">
+                <Grid Style="{StaticResource SingleGradiantStyle}">
                   
                     <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
-                              ItemsSource="{Binding Character.Handicap}">
+                              ItemsSource="{Binding CharacterViewModel.HandicapAttributes}">
                         <ListView.Header>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -115,12 +115,11 @@
                 </Grid>
             </Frame>
 
-
             <!-- derived attributes -->
             <Frame Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2">
-                <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">
+                <Grid Style="{StaticResource SingleGradiantStyle}">
                     <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
-                              ItemsSource="{Binding DerivedAttributes}">
+                              ItemsSource="{Binding CharacterViewModel.AdventureDerivedAttributes}">
                         <ListView.Header>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -148,7 +147,7 @@
                                             <ColumnDefinition Width="100" />
                                         </Grid.ColumnDefinitions>
                                         <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
-                                        <Label FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Formula}"/>
+                                        <Label FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToFormulaConverter}}"/>
                                         <Label FontSize="18" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding FinalValue}"/>
                                     </Grid>
                                 </ViewCell>

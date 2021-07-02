@@ -7,24 +7,19 @@ namespace Imago.Util
 {
     public static class SkillHelper
     {
-        public static void RecalculateFinalValue(this Skill skill)
+        public static void RecalculateFinalValue(this SkillModel skillModel)
         {
-            skill.FinalValue = skill.BaseValue + skill.IncreaseValue + skill.ModificationValue;
+            skillModel.FinalValue = skillModel.BaseValue + skillModel.IncreaseValue + skillModel.ModificationValue;
         }
 
-        public static void RecalculateFinalValue(this SkillGroup skillGroup)
+        public static void RecalculateFinalValue(this SkillGroupModel skillGroupModel)
         {
-            skillGroup.FinalValue = skillGroup.BaseValue + skillGroup.IncreaseValue + skillGroup.ModificationValue;
+            skillGroupModel.FinalValue = skillGroupModel.BaseValue + skillGroupModel.IncreaseValue + skillGroupModel.ModificationValue;
         }
 
         public static void RecalculateFinalValue(this Attribute attribute)
         {
-            attribute.FinalValue = attribute.BaseValue + attribute.IncreaseValue + attribute.ModificationValue - attribute.Corrosion;
-        }
-
-        public static void RecalculateFinalValue(this SpecialAttribute specialAttribute)
-        {
-            specialAttribute.FinalValue = specialAttribute.BaseValue + specialAttribute.ModificationValue;
+            attribute.FinalValue = attribute.NaturalValue + attribute.IncreaseValue + attribute.ModificationValue - attribute.Corrosion;
         }
     }
 }

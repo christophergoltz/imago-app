@@ -7,7 +7,7 @@ using Imago.Util;
 
 namespace Imago.Models
 {
-    public class Attribute : SkillBase
+    public class Attribute : IncreasableBase
     {
         //required for deserialization
         public Attribute()
@@ -23,6 +23,9 @@ namespace Imago.Models
         public AttributeType Type { get; set; } 
 
         private int _corrosion;
+        private int _naturalValue;
+        private int _experienceBySkillGroup;
+
         public int Corrosion
         {
             get => _corrosion;
@@ -32,6 +35,18 @@ namespace Imago.Models
         public override string ToString()
         {
             return Type.ToString();
+        }
+
+        public int NaturalValue
+        {
+            get => _naturalValue;
+            set => SetProperty(ref _naturalValue ,value);
+        }
+
+        public int ExperienceBySkillGroup
+        {
+            get => _experienceBySkillGroup;
+            set => SetProperty(ref _experienceBySkillGroup, value);
         }
     }
 }

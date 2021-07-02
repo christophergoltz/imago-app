@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Imago.Views.CustomControls.CharacterDetailView" x:Name="CharacterDetailViewControl">
+  <ContentView.Content>
+        <Grid BindingContext="{Binding  Character, Source={x:Reference CharacterDetailViewControl}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackLayout Grid.Column="0" Margin="10">
+                <StackLayout Margin="10" VerticalOptions="Center" Orientation="Horizontal">
+                    <Label VerticalOptions="Center" Text="Name: " FontSize="18"  FontAttributes="Bold"/>
+                    <Entry  WidthRequest="275" VerticalOptions="Center"  FontSize="18" Text="{Binding Name}"/>
+                </StackLayout>
+
+                <StackLayout Margin="10" VerticalOptions="Center" Orientation="Horizontal">
+                    <Label VerticalOptions="Center"  Text="Rasse: " FontSize="18"  FontAttributes="Bold"/>
+                    <Label VerticalOptions="Center"  FontSize="18" Text="{Binding RaceType}"/>
+                </StackLayout>
+
+                <StackLayout Margin="10" VerticalOptions="Center" Orientation="Horizontal">
+                    <Label  VerticalOptions="Center" Text="Größe: " FontSize="18"  FontAttributes="Bold"/>
+                    <Entry WidthRequest="125" VerticalOptions="Center"  FontSize="18" Text="{Binding Height}"/>
+                </StackLayout>
+
+                <StackLayout Margin="10" VerticalOptions="Center" Orientation="Horizontal">
+                    <Label VerticalOptions="Center"  Text="Gewicht: " FontSize="18"  FontAttributes="Bold"/>
+                    <Entry WidthRequest="100" VerticalOptions="Center" FontSize="18" Text="{Binding Weight}"/>
+                </StackLayout>
+
+                <StackLayout Margin="10" VerticalOptions="Center" Orientation="Horizontal">
+                    <Label  VerticalOptions="Center" Text="Göttliche Seele: " FontSize="18"  FontAttributes="Bold"/>
+                    <Entry WidthRequest="75"  VerticalOptions="Center"  FontSize="18" Text="{Binding DivineSoul}"/>
+                </StackLayout>
+            </StackLayout>
+
+            <StackLayout Grid.Column="1" Margin="10">
+                <StackLayout Margin="10" VerticalOptions="Center" Orientation="Horizontal">
+                    <Label VerticalOptions="Center"  Text="Augenfarbe: " FontSize="18"  FontAttributes="Bold"/>
+                    <Entry WidthRequest="150" VerticalOptions="Center"  FontSize="18" Text="{Binding EyeColor}"/>
+                </StackLayout>
+
+                <StackLayout Margin="10" VerticalOptions="Center" Orientation="Horizontal">
+                    <Label  VerticalOptions="Center" Text="Haarfarbe: " FontSize="18"  FontAttributes="Bold"/>
+                    <Entry WidthRequest="150"  VerticalOptions="Center"  FontSize="18" Text="{Binding HairColor}"/>
+                </StackLayout>
+
+                <StackLayout Margin="10" VerticalOptions="Center" Orientation="Horizontal">
+                    <Label VerticalOptions="Center"  Text="Hautfarbe / Schuppenfarbe: " FontSize="18"  FontAttributes="Bold"/>
+                    <Entry  WidthRequest="150" VerticalOptions="Center"  FontSize="18" Text="{Binding SkinColor}"/>
+                </StackLayout>
+
+                <StackLayout Margin="10" VerticalOptions="Center" Orientation="Horizontal">
+                    <Label VerticalOptions="Center"  Text="Alter: " FontSize="18"  FontAttributes="Bold"/>
+                    <Entry WidthRequest="75"  VerticalOptions="Center"  FontSize="18" Text="{Binding Age}"/>
+                </StackLayout>
+            </StackLayout>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

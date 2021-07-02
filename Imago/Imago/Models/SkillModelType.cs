@@ -2,7 +2,7 @@
 
 namespace Imago.Models
 {
-    public enum SkillType
+    public enum SkillModelType
     {
         Unbekannt = 0,
         Alchemie = 1,

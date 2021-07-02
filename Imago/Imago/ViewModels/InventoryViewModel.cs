@@ -13,44 +13,33 @@ namespace Imago.ViewModels
 {
     public class InventoryViewModel
     {
-        private readonly ICharacterService _characterService;
-        public Character Character { get; }
+        public CharacterViewModel CharacterViewModel { get; }
 
         public ICommand DeleteSelectedEquippedItem { get; }
         public ICommand AddNewEquippedItem { get; }
-
-        public List<DerivedAttribute> DerivedAttributes { get; set; }
-
+        
         public ObservableCollection<EquippableItemViewModel> EquippableItemViewModels { get; set; }
 
-        public InventoryViewModel(Character character, ICharacterService characterService)
+        public InventoryViewModel(CharacterViewModel characterViewModel)
         {
-            _characterService = characterService;
-            Character = character;
-
-            DerivedAttributes = character.DerivedAttributes
-                .Where(_ => _.Type == DerivedAttributeType.SprungreichweiteAbenteuer ||
-                            _.Type == DerivedAttributeType.SprunghoeheAbenteuer ||
-                            _.Type == DerivedAttributeType.SprungreichweiteGesamt ||
-                            _.Type == DerivedAttributeType.SprunghoeheGesamt)
-                .ToList();
+            CharacterViewModel = characterViewModel;
 
             DeleteSelectedEquippedItem = new Command<EquippableItemViewModel>(item =>
             {
                 EquippableItemViewModels.Remove(item);
-                character.EquippedItems.Remove(item.EquipableItem);
-                _characterService.RecalculateHandicapAttributes(Character);
+                characterViewModel.Character.EquippedItems.Remove(item.EquipableItem);
+                characterViewModel.RecalculateHandicapAttributes();
             });
 
             AddNewEquippedItem = new Command(() =>
             {
                 var equipableItem = new EquipableItem(string.Empty,0, false, false);
-                Character.EquippedItems.Add(equipableItem);
-                EquippableItemViewModels.Add(new EquippableItemViewModel(equipableItem, _characterService, Character));
+                CharacterViewModel.Character.EquippedItems.Add(equipableItem);
+                EquippableItemViewModels.Add(new EquippableItemViewModel(equipableItem, characterViewModel));
             });
 
             EquippableItemViewModels = new ObservableCollection<EquippableItemViewModel>(
-                character.EquippedItems.Select(item => new EquippableItemViewModel(item, _characterService, character)));
+                characterViewModel.Character.EquippedItems.Select(item => new EquippableItemViewModel(item, characterViewModel)));
         }
     }
 }

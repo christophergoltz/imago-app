@@ -31,7 +31,7 @@
             </Grid.RowDefinitions>
 
             <StackLayout VerticalOptions="Center"  Grid.Column="0" Grid.Row="0" Orientation="Horizontal">
-                <Label  Text="{Binding SkillGroupDetailViewModel.SkillGroup.Type, Converter={StaticResource EnumToDisplayTextConverter}}"
+                <Label  Text="{Binding SkillGroupDetailViewModel.SkillGroupModel.Type, Converter={StaticResource EnumToDisplayTextConverter}}"
                             Margin="5,5,0,0" FontAttributes="Bold" FontSize="28"/>
                 <Button Margin="20,8,0,0" VerticalOptions="Center" Text="Wiki &#8599;" FontSize="20" 
                             Padding="7,3" Background="limegreen" 
@@ -50,7 +50,7 @@
 
             <StackLayout Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
                 <Label FontSize="20" VerticalOptions="Center"  Text="GW: " FontAttributes="Bold"/>
-                <Label FontSize="20" VerticalOptions="Center"  Text="{Binding SkillGroupDetailViewModel.SkillGroup.BaseValue}"/>
+                <Label FontSize="20" VerticalOptions="Center"  Text="{Binding SkillGroupDetailViewModel.SkillGroupModel.BaseValue}"/>
             </StackLayout>
 
             <StackLayout Grid.Column="2" Grid.Row="0" Orientation="Horizontal">
@@ -60,12 +60,12 @@
 
             <StackLayout Grid.Column="3" Grid.Row="0" Orientation="Horizontal">
                 <Label FontSize="20" VerticalOptions="Center"  Text="FW: " FontAttributes="Bold"/>
-                <Label FontSize="20" VerticalOptions="Center"  Text="{Binding SkillGroupDetailViewModel.SkillGroup.FinalValue}"/>
+                <Label FontSize="20" VerticalOptions="Center"  Text="{Binding SkillGroupDetailViewModel.SkillGroupModel.FinalValue}"/>
             </StackLayout>
 
             <StackLayout Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
                 <Label FontSize="20"  VerticalOptions="Center" Text="SW: " FontAttributes="Bold"/>
-                <Label FontSize="20" VerticalOptions="Center"  Text="{Binding SkillGroupDetailViewModel.SkillGroup.IncreaseValue}"/>
+                <Label FontSize="20" VerticalOptions="Center"  Text="{Binding SkillGroupDetailViewModel.SkillGroupModel.IncreaseValue}"/>
             </StackLayout>
 
             <StackLayout Grid.Column="2" Grid.Row="1" Orientation="Horizontal">
@@ -73,8 +73,8 @@
                 <Label FontSize="20"  VerticalOptions="Center" >
                     <Label.Text>
                         <MultiBinding StringFormat="{}{0}/{1}">
-                            <Binding Path="SkillGroupDetailViewModel.SkillGroup.ExperienceValue"/>
-                            <Binding Path="SkillGroupDetailViewModel.SkillGroup.ExperienceForNextIncrease"/>
+                            <Binding Path="SkillGroupDetailViewModel.SkillGroupModel.ExperienceValue"/>
+                            <Binding Path="SkillGroupDetailViewModel.SkillGroupModel.ExperienceForNextIncreasedRequired"/>
                         </MultiBinding>
                     </Label.Text>
                 </Label>

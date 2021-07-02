@@ -17,6 +17,8 @@
             <converter:ObjectNullToBoolConverter x:Key="ObjectNullToBoolConverter"/>
             <converter:ObjectNotNullToBoolConverter x:Key="ObjectNotNullToBoolConverter"/>
             <converter:DicionaryToBodyPartConverter x:Key="DicionaryToBodyPartConverter"/>
+            <converter:EnumToFormulaConverter x:Key="EnumToFormulaConverter"/>
+            <converter:PositiveIntegerToBoolConverter x:Key="PositiveIntegerToBoolConverter"/>
 
             <util:ViewModelLocator x:Key="ViewModelLocator"/>
 
@@ -40,19 +42,43 @@
             <Color x:Key="GruenesUmbra2">#6e9177</Color>
             <Color x:Key="GruenesUmbra3">#98b19e</Color>
 
-           
+            <Color x:Key="HellGruenesUmbra">#005c30</Color>
+            <Color x:Key="HellGruenesUmbra1">#0d7744</Color>
+            <Color x:Key="HellGruenesUmbra2">#1c945a</Color>
+            <Color x:Key="HellGruenesUmbra3">#5db98d</Color>
 
-     
+            <Color x:Key="GelbesUmbra">#aa9013</Color>
+            <Color x:Key="GelbesUmbra1">#d5b728</Color>
+            <Color x:Key="GelbesUmbra2">#e6cd50</Color>
+            <Color x:Key="GelbesUmbra3">#ffe981</Color>
 
-         
+            <!--<Color x:Key="RotesUmbra">#832200</Color>
+            <Color x:Key="RotesUmbra1">#aa3a13</Color>
+            <Color x:Key="RotesUmbra2">#d55428</Color>
+            <Color x:Key="RotesUmbra3">#e67750</Color>-->
+
+            <Color x:Key="RotesUmbra">#830000</Color>
+            <Color x:Key="RotesUmbra1">#aa1313</Color>
+            <Color x:Key="RotesUmbra2">#d52828</Color>
+            <Color x:Key="RotesUmbra3">#e65050</Color>
+
             <!-- default style -->
             <Style TargetType="Frame">
                 <Setter Property="BorderColor" Value="{StaticResource AntiUmbra1}" />
                 <Setter Property="CornerRadius" Value="0" />
+                <Setter Property="Padding" Value="1" />
             </Style>
 
             <Style TargetType="ContentPage" ApplyToDerivedTypes="True">
                 <Setter Property="BackgroundColor" Value="{StaticResource AntiUmbra2}" />
+            </Style>
+
+            <Style TargetType="Entry" ApplyToDerivedTypes="True">
+                <Setter Property="BackgroundColor" Value="{StaticResource AntiUmbra3}" />
+            </Style>
+
+            <Style TargetType="Editor" ApplyToDerivedTypes="True">
+                <Setter Property="BackgroundColor" Value="{StaticResource AntiUmbra3}" />
             </Style>
 
             <!-- global explicit styles -->

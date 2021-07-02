@@ -7,8 +7,8 @@ namespace Imago.Models
 {
     public class MasteryModel : TalentBase
     {
-        private Dictionary<SkillGroupType, int> _requirements;
-        private SkillGroupType _targetSkill;
+        private Dictionary<SkillGroupModelType, int> _requirements;
+        private SkillGroupModelType _targetSkill;
 
 
         public MasteryModel() : base()
@@ -16,20 +16,20 @@ namespace Imago.Models
 
         }
 
-        public MasteryModel(SkillGroupType targetSkill , string name, string shortDescription,string description, Dictionary<SkillGroupType, int> requirements,
+        public MasteryModel(SkillGroupModelType targetSkill , string name, string shortDescription,string description, Dictionary<SkillGroupModelType, int> requirements,
             int? difficulty, bool activeUse, string phaseValueMod) : base(name, shortDescription, description, activeUse, difficulty, phaseValueMod)
         {
             TargetSkill = targetSkill;
             Requirements = requirements;
         }
 
-        public SkillGroupType TargetSkill
+        public SkillGroupModelType TargetSkill
         {
             get => _targetSkill;
             set => SetProperty(ref _targetSkill, value);
         }
 
-        public Dictionary<SkillGroupType, int> Requirements
+        public Dictionary<SkillGroupModelType, int> Requirements
         {
             get => _requirements;
             set => SetProperty(ref _requirements , value);

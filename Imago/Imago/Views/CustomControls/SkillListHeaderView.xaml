@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Imago.Views.CustomControls.SkillListHeaderView" x:Name="SkillListHeaderViewControl">
+    <ContentView.Content>
+        <Grid  BindingContext="{Binding SkillGroup, Source={x:Reference SkillListHeaderViewControl}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300" />
+                <ColumnDefinition Width="300" />
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="50" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="1"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Label Grid.Column="0" Grid.Row="0" FontSize="14" FontAttributes="Bold"  Margin="5,0,0,0" 
+                 Text="{Binding Type, Converter={StaticResource SkillGroupTypeToAttributeSourceStringConverter}}"/>
+            <Label Grid.Row="0" Grid.Column="1" FontSize="14" FontAttributes="Bold" Text="EP"/>
+            <Label Grid.Row="0" Grid.Column="2" FontSize="14" FontAttributes="Bold" Text="SW" />
+            <Label Grid.Row="0" Grid.Column="3" FontSize="14" FontAttributes="Bold" Text="EP"/>
+            <Label Grid.Row="0" Grid.Column="4" FontSize="14" FontAttributes="Bold" Text="FW" />
+        </Grid>
+    </ContentView.Content>
+</ContentView>

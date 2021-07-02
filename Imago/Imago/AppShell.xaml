@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Shell xmlns="http://xamarin.com/schemas/2014/forms" 
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-       xmlns:local="clr-namespace:Imago.Views" FlyoutWidth="250"
+       xmlns:local="clr-namespace:Imago.Views" FlyoutWidth="275"
        xmlns:viewModels="clr-namespace:Imago.ViewModels;assembly=Imago" 
        Navigated="AppShell_OnNavigated" 
        FlyoutBackgroundColor="{StaticResource AntiUmbra1}"
@@ -12,7 +12,7 @@
        TabBarBackgroundColor="{DynamicResource AntiUmbra1}"
        TabBarForegroundColor="green"
        TabBarTitleColor="Cyan"
-       TabBarUnselectedColor="Orange"
+       TabBarUnselectedColor="Orange" FlyoutBehavior="Locked"
        DisabledColor="red"
        UnselectedColor="Magenta"
        BindingContext="{Binding AppShellViewModel, Source={StaticResource ViewModelLocator}}"
@@ -84,13 +84,11 @@
         </DataTemplate>
     </Shell.ItemTemplate>
 
-    <!-- 
-        When the Flyout is visible this defines the content to display in the flyout.
-        FlyoutDisplayOptions="AsMultipleItems" will create a separate flyout item for each child element    
-        https://docs.microsoft.com/dotnet/api/xamarin.forms.shellgroupitem.flyoutdisplayoptions?view=xamarin-forms
-    -->
     <FlyoutItem Title="Übersicht" Icon="person.png">
         <ShellContent Route="CharacterInfoPage" ContentTemplate="{DataTemplate local:CharacterInfoPage}" />
+    </FlyoutItem>
+    <FlyoutItem Title="Vor- und Nachteile" Icon="person.png">
+        <ShellContent Route="PerksPage" ContentTemplate="{DataTemplate local:PerksPage}" />
     </FlyoutItem>
     <FlyoutItem Title="Fertigkeiten" Icon="magic.png">
         <ShellContent Route="SkillPage" ContentTemplate="{DataTemplate local:SkillPage}" />
@@ -98,10 +96,10 @@
     <FlyoutItem Title="Kampfbogen" Icon="swords.png">
         <ShellContent Route="StatusPage" ContentTemplate="{DataTemplate local:StatusPage}" />
     </FlyoutItem>
-    <FlyoutItem Title="Inventar" Icon="backpack.png">
+    <FlyoutItem Title="Inventar" Icon="inventar_weiss.png">
         <ShellContent Route="InventoryPage" ContentTemplate="{DataTemplate local:InventoryPage}" />
     </FlyoutItem>
-    <FlyoutItem Title="Wiki" Icon="book.png">
+    <FlyoutItem Title="Wiki" Icon="wiki_weiss.png">
         <ShellContent Route="WikiPage" ContentTemplate="{DataTemplate local:WikiPage}" />
     </FlyoutItem>
 
@@ -110,20 +108,35 @@
     </FlyoutItem>
 
     <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->
-    <!--<MenuItem Text="Logout" StyleClass="MenuItemLayoutStyle" Clicked="OnMenuItemClicked">
-    </MenuItem>-->
+    <MenuItem Text="Hauptmenü" StyleClass="MenuItemLayoutStyle" Command="{Binding GoToMainMenuCommand}">
+    </MenuItem>
 
-    <!--
-        TabBar lets you define content that won't show up in a flyout menu. When this content is active
-        the flyout menu won't be available. This is useful for creating areas of the application where 
-        you don't want users to be able to navigate away from. If you would like to navigate to this 
-        content you can do so by calling 
-        await Shell.Current.GoToAsync("//LoginPage");
-    -->
     <TabBar>
         <ShellContent Route="StartPage" ContentTemplate="{DataTemplate local:StartPage}" />
     </TabBar>
 
+    <Shell.MenuItemTemplate>
+        <DataTemplate>
+            <Grid x:Name="GridControl2"  Padding="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="15*" />
+                    <ColumnDefinition Width="5" />
+                    <ColumnDefinition Width="75*" />
+                </Grid.ColumnDefinitions>
+                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                <Image Grid.Column="0" Source="{Binding BindingContext.Icon, Source={x:Reference GridControl2}}"
+                       Margin="5" 
+                       HeightRequest="30" />
+                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                <Label Grid.Column="2" FontSize="22"  x:Name="FlyoutItemLabel" TextColor="White" 
+                       Text="{Binding BindingContext.Title, Source={x:Reference GridControl2}}"
+                       VerticalTextAlignment="Center">
+                </Label>
+            </Grid>
+        </DataTemplate>
+    </Shell.MenuItemTemplate>
+
+    
     <Shell.FlyoutHeaderTemplate>
         <DataTemplate>
             <Grid Padding="20">
@@ -134,7 +147,7 @@
                     <RowDefinition Height="1"></RowDefinition>
                 </Grid.RowDefinitions>
 
-                <Image Margin="5" Source="imago_logo_white.png" VerticalOptions="Fill" HorizontalOptions="Fill"></Image>
+                <Image Margin="15,5" Source="imago_logo_white.png" VerticalOptions="Fill" HorizontalOptions="Fill"></Image>
                 <Label Grid.Row="1" TextColor="White" Text="Imago.App" FontSize="30"/>
 
                 <StackLayout Grid.Row="2" Orientation="Horizontal">
@@ -146,4 +159,22 @@
             </Grid>
         </DataTemplate>
     </Shell.FlyoutHeaderTemplate>
+    <Shell.FlyoutFooter>
+        <StackLayout Margin="10,10,10,5" Padding="10">
+            <StackLayout.Style>
+                <Style TargetType="StackLayout">
+                    <Style.Triggers>
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding EditMode}" Value="True">
+                            <Setter Property="BackgroundColor" Value="{StaticResource GruenesUmbra1}"></Setter>
+                        </DataTrigger>
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding EditMode}" Value="False">
+                            <Setter Property="BackgroundColor" Value="{StaticResource AntiUmbra2}"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackLayout.Style>
+            <Label TextColor="White" FontSize="18" Text="Bearbeitungsmodus"></Label>
+            <Switch ThumbColor="White" OnColor="{StaticResource GruenesUmbra2}" IsToggled="{Binding EditMode}" ></Switch>
+        </StackLayout>
+    </Shell.FlyoutFooter>
 </Shell>

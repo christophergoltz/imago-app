@@ -10,7 +10,7 @@ using SQLite;
 
 namespace Imago.Repository.WrappingDatabase
 {
-    public interface IObjectJsonRepository<TModel>
+    public interface IObjectJsonRepository<TModel, TEntity>
         where TModel : class, new()
     {
         DateTime GetLastChangedDate();
@@ -18,9 +18,11 @@ namespace Imago.Repository.WrappingDatabase
         Task<List<TModel>> GetAllItemsAsync();
         Task DeleteAllItems();
         Task<int> AddAllItems(IEnumerable<TModel> items);
+        Task<List<TEntity>> GetAllItemsRawAsync();
+        Task<int> AddItemRawAsync(TEntity item);
     }
 
-    public abstract class ObjectJsonRepositoryBase<TModel, TEntity> : IObjectJsonRepository<TModel>
+    public abstract class ObjectJsonRepositoryBase<TModel, TEntity> : IObjectJsonRepository<TModel, TEntity>
         where TModel : class, new()
         where TEntity : IJsonValueWrapper<TModel>, new()
     {
@@ -51,6 +53,12 @@ namespace Imago.Repository.WrappingDatabase
             return items.Select(entity => entity.Value).ToList();
         }
 
+        public async Task<List<TEntity>> GetAllItemsRawAsync()
+        {
+            var items = await Database.Table<TEntity>().ToListAsync();
+            return items;
+        }
+
         public Task DeleteAllItems()
         {
             return Database.DeleteAllAsync<TEntity>();
@@ -60,6 +68,11 @@ namespace Imago.Repository.WrappingDatabase
         {
             var entites = items.Select(model => new TEntity {Value = model}).ToList();
             return Database.InsertAllAsync(entites);
+        }
+
+        public Task<int> AddItemRawAsync(TEntity item)
+        {
+            return Database.InsertAsync(item);
         }
     }
 }

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace Imago.Util
 {
+    [DebuggerNonUserCode]
     public class BindableBase : INotifyPropertyChanged
     {
         protected bool SetProperty<T>(ref T backingStore, T value,

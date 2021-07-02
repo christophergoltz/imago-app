@@ -7,7 +7,7 @@ using Imago.Models.Entity;
 
 namespace Imago.Repository.WrappingDatabase
 {
-    public interface IShieldRepository : IObjectJsonRepository<Weapon>
+    public interface IShieldRepository : IObjectJsonRepository<Weapon, WeaponEntity>
     {
         Task EnsureTables();
     }

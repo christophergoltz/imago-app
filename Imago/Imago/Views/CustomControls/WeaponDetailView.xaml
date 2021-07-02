@@ -64,7 +64,7 @@
                 <Image HeightRequest="30" WidthRequest="30" VerticalOptions="Center" Margin="5,5,10,5" Source="swords.png"></Image>
                 <CheckBox IsChecked="{Binding FightValue}"></CheckBox>
 
-                <Image HeightRequest="30" WidthRequest="30" VerticalOptions="Center"   Margin="15,5" Source="backpack.png"></Image>
+                <Image HeightRequest="30" WidthRequest="30" VerticalOptions="Center"   Margin="15,5" Source="inventar_weiss.png"></Image>
                 <CheckBox IsChecked="{Binding AdventureValue}" ></CheckBox>
             </StackLayout>
 

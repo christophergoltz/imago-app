@@ -11,24 +11,16 @@ namespace Imago.Models
     public class DerivedAttribute : CalculableBase
     {
         private DerivedAttributeType _type;
-        private string _formula;
 
-        public DerivedAttribute(DerivedAttributeType type, string formula)
+        public DerivedAttribute(DerivedAttributeType type)
         {
             Type = type;
-            Formula = formula;
         }
 
         public DerivedAttributeType Type
         {
             get => _type;
             set => SetProperty(ref _type, value);
-        }
-
-        public string Formula
-        {
-            get => _formula;
-            set => SetProperty(ref _formula, value);
         }
     }
 }

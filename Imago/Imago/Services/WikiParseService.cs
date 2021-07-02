@@ -234,7 +234,7 @@ namespace Imago.Services
             return value.Replace("\n", "").Replace("\r", "").Trim();
         }
 
-        private IEnumerable<TalentModel> ParseTalentsFromUrls(Dictionary<SkillType, string> urls,
+        private IEnumerable<TalentModel> ParseTalentsFromUrls(Dictionary<SkillModelType, string> urls,
             ObservableCollection<LogEntry> logFeed)
         {
             var talents = new List<TalentModel>();
@@ -290,7 +290,7 @@ namespace Imago.Services
             return result;
         }
 
-        private List<TalentModel> ParseTalentsFromUrl(SkillType type, string url,
+        private List<TalentModel> ParseTalentsFromUrl(SkillModelType modelType, string url,
             ObservableCollection<LogEntry> logFeed)
         {
             var talents = new List<TalentModel>();
@@ -320,13 +320,13 @@ namespace Imago.Services
                     name = CleanUpString(dataCells[0].InnerText);
                     var requirementsRawValue = CleanUpString(dataCells[1].InnerText);
 
-                    var requirements = new Dictionary<SkillType, int>();
+                    var requirements = new Dictionary<SkillModelType, int>();
 
                     foreach (var requirement in requirementsRawValue.Split(',').Select(s => s.Trim()))
                     {
                         var strings = requirement.Split(' ');
                         var skill = MappingStringToSkillType(strings[0], logFeed);
-                        if (skill == SkillType.Unbekannt)
+                        if (skill == SkillModelType.Unbekannt)
                         {
                             logFeed.Add(new LogEntry(LogEntryType.Error,
                                 $"Vorraussetztung \"{requirement}\" für Talent \"{name}\" kann nicht gelesen werden .. wird ignoriert"));
@@ -368,7 +368,7 @@ namespace Imago.Services
                         }
                     }
 
-                    talents.Add(new TalentModel(type, name, shortDescription, desc, requirements, difficulty, activeUse,
+                    talents.Add(new TalentModel(modelType, name, shortDescription, desc, requirements, difficulty, activeUse,
                         phaseValueMod));
                 }
                 catch (Exception exception)
@@ -379,7 +379,7 @@ namespace Imago.Services
             }
 
             logFeed.Add(new LogEntry(LogEntryType.Success,
-                $"Talente für Fertigkeit \"{type}\" hinzugefügt [{string.Join(", ", talents.Select(model => model.Name))}]"));
+                $"Talente für Fertigkeit \"{modelType}\" hinzugefügt [{string.Join(", ", talents.Select(model => model.Name))}]"));
             return talents;
         }
 
@@ -408,40 +408,40 @@ namespace Imago.Services
             return parsedValue;
         }
 
-        private SkillType MappingStringToSkillType(string value, ObservableCollection<LogEntry> logFeed)
+        private SkillModelType MappingStringToSkillType(string value, ObservableCollection<LogEntry> logFeed)
         {
-            if (Enum.TryParse(value, out SkillType castValue))
+            if (Enum.TryParse(value, out SkillModelType castValue))
                 return castValue;
 
             if (value.Equals("Armbrüste"))
-                return SkillType.Armbrueste;
+                return SkillModelType.Armbrueste;
 
             if (value.Equals("Körperbeherrschung"))
-                return SkillType.Koerperbeherrschung;
+                return SkillModelType.Koerperbeherrschung;
 
             if (value.Equals("Bögen"))
-                return SkillType.Boegen;
+                return SkillModelType.Boegen;
 
             if (value.Equals("Stäbe"))
-                return SkillType.StaebeSpeere;
+                return SkillModelType.StaebeSpeere;
 
             if (value.Equals("Zweihänder"))
-                return SkillType.Zweihaender;
+                return SkillModelType.Zweihaender;
 
             logFeed.Add(new LogEntry(LogEntryType.Error, $"Keine Fertigkeit für den Wert \"{value}\" hinterlegt"));
-            return SkillType.Unbekannt;
+            return SkillModelType.Unbekannt;
         }
 
-        private SkillGroupType MappingStringToSkillGroupType(string value, ObservableCollection<LogEntry> logFeed)
+        private SkillGroupModelType MappingStringToSkillGroupType(string value, ObservableCollection<LogEntry> logFeed)
         {
-            if (Enum.TryParse(value, out SkillGroupType castValue))
+            if (Enum.TryParse(value, out SkillGroupModelType castValue))
                 return castValue;
 
             if (value.Equals("Weben"))
-                return SkillGroupType.Webkunst;
+                return SkillGroupModelType.Webkunst;
 
             logFeed.Add(new LogEntry(LogEntryType.Error, $"Keine Fertigkeitskategorie für den Wert \"{value}\" hinterlegt"));
-            return SkillGroupType.Unbekannt;
+            return SkillGroupModelType.Unbekannt;
         }
 
         private bool MapToActiveUse(string value, ObservableCollection<LogEntry> logFeed)
@@ -455,7 +455,7 @@ namespace Imago.Services
             return false;
         }
         
-        private IEnumerable<MasteryModel> ParseMasteriesFromUrls(Dictionary<SkillGroupType, string> urls,
+        private IEnumerable<MasteryModel> ParseMasteriesFromUrls(Dictionary<SkillGroupModelType, string> urls,
             ObservableCollection<LogEntry> logFeed)
         {
             var talents = new List<MasteryModel>();
@@ -467,7 +467,7 @@ namespace Imago.Services
             return talents;
         }
 
-        private List<MasteryModel> ParseMasteriesFromUrl(SkillGroupType type, string url,
+        private List<MasteryModel> ParseMasteriesFromUrl(SkillGroupModelType modelType, string url,
             ObservableCollection<LogEntry> logFeed)
         {
             var talents = new List<MasteryModel>();
@@ -499,13 +499,13 @@ namespace Imago.Services
                     name = CleanUpString(dataCells[0].InnerText);
                     var requirementsRawValue = CleanUpString(dataCells[1].InnerText);
 
-                    var requirements = new Dictionary<SkillGroupType, int>();
+                    var requirements = new Dictionary<SkillGroupModelType, int>();
 
                     foreach (var requirement in requirementsRawValue.Split(',').Select(s => s.Trim()))
                     {
                         var strings = requirement.Split(' ');
                         var skill = MappingStringToSkillGroupType(strings[0], logFeed);
-                        if (skill == SkillGroupType.Unbekannt)
+                        if (skill == SkillGroupModelType.Unbekannt)
                         {
                             logFeed.Add(new LogEntry(LogEntryType.Error,
                                 $"Vorraussetztung \"{requirement}\" für Talent \"{name}\" kann nicht gelesen werden .. wird ignoriert"));
@@ -544,7 +544,7 @@ namespace Imago.Services
                         }
                     }
 
-                    talents.Add(new MasteryModel(type, name, shortDescription, desc, requirements, difficulty, activeUse, phaseValueMod));
+                    talents.Add(new MasteryModel(modelType, name, shortDescription, desc, requirements, difficulty, activeUse, phaseValueMod));
                 }
                 catch (Exception exception)
                 {
@@ -554,7 +554,7 @@ namespace Imago.Services
             }
 
             logFeed.Add(new LogEntry(LogEntryType.Success,
-                $"Talente für Fertigkeit \"{type}\" hinzugefügt [{string.Join(", ", talents.Select(model => model.Name))}]"));
+                $"Talente für Fertigkeit \"{modelType}\" hinzugefügt [{string.Join(", ", talents.Select(model => model.Name))}]"));
             return talents;
         }
 

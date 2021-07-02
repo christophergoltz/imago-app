@@ -3,6 +3,7 @@ using Imago.Views;
 using System;
 using System.Diagnostics;
 using Imago.Models;
+using Imago.ViewModels;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
@@ -13,9 +14,6 @@ namespace Imago
 {
     public partial class App : Application
     {
-        public  static Character CurrentCharacter { get; set; }
-
-
         public App()
         {
             InitializeComponent();
@@ -26,14 +24,7 @@ namespace Imago
             AppCenter.Start("uwp=5b35b16b-6bde-4772-9972-b7d1809327fb;",typeof(Analytics), typeof(Crashes));
 #endif
 
-
-            var appShell = new AppShell
-            {
-                //disable flyout to prevent startpage bypassing
-                FlyoutBehavior = FlyoutBehavior.Disabled
-            };
-
-            MainPage = appShell;
+            MainPage = new AppShell();
             Shell.Current.GoToAsync($"//{nameof(StartPage)}");
         }
 

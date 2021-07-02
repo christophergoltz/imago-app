@@ -18,14 +18,11 @@ namespace Imago.ViewModels
     {
         private readonly IMeleeWeaponRepository _meleeWeaponRepository;
         private readonly IRangedWeaponRepository _rangedWeaponRepository;
-        private readonly ICharacterService _characterService;
         private readonly ISpecialWeaponRepository _specialWeaponRepository;
         private readonly IShieldRepository _shieldRepository;
         private WeaponDetailViewModel _weaponDetailViewModel;
-        public Character Character { get; }
-
-        public List<DerivedAttribute> DerivedAttributes { get; set; }
-
+        public CharacterViewModel CharacterViewModel { get; }
+        
         public WeaponDetailViewModel WeaponDetailViewModel
         {
             get => _weaponDetailViewModel;
@@ -36,50 +33,36 @@ namespace Imago.ViewModels
 
         public ICommand OpenWeaponCommand { get; set; }
 
-        public StatusPageViewModel(Character character, IArmorRepository armorRepository,
-            IMeleeWeaponRepository meleeWeaponRepository, IRangedWeaponRepository rangedWeaponRepository,
-            ICharacterService characterService, ISpecialWeaponRepository specialWeaponRepository,
+        public StatusPageViewModel(CharacterViewModel characterViewModel, IArmorRepository armorRepository,
+            IMeleeWeaponRepository meleeWeaponRepository, IRangedWeaponRepository rangedWeaponRepository, ISpecialWeaponRepository specialWeaponRepository,
             IShieldRepository shieldRepository)
         {
             _meleeWeaponRepository = meleeWeaponRepository;
             _rangedWeaponRepository = rangedWeaponRepository;
-            _characterService = characterService;
             _specialWeaponRepository = specialWeaponRepository;
             _shieldRepository = shieldRepository;
-            Character = character;
+            CharacterViewModel = characterViewModel;
+            
 
-            DerivedAttributes = character.DerivedAttributes
-                .Where(_ => _.Type == DerivedAttributeType.SprungreichweiteKampf ||
-                            _.Type == DerivedAttributeType.SprunghoeheKampf ||
-                            _.Type == DerivedAttributeType.Sprintreichweite ||
-                            _.Type == DerivedAttributeType.TaktischeBewegung)
-                .ToList();
+            KopfViewModel = new BodyPartArmorListViewModel(characterViewModel, armorRepository, CharacterViewModel.Character.BodyParts[BodyPartType.Kopf]);
+            TorsoViewModel = new BodyPartArmorListViewModel(characterViewModel, armorRepository, CharacterViewModel.Character.BodyParts[BodyPartType.Torso]);
+            ArmLinksViewModel = new BodyPartArmorListViewModel(characterViewModel, armorRepository, CharacterViewModel.Character.BodyParts[BodyPartType.ArmLinks]);
+            ArmRechtsViewModel = new BodyPartArmorListViewModel(characterViewModel, armorRepository, CharacterViewModel.Character.BodyParts[BodyPartType.ArmRechts]);
+            BeinLinksViewModel = new BodyPartArmorListViewModel(characterViewModel, armorRepository, CharacterViewModel.Character.BodyParts[BodyPartType.BeinLinks]);
+            BeinRechtsViewModel = new BodyPartArmorListViewModel(characterViewModel, armorRepository, CharacterViewModel.Character.BodyParts[BodyPartType.BeinRechts]);
 
-            KopfViewModel = new BodyPartArmorListViewModel(_characterService, armorRepository,
-                character.BodyParts[BodyPartType.Kopf], Character);
-            TorsoViewModel = new BodyPartArmorListViewModel(_characterService, armorRepository,
-                character.BodyParts[BodyPartType.Torso], Character);
-            ArmLinksViewModel = new BodyPartArmorListViewModel(_characterService, armorRepository,
-                character.BodyParts[BodyPartType.ArmLinks], Character);
-            ArmRechtsViewModel = new BodyPartArmorListViewModel(_characterService, armorRepository,
-                character.BodyParts[BodyPartType.ArmRechts], Character);
-            BeinLinksViewModel = new BodyPartArmorListViewModel(_characterService, armorRepository,
-                character.BodyParts[BodyPartType.BeinLinks], Character);
-            BeinRechtsViewModel = new BodyPartArmorListViewModel(_characterService, armorRepository,
-                character.BodyParts[BodyPartType.BeinRechts], Character);
-
-            WeaponListViewModel = new WeaponListViewModel(character, _characterService, _meleeWeaponRepository,
+            WeaponListViewModel = new WeaponListViewModel(characterViewModel, _meleeWeaponRepository,
                 _rangedWeaponRepository, _specialWeaponRepository, _shieldRepository);
             WeaponListViewModel.OpenWeaponRequested += (sender, weapon) => OpenWeaponCommand?.Execute(weapon);
 
             OpenWeaponCommand = new Command<Weapon>(weapon =>
             {
-                var vm = new WeaponDetailViewModel(weapon, character, characterService);
+                var vm = new WeaponDetailViewModel(weapon, CharacterViewModel);
                 vm.CloseRequested += (sender, args) => WeaponDetailViewModel = null;
                 vm.RemoveWeaponRequested += (sender, args) =>
                 {
-                    character.Weapons.Remove(weapon);
-                    _characterService.RecalculateHandicapAttributes(character);
+                    CharacterViewModel.Character.Weapons.Remove(weapon);
+                    CharacterViewModel.RecalculateHandicapAttributes();
                     WeaponDetailViewModel = null;
                 };
                 WeaponDetailViewModel = vm;

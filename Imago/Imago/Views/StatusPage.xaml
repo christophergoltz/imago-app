@@ -28,7 +28,7 @@
             </DataTemplate>
             <DataTemplate x:DataType="models:Weapon" x:Key="WeaponQuickViewTemplate">
                 <Frame>
-                    <Grid Margin="-19" Padding="0,0,0,15" Style="{StaticResource SingleGradiantStyle}">
+                    <Grid Padding="0,0,0,15" Style="{StaticResource SingleGradiantStyle}">
                         <Grid.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding OpenWeaponCommand,
                                 Source={RelativeSource AncestorType={x:Type viewModels:StatusPageViewModel}}}"
@@ -48,7 +48,7 @@
                         <StackLayout VerticalOptions="Center" Grid.Row="0" Grid.Column="1" Orientation="Horizontal" >
                             <Image HeightRequest="25" WidthRequest="25" Margin="10" VerticalOptions="Center" Source="swords.png"
                                    IsVisible="{Binding Fight}"/>
-                            <Image HeightRequest="25" WidthRequest="25" Margin="0,10,10,10" VerticalOptions="Center" Source="backpack.png"  
+                            <Image HeightRequest="25" WidthRequest="25" Margin="0,10,10,10" VerticalOptions="Center" Source="inventar_weiss.png"  
                                    IsVisible="{Binding Adventure}" />
                         </StackLayout>
 
@@ -98,7 +98,7 @@
 
                 <!-- weapons -->
                 <Frame Grid.Row="0" Grid.Column="2" Grid.RowSpan="3">
-                    <Grid Margin="-19">
+                    <Grid >
                         <StackLayout>
                             <Grid Margin="10,10,10,0">
                                 <Grid.RowDefinitions>
@@ -120,7 +120,7 @@
                             <ScrollView Margin="0,10,0,0" >
                                 <StackLayout
                                     BindableLayout.ItemTemplate="{StaticResource WeaponQuickViewTemplate}"
-                                    BindableLayout.ItemsSource="{Binding Character.Weapons}">
+                                    BindableLayout.ItemsSource="{Binding CharacterViewModel.Character.Weapons}">
                                 </StackLayout>
                             </ScrollView>
                         </StackLayout>
@@ -129,9 +129,9 @@
 
                 <!-- load -->
                 <Frame VerticalOptions="Start" Grid.Column="0" Grid.Row="2">
-                    <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">
+                    <Grid  Style="{StaticResource SingleGradiantStyle}">
                         <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
-                              ItemsSource="{Binding Character.Handicap}">
+                              ItemsSource="{Binding CharacterViewModel.HandicapAttributes}">
                             <ListView.Header>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -174,9 +174,9 @@
 
                 <!-- derived attributes -->
                 <Frame Grid.Column="0" Grid.Row="1">
-                    <Grid Margin="-19" Style="{StaticResource SingleGradiantStyle}">
+                    <Grid Style="{StaticResource SingleGradiantStyle}">
                         <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
-                              ItemsSource="{Binding DerivedAttributes}">
+                              ItemsSource="{Binding CharacterViewModel.FightDerivedAttributes}">
                             <ListView.Header>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -204,7 +204,7 @@
                                                 <ColumnDefinition Width="100" />
                                             </Grid.ColumnDefinitions>
                                             <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
-                                            <Label FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Formula}"/>
+                                            <Label FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToFormulaConverter}}"/>
                                             <Label FontSize="18" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding FinalValue}"/>
                                         </Grid>
                                     </ViewCell>
@@ -223,7 +223,7 @@
                     </ContentView.GestureRecognizers>
                 </ContentView>
                 <Frame WidthRequest="1000" HeightRequest="600" VerticalOptions="Center" HorizontalOptions="Center">
-                    <customControls:WeaponDetailView Margin="-19" VerticalOptions="Fill" HorizontalOptions="Fill"
+                    <customControls:WeaponDetailView VerticalOptions="Fill" HorizontalOptions="Fill"
                                                WeaponDetailViewModel="{Binding WeaponDetailViewModel,
                                                     Source={RelativeSource AncestorType={x:Type viewModels:StatusPageViewModel}}}"/>
                 </Frame>

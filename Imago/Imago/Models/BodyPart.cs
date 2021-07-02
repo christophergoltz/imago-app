@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Text;
 using Imago.Models.Enum;
 using Imago.Util;
+using Newtonsoft.Json;
 using Xamarin.Forms;
 
 namespace Imago.Models
@@ -14,12 +15,10 @@ namespace Imago.Models
         private int _currentHitpoints;
         private ObservableCollection<ArmorModel> _armor;
         private BodyPartType _type;
-        private string _formula;
 
-        public BodyPart(BodyPartType type, string formula, int currentHitpoints, ObservableCollection<ArmorModel> armor)
+        public BodyPart(BodyPartType type, int currentHitpoints, ObservableCollection<ArmorModel> armor)
         {
             Type = type;
-            Formula = formula;
             CurrentHitpoints = currentHitpoints;
             Armor = armor;
         }
@@ -48,9 +47,13 @@ namespace Imago.Models
 
         private Color GetBlendedColor(int percentage)
         {
+            var redHex = (Color)Application.Current.Resources["RotesUmbra1"];
+            var yellowHex = (Color)Application.Current.Resources["GelbesUmbra2"];
+            var greenHex = (Color)Application.Current.Resources["HellGruenesUmbra2"];
+           
             if (percentage < 50)
-                return Interpolate(Color.Red, Color.Yellow, percentage / 50.0);
-            return Interpolate(Color.Yellow, Color.Lime, (percentage - 50) / 50.0);
+                return Interpolate(redHex, yellowHex, percentage / 50.0);
+            return Interpolate(yellowHex, greenHex, (percentage - 50) / 50.0);
         }
 
         private Color Interpolate(Color color1, Color color2, double fraction)
@@ -65,9 +68,13 @@ namespace Imago.Models
         {
             return d1 + (d2 - d1) * f;
         }
-
+        
+        //todo move to vm
+        [JsonIgnore]
         public Color HitpointsColor => GetBlendedColor((int)(CurrentHitpointsPercentage*100));
 
+        //todo move to vm
+        [JsonIgnore]
         public double CurrentHitpointsPercentage
         {
             get
@@ -87,12 +94,6 @@ namespace Imago.Models
         {
             get => _type;
             set => SetProperty(ref _type, value);
-        }
-
-        public string Formula
-        {
-            get => _formula;
-            set => SetProperty(ref _formula, value);
         }
     }
 }

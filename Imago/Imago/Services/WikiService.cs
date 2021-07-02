@@ -9,19 +9,19 @@ namespace Imago.Services
 {
     public interface IWikiService
     {
-        string GetWikiUrl(SkillType skillType);
-        string GetWikiUrl(SkillGroupType skillGroupType);
-        string GetTalentHtml(SkillType skillType);
-        string GetMasteryHtml(SkillGroupType skillGroupType);
+        string GetWikiUrl(SkillModelType skillModelType);
+        string GetWikiUrl(SkillGroupModelType skillGroupModelType);
+        string GetTalentHtml(SkillModelType skillModelType);
+        string GetMasteryHtml(SkillGroupModelType skillGroupModelType);
         string GetChangelogHtml();
         string GetChangelogUrl();
     }
 
     public class WikiService : IWikiService
     {
-        public string GetTalentHtml(SkillType skillType)
+        public string GetTalentHtml(SkillModelType skillModelType)
         {
-            var url = WikiConstants.SkillTypeLookUp[skillType];
+            var url = WikiConstants.SkillTypeLookUp[skillModelType];
             return GetHtml(url);
         }
 
@@ -69,24 +69,24 @@ namespace Imago.Services
             return document.DocumentNode.OuterHtml;
         }
         
-        public string GetMasteryHtml(SkillGroupType skillGroupType)
+        public string GetMasteryHtml(SkillGroupModelType skillGroupModelType)
         {
-            var url = WikiConstants.SkillGroupTypeLookUp[skillGroupType];
+            var url = WikiConstants.SkillGroupTypeLookUp[skillGroupModelType];
             return GetHtml(url);
         }
 
-        public string GetWikiUrl(SkillType skillType)
+        public string GetWikiUrl(SkillModelType skillModelType)
         {
-            if (WikiConstants.SkillTypeLookUp.ContainsKey(skillType))
-                return WikiConstants.SkillTypeLookUp[skillType];
+            if (WikiConstants.SkillTypeLookUp.ContainsKey(skillModelType))
+                return WikiConstants.SkillTypeLookUp[skillModelType];
 
             return string.Empty;
         }
 
-        public string GetWikiUrl(SkillGroupType skillGroupType)
+        public string GetWikiUrl(SkillGroupModelType skillGroupModelType)
         {
-            if (WikiConstants.SkillGroupTypeLookUp.ContainsKey(skillGroupType))
-                return WikiConstants.SkillGroupTypeLookUp[skillGroupType];
+            if (WikiConstants.SkillGroupTypeLookUp.ContainsKey(skillGroupModelType))
+                return WikiConstants.SkillGroupTypeLookUp[skillGroupModelType];
 
             return string.Empty;
         }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Acr.UserDialogs;
 using Imago.Database;
 using Imago.Models;
 using Imago.Models.Entity;
@@ -15,13 +16,16 @@ using Imago.Repository.WrappingDatabase;
 using Imago.Services;
 using Imago.Util;
 using Imago.Views;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace Imago.ViewModels
 {
     public class StartPageViewModel : BindableBase
     {
+        private readonly AppShellViewModel _appShellViewModel;
         private readonly ICharacterRepository _characterRepository;
+        private readonly ICharacterService _characterService;
         private readonly IWikiParseService _wikiParseService;
         private readonly IMeleeWeaponRepository _meleeWeaponRepository;
         private readonly IRangedWeaponRepository _rangedWeaponRepository;
@@ -30,11 +34,20 @@ namespace Imago.ViewModels
         private readonly ISpecialWeaponRepository _specialWeaponRepository;
         private readonly IShieldRepository _shieldRepository;
         private readonly IMasteryRepository _masteryRepository;
+        private readonly IRuleRepository _ruleRepository;
         private Dictionary<TableInfoType, TableInfoModel> _tableInfos;
+        private ObservableCollection<CharacterEntity> _characters;
 
-        public ICommand ParseDataFromWikiCommand { get; }
+        public ObservableCollection<CharacterEntity> Characters
+        {
+            get => _characters;
+            set => SetProperty(ref _characters, value);
+        }
 
-        public StartPageViewModel(ICharacterRepository characterRepository,
+
+        public StartPageViewModel(AppShellViewModel appShellViewModel,
+            ICharacterRepository characterRepository,
+            ICharacterService characterService,
             IWikiParseService wikiParseService,
             IMeleeWeaponRepository meleeWeaponRepository,
             IRangedWeaponRepository rangedWeaponRepository,
@@ -42,9 +55,14 @@ namespace Imago.ViewModels
             ITalentRepository talentRepository,
             ISpecialWeaponRepository specialWeaponRepository,
             IShieldRepository shieldRepository,
-            IMasteryRepository masteryRepository)
+            IMasteryRepository masteryRepository,
+            IRuleRepository ruleRepository)
         {
+            VersionTracking.Track();
+
+            _appShellViewModel = appShellViewModel;
             _characterRepository = characterRepository;
+            _characterService = characterService;
             _wikiParseService = wikiParseService;
             _meleeWeaponRepository = meleeWeaponRepository;
             _rangedWeaponRepository = rangedWeaponRepository;
@@ -53,52 +71,188 @@ namespace Imago.ViewModels
             _specialWeaponRepository = specialWeaponRepository;
             _shieldRepository = shieldRepository;
             _masteryRepository = masteryRepository;
-            TestCharacterCommand = new Command(OnTestCharacterClicked);
+            _ruleRepository = ruleRepository;
 
-            ParseDataFromWikiCommand = new Command(async () =>
-            {
-                WikiParseLog.Clear();
-
-                foreach (var tableInfoModel in TableInfos.Values)
-                {
-                    try
-                    {
-                        tableInfoModel.State = TableInfoState.Loading;
-                        await Task.Delay(200);
-                        var result = await _wikiParseService.RefreshWikiData(tableInfoModel.Type, WikiParseLog);
-                        if (result == null)
-                        {
-                            tableInfoModel.State = TableInfoState.Error;
-                            await Task.Delay(200);
-                            continue;
-                        }
-
-                        if (result.Value == 0)
-                        {
-                            tableInfoModel.State = TableInfoState.NoData;
-                            await Task.Delay(200);
-                            continue;
-                        }
-                        
-                        tableInfoModel.State = TableInfoState.Okay;
-                        await Task.Delay(200);
-                    }
-                    catch (Exception e)
-                    {
-                        tableInfoModel.State = TableInfoState.Error;
-                        await Task.Delay(200);
-                        Debug.WriteLine(e);
-                    }
-
-                }
-
-                await RefreshDatabaseInfos();
-            });
 
 #pragma warning disable 4014
             InitLocalDatabase(); //needs to be executed in background
 #pragma warning restore 4014
+
+            _appShellViewModel.CharacterListReloadRequested += (sender, args) =>
+            {
+                RefreshCharacterList();
+            };
         }
+
+
+        private ICommand _parseWikiCommand;
+        public ICommand ParseWikiCommand => _parseWikiCommand ?? (_parseWikiCommand = new Command(async () =>
+        {
+            WikiParseLog.Clear();
+
+            foreach (var tableInfoModel in TableInfos.Values)
+            {
+                if (tableInfoModel.Type == TableInfoType.Character)
+                    continue;
+
+                try
+                {
+                    tableInfoModel.State = TableInfoState.Loading;
+                    await Task.Delay(200);
+                    var result = await _wikiParseService.RefreshWikiData(tableInfoModel.Type, WikiParseLog);
+                    if (result == null)
+                    {
+                        tableInfoModel.State = TableInfoState.Error;
+                        await Task.Delay(200);
+                        continue;
+                    }
+
+                    if (result.Value == 0)
+                    {
+                        tableInfoModel.State = TableInfoState.NoData;
+                        await Task.Delay(200);
+                        continue;
+                    }
+
+                    tableInfoModel.State = TableInfoState.Okay;
+                    await Task.Delay(200);
+                }
+                catch (Exception e)
+                {
+                    tableInfoModel.State = TableInfoState.Error;
+                    await Task.Delay(200);
+                    Debug.WriteLine(e);
+                }
+
+            }
+
+            await RefreshDatabaseInfos();
+        }));
+
+        private ICommand _openCharacterCommand;
+        public ICommand OpenCharacterCommand => _openCharacterCommand ?? (_openCharacterCommand = new Command<CharacterEntity>(entity =>
+        {
+            Task.Run(async () =>
+            {
+                using (UserDialogs.Instance.Loading("Character wird geladen.."))
+                {
+                    await Task.Delay(250);
+                    await OpenCharacter(entity, false);
+                    await Task.Delay(250);
+                }
+            });
+        }));
+
+        private async Task OpenCharacter(CharacterEntity characterEntity, bool editMode)
+        {
+            var character = characterEntity.Value;
+            character.Name = characterEntity.Name;
+            character.Id = characterEntity.Id;
+            character.Version = characterEntity.Version;
+            character.CreatedAt = characterEntity.CreatedAt;
+            character.LastModifiedAt = characterEntity.LastModifiedAt;
+
+            var vm = new CharacterViewModel(character, _ruleRepository);
+            _characterService.SetCurrentCharacter(vm);
+
+            if (editMode)
+            {
+                //use different open method
+                //Element ce = Shell.Current.CurrentPage;
+
+                //while (true)
+                //{
+                //    if (ce is AppShell shell)
+                //    {
+                //        if (shell.BindingContext is AppShellViewModel appShellViewModel)
+                //        {
+                //            appShellViewModel.EditMode = true;
+                //            break;
+                //        }
+                //    }
+                //    else
+                //    {
+                //        ce = ce.Parent;
+                //    }
+                //}
+                _appShellViewModel.EditMode = true;
+            }
+
+            await Device.InvokeOnMainThreadAsync(async () =>
+            {
+                await Shell.Current.GoToAsync($"//{nameof(CharacterInfoPage)}");
+            });
+        }
+
+        private ICommand _createNewCharacterCommand;
+        public ICommand CreateNewCharacterCommand => _createNewCharacterCommand ?? (_createNewCharacterCommand =
+            new Command(() =>
+            {
+                Task.Run(async () =>
+                {
+                    using (UserDialogs.Instance.Loading("Neuer Charakter wird erstellt.."))
+                    {
+                        await Task.Delay(250);
+                        var newGuid = Guid.NewGuid();
+
+                        var newChar = _characterRepository.CreateNewCharacter();
+                        newChar.Name = newGuid.ToString().Substring(0, 4);
+                        newChar.RaceType = RaceType.Mensch;
+                        newChar.Id = newGuid;
+                        newChar.CreatedAt = DateTime.Now;
+                        newChar.LastModifiedAt = DateTime.Now;
+
+                        var currentAppVersion = VersionTracking.CurrentVersion;
+                        var entity = new CharacterEntity()
+                        {
+                            CreatedAt = newChar.CreatedAt,
+                            Value = newChar,
+                            Name = newChar.Name,
+                            LastModifiedAt = newChar.LastModifiedAt,
+                            Id = newGuid,
+                            Version = currentAppVersion
+                        };
+                        await _characterRepository.AddItemRawAsync(entity);
+                        await RefreshCharacterList();
+
+                        await OpenCharacter(entity, true);
+                        await Task.Delay(250);
+                    }
+                });
+            }));
+
+        private ICommand _generateTestCharacterCommand;
+        public ICommand GenerateTestCharacterCommand => _generateTestCharacterCommand ?? (_generateTestCharacterCommand = new Command(() =>
+            {
+                Task.Run(async () =>
+                {
+                    using (UserDialogs.Instance.Loading("Testcharacter wird geladen.."))
+                    {
+                        await Task.Delay(250);
+                        var newGuid = Guid.NewGuid();
+
+                        var newChar = _characterRepository.CreateExampleCharacter();
+                        newChar.Name = "Test - " + newGuid.ToString().Substring(0,4);
+                        newChar.RaceType = RaceType.Mensch;
+                        newChar.CreatedBy = "System";
+                        newChar.Owner = "Testuser";
+                        newChar.Id = newGuid;
+
+                        var currentAppVersion = VersionTracking.CurrentVersion;
+                        await _characterRepository.AddItemRawAsync(new CharacterEntity()
+                        {
+                            CreatedAt = DateTime.Now,
+                            Value = newChar,
+                            Name = newChar.Name,
+                            LastModifiedAt = DateTime.Now,
+                            Id = newGuid,
+                            Version = currentAppVersion
+                        });
+                        await RefreshCharacterList();
+                        await Task.Delay(250);
+                    }
+                });
+            }));
 
         public ObservableCollection<LogEntry> WikiParseLog { get; set; } = new ObservableCollection<LogEntry>();
 
@@ -113,6 +267,7 @@ namespace Imago.ViewModels
                 await _specialWeaponRepository.EnsureTables();
                 await _shieldRepository.EnsureTables();
                 await _masteryRepository.EnsureTables();
+                await _characterRepository.EnsureTables();
             }
             catch (Exception e)
             {
@@ -125,6 +280,13 @@ namespace Imago.ViewModels
             TableInfos = list.ToDictionary(model => model.Type, model => model);
 
             await RefreshDatabaseInfos();
+            await RefreshCharacterList();
+        }
+
+        private async Task RefreshCharacterList()
+        {
+            var characterEntities = await _characterRepository.GetAllItemsRawAsync();
+            Characters = new ObservableCollection<CharacterEntity>(characterEntities.OrderByDescending(entity => entity.LastModifiedAt));
         }
 
         private async Task RefreshDatabaseInfos()
@@ -161,6 +323,10 @@ namespace Imago.ViewModels
                         tableInfo.Count = await _masteryRepository.GetItemsCount();
                         tableInfo.TimeStamp = _masteryRepository.GetLastChangedDate();
                         break;
+                    case TableInfoType.Character:
+                        tableInfo.Count = await _characterRepository.GetItemsCount();
+                        tableInfo.TimeStamp = _characterRepository.GetLastChangedDate();
+                        break;
                 }
 
                 if (tableInfo.Count == 0)
@@ -179,23 +345,6 @@ namespace Imago.ViewModels
             set => SetProperty(ref _tableInfos, value);
         }
 
-        public Command TestCharacterCommand { get; }
 
-        private async void OnTestCharacterClicked(object obj)
-        {
-            var newChar = _characterRepository.CreateNewCharacter();
-
-            newChar.Name = "Testspieler";
-            newChar.RaceType = RaceType.Mensch;
-            newChar.CreatedBy = "System";
-            newChar.Owner = "Testuser";
-
-            //unlock flyout
-            if (Application.Current.MainPage is AppShell app)
-                app.FlyoutBehavior = FlyoutBehavior.Locked;
-
-            App.CurrentCharacter = newChar;
-            await Shell.Current.GoToAsync($"//{nameof(CharacterInfoPage)}");
-        }
     }
 }

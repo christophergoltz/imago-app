@@ -10,14 +10,12 @@ namespace Imago.ViewModels
     public class EquippableItemViewModel : BindableBase
     {
         private EquipableItem _equipableItem;
-        private readonly ICharacterService _characterService;
-        private readonly Character _character;
+        private readonly CharacterViewModel _characterViewModel;
 
-        public EquippableItemViewModel(EquipableItem equipableItem, ICharacterService characterService, Character character)
+        public EquippableItemViewModel(EquipableItem equipableItem, CharacterViewModel characterViewModel)
         {
             _equipableItem = equipableItem;
-            _characterService = characterService;
-            _character = character;
+            _characterViewModel = characterViewModel;
         }
 
         public EquipableItem EquipableItem
@@ -33,7 +31,7 @@ namespace Imago.ViewModels
             {
                 _equipableItem.LoadValue = value;
                 OnPropertyChanged(nameof(LoadValue));
-                _characterService.RecalculateHandicapAttributes(_character);
+                _characterViewModel.RecalculateHandicapAttributes();
             }
         }
 
@@ -44,7 +42,7 @@ namespace Imago.ViewModels
             {
                 _equipableItem.Fight = value;
                 OnPropertyChanged(nameof(Fight));
-                _characterService.RecalculateHandicapAttributes(_character);
+                _characterViewModel.RecalculateHandicapAttributes();
             }
         }
 
@@ -55,7 +53,7 @@ namespace Imago.ViewModels
             {
                 _equipableItem.Adventure = value;
                 OnPropertyChanged(nameof(Adventure));
-                _characterService.RecalculateHandicapAttributes(_character);
+                _characterViewModel.RecalculateHandicapAttributes();
             }
         }
     }

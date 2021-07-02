@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Imago.Models;
 using Imago.Models.Base;
+using Imago.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -19,15 +20,15 @@ namespace Imago.Views.CustomControls
             InitializeComponent();
         }
        
-        public static readonly BindableProperty SkillGroupProperty = BindableProperty.Create(
-            "SkillGroup",        // the name of the bindable property
-            typeof(SkillGroup),     // the bindable property type
+        public static readonly BindableProperty SkillGroupViewModelProperty = BindableProperty.Create(
+            "SkillGroupViewModel",        // the name of the bindable property
+            typeof(SkillGroupViewModel),     // the bindable property type
             typeof(SkillGroupView));
 
-        public SkillGroup SkillGroup
+        public SkillGroupViewModel SkillGroupViewModel
         {
-            get => (SkillGroup)GetValue(SkillGroupProperty);
-            set => SetValue(SkillGroupProperty, value);
+            get => (SkillGroupViewModel)GetValue(SkillGroupViewModelProperty);
+            set => SetValue(SkillGroupViewModelProperty, value);
         }
         
         public static readonly BindableProperty OpenSkillCommandProperty = BindableProperty.Create(
@@ -54,9 +55,9 @@ namespace Imago.Views.CustomControls
             set { SetValue(OpenSkillGroupCommandProperty, value); }
         }
         
-        public ICommand SkillBaseTapCommand => new Command<SkillBase>(parameter =>
+        public ICommand SkillBaseTapCommand => new Command<DependentBase>(parameter =>
         {
-            if (parameter is SkillGroup group)
+            if (parameter is SkillGroupModel group)
             {
                 if (OpenSkillGroupCommand == null) 
                     return;
@@ -67,13 +68,13 @@ namespace Imago.Views.CustomControls
                 return;
             }
             
-            if (parameter is Skill skill)
+            if (parameter is SkillModel skill)
             {
                 if (OpenSkillCommand == null)
                     return;
 
-                if (OpenSkillCommand.CanExecute((skill, SkillGroup)))
-                    OpenSkillCommand.Execute((skill, SkillGroup));
+                if (OpenSkillCommand.CanExecute((skill, SkillGroupViewModel.SkillGroup)))
+                    OpenSkillCommand.Execute((skill, SkillGroupViewModel.SkillGroup));
                 
             }
         });

@@ -16,11 +16,10 @@ namespace Imago.Util
 {
     public sealed class ViewModelLocator
     {
-        private readonly Lazy<ICharacterRepository> _characterRepository;
-        private readonly Lazy<ICharacterService> _characterService;
         private readonly Lazy<IRuleRepository> _ruleRepository;
         private readonly Lazy<IWikiService> _wikiService;
         private readonly Lazy<IWikiParseService> _wikiParseService;
+        private readonly Lazy<ICharacterService> _characterService;
 
         private readonly IMeleeWeaponRepository _meleeWeaponRepository;
         private readonly IRangedWeaponRepository _rangedWeaponRepository;
@@ -29,7 +28,8 @@ namespace Imago.Util
         private readonly IMasteryRepository _masteryRepository;
         private readonly ISpecialWeaponRepository _specialWeaponRepository;
         private readonly IShieldRepository _shieldRepository;
-        
+        private readonly ICharacterRepository _characterRepository;
+
         public ViewModelLocator()
         {
             var databaseFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
@@ -42,21 +42,38 @@ namespace Imago.Util
             _specialWeaponRepository = new SpecialWeaponRepository(databaseFolder);
             _shieldRepository = new ShieldRepository(databaseFolder);
             _masteryRepository = new MasteryRepository(databaseFolder);
+            _characterRepository = new CharacterRepository(databaseFolder);
 
-            _characterRepository = new Lazy<ICharacterRepository>(() => new CharacterRepository());
             _ruleRepository = new Lazy<IRuleRepository>(() => new RuleRepository());
             _wikiService = new Lazy<IWikiService>(() => new WikiService());
-            _characterService = new Lazy<ICharacterService>(() => new CharacterService(_ruleRepository.Value));
-            _wikiParseService = new Lazy<IWikiParseService>(() => new WikiParseService(_meleeWeaponRepository, _rangedWeaponRepository,
+            _wikiParseService = new Lazy<IWikiParseService>(() => new WikiParseService(_meleeWeaponRepository,
+                _rangedWeaponRepository,
                 _armorRepository, _talentRepository, _specialWeaponRepository, _shieldRepository, _masteryRepository));
+            _characterService = new Lazy<ICharacterService>(() => new CharacterService(_characterRepository));
+
+            AppShellViewModel = new AppShellViewModel(_characterService.Value);
+            AppShellViewModel.EditModeChanged += (sender, value) =>
+            {
+                _characterService.Value.GetCurrentCharacter().EditMode = value;
+            };
         }
-        
-        public CharacterInfoPageViewModel CharacterInfo => new CharacterInfoPageViewModel(App.CurrentCharacter, _characterService.Value, _ruleRepository.Value);
-        public SkillPageViewModel SkillPageViewModel => new SkillPageViewModel(App.CurrentCharacter, _characterService.Value, _wikiService.Value, _masteryRepository, _talentRepository, _ruleRepository.Value);
-        public StartPageViewModel StartPage => new StartPageViewModel(_characterRepository.Value,_wikiParseService.Value,_meleeWeaponRepository, _rangedWeaponRepository, _armorRepository,_talentRepository, _specialWeaponRepository, _shieldRepository, _masteryRepository);
-        public StatusPageViewModel StatusPageViewModel => new StatusPageViewModel(App.CurrentCharacter,_armorRepository, _meleeWeaponRepository, _rangedWeaponRepository, _characterService.Value, _specialWeaponRepository, _shieldRepository);
-        public InventoryViewModel InventoryViewModel => new InventoryViewModel(App.CurrentCharacter, _characterService.Value);
-        public AppShellViewModel AppShellViewModel => new AppShellViewModel();
+
+        public CharacterInfoPageViewModel CharacterInfo => new CharacterInfoPageViewModel(_characterService.Value.GetCurrentCharacter(), _ruleRepository.Value);
+
+        public SkillPageViewModel SkillPageViewModel => new SkillPageViewModel(_characterService.Value.GetCurrentCharacter(), _wikiService.Value,
+            _masteryRepository, _talentRepository, _ruleRepository.Value);
+
+        public StartPageViewModel StartPage => new StartPageViewModel(AppShellViewModel, _characterRepository, _characterService.Value, _wikiParseService.Value,
+            _meleeWeaponRepository, _rangedWeaponRepository,
+            _armorRepository, _talentRepository, _specialWeaponRepository, _shieldRepository, _masteryRepository,
+            _ruleRepository.Value);
+
+        public StatusPageViewModel StatusPageViewModel => new StatusPageViewModel(_characterService.Value.GetCurrentCharacter(),
+            _armorRepository, _meleeWeaponRepository, _rangedWeaponRepository, _specialWeaponRepository,
+            _shieldRepository);
+
+        public InventoryViewModel InventoryViewModel => new InventoryViewModel(_characterService.Value.GetCurrentCharacter());
+        public AppShellViewModel AppShellViewModel { get; }
         public ChangelogViewModel ChangelogViewModel => new ChangelogViewModel(_wikiService.Value);
         public WikiPageViewModel WikiPageViewModel => new WikiPageViewModel();
     }

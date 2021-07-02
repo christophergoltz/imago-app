@@ -6,16 +6,16 @@ using Imago.Models.Enum;
 
 namespace Imago.Models
 {
-    public class Skill : SkillBase
+    public class SkillModel : DependentBase
     {
-        public Skill()
+        public SkillModel()
         {
             
         }
 
-        public SkillType Type { get; set; }
+        public SkillModelType Type { get; set; }
 
-        public Skill(SkillType type)
+        public SkillModel(SkillModelType type)
         {
             Type = type;
         }

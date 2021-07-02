@@ -11,8 +11,7 @@ namespace Imago.ViewModels
 {
     public class WeaponDetailViewModel : BindableBase
     {
-        private readonly Character _character;
-        private readonly ICharacterService _characterService;
+        private readonly CharacterViewModel _characterViewModel;
         private Weapon _weapon;
 
         public Weapon Weapon
@@ -33,7 +32,7 @@ namespace Imago.ViewModels
             set
             {
                 Weapon.Fight = value;
-                _characterService.RecalculateHandicapAttributes(_character);
+                _characterViewModel.RecalculateHandicapAttributes();
                 OnPropertyChanged(nameof(FightValue));
             }
         }
@@ -44,7 +43,7 @@ namespace Imago.ViewModels
             set
             {
                 Weapon.Adventure = value;
-                _characterService.RecalculateHandicapAttributes(_character);
+                _characterViewModel.RecalculateHandicapAttributes();
                 OnPropertyChanged(nameof(AdventureValue));
             }
         }
@@ -55,15 +54,14 @@ namespace Imago.ViewModels
             set
             {
                 Weapon.LoadValue = value;
-                _characterService.RecalculateHandicapAttributes(_character);
+                _characterViewModel.RecalculateHandicapAttributes();
                 OnPropertyChanged(nameof(LoadValue));
             }
         }
 
-        public WeaponDetailViewModel(Weapon weapon, Character character, ICharacterService characterService)
+        public WeaponDetailViewModel(Weapon weapon, CharacterViewModel characterViewModel)
         {
-            _character = character;
-            _characterService = characterService;
+            _characterViewModel = characterViewModel;
             Weapon = weapon;
             
             CloseCommand = new Command(() =>
