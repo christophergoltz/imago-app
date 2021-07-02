@@ -113,11 +113,10 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="backpack.png" />
     <Content Include="body_full_outline.jpg" />
-    <Content Include="book.png" />
     <Content Include="imago_big.png" />
     <Content Include="imago_logo_white.png" />
+    <Content Include="inventar_weiss.png" />
     <Content Include="letter.png" />
     <Content Include="magic.png" />
     <Content Include="person.png" />
@@ -150,6 +149,7 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <Content Include="swords.png" />
+    <Content Include="wiki_weiss.png" />
     <Content Include="xamarin_logo.png" />
     <Content Include="icon_about.png" />
     <Content Include="icon_feed.png" />

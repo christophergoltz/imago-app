@@ -96,10 +96,10 @@
     <FlyoutItem Title="Kampfbogen" Icon="swords.png">
         <ShellContent Route="StatusPage" ContentTemplate="{DataTemplate local:StatusPage}" />
     </FlyoutItem>
-    <FlyoutItem Title="Inventar" Icon="backpack.png">
+    <FlyoutItem Title="Inventar" Icon="inventar_weiss.png">
         <ShellContent Route="InventoryPage" ContentTemplate="{DataTemplate local:InventoryPage}" />
     </FlyoutItem>
-    <FlyoutItem Title="Wiki" Icon="book.png">
+    <FlyoutItem Title="Wiki" Icon="wiki_weiss.png">
         <ShellContent Route="WikiPage" ContentTemplate="{DataTemplate local:WikiPage}" />
     </FlyoutItem>
 
