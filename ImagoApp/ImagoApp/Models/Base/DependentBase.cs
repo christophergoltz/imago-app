@@ -1,0 +1,16 @@
+﻿using Newtonsoft.Json;
+
+namespace ImagoApp.Models.Base
+{
+    public abstract class DependentBase : IncreasableBase
+    {
+        private int _baseValue;
+
+        [JsonIgnore]
+        public int BaseValue
+        {
+            get => _baseValue;
+            set => SetProperty(ref _baseValue, value);
+        }
+    }
+}

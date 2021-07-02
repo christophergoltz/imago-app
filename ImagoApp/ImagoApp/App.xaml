@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converter="clr-namespace:ImagoApp.Converter;assembly=ImagoApp"
+             xmlns:util="clr-namespace:ImagoApp.Util;assembly=ImagoApp"
+
+             x:Class="ImagoApp.App">
+    <!--
+        Define global resources and styles here, that apply to all pages in your app.
+    -->
+    <Application.Resources>
+        <ResourceDictionary>
+            <!-- converter -->
+            <converter:SkillGroupTypeToAttributeSourceStringConverter x:Key="SkillGroupTypeToAttributeSourceStringConverter"/>
+            <converter:InverseBoolConverter x:Key="InverseBoolConverter"/>
+            <converter:EnumToDisplayTextConverter x:Key="EnumToDisplayTextConverter"/>
+            <converter:EnumToAbbreviationTextConverter x:Key="EnumToAbbreviationTextConverter"/>
+            <converter:ObjectNullToBoolConverter x:Key="ObjectNullToBoolConverter"/>
+            <converter:ObjectNotNullToBoolConverter x:Key="ObjectNotNullToBoolConverter"/>
+            <converter:DicionaryToBodyPartConverter x:Key="DicionaryToBodyPartConverter"/>
+            <converter:EnumToFormulaConverter x:Key="EnumToFormulaConverter"/>
+            <converter:PositiveIntegerToBoolConverter x:Key="PositiveIntegerToBoolConverter"/>
+
+            <util:ViewModelLocator x:Key="ViewModelLocator"/>
+
+            <Color x:Key="Primary">#2196F3</Color>
+
+            <!-- Colorset1 -->
+            <Color x:Key="Umbra1">#735e48</Color>
+            <Color x:Key="Umbra2">#9b856e</Color>
+            <Color x:Key="Umbra3">#e1d3c5</Color>
+            <Color x:Key="Umbra4">#fff8f1</Color>
+            <Color x:Key="Weiss">#ffffff</Color>
+
+            <Color x:Key="AntiUmbra">#202843</Color>
+            <Color x:Key="AntiUmbra1">#353b50</Color>
+            <Color x:Key="AntiUmbra2">#696e81</Color>
+            <Color x:Key="AntiUmbra3">#aeb0b7</Color>
+            <Color x:Key="AntiUmbra4">#e0e1e2</Color>
+
+            <Color x:Key="GruenesUmbra">#1e4a2a</Color>
+            <Color x:Key="GruenesUmbra1">#36593f</Color>
+            <Color x:Key="GruenesUmbra2">#6e9177</Color>
+            <Color x:Key="GruenesUmbra3">#98b19e</Color>
+
+            <Color x:Key="HellGruenesUmbra">#005c30</Color>
+            <Color x:Key="HellGruenesUmbra1">#0d7744</Color>
+            <Color x:Key="HellGruenesUmbra2">#1c945a</Color>
+            <Color x:Key="HellGruenesUmbra3">#5db98d</Color>
+
+            <Color x:Key="GelbesUmbra">#aa9013</Color>
+            <Color x:Key="GelbesUmbra1">#d5b728</Color>
+            <Color x:Key="GelbesUmbra2">#e6cd50</Color>
+            <Color x:Key="GelbesUmbra3">#ffe981</Color>
+
+            <!--<Color x:Key="RotesUmbra">#832200</Color>
+            <Color x:Key="RotesUmbra1">#aa3a13</Color>
+            <Color x:Key="RotesUmbra2">#d55428</Color>
+            <Color x:Key="RotesUmbra3">#e67750</Color>-->
+
+            <Color x:Key="RotesUmbra">#830000</Color>
+            <Color x:Key="RotesUmbra1">#aa1313</Color>
+            <Color x:Key="RotesUmbra2">#d52828</Color>
+            <Color x:Key="RotesUmbra3">#e65050</Color>
+
+            <!-- default style -->
+            <Style TargetType="Frame">
+                <Setter Property="BorderColor" Value="{StaticResource AntiUmbra1}" />
+                <Setter Property="CornerRadius" Value="0" />
+                <Setter Property="Padding" Value="1" />
+            </Style>
+
+            <Style TargetType="ContentPage" ApplyToDerivedTypes="True">
+                <Setter Property="BackgroundColor" Value="{StaticResource AntiUmbra2}" />
+            </Style>
+
+            <Style TargetType="Entry" ApplyToDerivedTypes="True">
+                <Setter Property="BackgroundColor" Value="{StaticResource AntiUmbra3}" />
+            </Style>
+
+            <Style TargetType="Editor" ApplyToDerivedTypes="True">
+                <Setter Property="BackgroundColor" Value="{StaticResource AntiUmbra3}" />
+            </Style>
+
+            <!-- global explicit styles -->
+            <Style x:Key="BackgroundGridStyle" TargetType="Grid">
+                <Setter Property="BackgroundColor" Value="{StaticResource AntiUmbra2}" />
+            </Style>
+
+            <Style x:Key="LightTextLabel" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource AntiUmbra1}" />
+            </Style>
+
+            <Style x:Key="EvenGradiantStyle" TargetType="Grid">
+                <Setter Property="Background">
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="{StaticResource Weiss}" Offset="1"/>
+                        <GradientStop Color="{StaticResource Umbra4}" Offset="0.9"/>
+                        <GradientStop Color="{StaticResource Umbra3}" Offset="0.7"/>
+                        <GradientStop Color="{StaticResource Umbra2}" Offset="0.4"/>
+                        <GradientStop Color="{StaticResource Umbra1}" Offset="0.1"/>
+                    </LinearGradientBrush>
+                </Setter>
+            </Style>
+
+            <Style x:Key="SingleGradiantStyle" TargetType="Grid">
+                <Setter Property="Background">
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="{StaticResource Umbra4}" Offset="1"/>
+                        <GradientStop Color="{StaticResource Umbra2}" Offset="0.16"/>
+                        <GradientStop Color="{StaticResource Umbra1}" Offset="0.0"/>
+                    </LinearGradientBrush>
+                </Setter>
+            </Style>
+        </ResourceDictionary>        
+    </Application.Resources>
+</Application>

@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp"
+             x:Class="ImagoApp.Views.CustomControls.SkillGroupDetailView" 
+             x:DataType="customControls:SkillGroupDetailView">
+    <Grid BackgroundColor="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- header -->
+        <Grid Grid.Column="0" Grid.Row="0" Padding="15" Margin="0,0,-6,-6"  Background="{DynamicResource BraunVerlauf1}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="1"/>
+            </Grid.RowDefinitions>
+
+            <StackLayout VerticalOptions="Center"  Grid.Column="0" Grid.Row="0" Orientation="Horizontal">
+                <Label  Text="{Binding SkillGroupDetailViewModel.SkillGroupModel.Type, Converter={StaticResource EnumToDisplayTextConverter}}"
+                            Margin="5,5,0,0" FontAttributes="Bold" FontSize="28"/>
+                <Button Margin="20,8,0,0" VerticalOptions="Center" Text="Wiki &#8599;" FontSize="20" 
+                            Padding="7,3" Background="limegreen" 
+                            Command="{Binding SkillGroupDetailViewModel.OpenWikiCommand}"/>
+            </StackLayout>
+
+
+            <Label  VerticalOptions="Center" Margin="15,0,0,0" Grid.Column="0" Grid.Row="1" FontSize="20">
+                <Label.Text>
+                    <MultiBinding StringFormat="{}({0})">
+                        <Binding Path="SkillGroupDetailViewModel.SourceFormula"/>
+                    </MultiBinding>
+                </Label.Text>
+            </Label>
+
+
+            <StackLayout Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
+                <Label FontSize="20" VerticalOptions="Center"  Text="GW: " FontAttributes="Bold"/>
+                <Label FontSize="20" VerticalOptions="Center"  Text="{Binding SkillGroupDetailViewModel.SkillGroupModel.BaseValue}"/>
+            </StackLayout>
+
+            <StackLayout Grid.Column="2" Grid.Row="0" Orientation="Horizontal">
+                <Label FontSize="20" VerticalOptions="Center" Text="Mod: " FontAttributes="Bold"/>
+                <Entry FontSize="18" VerticalOptions="Center"  Keyboard="Numeric" Text="{Binding SkillGroupDetailViewModel.SelectedSkillModification}"/>
+            </StackLayout>
+
+            <StackLayout Grid.Column="3" Grid.Row="0" Orientation="Horizontal">
+                <Label FontSize="20" VerticalOptions="Center"  Text="FW: " FontAttributes="Bold"/>
+                <Label FontSize="20" VerticalOptions="Center"  Text="{Binding SkillGroupDetailViewModel.SkillGroupModel.FinalValue}"/>
+            </StackLayout>
+
+            <StackLayout Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
+                <Label FontSize="20"  VerticalOptions="Center" Text="SW: " FontAttributes="Bold"/>
+                <Label FontSize="20" VerticalOptions="Center"  Text="{Binding SkillGroupDetailViewModel.SkillGroupModel.IncreaseValue}"/>
+            </StackLayout>
+
+            <StackLayout Grid.Column="2" Grid.Row="1" Orientation="Horizontal">
+                <Label FontSize="20"  VerticalOptions="Center"  Text="EP: " FontAttributes="Bold"></Label>
+                <Label FontSize="20"  VerticalOptions="Center" >
+                    <Label.Text>
+                        <MultiBinding StringFormat="{}{0}/{1}">
+                            <Binding Path="SkillGroupDetailViewModel.SkillGroupModel.ExperienceValue"/>
+                            <Binding Path="SkillGroupDetailViewModel.SkillGroupModel.ExperienceForNextIncreasedRequired"/>
+                        </MultiBinding>
+                    </Label.Text>
+                </Label>
+            </StackLayout>
+
+            <Button Grid.Column="4" Grid.Row="0" Grid.RowSpan="3"  Text="X" Padding="0,-4,0,0" WidthRequest="35" 
+                        HeightRequest="35"  FontSize="22"  VerticalOptions="Start" HorizontalOptions="End" TextColor="Red" BackgroundColor="LightGray" 
+                        Command="{Binding SkillGroupDetailViewModel.CloseCommand}"/>
+        </Grid>
+
+        <BoxView Grid.Column="0" Grid.Row="1" Color="Black"/>
+
+        <WebView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Navigating="WebView_OnNavigating"
+                             Source="{Binding SkillGroupDetailViewModel.QuickWikiView}"></WebView>
+    </Grid>
+</ContentView>

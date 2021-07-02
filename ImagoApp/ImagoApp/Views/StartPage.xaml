@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
+             xmlns:entity="clr-namespace:ImagoApp.Models.Entity;assembly=ImagoApp"
+             xmlns:models="clr-namespace:ImagoApp.Models;assembly=ImagoApp"
+             xmlns:enum="clr-namespace:ImagoApp.Models.Enum;assembly=ImagoApp"
+             xmlns:util="clr-namespace:ImagoApp.Util;assembly=ImagoApp"
+             Appearing="StartPage_OnAppearing"
+             Title="Startseite" Shell.FlyoutBehavior="Disabled"
+             x:Class="ImagoApp.Views.StartPage" Shell.NavBarIsVisible="False" Shell.TabBarIsVisible="False"
+             BindingContext="{Binding StartPage, Source={StaticResource ViewModelLocator}}"
+             x:DataType="viewModels:StartPageViewModel">
+
+    <ContentPage.Content>
+        <Grid Style="{StaticResource BackgroundGridStyle}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="*"></RowDefinition>
+              <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Frame Grid.RowSpan="2" Margin="10" >
+                <Grid Style="{StaticResource SingleGradiantStyle}">
+                    <ListView SelectionMode="None" ItemsSource="{Binding Characters}" >
+                        <ListView.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="1"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Label Margin="20,0"  VerticalOptions="Center" FontSize="28" FontAttributes="Bold" Text="Charaktere" Grid.Column="0" Grid.Row="0"></Label>
+                                <Button Grid.Column="1" FontSize="18" Grid.Row="0" Text="Neuer Charakter erstellen" Margin="20" Command="{Binding CreateNewCharacterCommand}"/>
+                                <Button Grid.Column="2" FontSize="18" Grid.Row="0" Command="{Binding GenerateTestCharacterCommand}" Text="Testspieler generieren" Margin="20"/>
+                                <BoxView Grid.Row="1"  Grid.ColumnSpan="3" Grid.Column="0" Color="Black"/>
+                            </Grid>
+                        </ListView.Header>
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="entity:CharacterEntity">
+                                <ViewCell>
+                                    <Grid Margin="20,10">
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding OpenCharacterCommand, Source={RelativeSource AncestorType={x:Type viewModels:StartPageViewModel}}}" 
+                                                          CommandParameter="{Binding .}"/>
+                                        </Grid.GestureRecognizers>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="125"></ColumnDefinition>
+                                            <ColumnDefinition Width="300"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" FontSize="24" Text="{Binding Name}"></Label>
+                                        <Label Grid.Column="1" FontSize="24" Text="{Binding Version}"></Label>
+                                        <Label Grid.Column="2" FontSize="24" Text="{Binding LastModifiedAt}"></Label>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </Frame>
+
+            <!-- wiki parse-->
+            <Frame Grid.Row="0" Grid.Column="1" Margin="10">
+                <Grid Style="{StaticResource SingleGradiantStyle}">
+                <ListView SelectionMode="None" ItemsSource="{Binding TableInfos.Values}">
+                    <ListView.Header>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="1"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Label Margin="20,0" VerticalOptions="Center" FontSize="28" FontAttributes="Bold" Text="Lokale Datenbank" Grid.Column="0" Grid.Row="0"></Label>
+                            <Button Grid.Column="1" Grid.Row="0" Text="Daten aus Wiki laden" VerticalOptions="Center" Margin="20"
+                                    Command="{Binding ParseWikiCommand,Source={RelativeSource AncestorType={x:Type viewModels:StartPageViewModel}}}"></Button>
+                            <BoxView Grid.Row="1"  Grid.ColumnSpan="2" Grid.Column="0" Color="Black"/>
+                        </Grid>
+                    </ListView.Header>
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="models:TableInfoModel">
+                            <ViewCell>
+                                <Grid>
+                                    <ActivityIndicator IsRunning="True">
+                                        <ActivityIndicator.Style>
+                                            <Style TargetType="ActivityIndicator">
+                                                <Style.Triggers>
+                                                    <DataTrigger TargetType="ActivityIndicator" Binding="{Binding State, Source={RelativeSource AncestorType={x:Type models:TableInfoModel}}}" 
+                                                                 Value="{x:Static enum:TableInfoState.Loading}">
+                                                        <Setter Property="IsVisible" Value="True"></Setter>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                                <Setter Property="IsVisible" Value="False"></Setter>
+                                            </Style>
+                                        </ActivityIndicator.Style>
+                                    </ActivityIndicator>
+
+                                    <Grid Margin="20,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" FontSize="22" VerticalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"></Label>
+                                        <Label Grid.Column="1" FontSize="22" VerticalOptions="Center" >
+                                            <Label.Text>
+                                                <MultiBinding StringFormat="{}({0})">
+                                                    <Binding Path="Count" 
+                                                             Source="{RelativeSource AncestorType={x:Type models:TableInfoModel}}"/>
+                                                </MultiBinding>
+                                            </Label.Text>
+                                        </Label>
+                                        <Label  Grid.Column="3"  FontSize="22" VerticalOptions="Center" Text="{Binding TimeStamp, StringFormat='{0:HH:mm dd.MM.yyyy}'}"></Label>
+                                        <Label Grid.Column="2"  FontSize="22" VerticalOptions="Center">
+                                            <Label.Text>
+                                                <MultiBinding StringFormat="{}[{0}]">
+                                                    <Binding  Path="State"
+                                                             Converter="{StaticResource EnumToDisplayTextConverter}" Source="{RelativeSource AncestorType={x:Type models:TableInfoModel}}"/>
+                                                </MultiBinding>
+                                            </Label.Text>
+                                            <Label.Style>
+                                                <Style TargetType="Label">
+                                                    <Style.Triggers>
+                                                        <DataTrigger TargetType="Label" Binding="{Binding State, Source={RelativeSource AncestorType={x:Type models:TableInfoModel}}}" 
+                                                                     Value="{x:Static enum:TableInfoState.Okay}">
+                                                            <Setter Property="TextColor" Value="Green"></Setter>
+                                                        </DataTrigger>
+                                                        <DataTrigger TargetType="Label" Binding="{Binding State, Source={RelativeSource AncestorType={x:Type models:TableInfoModel}}}"
+                                                                     Value="{x:Static enum:TableInfoState.Error}">
+                                                            <Setter Property="TextColor" Value="Red"></Setter>
+                                                        </DataTrigger>
+                                                        <DataTrigger TargetType="Label" Binding="{Binding State, Source={RelativeSource AncestorType={x:Type models:TableInfoModel}}}"
+                                                                     Value="{x:Static enum:TableInfoState.Loading}">
+                                                            <Setter Property="TextColor" Value="Orange"></Setter>
+                                                        </DataTrigger>
+                                                        <DataTrigger TargetType="Label" Binding="{Binding State, Source={RelativeSource AncestorType={x:Type models:TableInfoModel}}}"
+                                                                     Value="{x:Static enum:TableInfoState.NoData}">
+                                                            <Setter Property="TextColor" Value="Orange"></Setter>
+                                                        </DataTrigger>
+                                                        <DataTrigger TargetType="Label" Binding="{Binding State, Source={RelativeSource AncestorType={x:Type models:TableInfoModel}}}"
+                                                                     Value="{x:Static enum:TableInfoState.NoDatebaseFile}">
+                                                            <Setter Property="TextColor" Value="Orange"></Setter>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Label.Style>
+                                        </Label>
+                                    </Grid>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </Frame>
+
+            <!-- parse feed-->
+            <Frame Grid.Row="1" Grid.Column="1" Margin="10">
+                <ListView SelectionMode="None" HasUnevenRows="True" ItemsSource="{Binding WikiParseLog}" 
+                    x:Name="WikiParseFeedListView"    HorizontalScrollBarVisibility="Never"  Margin="-5" >
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="util:LogEntry">
+                            <ViewCell>
+                                <Grid Margin="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        <ColumnDefinition Width="115"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" FontSize="14" VerticalOptions="Center" Text="{Binding Timestamp, StringFormat='{0:HH:mm:ss}'}"></Label>
+                                    <Label Grid.Column="1" FontSize="14" VerticalOptions="Center" Text="{Binding Type}"></Label>
+                                    <Label LineBreakMode="WordWrap" HorizontalOptions="StartAndExpand" Grid.Column="2" FontSize="14" VerticalOptions="Center" Text="{Binding Text}">
+                                        <Label.Style>
+                                            <Style TargetType="Label">
+                                                <Style.Triggers>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding Type, Source={RelativeSource AncestorType={x:Type util:LogEntry}}}" 
+                                                                     Value="{x:Static util:LogEntryType.Info}">
+                                                        <Setter Property="TextColor" Value="Black"></Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding Type, Source={RelativeSource AncestorType={x:Type util:LogEntry}}}" 
+                                                                 Value="{x:Static util:LogEntryType.Warning}">
+                                                        <Setter Property="TextColor" Value="Orange"></Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding Type, Source={RelativeSource AncestorType={x:Type util:LogEntry}}}" 
+                                                                 Value="{x:Static util:LogEntryType.Error}">
+                                                        <Setter Property="TextColor" Value="Red"></Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding Type, Source={RelativeSource AncestorType={x:Type util:LogEntry}}}" 
+                                                                 Value="{x:Static util:LogEntryType.Success}">
+                                                        <Setter Property="TextColor" Value="Green"></Setter>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Label.Style>
+                                    </Label>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Frame>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
