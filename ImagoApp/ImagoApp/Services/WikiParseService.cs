@@ -272,7 +272,7 @@ namespace ImagoApp.Services
                     name = CleanUpString(dataCells[0].InnerText);
                     var requirementsRawValue = CleanUpString(dataCells[1].InnerText);
 
-                    var requirements = new List<(SkillModelType, int)>();
+                    var requirements = new List<RequirementModel<SkillModelType>>();
 
                     foreach (var requirement in requirementsRawValue.Split(',').Select(s => s.Trim()))
                     {
@@ -286,7 +286,7 @@ namespace ImagoApp.Services
 
                         var value = int.Parse(strings[1]);
 
-                        requirements.Add((skill, value));
+                        requirements.Add(new RequirementModel<SkillModelType>(skill, value));
                     }
 
                     var difficultyValue = CleanUpString(dataCells[2].InnerText);
@@ -443,7 +443,7 @@ namespace ImagoApp.Services
                     name = CleanUpString(dataCells[0].InnerText);
                     var requirementsRawValue = CleanUpString(dataCells[1].InnerText);
 
-                    var requirements = new List<(SkillGroupModelType, int)>();
+                    var requirements = new List<RequirementModel<SkillGroupModelType>>();
 
                     foreach (var requirement in requirementsRawValue.Split(',').Select(s => s.Trim()))
                     {
@@ -457,7 +457,7 @@ namespace ImagoApp.Services
 
                         var value = int.Parse(strings[1]);
 
-                        requirements.Add((skill, value));
+                        requirements.Add(new RequirementModel<SkillGroupModelType>(skill, value));
                     }
 
                     var difficultyValue = CleanUpString(dataCells[2].InnerText);

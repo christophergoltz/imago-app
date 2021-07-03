@@ -28,7 +28,14 @@ namespace ImagoApp.Application.MappingProfiles
 
 
             //model to entity
+            CreateMap<Models.Attribute, AttributeEntity>();
+            CreateMap<DerivedAttribute, DerivedAttributeEntity>();
+            CreateMap<SpecialAttribute, SpecialAttributeEntity>();
 
+            CreateMap<SkillGroupModel, SkillGroupEntity>();
+            CreateMap<SkillModel, SkillEntity>();
+
+            CreateMap<BloodCarrierModel, BloodCarrierEntity>();
         }
     }
 }

@@ -5,7 +5,7 @@ namespace ImagoApp.Application.Models
 {
     public class TalentModel : TalentBase
     {
-        private List<(SkillModelType, int)> _requirements;
+        private List<RequirementModel<SkillModelType>> _requirements;
         private SkillModelType _targetSkillModel;
 
         public TalentModel() : base()
@@ -13,7 +13,7 @@ namespace ImagoApp.Application.Models
             
         }
 
-        public TalentModel(SkillModelType targetSkillModel, string name,string shortDescription, string description, List<(SkillModelType, int)> requirements,
+        public TalentModel(SkillModelType targetSkillModel, string name,string shortDescription, string description, List<RequirementModel<SkillModelType>> requirements,
             int? difficulty, bool activeUse, string phaseValueMod) : base(name, shortDescription,description, activeUse, difficulty, phaseValueMod)
         {
             TargetSkillModel = targetSkillModel;
@@ -26,7 +26,7 @@ namespace ImagoApp.Application.Models
             set => SetProperty(ref _targetSkillModel, value);
         }
 
-        public List<(SkillModelType, int)> Requirements
+        public List<RequirementModel<SkillModelType>> Requirements
         {
             get => _requirements;
             set => SetProperty(ref _requirements, value);

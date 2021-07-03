@@ -8,6 +8,6 @@ namespace ImagoApp.Infrastructure.Entities
     {
         public SkillGroupModelType TargetSkill { get; set; }
 
-        public List<(SkillGroupModelType, int)> Requirements { get; set; }
+        public List<RequirementEntity<SkillGroupModelType>> Requirements { get; set; }
     }
 }

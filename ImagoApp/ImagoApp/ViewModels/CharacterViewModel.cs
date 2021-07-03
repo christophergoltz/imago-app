@@ -136,12 +136,12 @@ namespace ImagoApp.ViewModels
             UpdateNewFinalValueOfAttribute(attribute);
         }
 
-        public bool CheckTalentRequirement(List<(SkillModelType, int)> requirements)
+        public bool CheckTalentRequirement(List<RequirementModel<SkillModelType>> requirements)
         {
             foreach (var requirement in requirements)
             {
-                var skill = Character.SkillGroups.SelectMany(pair => pair.Skills).First(_ => _.Type == requirement.Item1);
-                if (skill.IncreaseValue < requirement.Item2)
+                var skill = Character.SkillGroups.SelectMany(pair => pair.Skills).First(_ => _.Type == requirement.Type);
+                if (skill.IncreaseValue < requirement.Value)
                 {
                     return false;
                 }
@@ -150,12 +150,12 @@ namespace ImagoApp.ViewModels
         }
 
 
-        public bool CheckMasteryRequirement(List<(SkillGroupModelType, int)> requirements)
+        public bool CheckMasteryRequirement(List<RequirementModel<SkillGroupModelType>> requirements)
         {
             foreach (var requirement in requirements)
             {
-                var skillGroup = Character.SkillGroups.First(_=> _.Type == requirement.Item1);
-                if (skillGroup.IncreaseValue < requirement.Item2)
+                var skillGroup = Character.SkillGroups.First(_=> _.Type == requirement.Type);
+                if (skillGroup.IncreaseValue < requirement.Value)
                 {
                     return false;
                 }

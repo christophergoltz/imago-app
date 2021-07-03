@@ -5,6 +5,7 @@ using AutoMapper;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Models.Base;
 using ImagoApp.Infrastructure.Entities;
+using ImagoApp.Shared.Enums;
 
 namespace ImagoApp.Application.MappingProfiles
 {
@@ -32,6 +33,8 @@ namespace ImagoApp.Application.MappingProfiles
                .ForMember(member => member.ExperienceValue, options => options.Ignore())
                 .ForMember(member => member.IncreaseValue, options => options.Ignore())
                 .ForMember(member => member.ExperienceForNextIncreasedRequired, options => options.Ignore());
+            CreateMap<RequirementModel<SkillGroupModelType>, RequirementEntity<SkillGroupModelType>>();
+            CreateMap<RequirementModel<SkillModelType>, RequirementEntity<SkillModelType>>();
 
             //model to entity
             CreateMap<DurabilityItem, DurabilityItemEntity>();
@@ -41,6 +44,8 @@ namespace ImagoApp.Application.MappingProfiles
             CreateMap<CalculableBase, CalculableBaseEntity>();
             CreateMap<IncreasableBase, IncreasableBaseEntity>();
             CreateMap<DependentBase, DependentBaseEntity>();
+            CreateMap<RequirementEntity<SkillGroupModelType>, RequirementModel<SkillGroupModelType>>();
+            CreateMap<RequirementEntity<SkillModelType>, RequirementModel<SkillModelType>>();
         }
     }
 }
