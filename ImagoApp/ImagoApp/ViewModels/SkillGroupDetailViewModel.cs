@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using ImagoApp.Application.Models;
 using Xamarin.Forms;
 
 namespace ImagoApp.ViewModels
@@ -13,7 +14,7 @@ namespace ImagoApp.ViewModels
 
         private readonly CharacterViewModel _characterViewModel;
         private readonly Services.IWikiService _wikiService;
-        public Models.SkillGroupModel SkillGroupModel { get; }
+        public SkillGroupModel SkillGroupModel { get; }
         public event EventHandler CloseRequested;
         public ICommand OpenWikiCommand { get; set; }
         public ICommand CloseCommand { get; set; }
@@ -45,7 +46,7 @@ namespace ImagoApp.ViewModels
             }
         }
 
-        public SkillGroupDetailViewModel(Models.SkillGroupModel skillGroupModel, CharacterViewModel characterViewModel, Services.IWikiService wikiService)
+        public SkillGroupDetailViewModel(SkillGroupModel skillGroupModel, CharacterViewModel characterViewModel, Services.IWikiService wikiService)
         {
             _characterViewModel = characterViewModel;
             _wikiService = wikiService;
@@ -58,12 +59,12 @@ namespace ImagoApp.ViewModels
 
                 if (string.IsNullOrWhiteSpace(url))
                 {
-                    await Application.Current.MainPage.DisplayAlert("Fehlender Link",
+                    await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Fehlender Link",
                         "Uups, hier ist wohl nichts hinterlegt..", "OK");
                     return;
                 }
 
-                WikiPageViewModel.RequestedWikiPage = new Models.WikiPageEntry(url);
+                WikiPageViewModel.RequestedWikiPage = new WikiPageEntry(url);
                 await Shell.Current.GoToAsync($"//{nameof(Views.WikiPage)}");
                 WikiPageViewModel.RequestedWikiPage = null;
             });

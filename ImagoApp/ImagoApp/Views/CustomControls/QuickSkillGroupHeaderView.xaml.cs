@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using ImagoApp.Application.Models;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace ImagoApp.Views.CustomControls
@@ -13,12 +14,12 @@ namespace ImagoApp.Views.CustomControls
 
         public static readonly BindableProperty SkillGroupProperty = BindableProperty.Create(
             "SkillGroup",        // the name of the bindable property
-            typeof(Models.SkillGroupModel),     // the bindable property type
+            typeof(SkillGroupModel),     // the bindable property type
             typeof(QuickSkillGroupHeaderView));
 
-        public Models.SkillGroupModel SkillGroup
+        public SkillGroupModel SkillGroup
         {
-            get => (Models.SkillGroupModel)GetValue(SkillGroupProperty);
+            get => (SkillGroupModel)GetValue(SkillGroupProperty);
             set => SetValue(SkillGroupProperty, value);
         }
     }

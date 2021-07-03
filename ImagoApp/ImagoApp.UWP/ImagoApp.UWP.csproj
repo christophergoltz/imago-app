@@ -170,6 +170,18 @@
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ImagoApp.Application\ImagoApp.Application.csproj">
+      <Project>{fb60a246-a289-4ac3-b9df-12ed91898230}</Project>
+      <Name>ImagoApp.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ImagoApp.Infrastructure\ImagoApp.Infrastructure.csproj">
+      <Project>{554ff333-3eee-4dd9-bf1e-477bcf7d0b00}</Project>
+      <Name>ImagoApp.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ImagoApp.Shared\ImagoApp.Shared.csproj">
+      <Project>{0e15764d-b79c-40ff-b0a9-b1481253bb44}</Project>
+      <Name>ImagoApp.Shared</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ImagoApp\ImagoApp.csproj">
       <Project>{F3296353-99E5-4CF9-BF6E-BAB366A9D2EE}</Project>
       <Name>ImagoApp</Name>

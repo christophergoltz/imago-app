@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using ImagoApp.Application.Services;
+using ImagoApp.Shared.Enums;
 using Xamarin.Forms;
 
 namespace ImagoApp.Converter
@@ -11,10 +13,10 @@ namespace ImagoApp.Converter
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var skillGroupType = (Models.Enum.SkillGroupModelType)value;
+            var skillGroupType = (SkillGroupModelType)value;
 
             //todo meh, remove direct access to repo
-            var sources = new Repository.RuleRepository().GetSkillGroupSources(skillGroupType);
+            var sources = new RuleService().GetSkillGroupSources(skillGroupType);
 
             return string.Join("+", sources.Select(attributeType => _enumToAbbreviationTextConverter.Convert(attributeType, null, null, CultureInfo.InvariantCulture)));
         }

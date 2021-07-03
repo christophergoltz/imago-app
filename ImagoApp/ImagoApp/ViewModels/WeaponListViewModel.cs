@@ -6,6 +6,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Acr.UserDialogs;
+using ImagoApp.Application.Models;
+using ImagoApp.Application.Services;
 using Xamarin.Forms;
 
 namespace ImagoApp.ViewModels
@@ -13,45 +15,31 @@ namespace ImagoApp.ViewModels
     public class WeaponListViewModel :Util.BindableBase
     {
         private readonly CharacterViewModel _characterViewModel;
-        private readonly Repository.WrappingDatabase.IMeleeWeaponRepository _meleeWeaponRepository;
-        private readonly Repository.WrappingDatabase.IRangedWeaponRepository _rangedWeaponRepository;
-        private readonly Repository.WrappingDatabase.ISpecialWeaponRepository _specialWeaponRepository;
-        private readonly Repository.WrappingDatabase.IShieldRepository _shieldRepository;
+        private readonly IWikiDataService _wikiDataService;
         public ICommand AddWeaponCommand { get; }
 
-        public event EventHandler<Models.Weapon> OpenWeaponRequested;
+        public event EventHandler<Weapon> OpenWeaponRequested;
 
-        public WeaponListViewModel(CharacterViewModel  characterViewModel, 
-            Repository.WrappingDatabase.IMeleeWeaponRepository meleeWeaponRepository,
-            Repository.WrappingDatabase.IRangedWeaponRepository rangedWeaponRepository,
-            Repository.WrappingDatabase.ISpecialWeaponRepository specialWeaponRepository,
-            Repository.WrappingDatabase.IShieldRepository shieldRepository)
+        public WeaponListViewModel(CharacterViewModel  characterViewModel,  IWikiDataService wikiDataService)
         {
             foreach (var weapon in characterViewModel.Character.Weapons)
             {
                 weapon.PropertyChanged += OnWeaponLoadValueChanged;
             }
             _characterViewModel = characterViewModel;
-            _meleeWeaponRepository = meleeWeaponRepository;
-            _rangedWeaponRepository = rangedWeaponRepository;
-            _specialWeaponRepository = specialWeaponRepository;
-            _shieldRepository = shieldRepository;
+            _wikiDataService = wikiDataService;
 
             AddWeaponCommand = new Command(() =>
             {
                 Task.Run(async () =>
                 {
-                    Dictionary<string, Models.Weapon> weapons;
+                    Dictionary<string, Weapon> weapons;
 
                     using (UserDialogs.Instance.Loading("Waffen werden geladen", null, null, true, MaskType.Black))
                     {
                         await Task.Delay(250);
 
-                        var allWeapons = await _meleeWeaponRepository.GetAllItemsAsync();
-                        allWeapons.AddRange(await _rangedWeaponRepository.GetAllItemsAsync());
-                        allWeapons.AddRange(await _specialWeaponRepository.GetAllItemsAsync());
-                        allWeapons.AddRange(await _shieldRepository.GetAllItemsAsync());
-
+                        var allWeapons = await _wikiDataService.GetAllWeapons();
                         weapons = allWeapons
                             .ToDictionary(weapon => weapon.Name.ToString(), weapon => weapon);
 
@@ -88,7 +76,7 @@ namespace ImagoApp.ViewModels
 
         private void OnWeaponLoadValueChanged(object sender, PropertyChangedEventArgs args)
         {
-            if (args.PropertyName.Equals(nameof(Models.Weapon.LoadValue)))
+            if (args.PropertyName.Equals(nameof(Weapon.LoadValue)))
             {
                 _characterViewModel.RecalculateHandicapAttributes();
             }

@@ -1,18 +1,20 @@
-﻿namespace ImagoApp.ViewModels
+﻿using ImagoApp.Application.Models;
+
+namespace ImagoApp.ViewModels
 {
     public class SkillViewModel : Util.BindableBase
     {
-        private readonly Models.SkillGroupModel _skillGroup;
+        private readonly SkillGroupModel _skillGroup;
         private readonly CharacterViewModel _characterViewModel;
-        private Models.SkillModel _skill;
+        private SkillModel _skill;
 
-        public Models.SkillModel Skill
+        public SkillModel Skill
         {
             get => _skill;
             set => SetProperty(ref _skill, value);
         }
 
-        public SkillViewModel(Models.SkillModel skill, Models.SkillGroupModel skillGroup, CharacterViewModel characterViewModel)
+        public SkillViewModel(SkillModel skill, SkillGroupModel skillGroup, CharacterViewModel characterViewModel)
         {
             _skillGroup = skillGroup;
             _characterViewModel = characterViewModel;

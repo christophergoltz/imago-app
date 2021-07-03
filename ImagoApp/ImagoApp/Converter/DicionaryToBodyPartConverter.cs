@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using ImagoApp.Application.Models;
+using ImagoApp.Shared.Enums;
 using Xamarin.Forms;
 
 namespace ImagoApp.Converter
@@ -9,8 +11,8 @@ namespace ImagoApp.Converter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var bodyPartType = (Models.Enum.BodyPartType) parameter;
-            var bodyParts = (Dictionary<Models.Enum.BodyPartType, Models.BodyPart>) value;
+            var bodyPartType = (BodyPartType) parameter;
+            var bodyParts = (Dictionary<BodyPartType, BodyPart>) value;
 
             return bodyParts[bodyPartType];
         }

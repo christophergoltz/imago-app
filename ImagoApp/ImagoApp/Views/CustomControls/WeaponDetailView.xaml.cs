@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+using ImagoApp.Application.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -32,7 +33,7 @@ namespace ImagoApp.Views.CustomControls
             set { SetValue(CommandProperty, value); }
         }
         
-        public ICommand RemoveWeaponCommand => new Command<Models.Weapon>(weapon =>
+        public ICommand RemoveWeaponCommand => new Command<Weapon>(weapon =>
         {
             if (Command.CanExecute(weapon))
             {

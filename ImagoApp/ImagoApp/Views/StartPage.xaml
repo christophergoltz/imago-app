@@ -2,11 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
-             xmlns:entity="clr-namespace:ImagoApp.Models.Entity;assembly=ImagoApp"
-             xmlns:models="clr-namespace:ImagoApp.Models;assembly=ImagoApp"
-             xmlns:enum="clr-namespace:ImagoApp.Models.Enum;assembly=ImagoApp"
+             xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application"
+             xmlns:enum="clr-namespace:ImagoApp.Shared.Enums;assembly=ImagoApp.Shared"
              xmlns:util="clr-namespace:ImagoApp.Util;assembly=ImagoApp"
-             Appearing="StartPage_OnAppearing"
              Title="Startseite" Shell.FlyoutBehavior="Disabled"
              x:Class="ImagoApp.Views.StartPage" Shell.NavBarIsVisible="False" Shell.TabBarIsVisible="False"
              BindingContext="{Binding StartPage, Source={StaticResource ViewModelLocator}}"
@@ -44,7 +42,7 @@
                             </Grid>
                         </ListView.Header>
                         <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="entity:CharacterEntity">
+                            <DataTemplate x:DataType="models:Character">
                                 <ViewCell>
                                     <Grid Margin="20,10">
                                         <Grid.GestureRecognizers>
@@ -69,7 +67,10 @@
 
             <!-- wiki parse-->
             <Frame Grid.Row="0" Grid.Column="1" Margin="10">
-                <Grid Style="{StaticResource SingleGradiantStyle}">
+                <Button Grid.Column="1" Grid.Row="0" Text="Daten aus Wiki laden" VerticalOptions="Center" Margin="20"
+                        Command="{Binding ParseWikiCommand,Source={RelativeSource AncestorType={x:Type viewModels:StartPageViewModel}}}"></Button>
+
+                <!--<Grid Style="{StaticResource SingleGradiantStyle}">
                 <ListView SelectionMode="None" ItemsSource="{Binding TableInfos.Values}">
                     <ListView.Header>
                         <Grid>
@@ -82,8 +83,7 @@
                                 <RowDefinition Height="1"></RowDefinition>
                             </Grid.RowDefinitions>
                             <Label Margin="20,0" VerticalOptions="Center" FontSize="28" FontAttributes="Bold" Text="Lokale Datenbank" Grid.Column="0" Grid.Row="0"></Label>
-                            <Button Grid.Column="1" Grid.Row="0" Text="Daten aus Wiki laden" VerticalOptions="Center" Margin="20"
-                                    Command="{Binding ParseWikiCommand,Source={RelativeSource AncestorType={x:Type viewModels:StartPageViewModel}}}"></Button>
+                          
                             <BoxView Grid.Row="1"  Grid.ColumnSpan="2" Grid.Column="0" Color="Black"/>
                         </Grid>
                     </ListView.Header>
@@ -162,10 +162,10 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                     </ListView>
-                </Grid>
+                </Grid>-->
             </Frame>
 
-            <!-- parse feed-->
+            <!-- parse feed--><!--
             <Frame Grid.Row="1" Grid.Column="1" Margin="10">
                 <ListView SelectionMode="None" HasUnevenRows="True" ItemsSource="{Binding WikiParseLog}" 
                     x:Name="WikiParseFeedListView"    HorizontalScrollBarVisibility="Never"  Margin="-5" >
@@ -209,7 +209,7 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-            </Frame>
+            </Frame>-->
 
         </Grid>
     </ContentPage.Content>

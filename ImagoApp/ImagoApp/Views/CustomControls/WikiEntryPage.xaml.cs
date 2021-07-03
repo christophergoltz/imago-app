@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
+using ImagoApp.Application.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -68,7 +69,7 @@ namespace ImagoApp.Views.CustomControls
                     Debug.WriteLine("Cancelling WikiNavigation, Opening new Page for: " + e.Url);
                     e.Cancel = true;
 
-                    ViewModels.WikiPageViewModel.RequestedWikiPage = new Models.WikiPageEntry(e.Url);
+                    ViewModels.WikiPageViewModel.RequestedWikiPage = new WikiPageEntry(e.Url);
                     ViewModels.WikiPageViewModel.Instance.OpenWikiPage();
                 }
             }

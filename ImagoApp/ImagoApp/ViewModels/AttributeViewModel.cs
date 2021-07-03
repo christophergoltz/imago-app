@@ -1,14 +1,16 @@
-﻿namespace ImagoApp.ViewModels
+﻿using ImagoApp.Application.Models;
+
+namespace ImagoApp.ViewModels
 {
     public class AttributeViewModel : Util.BindableBase
     {
-        public AttributeViewModel(Models.Attribute attribute, CharacterViewModel characterViewModel)
+        public AttributeViewModel(Attribute attribute, CharacterViewModel characterViewModel)
         {
             Attribute = attribute;
             CharacterViewModel = characterViewModel;
         }
 
-        public Models.Attribute Attribute { get; set; }
+        public Attribute Attribute { get; set; }
         public CharacterViewModel CharacterViewModel { get; }
 
         public int Corrosion

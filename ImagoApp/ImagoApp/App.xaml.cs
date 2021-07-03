@@ -1,12 +1,15 @@
-﻿using Microsoft.AppCenter;
+﻿using ImagoApp.ViewModels;
+using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Xamarin.Forms;
 
 namespace ImagoApp
 {
-    public partial class App : Application
+    public partial class App : Xamarin.Forms.Application
     {
+        public static CharacterViewModel CurrentCharacterViewModel { get; set; }
+
         public App()
         {
             InitializeComponent();

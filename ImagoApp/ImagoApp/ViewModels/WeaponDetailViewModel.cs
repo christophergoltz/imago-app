@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
+using ImagoApp.Application.Models;
 using Xamarin.Forms;
 
 namespace ImagoApp.ViewModels
@@ -7,9 +8,9 @@ namespace ImagoApp.ViewModels
     public class WeaponDetailViewModel : Util.BindableBase
     {
         private readonly CharacterViewModel _characterViewModel;
-        private Models.Weapon _weapon;
+        private Weapon _weapon;
 
-        public Models.Weapon Weapon
+        public Weapon Weapon
         {
             get => _weapon;
             set => SetProperty(ref _weapon, value);
@@ -54,7 +55,7 @@ namespace ImagoApp.ViewModels
             }
         }
 
-        public WeaponDetailViewModel(Models.Weapon weapon, CharacterViewModel characterViewModel)
+        public WeaponDetailViewModel(Weapon weapon, CharacterViewModel characterViewModel)
         {
             _characterViewModel = characterViewModel;
             Weapon = weapon;

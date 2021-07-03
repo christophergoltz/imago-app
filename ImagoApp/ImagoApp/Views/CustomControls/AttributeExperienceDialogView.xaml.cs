@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
+using ImagoApp.Shared.Enums;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -67,33 +68,33 @@ namespace ImagoApp.Views.CustomControls
                     {
                         switch (attribute.Type)
                         {
-                            case Models.Enum.AttributeType.Unknown:
+                            case AttributeType.Unknown:
                                 break;
-                            case Models.Enum.AttributeType.Staerke:
+                            case AttributeType.Staerke:
                                 Staerke.BackgroundColor = Color.GreenYellow;
                                 ((DropGestureRecognizer)Staerke.GestureRecognizers.First(_ => _.GetType() == typeof(DropGestureRecognizer))).AllowDrop = true;
                                 break;
-                            case Models.Enum.AttributeType.Geschicklichkeit:
+                            case AttributeType.Geschicklichkeit:
                                 Geschicklichkeit.BackgroundColor = Color.GreenYellow;
                                 ((DropGestureRecognizer)Geschicklichkeit.GestureRecognizers.First(_ => _.GetType() == typeof(DropGestureRecognizer))).AllowDrop = true;
                                 break;
-                            case Models.Enum.AttributeType.Konstitution:
+                            case AttributeType.Konstitution:
                                 Konstitution.BackgroundColor = Color.GreenYellow;
                                 ((DropGestureRecognizer)Konstitution.GestureRecognizers.First(_ => _.GetType() == typeof(DropGestureRecognizer))).AllowDrop = true;
                                 break;
-                            case Models.Enum.AttributeType.Intelligenz:
+                            case AttributeType.Intelligenz:
                                 Intelligenz.BackgroundColor = Color.GreenYellow;
                                 ((DropGestureRecognizer)Intelligenz.GestureRecognizers.First(_ => _.GetType() == typeof(DropGestureRecognizer))).AllowDrop = true;
                                 break;
-                            case Models.Enum.AttributeType.Willenskraft:
+                            case AttributeType.Willenskraft:
                                 Willenskraft.BackgroundColor = Color.GreenYellow;
                                 ((DropGestureRecognizer)Willenskraft.GestureRecognizers.First(_ => _.GetType() == typeof(DropGestureRecognizer))).AllowDrop = true;
                                 break;
-                            case Models.Enum.AttributeType.Charisma:
+                            case AttributeType.Charisma:
                                 Charisma.BackgroundColor = Color.GreenYellow;
                                 ((DropGestureRecognizer)Charisma.GestureRecognizers.First(_ => _.GetType() == typeof(DropGestureRecognizer))).AllowDrop = true;
                                 break;
-                            case Models.Enum.AttributeType.Wahrnehmung:
+                            case AttributeType.Wahrnehmung:
                                 Wahrnehmung.BackgroundColor = Color.GreenYellow;
                                 ((DropGestureRecognizer)Wahrnehmung.GestureRecognizers.First(_ => _.GetType() == typeof(DropGestureRecognizer))).AllowDrop = true;
                                 break;

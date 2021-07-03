@@ -4,6 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Acr.UserDialogs;
+using ImagoApp.Application.Models;
+using ImagoApp.Application.Services;
+using ImagoApp.Shared.Enums;
 using Xamarin.Forms;
 
 namespace ImagoApp.ViewModels
@@ -11,12 +14,12 @@ namespace ImagoApp.ViewModels
     public class BodyPartArmorListViewModel
     {
         private readonly CharacterViewModel _characterViewModel;
-        public Models.BodyPart BodyPart { get; }
+        public BodyPart BodyPart { get; }
 
         public ICommand RemoveArmorCommand { get; set; }
         public ICommand AddArmorCommand { get; set; }
 
-        public BodyPartArmorListViewModel(CharacterViewModel characterViewModel,  Repository.WrappingDatabase.IArmorRepository armorRepository, Models.BodyPart bodyPart)
+        public BodyPartArmorListViewModel(CharacterViewModel characterViewModel, IWikiDataService wikiDataService, BodyPart bodyPart)
         {
             _characterViewModel = characterViewModel;
             BodyPart = bodyPart;
@@ -25,7 +28,7 @@ namespace ImagoApp.ViewModels
                 armor.PropertyChanged += OnArmorPropertyChanged;
             }
             
-            RemoveArmorCommand = new Command<Models.ArmorPartModel>(armor =>
+            RemoveArmorCommand = new Command<ArmorPartModel>(armor =>
             {
                 BodyPart.Armor.Remove(armor);
                 characterViewModel.RecalculateHandicapAttributes();
@@ -35,14 +38,14 @@ namespace ImagoApp.ViewModels
             {
                 Task.Run(async () =>
                 {
-                    Dictionary<string, Models.ArmorPartModel> armor;
+                    Dictionary<string, ArmorPartModel> armor;
 
                     using (UserDialogs.Instance.Loading("Rüstungen werden geladen", null, null, true, MaskType.Black))
                     {
                         await Task.Delay(250);
 
-                        var currentBodyPart = Models.Enum.BodyPartTypeExtension.MapBodyPartTypeToArmorPartType(bodyPart.Type);
-                        var allArmor = await armorRepository.GetAllItemsAsync();
+                        var currentBodyPart = bodyPart.Type.MapBodyPartTypeToArmorPartType();
+                        var allArmor = await wikiDataService.GetAllArmor();
                         armor = allArmor
                             .Where(pair => pair.ArmorPartType == currentBodyPart)
                             .Select(pair => pair)
@@ -79,9 +82,9 @@ namespace ImagoApp.ViewModels
 
         private void OnArmorPropertyChanged(object sender, PropertyChangedEventArgs args)
         {
-            if (args.PropertyName.Equals(nameof(Models.ArmorPartModel.LoadValue))
-                || args.PropertyName.Equals(nameof(Models.ArmorPartModel.Fight))
-                || args.PropertyName.Equals(nameof(Models.ArmorPartModel.Adventure)))
+            if (args.PropertyName.Equals(nameof(ArmorPartModel.LoadValue))
+                || args.PropertyName.Equals(nameof(ArmorPartModel.Fight))
+                || args.PropertyName.Equals(nameof(ArmorPartModel.Adventure)))
             {
                 _characterViewModel.RecalculateHandicapAttributes();
             }

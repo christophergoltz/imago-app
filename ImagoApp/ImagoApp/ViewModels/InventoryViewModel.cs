@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using ImagoApp.Application.Models;
 using Xamarin.Forms;
 
 namespace ImagoApp.ViewModels
@@ -27,7 +28,7 @@ namespace ImagoApp.ViewModels
 
             AddNewEquippedItem = new Command(() =>
             {
-                var equipableItem = new Models.EquipableItem(string.Empty,0, false, false);
+                var equipableItem = new EquipableItem(string.Empty,0, false, false);
                 CharacterViewModel.Character.EquippedItems.Add(equipableItem);
                 EquippableItemViewModels.Add(new EquippableItemViewModel(equipableItem, characterViewModel));
             });

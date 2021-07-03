@@ -2,13 +2,15 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using ImagoApp.Application.Models;
+using ImagoApp.Application.Services;
 using Xamarin.Forms;
 
 namespace ImagoApp.ViewModels
 {
     public class CharacterInfoPageViewModel : Util.BindableBase
     {
-        private readonly Repository.IRuleRepository _ruleRepository;
+        private readonly IRuleService _ruleService;
         private string _title;
 
         public string Title
@@ -62,10 +64,10 @@ namespace ImagoApp.ViewModels
 
         public int AttributeExperienceBalance => TotalAttributeExperience - AttributeViewModels?.Sum(model => model.TotalExperienceValue) ?? 0;
 
-        public CharacterInfoPageViewModel(CharacterViewModel characterViewModel, Repository.IRuleRepository ruleRepository)
+        public CharacterInfoPageViewModel(CharacterViewModel characterViewModel, IRuleService ruleService)
         {
              TotalAttributeExperience = 940;
-            _ruleRepository = ruleRepository;
+            _ruleService = ruleService;
             Title = characterViewModel.Character.Name;
             CharacterViewModel = characterViewModel;
 
@@ -105,10 +107,10 @@ namespace ImagoApp.ViewModels
 
             AddNewBloodCarrierCommand = new Command(() =>
             {
-                characterViewModel.Character.BloodCarrier.Add(new Models.BloodCarrierModel("", 0,0,0));
+                characterViewModel.Character.BloodCarrier.Add(new BloodCarrierModel("", 0,0,0));
             });
 
-            RemoveBloodCarrierCommand = new Command<Models.BloodCarrierModel>(model =>
+            RemoveBloodCarrierCommand = new Command<BloodCarrierModel>(model =>
             {
                 characterViewModel.Character.BloodCarrier.Remove(model);
             });
@@ -126,7 +128,7 @@ namespace ImagoApp.ViewModels
 
             foreach (var attributeIncrease in CharacterViewModel.Character.OpenAttributeIncreases)
             {
-                var affectedAttributeTypes = _ruleRepository.GetSkillGroupSources(attributeIncrease).Distinct().ToList();
+                var affectedAttributeTypes = _ruleService.GetSkillGroupSources(attributeIncrease).Distinct().ToList();
                 var affectedAttributes = CharacterViewModel.Character.Attributes.Where(attribute => affectedAttributeTypes.Contains(attribute.Type)).ToList();
                 list.Add(new OpenAttributeExperienceViewModel(attributeIncrease, affectedAttributes));
             }

@@ -2,8 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
-             xmlns:models="clr-namespace:ImagoApp.Models;assembly=ImagoApp"
              xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp"
+             xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application"
 
              Title="{Binding Title}"
              x:Class="ImagoApp.Views.CharacterInfoPage" Appearing="CharacterInfoPage_OnAppearing"

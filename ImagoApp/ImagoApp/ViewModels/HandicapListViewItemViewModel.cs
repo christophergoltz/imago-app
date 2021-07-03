@@ -1,17 +1,19 @@
 ﻿using System;
+using ImagoApp.Shared.Enums;
+using ImagoApp.Util;
 
 namespace ImagoApp.ViewModels
 {
-    public class HandicapListViewItemViewModel : Util.BindableBase
+    public class HandicapListViewItemViewModel : BindableBase
     {
-        private Models.Enum.DerivedAttributeType _type;
+        private DerivedAttributeType _type;
         private bool _isChecked;
         private int? _handiCapValue;
         private string _imageSource;
         private string _text;
         public event EventHandler HandicapValueChanged;
 
-        public Models.Enum.DerivedAttributeType Type
+        public DerivedAttributeType Type
         {
             get => _type;
             set
@@ -53,7 +55,7 @@ namespace ImagoApp.ViewModels
             set => SetProperty(ref _text, value);
         }
 
-        public HandicapListViewItemViewModel(Models.Enum.DerivedAttributeType type, bool isChecked, int? handiCapValue, string imageSource, string text)
+        public HandicapListViewItemViewModel(DerivedAttributeType type, bool isChecked, int? handiCapValue, string imageSource, string text)
         {
             Type = type;
             IsChecked = isChecked;

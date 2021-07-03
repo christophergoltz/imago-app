@@ -143,20 +143,12 @@
             <Grid Padding="20">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="1"></RowDefinition>
                 </Grid.RowDefinitions>
 
                 <Image Margin="15,5" Source="imago_logo_white.png" VerticalOptions="Fill" HorizontalOptions="Fill"></Image>
-                <Label Grid.Row="1" TextColor="White" Text="Imago.App" FontSize="30"/>
-
-                <StackLayout Grid.Row="2" Orientation="Horizontal">
-                    <Label TextColor="White"  Text="Version" FontSize="18"/>
-                    <Label TextColor="White"  Text="{Binding Version}" FontSize="18"/>
-                </StackLayout>
-
-                <BoxView Grid.Row="3" Color="White"/>
+               
+                <BoxView Grid.Row="1" Color="White"/>
             </Grid>
         </DataTemplate>
     </Shell.FlyoutHeaderTemplate>

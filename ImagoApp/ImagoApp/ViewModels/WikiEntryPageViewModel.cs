@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows.Input;
+using ImagoApp.Application.Models;
 using Xamarin.Forms;
 
 namespace ImagoApp.ViewModels
@@ -10,9 +11,9 @@ namespace ImagoApp.ViewModels
         public event EventHandler<WikiEntryPageViewModel> PageCloseRequested;
 
         public ICommand ClosePageCommand { get; }
-        public Models.WikiPageEntry WikiPageEntry { get; set; }
+        public WikiPageEntry WikiPageEntry { get; set; }
 
-        public WikiEntryPageViewModel(Models.WikiPageEntry entry)
+        public WikiEntryPageViewModel(WikiPageEntry entry)
         {
             WikiPageEntry = entry;
             WikiPageEntry.PropertyChanged += (sender, args) => { ((Command) ClosePageCommand).ChangeCanExecute(); };

@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
+using ImagoApp.Application.Models;
+using ImagoApp.Shared.Enums;
 
 namespace ImagoApp.ViewModels
 {
     public class OpenAttributeExperienceViewModel : Util.BindableBase
     {
-        public Models.Enum.SkillGroupModelType SourceType { get; set; }
-        public List<Models.Attribute> PossibleTargets { get; set; }
+        public SkillGroupModelType SourceType { get; set; }
+        public List<Attribute> PossibleTargets { get; set; }
         
-        public OpenAttributeExperienceViewModel(Models.Enum.SkillGroupModelType sourceType, List<Models.Attribute> possibleTargets)
+        public OpenAttributeExperienceViewModel(SkillGroupModelType sourceType, List<Attribute> possibleTargets)
         {
             SourceType = sourceType;
             PossibleTargets = possibleTargets;

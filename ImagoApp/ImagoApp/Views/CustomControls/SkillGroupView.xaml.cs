@@ -1,4 +1,6 @@
 ﻿using System.Windows.Input;
+using ImagoApp.Application.Models;
+using ImagoApp.Application.Models.Base;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -47,9 +49,9 @@ namespace ImagoApp.Views.CustomControls
             set { SetValue(OpenSkillGroupCommandProperty, value); }
         }
         
-        public ICommand SkillBaseTapCommand => new Command<Models.Base.DependentBase>(parameter =>
+        public ICommand SkillBaseTapCommand => new Command<DependentBase>(parameter =>
         {
-            if (parameter is Models.SkillGroupModel group)
+            if (parameter is SkillGroupModel group)
             {
                 if (OpenSkillGroupCommand == null) 
                     return;
@@ -60,7 +62,7 @@ namespace ImagoApp.Views.CustomControls
                 return;
             }
             
-            if (parameter is Models.SkillModel skill)
+            if (parameter is SkillModel skill)
             {
                 if (OpenSkillCommand == null)
                     return;

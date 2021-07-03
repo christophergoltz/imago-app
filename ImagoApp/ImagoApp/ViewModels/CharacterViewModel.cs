@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ImagoApp.Application.Models;
+using ImagoApp.Application.Services;
+using ImagoApp.Shared.Enums;
+using ImagoApp.Util;
+using Attribute = ImagoApp.Application.Models.Attribute;
 
 namespace ImagoApp.ViewModels
 {
     public class CharacterViewModel : Util.BindableBase
     {
-        public Models.Character Character { get; }
-        private readonly Repository.IRuleRepository _ruleRepository;
+        public Character Character { get; }
+        private readonly IRuleService _ruleService;
         private bool _editMode;
 
         public bool EditMode
@@ -16,127 +21,127 @@ namespace ImagoApp.ViewModels
             set => SetProperty(ref _editMode, value);
         }
 
-        public CharacterViewModel(Models.Character character, Repository.IRuleRepository ruleRepository)
+        public CharacterViewModel(Character character, IRuleService ruleService)
         {
             Character = character;
-            _ruleRepository = ruleRepository;
+            _ruleService = ruleService;
 
             //todo move to character service
-            var derivedAttributeTypes = new List<Models.Enum.DerivedAttributeType>()
+            var derivedAttributeTypes = new List<DerivedAttributeType>()
             {
-                Models.Enum.DerivedAttributeType.Egoregenration,
-                Models.Enum.DerivedAttributeType.Schadensmod,
-                Models.Enum.DerivedAttributeType.Traglast,
-                Models.Enum.DerivedAttributeType.TaktischeBewegung,
-                Models.Enum.DerivedAttributeType.Sprintreichweite,
-                Models.Enum.DerivedAttributeType.SprungreichweiteKampf,
-                Models.Enum.DerivedAttributeType.SprunghoeheKampf,
-                Models.Enum.DerivedAttributeType.SprungreichweiteAbenteuer,
-                Models.Enum.DerivedAttributeType.SprunghoeheAbenteuer,
-                Models.Enum.DerivedAttributeType.SprungreichweiteGesamt,
-                Models.Enum.DerivedAttributeType.SprunghoeheGesamt,
+                DerivedAttributeType.Egoregenration,
+                DerivedAttributeType.Schadensmod,
+                DerivedAttributeType.Traglast,
+                DerivedAttributeType.TaktischeBewegung,
+                DerivedAttributeType.Sprintreichweite,
+                DerivedAttributeType.SprungreichweiteKampf,
+                DerivedAttributeType.SprunghoeheKampf,
+                DerivedAttributeType.SprungreichweiteAbenteuer,
+                DerivedAttributeType.SprunghoeheAbenteuer,
+                DerivedAttributeType.SprungreichweiteGesamt,
+                DerivedAttributeType.SprunghoeheGesamt,
 
                 //second level attribute for calc
-                Models.Enum.DerivedAttributeType.BehinderungKampf,
-                Models.Enum.DerivedAttributeType.BehinderungAbenteuer,
-                Models.Enum.DerivedAttributeType.BehinderungGesamt
+                DerivedAttributeType.BehinderungKampf,
+                DerivedAttributeType.BehinderungAbenteuer,
+                DerivedAttributeType.BehinderungGesamt
             };
-            DerivedAttributes = derivedAttributeTypes.Select(type => new Models.DerivedAttribute(type)).ToList();
+            DerivedAttributes = derivedAttributeTypes.Select(type => new DerivedAttribute(type)).ToList();
 
-            SpecialAttributes = new List<Models.SpecialAttribute>() {new Models.SpecialAttribute(Models.Enum.SpecialAttributeType.Initiative)};
+            SpecialAttributes = new List<SpecialAttribute>() {new SpecialAttribute(SpecialAttributeType.Initiative)};
 
 
 
         }
 
-        public List<Models.SpecialAttribute> SpecialAttributes { get; set; }
-        public List<Models.DerivedAttribute> DerivedAttributes { get; set; }
+        public List<SpecialAttribute> SpecialAttributes { get; set; }
+        public List<DerivedAttribute> DerivedAttributes { get; set; }
 
-        public List<Models.DerivedAttribute> CreationDerivedAttributes => DerivedAttributes
-            .Where(_ => _.Type == Models.Enum.DerivedAttributeType.Egoregenration ||
-                        _.Type == Models.Enum.DerivedAttributeType.Schadensmod ||
-                        _.Type == Models.Enum.DerivedAttributeType.Traglast ||
-                        _.Type == Models.Enum.DerivedAttributeType.TaktischeBewegung ||
-                        _.Type == Models.Enum.DerivedAttributeType.Sprintreichweite ||
-                        _.Type == Models.Enum.DerivedAttributeType.SprungreichweiteGesamt ||
-                        _.Type == Models.Enum.DerivedAttributeType.SprunghoeheGesamt)
+        public List<DerivedAttribute> CreationDerivedAttributes => DerivedAttributes
+            .Where(_ => _.Type == DerivedAttributeType.Egoregenration ||
+                        _.Type == DerivedAttributeType.Schadensmod ||
+                        _.Type == DerivedAttributeType.Traglast ||
+                        _.Type == DerivedAttributeType.TaktischeBewegung ||
+                        _.Type == DerivedAttributeType.Sprintreichweite ||
+                        _.Type == DerivedAttributeType.SprungreichweiteGesamt ||
+                        _.Type == DerivedAttributeType.SprunghoeheGesamt)
             .ToList();
 
-        public List<Models.DerivedAttribute> FightDerivedAttributes => DerivedAttributes
-            .Where(_ => _.Type == Models.Enum.DerivedAttributeType.SprungreichweiteKampf ||
-                        _.Type == Models.Enum.DerivedAttributeType.SprunghoeheKampf ||
-                        _.Type == Models.Enum.DerivedAttributeType.Sprintreichweite ||
-                        _.Type == Models.Enum.DerivedAttributeType.TaktischeBewegung)
+        public List<DerivedAttribute> FightDerivedAttributes => DerivedAttributes
+            .Where(_ => _.Type == DerivedAttributeType.SprungreichweiteKampf ||
+                        _.Type == DerivedAttributeType.SprunghoeheKampf ||
+                        _.Type == DerivedAttributeType.Sprintreichweite ||
+                        _.Type == DerivedAttributeType.TaktischeBewegung)
             .ToList();
 
-        public List<Models.DerivedAttribute> AdventureDerivedAttributes => DerivedAttributes
-            .Where(_ => _.Type == Models.Enum.DerivedAttributeType.SprungreichweiteAbenteuer ||
-                        _.Type == Models.Enum.DerivedAttributeType.SprunghoeheAbenteuer ||
-                        _.Type == Models.Enum.DerivedAttributeType.SprungreichweiteGesamt ||
-                        _.Type == Models.Enum.DerivedAttributeType.SprunghoeheGesamt)
+        public List<DerivedAttribute> AdventureDerivedAttributes => DerivedAttributes
+            .Where(_ => _.Type == DerivedAttributeType.SprungreichweiteAbenteuer ||
+                        _.Type == DerivedAttributeType.SprunghoeheAbenteuer ||
+                        _.Type == DerivedAttributeType.SprungreichweiteGesamt ||
+                        _.Type == DerivedAttributeType.SprunghoeheGesamt)
             .ToList();
 
-        public List<Models.DerivedAttribute> HandicapAttributes => DerivedAttributes
-            .Where(_ => _.Type == Models.Enum.DerivedAttributeType.BehinderungKampf ||
-                        _.Type == Models.Enum.DerivedAttributeType.BehinderungAbenteuer ||
-                        _.Type == Models.Enum.DerivedAttributeType.BehinderungGesamt)
+        public List<DerivedAttribute> HandicapAttributes => DerivedAttributes
+            .Where(_ => _.Type == DerivedAttributeType.BehinderungKampf ||
+                        _.Type == DerivedAttributeType.BehinderungAbenteuer ||
+                        _.Type == DerivedAttributeType.BehinderungGesamt)
             .ToList();
 
-        public List<Models.DerivedAttribute> CharacterInfoDerivedAttributes => DerivedAttributes
-            .Where(_ => _.Type == Models.Enum.DerivedAttributeType.Egoregenration ||
-                                         _.Type == Models.Enum.DerivedAttributeType.Schadensmod ||
-                                         _.Type == Models.Enum.DerivedAttributeType.Traglast)
+        public List<DerivedAttribute> CharacterInfoDerivedAttributes => DerivedAttributes
+            .Where(_ => _.Type == DerivedAttributeType.Egoregenration ||
+                                         _.Type == DerivedAttributeType.Schadensmod ||
+                                         _.Type == DerivedAttributeType.Traglast)
                 .ToList();
 
-        private void UpdateNewBaseValueToSkillsOfGroup(Models.SkillGroupModel skillgroup)
+        private void UpdateNewBaseValueToSkillsOfGroup(SkillGroupModel skillgroup)
         {
             foreach (var skill in skillgroup.Skills)
             {
                 skill.BaseValue = (int) skillgroup.FinalValue;
-                Util.SkillHelper.RecalculateFinalValue(skill);
+                Util.SkillExtensions.RecalculateFinalValue(skill);
             }
         }
 
 
-        public void SetModificationValue(Models.SkillModel skillModel, int modificationValue)
+        public void SetModificationValue(SkillModel skillModel, int modificationValue)
         {
             skillModel.ModificationValue = modificationValue;
-            Util.SkillHelper.RecalculateFinalValue(skillModel);
+            Util.SkillExtensions.RecalculateFinalValue(skillModel);
         }
 
-        public void SetModificationValue(Models.SkillGroupModel skillGroupModel, int modificationValue)
+        public void SetModificationValue(SkillGroupModel skillGroupModel, int modificationValue)
         {
             skillGroupModel.ModificationValue = modificationValue;
-            Util.SkillHelper.RecalculateFinalValue(skillGroupModel);
+            Util.SkillExtensions.RecalculateFinalValue(skillGroupModel);
             UpdateNewBaseValueToSkillsOfGroup(skillGroupModel);
         }
 
-        public void SetModificationValue(Models.Attribute attribute, int modificationValue)
+        public void SetModificationValue(Attribute attribute, int modificationValue)
         {
             attribute.ModificationValue = modificationValue;
-            Util.SkillHelper.RecalculateFinalValue(attribute);
+            Util.SkillExtensions.RecalculateFinalValue(attribute);
             UpdateNewFinalValueOfAttribute(attribute);
         }
 
-        public void SetModificationValue(Models.SpecialAttribute specialAttribute, int modificationValue)
+        public void SetModificationValue(SpecialAttribute specialAttribute, int modificationValue)
         {
             specialAttribute.ModificationValue = modificationValue;
             RecalculateSpecialAttributes(specialAttribute);
         }
 
-        public void SetCorrosionValue(Models.Attribute attribute, int corrosionValue)
+        public void SetCorrosionValue(Attribute attribute, int corrosionValue)
         {
             attribute.Corrosion = corrosionValue;
-            Util.SkillHelper.RecalculateFinalValue(attribute);
+            Util.SkillExtensions.RecalculateFinalValue(attribute);
             UpdateNewFinalValueOfAttribute(attribute);
         }
 
-        public bool CheckTalentRequirement(Dictionary<Models.SkillModelType, int> requirements)
+        public bool CheckTalentRequirement(List<(SkillModelType, int)> requirements)
         {
             foreach (var requirement in requirements)
             {
-                var skill = Character.SkillGroups.SelectMany(pair => pair.Value.Skills).First(_ => _.Type == requirement.Key);
-                if (skill.IncreaseValue < requirement.Value)
+                var skill = Character.SkillGroups.SelectMany(pair => pair.Skills).First(_ => _.Type == requirement.Item1);
+                if (skill.IncreaseValue < requirement.Item2)
                 {
                     return false;
                 }
@@ -145,12 +150,12 @@ namespace ImagoApp.ViewModels
         }
 
 
-        public bool CheckMasteryRequirement(Dictionary<Models.Enum.SkillGroupModelType, int> requirements)
+        public bool CheckMasteryRequirement(List<(SkillGroupModelType, int)> requirements)
         {
             foreach (var requirement in requirements)
             {
-                var skillGroup = Character.SkillGroups[requirement.Key];
-                if (skillGroup.IncreaseValue < requirement.Value)
+                var skillGroup = Character.SkillGroups.First(_=> _.Type == requirement.Item1);
+                if (skillGroup.IncreaseValue < requirement.Item2)
                 {
                     return false;
                 }
@@ -158,7 +163,7 @@ namespace ImagoApp.ViewModels
             return true;
         }
 
-        public void AddOneExperienceToAttributeBySkillGroup(Models.Attribute attribute)
+        public void AddOneExperienceToAttributeBySkillGroup(Attribute attribute)
         {
             attribute.ExperienceBySkillGroup += 1;
 
@@ -169,13 +174,13 @@ namespace ImagoApp.ViewModels
         }
 
 
-        public void SetExperienceToAttribute(Models.Attribute attribute, int experience)
+        public void SetExperienceToAttribute(Attribute attribute, int experience)
         {
             attribute.TotalExperience = experience;
             UpdateNewFinalValueOfAttribute(attribute);
         }
 
-        private int SetExperienceToSkillGroup(Models.SkillGroupModel skillGroupModel, int experience)
+        private int SetExperienceToSkillGroup(SkillGroupModel skillGroupModel, int experience)
         {
             var oldIncreaseValue = skillGroupModel.IncreaseValue;
             skillGroupModel.TotalExperience += experience;
@@ -184,7 +189,7 @@ namespace ImagoApp.ViewModels
             return openAttributeExperience;
         }
 
-        public void SetExperienceToSkill(Models.SkillModel skillModel, Models.SkillGroupModel skillGroupModel, int experience)
+        public void SetExperienceToSkill(SkillModel skillModel, SkillGroupModel skillGroupModel, int experience)
         {
             var oldIncreaseValue = skillModel.IncreaseValue;
             skillModel.TotalExperience = experience;
@@ -212,26 +217,25 @@ namespace ImagoApp.ViewModels
             }
         }
 
-        public void RemoveOneExperienceFromSkill(Models.SkillModel skillModel)
+        public void RemoveOneExperienceFromSkill(SkillModel skillModel)
         {
             skillModel.TotalExperience -= 1;
-            Util.SkillHelper.RecalculateFinalValue(skillModel);
+            Util.SkillExtensions.RecalculateFinalValue(skillModel);
 
             //todo if sw was reduced, take exp from kategoriy
         }
         
-        public void UpdateNewFinalValueOfAttribute(Models.Attribute changedAttribute)
+        public void UpdateNewFinalValueOfAttribute(Attribute changedAttribute)
         {
             //updating all dependent skillgroups
-            var affectedSkillGroupTypes = _ruleRepository.GetSkillGroupsByAttribute(changedAttribute.Type);
+            var affectedSkillGroupTypes = _ruleService.GetSkillGroupsByAttribute(changedAttribute.Type);
             var skillGroups = Character.SkillGroups
-                .Where(pair => affectedSkillGroupTypes
-                    .Contains(pair.Key))
-                .Select(pair => pair.Value);
+                .Where(model => affectedSkillGroupTypes
+                    .Contains(model.Type));
 
             foreach (var affectedSkillGroup in skillGroups)
             {
-                var attributeTypesForCalculation = _ruleRepository.GetSkillGroupSources(affectedSkillGroup.Type);
+                var attributeTypesForCalculation = _ruleService.GetSkillGroupSources(affectedSkillGroup.Type);
 
                 double tmp = 0;
                 foreach (var attributeType in attributeTypesForCalculation)
@@ -242,7 +246,7 @@ namespace ImagoApp.ViewModels
                 var newBaseValue = (int) Math.Round((tmp / 6), MidpointRounding.AwayFromZero);
 
                 affectedSkillGroup.BaseValue = newBaseValue;
-                Util.SkillHelper.RecalculateFinalValue(affectedSkillGroup);
+                SkillExtensions.RecalculateFinalValue(affectedSkillGroup);
 
                 UpdateNewBaseValueToSkillsOfGroup(affectedSkillGroup);
             }
@@ -252,38 +256,38 @@ namespace ImagoApp.ViewModels
             {
                 switch (derivedAttribute.Type)
                 {
-                    case Models.Enum.DerivedAttributeType.Egoregenration:
+                    case DerivedAttributeType.Egoregenration:
                     {
-                        var tmp = GetAttributeSum(Models.Enum.AttributeType.Willenskraft);
+                        var tmp = GetAttributeSum(AttributeType.Willenskraft);
                         var baseValue = tmp / 5;
                         derivedAttribute.FinalValue = (int) Math.Round(baseValue, MidpointRounding.AwayFromZero);
                         break;
                     }
-                    case Models.Enum.DerivedAttributeType.Schadensmod:
+                    case DerivedAttributeType.Schadensmod:
                     {
-                        var tmp = GetAttributeSum(Models.Enum.AttributeType.Staerke);
+                        var tmp = GetAttributeSum(AttributeType.Staerke);
                             var baseValue = (tmp / 10) - 5;
                         derivedAttribute.FinalValue = (int) Math.Round(baseValue, MidpointRounding.AwayFromZero);
                         break;
                     }
-                    case Models.Enum.DerivedAttributeType.Traglast:
+                    case DerivedAttributeType.Traglast:
                     {
-                        var tmp = GetAttributeSum(Models.Enum.AttributeType.Konstitution, Models.Enum.AttributeType.Konstitution,
-                            Models.Enum.AttributeType.Staerke);
+                        var tmp = GetAttributeSum(AttributeType.Konstitution, AttributeType.Konstitution,
+                            AttributeType.Staerke);
                         var baseValue = tmp / 10;
                         derivedAttribute.FinalValue = (int) Math.Round(baseValue, MidpointRounding.AwayFromZero);
                         break;
                     }
-                    case Models.Enum.DerivedAttributeType.TaktischeBewegung:
+                    case DerivedAttributeType.TaktischeBewegung:
                     {
-                        var tmp = GetAttributeSum(Models.Enum.AttributeType.Geschicklichkeit);
+                        var tmp = GetAttributeSum(AttributeType.Geschicklichkeit);
                             var baseValue = tmp / 10;
                         derivedAttribute.FinalValue = (int) Math.Round(baseValue, MidpointRounding.AwayFromZero);
                         break;
                     }
-                    case Models.Enum.DerivedAttributeType.Sprintreichweite:
+                    case DerivedAttributeType.Sprintreichweite:
                     {
-                        var tmp = GetAttributeSum(Models.Enum.AttributeType.Geschicklichkeit);
+                        var tmp = GetAttributeSum(AttributeType.Geschicklichkeit);
                             var baseValue = tmp / 5;
                         derivedAttribute.FinalValue = (int) Math.Round(baseValue, MidpointRounding.AwayFromZero);
                         break;
@@ -297,34 +301,34 @@ namespace ImagoApp.ViewModels
             //update bodyparts
             foreach (var bodyPart in Character.BodyParts)
             {
-                double constFinalValue = GetAttributeSum(Models.Enum.AttributeType.Konstitution);
+                double constFinalValue = GetAttributeSum(AttributeType.Konstitution);
 
-                switch (bodyPart.Key)
+                switch (bodyPart.Type)
                 {
-                    case Models.Enum.BodyPartType.Kopf:
+                    case BodyPartType.Kopf:
                     {
                         var newValue = (constFinalValue / 15) + 3;
-                        bodyPart.Value.MaxHitpoints = (int) Math.Round(newValue, MidpointRounding.AwayFromZero);
+                        bodyPart.MaxHitpoints = (int) Math.Round(newValue, MidpointRounding.AwayFromZero);
                         break;
                     }
-                    case Models.Enum.BodyPartType.Torso:
+                    case BodyPartType.Torso:
                     {
                         var newValue = (constFinalValue / 6) + 2;
-                        bodyPart.Value.MaxHitpoints = (int) Math.Round(newValue, MidpointRounding.AwayFromZero);
+                        bodyPart.MaxHitpoints = (int) Math.Round(newValue, MidpointRounding.AwayFromZero);
                         break;
                     }
-                    case Models.Enum.BodyPartType.ArmLinks:
-                    case Models.Enum.BodyPartType.ArmRechts:
+                    case BodyPartType.ArmLinks:
+                    case BodyPartType.ArmRechts:
                     {
                         var newValue = (constFinalValue / 10) + 1;
-                        bodyPart.Value.MaxHitpoints = (int) Math.Round(newValue, MidpointRounding.AwayFromZero);
+                        bodyPart.MaxHitpoints = (int) Math.Round(newValue, MidpointRounding.AwayFromZero);
                         break;
                     }
-                    case Models.Enum.BodyPartType.BeinLinks:
-                    case Models.Enum.BodyPartType.BeinRechts:
+                    case BodyPartType.BeinLinks:
+                    case BodyPartType.BeinRechts:
                     {
                         var newValue = (constFinalValue / 7) + 2;
-                        bodyPart.Value.MaxHitpoints = (int) Math.Round(newValue, MidpointRounding.AwayFromZero);
+                        bodyPart.MaxHitpoints = (int) Math.Round(newValue, MidpointRounding.AwayFromZero);
                         break;
                     }
                     default:
@@ -336,39 +340,39 @@ namespace ImagoApp.ViewModels
             RecalculateHandicapAttributes();
         }
 
-        public void RecalculateSpecialAttributes(params Models.SpecialAttribute[] attributes)
+        public void RecalculateSpecialAttributes(params SpecialAttribute[] attributes)
         {
             foreach (var specialAttribute in attributes)
             {
                 switch (specialAttribute.Type)
                 {
-                    case Models.Enum.SpecialAttributeType.Initiative:
+                    case SpecialAttributeType.Initiative:
                     {
-                        var tmp = GetAttributeSum(Models.Enum.AttributeType.Geschicklichkeit, Models.Enum.AttributeType.Geschicklichkeit,
-                            Models.Enum.AttributeType.Wahrnehmung, Models.Enum.AttributeType.Willenskraft);
+                        var tmp = GetAttributeSum(AttributeType.Geschicklichkeit, AttributeType.Geschicklichkeit,
+                            AttributeType.Wahrnehmung, AttributeType.Willenskraft);
 
                         var newValue = tmp / 4;
                         specialAttribute.FinalValue = ((int)Math.Round(newValue, MidpointRounding.AwayFromZero)) + specialAttribute.ModificationValue;
                         break;
                     }
                     default:
-                        throw new ArgumentOutOfRangeException(nameof(Models.Enum.SpecialAttributeType));
+                        throw new ArgumentOutOfRangeException(nameof(SpecialAttributeType));
                 }
             }
         }
 
         public void RecalculateHandicapAttributes()
         {
-            var loadLimit = GetDerivedAttributeSum(Models.Enum.DerivedAttributeType.Traglast);
+            var loadLimit = GetDerivedAttributeSum(DerivedAttributeType.Traglast);
 
             //update handicap
             foreach (var handicapAttribute in DerivedAttributes)
             {
                 switch (handicapAttribute.Type)
                 {
-                    case Models.Enum.DerivedAttributeType.BehinderungKampf:
-                    case Models.Enum.DerivedAttributeType.BehinderungAbenteuer:
-                    case Models.Enum.DerivedAttributeType.BehinderungGesamt:
+                    case DerivedAttributeType.BehinderungKampf:
+                    case DerivedAttributeType.BehinderungAbenteuer:
+                    case DerivedAttributeType.BehinderungGesamt:
                     {
                         if (loadLimit == 0)
                         {
@@ -378,11 +382,11 @@ namespace ImagoApp.ViewModels
 
                         int load = 0;
 
-                        if (handicapAttribute.Type == Models.Enum.DerivedAttributeType.BehinderungKampf)
+                        if (handicapAttribute.Type == DerivedAttributeType.BehinderungKampf)
                             load = GetFightLoad();
-                        if (handicapAttribute.Type == Models.Enum.DerivedAttributeType.BehinderungAbenteuer)
+                        if (handicapAttribute.Type == DerivedAttributeType.BehinderungAbenteuer)
                             load = GetAdventureLoad();
-                        if (handicapAttribute.Type == Models.Enum.DerivedAttributeType.BehinderungGesamt)
+                        if (handicapAttribute.Type == DerivedAttributeType.BehinderungGesamt)
                             load = GetCompleteLoad();
 
                         handicapAttribute.FinalValue =
@@ -397,34 +401,34 @@ namespace ImagoApp.ViewModels
             {
                 switch (derivedAttribute.Type)
                 {
-                    case Models.Enum.DerivedAttributeType.SprungreichweiteKampf:
-                    case Models.Enum.DerivedAttributeType.SprungreichweiteAbenteuer:
-                    case Models.Enum.DerivedAttributeType.SprungreichweiteGesamt:
+                    case DerivedAttributeType.SprungreichweiteKampf:
+                    case DerivedAttributeType.SprungreichweiteAbenteuer:
+                    case DerivedAttributeType.SprungreichweiteGesamt:
                     {
-                        double tmp = GetAttributeSum(Models.Enum.AttributeType.Geschicklichkeit, Models.Enum.AttributeType.Staerke);
+                        double tmp = GetAttributeSum(AttributeType.Geschicklichkeit, AttributeType.Staerke);
                             
-                        if (derivedAttribute.Type == Models.Enum.DerivedAttributeType.SprungreichweiteKampf)
+                        if (derivedAttribute.Type == DerivedAttributeType.SprungreichweiteKampf)
                             tmp -= GetFightLoad();
-                        if (derivedAttribute.Type == Models.Enum.DerivedAttributeType.SprungreichweiteAbenteuer)
+                        if (derivedAttribute.Type == DerivedAttributeType.SprungreichweiteAbenteuer)
                             tmp -= GetAdventureLoad();
-                        if (derivedAttribute.Type == Models.Enum.DerivedAttributeType.SprungreichweiteGesamt)
+                        if (derivedAttribute.Type == DerivedAttributeType.SprungreichweiteGesamt)
                             tmp -= GetCompleteLoad();
 
                         tmp /= 30;
                         derivedAttribute.FinalValue = Math.Round(tmp, 2);
                         break;
                     }
-                    case Models.Enum.DerivedAttributeType.SprunghoeheKampf:
-                    case Models.Enum.DerivedAttributeType.SprunghoeheAbenteuer:
-                    case Models.Enum.DerivedAttributeType.SprunghoeheGesamt:
+                    case DerivedAttributeType.SprunghoeheKampf:
+                    case DerivedAttributeType.SprunghoeheAbenteuer:
+                    case DerivedAttributeType.SprunghoeheGesamt:
                     {
-                        double tmp = GetAttributeSum(Models.Enum.AttributeType.Geschicklichkeit, Models.Enum.AttributeType.Staerke);
+                        double tmp = GetAttributeSum(AttributeType.Geschicklichkeit, AttributeType.Staerke);
 
-                        if (derivedAttribute.Type == Models.Enum.DerivedAttributeType.SprunghoeheKampf)
+                        if (derivedAttribute.Type == DerivedAttributeType.SprunghoeheKampf)
                             tmp -= GetFightLoad();
-                        if (derivedAttribute.Type == Models.Enum.DerivedAttributeType.SprunghoeheAbenteuer)
+                        if (derivedAttribute.Type == DerivedAttributeType.SprunghoeheAbenteuer)
                             tmp -= GetAdventureLoad();
-                        if (derivedAttribute.Type == Models.Enum.DerivedAttributeType.SprunghoeheGesamt)
+                        if (derivedAttribute.Type == DerivedAttributeType.SprunghoeheGesamt)
                             tmp -= GetCompleteLoad();
 
                         tmp /= 80;
@@ -437,7 +441,7 @@ namespace ImagoApp.ViewModels
 
         private int GetFightLoad()
         {
-            var fightingArmorLoad = Character.BodyParts.Values.Sum(bodyPart =>
+            var fightingArmorLoad = Character.BodyParts.Sum(bodyPart =>
                 bodyPart.Armor.Where(armor => armor.Fight).Sum(_ => _.LoadValue));
             var fightingWeaponLoad = Character.Weapons.Sum(weapon => weapon.LoadValue);
             var fightingItemLoad = Character.EquippedItems.Where(item => item.Fight).Sum(_ => _.LoadValue);
@@ -447,7 +451,7 @@ namespace ImagoApp.ViewModels
         private int GetAdventureLoad()
         {
             var adventureItemLoad = Character.EquippedItems.Where(item => item.Adventure).Sum(_ => _.LoadValue);
-            var adventureArmorLoad = Character.BodyParts.Values.Sum(bodyPart =>
+            var adventureArmorLoad = Character.BodyParts.Sum(bodyPart =>
                 bodyPart.Armor.Where(armor => armor.Adventure).Sum(_ => _.LoadValue));
             var fightingWeaponLoad = Character.Weapons.Sum(weapon => weapon.LoadValue);
             return adventureArmorLoad + fightingWeaponLoad + adventureItemLoad;
@@ -456,16 +460,16 @@ namespace ImagoApp.ViewModels
         private int GetCompleteLoad()
         {
             var itemLoad = Character.EquippedItems.Sum(_ => _.LoadValue);
-            var armorLoad = Character.BodyParts.Values.Sum(bodyPart => bodyPart.Armor.Sum(_ => _.LoadValue));
+            var armorLoad = Character.BodyParts.Sum(bodyPart => bodyPart.Armor.Sum(_ => _.LoadValue));
             var fightLoad = Character.Weapons.Sum(weapon => weapon.LoadValue);
             return armorLoad + fightLoad + itemLoad;
         }
 
-        private double GetAttributeSum(params Models.Enum.AttributeType[] attributes)
+        private double GetAttributeSum(params AttributeType[] attributes)
         {
             return attributes.Sum(attributeType => Character.Attributes.First(_ => _.Type == attributeType).FinalValue);
         }
-        private double GetDerivedAttributeSum(params Models.Enum.DerivedAttributeType[] attributes)
+        private double GetDerivedAttributeSum(params DerivedAttributeType[] attributes)
         {
             return attributes.Sum(attributeType => DerivedAttributes.First(_ => _.Type == attributeType).FinalValue);
         }

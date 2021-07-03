@@ -1,17 +1,19 @@
-﻿namespace ImagoApp.ViewModels
+﻿using ImagoApp.Application.Models;
+
+namespace ImagoApp.ViewModels
 {
     public class EquippableItemViewModel : Util.BindableBase
     {
-        private Models.EquipableItem _equipableItem;
+        private EquipableItem _equipableItem;
         private readonly CharacterViewModel _characterViewModel;
 
-        public EquippableItemViewModel(Models.EquipableItem equipableItem, CharacterViewModel characterViewModel)
+        public EquippableItemViewModel(EquipableItem equipableItem, CharacterViewModel characterViewModel)
         {
             _equipableItem = equipableItem;
             _characterViewModel = characterViewModel;
         }
 
-        public Models.EquipableItem EquipableItem
+        public EquipableItem EquipableItem
         {
             get => _equipableItem;
             set => SetProperty(ref _equipableItem, value);

@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using ImagoApp.Application.Models;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace ImagoApp.Views.CustomControls
@@ -13,12 +14,12 @@ namespace ImagoApp.Views.CustomControls
 
         public static readonly BindableProperty CharacterProperty = BindableProperty.Create(
             "Character", // the name of the bindable property
-            typeof(Models.Character), // the bindable property type
+            typeof(Character), // the bindable property type
             typeof(CharacterDetailView));
 
-        public Models.Character Character
+        public Character Character
         {
-            get => (Models.Character)GetValue(CharacterProperty);
+            get => (Character)GetValue(CharacterProperty);
             set => SetValue(CharacterProperty, value);
         }
 

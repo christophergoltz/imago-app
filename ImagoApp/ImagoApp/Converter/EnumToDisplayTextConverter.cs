@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using ImagoApp.Shared.Attributes;
 using Xamarin.Forms;
 
 namespace ImagoApp.Converter
@@ -10,7 +11,7 @@ namespace ImagoApp.Converter
         {
             if (value is Enum enumValue)
             {
-                var attr = Util.EnumExtensions.GetAttribute<Util.DisplayTextAttribute>(enumValue);
+                var attr = Util.EnumExtensions.GetAttribute<DisplayTextAttribute>(enumValue);
                 if (attr == null || string.IsNullOrEmpty(attr.Text))
                     return enumValue.ToString();
 

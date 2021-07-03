@@ -1,17 +1,19 @@
-﻿namespace ImagoApp.ViewModels
+﻿using ImagoApp.Application.Models;
+
+namespace ImagoApp.ViewModels
 {
     public class SpecialAttributeViewModel : Util.BindableBase
     {
         private readonly CharacterViewModel _characterViewModel;
 
-        public SpecialAttributeViewModel(CharacterViewModel characterViewModel, Models.SpecialAttribute specialAttribute)
+        public SpecialAttributeViewModel(CharacterViewModel characterViewModel, SpecialAttribute specialAttribute)
         {
             _characterViewModel = characterViewModel;
             SpecialAttribute = specialAttribute;
         }
 
-        public Models.SpecialAttribute SpecialAttribute { get; set; }
-        public Models.Character Character { get; set; }
+        public SpecialAttribute SpecialAttribute { get; set; }
+        public Character Character { get; set; }
         
         public int Modification
         {

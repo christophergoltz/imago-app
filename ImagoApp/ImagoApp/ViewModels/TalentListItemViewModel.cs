@@ -1,4 +1,5 @@
 ﻿using System;
+using ImagoApp.Application.Models;
 
 namespace ImagoApp.ViewModels
 {
@@ -8,9 +9,9 @@ namespace ImagoApp.ViewModels
         private int? _difficultyOverride;
         public event EventHandler TalentValueChanged;
 
-        public Models.TalentBase Talent { get; }
+        public TalentBase Talent { get; }
 
-        public TalentListItemViewModel(Models.TalentBase talent)
+        public TalentListItemViewModel(TalentBase talent)
         {
             Talent = talent;
         }

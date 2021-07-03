@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ImagoApp.Application.Models;
 
 namespace ImagoApp.ViewModels
 {
     public class SkillGroupViewModel : Util.BindableBase
     {
-        private Models.SkillGroupModel _skillGroup;
+        private SkillGroupModel _skillGroup;
         private List<SkillViewModel> _skills;
 
-        public Models.SkillGroupModel SkillGroup
+        public SkillGroupModel SkillGroup
         {
             get => _skillGroup;
             private set => SetProperty(ref _skillGroup ,value);
@@ -22,7 +23,7 @@ namespace ImagoApp.ViewModels
             private set => SetProperty(ref _skills , value);
         }
 
-        public SkillGroupViewModel(Models.SkillGroupModel skillGroup, CharacterViewModel characterViewModel)
+        public SkillGroupViewModel(SkillGroupModel skillGroup, CharacterViewModel characterViewModel)
         {
             SkillGroup = skillGroup;
             CharacterViewModel = characterViewModel;

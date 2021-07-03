@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Acr.UserDialogs;
+using ImagoApp.Application.Services;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -9,18 +10,15 @@ namespace ImagoApp.ViewModels
 {
     public class AppShellViewModel : Util.BindableBase
     {
-        private readonly Services.ICharacterService _characterService;
+        private readonly ICharacterService _characterService;
         public ICommand GoToMainMenuCommand { get; }
 
         private bool _editMode;
-        private string _version;
         public event EventHandler<bool> EditModeChanged;
 
-        public AppShellViewModel(Services.ICharacterService characterService)
+        public AppShellViewModel(ICharacterService characterService)
         {
             _characterService = characterService;
-            VersionTracking.Track();
-            Version = VersionTracking.CurrentVersion;
 
             GoToMainMenuCommand = new Command(() =>
             {
@@ -29,23 +27,17 @@ namespace ImagoApp.ViewModels
                     using (UserDialogs.Instance.Loading("Charakter wird gespeichert", null, null, true, MaskType.Black))
                     {
                         await Task.Delay(250);
-                        var result = await _characterService.SaveCurrentCharacter();
+                        var result = await _characterService.SaveCharacter(App.CurrentCharacterViewModel.Character);
                         if (result)
                             await Device.InvokeOnMainThreadAsync(() =>
                             {
-                                Application.Current.MainPage = new Views.StartPage();
+                                Xamarin.Forms.Application.Current.MainPage = new Views.StartPage();
                             });
-                            
+
                         await Task.Delay(250);
                     }
                 });
             });
-        }
-
-        public string Version
-        {
-            get => _version;
-            set => SetProperty(ref _version, value);
         }
 
         public bool EditMode

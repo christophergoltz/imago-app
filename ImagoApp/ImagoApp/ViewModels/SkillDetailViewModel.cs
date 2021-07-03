@@ -5,6 +5,9 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using ImagoApp.Application.Models;
+using ImagoApp.Application.Services;
+using ImagoApp.Shared.Enums;
 using Xamarin.Forms;
 
 namespace ImagoApp.ViewModels
@@ -14,15 +17,14 @@ namespace ImagoApp.ViewModels
         private readonly Converter.SkillGroupTypeToAttributeSourceStringConverter _converter =
             new Converter.SkillGroupTypeToAttributeSourceStringConverter();
 
-        private readonly Models.SkillGroupModel _parent;
+        private readonly SkillGroupModel _parent;
         private readonly CharacterViewModel _characterViewModel;
         private readonly Services.IWikiService _wikiService;
-        private readonly Repository.WrappingDatabase.IMasteryRepository _masteryRepository;
-        private readonly Repository.WrappingDatabase.ITalentRepository _talentRepository;
-        private readonly Repository.IRuleRepository _ruleRepository;
+        private readonly IWikiDataService _wikiDataService;
+        private readonly IRuleService _ruleService;
 
         public event EventHandler CloseRequested;
-        public Models.SkillModel SkillModel { get; }
+        public SkillModel SkillModel { get; }
 
         public ICommand IncreaseExperienceCommand { get; set; }
         public ICommand DecreaseExperienceCommand { get; set; }
@@ -78,15 +80,14 @@ namespace ImagoApp.ViewModels
             set => SetProperty(ref _handicaps, value);
         }
 
-        public SkillDetailViewModel(Models.SkillModel skillModel, Models.SkillGroupModel parent,CharacterViewModel characterViewModel,
-            Services.IWikiService wikiService, Repository.WrappingDatabase.IMasteryRepository masteryRepository, Repository.WrappingDatabase.ITalentRepository talentRepository, Repository.IRuleRepository ruleRepository)
+        public SkillDetailViewModel(SkillModel skillModel, SkillGroupModel parent,CharacterViewModel characterViewModel,
+            Services.IWikiService wikiService, IWikiDataService wikiDataService, IRuleService ruleService)
         {
             _parent = parent;
             _characterViewModel = characterViewModel;
             _wikiService = wikiService;
-            _masteryRepository = masteryRepository;
-            _talentRepository = talentRepository;
-            _ruleRepository = ruleRepository;
+            _wikiDataService = wikiDataService;
+            _ruleService = ruleService;
             SkillModel = skillModel;
 
             SourceFormula = _converter.Convert(parent.Type, null, null, CultureInfo.InvariantCulture).ToString();
@@ -108,12 +109,12 @@ namespace ImagoApp.ViewModels
 
                 if (string.IsNullOrWhiteSpace(url))
                 {
-                    await Application.Current.MainPage.DisplayAlert("Fehlender Link",
+                    await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Fehlender Link",
                         "Uups, hier ist wohl nichts hinterlegt..", "OK");
                     return;
                 }
 
-                WikiPageViewModel.RequestedWikiPage = new Models.WikiPageEntry(url);
+                WikiPageViewModel.RequestedWikiPage = new WikiPageEntry(url);
                 await Shell.Current.GoToAsync($"//{nameof(Views.WikiPage)}");
                 WikiPageViewModel.RequestedWikiPage = null;
             });
@@ -179,7 +180,7 @@ namespace ImagoApp.ViewModels
             {
                 foreach (var mastery in Masteries)
                 {
-                    if (mastery.Talent is Models.MasteryModel model)
+                    if (mastery.Talent is MasteryModel model)
                     {
                         var avaiable = _characterViewModel.CheckMasteryRequirement(model.Requirements);
                         mastery.Available = avaiable;
@@ -191,7 +192,7 @@ namespace ImagoApp.ViewModels
             {
                 foreach (var talent in Talents)
                 {
-                    if (talent.Talent is Models.TalentModel model)
+                    if (talent.Talent is TalentModel model)
                     {
                         var avaiable = _characterViewModel.CheckTalentRequirement(model.Requirements);
                         talent.Available = avaiable;
@@ -200,20 +201,20 @@ namespace ImagoApp.ViewModels
             }
         }
 
-        private static readonly List<(Models.Enum.DerivedAttributeType Type, string Text, string IconSource)> HandicapDefinition =
-            new List<(Models.Enum.DerivedAttributeType Type, string Text, string IconSource)>()
+        private static readonly List<(DerivedAttributeType Type, string Text, string IconSource)> HandicapDefinition =
+            new List<(DerivedAttributeType Type, string Text, string IconSource)>()
             {
-                (Models.Enum.DerivedAttributeType.BehinderungKampf, "Kampf", "swords.png"),
-                (Models.Enum.DerivedAttributeType.BehinderungAbenteuer, "Abenteuer / Reise", "inventar_weiss.png"),
-                (Models.Enum.DerivedAttributeType.BehinderungGesamt, "Gesamt", null),
-                (Models.Enum.DerivedAttributeType.Unknown, "Ignorieren", null)
+                (DerivedAttributeType.BehinderungKampf, "Kampf", "swords.png"),
+                (DerivedAttributeType.BehinderungAbenteuer, "Abenteuer / Reise", "inventar_weiss.png"),
+                (DerivedAttributeType.BehinderungGesamt, "Gesamt", null),
+                (DerivedAttributeType.Unknown, "Ignorieren", null)
             };
 
         private async Task InitializeTestView()
         {
             //masteries
             var masteries = new List<TalentListItemViewModel>();
-            var allMasteries = await _masteryRepository.GetAllItemsAsync();
+            var allMasteries = await _wikiDataService.GetAllMasteries();
             foreach (var mastery in allMasteries)
             {
                 if (mastery.TargetSkill != _parent.Type)
@@ -233,7 +234,7 @@ namespace ImagoApp.ViewModels
 
             //talents
             var talents = new List<TalentListItemViewModel>();
-            var allTalents = await _talentRepository.GetAllItemsAsync();
+            var allTalents = await _wikiDataService.GetAllTalents();
             foreach (var talent in allTalents)
             {
                 if (talent.TargetSkillModel != SkillModel.Type)
@@ -253,12 +254,12 @@ namespace ImagoApp.ViewModels
 
             //handicap
             var handicaps = new List<HandicapListViewItemViewModel>();
-            if (_ruleRepository.GetSkillGroupSources(_parent.Type).Contains(Models.Enum.AttributeType.Geschicklichkeit))
+            if (_ruleService.GetSkillGroupSources(_parent.Type).Contains(AttributeType.Geschicklichkeit))
             {
                 //only add handicap for attributessource with Geschicklichkeit
                 foreach (var tuple in HandicapDefinition)
                 {
-                    var handicapValue = tuple.Type == Models.Enum.DerivedAttributeType.Unknown
+                    var handicapValue = tuple.Type == DerivedAttributeType.Unknown
                         ? (int?) null
                         : (int)_characterViewModel.DerivedAttributes.First(attribute => attribute.Type == tuple.Type).FinalValue;
 
@@ -267,7 +268,7 @@ namespace ImagoApp.ViewModels
                         tuple.Text);
                     vm.HandicapValueChanged += (sender, args) => RecalcTestValue();
 
-                    if (vm.Type == Models.Enum.DerivedAttributeType.BehinderungAbenteuer)
+                    if (vm.Type == DerivedAttributeType.BehinderungAbenteuer)
                         vm.IsChecked = true;
 
                     handicaps.Add(vm);
