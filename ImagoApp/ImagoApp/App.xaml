@@ -20,6 +20,7 @@
             <converter:DicionaryToBodyPartConverter x:Key="DicionaryToBodyPartConverter"/>
             <converter:EnumToFormulaConverter x:Key="EnumToFormulaConverter"/>
             <converter:PositiveIntegerToBoolConverter x:Key="PositiveIntegerToBoolConverter"/>
+            <converter:FileInfoLenghtToSmartFileSizeConverter x:Key="FileInfoLenghtToSmartFileSizeConverter"/>
 
             <util:ViewModelLocator x:Key="ViewModelLocator"/>
 

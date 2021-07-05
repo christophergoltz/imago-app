@@ -65,7 +65,7 @@ namespace ImagoApp.Services
         public async Task<int?> RefreshMasteriesFromWiki(Logger logger)
         {
             var masteries = ParseMasteriesFromUrls(WikiConstants.SkillGroupTypeLookUp, logger);
-            _wikiDataService.DeleteAllTalents();
+            _wikiDataService.DeleteAllMasteries();
             _wikiDataService.AddMasteries(masteries);
             return masteries.Count;
         }

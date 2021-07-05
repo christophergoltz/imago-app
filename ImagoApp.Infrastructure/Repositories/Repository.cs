@@ -11,28 +11,38 @@ namespace ImagoApp.Infrastructure.Repositories
         List<T> GetAllItems();
         void DeleteAll();
         void InsertBulk(IEnumerable<T> items);
+        int GetItemCount();
+        FileInfo GetDatabaseInfo();
     }
 
     public abstract class Repository<T> : IRepository<T> where T : class, new()
     {
-        private string _connectionString; // db;
+        private readonly string _databaseFile;
+        private readonly string _connectionString;
 
-        public Repository(string databaseFolder)
+        protected Repository(string databaseFile)
         {
-            //var databaseDirectory = Path.GetDirectoryName(databaseFolder);
-            //if (databaseDirectory != null && !Directory.Exists(databaseDirectory))
-            //    Directory.CreateDirectory(databaseDirectory);
-
-            var databaseFile = Path.Combine(databaseFolder, "ImagoApp_Armor.db");
+            _databaseFile = databaseFile;
 
             //https://github.com/mbdavid/LiteDB/wiki/Connection-String
-            _connectionString = $"filename={databaseFile}";
+            _connectionString = $"filename={_databaseFile}";
 
-            //   db = new LiteDatabase(connString);
+            var mapper = BsonMapper.Global;
+            mapper.EnumAsInteger = true;
+        }
+        
+        public FileInfo GetDatabaseInfo()
+        {
+            return new FileInfo(_databaseFile);
+        }
 
-            //BsonMapper mapper = BsonMapper.Global;
-            //mapper.EnumAsInteger = true;
-            //mapper.Entity<T>().Id(p => p.Guid);
+        public int GetItemCount()
+        {
+            using (var db = new LiteDatabase(_connectionString))
+            {
+                var collection = db.GetCollection<T>(typeof(T).Name);
+                return collection.Count();
+            }
         }
 
         public virtual List<T> GetAllItems()
@@ -43,7 +53,7 @@ namespace ImagoApp.Infrastructure.Repositories
                 return collection.FindAll().ToList();
             }
         }
-        
+
         public void DeleteAll()
         {
             using (var db = new LiteDatabase(_connectionString))
@@ -57,10 +67,7 @@ namespace ImagoApp.Infrastructure.Repositories
             using (var db = new LiteDatabase(_connectionString))
             {
                 var collection = db.GetCollection<T>(typeof(T).Name);
-                foreach (var item in items)
-                {
-                    collection.Insert(item);
-                }
+                var count = collection.InsertBulk(items);
             }
         }
     }

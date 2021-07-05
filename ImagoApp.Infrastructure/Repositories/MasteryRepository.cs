@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using ImagoApp.Infrastructure.Entities;
 
@@ -11,7 +12,7 @@ namespace ImagoApp.Infrastructure.Repositories
 
     public class MasteryRepository : Repository<MasteryEntity>, IMasteryRepository
     {
-        public MasteryRepository(string databaseFolder) : base(databaseFolder)
+        public MasteryRepository(string databaseFolder) : base(Path.Combine(databaseFolder, "ImagoApp_Wikidata.db"))
         {
         }
     }

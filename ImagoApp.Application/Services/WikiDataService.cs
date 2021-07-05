@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using AutoMapper;
 using ImagoApp.Application.Models;
@@ -23,9 +24,13 @@ namespace ImagoApp.Application.Services
         void AddTalents(List<TalentModel> items);
         List<TalentModel> GetAllTalents();
         void DeleteAllTalents();
-        (int ItemCount, FileInfo FileInfo) GetDatabaseInfo();
         Weapon GetWeaponFromTemplate(WeaponTemplateModel model);
         ArmorPartModel GetArmorFromTemplate(ArmorPartTemplateModel model);
+        int GetArmorWikiDataItemCount();
+        int GetWeaponWikiDataItemCount();
+        int GetTalentWikiDataItemCount();
+        int GetMasteryWikiDataItemCount();
+        FileInfo GetDatabaseInfo();
     }
 
     public class WikiDataService : IWikiDataService
@@ -49,6 +54,26 @@ namespace ImagoApp.Application.Services
             _mapper = mapper;
         }
 
+        public int GetArmorWikiDataItemCount()
+        {
+            return _armorTemplateRepository.GetItemCount(); 
+        }
+
+        public int GetWeaponWikiDataItemCount()
+        {
+            return _weaponTemplateRepository.GetItemCount();
+        }
+
+        public int GetTalentWikiDataItemCount()
+        {
+            return _talentRepository.GetItemCount();
+        }
+
+        public int GetMasteryWikiDataItemCount()
+        {
+            return _masteryRepository.GetItemCount();
+        }
+
         public Weapon GetWeaponFromTemplate(WeaponTemplateModel model)
         {
             return new Weapon(model.Name, model.WeaponStances, true, true, model.LoadValue, model.DurabilityValue);
@@ -59,9 +84,9 @@ namespace ImagoApp.Application.Services
             return new ArmorPartModel(model.ArmorPartType, model.Name, model.LoadValue,true, true, model.DurabilityValue, model.EnergyDefense, model.PhysicalDefense);
         }
 
-        public (int ItemCount, FileInfo FileInfo) GetDatabaseInfo()
+        public FileInfo GetDatabaseInfo()
         {
-            return (0, null); // _wikiDataRepository.GetDatabaseInfo();
+            return _armorTemplateRepository.GetDatabaseInfo();
         }
 
         #region Weapons

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -15,6 +16,7 @@ namespace ImagoApp.Application.Services
         List<Character> GetAll();
         bool SaveCharacter(Character character);
         bool AddCharacter(Character character);
+        FileInfo GetDatabaseInfo();
     }
 
     public class CharacterService : ICharacterService
@@ -57,6 +59,11 @@ namespace ImagoApp.Application.Services
             }
 
             return false;
+        }
+
+        public FileInfo GetDatabaseInfo()
+        {
+            return _characterRepository.GetDatabaseInfo();
         }
     }
 }

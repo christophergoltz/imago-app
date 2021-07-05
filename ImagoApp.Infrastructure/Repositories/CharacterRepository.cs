@@ -16,27 +16,23 @@ namespace ImagoApp.Infrastructure.Repositories
         bool DeleteItem(Guid guid);
         CharacterEntity GetItem(Guid id);
         List<CharacterEntity> GetAllItems();
+        FileInfo GetDatabaseInfo();
     }
 
     public class CharacterRepository : ICharacterRepository
     {
-        private string _connectionString;
-        private string _collectionName = nameof(CharacterEntity);
+        private readonly string _databaseFile;
+        private readonly string _connectionString;
+        private const string CollectionName = nameof(CharacterEntity);
 
         public CharacterRepository(string databaseFolder)
         {
-            //var databaseDirectory = Path.GetDirectoryName(databaseFolder);
-            //if (databaseDirectory != null && !Directory.Exists(databaseDirectory))
-            //    Directory.CreateDirectory(databaseDirectory);
-
-            var databaseFile = Path.Combine(databaseFolder, "ImagoApp_Character.db");
+            _databaseFile = Path.Combine(databaseFolder, "ImagoApp_Character.db");
 
             //https://github.com/mbdavid/LiteDB/wiki/Connection-String
-            _connectionString = $"filename={databaseFile}";
-
-            //   db = new LiteDatabase(connString);
-
-            BsonMapper mapper = BsonMapper.Global;
+            _connectionString = $"filename={_databaseFile}";
+            
+            var mapper = BsonMapper.Global;
             mapper.EnumAsInteger = true;
             mapper.Entity<CharacterEntity>().Id(p => p.Guid);
         }
@@ -46,7 +42,7 @@ namespace ImagoApp.Infrastructure.Repositories
             using (var db = new LiteDatabase(_connectionString))
             {
                 item.LastEdit = DateTime.Now;
-                var collection = db.GetCollection<CharacterEntity>(_collectionName);
+                var collection = db.GetCollection<CharacterEntity>(CollectionName);
                 collection.Insert(item);
 
                 return true;
@@ -58,7 +54,7 @@ namespace ImagoApp.Infrastructure.Repositories
             using (var db = new LiteDatabase(_connectionString))
             {
                 item.LastEdit = DateTime.Now;
-                var collection = db.GetCollection<CharacterEntity>(_collectionName);
+                var collection = db.GetCollection<CharacterEntity>(CollectionName);
                 var result = collection.Update(item);
 
                 return result;
@@ -69,7 +65,7 @@ namespace ImagoApp.Infrastructure.Repositories
         {
             using (var db = new LiteDatabase(_connectionString))
             {
-                var collection = db.GetCollection<CharacterEntity>(_collectionName);
+                var collection = db.GetCollection<CharacterEntity>(CollectionName);
                 var result = collection.Delete(guid);
                 return result;
             }
@@ -79,7 +75,7 @@ namespace ImagoApp.Infrastructure.Repositories
         {
             using (var db = new LiteDatabase(_connectionString))
             {
-                var collection = db.GetCollection<CharacterEntity>(_collectionName);
+                var collection = db.GetCollection<CharacterEntity>(CollectionName);
                 return collection.FindById(id);
             }
         }
@@ -88,9 +84,14 @@ namespace ImagoApp.Infrastructure.Repositories
         {
             using (var db = new LiteDatabase(_connectionString))
             {
-                var collection = db.GetCollection<CharacterEntity>(_collectionName);
+                var collection = db.GetCollection<CharacterEntity>(CollectionName);
                 return collection.FindAll().ToList();
             }
+        }
+
+        public FileInfo GetDatabaseInfo()
+        {
+            return new FileInfo(_databaseFile);
         }
     }
 }
