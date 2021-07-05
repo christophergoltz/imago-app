@@ -6,7 +6,7 @@ namespace ImagoApp.Application.Models
 {
     public class MasteryModel : TalentBase
     {
-        private List<RequirementModel<SkillGroupModelType>> _requirements;
+        private List<SkillGroupRequirementModel> _requirements;
         private SkillGroupModelType _targetSkill;
 
 
@@ -15,7 +15,7 @@ namespace ImagoApp.Application.Models
 
         }
 
-        public MasteryModel(SkillGroupModelType targetSkill , string name, string shortDescription,string description, List<RequirementModel<SkillGroupModelType>> requirements,
+        public MasteryModel(SkillGroupModelType targetSkill , string name, string shortDescription,string description, List<SkillGroupRequirementModel> requirements,
             int? difficulty, bool activeUse, string phaseValueMod) : base(name, shortDescription, description, activeUse, difficulty, phaseValueMod)
         {
             TargetSkill = targetSkill;
@@ -28,7 +28,7 @@ namespace ImagoApp.Application.Models
             set => SetProperty(ref _targetSkill, value);
         }
 
-        public List<RequirementModel<SkillGroupModelType>> Requirements
+        public List<SkillGroupRequirementModel> Requirements
         {
             get => _requirements;
             set => SetProperty(ref _requirements , value);

@@ -136,7 +136,7 @@ namespace ImagoApp.ViewModels
             UpdateNewFinalValueOfAttribute(attribute);
         }
 
-        public bool CheckTalentRequirement(List<RequirementModel<SkillModelType>> requirements)
+        public bool CheckTalentRequirement(List<SkillRequirementModel> requirements)
         {
             foreach (var requirement in requirements)
             {
@@ -150,7 +150,7 @@ namespace ImagoApp.ViewModels
         }
 
 
-        public bool CheckMasteryRequirement(List<RequirementModel<SkillGroupModelType>> requirements)
+        public bool CheckMasteryRequirement(List<SkillGroupRequirementModel> requirements)
         {
             foreach (var requirement in requirements)
             {

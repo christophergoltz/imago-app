@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using SQLite;
 
 namespace ImagoApp.Infrastructure.Entities
 {

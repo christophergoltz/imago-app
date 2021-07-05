@@ -1,8 +1,9 @@
-﻿using ImagoApp.Shared.Enums;
+﻿using ImagoApp.Application.Models.Base;
+using ImagoApp.Shared.Enums;
 
 namespace ImagoApp.Application.Models
 {
-    public class SkillModel : Base.DependentBase
+    public class SkillModel : DependentBase
     {
         public SkillModel()
         {

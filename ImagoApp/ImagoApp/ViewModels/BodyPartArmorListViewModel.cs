@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Acr.UserDialogs;
 using ImagoApp.Application.Models;
+using ImagoApp.Application.Models.Template;
 using ImagoApp.Application.Services;
 using ImagoApp.Shared.Enums;
 using Xamarin.Forms;
@@ -38,14 +39,14 @@ namespace ImagoApp.ViewModels
             {
                 Task.Run(async () =>
                 {
-                    Dictionary<string, ArmorPartModel> armor;
+                    Dictionary<string, ArmorPartTemplateModel> armor;
 
                     using (UserDialogs.Instance.Loading("Rüstungen werden geladen", null, null, true, MaskType.Black))
                     {
                         await Task.Delay(250);
 
                         var currentBodyPart = bodyPart.Type.MapBodyPartTypeToArmorPartType();
-                        var allArmor = await wikiDataService.GetAllArmor();
+                        var allArmor = wikiDataService.GetAllArmor();
                         armor = allArmor
                             .Where(pair => pair.ArmorPartType == currentBodyPart)
                             .Select(pair => pair)
@@ -64,11 +65,9 @@ namespace ImagoApp.ViewModels
 
                     if (result == null || result.Equals("Abbrechen"))
                         return;
-                    
-                    //copy object by value to prevent ref copy
-                    var newArmor = Util.ObjectHelper.DeepCopy(armor[result]);
-                    newArmor.Adventure = true;
-                    newArmor.Fight = true;
+
+                    var selectedArmor = armor[result];
+                    var newArmor = wikiDataService.GetArmorFromTemplate(selectedArmor);
                     await Device.InvokeOnMainThreadAsync(() =>
                     {
                         BodyPart.Armor.Add(newArmor);

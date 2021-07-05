@@ -214,7 +214,7 @@ namespace ImagoApp.ViewModels
         {
             //masteries
             var masteries = new List<TalentListItemViewModel>();
-            var allMasteries = await _wikiDataService.GetAllMasteries();
+            var allMasteries = _wikiDataService.GetAllMasteries();
             foreach (var mastery in allMasteries)
             {
                 if (mastery.TargetSkill != _parent.Type)
@@ -234,7 +234,7 @@ namespace ImagoApp.ViewModels
 
             //talents
             var talents = new List<TalentListItemViewModel>();
-            var allTalents = await _wikiDataService.GetAllTalents();
+            var allTalents = _wikiDataService.GetAllTalents();
             foreach (var talent in allTalents)
             {
                 if (talent.TargetSkillModel != SkillModel.Type)

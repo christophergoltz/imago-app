@@ -9,11 +9,12 @@ using System.Windows.Input;
 using Acr.UserDialogs;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Services;
-using ImagoApp.Infrastructure.Entities;
-using ImagoApp.Infrastructure.Repositories;
 using ImagoApp.Services;
 using ImagoApp.Shared.Enums;
 using ImagoApp.Util;
+using Serilog;
+using Serilog.Core;
+using Serilog.Events;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -27,6 +28,7 @@ namespace ImagoApp.ViewModels
         private readonly IWikiDataService _wikiDataService;
         private readonly IRuleService _ruleService;
         private readonly ICharacterCreationService _characterCreationService;
+        private readonly string _logFolder;
         private ObservableCollection<Character> _characters;
 
         public ObservableCollection<Character> Characters
@@ -52,7 +54,8 @@ namespace ImagoApp.ViewModels
             IWikiParseService wikiParseService,
             IWikiDataService wikiDataService,
             IRuleService ruleService,
-            ICharacterCreationService characterCreationService)
+            ICharacterCreationService characterCreationService,
+            string logFolder)
         {
             VersionTracking.Track();
             Version = VersionTracking.CurrentVersion;
@@ -63,46 +66,99 @@ namespace ImagoApp.ViewModels
             _wikiDataService = wikiDataService;
             _ruleService = ruleService;
             _characterCreationService = characterCreationService;
+            _logFolder = logFolder;
 
             Task.Run(async () =>
             {
-                try
-                {
-                    await _wikiDataService.Initialize();
-                    await _characterService.Initialize();
-                }
-                catch (Exception e)
-                {
-                    //todo
-                    Debug.WriteLine(e);
-                    throw;
-                }
-
                 await RefreshDatabaseInfos();
                 await RefreshCharacterList();
-
             });
         }
 
-        private int GetPercentage(int current, int total)
+        private void IncreaseProgressPercentage(IProgressDialog progressDialog, ref int current, int total)
         {
-            return (int)((double)current / total) * 100;
+            current++;
+            _percent = (int) ((double) current / total * 100);
+            progressDialog.PercentComplete = _percent;
+        }
+
+        private string GetProgressDialog(string currentTitle, CollectionSink collectionSink, int? armorCount = null, int? weaponCount = null, int? talentCount = null, int? masteryCount = null)
+        {
+            return $"Daten werden aus dem Wiki gelesen.." +
+                   $"{Environment.NewLine}" +
+                   $"--------------------------------------------------------" +
+                   $"{Environment.NewLine}" +
+                   $"{Environment.NewLine}" +
+                   $"{currentTitle}" +
+                   $"{Environment.NewLine}" +
+                   $"{Environment.NewLine}" +
+                   $"Status:" +
+                   $"{Environment.NewLine}      Warnungen: {collectionSink.Events.Count(_=>_.Level == LogEventLevel.Warning)}" +
+                   $"{Environment.NewLine}      Fehler: {collectionSink.Events.Count(_ => _.Level == LogEventLevel.Error)}" +
+                   $"{Environment.NewLine}      Kritisch: {collectionSink.Events.Count(_ => _.Level == LogEventLevel.Fatal)}" +
+                   $"{Environment.NewLine}" +
+                   $"{Environment.NewLine}" +
+                   $"Gefundene Daten:" +
+                   $"{Environment.NewLine}      Rüstungen: {armorCount?.ToString()}" +
+                   $"{Environment.NewLine}      Waffen: {weaponCount?.ToString()}" +
+                   $"{Environment.NewLine}      Talente: {talentCount?.ToString()}" +
+                   $"{Environment.NewLine}      Meisterschaften: {masteryCount?.ToString()}" +
+                   $"{Environment.NewLine}";
+        }
+
+        private class CollectionSink : ILogEventSink
+        {
+            public ICollection<LogEvent> Events { get; } = new List<LogEvent>();
+
+            public void Emit(LogEvent le)
+            {
+                Events.Add(le);
+            }
         }
 
         private ICommand _parseWikiCommand;
+
         public ICommand ParseWikiCommand => _parseWikiCommand ?? (_parseWikiCommand = new Command(async () =>
         {
             var totalActionCount = 4;
             var currentActionCount = 0;
 
-            using (IProgressDialog progressDialog =
-                UserDialogs.Instance.Progress("Daten werden aus dem Wiki gelesen.."))
+            var logFile = Path.Combine(_logFolder, $"wiki_parse_{DateTime.Now:dd.MM.yyyy_HH.mm}.log");
+
+            var col = new CollectionSink();
+
+            var logger = new LoggerConfiguration()
+                .WriteTo.Debug()
+                .WriteTo.File(logFile)
+                .WriteTo.Sink(col)
+                .CreateLogger();
+
+            using (var progressDialog = UserDialogs.Instance.Progress(""))
             {
-                progressDialog.PercentComplete = GetPercentage(currentActionCount, totalActionCount);
+                progressDialog.Title = GetProgressDialog("Rüstungen werden geladen", col);
+                await Task.Delay(50);
 
+                var armorCount = await _wikiParseService.RefreshArmorFromWiki(logger);
+                IncreaseProgressPercentage(progressDialog, ref currentActionCount, totalActionCount);
+                progressDialog.Title = GetProgressDialog("Waffen werden geladen", col, armorCount);
+                await Task.Delay(50);
 
-                await Task.Delay(5000);
+                var weaponCount = await _wikiParseService.RefreshWeaponsFromWiki(logger);
+                IncreaseProgressPercentage(progressDialog, ref currentActionCount, totalActionCount);
+                progressDialog.Title = GetProgressDialog("Talente werden geladen", col, armorCount, weaponCount);
+                await Task.Delay(50);
 
+                var talentCount = await _wikiParseService.RefreshTalentsFromWiki(logger);
+                IncreaseProgressPercentage(progressDialog, ref currentActionCount, totalActionCount);
+                progressDialog.Title = GetProgressDialog("Meisterschaften werden geladen", col, armorCount, weaponCount,
+                    talentCount);
+                await Task.Delay(50);
+
+                var masteryCount = await _wikiParseService.RefreshMasteriesFromWiki(logger);
+                IncreaseProgressPercentage(progressDialog, ref currentActionCount, totalActionCount);
+                progressDialog.Title = GetProgressDialog("Wird abgeschlossen", col, armorCount, weaponCount,
+                    talentCount, masteryCount);
+                await Task.Delay(1500);
             }
 
             await RefreshDatabaseInfos();
@@ -150,12 +206,11 @@ namespace ImagoApp.ViewModels
                         var newChar = _characterCreationService.CreateNewCharacter();
                         newChar.Name = "";
                         newChar.RaceType = RaceType.Mensch;
-                        newChar.Id = Guid.NewGuid();
+                        newChar.Guid = Guid.NewGuid();
                         newChar.CreatedAt = DateTime.Now;
-                        newChar.LastModifiedAt = DateTime.Now;
                         newChar.Version = Version;
                         
-                        await _characterService.AddCharacter(newChar);
+                        _characterService.AddCharacter(newChar);
                         await RefreshCharacterList();
 
                         await OpenCharacter(newChar, true);
@@ -167,6 +222,7 @@ namespace ImagoApp.ViewModels
         private ICommand _generateTestCharacterCommand;
         private (int ItemCount, FileInfo FileInfo) _wikiDatabaseInfo;
         private string _version;
+        private int _percent;
 
         public ICommand GenerateTestCharacterCommand => _generateTestCharacterCommand ?? (_generateTestCharacterCommand = new Command(() =>
             {
@@ -180,10 +236,10 @@ namespace ImagoApp.ViewModels
                         newChar.RaceType = RaceType.Mensch;
                         newChar.CreatedBy = "System";
                         newChar.Owner = "Testuser";
-                        newChar.Id = Guid.NewGuid();
+                        newChar.Guid = Guid.NewGuid();
                         newChar.Version = Version;
                         
-                        await _characterService.AddCharacter(newChar);
+                        _characterService.AddCharacter(newChar);
                         await RefreshCharacterList();
                         await Task.Delay(250);
                     }
@@ -192,13 +248,13 @@ namespace ImagoApp.ViewModels
         
         private async Task RefreshCharacterList()
         {
-            var characters = await _characterService.GetAll();
-            Characters = new ObservableCollection<Character>(characters.OrderByDescending(entity => entity.LastModifiedAt));
+            var characters = _characterService.GetAll();
+            Characters = new ObservableCollection<Character>(characters.OrderByDescending(entity => entity.LastEdit));
         }
 
         private async Task RefreshDatabaseInfos()
         {
-            var info = await _wikiDataService.GetDatabaseInfo();
+            var info = _wikiDataService.GetDatabaseInfo();
             WikiDatabaseInfo = info;
         }
     }

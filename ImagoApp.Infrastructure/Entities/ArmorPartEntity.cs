@@ -1,5 +1,4 @@
 ﻿using ImagoApp.Shared.Enums;
-using SQLite;
 
 namespace ImagoApp.Infrastructure.Entities
 {

@@ -4,9 +4,8 @@ using System.Text;
 
 namespace ImagoApp.Infrastructure.Entities
 {
-    public class EquipableItemEntity : ItemBaseEntity
+    public class EquipableItemEntity : WeightItemEntity
     {
-        public int LoadValue { get; set; }
         public bool Fight { get; set; }
         public bool Adventure { get; set; }
     }

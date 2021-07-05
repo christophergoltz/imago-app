@@ -7,12 +7,14 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Acr.UserDialogs;
 using ImagoApp.Application.Models;
+using ImagoApp.Application.Models.Template;
 using ImagoApp.Application.Services;
+using ImagoApp.Util;
 using Xamarin.Forms;
 
 namespace ImagoApp.ViewModels
 {
-    public class WeaponListViewModel :Util.BindableBase
+    public class WeaponListViewModel : BindableBase
     {
         private readonly CharacterViewModel _characterViewModel;
         private readonly IWikiDataService _wikiDataService;
@@ -20,7 +22,7 @@ namespace ImagoApp.ViewModels
 
         public event EventHandler<Weapon> OpenWeaponRequested;
 
-        public WeaponListViewModel(CharacterViewModel  characterViewModel,  IWikiDataService wikiDataService)
+        public WeaponListViewModel(CharacterViewModel characterViewModel, IWikiDataService wikiDataService)
         {
             foreach (var weapon in characterViewModel.Character.Weapons)
             {
@@ -33,13 +35,13 @@ namespace ImagoApp.ViewModels
             {
                 Task.Run(async () =>
                 {
-                    Dictionary<string, Weapon> weapons;
+                    Dictionary<string, WeaponTemplateModel> weapons;
 
                     using (UserDialogs.Instance.Loading("Waffen werden geladen", null, null, true, MaskType.Black))
                     {
                         await Task.Delay(250);
 
-                        var allWeapons = await _wikiDataService.GetAllWeapons();
+                        var allWeapons = _wikiDataService.GetAllWeapons();
                         weapons = allWeapons
                             .ToDictionary(weapon => weapon.Name.ToString(), weapon => weapon);
 
@@ -57,15 +59,14 @@ namespace ImagoApp.ViewModels
                     if (result == null || result.Equals("Abbrechen"))
                         return;
 
-                    //copy object by value to prevent ref copies
-                    var newWeapon = Util.ObjectHelper.DeepCopy(weapons[result]);
-                    newWeapon.Fight = true;
-                    newWeapon.Adventure = true;
+                    var selectedWeapon = weapons[result];
+                    var newWeapon = _wikiDataService.GetWeaponFromTemplate(selectedWeapon);
+
                     await Device.InvokeOnMainThreadAsync(() =>
                     {
                         _characterViewModel.Character.Weapons.Add(newWeapon);
                     });
-                    
+
                     newWeapon.PropertyChanged += OnWeaponLoadValueChanged;
                     _characterViewModel.RecalculateHandicapAttributes();
 

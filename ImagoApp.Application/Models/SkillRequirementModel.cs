@@ -1,23 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ImagoApp.Shared.Enums;
 
 namespace ImagoApp.Application.Models
 {
-    public class RequirementModel<TType> where TType : Enum
+    public class SkillRequirementModel
     {
-        public RequirementModel(TType type, int value)
+        public SkillRequirementModel(SkillModelType type, int value)
         {
             Type = type;
             Value = value;
         }
 
-        public RequirementModel()
-        {
-            
-        }
-
-        public TType Type { get; set; }
+        public SkillModelType Type { get; set; }
         public int Value { get; set; }
     }
 }

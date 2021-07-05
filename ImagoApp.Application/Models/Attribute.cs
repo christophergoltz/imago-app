@@ -1,8 +1,9 @@
-﻿using ImagoApp.Shared.Enums;
+﻿using ImagoApp.Application.Models.Base;
+using ImagoApp.Shared.Enums;
 
 namespace ImagoApp.Application.Models
 {
-    public class Attribute : Base.IncreasableBase
+    public class Attribute : IncreasableBase
     {
         //required for deserialization
         public Attribute()

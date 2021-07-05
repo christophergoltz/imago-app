@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using AutoMapper;
 using ImagoApp.Application.Models;
+using ImagoApp.Application.Models.Template;
 using ImagoApp.Infrastructure.Entities;
+using ImagoApp.Infrastructure.Entities.Template;
 
 namespace ImagoApp.Application.MappingProfiles
 {
@@ -12,29 +14,20 @@ namespace ImagoApp.Application.MappingProfiles
         public WikiDataMappingProfile()
         {
             //entity to model
-            CreateMap<WeaponEntity, Weapon>()
+            CreateMap<WeaponTemplateEntity, WeaponTemplateModel>()
                 .IncludeAllDerived();
-            CreateMap<WeaponStanceEntity, WeaponStance>()
-                .IncludeAllDerived();
-
-            CreateMap<ArmorPartEntity, ArmorPartModel>()
-                .IncludeAllDerived();
-            CreateMap<BodyPartEntity, BodyPart>()
+            CreateMap<ArmorPartTemplateEntity, ArmorPartTemplateModel>()
                 .IncludeAllDerived();
 
             CreateMap<MasteryEntity, MasteryModel>()
                 .IncludeAllDerived();
             CreateMap<TalentEntity, TalentModel>()
                 .IncludeAllDerived();
-
-
+            
             //model to entity
-            CreateMap<Weapon, WeaponEntity>();
-            CreateMap<WeaponStance, WeaponStanceEntity>();
-
-            CreateMap<ArmorPartModel, ArmorPartEntity>();
-            CreateMap<BodyPart, BodyPartEntity>();
-
+            CreateMap<WeaponTemplateModel, WeaponTemplateEntity>();
+            CreateMap<ArmorPartTemplateModel, ArmorPartTemplateEntity>();
+           
             CreateMap<MasteryModel, MasteryEntity>();
             CreateMap<TalentModel, TalentEntity>();
         }

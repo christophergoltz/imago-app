@@ -21,13 +21,12 @@ namespace ImagoApp.Util
 
         public ViewModelLocator()
         {
-            var databaseFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            Debug.WriteLine("DatabaseFolder: " + databaseFolder);
+            var localApplicationData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            Debug.WriteLine("DatabaseFolder: " + localApplicationData);
 
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile<WikiDataMappingProfile>();
-                cfg.AddProfile<BaseMappingProfile>();
                 cfg.AddProfile<CharacterMappingProfile>();
             });
 
@@ -44,12 +43,16 @@ namespace ImagoApp.Util
 
             var mapper = config.CreateMapper();
             
-            IWikiDataRepository wikiDataRepository = new WikiDataDataRepository(databaseFolder);
-            ICharacterRepository characterRepository = new CharacterRepository(databaseFolder);
+            ICharacterRepository characterRepository = new CharacterRepository(localApplicationData);
+            IArmorTemplateRepository armorTemplateRepository = new ArmorTemplateRepository(localApplicationData);
+            IWeaponTemplateRepository weaponTemplateRepository = new WeaponTemplateRepository(localApplicationData);
+            ITalentRepository talentRepository = new TalentRepository(localApplicationData);
+            IMasteryRepository masteryRepository = new MasteryRepository(localApplicationData);
 
             _ruleService = new Lazy<IRuleService>(() => new RuleService());
 
-            _wikiDataService = new Lazy<IWikiDataService>(() => new WikiDataService(wikiDataRepository, mapper));
+            _wikiDataService = new Lazy<IWikiDataService>(() => new WikiDataService(mapper, armorTemplateRepository, 
+                weaponTemplateRepository, talentRepository, masteryRepository));
             _wikiService = new Lazy<IWikiService>(() => new WikiService());
             _wikiParseService = new Lazy<IWikiParseService>(() => new WikiParseService(_wikiDataService.Value));
             _characterService = new Lazy<ICharacterService>(() => new CharacterService(characterRepository, mapper));
@@ -64,7 +67,9 @@ namespace ImagoApp.Util
 
         public CharacterInfoPageViewModel CharacterInfo => new CharacterInfoPageViewModel(App.CurrentCharacterViewModel, _ruleService.Value);
         public SkillPageViewModel SkillPageViewModel => new SkillPageViewModel(App.CurrentCharacterViewModel, _wikiService.Value, _wikiDataService.Value, _ruleService.Value);
-        public StartPageViewModel StartPage => new StartPageViewModel(AppShellViewModel, _characterService.Value, _wikiParseService.Value, _wikiDataService.Value, _ruleService.Value, _characterCreationService.Value);
+        public StartPageViewModel StartPage => new StartPageViewModel(AppShellViewModel, _characterService.Value,
+            _wikiParseService.Value, _wikiDataService.Value, _ruleService.Value, _characterCreationService.Value,
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
         public StatusPageViewModel StatusPageViewModel => new StatusPageViewModel(App.CurrentCharacterViewModel, _wikiDataService.Value);
         public InventoryViewModel InventoryViewModel => new InventoryViewModel(App.CurrentCharacterViewModel);
         public AppShellViewModel AppShellViewModel { get; }

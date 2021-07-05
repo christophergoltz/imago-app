@@ -5,19 +5,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using ImagoApp.Application.Models;
+using ImagoApp.Application.Models.Template;
 using ImagoApp.Application.Services;
 using ImagoApp.Infrastructure.Repositories;
 using ImagoApp.Shared.Enums;
-using Microsoft.Extensions.Logging;
+using ImagoApp.Util;
+using Serilog.Core;
 
 namespace ImagoApp.Services
 {
     public interface IWikiParseService
     {
-        Task<int?> RefreshArmorFromWiki(ILogger logger);
-        Task<int?> RefreshWeaponsFromWiki(ILogger logger);
-        Task<int?> RefreshTalentsFromWiki(ILogger logger);
-        Task<int?> RefreshMasteriesFromWiki(ILogger logger);
+        Task<int?> RefreshArmorFromWiki(Logger logger);
+        Task<int?> RefreshWeaponsFromWiki(Logger logger);
+        Task<int?> RefreshTalentsFromWiki(Logger logger);
+        Task<int?> RefreshMasteriesFromWiki(Logger logger);
     }
 
     public class WikiParseService : IWikiParseService
@@ -29,47 +31,50 @@ namespace ImagoApp.Services
             _wikiDataService = wikiDataService;
         }
 
-        public async Task<int?> RefreshArmorFromWiki(ILogger logger)
+        public async Task<int?> RefreshArmorFromWiki(Logger logger)
         {
-            var armor = ParseArmorFromUrl(Util.WikiConstants.ArmorUrl, logger );
-            await _wikiDataService.DeleteAllArmor();
-            return await _wikiDataService.AddArmor(armor);
+            var armor = ParseArmorFromUrl(WikiConstants.ArmorUrl, logger );
+            _wikiDataService.DeleteAllArmor();
+            _wikiDataService.AddArmor(armor);
+            return armor.Count;
         }
 
-        public async Task<int?> RefreshWeaponsFromWiki(ILogger logger)
+        public async Task<int?> RefreshWeaponsFromWiki(Logger logger)
         {
-            var meleeWeapons = ParseWeaponsFromUrl(Util.WikiConstants.MeleeWeaponUrl, logger);
-            var rangedWeapons = ParseWeaponsFromUrl(Util.WikiConstants.RangedWeaponUrl, logger);
-            var specialWeapons = ParseWeaponsFromUrl(Util.WikiConstants.SpecialWeaponUrl, logger);
-            var shields = ParseWeaponsFromUrl(Util.WikiConstants.ShieldsUrl, logger);
-            await _wikiDataService.DeleteAllWeapons();
-            var result = 0;
-            result += await _wikiDataService.AddWeapons(meleeWeapons);
-            result += await _wikiDataService.AddWeapons(rangedWeapons);
-            result += await _wikiDataService.AddWeapons(specialWeapons);
-            result += await _wikiDataService.AddWeapons(shields);
-            return result;
+            var meleeWeapons = ParseWeaponsFromUrl(WikiConstants.MeleeWeaponUrl, logger);
+            var rangedWeapons = ParseWeaponsFromUrl(WikiConstants.RangedWeaponUrl, logger);
+            var specialWeapons = ParseWeaponsFromUrl(WikiConstants.SpecialWeaponUrl, logger);
+            var shields = ParseWeaponsFromUrl(WikiConstants.ShieldsUrl, logger);
+            _wikiDataService.DeleteAllWeapons();
+
+            _wikiDataService.AddWeapons(meleeWeapons);
+            _wikiDataService.AddWeapons(rangedWeapons);
+            _wikiDataService.AddWeapons(specialWeapons);
+            _wikiDataService.AddWeapons(shields);
+            return meleeWeapons.Count + rangedWeapons.Count + specialWeapons.Count + shields.Count;
         }
 
-        public async Task<int?> RefreshTalentsFromWiki(ILogger logger)
+        public async Task<int?> RefreshTalentsFromWiki(Logger logger)
         {
-            var talents = ParseTalentsFromUrls(Util.WikiConstants.ParsableSkillTypeLookUp, logger);
-            await _wikiDataService.DeleteAllTalents();
-            return await _wikiDataService.AddTalents(talents);
+            var talents = ParseTalentsFromUrls(WikiConstants.ParsableSkillTypeLookUp, logger);
+            _wikiDataService.DeleteAllTalents();
+            _wikiDataService.AddTalents(talents);
+            return talents.Count;
         }
 
-        public async Task<int?> RefreshMasteriesFromWiki(ILogger logger)
+        public async Task<int?> RefreshMasteriesFromWiki(Logger logger)
         {
-            var masteries = ParseMasteriesFromUrls(Util.WikiConstants.SkillGroupTypeLookUp, logger);
-            await _wikiDataService.DeleteAllTalents();
-            return await _wikiDataService.AddMasteries(masteries);
+            var masteries = ParseMasteriesFromUrls(WikiConstants.SkillGroupTypeLookUp, logger);
+            _wikiDataService.DeleteAllTalents();
+            _wikiDataService.AddMasteries(masteries);
+            return masteries.Count;
         }
         
-        private List<ArmorPartModel> ParseArmorFromUrl(string url, ILogger logger )
+        private List<ArmorPartTemplateModel> ParseArmorFromUrl(string url, Logger logger )
         {
-            var result = new List<ArmorPartModel>();
+            var result = new List<ArmorPartTemplateModel>();
 
-            var doc = Util.WikiHelper.LoadDocumentFromUrl(url, logger);
+            var doc = WikiHelper.LoadDocumentFromUrl(url, logger);
             if (doc == null)
                 return result;
 
@@ -96,22 +101,30 @@ namespace ImagoApp.Services
                         var load = CleanUpString(dataCells[3].InnerText);
                         var durability = CleanUpString(dataCells[4].InnerText);
 
-                        var armor = new ArmorPartModel(bodyPart, armorName, int.Parse(load), false, false,
-                            int.Parse(durability), int.Parse(energy), int.Parse(physical));
+                        var armor = new ArmorPartTemplateModel()
+                        {
+                            Name = armorName,
+                            ArmorPartType = bodyPart,
+                            LoadValue = int.Parse(load),
+                            DurabilityValue = int.Parse(durability),
+                            EnergyDefense = int.Parse(energy),
+                            PhysicalDefense = int.Parse(physical)
+                        };
+
                         result.Add(armor);
                     }
                 }
                 catch (Exception e)
                 {
-                    logger.LogError(e, $"Werte für Rüstung \"{armorName}\" konnten nicht gelesen werden");
+                    logger.Error(e, $"Werte für Rüstung \"{armorName}\" konnten nicht gelesen werden");
                 }
             }
 
-            logger.LogInformation($"Rüstungen hinzugefügt [{string.Join(", ", result.Select(set => set.Name))}]");
+            logger.Information($"Rüstungen hinzugefügt [{string.Join(", ", result.Select(set => set.Name))}]");
             return result;
         }
 
-        private ArmorPartType ParseBodyPart(string name, ILogger logger)
+        private ArmorPartType ParseBodyPart(string name, Logger logger)
         {
             if (name.Equals("Helm"))
                 return ArmorPartType.Helm;
@@ -122,14 +135,14 @@ namespace ImagoApp.Services
             if (name.Equals("Bein"))
                 return ArmorPartType.Bein;
 
-            logger.LogError( $"Zuordnung von Rüstungsteil konnte aus Wert \"{name}\" nicht gelesen werden");
+            logger.Error( $"Zuordnung von Rüstungsteil konnte aus Wert \"{name}\" nicht gelesen werden");
             return ArmorPartType.Unknown;
         }
         
-        private List<Weapon> ParseWeaponsFromUrl(string url, ILogger logger)
+        private List<WeaponTemplateModel> ParseWeaponsFromUrl(string url, Logger logger)
         {
-            var result = new List<Weapon>();
-            var doc = Util.WikiHelper.LoadDocumentFromUrl(url, logger);
+            var result = new List<WeaponTemplateModel>();
+            var doc = WikiHelper.LoadDocumentFromUrl(url, logger);
             if (doc == null)
                 return result;
 
@@ -171,15 +184,21 @@ namespace ImagoApp.Services
                         weaponStances.Add(new WeaponStance(weaponStanceType, phase, damage, parry, range));
                     }
 
-                    result.Add(new Weapon(weaponName, weaponStances, false, false, int.Parse(loadValue), int.Parse(durabilityValue)));
+                    result.Add(new WeaponTemplateModel
+                    {
+                        LoadValue = int.Parse(loadValue),
+                        Name = weaponName,
+                        DurabilityValue = int.Parse(durabilityValue),
+                        WeaponStances = weaponStances
+                    });
                 }
                 catch (Exception e)
                 {
-                    logger.LogError(e, $"Werte für die Waffe \"{weaponName}\" konnten nicht von \"{url}\" gelesen werden.{Environment.NewLine}Fehler:{e}");
+                    logger.Error(e, $"Werte für die Waffe \"{weaponName}\" konnten nicht von \"{url}\" gelesen werden.{Environment.NewLine}Fehler:{e}");
                 }
             }
 
-            logger.LogInformation( $"Waffen hinzugefügt [{string.Join(", ", result.Select(weapon => weapon.Name))}]");
+            logger.Information( $"Waffen hinzugefügt [{string.Join(", ", result.Select(weapon => weapon.Name))}]");
             return result;
         }
         
@@ -188,7 +207,7 @@ namespace ImagoApp.Services
             return value.Replace("\n", "").Replace("\r", "").Trim();
         }
 
-        private List<TalentModel> ParseTalentsFromUrls(Dictionary<SkillModelType, string> urls, ILogger logger)
+        private List<TalentModel> ParseTalentsFromUrls(Dictionary<SkillModelType, string> urls, Logger logger)
         {
             var talents = new List<TalentModel>();
             foreach (var item in urls)
@@ -243,10 +262,10 @@ namespace ImagoApp.Services
             return result;
         }
 
-        private List<TalentModel> ParseTalentsFromUrl(SkillModelType modelType, string url, ILogger logger)
+        private List<TalentModel> ParseTalentsFromUrl(SkillModelType modelType, string url, Logger logger)
         {
             var talents = new List<TalentModel>();
-            var doc = Util.WikiHelper.LoadDocumentFromUrl(url, logger);
+            var doc = WikiHelper.LoadDocumentFromUrl(url, logger);
             if (doc == null)
                 return talents;
 
@@ -255,7 +274,7 @@ namespace ImagoApp.Services
             var table = doc.DocumentNode.SelectSingleNode("//table[@class='wikitable']");
             if (table == null)
             {
-                logger.LogWarning($"Keine Tabelle mit Werten auf \"{url}\" gefunden");
+                logger.Warning($"Keine Tabelle mit Werten auf \"{url}\" gefunden");
                 return talents;
             }
 
@@ -272,7 +291,7 @@ namespace ImagoApp.Services
                     name = CleanUpString(dataCells[0].InnerText);
                     var requirementsRawValue = CleanUpString(dataCells[1].InnerText);
 
-                    var requirements = new List<RequirementModel<SkillModelType>>();
+                    var requirements = new List<SkillRequirementModel>();
 
                     foreach (var requirement in requirementsRawValue.Split(',').Select(s => s.Trim()))
                     {
@@ -280,13 +299,13 @@ namespace ImagoApp.Services
                         var skill = MappingStringToSkillType(strings[0], logger);
                         if (skill == SkillModelType.Unbekannt)
                         {
-                            logger.LogError($"Vorraussetztung \"{requirement}\" für Talent \"{name}\" kann nicht gelesen werden .. wird ignoriert");
+                            logger.Error($"Vorraussetztung \"{requirement}\" für Talent \"{name}\" kann nicht gelesen werden .. wird ignoriert");
                             continue;
                         }
 
                         var value = int.Parse(strings[1]);
 
-                        requirements.Add(new RequirementModel<SkillModelType>(skill, value));
+                        requirements.Add(new SkillRequirementModel(skill, value));
                     }
 
                     var difficultyValue = CleanUpString(dataCells[2].InnerText);
@@ -302,20 +321,20 @@ namespace ImagoApp.Services
                     }
                     else
                     {
-                        logger.LogWarning($"Talent \"{name}\" hat keine Kurzbeschreibung");
+                        logger.Warning($"Talent \"{name}\" hat keine Kurzbeschreibung");
                     }
 
                     var desc = string.Empty;
                     if (!descriptions.ContainsKey(name))
                     {
-                        logger.LogWarning( $"Keine Beschreibung zu \"{name}\" gefunden {url}");
+                        logger.Warning( $"Keine Beschreibung zu \"{name}\" gefunden {url}");
                     }
                     else
                     {
                         desc = descriptions[name];
                         if (string.IsNullOrWhiteSpace(desc))
                         {
-                            logger.LogWarning( $"Nur eine leere Beschreibung zu \"{name}\" gefunden {url}");
+                            logger.Warning( $"Nur eine leere Beschreibung zu \"{name}\" gefunden {url}");
                         }
                     }
 
@@ -324,19 +343,19 @@ namespace ImagoApp.Services
                 }
                 catch (Exception exception)
                 {
-                    logger.LogError(exception,   $"Talent \"{name}\" kann nicht von \"{url}\" gelesen werden.{Environment.NewLine}Fehler:{exception}");
+                    logger.Error(exception,   $"Talent \"{name}\" kann nicht von \"{url}\" gelesen werden.{Environment.NewLine}Fehler:{exception}");
                 }
             }
 
-            logger.LogInformation($"Talente für Fertigkeit \"{modelType}\" hinzugefügt [{string.Join(", ", talents.Select(model => model.Name))}]");
+            logger.Information($"Talente für Fertigkeit \"{modelType}\" hinzugefügt [{string.Join(", ", talents.Select(model => model.Name))}]");
             return talents;
         }
 
-        private int? ParseStringToDifficultyForTalent(string value, string talentName,string url, ILogger logger)
+        private int? ParseStringToDifficultyForTalent(string value, string talentName,string url, Logger logger)
         {
             if (string.IsNullOrWhiteSpace(value))
             {
-                logger.LogError($"Schwierigkeit \"{value}\" kann von {talentName} \"{url}\" nicht gelesen werden. Die Schwierigkeit wird als konfigurierbar hinterlegt.");
+                logger.Error($"Schwierigkeit \"{value}\" kann von {talentName} \"{url}\" nicht gelesen werden. Die Schwierigkeit wird als konfigurierbar hinterlegt.");
                 return null;
             }
 
@@ -347,14 +366,14 @@ namespace ImagoApp.Services
             var parsed = int.TryParse(value, out int parsedValue);
             if (!parsed)
             {
-                logger.LogError( $"Schwierigkeit \"{value}\" kann von {talentName} \"{url}\" nicht in eine Zahl konvertiert werden. Die Schwierigkeit wird als konfigurierbar hinterlegt.");
+                logger.Error( $"Schwierigkeit \"{value}\" kann von {talentName} \"{url}\" nicht in eine Zahl konvertiert werden. Die Schwierigkeit wird als konfigurierbar hinterlegt.");
                 return null;
             }
 
             return parsedValue;
         }
 
-        private SkillModelType MappingStringToSkillType(string value, ILogger logger)
+        private SkillModelType MappingStringToSkillType(string value, Logger logger)
         {
             if (Enum.TryParse(value, out SkillModelType castValue))
                 return castValue;
@@ -374,11 +393,11 @@ namespace ImagoApp.Services
             if (value.Equals("Zweihänder"))
                 return SkillModelType.Zweihaender;
 
-            logger.LogError( $"Keine Fertigkeit für den Wert \"{value}\" hinterlegt");
+            logger.Error( $"Keine Fertigkeit für den Wert \"{value}\" hinterlegt");
             return SkillModelType.Unbekannt;
         }
 
-        private SkillGroupModelType MappingStringToSkillGroupType(string value, ILogger logger)
+        private SkillGroupModelType MappingStringToSkillGroupType(string value, Logger logger)
         {
             if (Enum.TryParse(value, out SkillGroupModelType castValue))
                 return castValue;
@@ -386,22 +405,22 @@ namespace ImagoApp.Services
             if (value.Equals("Weben"))
                 return SkillGroupModelType.Webkunst;
 
-            logger.LogError( $"Keine Fertigkeitskategorie für den Wert \"{value}\" hinterlegt");
+            logger.Error( $"Keine Fertigkeitskategorie für den Wert \"{value}\" hinterlegt");
             return SkillGroupModelType.Unbekannt;
         }
 
-        private bool MapToActiveUse(string value, ILogger logger)
+        private bool MapToActiveUse(string value, Logger logger)
         {
             if (value.Equals("passiv"))
                 return false;
             if (value.Equals("aktiv"))
                 return true;
 
-            logger.LogError($"Keinen Einsatz für den Wert \"{value}\" hinterlegt");
+            logger.Error($"Keinen Einsatz für den Wert \"{value}\" hinterlegt");
             return false;
         }
         
-        private List<MasteryModel> ParseMasteriesFromUrls(Dictionary<SkillGroupModelType, string> urls, ILogger logger)
+        private List<MasteryModel> ParseMasteriesFromUrls(Dictionary<SkillGroupModelType, string> urls, Logger logger)
         {
             var talents = new List<MasteryModel>();
             foreach (var item in urls)
@@ -412,11 +431,11 @@ namespace ImagoApp.Services
             return talents;
         }
 
-        private List<MasteryModel> ParseMasteriesFromUrl(SkillGroupModelType modelType, string url, ILogger logger)
+        private List<MasteryModel> ParseMasteriesFromUrl(SkillGroupModelType modelType, string url, Logger logger)
         {
             var talents = new List<MasteryModel>();
 
-            var doc = Util.WikiHelper.LoadDocumentFromUrl(url, logger);
+            var doc = WikiHelper.LoadDocumentFromUrl(url, logger);
             if (doc == null)
                 return talents;
 
@@ -426,7 +445,7 @@ namespace ImagoApp.Services
             var table = doc.DocumentNode.SelectSingleNode("//table[@class='wikitable']");
             if (table == null)
             {
-                logger.LogWarning($"Keine Tabelle mit Werten auf \"{url}\" gefunden");
+                logger.Warning($"Keine Tabelle mit Werten auf \"{url}\" gefunden");
                 return talents;
             }
             
@@ -443,7 +462,7 @@ namespace ImagoApp.Services
                     name = CleanUpString(dataCells[0].InnerText);
                     var requirementsRawValue = CleanUpString(dataCells[1].InnerText);
 
-                    var requirements = new List<RequirementModel<SkillGroupModelType>>();
+                    var requirements = new List<SkillGroupRequirementModel>();
 
                     foreach (var requirement in requirementsRawValue.Split(',').Select(s => s.Trim()))
                     {
@@ -451,13 +470,13 @@ namespace ImagoApp.Services
                         var skill = MappingStringToSkillGroupType(strings[0], logger);
                         if (skill == SkillGroupModelType.Unbekannt)
                         {
-                            logger.LogError($"Vorraussetztung \"{requirement}\" für Talent \"{name}\" kann nicht gelesen werden .. wird ignoriert");
+                            logger.Error($"Vorraussetztung \"{requirement}\" für Talent \"{name}\" kann nicht gelesen werden .. wird ignoriert");
                             continue;
                         }
 
                         var value = int.Parse(strings[1]);
 
-                        requirements.Add(new RequirementModel<SkillGroupModelType>(skill, value));
+                        requirements.Add(new SkillGroupRequirementModel(skill, value));
                     }
 
                     var difficultyValue = CleanUpString(dataCells[2].InnerText);
@@ -470,19 +489,19 @@ namespace ImagoApp.Services
                     if (dataCells.Count > 5)
                         shortDescription = CleanUpString(dataCells[5].InnerText);
                     else
-                        logger.LogWarning($"Meisterschaft \"{name}\" hat keine Kurzbeschreibung");
+                        logger.Warning($"Meisterschaft \"{name}\" hat keine Kurzbeschreibung");
 
                     var desc = string.Empty;
                     if (!descriptions.ContainsKey(name))
                     {
-                        logger.LogWarning( $"Keine Beschreibung zu \"{name}\" gefunden {url}");
+                        logger.Warning( $"Keine Beschreibung zu \"{name}\" gefunden {url}");
                     }
                     else
                     {
                         desc = descriptions[name];
                         if (string.IsNullOrWhiteSpace(desc))
                         {
-                            logger.LogWarning( $"Nur eine leere Beschreibung zu \"{name}\" gefunden {url}");
+                            logger.Warning( $"Nur eine leere Beschreibung zu \"{name}\" gefunden {url}");
                         }
                     }
 
@@ -490,11 +509,11 @@ namespace ImagoApp.Services
                 }
                 catch (Exception exception)
                 {
-                    logger.LogError(exception, $"Talent \"{name}\" kann nicht von \"{url}\" gelesen werden");
+                    logger.Error(exception, $"Talent \"{name}\" kann nicht von \"{url}\" gelesen werden");
                 }
             }
 
-            logger.LogInformation($"Talente für Fertigkeit \"{modelType}\" hinzugefügt [{string.Join(", ", talents.Select(model => model.Name))}]");
+            logger.Information($"Talente für Fertigkeit \"{modelType}\" hinzugefügt [{string.Join(", ", talents.Select(model => model.Name))}]");
             return talents;
         }
 

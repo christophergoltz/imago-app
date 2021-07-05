@@ -6,8 +6,7 @@ namespace ImagoApp.Application.Models.Base
     public abstract class CalculableBase : BindableBase
     {
         private double _finalValue;
-
-        [JsonIgnore]
+        
         public double FinalValue
         {
             get => _finalValue;

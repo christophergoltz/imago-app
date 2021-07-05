@@ -68,11 +68,9 @@ namespace ImagoApp.Application.Models
         //}
         
         //todo move to vm
-        [JsonIgnore]
         public Color HitpointsColor => Color.BlueViolet;//todo GetBlendedColor((int)(CurrentHitpointsPercentage*100));
 
         //todo move to vm
-        [JsonIgnore]
         public double CurrentHitpointsPercentage
         {
             get

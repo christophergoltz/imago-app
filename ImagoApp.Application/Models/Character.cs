@@ -8,10 +8,11 @@ namespace ImagoApp.Application.Models
 {
     public class Character
     {
-        public Guid Id { get; set; }
-        public string Version { get; set; }
+        public Guid Guid { get; set; }
         public DateTime CreatedAt { get; set; }
-        public DateTime LastModifiedAt { get; set; }
+        public DateTime LastEdit { get; set; }
+        public string Version { get; set; }
+
         public string Name { get; set; }
         public RaceType RaceType { get; set; }
         public string Height { get; set; }

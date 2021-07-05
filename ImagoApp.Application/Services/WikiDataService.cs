@@ -1,136 +1,153 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using AutoMapper;
 using ImagoApp.Application.Models;
+using ImagoApp.Application.Models.Template;
 using ImagoApp.Infrastructure.Entities;
+using ImagoApp.Infrastructure.Entities.Template;
 using ImagoApp.Infrastructure.Repositories;
 
 namespace ImagoApp.Application.Services
 {
     public interface IWikiDataService
     {
-        Task<int> AddWeapons(List<Weapon> items);
-        Task<List<Weapon>> GetAllWeapons();
-        Task DeleteAllWeapons();
-        Task<int> AddArmor(List<ArmorPartModel> items);
-        Task<List<ArmorPartModel>> GetAllArmor();
-        Task DeleteAllArmor();
-        Task<int> AddMasteries(List<MasteryModel> items);
-        Task<List<MasteryModel>> GetAllMasteries();
-        Task DeleteAllMasteries();
-        Task<int> AddTalents(List<TalentModel> items);
-        Task<List<TalentModel>> GetAllTalents();
-        Task DeleteAllTalents();
-        Task Initialize();
-        Task<(int ItemCount, FileInfo FileInfo)> GetDatabaseInfo();
+        void AddWeapons(List<WeaponTemplateModel> items);
+        List<WeaponTemplateModel> GetAllWeapons();
+        void DeleteAllWeapons();
+        void AddArmor(List<ArmorPartTemplateModel> items);
+        List<ArmorPartTemplateModel> GetAllArmor();
+        void DeleteAllArmor();
+        void AddMasteries(List<MasteryModel> items);
+        List<MasteryModel> GetAllMasteries();
+        void DeleteAllMasteries();
+        void AddTalents(List<TalentModel> items);
+        List<TalentModel> GetAllTalents();
+        void DeleteAllTalents();
+        (int ItemCount, FileInfo FileInfo) GetDatabaseInfo();
+        Weapon GetWeaponFromTemplate(WeaponTemplateModel model);
+        ArmorPartModel GetArmorFromTemplate(ArmorPartTemplateModel model);
     }
 
     public class WikiDataService : IWikiDataService
     {
-        private readonly IWikiDataRepository _wikiDataRepository;
+        private readonly IArmorTemplateRepository _armorTemplateRepository;
+        private readonly IWeaponTemplateRepository _weaponTemplateRepository;
+        private readonly ITalentRepository _talentRepository;
+        private readonly IMasteryRepository _masteryRepository;
         private readonly IMapper _mapper;
 
-        public WikiDataService(IWikiDataRepository wikiDataRepository, IMapper mapper)
+        public WikiDataService(IMapper mapper, 
+            IArmorTemplateRepository armorTemplateRepository,
+            IWeaponTemplateRepository weaponTemplateRepository,
+            ITalentRepository talentRepository,
+            IMasteryRepository masteryRepository)
         {
-            _wikiDataRepository = wikiDataRepository;
+            _armorTemplateRepository = armorTemplateRepository;
+            _weaponTemplateRepository = weaponTemplateRepository;
+            _talentRepository = talentRepository;
+            _masteryRepository = masteryRepository;
             _mapper = mapper;
         }
 
-        public async Task Initialize()
+        public Weapon GetWeaponFromTemplate(WeaponTemplateModel model)
         {
-            await _wikiDataRepository.EnsureTables();
+            return new Weapon(model.Name, model.WeaponStances, true, true, model.LoadValue, model.DurabilityValue);
         }
 
-        public async Task<(int ItemCount, FileInfo FileInfo)> GetDatabaseInfo()
+        public ArmorPartModel GetArmorFromTemplate(ArmorPartTemplateModel model)
         {
-            return await _wikiDataRepository.GetDatabaseInfo();
+            return new ArmorPartModel(model.ArmorPartType, model.Name, model.LoadValue,true, true, model.DurabilityValue, model.EnergyDefense, model.PhysicalDefense);
+        }
+
+        public (int ItemCount, FileInfo FileInfo) GetDatabaseInfo()
+        {
+            return (0, null); // _wikiDataRepository.GetDatabaseInfo();
         }
 
         #region Weapons
 
-        public async Task<int> AddWeapons(List<Weapon> items)
+        public void AddWeapons(List<WeaponTemplateModel> items)
         {
-            var entities = _mapper.Map<List<WeaponEntity>>(items);
-            return await _wikiDataRepository.AddAllItems(entities);
+            var entities = _mapper.Map<List<WeaponTemplateEntity>>(items);
+            _weaponTemplateRepository.InsertBulk(entities);
         }
 
-        public async Task<List<Weapon>> GetAllWeapons()
+        public List<WeaponTemplateModel> GetAllWeapons()
         {
-            var entites = await _wikiDataRepository.GetAllItemsAsync<WeaponEntity>();
-            var models = _mapper.Map<List<Weapon>>(entites);
+            var entities = _weaponTemplateRepository.GetAllItems();
+            var models = _mapper.Map<List<WeaponTemplateModel>>(entities);
             return models;
         }
 
-        public async Task DeleteAllWeapons()
+        public void DeleteAllWeapons()
         {
-            await _wikiDataRepository.DeleteAllItems<WeaponEntity>();
+            _weaponTemplateRepository.DeleteAll();
         }
 
         #endregion
 
         #region Armor
 
-        public async Task<int> AddArmor(List<ArmorPartModel> items)
+        public void AddArmor(List<ArmorPartTemplateModel> items)
         {
-            var entities = _mapper.Map<List<ArmorPartEntity>>(items);
-            return await _wikiDataRepository.AddAllItems(entities);
+            var entities = _mapper.Map<List<ArmorPartTemplateEntity>>(items);
+            _armorTemplateRepository.InsertBulk(entities);
         }
 
-        public async Task<List<ArmorPartModel>> GetAllArmor()
+        public List<ArmorPartTemplateModel> GetAllArmor()
         {
-            var entites = await _wikiDataRepository.GetAllItemsAsync<ArmorPartEntity>();
-            var models = _mapper.Map<List<ArmorPartModel>>(entites);
+            var entities = _armorTemplateRepository.GetAllItems();
+            var models = _mapper.Map<List<ArmorPartTemplateModel>>(entities);
             return models;
         }
 
-        public async Task DeleteAllArmor()
+        public void DeleteAllArmor()
         {
-            await _wikiDataRepository.DeleteAllItems<ArmorPartEntity>();
+            _armorTemplateRepository.DeleteAll();
         }
 
         #endregion
 
         #region Masteries
 
-        public async Task<int> AddMasteries(List<MasteryModel> items)
+        public void AddMasteries(List<MasteryModel> items)
         {
             var entities = _mapper.Map<List<MasteryEntity>>(items);
-            return await _wikiDataRepository.AddAllItems(entities);
+            _masteryRepository.InsertBulk(entities);
         }
 
-        public async Task<List<MasteryModel>> GetAllMasteries()
+        public List<MasteryModel> GetAllMasteries()
         {
-            var entites = await _wikiDataRepository.GetAllItemsAsync<MasteryEntity>();
+            var entites = _masteryRepository.GetAllItems();
             var weapons = _mapper.Map<List<MasteryModel>>(entites);
             return weapons;
         }
 
-        public async Task DeleteAllMasteries()
+        public void DeleteAllMasteries()
         {
-            await _wikiDataRepository.DeleteAllItems<MasteryEntity>();
+            _masteryRepository.DeleteAll();
         }
 
         #endregion
 
         #region Talents
 
-        public async Task<int> AddTalents(List<TalentModel> items)
+        public void AddTalents(List<TalentModel> items)
         {
             var entities = _mapper.Map<List<TalentEntity>>(items);
-            return await _wikiDataRepository.AddAllItems(entities);
+            _talentRepository.InsertBulk(entities);
         }
 
-        public async Task<List<TalentModel>> GetAllTalents()
+        public List<TalentModel> GetAllTalents()
         {
-            var entites = await _wikiDataRepository.GetAllItemsAsync<TalentEntity>();
-            var weapons = _mapper.Map<List<TalentModel>>(entites);
+            var entities = _talentRepository.GetAllItems();
+            var weapons = _mapper.Map<List<TalentModel>>(entities);
             return weapons;
         }
 
-        public async Task DeleteAllTalents()
+        public void DeleteAllTalents()
         {
-            await _wikiDataRepository.DeleteAllItems<TalentEntity>();
+            _talentRepository.DeleteAll();
         }
 
         #endregion

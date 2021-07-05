@@ -4,9 +4,9 @@ using System.Text;
 
 namespace ImagoApp.Infrastructure.Entities
 {
-    public class RequirementEntity<TType> where TType : Enum
+    public class SkillGroupRequirementEntity
     {
-        public TType Type { get; set; }
+        public int Type { get; set; }
         public int Value { get; set; }
     }
 }

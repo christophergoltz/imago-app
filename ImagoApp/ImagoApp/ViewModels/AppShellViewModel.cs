@@ -27,7 +27,7 @@ namespace ImagoApp.ViewModels
                     using (UserDialogs.Instance.Loading("Charakter wird gespeichert", null, null, true, MaskType.Black))
                     {
                         await Task.Delay(250);
-                        var result = await _characterService.SaveCharacter(App.CurrentCharacterViewModel.Character);
+                        var result = _characterService.SaveCharacter(App.CurrentCharacterViewModel.Character);
                         if (result)
                             await Device.InvokeOnMainThreadAsync(() =>
                             {

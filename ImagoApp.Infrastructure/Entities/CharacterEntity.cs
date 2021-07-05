@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using ImagoApp.Shared.Enums;
-using SQLite;
 
 namespace ImagoApp.Infrastructure.Entities
 {
-    public class CharacterEntity 
+    public class CharacterEntity
     {
-        [PrimaryKey]
-        public Guid Id { get; set; }
-        public string Version { get; set; }
+        //Database fields
+        public Guid Guid { get; set; }
         public DateTime CreatedAt { get; set; }
-        public DateTime LastModifiedAt { get; set; }
+        public DateTime LastEdit { get; set; }
+        public string Version { get; set; }
+
         public string Name { get; set; }
         public RaceType RaceType { get; set; }
         public string Height { get; set; }
@@ -27,17 +27,12 @@ namespace ImagoApp.Infrastructure.Entities
         public string Note { get; set; }
         public int FreeSkillExperience { get; set; }
 
-        public List<Attribute> Attributes { get; set; }
+        public List<AttributeEntity> Attributes { get; set; }
         public List<SkillGroupEntity> SkillGroups { get; set; }
-
-        public ObservableCollection<SkillGroupModelType> OpenAttributeIncreases { get; set; }
-
+        public List<SkillGroupModelType> OpenAttributeIncreases { get; set; }
         public List<BodyPartEntity> BodyParts { get; set; }
-
-        public ObservableCollection<WeaponEntity> Weapons { get; set; }
-
-        public ObservableCollection<EquipableItemEntity> EquippedItems { get; set; }
-
-        public ObservableCollection<BloodCarrierEntity> BloodCarrier { get; set; }
+        public List<WeaponEntity> Weapons { get; set; }
+        public List<EquipableItemEntity> EquippedItems { get; set; }
+        public List<BloodCarrierEntity> BloodCarrier { get; set; }
     }
 }

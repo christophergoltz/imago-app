@@ -23,7 +23,7 @@ namespace ImagoApp.Application.Services
             {
                 Attributes = CreateAttributes(),
                 SkillGroups = new List<SkillGroupModel>(),
-                Id = Guid.NewGuid(),
+                Guid = Guid.NewGuid(),
                 OpenAttributeIncreases = new ObservableCollection<SkillGroupModelType>(),
                 RaceType = RaceType.Mensch,
                 BodyParts = CreateBodyParts(),

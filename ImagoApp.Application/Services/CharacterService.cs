@@ -12,10 +12,9 @@ namespace ImagoApp.Application.Services
 {
     public interface ICharacterService
     {
-        Task<List<Character>> GetAll();
-        Task<bool> SaveCharacter(Character character);
-        Task<bool> AddCharacter(Character character);
-        Task Initialize();
+        List<Character> GetAll();
+        bool SaveCharacter(Character character);
+        bool AddCharacter(Character character);
     }
 
     public class CharacterService : ICharacterService
@@ -29,32 +28,35 @@ namespace ImagoApp.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<List<Character>> GetAll()
+        public List<Character> GetAll()
         {
-            var entities = await _characterRepository.GetAllItems();
+            var entities = _characterRepository.GetAllItems();
             return _mapper.Map<List<Character>>(entities);
         }
 
-        public async Task<bool> SaveCharacter(Character character)
+        public bool SaveCharacter(Character character)
         {
             Debug.WriteLine("Start saving..");
             var entity = _mapper.Map<CharacterEntity>(character);
-            var result = await _characterRepository.UpdateItem(entity) == 1;
+            var result = _characterRepository.UpdateItem(entity);
             Debug.WriteLine("Done saving..");
-
             return result;
         }
 
-        public async Task<bool> AddCharacter(Character character)
+        public bool AddCharacter(Character character)
         {
-            var entity = _mapper.Map<CharacterEntity>(character);
-            var result = await _characterRepository.AddItem(entity) == 1;
-            return result;
-        }
+            try
+            {
+                var entity = _mapper.Map<CharacterEntity>(character);
+                var result = _characterRepository.InsertItem(entity);
+                return result;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
 
-        public async Task Initialize()
-        {
-            await _characterRepository.EnsureTables();
+            return false;
         }
     }
 }

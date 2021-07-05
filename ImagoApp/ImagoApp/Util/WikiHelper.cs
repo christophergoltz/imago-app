@@ -5,12 +5,13 @@ using System.Net;
 using HtmlAgilityPack;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Extensions.Logging;
+using Serilog.Core;
 
 namespace ImagoApp.Util
 {
     public static class WikiHelper
     {
-        public static HtmlDocument LoadDocumentFromUrl(string url, ILogger logger)
+        public static HtmlDocument LoadDocumentFromUrl(string url, Logger logger)
         {
             var htmlWeb = new HtmlWeb();
             var doc = htmlWeb.Load(url);
@@ -20,7 +21,7 @@ namespace ImagoApp.Util
                 Crashes.TrackError(new InvalidOperationException("HtmlWeb response was 404"),
                     new Dictionary<string, string>() {{"url", url}});
 
-                logger.LogError($"Seite nicht gefunden \"{url}\"");
+                logger.Error($"Seite nicht gefunden \"{url}\"");
                 return null;
             }
 

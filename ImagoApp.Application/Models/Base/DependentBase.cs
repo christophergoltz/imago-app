@@ -5,8 +5,7 @@ namespace ImagoApp.Application.Models.Base
     public abstract class DependentBase : IncreasableBase
     {
         private int _baseValue;
-
-        [JsonIgnore]
+        
         public int BaseValue
         {
             get => _baseValue;
