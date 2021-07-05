@@ -19,6 +19,7 @@
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
 
             <!-- app info -->
@@ -55,7 +56,7 @@
                                 Command="{Binding OpenLogFileCommand,Source={RelativeSource AncestorType={x:Type viewModels:StartPageViewModel}}}"></Button>
 
                         <Label Grid.Column="4" Margin="25,0" HorizontalOptions="EndAndExpand" Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.Length, Converter={StaticResource FileInfoLenghtToSmartFileSizeConverter}}" FontSize="24"></Label>
-                        <Label Grid.Column="5" Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.LastWriteTime}" HorizontalOptions="EndAndExpand" FontSize="24"></Label>
+                        <Label Grid.Column="5" Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.LastWriteTime, StringFormat='{0:dd.MM.yyyy HH:mm}'}" HorizontalOptions="EndAndExpand" FontSize="24"></Label>
                     </Grid>
 
                     <StackLayout Orientation="Horizontal">
@@ -92,13 +93,13 @@
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="0" Text="Charakter Datenbank" FontSize="24"></Label>
                         <Label Grid.Column="2" Margin="25,0"  HorizontalOptions="EndAndExpand" Text="{Binding DatabaseInfoViewModel.CharacterDatabaseInfo.Length, Converter={StaticResource FileInfoLenghtToSmartFileSizeConverter}}" FontSize="24"></Label>
-                        <Label Grid.Column="3" HorizontalOptions="EndAndExpand" Text="{Binding DatabaseInfoViewModel.CharacterDatabaseInfo.LastWriteTime}" FontSize="24"></Label>
+                        <Label Grid.Column="3" HorizontalOptions="EndAndExpand" Text="{Binding DatabaseInfoViewModel.CharacterDatabaseInfo.LastWriteTime, StringFormat='{0:dd.MM.yyyy HH:mm}'}" FontSize="24"></Label>
                     </Grid>
                 </StackLayout>
             </Frame>
 
             <!-- Characters -->
-            <Frame Grid.Column="1" Grid.Row="0" Grid.RowSpan="3" Margin="10">
+            <Frame Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" Margin="10">
                 <Grid Style="{StaticResource SingleGradiantStyle}">
                     <ListView SelectionMode="None" ItemsSource="{Binding Characters}" >
                         <ListView.Header>
@@ -129,11 +130,11 @@
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"></ColumnDefinition>
                                             <ColumnDefinition Width="125"></ColumnDefinition>
-                                            <ColumnDefinition Width="300"></ColumnDefinition>
+                                            <ColumnDefinition Width="250"></ColumnDefinition>
                                         </Grid.ColumnDefinitions>
                                         <Label Grid.Column="0" FontSize="24" Text="{Binding Name}"></Label>
                                         <Label Grid.Column="1" FontSize="24" Text="{Binding Version}"></Label>
-                                        <Label Grid.Column="2" FontSize="24" Text="{Binding LastEdit}"></Label>
+                                        <Label Grid.Column="2" FontSize="24" Text="{Binding LastEdit, StringFormat='{0:dd.MM.yyyy HH:mm}'}"></Label>
                                     </Grid>
                                 </ViewCell>
                             </DataTemplate>

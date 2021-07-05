@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
 using ImagoApp.Shared.Enums;
@@ -55,7 +54,6 @@ namespace ImagoApp.Views.CustomControls
 
         private void OnDragStarting(object sender, DragStartingEventArgs e)
         {
-            Debug.WriteLine("OnDragStarting");
             if (sender is Element element)
             {
                 if (element.BindingContext is ViewModels.OpenAttributeExperienceViewModel viewModel)

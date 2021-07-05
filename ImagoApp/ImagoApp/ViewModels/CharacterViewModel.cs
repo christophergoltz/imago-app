@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Acr.UserDialogs;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Services;
 using ImagoApp.Shared.Enums;
 using ImagoApp.Util;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Crashes;
 using Attribute = ImagoApp.Application.Models.Attribute;
 
 namespace ImagoApp.ViewModels
@@ -207,12 +210,28 @@ namespace ImagoApp.ViewModels
             }
             else if (openAttributeExperience < 0)
             {
-                //todo this should never happen
-                throw new InvalidOperationException("Cannot reduce attribute");
+                var leftOverExperienceToReduce = 0;
+
                 //remove
-                for (var i = 0; i < (openAttributeExperience *-1); i++)
+                for (var i = 0; i < (openAttributeExperience * -1); i++)
                 {
-#warning  todo Character.AttributeIncreases.Remove(skillGroupModel.Type);
+                    if (Character.OpenAttributeIncreases.Contains(skillGroupModel.Type))
+                        Character.OpenAttributeIncreases.Remove(skillGroupModel.Type);
+                    else
+                    {
+                        leftOverExperienceToReduce++;
+                    }
+                }
+
+                if (leftOverExperienceToReduce > 0)
+                {
+                    //Cannot reduce spent attribute experience
+                    UserDialogs.Instance.Alert(
+                        $"Durch die SW-Reduzierung der Fertigkeitskategorie {skillGroupModel.Type} müssen die Erfahrungpunkt(e) eines Attributes um {leftOverExperienceToReduce} reduziert werden, " +
+                        $"welche schon Ausgegeben wurde.{Environment.NewLine}{Environment.NewLine}Momentan wird dies nicht unterstüzt und die Erfahrungspunkte der Attribute weichen nun möglicherweise vom Regelwerk ab." +
+                        "Ggf. müssen die Attributs-Erfahrungspunkte neu verteilt werden",
+                        "Attributs-Erfahrung reduzieren");
+                    Crashes.TrackError(new Exception("Unable to reduce attributeexperience"));
                 }
             }
         }

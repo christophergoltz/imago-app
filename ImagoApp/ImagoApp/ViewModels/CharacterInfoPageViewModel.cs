@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Input;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Services;
+using ImagoApp.Shared.Enums;
 using Xamarin.Forms;
 
 namespace ImagoApp.ViewModels
@@ -22,6 +23,15 @@ namespace ImagoApp.ViewModels
         private ICommand _saveOpenAttributeExperienceCommand;
         public ICommand SaveOpenAttributeExperienceCommand => _saveOpenAttributeExperienceCommand ?? (_saveOpenAttributeExperienceCommand = new Command(() =>
         {
+            //apply distributed to attributes
+            CharacterViewModel.Character.Attributes.First(attribute => attribute.Type == AttributeType.Staerke).ExperienceBySkillGroup += AttributeExperienceDialogViewModel.Staerke.Count;
+            CharacterViewModel.Character.Attributes.First(attribute => attribute.Type == AttributeType.Geschicklichkeit).ExperienceBySkillGroup += AttributeExperienceDialogViewModel.Geschicklichkeit.Count;
+            CharacterViewModel.Character.Attributes.First(attribute => attribute.Type == AttributeType.Intelligenz).ExperienceBySkillGroup += AttributeExperienceDialogViewModel.Intelligenz.Count;
+            CharacterViewModel.Character.Attributes.First(attribute => attribute.Type == AttributeType.Konstitution).ExperienceBySkillGroup += AttributeExperienceDialogViewModel.Konstitution.Count;
+            CharacterViewModel.Character.Attributes.First(attribute => attribute.Type == AttributeType.Wahrnehmung).ExperienceBySkillGroup += AttributeExperienceDialogViewModel.Wahrnehmung.Count;
+            CharacterViewModel.Character.Attributes.First(attribute => attribute.Type == AttributeType.Willenskraft).ExperienceBySkillGroup += AttributeExperienceDialogViewModel.Willenskraft.Count;
+            CharacterViewModel.Character.Attributes.First(attribute => attribute.Type == AttributeType.Charisma).ExperienceBySkillGroup += AttributeExperienceDialogViewModel.Charisma.Count;
+            
             var resolvedAttributeExperience = AttributeExperienceDialogViewModel.Charisma.ToList();
             resolvedAttributeExperience.AddRange(AttributeExperienceDialogViewModel.Staerke);
             resolvedAttributeExperience.AddRange(AttributeExperienceDialogViewModel.Geschicklichkeit);
@@ -34,6 +44,15 @@ namespace ImagoApp.ViewModels
             {
                 CharacterViewModel.Character.OpenAttributeIncreases.Remove(experienceViewModel.SourceType);
             }
+
+            CharacterViewModel.Character.Attributes.First(attribute => attribute.Type == AttributeType.Staerke).TotalExperience = CharacterViewModel.Character.Attributes
+                .First(attribute => attribute.Type == AttributeType.Staerke).TotalExperience;
+            CharacterViewModel.Character.Attributes.First(attribute => attribute.Type == AttributeType.Geschicklichkeit).TotalExperience = CharacterViewModel.Character.Attributes.First(attribute => attribute.Type == AttributeType.Geschicklichkeit).TotalExperience ;
+            CharacterViewModel.Character.Attributes.First(attribute => attribute.Type == AttributeType.Intelligenz).TotalExperience = CharacterViewModel.Character.Attributes.First(attribute => attribute.Type == AttributeType.Intelligenz).TotalExperience           ;
+            CharacterViewModel.Character.Attributes.First(attribute => attribute.Type == AttributeType.Konstitution).TotalExperience = CharacterViewModel.Character.Attributes.First(attribute => attribute.Type == AttributeType.Konstitution).TotalExperience         ;
+            CharacterViewModel.Character.Attributes.First(attribute => attribute.Type == AttributeType.Wahrnehmung).TotalExperience = CharacterViewModel.Character.Attributes.First(attribute => attribute.Type == AttributeType.Wahrnehmung).TotalExperience           ;
+            CharacterViewModel.Character.Attributes.First(attribute => attribute.Type == AttributeType.Willenskraft).TotalExperience = CharacterViewModel.Character.Attributes.First(attribute => attribute.Type == AttributeType.Willenskraft).TotalExperience         ;
+            CharacterViewModel.Character.Attributes.First(attribute => attribute.Type == AttributeType.Charisma).TotalExperience = CharacterViewModel.Character.Attributes.First(attribute => attribute.Type == AttributeType.Charisma).TotalExperience;
 
             AttributeExperienceDialogViewModel = null;
         }));

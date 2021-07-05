@@ -40,6 +40,7 @@ namespace ImagoApp.ViewModels
             set
             {
                 CharacterViewModel.SetExperienceToAttribute(Attribute, value);
+                OnPropertyChanged(nameof(TotalExperienceValue));
             }
         }
     }
