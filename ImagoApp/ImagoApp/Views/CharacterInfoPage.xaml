@@ -380,7 +380,7 @@
 
             <!-- dialog -->
             <Grid IsVisible="{Binding AttributeExperienceDialogViewModel, Converter={StaticResource ObjectNotNullToBoolConverter}}">
-                <ContentView BackgroundColor="black" Opacity="0.3"/>
+                <ContentView BackgroundColor="black" Opacity="0.6"/>
                 <customControls:AttributeExperienceDialogView 
                     AttributeExperienceDialogViewModel="{Binding AttributeExperienceDialogViewModel}"
                     CloseCommand="{Binding CancelOpenAttributeExperienceCommand}"

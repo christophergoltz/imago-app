@@ -215,7 +215,7 @@
 
             <!-- dialog weapon -->
             <Grid IsVisible="{Binding WeaponDetailViewModel, Converter={StaticResource ObjectNotNullToBoolConverter}}">
-                <ContentView BackgroundColor="black" Opacity="0.3">
+                <ContentView BackgroundColor="black" Opacity="0.6">
                     <ContentView.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding WeaponDetailViewModel.CloseCommand}"/>
                     </ContentView.GestureRecognizers>

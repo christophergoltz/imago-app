@@ -147,7 +147,7 @@
             </ScrollView>
             <!-- dialog skill -->
             <Grid IsVisible="{Binding SkillDetailViewModel, Converter={StaticResource ObjectNotNullToBoolConverter}}">
-                <ContentView BackgroundColor="black" Opacity="0.3">
+                <ContentView BackgroundColor="black" Opacity="0.6">
                     <ContentView.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding SkillDetailViewModel.CloseCommand}"/>
                     </ContentView.GestureRecognizers>
@@ -159,7 +159,7 @@
 
             <!-- dialog skillgroup-->
             <Grid IsVisible="{Binding SkillGroupDetailViewModel, Converter={StaticResource ObjectNotNullToBoolConverter}}">
-                <ContentView BackgroundColor="black" Opacity="0.3">
+                <ContentView BackgroundColor="black" Opacity="0.6">
                     <ContentView.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding SkillGroupDetailViewModel.CloseCommand}"/>
                     </ContentView.GestureRecognizers>
