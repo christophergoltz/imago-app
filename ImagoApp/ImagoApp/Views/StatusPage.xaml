@@ -46,7 +46,7 @@
                         <StackLayout VerticalOptions="Center" Grid.Row="0" Grid.Column="1" Orientation="Horizontal" >
                             <Image HeightRequest="25" WidthRequest="25" Margin="10" VerticalOptions="Center" Source="swords.png"
                                    IsVisible="{Binding Fight}"/>
-                            <Image HeightRequest="25" WidthRequest="25" Margin="0,10,10,10" VerticalOptions="Center" Source="inventar_weiss.png"  
+                            <Image HeightRequest="25" WidthRequest="25" Margin="0,10,10,10" VerticalOptions="Center" Source="inventar.png"  
                                    IsVisible="{Binding Adventure}" />
                         </StackLayout>
 

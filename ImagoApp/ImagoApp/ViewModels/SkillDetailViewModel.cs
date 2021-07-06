@@ -205,7 +205,7 @@ namespace ImagoApp.ViewModels
             new List<(DerivedAttributeType Type, string Text, string IconSource)>()
             {
                 (DerivedAttributeType.BehinderungKampf, "Kampf", "swords.png"),
-                (DerivedAttributeType.BehinderungAbenteuer, "Abenteuer / Reise", "inventar_weiss.png"),
+                (DerivedAttributeType.BehinderungAbenteuer, "Abenteuer / Reise", "inventar.png"),
                 (DerivedAttributeType.BehinderungGesamt, "Gesamt", null),
                 (DerivedAttributeType.Unknown, "Ignorieren", null)
             };

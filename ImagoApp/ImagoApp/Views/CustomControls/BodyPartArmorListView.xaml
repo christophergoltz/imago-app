@@ -46,7 +46,7 @@
                             <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="3" Text="Last" Margin="5,0,25,0" FontAttributes="Bold"/>
                             <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="4" Text="Zustand" FontAttributes="Bold"/>
                             <Image HeightRequest="15" WidthRequest="15" VerticalOptions="Center" Grid.Row="0" Grid.Column="5" Margin="5,5,10,5" Source="swords.png"></Image>
-                            <Image HeightRequest="15" WidthRequest="15" VerticalOptions="Center"  Grid.Row="0" Grid.Column="6"  Margin="5" Source="inventar_weiss.png"></Image>
+                            <Image HeightRequest="15" WidthRequest="15" VerticalOptions="Center"  Grid.Row="0" Grid.Column="6"  Margin="5" Source="inventar.png"></Image>
                             <Button Text="+" Grid.Column="7" Grid.Row="0" Padding="0,-6,0,0" WidthRequest="25" HeightRequest="25"  
                                     FontSize="22" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Green" 
                                     BackgroundColor="LightGray" 

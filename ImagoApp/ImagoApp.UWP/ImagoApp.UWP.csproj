@@ -126,6 +126,7 @@
     <Content Include="hauptmenue_weiss.png" />
     <Content Include="imago_big.png" />
     <Content Include="imago_logo_white.png" />
+    <Content Include="inventar.png" />
     <Content Include="inventar_weiss.png" />
     <Content Include="letter.png" />
     <Content Include="magic.png" />
