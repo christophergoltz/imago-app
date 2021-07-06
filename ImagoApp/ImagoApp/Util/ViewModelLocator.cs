@@ -57,22 +57,15 @@ namespace ImagoApp.Util
             _wikiParseService = new Lazy<IWikiParseService>(() => new WikiParseService(_wikiDataService.Value));
             _characterService = new Lazy<ICharacterService>(() => new CharacterService(characterRepository, mapper));
             _characterCreationService = new Lazy<ICharacterCreationService>(() => new CharacterCreationService());
-
-            AppShellViewModel = new AppShellViewModel(_characterService.Value);
-            AppShellViewModel.EditModeChanged += (sender, value) =>
-            {
-                App.CurrentCharacterViewModel.EditMode = value;
-            };
         }
 
         public CharacterInfoPageViewModel CharacterInfo => new CharacterInfoPageViewModel(App.CurrentCharacterViewModel, _ruleService.Value);
         public SkillPageViewModel SkillPageViewModel => new SkillPageViewModel(App.CurrentCharacterViewModel, _wikiService.Value, _wikiDataService.Value, _ruleService.Value);
-        public StartPageViewModel StartPage => new StartPageViewModel(AppShellViewModel, _characterService.Value,
+        public StartPageViewModel StartPage => new StartPageViewModel(_characterService.Value,
             _wikiParseService.Value, _wikiDataService.Value, _ruleService.Value, _characterCreationService.Value,
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
         public StatusPageViewModel StatusPageViewModel => new StatusPageViewModel(App.CurrentCharacterViewModel, _wikiDataService.Value);
         public InventoryViewModel InventoryViewModel => new InventoryViewModel(App.CurrentCharacterViewModel);
-        public AppShellViewModel AppShellViewModel { get; }
         public ChangelogViewModel ChangelogViewModel => new ChangelogViewModel(_wikiService.Value);
         public WikiPageViewModel WikiPageViewModel => new WikiPageViewModel();
     }

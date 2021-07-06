@@ -79,8 +79,8 @@
                         </Style>
                     </StackLayout.Style>
                     <Image Source="erschaffung_weiss.png" WidthRequest="35"></Image>
-                    <Switch ThumbColor="White" OnColor="{StaticResource GruenesUmbra2}" 
-                            IsToggled="{Binding EditMode}" Margin="0,0,0,-20"></Switch>
+                    <Switch Margin="0,5,0,0" ThumbColor="White" OnColor="{StaticResource GruenesUmbra2}" 
+                            IsToggled="{Binding EditMode}"></Switch>
                 </StackLayout>
             </Grid>
         </ContentPage>

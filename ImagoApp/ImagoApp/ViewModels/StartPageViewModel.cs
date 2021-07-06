@@ -22,7 +22,6 @@ namespace ImagoApp.ViewModels
 {
     public class StartPageViewModel : BindableBase
     {
-        private readonly AppShellViewModel _appShellViewModel;
         private readonly ICharacterService _characterService;
         private readonly IWikiParseService _wikiParseService;
         private readonly IWikiDataService _wikiDataService;
@@ -46,8 +45,7 @@ namespace ImagoApp.ViewModels
 
         public DatabaseInfoViewModel DatabaseInfoViewModel { get; set; }
 
-        public StartPageViewModel(AppShellViewModel appShellViewModel,
-            ICharacterService characterService,
+        public StartPageViewModel(ICharacterService characterService,
             IWikiParseService wikiParseService,
             IWikiDataService wikiDataService,
             IRuleService ruleService,
@@ -57,8 +55,7 @@ namespace ImagoApp.ViewModels
             VersionTracking.Track();
             Version = VersionTracking.CurrentVersion;
             DatabaseInfoViewModel = new DatabaseInfoViewModel();
-
-            _appShellViewModel = appShellViewModel;
+            
             _characterService = characterService;
             _wikiParseService = wikiParseService;
             _wikiDataService = wikiDataService;
@@ -194,15 +191,15 @@ namespace ImagoApp.ViewModels
 
         private async Task OpenCharacter(Character character, bool editMode)
         {
-            var vm = new CharacterViewModel(character, _ruleService);
-            App.CurrentCharacterViewModel = vm;
-
-            _appShellViewModel.EditMode = editMode;
+            var viewModel = new CharacterViewModel(character, _ruleService);
+            App.CurrentCharacterViewModel = viewModel;
 
             await Device.InvokeOnMainThreadAsync(() =>
             {
-                //todo use viewmodel locator
-                Xamarin.Forms.Application.Current.MainPage = new AppShell(new AppShellViewModel(_characterService));
+                Xamarin.Forms.Application.Current.MainPage = new AppShell(new AppShellViewModel(_characterService)
+                {
+                    EditMode = editMode
+                });
             });
         }
 

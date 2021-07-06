@@ -12,11 +12,8 @@ namespace ImagoApp
     public class FlyoutPageItem : BindableBase
     {
         private bool _isSelected;
-        public string Title { get; set; }
-
         public string IconSource { get; set; }
-
-        public Type TargetType { get; set; }
+        public NavigationPage NavigationPage { get; set; }
 
         public bool IsSelected
         {
@@ -75,16 +72,10 @@ namespace ImagoApp
                 if (e.CurrentSelection.First() is FlyoutPageItem flyoutPageItem)
                 {
                     flyoutPageItem.IsSelected = true;
-                    var newDetail = new NavigationPage((Page) Activator.CreateInstance(flyoutPageItem.TargetType))
-                    {
-                        Title = "Imago"
-                    };
-
-                    NavigationPage.SetHasNavigationBar(newDetail, false);
-                    Detail = newDetail;
+                    Detail = flyoutPageItem.NavigationPage;
 
                     //reset old selection
-                    var oldItems = AppShellViewModel.MenuItems.Where(pageItem => pageItem.TargetType != flyoutPageItem.TargetType).ToList();
+                    var oldItems = AppShellViewModel.MenuItems.Where(pageItem => pageItem != flyoutPageItem).ToList();
                     foreach (var oldItem in oldItems)
                     {
                         oldItem.IsSelected = false;
