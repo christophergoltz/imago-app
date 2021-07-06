@@ -1,11 +1,38 @@
-﻿using Xamarin.Forms;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Acr.UserDialogs;
+using ImagoApp.Util;
+using ImagoApp.ViewModels;
+using Xamarin.Forms;
 
 namespace ImagoApp
 {
+    public class FlyoutPageItem : BindableBase
+    {
+        private bool _isSelected;
+        public string Title { get; set; }
+
+        public string IconSource { get; set; }
+
+        public Type TargetType { get; set; }
+
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set => SetProperty(ref _isSelected, value);
+        }
+    }
+
     public partial class AppShell
     {
-        public AppShell()
+        public AppShellViewModel AppShellViewModel { get; private set; }
+
+        public AppShell(AppShellViewModel appShellViewModel)
         {
+            AppShellViewModel = appShellViewModel;
+            this.BindingContext = AppShellViewModel;
             InitializeComponent();
             Routing.RegisterRoute(nameof(Views.SkillPage), typeof(Views.SkillPage));
             Routing.RegisterRoute(nameof(Views.StatusPage), typeof(Views.StatusPage));
@@ -14,19 +41,53 @@ namespace ImagoApp
             Routing.RegisterRoute(nameof(Views.ChangelogPage), typeof(Views.ChangelogPage));
             Routing.RegisterRoute(nameof(Views.PerksPage), typeof(Views.PerksPage));
         }
-        
-        private void AppShell_OnNavigated(object sender, ShellNavigatedEventArgs e)
-        {
-            if (sender is AppShell shell)
-            {
-                if (shell.CurrentPage is Views.WikiPage page)
-                {
-                    if (page.BindingContext is ViewModels.WikiPageViewModel viewModel)
-                    {
-                        if (ViewModels.WikiPageViewModel.Instance == null)
-                            ViewModels.WikiPageViewModel.Instance = viewModel;
 
-                        viewModel.OpenWikiPage();
+        //private void AppShell_OnNavigated(object sender, ShellNavigatedEventArgs e)
+        //{
+        //    if (sender is AppShell shell)
+        //    {
+        //        if (shell.CurrentPage is Views.WikiPage page)
+        //        {
+        //            if (page.BindingContext is ViewModels.WikiPageViewModel viewModel)
+        //            {
+        //                if (ViewModels.WikiPageViewModel.Instance == null)
+        //                    ViewModels.WikiPageViewModel.Instance = viewModel;
+
+        //                viewModel.OpenWikiPage();
+        //            }
+        //        }
+        //    }
+        //}
+
+        private void AppShell_OnAppearing(object sender, EventArgs e)
+        {
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                var flyoutPageItem = AppShellViewModel.MenuItems.First();
+                flyoutPageItem.IsSelected = true;
+            });
+        }
+
+        private void SelectableItemsView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.CurrentSelection != null && e.CurrentSelection.Any())
+            {
+                if (e.CurrentSelection.First() is FlyoutPageItem flyoutPageItem)
+                {
+                    flyoutPageItem.IsSelected = true;
+                    var newDetail = new NavigationPage((Page) Activator.CreateInstance(flyoutPageItem.TargetType))
+                    {
+                        Title = "Imago"
+                    };
+
+                    NavigationPage.SetHasNavigationBar(newDetail, false);
+                    Detail = newDetail;
+
+                    //reset old selection
+                    var oldItems = AppShellViewModel.MenuItems.Where(pageItem => pageItem.TargetType != flyoutPageItem.TargetType).ToList();
+                    foreach (var oldItem in oldItems)
+                    {
+                        oldItem.IsSelected = false;
                     }
                 }
             }

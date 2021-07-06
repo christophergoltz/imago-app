@@ -2,6 +2,27 @@
     x:Class="ImagoApp.UWP.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:ImagoApp.UWP">
-
+    xmlns:local="using:ImagoApp.UWP"
+    xmlns:uwp="using:Xamarin.Forms.Platform.UWP">
+    <Application.Resources>
+        <ResourceDictionary>
+            <Style TargetType="uwp:FlyoutPageControl" >
+                <Setter Property="ToolbarForeground" Value="{ThemeResource DefaultTextForegroundThemeBrush}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="uwp:FlyoutPageControl">
+                            <SplitView x:Name="SplitView" OpenPaneLength="120" IsPaneOpen="True" DisplayMode="Inline">
+                                <SplitView.Pane>
+                                    <ContentPresenter Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Flyout}" />
+                                </SplitView.Pane>
+                                <SplitView.Content>
+                                    <ContentPresenter Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Detail}" />
+                                </SplitView.Content>
+                            </SplitView>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
 </Application>

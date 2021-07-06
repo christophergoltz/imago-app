@@ -1,174 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Shell xmlns="http://xamarin.com/schemas/2014/forms" 
+<FlyoutPage xmlns="http://xamarin.com/schemas/2014/forms" 
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-        FlyoutWidth="275"
        xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
        xmlns:views="clr-namespace:ImagoApp.Views;assembly=ImagoApp"
-       Navigated="AppShell_OnNavigated" 
-       FlyoutBackgroundColor="{StaticResource AntiUmbra1}"
+       xmlns:local="clr-namespace:ImagoApp;assembly=ImagoApp"
+       Appearing="AppShell_OnAppearing"
        Title="Imago"    
-       BackgroundColor="black"
-       ForegroundColor="black"
-       TitleColor="White"
-       TabBarBackgroundColor="{DynamicResource AntiUmbra1}"
-       TabBarForegroundColor="green"
-       TabBarTitleColor="Cyan"
-       TabBarUnselectedColor="Orange" FlyoutBehavior="Locked"
-       DisabledColor="red"
-       UnselectedColor="Magenta"
-       BindingContext="{Binding AppShellViewModel, Source={StaticResource ViewModelLocator}}"
-       x:DataType="viewModels:AppShellViewModel"  
+        x:DataType="viewModels:AppShellViewModel"  
        x:Class="ImagoApp.AppShell">
-    <!--
-        The overall app visual hierarchy is defined here, along with navigation.
-        https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/
-    -->
-
-    <Shell.Resources>
-        <ResourceDictionary>
-
-            <!--
-            Custom Style you can apply to any Flyout Item
-            -->
-            <!--<Style Class="MenuItemLayoutStyle" TargetType="Layout" ApplyToDerivedTypes="True">
-                <Setter Property="VisualStateManager.VisualStateGroups">
-                    <VisualStateGroupList>
-                        <VisualStateGroup x:Name="CommonStates">
-                            <VisualState x:Name="Normal">
-                                <VisualState.Setters>
-                                    <Setter TargetName="FlyoutItemLabel" Property="Label.TextColor" Value="{StaticResource Primary}" />
-                                </VisualState.Setters>
-                            </VisualState>
-                        </VisualStateGroup>
-                    </VisualStateGroupList>
-                </Setter>
-            </Style>-->
-        </ResourceDictionary>
-    </Shell.Resources>
-
-    <Shell.ItemTemplate>
-        <DataTemplate>
-            <Grid x:Name="GridControl"  Padding="10">
-                <Grid.Style>
-                    <Style TargetType="Grid">
-                        <Setter Property="VisualStateManager.VisualStateGroups">
-                            <VisualStateGroupList>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal" />
-                                    <VisualState x:Name="Selected">
-                                        <VisualState.Setters>
-                                            <Setter Property="BackgroundColor" Value="{StaticResource AntiUmbra2}"/>
-                                            <Setter TargetName="FlyoutItemLabel" Property="Label.FontAttributes" Value="Bold" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateGroupList>
-                        </Setter>
-                    </Style>
-
-                </Grid.Style>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="15*" />
-                    <ColumnDefinition Width="5" />
-                    <ColumnDefinition Width="75*" />
-                </Grid.ColumnDefinitions>
-                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
-                <Image Grid.Column="0" Source="{Binding BindingContext.Icon, Source={x:Reference GridControl}}"
-                       Margin="5" 
-                       HeightRequest="30" />
-                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
-                <Label Grid.Column="2" FontSize="22"  x:Name="FlyoutItemLabel" TextColor="White" 
-                       Text="{Binding BindingContext.Title, Source={x:Reference GridControl}}"
-                       VerticalTextAlignment="Center">
-                </Label>
-            </Grid>
-        </DataTemplate>
-    </Shell.ItemTemplate>
-
-    <FlyoutItem Icon="charakter_weiss.png">
-        <ShellContent Route="CharacterInfoPage" ContentTemplate="{DataTemplate views:CharacterInfoPage}" />
-    </FlyoutItem>
-    <FlyoutItem Icon="vor_und_nachteile_weiss.png">
-        <ShellContent Route="PerksPage" ContentTemplate="{DataTemplate views:PerksPage}" />
-    </FlyoutItem>
-    <FlyoutItem  Icon="weben_weiss.png">
-        <ShellContent Route="SkillPage" ContentTemplate="{DataTemplate views:SkillPage}" />
-    </FlyoutItem>
-    <FlyoutItem Icon="nahkampf_weiss.png">
-        <ShellContent Route="StatusPage" ContentTemplate="{DataTemplate views:StatusPage}" />
-    </FlyoutItem>
-    <FlyoutItem Icon="inventar_weiss.png">
-        <ShellContent Route="InventoryPage" ContentTemplate="{DataTemplate views:InventoryPage}" />
-    </FlyoutItem>
-    <FlyoutItem Icon="wiki_weiss.png">
-        <ShellContent Route="WikiPage" ContentTemplate="{DataTemplate views:WikiPage}" />
-    </FlyoutItem>
-
-    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
-        <ShellContent Route="ChangelogPage" Title="Changelog" Icon="letter.png" ContentTemplate="{DataTemplate views:ChangelogPage}" />
-    </FlyoutItem>
-
-    <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->
-    <MenuItem Text="Hauptmenü" IconImageSource="hauptmenue_weiss.png" StyleClass="MenuItemLayoutStyle"
-              Command="{Binding GoToMainMenuCommand}"/>
-   
-    <TabBar>
-        <ShellContent Route="StartPage" ContentTemplate="{DataTemplate views:StartPage}" />
-    </TabBar>
-
-    <Shell.MenuItemTemplate>
-        <DataTemplate>
-            <Grid x:Name="GridControl2"  Padding="10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="15*" />
-                    <ColumnDefinition Width="5" />
-                    <ColumnDefinition Width="75*" />
-                </Grid.ColumnDefinitions>
-                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
-                <Image Grid.Column="0" Source="{Binding BindingContext.Icon, Source={x:Reference GridControl2}}"
-                       Margin="5" 
-                       HeightRequest="30" />
-                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
-                <Label Grid.Column="2" FontSize="22"  x:Name="FlyoutItemLabel" TextColor="White" 
-                       Text="{Binding BindingContext.Title, Source={x:Reference GridControl2}}"
-                       VerticalTextAlignment="Center">
-                </Label>
-            </Grid>
-        </DataTemplate>
-    </Shell.MenuItemTemplate>
-
-    
-    <Shell.FlyoutHeaderTemplate>
-        <DataTemplate>
-            <Grid Padding="20">
+    <FlyoutPage.Detail>
+        <NavigationPage Title="awd" HasNavigationBar="False">
+            <x:Arguments>
+                <views:CharacterInfoPage Title="Fla" NavigationPage.HasNavigationBar="False"/>
+            </x:Arguments>
+        </NavigationPage>
+    </FlyoutPage.Detail>
+    <FlyoutPage.Flyout>
+        <ContentPage Title="awd"  BackgroundColor="{StaticResource AntiUmbra}">
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="1"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="1"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="1"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
 
-                <Image Margin="15,5" Source="imago_logo_white.png" VerticalOptions="Fill" HorizontalOptions="Fill"></Image>
-               
+                <Image Grid.Row="0" Margin="15,5" Source="imago_logo_white.png" VerticalOptions="Fill" HorizontalOptions="Fill"></Image>
+
                 <BoxView Grid.Row="1" Color="White"/>
+
+                 <!--menu items-->
+                <CollectionView Grid.Row="2" SelectionMode="Single" SelectionChanged="SelectableItemsView_OnSelectionChanged" SelectedItem="SelectableItemsView_OnSelectionChanged" 
+                                ItemsSource="{Binding MenuItems}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="local:FlyoutPageItem">
+                            <Grid BackgroundColor="{StaticResource AntiUmbra}">
+                                <Grid Padding="20" Margin="10">
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Style.Triggers>
+                                                <DataTrigger TargetType="Grid" Binding="{Binding IsSelected}" Value="True">
+                                                    <Setter Property="BackgroundColor" Value="{StaticResource AntiUmbra2}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+                                    <Image Source="{Binding IconSource}" WidthRequest="50" />
+                                </Grid>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <BoxView Grid.Row="4" Color="White"/>
+
+                <Grid Grid.Row="5" Padding="0" Margin="15">
+                    <ImageButton Source="hauptmenue_weiss.png" HeightRequest="80" Command="{Binding GoToMainMenuCommand}"/>
+                </Grid>
+
+                 <!--footer--> 
+                <BoxView Grid.Row="6" Color="White"/>
+
+                <StackLayout Grid.Row="7" Margin="10,10,10,5" Padding="10,20,10,10">
+                    <StackLayout.Style>
+                        <Style TargetType="StackLayout">
+                            <Style.Triggers>
+                                <DataTrigger TargetType="StackLayout" Binding="{Binding EditMode}" Value="True">
+                                    <Setter Property="BackgroundColor" Value="{StaticResource GruenesUmbra1}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger TargetType="StackLayout" Binding="{Binding EditMode}" Value="False">
+                                    <Setter Property="BackgroundColor" Value="{StaticResource AntiUmbra2}"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackLayout.Style>
+                    <Image Source="erschaffung_weiss.png" WidthRequest="35"></Image>
+                    <Switch ThumbColor="White" OnColor="{StaticResource GruenesUmbra2}" 
+                            IsToggled="{Binding EditMode}" Margin="0,0,0,-20"></Switch>
+                </StackLayout>
             </Grid>
-        </DataTemplate>
-    </Shell.FlyoutHeaderTemplate>
-    <Shell.FlyoutFooter>
-        <StackLayout Margin="10,10,10,5" Padding="10">
-            <StackLayout.Style>
-                <Style TargetType="StackLayout">
-                    <Style.Triggers>
-                        <DataTrigger TargetType="StackLayout" Binding="{Binding EditMode}" Value="True">
-                            <Setter Property="BackgroundColor" Value="{StaticResource GruenesUmbra1}"></Setter>
-                        </DataTrigger>
-                        <DataTrigger TargetType="StackLayout" Binding="{Binding EditMode}" Value="False">
-                            <Setter Property="BackgroundColor" Value="{StaticResource AntiUmbra2}"></Setter>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </StackLayout.Style>
-            <!--<Label TextColor="White" FontSize="18" Text="Bearbeitungsmodus"></Label>-->
-            <Image Source="erschaffung_weiss.png" WidthRequest="35"></Image>
-            <Switch ThumbColor="White" OnColor="{StaticResource GruenesUmbra2}" IsToggled="{Binding EditMode}" ></Switch>
-        </StackLayout>
-    </Shell.FlyoutFooter>
-</Shell>
+        </ContentPage>
+    </FlyoutPage.Flyout>
+</FlyoutPage>

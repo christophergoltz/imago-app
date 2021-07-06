@@ -201,7 +201,8 @@ namespace ImagoApp.ViewModels
 
             await Device.InvokeOnMainThreadAsync(() =>
             {
-                Xamarin.Forms.Application.Current.MainPage = new AppShell();
+                //todo use viewmodel locator
+                Xamarin.Forms.Application.Current.MainPage = new AppShell(new AppShellViewModel(_characterService));
             });
         }
 
