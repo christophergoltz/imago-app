@@ -85,22 +85,22 @@
         </DataTemplate>
     </Shell.ItemTemplate>
 
-    <FlyoutItem Title="Übersicht" Icon="person.png">
+    <FlyoutItem Icon="charakter_weiss.png">
         <ShellContent Route="CharacterInfoPage" ContentTemplate="{DataTemplate views:CharacterInfoPage}" />
     </FlyoutItem>
-    <FlyoutItem Title="Vor- und Nachteile" Icon="person.png">
+    <FlyoutItem Icon="vor_und_nachteile_weiss.png">
         <ShellContent Route="PerksPage" ContentTemplate="{DataTemplate views:PerksPage}" />
     </FlyoutItem>
-    <FlyoutItem Title="Fertigkeiten" Icon="magic.png">
+    <FlyoutItem  Icon="weben_weiss.png">
         <ShellContent Route="SkillPage" ContentTemplate="{DataTemplate views:SkillPage}" />
     </FlyoutItem>
-    <FlyoutItem Title="Kampfbogen" Icon="swords.png">
+    <FlyoutItem Icon="nahkampf_weiss.png">
         <ShellContent Route="StatusPage" ContentTemplate="{DataTemplate views:StatusPage}" />
     </FlyoutItem>
-    <FlyoutItem Title="Inventar" Icon="inventar_weiss.png">
+    <FlyoutItem Icon="inventar_weiss.png">
         <ShellContent Route="InventoryPage" ContentTemplate="{DataTemplate views:InventoryPage}" />
     </FlyoutItem>
-    <FlyoutItem Title="Wiki" Icon="wiki_weiss.png">
+    <FlyoutItem Icon="wiki_weiss.png">
         <ShellContent Route="WikiPage" ContentTemplate="{DataTemplate views:WikiPage}" />
     </FlyoutItem>
 
@@ -109,9 +109,9 @@
     </FlyoutItem>
 
     <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->
-    <MenuItem Text="Hauptmenü" StyleClass="MenuItemLayoutStyle" Command="{Binding GoToMainMenuCommand}">
-    </MenuItem>
-
+    <MenuItem Text="Hauptmenü" IconImageSource="hauptmenue_weiss.png" StyleClass="MenuItemLayoutStyle"
+              Command="{Binding GoToMainMenuCommand}"/>
+   
     <TabBar>
         <ShellContent Route="StartPage" ContentTemplate="{DataTemplate views:StartPage}" />
     </TabBar>
@@ -166,7 +166,8 @@
                     </Style.Triggers>
                 </Style>
             </StackLayout.Style>
-            <Label TextColor="White" FontSize="18" Text="Bearbeitungsmodus"></Label>
+            <!--<Label TextColor="White" FontSize="18" Text="Bearbeitungsmodus"></Label>-->
+            <Image Source="erschaffung_weiss.png" WidthRequest="35"></Image>
             <Switch ThumbColor="White" OnColor="{StaticResource GruenesUmbra2}" IsToggled="{Binding EditMode}" ></Switch>
         </StackLayout>
     </Shell.FlyoutFooter>
