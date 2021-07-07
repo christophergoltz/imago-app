@@ -28,6 +28,7 @@
                     <StackLayout Orientation="Horizontal">
                         <Label Margin="20,0,0,0" FontSize="22" Text="Version:"></Label>
                         <Label FontSize="22" Text="{Binding Version}"></Label>
+                        <Button Text="Changelog ↗" Command="{Binding OpenChangeLogCommand}"></Button>
                     </StackLayout>
                     <StackLayout Orientation="Horizontal">
                         <Label  Margin="20,0,0,0"  FontSize="22"  Text="Regel-Version: 7 (Zeta)"></Label>

@@ -28,7 +28,7 @@ namespace ImagoApp
 
             var startPageViewModel = new StartPageViewModel(viewModelLocator, viewModelLocator.CharacterService(),
                 viewModelLocator.WikiParseService(), viewModelLocator.WikiDataService(), viewModelLocator.RuleService(),
-                viewModelLocator.CharacterCreationService(), localApplicationData);
+                viewModelLocator.CharacterCreationService(), viewModelLocator.WikiService(), localApplicationData);
 
             MainPage = new StartPage(startPageViewModel);
         }

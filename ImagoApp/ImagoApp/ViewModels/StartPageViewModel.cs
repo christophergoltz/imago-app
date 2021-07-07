@@ -29,6 +29,7 @@ namespace ImagoApp.ViewModels
         private readonly IWikiDataService _wikiDataService;
         private readonly IRuleService _ruleService;
         private readonly ICharacterCreationService _characterCreationService;
+        private readonly IWikiService _wikiService;
         private readonly string _logFolder;
         private readonly string _logFileName = "wiki_parse.log";
         private ObservableCollection<Character> _characters;
@@ -53,6 +54,7 @@ namespace ImagoApp.ViewModels
             IWikiDataService wikiDataService,
             IRuleService ruleService,
             ICharacterCreationService characterCreationService,
+            IWikiService wikiService,
             string logFolder)
         {
             VersionTracking.Track();
@@ -65,6 +67,7 @@ namespace ImagoApp.ViewModels
             _wikiDataService = wikiDataService;
             _ruleService = ruleService;
             _characterCreationService = characterCreationService;
+            _wikiService = wikiService;
             _logFolder = logFolder;
 
             Task.Run(() =>
@@ -114,6 +117,13 @@ namespace ImagoApp.ViewModels
                 Events.Add(le);
             }
         }
+
+        private ICommand _openChangeLogCommand;
+
+        public ICommand OpenChangeLogCommand => _openChangeLogCommand ?? (_openChangeLogCommand = new Command(() =>
+        {
+            Launcher.OpenAsync(_wikiService.GetChangelogUrl());
+        }));
 
         private ICommand _parseWikiCommand;
 
