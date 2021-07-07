@@ -12,7 +12,9 @@ namespace ImagoApp.ViewModels
 {
     public class SkillPageViewModel : BindableBase
     {
+        private readonly IWikiService _wikiService;
         private readonly IWikiDataService _wikiDataService;
+        private readonly IRuleService _ruleService;
         public CharacterViewModel CharacterViewModel { get; }
         private SkillGroupDetailViewModel _skillGroupDetailViewModel;
         private SkillDetailViewModel _skillDetailViewModel;
@@ -26,9 +28,25 @@ namespace ImagoApp.ViewModels
         public SkillGroupViewModel Handwerk => new SkillGroupViewModel(CharacterViewModel.Character.SkillGroups.First(_ => _.Type == SkillGroupModelType.Handwerk), CharacterViewModel);
         public SkillGroupViewModel Soziales => new SkillGroupViewModel(CharacterViewModel.Character.SkillGroups.First(_ => _.Type == SkillGroupModelType.Soziales), CharacterViewModel);
 
-        public ICommand OpenSkillDetailCommand { get; set; }
-        public ICommand OpenSkillGroupDetailCommand { get; set; }
+        private ICommand _openSkillDetailCommandCommand;
+        public ICommand OpenSkillDetailCommand => _openSkillDetailCommandCommand ?? (_openSkillDetailCommandCommand = new Command<(SkillModel Skill, SkillGroupModel SkillGroup)>(parameter =>
+        {
+            var vm = new SkillDetailViewModel(parameter.Skill, parameter.SkillGroup, CharacterViewModel, _wikiService, _wikiDataService, _ruleService);
+            vm.CloseRequested += (sender, args) => { SkillDetailViewModel = null; };
+            vm.OpenWikiPageRequested += (sender, s) => { OpenWikiPageRequested?.Invoke(this, s); };
 
+            SkillDetailViewModel = vm;
+        }));
+
+        private ICommand _openSkillGroupDetailCommand;
+        public ICommand OpenSkillGroupDetailCommand => _openSkillGroupDetailCommand ?? (_openSkillGroupDetailCommand = new Command<SkillGroupModel>(group =>
+        {
+            var vm = new SkillGroupDetailViewModel(group, CharacterViewModel, _wikiService);
+            vm.CloseRequested += (sender, args) => { SkillGroupDetailViewModel = null; };
+            vm.OpenWikiPageRequested += (sender, s) => { OpenWikiPageRequested?.Invoke(this, s); };
+            SkillGroupDetailViewModel = vm;
+        }));
+        
         public SkillDetailViewModel SkillDetailViewModel
         {
             get => _skillDetailViewModel;
@@ -55,7 +73,9 @@ namespace ImagoApp.ViewModels
         
         public SkillPageViewModel(CharacterViewModel characterViewModel, IWikiService wikiService, IWikiDataService wikiDataService, IRuleService ruleService)
         {
+            _wikiService = wikiService;
             _wikiDataService = wikiDataService;
+            _ruleService = ruleService;
             CharacterViewModel = characterViewModel;
             TotalSkillExperience = 1350;
 
@@ -69,23 +89,6 @@ namespace ImagoApp.ViewModels
                     }
                 };
             }
-
-            OpenSkillDetailCommand = new Command<(SkillModel Skill, SkillGroupModel SkillGroup)>(parameter =>
-            {
-                var vm = new SkillDetailViewModel(parameter.Skill, parameter.SkillGroup, characterViewModel, wikiService, wikiDataService, ruleService);
-                vm.CloseRequested += (sender, args) => { SkillDetailViewModel = null; };
-                vm.OpenWikiPageRequested += (sender, s) => { OpenWikiPageRequested?.Invoke(this, s); };
-
-                SkillDetailViewModel = vm;
-            });
-
-            OpenSkillGroupDetailCommand = new Command<SkillGroupModel>(group =>
-            {
-                var vm = new SkillGroupDetailViewModel(group, characterViewModel, wikiService);
-                vm.CloseRequested += (sender, args) => { SkillGroupDetailViewModel = null; };
-                vm.OpenWikiPageRequested += (sender, s) => { OpenWikiPageRequested?.Invoke(this, s); };
-                SkillGroupDetailViewModel = vm;
-            });
         }
     }
 }

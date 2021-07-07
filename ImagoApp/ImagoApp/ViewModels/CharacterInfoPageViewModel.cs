@@ -62,12 +62,20 @@ namespace ImagoApp.ViewModels
         {
             AttributeExperienceDialogViewModel = null;
         }));
-      
-        public ICommand AddExperienceToAttributeCommand { get; }
 
-        public ICommand AddNewBloodCarrierCommand { get; set; }
-        public ICommand RemoveBloodCarrierCommand { get; set; }
+        private ICommand _addNewBloodCarrierCommand;
+        public ICommand AddNewBloodCarrierCommand => _addNewBloodCarrierCommand ?? (_addNewBloodCarrierCommand = new Command(() =>
+        {
+            //todo move to service
+            CharacterViewModel.Character.BloodCarrier.Add(new BloodCarrierModel("", 0, 0, 0));
+        }));
 
+        private ICommand _removeBloodCarrierCommand;
+        public ICommand RemoveBloodCarrierCommand => _removeBloodCarrierCommand ?? (_removeBloodCarrierCommand = new Command<BloodCarrierModel>(model =>
+        {
+            CharacterViewModel.Character.BloodCarrier.Remove(model);
+        }));
+        
         private int _totalAttributeExperience;
         private AttributeExperienceDialogViewModel _attributeExperienceDialogViewModel;
 
@@ -106,33 +114,6 @@ namespace ImagoApp.ViewModels
             SpecialAttributeViewModels = characterViewModel.SpecialAttributes.Select(_ => new SpecialAttributeViewModel(characterViewModel, _)).ToList();
           
             OpenAttributeExperienceDialogIfNeeded();
-            
-            AddExperienceToAttributeCommand = new Command<OpenAttributeExperienceViewModel>(viewModel =>
-            {
-                //if (viewModel.SelectedAttribute == null)
-                //    return;
-
-                //CharacterViewModel.AddOneExperienceToAttributeBySkillGroup(viewModel.SelectedAttribute);
-
-#warning  todo
-
-                //OpenAttributeExperienceViewModels.Remove(viewModel);
-                //characterViewModel.Character.AttributeIncreases.Remove(
-                //    characterViewModel.Character.AttributeIncreases.First(type => type == viewModel.Source));
-
-                //if (!OpenAttributeExperienceViewModels.Any())
-                //    AttributeExperienceOpen = false;
-            });
-
-            AddNewBloodCarrierCommand = new Command(() =>
-            {
-                characterViewModel.Character.BloodCarrier.Add(new BloodCarrierModel("", 0,0,0));
-            });
-
-            RemoveBloodCarrierCommand = new Command<BloodCarrierModel>(model =>
-            {
-                characterViewModel.Character.BloodCarrier.Remove(model);
-            });
         }
 
         public void OpenAttributeExperienceDialogIfNeeded()
