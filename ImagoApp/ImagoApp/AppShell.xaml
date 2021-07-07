@@ -11,7 +11,7 @@
     <FlyoutPage.Detail>
         <NavigationPage Title="awd" HasNavigationBar="False">
             <x:Arguments>
-                <views:CharacterInfoPage Title="Fla" NavigationPage.HasNavigationBar="False"/>
+                <ContentPage Title="Imago"/>
             </x:Arguments>
         </NavigationPage>
     </FlyoutPage.Detail>

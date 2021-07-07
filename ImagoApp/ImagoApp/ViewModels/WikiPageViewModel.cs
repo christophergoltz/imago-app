@@ -1,15 +1,18 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using ImagoApp.Application.Models;
+using ImagoApp.Util;
 
 namespace ImagoApp.ViewModels
 {
-    public class WikiPageViewModel : Util.BindableBase
+    public class WikiPageViewModel : BindableBase
     {
         private WikiEntryPageViewModel _selectedWikiPageEntry;
-        public static WikiPageEntry RequestedWikiPage { get; set; }
         public ObservableCollection<WikiEntryPageViewModel> WikiEntryList { get; set; }
         public static WikiPageViewModel Instance { get; set; }
+
+        public event EventHandler<string> OpenWikiPageRequested;
 
         public WikiEntryPageViewModel SelectedWikiPageEntry
         {
@@ -21,20 +24,18 @@ namespace ImagoApp.ViewModels
         {
             WikiEntryList = new ObservableCollection<WikiEntryPageViewModel>()
             {
-                CreateNewWikiEntryPageViewModel(new WikiPageEntry(Util.WikiConstants.WikiMainPageUrl) {Title = "Startseite"})
+                CreateNewWikiEntryPageViewModel(new WikiPageEntry(WikiConstants.WikiMainPageUrl)
+                {
+                    Title = "Startseite"
+                })
             };
         }
 
-        public void OpenWikiPage()
+        public void OpenWikiPage(string url)
         {
-            if (RequestedWikiPage == null)
-                return;
-
-            var vm = CreateNewWikiEntryPageViewModel(RequestedWikiPage);
+            var vm = CreateNewWikiEntryPageViewModel(new WikiPageEntry(url));
             WikiEntryList.Add(vm);
             SelectedWikiPageEntry = vm;
-
-            RequestedWikiPage = null;
         }
 
         public void GoToStartWikiPage()
@@ -44,15 +45,19 @@ namespace ImagoApp.ViewModels
 
         private WikiEntryPageViewModel CreateNewWikiEntryPageViewModel(WikiPageEntry entry)
         {
-            var vm = new WikiEntryPageViewModel(entry);
+            var viewModel = new WikiEntryPageViewModel(entry);
 
-            vm.PageCloseRequested += (sender, model) =>
+            viewModel.PageCloseRequested += (sender, model) =>
             {
                 WikiEntryList.Remove(model);
                 SelectedWikiPageEntry = WikiEntryList.LastOrDefault();
             };
+            viewModel.OpenWikiPageRequested += (sender, s) =>
+            {
+                OpenWikiPageRequested?.Invoke(this, s);
+            };
 
-            return vm;
+            return viewModel;
         }
 
     }

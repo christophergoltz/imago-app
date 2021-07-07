@@ -7,7 +7,6 @@
              xmlns:util="clr-namespace:ImagoApp.Util;assembly=ImagoApp"
              Title="Startseite" Shell.FlyoutBehavior="Disabled"
              x:Class="ImagoApp.Views.StartPage" 
-             BindingContext="{Binding StartPage, Source={StaticResource ViewModelLocator}}"
              x:DataType="viewModels:StartPageViewModel">
     <ContentPage.Content>
         <Grid Style="{StaticResource BackgroundGridStyle}">

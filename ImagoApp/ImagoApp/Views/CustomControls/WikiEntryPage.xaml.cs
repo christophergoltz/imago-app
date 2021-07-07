@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using ImagoApp.Application.Models;
+using ImagoApp.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -18,7 +19,7 @@ namespace ImagoApp.Views.CustomControls
 
         private void WebView_OnNavigated(object sender, WebNavigatedEventArgs e)
         {
-            if (BindingContext is ViewModels.WikiEntryPageViewModel viewModel)
+            if (BindingContext is WikiEntryPageViewModel viewModel)
             {
                 viewModel.WikiPageEntry.Url = e.Url;
 
@@ -42,7 +43,7 @@ namespace ImagoApp.Views.CustomControls
             if (e.NavigationEvent != WebNavigationEvent.NewPage)
                 return;
 
-            if (BindingContext is ViewModels.WikiEntryPageViewModel vm)
+            if (BindingContext is WikiEntryPageViewModel vm)
             {
                 var onlyPage = vm.WikiPageEntry;
 
@@ -59,7 +60,7 @@ namespace ImagoApp.Views.CustomControls
                 if (onlyPage.Url != Util.WikiConstants.WikiMainPageUrl && e.Url == Util.WikiConstants.WikiMainPageUrl)
                 {
                     //user wants to navigate to wiki mainpage, dont create a new one, focus first tab
-                    ViewModels.WikiPageViewModel.Instance.GoToStartWikiPage();
+                    WikiPageViewModel.Instance.GoToStartWikiPage();
                     e.Cancel = true;
                     return;
                 }
@@ -68,9 +69,8 @@ namespace ImagoApp.Views.CustomControls
                 {
                     Debug.WriteLine("Cancelling WikiNavigation, Opening new Page for: " + e.Url);
                     e.Cancel = true;
-
-                    ViewModels.WikiPageViewModel.RequestedWikiPage = new WikiPageEntry(e.Url);
-                    ViewModels.WikiPageViewModel.Instance.OpenWikiPage();
+                    
+                    vm.RaiseOpenWikiPageRequested(e.Url);
                 }
             }
         }

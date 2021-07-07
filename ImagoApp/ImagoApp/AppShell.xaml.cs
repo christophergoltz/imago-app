@@ -11,9 +11,17 @@ namespace ImagoApp
 {
     public class FlyoutPageItem : BindableBase
     {
+        public FlyoutPageItem(string iconSource, Type pageType, NavigationPage page)
+        {
+            IconSource = iconSource;
+            PageType = pageType;
+            NavigationPage = page;
+        }
+
         private bool _isSelected;
         public string IconSource { get; set; }
         public NavigationPage NavigationPage { get; set; }
+        public Type PageType { get; set; }
 
         public bool IsSelected
         {
@@ -24,44 +32,20 @@ namespace ImagoApp
 
     public partial class AppShell
     {
-        public AppShellViewModel AppShellViewModel { get; private set; }
+        public AppShellViewModel AppShellViewModel { get; }
 
         public AppShell(AppShellViewModel appShellViewModel)
         {
-            AppShellViewModel = appShellViewModel;
-            this.BindingContext = AppShellViewModel;
+            BindingContext = AppShellViewModel = appShellViewModel;
             InitializeComponent();
-            Routing.RegisterRoute(nameof(Views.SkillPage), typeof(Views.SkillPage));
-            Routing.RegisterRoute(nameof(Views.StatusPage), typeof(Views.StatusPage));
-            Routing.RegisterRoute(nameof(Views.InventoryPage), typeof(Views.InventoryPage));
-            Routing.RegisterRoute(nameof(Views.WikiPage), typeof(Views.WikiPage));
-            Routing.RegisterRoute(nameof(Views.ChangelogPage), typeof(Views.ChangelogPage));
-            Routing.RegisterRoute(nameof(Views.PerksPage), typeof(Views.PerksPage));
         }
-
-        //private void AppShell_OnNavigated(object sender, ShellNavigatedEventArgs e)
-        //{
-        //    if (sender is AppShell shell)
-        //    {
-        //        if (shell.CurrentPage is Views.WikiPage page)
-        //        {
-        //            if (page.BindingContext is ViewModels.WikiPageViewModel viewModel)
-        //            {
-        //                if (ViewModels.WikiPageViewModel.Instance == null)
-        //                    ViewModels.WikiPageViewModel.Instance = viewModel;
-
-        //                viewModel.OpenWikiPage();
-        //            }
-        //        }
-        //    }
-        //}
-
+        
         private void AppShell_OnAppearing(object sender, EventArgs e)
         {
             Device.BeginInvokeOnMainThread(() =>
             {
                 var flyoutPageItem = AppShellViewModel.MenuItems.First();
-                flyoutPageItem.IsSelected = true;
+                SetSelectedPage(flyoutPageItem);
             });
         }
 
@@ -71,16 +55,21 @@ namespace ImagoApp
             {
                 if (e.CurrentSelection.First() is FlyoutPageItem flyoutPageItem)
                 {
-                    flyoutPageItem.IsSelected = true;
-                    Detail = flyoutPageItem.NavigationPage;
-
-                    //reset old selection
-                    var oldItems = AppShellViewModel.MenuItems.Where(pageItem => pageItem != flyoutPageItem).ToList();
-                    foreach (var oldItem in oldItems)
-                    {
-                        oldItem.IsSelected = false;
-                    }
+                    SetSelectedPage(flyoutPageItem);
                 }
+            }
+        }
+
+        private void SetSelectedPage(FlyoutPageItem flyoutPageItem)
+        {
+            flyoutPageItem.IsSelected = true;
+            Detail = flyoutPageItem.NavigationPage;
+
+            //reset old selection
+            var oldItems = AppShellViewModel.MenuItems.Where(pageItem => pageItem != flyoutPageItem).ToList();
+            foreach (var oldItem in oldItems)
+            {
+                oldItem.IsSelected = false;
             }
         }
     }

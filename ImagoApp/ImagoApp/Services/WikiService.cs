@@ -10,7 +10,6 @@ namespace ImagoApp.Services
         string GetWikiUrl(SkillGroupModelType skillGroupModelType);
         string GetTalentHtml(SkillModelType skillModelType);
         string GetMasteryHtml(SkillGroupModelType skillGroupModelType);
-        string GetChangelogHtml();
         string GetChangelogUrl();
     }
 
@@ -21,13 +20,7 @@ namespace ImagoApp.Services
             var url = Util.WikiConstants.SkillTypeLookUp[skillModelType];
             return GetHtml(url);
         }
-
-        public string GetChangelogHtml()
-        {
-            var url = Util.WikiConstants.ChangelogUrl;
-            return GetHtml(url);
-        }
-
+        
         public string GetChangelogUrl()
         {
             return Util.WikiConstants.ChangelogUrl;

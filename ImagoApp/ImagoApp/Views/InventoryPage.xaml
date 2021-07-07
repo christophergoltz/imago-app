@@ -4,7 +4,6 @@
              xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
              xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application"
              x:Class="ImagoApp.Views.InventoryPage" Title="Inventar" x:Name="InventoryPageControl"
-             BindingContext="{Binding InventoryViewModel, Source={StaticResource ViewModelLocator}}"
              x:DataType="viewModels:InventoryViewModel">
     <ContentPage.Content>
         <Grid Style="{StaticResource BackgroundGridStyle}">

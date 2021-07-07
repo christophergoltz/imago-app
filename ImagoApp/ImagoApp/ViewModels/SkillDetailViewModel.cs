@@ -7,15 +7,18 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Services;
+using ImagoApp.Converter;
+using ImagoApp.Services;
 using ImagoApp.Shared.Enums;
+using ImagoApp.Util;
 using Xamarin.Forms;
 
 namespace ImagoApp.ViewModels
 {
-    public class SkillDetailViewModel : Util.BindableBase
+    public class SkillDetailViewModel : BindableBase
     {
-        private readonly Converter.SkillGroupTypeToAttributeSourceStringConverter _converter =
-            new Converter.SkillGroupTypeToAttributeSourceStringConverter();
+        private readonly SkillGroupTypeToAttributeSourceStringConverter _converter =
+            new SkillGroupTypeToAttributeSourceStringConverter();
 
         private readonly SkillGroupModel _parent;
         private readonly CharacterViewModel _characterViewModel;
@@ -25,6 +28,8 @@ namespace ImagoApp.ViewModels
 
         public event EventHandler CloseRequested;
         public SkillModel SkillModel { get; }
+
+        public event EventHandler<string> OpenWikiPageRequested; 
 
         public ICommand IncreaseExperienceCommand { get; set; }
         public ICommand DecreaseExperienceCommand { get; set; }
@@ -80,8 +85,8 @@ namespace ImagoApp.ViewModels
             set => SetProperty(ref _handicaps, value);
         }
 
-        public SkillDetailViewModel(SkillModel skillModel, SkillGroupModel parent,CharacterViewModel characterViewModel,
-            Services.IWikiService wikiService, IWikiDataService wikiDataService, IRuleService ruleService)
+        public SkillDetailViewModel(SkillModel skillModel, SkillGroupModel parent, CharacterViewModel characterViewModel,
+            IWikiService wikiService, IWikiDataService wikiDataService, IRuleService ruleService)
         {
             _parent = parent;
             _characterViewModel = characterViewModel;
@@ -114,9 +119,7 @@ namespace ImagoApp.ViewModels
                     return;
                 }
 
-                WikiPageViewModel.RequestedWikiPage = new WikiPageEntry(url);
-                await Shell.Current.GoToAsync($"//{nameof(Views.WikiPage)}");
-                WikiPageViewModel.RequestedWikiPage = null;
+                OpenWikiPageRequested?.Invoke(this, url);
             });
 
             CloseCommand = new Command(() => { CloseRequested?.Invoke(this, EventArgs.Empty); });

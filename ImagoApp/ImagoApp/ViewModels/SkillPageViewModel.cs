@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows.Input;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Services;
@@ -14,7 +15,7 @@ namespace ImagoApp.ViewModels
         public CharacterViewModel CharacterViewModel { get; }
         private SkillGroupDetailViewModel _skillGroupDetailViewModel;
         private SkillDetailViewModel _skillDetailViewModel;
-        
+        public event EventHandler<string> OpenWikiPageRequested;
         public SkillGroupViewModel Bewegung => new SkillGroupViewModel(CharacterViewModel.Character.SkillGroups.First(_=>_.Type == SkillGroupModelType.Bewegung), CharacterViewModel);
         public SkillGroupViewModel Nahkampf => new SkillGroupViewModel(CharacterViewModel.Character.SkillGroups.First(_ => _.Type == SkillGroupModelType.Nahkampf), CharacterViewModel);
         public SkillGroupViewModel Heimlichkeit => new SkillGroupViewModel(CharacterViewModel.Character.SkillGroups.First(_ => _.Type == SkillGroupModelType.Heimlichkeit), CharacterViewModel);
@@ -70,9 +71,9 @@ namespace ImagoApp.ViewModels
 
             OpenSkillDetailCommand = new Command<(SkillModel Skill, SkillGroupModel SkillGroup)>(parameter =>
             {
-                var vm = new SkillDetailViewModel(parameter.Skill, parameter.SkillGroup, characterViewModel,
-                    wikiService, wikiDataService, ruleService);
+                var vm = new SkillDetailViewModel(parameter.Skill, parameter.SkillGroup, characterViewModel, wikiService, wikiDataService, ruleService);
                 vm.CloseRequested += (sender, args) => { SkillDetailViewModel = null; };
+                vm.OpenWikiPageRequested += (sender, s) => { OpenWikiPageRequested?.Invoke(this, s); };
 
                 SkillDetailViewModel = vm;
             });
@@ -81,7 +82,7 @@ namespace ImagoApp.ViewModels
             {
                 var vm = new SkillGroupDetailViewModel(group, characterViewModel, wikiService);
                 vm.CloseRequested += (sender, args) => { SkillGroupDetailViewModel = null; };
-
+                vm.OpenWikiPageRequested += (sender, s) => { OpenWikiPageRequested?.Invoke(this, s); };
                 SkillGroupDetailViewModel = vm;
             });
         }

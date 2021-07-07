@@ -22,8 +22,6 @@
             <converter:PositiveIntegerToBoolConverter x:Key="PositiveIntegerToBoolConverter"/>
             <converter:FileInfoLenghtToSmartFileSizeConverter x:Key="FileInfoLenghtToSmartFileSizeConverter"/>
 
-            <util:ViewModelLocator x:Key="ViewModelLocator"/>
-
             <Color x:Key="Primary">#2196F3</Color>
 
             <!-- Colorset1 -->

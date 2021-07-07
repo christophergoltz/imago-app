@@ -18,7 +18,7 @@ namespace ImagoApp.Util
         private readonly Lazy<IWikiDataService> _wikiDataService;
         private readonly Lazy<ICharacterService> _characterService;
         private readonly Lazy<ICharacterCreationService> _characterCreationService;
-
+        private readonly IMapper _mapper;
         public ViewModelLocator()
         {
             var localApplicationData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
@@ -41,7 +41,7 @@ namespace ImagoApp.Util
             }
 #endif
 
-            var mapper = config.CreateMapper();
+            _mapper = config.CreateMapper();
             
             ICharacterRepository characterRepository = new CharacterRepository(localApplicationData);
             IArmorTemplateRepository armorTemplateRepository = new ArmorTemplateRepository(localApplicationData);
@@ -50,23 +50,44 @@ namespace ImagoApp.Util
             IMasteryRepository masteryRepository = new MasteryRepository(localApplicationData);
 
             _ruleService = new Lazy<IRuleService>(() => new RuleService());
-
-            _wikiDataService = new Lazy<IWikiDataService>(() => new WikiDataService(mapper, armorTemplateRepository, 
+            _wikiDataService = new Lazy<IWikiDataService>(() => new WikiDataService(_mapper, armorTemplateRepository, 
                 weaponTemplateRepository, talentRepository, masteryRepository));
             _wikiService = new Lazy<IWikiService>(() => new WikiService());
             _wikiParseService = new Lazy<IWikiParseService>(() => new WikiParseService(_wikiDataService.Value));
-            _characterService = new Lazy<ICharacterService>(() => new CharacterService(characterRepository, mapper));
+            _characterService = new Lazy<ICharacterService>(() => new CharacterService(characterRepository, _mapper));
             _characterCreationService = new Lazy<ICharacterCreationService>(() => new CharacterCreationService());
         }
 
-        public CharacterInfoPageViewModel CharacterInfo => new CharacterInfoPageViewModel(App.CurrentCharacterViewModel, _ruleService.Value);
-        public SkillPageViewModel SkillPageViewModel => new SkillPageViewModel(App.CurrentCharacterViewModel, _wikiService.Value, _wikiDataService.Value, _ruleService.Value);
-        public StartPageViewModel StartPage => new StartPageViewModel(_characterService.Value,
-            _wikiParseService.Value, _wikiDataService.Value, _ruleService.Value, _characterCreationService.Value,
-            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
-        public StatusPageViewModel StatusPageViewModel => new StatusPageViewModel(App.CurrentCharacterViewModel, _wikiDataService.Value);
-        public InventoryViewModel InventoryViewModel => new InventoryViewModel(App.CurrentCharacterViewModel);
-        public ChangelogViewModel ChangelogViewModel => new ChangelogViewModel(_wikiService.Value);
-        public WikiPageViewModel WikiPageViewModel => new WikiPageViewModel();
+        public IMapper Mapper()
+        {
+            return _mapper;
+        }
+
+        public IRuleService RuleService()
+        {
+            return _ruleService.Value;
+        }
+
+        public IWikiDataService WikiDataService()
+        {
+            return _wikiDataService.Value;
+        }
+        
+        public IWikiService WikiService()
+        {
+            return _wikiService.Value;
+        }
+        public IWikiParseService WikiParseService()
+        {
+            return _wikiParseService.Value;
+        }
+        public ICharacterService CharacterService()
+        {
+            return _characterService.Value;
+        }
+        public ICharacterCreationService CharacterCreationService()
+        {
+            return _characterCreationService.Value;
+        }
     }
 }

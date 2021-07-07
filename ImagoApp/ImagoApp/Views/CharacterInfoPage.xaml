@@ -7,7 +7,6 @@
 
              Title="{Binding Title}"
              x:Class="ImagoApp.Views.CharacterInfoPage" Appearing="CharacterInfoPage_OnAppearing"
-             BindingContext="{Binding CharacterInfo, Source={StaticResource ViewModelLocator}}"
              x:DataType="viewModels:CharacterInfoPageViewModel" x:Name="CharacterInfoPageControl">
     <ContentPage.Resources>
         <ResourceDictionary>

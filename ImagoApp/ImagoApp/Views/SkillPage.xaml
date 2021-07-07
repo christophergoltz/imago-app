@@ -6,7 +6,6 @@
              xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application"
              x:Class="ImagoApp.Views.SkillPage" 
              Title="Fertigkeiten"
-             BindingContext="{Binding SkillPageViewModel, Source={StaticResource ViewModelLocator}}"
              x:DataType="viewModels:SkillPageViewModel">
     <ContentPage.Content>
         <Grid>

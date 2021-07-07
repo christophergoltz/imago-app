@@ -5,7 +5,6 @@
              xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp"
              xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application"
              x:Class="ImagoApp.Views.StatusPage" Title="Kampfbogen"
-             BindingContext="{Binding StatusPageViewModel, Source={StaticResource ViewModelLocator}}"
              x:DataType="viewModels:StatusPageViewModel">
     <ContentPage.Resources>
         <ResourceDictionary>

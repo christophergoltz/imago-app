@@ -5,7 +5,6 @@
             xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp"
             x:Class="ImagoApp.Views.WikiPage"
             Title="Imago Wiki" 
-            BindingContext="{Binding WikiPageViewModel, Source={StaticResource ViewModelLocator}}"
             x:DataType="viewModels:WikiPageViewModel"
             ItemsSource="{Binding WikiEntryList}"
             SelectedItem="{Binding SelectedWikiPageEntry}"

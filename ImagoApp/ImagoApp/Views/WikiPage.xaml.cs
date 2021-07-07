@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using ImagoApp.ViewModels;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace ImagoApp.Views
@@ -6,8 +7,9 @@ namespace ImagoApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class WikiPage : TabbedPage
     {
-        public WikiPage()
+        public WikiPage(WikiPageViewModel wikiPageViewModel)
         {
+            BindingContext = wikiPageViewModel;
             InitializeComponent();
         }
     }

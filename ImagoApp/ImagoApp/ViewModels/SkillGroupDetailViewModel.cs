@@ -4,23 +4,27 @@ using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using ImagoApp.Application.Models;
+using ImagoApp.Converter;
+using ImagoApp.Services;
+using ImagoApp.Util;
 using Xamarin.Forms;
 
 namespace ImagoApp.ViewModels
 {
-    public class SkillGroupDetailViewModel : Util.BindableBase
+    public class SkillGroupDetailViewModel : BindableBase
     {
-        private readonly Converter.SkillGroupTypeToAttributeSourceStringConverter _converter = new Converter.SkillGroupTypeToAttributeSourceStringConverter();
+        private readonly SkillGroupTypeToAttributeSourceStringConverter _converter =
+            new SkillGroupTypeToAttributeSourceStringConverter();
 
         private readonly CharacterViewModel _characterViewModel;
-        private readonly Services.IWikiService _wikiService;
+        private readonly IWikiService _wikiService;
         public SkillGroupModel SkillGroupModel { get; }
         public event EventHandler CloseRequested;
         public ICommand OpenWikiCommand { get; set; }
         public ICommand CloseCommand { get; set; }
 
         private HtmlWebViewSource _quickWikiView;
-       
+        public event EventHandler<string> OpenWikiPageRequested;
 
         public HtmlWebViewSource QuickWikiView
         {
@@ -29,6 +33,7 @@ namespace ImagoApp.ViewModels
         }
 
         private string _sourceFormula;
+
         public string SourceFormula
         {
             get => _sourceFormula;
@@ -46,7 +51,7 @@ namespace ImagoApp.ViewModels
             }
         }
 
-        public SkillGroupDetailViewModel(SkillGroupModel skillGroupModel, CharacterViewModel characterViewModel, Services.IWikiService wikiService)
+        public SkillGroupDetailViewModel(SkillGroupModel skillGroupModel, CharacterViewModel characterViewModel, IWikiService wikiService)
         {
             _characterViewModel = characterViewModel;
             _wikiService = wikiService;
@@ -64,17 +69,12 @@ namespace ImagoApp.ViewModels
                     return;
                 }
 
-                WikiPageViewModel.RequestedWikiPage = new WikiPageEntry(url);
-                await Shell.Current.GoToAsync($"//{nameof(Views.WikiPage)}");
-                WikiPageViewModel.RequestedWikiPage = null;
+                OpenWikiPageRequested?.Invoke(this, url);
             });
 
-            CloseCommand = new Command(() =>
-            {
-                CloseRequested?.Invoke(this, EventArgs.Empty);
-            });
+            CloseCommand = new Command(() => { CloseRequested?.Invoke(this, EventArgs.Empty); });
 
-        Task.Run(LoadWikiPage);
+            Task.Run(LoadWikiPage);
         }
 
         private void LoadWikiPage()
