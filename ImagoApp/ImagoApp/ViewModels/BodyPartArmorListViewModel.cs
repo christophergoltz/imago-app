@@ -8,11 +8,12 @@ using ImagoApp.Application.Models;
 using ImagoApp.Application.Models.Template;
 using ImagoApp.Application.Services;
 using ImagoApp.Shared.Enums;
+using ImagoApp.Util;
 using Xamarin.Forms;
 
 namespace ImagoApp.ViewModels
 {
-    public class BodyPartArmorListViewModel
+    public class BodyPartArmorListViewModel : BindableBase
     {
         private readonly CharacterViewModel _characterViewModel;
         public BodyPart BodyPart { get; }
@@ -24,6 +25,14 @@ namespace ImagoApp.ViewModels
         {
             _characterViewModel = characterViewModel;
             BodyPart = bodyPart;
+            BodyPart.PropertyChanged += (sender, args) =>
+            {
+                if (args.PropertyName.Equals(nameof(BodyPart.CurrentHitpoints)) || args.PropertyName.Equals(nameof(BodyPart.MaxHitpoints)))
+                {
+                    OnPropertyChanged(nameof(BodyPart));
+                }
+            };
+            
             foreach (var armor in bodyPart.Armor)
             {
                 armor.PropertyChanged += OnArmorPropertyChanged;

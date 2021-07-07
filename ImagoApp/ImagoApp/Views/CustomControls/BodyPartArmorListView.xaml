@@ -29,8 +29,8 @@
                             </Grid.RowDefinitions>
 
                             <ProgressBar Grid.ColumnSpan="8" Margin="-5" BackgroundColor="Transparent"
-                                   ProgressColor="{Binding BodyPart.HitpointsColor}"  
-                                    Progress="{Binding BodyPart.CurrentHitpointsPercentage}" 
+                                    ProgressColor="{Binding BodyPart, Converter={StaticResource BodyPartToCurrentHitpointsColor}}"  
+                                    Progress="{Binding BodyPart, Converter={StaticResource BodyPartToCurrentHitpointsPercentage}}" 
                                     HorizontalOptions="FillAndExpand"/>
 
                             <StackLayout Grid.Row="0" VerticalOptions="Center" Grid.Column="0" Orientation="Horizontal">

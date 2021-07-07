@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using ImagoApp.ViewModels;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace ImagoApp.Views.CustomControls
@@ -13,12 +14,12 @@ namespace ImagoApp.Views.CustomControls
 
         public static readonly BindableProperty BodyPartArmorListViewModelProperty = BindableProperty.Create(
             "BodyPartArmorListViewModel", // the name of the bindable property
-            typeof(ViewModels.BodyPartArmorListViewModel), // the bindable property type
+            typeof(BodyPartArmorListViewModel), // the bindable property type
             typeof(BodyPartArmorListView));
 
-        public ViewModels.BodyPartArmorListViewModel BodyPartArmorListViewModel
+        public BodyPartArmorListViewModel BodyPartArmorListViewModel
         {
-            get => (ViewModels.BodyPartArmorListViewModel) GetValue(BodyPartArmorListViewModelProperty);
+            get => (BodyPartArmorListViewModel) GetValue(BodyPartArmorListViewModelProperty);
             set => SetValue(BodyPartArmorListViewModelProperty, value);
         }
     }
