@@ -18,8 +18,8 @@ namespace ImagoApp.UWP
         /// </summary>
         public App()
         {
-            this.InitializeComponent();
-            this.Suspending += OnSuspending;
+            InitializeComponent();
+            Suspending += OnSuspending;
             RequestedTheme = ApplicationTheme.Light;
         }
 
@@ -33,7 +33,7 @@ namespace ImagoApp.UWP
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
-                this.DebugSettings.EnableFrameRateCounter = true;
+                DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
 
@@ -45,7 +45,7 @@ namespace ImagoApp.UWP
                 rootFrame = new Frame();
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
-                global::Xamarin.Forms.Forms.SetFlags("Shell_UWP_Experimental");
+                Xamarin.Forms.Forms.SetFlags("Shell_UWP_Experimental");
                 Xamarin.Forms.Forms.Init(e);
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)

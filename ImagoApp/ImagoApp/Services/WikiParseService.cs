@@ -16,10 +16,10 @@ namespace ImagoApp.Services
 {
     public interface IWikiParseService
     {
-        Task<int?> RefreshArmorFromWiki(Logger logger);
-        Task<int?> RefreshWeaponsFromWiki(Logger logger);
-        Task<int?> RefreshTalentsFromWiki(Logger logger);
-        Task<int?> RefreshMasteriesFromWiki(Logger logger);
+        int? RefreshArmorFromWiki(Logger logger);
+        int? RefreshWeaponsFromWiki(Logger logger);
+        int? RefreshTalentsFromWiki(Logger logger);
+        int? RefreshMasteriesFromWiki(Logger logger);
     }
 
     public class WikiParseService : IWikiParseService
@@ -31,7 +31,7 @@ namespace ImagoApp.Services
             _wikiDataService = wikiDataService;
         }
 
-        public async Task<int?> RefreshArmorFromWiki(Logger logger)
+        public int? RefreshArmorFromWiki(Logger logger)
         {
             var armor = ParseArmorFromUrl(WikiConstants.ArmorUrl, logger );
             _wikiDataService.DeleteAllArmor();
@@ -39,7 +39,7 @@ namespace ImagoApp.Services
             return armor.Count;
         }
 
-        public async Task<int?> RefreshWeaponsFromWiki(Logger logger)
+        public int? RefreshWeaponsFromWiki(Logger logger)
         {
             var meleeWeapons = ParseWeaponsFromUrl(WikiConstants.MeleeWeaponUrl, logger);
             var rangedWeapons = ParseWeaponsFromUrl(WikiConstants.RangedWeaponUrl, logger);
@@ -54,7 +54,7 @@ namespace ImagoApp.Services
             return meleeWeapons.Count + rangedWeapons.Count + specialWeapons.Count + shields.Count;
         }
 
-        public async Task<int?> RefreshTalentsFromWiki(Logger logger)
+        public int? RefreshTalentsFromWiki(Logger logger)
         {
             var talents = ParseTalentsFromUrls(WikiConstants.ParsableSkillTypeLookUp, logger);
             _wikiDataService.DeleteAllTalents();
@@ -62,7 +62,7 @@ namespace ImagoApp.Services
             return talents.Count;
         }
 
-        public async Task<int?> RefreshMasteriesFromWiki(Logger logger)
+        public int? RefreshMasteriesFromWiki(Logger logger)
         {
             var masteries = ParseMasteriesFromUrls(WikiConstants.SkillGroupTypeLookUp, logger);
             _wikiDataService.DeleteAllMasteries();

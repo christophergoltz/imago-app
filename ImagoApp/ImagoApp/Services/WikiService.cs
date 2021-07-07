@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using ImagoApp.Shared.Enums;
+using ImagoApp.Util;
 
 namespace ImagoApp.Services
 {
@@ -17,18 +18,18 @@ namespace ImagoApp.Services
     {
         public string GetTalentHtml(SkillModelType skillModelType)
         {
-            var url = Util.WikiConstants.SkillTypeLookUp[skillModelType];
+            var url = WikiConstants.SkillTypeLookUp[skillModelType];
             return GetHtml(url);
         }
         
         public string GetChangelogUrl()
         {
-            return Util.WikiConstants.ChangelogUrl;
+            return WikiConstants.ChangelogUrl;
         }
 
         private string GetHtml(string url)
         {
-            var document = Util.WikiHelper.LoadDocumentFromUrl(url, null);
+            var document = WikiHelper.LoadDocumentFromUrl(url, null);
             if (document == null)
                 return "";
 
@@ -61,22 +62,22 @@ namespace ImagoApp.Services
         
         public string GetMasteryHtml(SkillGroupModelType skillGroupModelType)
         {
-            var url = Util.WikiConstants.SkillGroupTypeLookUp[skillGroupModelType];
+            var url = WikiConstants.SkillGroupTypeLookUp[skillGroupModelType];
             return GetHtml(url);
         }
 
         public string GetWikiUrl(SkillModelType skillModelType)
         {
-            if (Util.WikiConstants.SkillTypeLookUp.ContainsKey(skillModelType))
-                return Util.WikiConstants.SkillTypeLookUp[skillModelType];
+            if (WikiConstants.SkillTypeLookUp.ContainsKey(skillModelType))
+                return WikiConstants.SkillTypeLookUp[skillModelType];
 
             return string.Empty;
         }
 
         public string GetWikiUrl(SkillGroupModelType skillGroupModelType)
         {
-            if (Util.WikiConstants.SkillGroupTypeLookUp.ContainsKey(skillGroupModelType))
-                return Util.WikiConstants.SkillGroupTypeLookUp[skillGroupModelType];
+            if (WikiConstants.SkillGroupTypeLookUp.ContainsKey(skillGroupModelType))
+                return WikiConstants.SkillGroupTypeLookUp[skillGroupModelType];
 
             return string.Empty;
         }

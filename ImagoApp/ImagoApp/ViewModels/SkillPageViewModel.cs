@@ -5,11 +5,12 @@ using ImagoApp.Application.Models;
 using ImagoApp.Application.Services;
 using ImagoApp.Services;
 using ImagoApp.Shared.Enums;
+using ImagoApp.Util;
 using Xamarin.Forms;
 
 namespace ImagoApp.ViewModels
 {
-    public class SkillPageViewModel : Util.BindableBase
+    public class SkillPageViewModel : BindableBase
     {
         private readonly IWikiDataService _wikiDataService;
         public CharacterViewModel CharacterViewModel { get; }

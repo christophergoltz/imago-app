@@ -140,24 +140,24 @@ namespace ImagoApp.ViewModels
                     progressDialog.Title = GetProgressDialog("Rüstungen werden geladen", col);
                     await Task.Delay(50);
 
-                    var armorCount = await _wikiParseService.RefreshArmorFromWiki(logger);
+                    var armorCount = _wikiParseService.RefreshArmorFromWiki(logger);
                     IncreaseProgressPercentage(progressDialog, ref currentActionCount, totalActionCount);
                     progressDialog.Title = GetProgressDialog("Waffen werden geladen", col, armorCount);
                     await Task.Delay(50);
 
-                    var weaponCount = await _wikiParseService.RefreshWeaponsFromWiki(logger);
+                    var weaponCount = _wikiParseService.RefreshWeaponsFromWiki(logger);
                     IncreaseProgressPercentage(progressDialog, ref currentActionCount, totalActionCount);
                     progressDialog.Title = GetProgressDialog("Talente werden geladen", col, armorCount, weaponCount);
                     await Task.Delay(50);
 
-                    var talentCount = await _wikiParseService.RefreshTalentsFromWiki(logger);
+                    var talentCount = _wikiParseService.RefreshTalentsFromWiki(logger);
                     IncreaseProgressPercentage(progressDialog, ref currentActionCount, totalActionCount);
                     progressDialog.Title = GetProgressDialog("Meisterschaften werden geladen", col, armorCount,
                         weaponCount,
                         talentCount);
                     await Task.Delay(50);
 
-                    var masteryCount = await _wikiParseService.RefreshMasteriesFromWiki(logger);
+                    var masteryCount = _wikiParseService.RefreshMasteriesFromWiki(logger);
                     IncreaseProgressPercentage(progressDialog, ref currentActionCount, totalActionCount);
                     progressDialog.Title = GetProgressDialog("Wird abgeschlossen", col, armorCount, weaponCount,
                         talentCount, masteryCount);

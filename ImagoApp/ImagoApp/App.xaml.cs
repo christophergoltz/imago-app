@@ -30,7 +30,7 @@ namespace ImagoApp
                 viewModelLocator.WikiParseService(), viewModelLocator.WikiDataService(), viewModelLocator.RuleService(),
                 viewModelLocator.CharacterCreationService(), localApplicationData);
 
-            MainPage = new Views.StartPage(startPageViewModel);
+            MainPage = new StartPage(startPageViewModel);
         }
 
         protected override void OnStart()

@@ -31,7 +31,7 @@ namespace ImagoApp.ViewModels
                 PageCloseRequested?.Invoke(this, this);
             }, () =>
             {
-                var isClosable = WikiPageEntry.Url != Util.WikiConstants.WikiMainPageUrl;
+                var isClosable = WikiPageEntry.Url != WikiConstants.WikiMainPageUrl;
                 Debug.WriteLine("Check if " + WikiPageEntry.Url + " is closable.. " + isClosable);
                 return isClosable;
             });

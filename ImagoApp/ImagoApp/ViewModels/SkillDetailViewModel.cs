@@ -22,7 +22,7 @@ namespace ImagoApp.ViewModels
 
         private readonly SkillGroupModel _parent;
         private readonly CharacterViewModel _characterViewModel;
-        private readonly Services.IWikiService _wikiService;
+        private readonly IWikiService _wikiService;
         private readonly IWikiDataService _wikiDataService;
         private readonly IRuleService _ruleService;
 
@@ -213,7 +213,7 @@ namespace ImagoApp.ViewModels
                 (DerivedAttributeType.Unknown, "Ignorieren", null)
             };
 
-        private async Task InitializeTestView()
+        private void InitializeTestView()
         {
             //masteries
             var masteries = new List<TalentListItemViewModel>();

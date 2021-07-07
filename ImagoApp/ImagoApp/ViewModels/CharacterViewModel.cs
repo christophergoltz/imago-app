@@ -12,7 +12,7 @@ using Attribute = ImagoApp.Application.Models.Attribute;
 
 namespace ImagoApp.ViewModels
 {
-    public class CharacterViewModel : Util.BindableBase
+    public class CharacterViewModel : BindableBase
     {
         public Character Character { get; }
         private readonly IRuleService _ruleService;
@@ -101,7 +101,7 @@ namespace ImagoApp.ViewModels
             foreach (var skill in skillgroup.Skills)
             {
                 skill.BaseValue = (int) skillgroup.FinalValue;
-                Util.SkillExtensions.RecalculateFinalValue(skill);
+                SkillExtensions.RecalculateFinalValue(skill);
             }
         }
 
@@ -109,20 +109,20 @@ namespace ImagoApp.ViewModels
         public void SetModificationValue(SkillModel skillModel, int modificationValue)
         {
             skillModel.ModificationValue = modificationValue;
-            Util.SkillExtensions.RecalculateFinalValue(skillModel);
+            SkillExtensions.RecalculateFinalValue(skillModel);
         }
 
         public void SetModificationValue(SkillGroupModel skillGroupModel, int modificationValue)
         {
             skillGroupModel.ModificationValue = modificationValue;
-            Util.SkillExtensions.RecalculateFinalValue(skillGroupModel);
+            SkillExtensions.RecalculateFinalValue(skillGroupModel);
             UpdateNewBaseValueToSkillsOfGroup(skillGroupModel);
         }
 
         public void SetModificationValue(Attribute attribute, int modificationValue)
         {
             attribute.ModificationValue = modificationValue;
-            Util.SkillExtensions.RecalculateFinalValue(attribute);
+            SkillExtensions.RecalculateFinalValue(attribute);
             UpdateNewFinalValueOfAttribute(attribute);
         }
 
@@ -135,7 +135,7 @@ namespace ImagoApp.ViewModels
         public void SetCorrosionValue(Attribute attribute, int corrosionValue)
         {
             attribute.Corrosion = corrosionValue;
-            Util.SkillExtensions.RecalculateFinalValue(attribute);
+            SkillExtensions.RecalculateFinalValue(attribute);
             UpdateNewFinalValueOfAttribute(attribute);
         }
 
@@ -239,7 +239,7 @@ namespace ImagoApp.ViewModels
         public void RemoveOneExperienceFromSkill(SkillModel skillModel)
         {
             skillModel.TotalExperience -= 1;
-            Util.SkillExtensions.RecalculateFinalValue(skillModel);
+            SkillExtensions.RecalculateFinalValue(skillModel);
 
             //todo if sw was reduced, take exp from kategoriy
         }
