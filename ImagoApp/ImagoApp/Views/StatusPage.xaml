@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
+             xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp"
+             xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application"
+             x:Class="ImagoApp.Views.StatusPage" Title="Kampfbogen"
+             x:DataType="viewModels:StatusPageViewModel">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:DataType="models:WeaponStance" x:Key="WeaponStanceQuickViewTemplate">
+                <Grid Margin="30,5,20,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="40"></ColumnDefinition>
+                        <ColumnDefinition Width="80"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" FontSize="16" Style="{StaticResource LightTextLabel}"
+                               Text="{Binding Type}" />
+                    <Label Margin="0,0,10,0" Grid.Row="0" Grid.Column="1" FontSize="16"  Style="{StaticResource LightTextLabel}"
+                             Text="{Binding PhaseValue}" />
+                    <Label Grid.Row="0" Grid.Column="2" FontSize="16" Style="{StaticResource LightTextLabel}"
+                               Text="{Binding DamageFormula}" />
+                </Grid>
+            </DataTemplate>
+            <DataTemplate x:DataType="models:Weapon" x:Key="WeaponQuickViewTemplate">
+                <Frame>
+                    <Grid Padding="0,0,0,15" Style="{StaticResource SingleGradiantStyle}">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenWeaponCommand,
+                                Source={RelativeSource AncestorType={x:Type viewModels:StatusPageViewModel}}}"
+                                                  CommandParameter="{Binding .}"/>
+                        </Grid.GestureRecognizers>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <Label Margin="10,10,0,0" Grid.Row="0" Grid.Column="0" FontSize="18" FontAttributes="Bold" Text="{Binding Name}" />
+
+                        <StackLayout VerticalOptions="Center" Grid.Row="0" Grid.Column="1" Orientation="Horizontal" >
+                            <Image HeightRequest="25" WidthRequest="25" Margin="10" VerticalOptions="Center" Source="swords.png"
+                                   IsVisible="{Binding Fight}"/>
+                            <Image HeightRequest="25" WidthRequest="25" Margin="0,10,10,10" VerticalOptions="Center" Source="inventar.png"  
+                                   IsVisible="{Binding Adventure}" />
+                        </StackLayout>
+
+                        <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                             BindableLayout.ItemsSource="{Binding WeaponStances}"
+                             BindableLayout.ItemTemplate="{StaticResource WeaponStanceQuickViewTemplate}"/>
+                    </Grid>
+                </Frame>
+            </DataTemplate>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40*"></ColumnDefinition>
+                    <ColumnDefinition Width="40*"></ColumnDefinition>
+                    <ColumnDefinition Width="20*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="55*"></RowDefinition>
+                    <RowDefinition Height="20*"></RowDefinition>
+                    <RowDefinition Height="15*"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <!-- armor -->
+                <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <customControls:BodyPartArmorListView Grid.Column="0" Grid.Row="0" BodyPartArmorListViewModel="{Binding KopfViewModel}"/>
+                    <customControls:BodyPartArmorListView Grid.Column="1" Grid.Row="0" BodyPartArmorListViewModel="{Binding TorsoViewModel}"/>
+
+                    <customControls:BodyPartArmorListView Grid.Column="0" Grid.Row="1" BodyPartArmorListViewModel="{Binding ArmLinksViewModel}"/>
+                    <customControls:BodyPartArmorListView Grid.Column="1" Grid.Row="1" BodyPartArmorListViewModel="{Binding ArmRechtsViewModel}"/>
+
+                    <customControls:BodyPartArmorListView Grid.Column="0" Grid.Row="2" BodyPartArmorListViewModel="{Binding BeinLinksViewModel}"/>
+                    <customControls:BodyPartArmorListView Grid.Column="1" Grid.Row="2" BodyPartArmorListViewModel="{Binding BeinRechtsViewModel}"/>
+                </Grid>
+
+                <!-- weapons -->
+                <Frame Grid.Row="0" Grid.Column="2" Grid.RowSpan="3">
+                    <Grid >
+                        <StackLayout>
+                            <Grid Margin="10,10,10,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="1" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0" VerticalOptions="Center" FontSize="18" Text="Waffen"
+                                   FontAttributes="Bold"/>
+                                <Button Grid.Row="0" Grid.Column="1" Text="+" Padding="0,-6,0,0" WidthRequest="25" 
+                                    HeightRequest="25" FontSize="22" 
+                                    VerticalOptions="Center" HorizontalOptions="Center" TextColor="Green" BackgroundColor="LightGray" 
+                                    Command="{Binding WeaponListViewModel.AddWeaponCommand}"/>
+                            </Grid>
+
+                            <ScrollView Margin="0,10,0,0" >
+                                <StackLayout
+                                    BindableLayout.ItemTemplate="{StaticResource WeaponQuickViewTemplate}"
+                                    BindableLayout.ItemsSource="{Binding CharacterViewModel.Character.Weapons}">
+                                </StackLayout>
+                            </ScrollView>
+                        </StackLayout>
+                    </Grid>
+                </Frame>
+
+                <!-- load -->
+                <Frame VerticalOptions="Start" Grid.Column="0" Grid.Row="2">
+                    <Grid  Style="{StaticResource SingleGradiantStyle}">
+                        <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
+                              ItemsSource="{Binding CharacterViewModel.HandicapAttributes}">
+                            <ListView.Header>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="1" />
+                                    </Grid.RowDefinitions>
+                                    <Label Grid.Row="0" Grid.Column="0" Text="Behinderung" Margin="5,0,0,0" FontAttributes="Bold"/>
+                                    <Label Grid.Row="0" Grid.Column="1" Text="Last/Traglast" Margin="5,0,0,0" FontAttributes="Bold"/>
+                                    <BoxView Grid.Column="0" HeightRequest="1" Grid.Row="1" Grid.ColumnSpan="2" Color="Black"/>
+                                </Grid>
+                            </ListView.Header>
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="models:DerivedAttribute">
+                                    <ViewCell>
+                                        <Grid Padding="10,4">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
+                                            <Label FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding FinalValue}"/>
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </Frame>
+
+                <!-- healing -->
+                <Frame Grid.Row="1" Grid.Column="1">
+                    <StackLayout>
+                        <Label Text="Heilung oder sowas?: [tbd]" FontSize="18"/>
+                    </StackLayout>
+                </Frame>
+
+                <!-- derived attributes -->
+                <Frame Grid.Column="0" Grid.Row="1">
+                    <Grid Style="{StaticResource SingleGradiantStyle}">
+                        <ListView Margin="15,15,15,0" SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" 
+                              ItemsSource="{Binding CharacterViewModel.FightDerivedAttributes}">
+                            <ListView.Header>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="200" />
+                                        <ColumnDefinition Width="100" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="1" />
+                                    </Grid.RowDefinitions>
+                                    <Label Grid.Row="0" Grid.Column="0" Text="Abgeleitetes Attribut" Margin="5,0,0,0" FontAttributes="Bold"/>
+                                    <Label Grid.Row="0" Grid.Column="1" Text="Formel" Margin="5,0,0,0" FontAttributes="Bold"/>
+                                    <Label Grid.Row="0" Grid.Column="2" Text="FW" FontAttributes="Bold"/>
+                                    <BoxView Grid.Column="0" HeightRequest="1" Grid.Row="1" Grid.ColumnSpan="3" Color="Black"/>
+                                </Grid>
+                            </ListView.Header>
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="models:DerivedAttribute">
+                                    <ViewCell>
+                                        <Grid Padding="10,4">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="200" />
+                                                <ColumnDefinition Width="100" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
+                                            <Label FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToFormulaConverter}}"/>
+                                            <Label FontSize="18" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding FinalValue}"/>
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </Frame>
+            </Grid>
+
+            <!-- dialog weapon -->
+            <Grid IsVisible="{Binding WeaponDetailViewModel, Converter={StaticResource ObjectNotNullToBoolConverter}}">
+                <ContentView BackgroundColor="black" Opacity="0.6">
+                    <ContentView.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding WeaponDetailViewModel.CloseCommand}"/>
+                    </ContentView.GestureRecognizers>
+                </ContentView>
+                <Frame WidthRequest="1000" HeightRequest="600" VerticalOptions="Center" HorizontalOptions="Center">
+                    <customControls:WeaponDetailView VerticalOptions="Fill" HorizontalOptions="Fill"
+                                               WeaponDetailViewModel="{Binding WeaponDetailViewModel,
+                                                    Source={RelativeSource AncestorType={x:Type viewModels:StatusPageViewModel}}}"/>
+                </Frame>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

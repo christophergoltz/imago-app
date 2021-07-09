@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
+             xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application"
+             xmlns:enum="clr-namespace:ImagoApp.Shared.Enums;assembly=ImagoApp.Shared"
+             xmlns:util="clr-namespace:ImagoApp.Util;assembly=ImagoApp"
+             Title="Startseite" Shell.FlyoutBehavior="Disabled"
+             x:Class="ImagoApp.Views.StartPage" 
+             x:DataType="viewModels:StartPageViewModel">
+    <ContentPage.Content>
+        <Grid Style="{StaticResource BackgroundGridStyle}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <!-- app info -->
+            <Frame Grid.Column="0" Grid.Row="0" Margin="10">
+                <StackLayout Padding="5,0,0,20">
+                    <Label Text="ImagoApp" Margin="10" FontSize="34"></Label>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Margin="20,0,0,0" FontSize="22" Text="Version:"></Label>
+                        <Label FontSize="22" Text="{Binding Version}"></Label>
+                        <Button Text="Changelog ↗" Command="{Binding OpenChangeLogCommand}"></Button>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label  Margin="20,0,0,0"  FontSize="22"  Text="Regel-Version: 7 (Zeta)"></Label>
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+
+            <!-- wiki database -->
+            <Frame Grid.Column="0" Grid.Row="1" Margin="10">
+                <StackLayout  Padding="5,0,0,20">
+                    <Grid Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Text="Wiki Datenbank" FontSize="24"></Label>
+                       
+                        <Button Grid.Column="1" Text="Daten aus Wiki laden" VerticalOptions="Center" Margin="5"
+                                Command="{Binding ParseWikiCommand,Source={RelativeSource AncestorType={x:Type viewModels:StartPageViewModel}}}"></Button>
+                        <Button Grid.Column="2" Text="Log-Datei öffnen" VerticalOptions="Center" Margin="5"
+                                Command="{Binding OpenLogFileCommand,Source={RelativeSource AncestorType={x:Type viewModels:StartPageViewModel}}}"></Button>
+
+                        <Label Grid.Column="4" Margin="25,0" HorizontalOptions="EndAndExpand" Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.Length, Converter={StaticResource FileInfoLenghtToSmartFileSizeConverter}}" FontSize="24"></Label>
+                        <Label Grid.Column="5" Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.LastWriteTime, StringFormat='{0:dd.MM.yyyy HH:mm}'}" HorizontalOptions="EndAndExpand" FontSize="24"></Label>
+                    </Grid>
+
+                    <StackLayout Orientation="Horizontal">
+                        <Label Margin="20,0,0,0"  FontSize="22"  Text="Rüstungen: "></Label>
+                        <Label FontSize="22"  Text="{Binding DatabaseInfoViewModel.ArmorTemplateCount}"/>
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal">
+                        <Label Margin="20,0,0,0"  FontSize="22" Text="Waffen: "></Label>
+                        <Label FontSize="22" Text="{Binding DatabaseInfoViewModel.WeaponTemplateCount}"/>
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal">
+                        <Label Margin="20,0,0,0"  FontSize="22" Text="Talente: "></Label>
+                        <Label FontSize="22" Text="{Binding DatabaseInfoViewModel.TalentTemplateCount}"/>
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal">
+                        <Label Margin="20,0,0,0"  FontSize="22" Text="Meisterschaften: "></Label>
+                        <Label FontSize="22" Text="{Binding DatabaseInfoViewModel.MasteryTemplateCount}"/>
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+
+            <!-- character database -->
+            <Frame Grid.Column="0" Grid.Row="2" Margin="10">
+                <StackLayout>
+                    <Grid  Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Text="Charakter Datenbank" FontSize="24"></Label>
+                        <Label Grid.Column="2" Margin="25,0"  HorizontalOptions="EndAndExpand" Text="{Binding DatabaseInfoViewModel.CharacterDatabaseInfo.Length, Converter={StaticResource FileInfoLenghtToSmartFileSizeConverter}}" FontSize="24"></Label>
+                        <Label Grid.Column="3" HorizontalOptions="EndAndExpand" Text="{Binding DatabaseInfoViewModel.CharacterDatabaseInfo.LastWriteTime, StringFormat='{0:dd.MM.yyyy HH:mm}'}" FontSize="24"></Label>
+                    </Grid>
+                </StackLayout>
+            </Frame>
+
+            <!-- Characters -->
+            <Frame Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" Margin="10">
+                <Grid Style="{StaticResource SingleGradiantStyle}">
+                    <ListView SelectionMode="None" ItemsSource="{Binding Characters}" >
+                        <ListView.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="1"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Label Margin="20,0"  VerticalOptions="Center" FontSize="28" FontAttributes="Bold" Text="Charaktere" Grid.Column="0" Grid.Row="0"></Label>
+                                <Button Grid.Column="1" FontSize="18" Grid.Row="0" Text="Neuer Charakter erstellen" Margin="20" Command="{Binding CreateNewCharacterCommand}"/>
+                                <Button Grid.Column="2" FontSize="18" Grid.Row="0" Command="{Binding GenerateTestCharacterCommand}" Text="Testspieler generieren" Margin="20"/>
+                                <BoxView Grid.Row="1"  Grid.ColumnSpan="3" Grid.Column="0" Color="Black"/>
+                            </Grid>
+                        </ListView.Header>
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Character">
+                                <ViewCell>
+                                    <Grid Margin="20,10">
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding OpenCharacterCommand, Source={RelativeSource AncestorType={x:Type viewModels:StartPageViewModel}}}" 
+                                                          CommandParameter="{Binding .}"/>
+                                        </Grid.GestureRecognizers>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="125"></ColumnDefinition>
+                                            <ColumnDefinition Width="250"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" FontSize="24" Text="{Binding Name}"></Label>
+                                        <Label Grid.Column="1" FontSize="24" Text="{Binding Version}"></Label>
+                                        <Label Grid.Column="2" FontSize="24" Text="{Binding LastEdit, StringFormat='{0:dd.MM.yyyy HH:mm}'}"></Label>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </Frame>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

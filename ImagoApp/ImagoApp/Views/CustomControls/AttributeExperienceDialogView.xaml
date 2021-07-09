@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
+             x:Class="ImagoApp.Views.CustomControls.AttributeExperienceDialogView" 
+              x:Name="AttributeExperienceDialogViewControl">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="ListViewHeaderTemplate">
+                <Label HorizontalOptions="Center" FontSize="22" Margin="10" Text="{Binding .}"/>
+                    <!-- use the object in Header as the binding source -->
+            </DataTemplate>
+            <DataTemplate x:Key="ListViewItemDoneTemplate" x:DataType="viewModels:OpenAttributeExperienceViewModel">
+                <ViewCell>
+                <Frame Margin="10" VerticalOptions="Center" >
+                        <Grid BackgroundColor="Green">
+                            <Label Text="{Binding SourceType, Converter={StaticResource EnumToDisplayTextConverter}}" 
+                                   FontSize="22" Margin="5"></Label>
+                    </Grid>
+                    </Frame>
+                </ViewCell>
+            </DataTemplate>
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <ContentView.Content>
+        <Grid BindingContext="{Binding AttributeExperienceDialogViewModel, Source={x:Reference AttributeExperienceDialogViewControl}}" 
+              BackgroundColor="White" WidthRequest="1300" HeightRequest="800"
+              VerticalOptions="Center" HorizontalOptions="Center" Padding="20">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="300" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Label  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="7" FontSize="20" Margin="0,0,50,30" Text="Offene Erfahrungspunkt(e) auf Attribute verteilen:"/>
+
+            <StackLayout Orientation="Horizontal" Grid.Row="0" Grid.Column="6" HorizontalOptions="End">
+                <Button  Text="✓" Padding="0,-4,0,0" WidthRequest="35" HeightRequest="35"  FontSize="22"  VerticalOptions="Start" 
+                        HorizontalOptions="End" TextColor="Green" BackgroundColor="LightGray"
+                        Command="{Binding SaveCommand, Source={x:Reference AttributeExperienceDialogViewControl}}"/>
+
+                <Button Text="X" Padding="0,-4,0,0" WidthRequest="35" HeightRequest="35"  FontSize="22"  VerticalOptions="Start" 
+                        HorizontalOptions="End" TextColor="Red" BackgroundColor="LightGray" 
+                        Command="{Binding CloseCommand, Source={x:Reference AttributeExperienceDialogViewControl}}"/>
+            </StackLayout>
+
+            <Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="7" >
+                <FlexLayout  
+                        BindableLayout.ItemsSource="{Binding OpenAttributeExperience}"
+                            Direction="Row" Wrap="Wrap" AlignContent="Start" AlignItems="Start" >
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="viewModels:OpenAttributeExperienceViewModel">
+                            <Frame Margin="10" VerticalOptions="Start" >
+                                <Frame.GestureRecognizers>
+                                    <DragGestureRecognizer DragStarting="OnDragStarting" DropCompleted="DragGestureRecognizer_OnDropCompleted" />
+                                </Frame.GestureRecognizers>
+                                <Grid BackgroundColor="Red">
+                                    <Label Text="{Binding SourceType, Converter={StaticResource EnumToDisplayTextConverter}}" 
+                                           FontSize="22" Margin="7,5"></Label>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
+            </Frame>
+
+            <Frame Grid.Row="2" Grid.Column="0" HeightRequest="300">
+                <ListView x:Name="Charisma" Header="Charisma"
+                          HeaderTemplate="{StaticResource ListViewHeaderTemplate}" 
+                          ItemTemplate="{StaticResource ListViewItemDoneTemplate}"
+                          ItemsSource="{Binding Charisma}">
+                    <ListView.GestureRecognizers>
+                        <DropGestureRecognizer AllowDrop="True"  Drop="DropGestureRecognizer_OnDrop" />
+                    </ListView.GestureRecognizers>
+                </ListView>
+            </Frame>
+
+            <Frame Grid.Row="2" Grid.Column="1" HeightRequest="300">
+                <ListView x:Name="Geschicklichkeit" Header="Geschicklichkeit" 
+                          HeaderTemplate="{StaticResource ListViewHeaderTemplate}" 
+                          ItemTemplate="{StaticResource ListViewItemDoneTemplate}"
+                          ItemsSource="{Binding Geschicklichkeit}">
+                    <ListView.GestureRecognizers>
+                        <DropGestureRecognizer AllowDrop="True"  Drop="DropGestureRecognizer_OnDrop" />
+                    </ListView.GestureRecognizers>
+                </ListView>
+            </Frame>
+
+            <Frame Grid.Row="2" Grid.Column="2" HeightRequest="300">
+                <ListView x:Name="Intelligenz" Header="Intelligenz"
+                          HeaderTemplate="{StaticResource ListViewHeaderTemplate}" 
+                          ItemTemplate="{StaticResource ListViewItemDoneTemplate}"
+                          ItemsSource="{Binding Intelligenz}">
+                    <ListView.GestureRecognizers>
+                        <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_OnDrop" />
+                    </ListView.GestureRecognizers>
+                </ListView>
+            </Frame>
+
+            <Frame Grid.Row="2" Grid.Column="3" HeightRequest="300">
+                <ListView x:Name="Konstitution" Header="Konstitution"
+                          HeaderTemplate="{StaticResource ListViewHeaderTemplate}" 
+                          ItemTemplate="{StaticResource ListViewItemDoneTemplate}"
+                          ItemsSource="{Binding Konstitution}">
+                    <ListView.GestureRecognizers>
+                        <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_OnDrop" />
+                    </ListView.GestureRecognizers>
+                </ListView>
+            </Frame>
+
+            <Frame Grid.Row="2" Grid.Column="4" HeightRequest="300">
+                <ListView x:Name="Staerke" Header="Stärke"
+                          HeaderTemplate="{StaticResource ListViewHeaderTemplate}" 
+                          ItemTemplate="{StaticResource ListViewItemDoneTemplate}"
+                          ItemsSource="{Binding Staerke}">
+                    <ListView.GestureRecognizers>
+                        <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_OnDrop" />
+                    </ListView.GestureRecognizers>
+                </ListView>
+            </Frame>
+
+            <Frame Grid.Row="2" Grid.Column="5" HeightRequest="300">
+                <ListView x:Name="Wahrnehmung" Header="Wahrnehmung"
+                          HeaderTemplate="{StaticResource ListViewHeaderTemplate}" 
+                          ItemTemplate="{StaticResource ListViewItemDoneTemplate}"
+                          ItemsSource="{Binding Wahrnehmung}">
+                    <ListView.GestureRecognizers>
+                        <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_OnDrop" />
+                    </ListView.GestureRecognizers>
+                </ListView>
+            </Frame>
+
+            <Frame Grid.Row="2" Grid.Column="6" HeightRequest="300">
+                <ListView x:Name="Willenskraft" Header="Willenskraft"    
+                          HeaderTemplate="{StaticResource ListViewHeaderTemplate}" 
+                          ItemTemplate="{StaticResource ListViewItemDoneTemplate}"
+                          ItemsSource="{Binding Willenskraft}">
+                    <ListView.GestureRecognizers>
+                        <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_OnDrop" />
+                    </ListView.GestureRecognizers>
+                </ListView>
+            </Frame>
+        </Grid>
+    </ContentView.Content>
+</ContentView>
