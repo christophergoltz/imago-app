@@ -40,19 +40,5 @@ namespace ImagoApp.Installer
             }
             return null;
         }
-
-        public static void RunApp()
-        {
-            var allInstalledApps = new PackageManager().FindPackages();
-
-            foreach (var package in allInstalledApps)
-            {
-                if (package.DisplayName.Equals(ImagoAppName))
-                {
-                    package.Launch("");
-                    return;
-                }
-            }
-        }
     }
 }
