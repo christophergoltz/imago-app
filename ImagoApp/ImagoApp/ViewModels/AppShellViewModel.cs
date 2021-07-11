@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Acr.UserDialogs;
+using ImagoApp.Application;
 using ImagoApp.Application.Services;
 using ImagoApp.Util;
 using ImagoApp.Views;

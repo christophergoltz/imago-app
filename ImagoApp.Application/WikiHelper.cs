@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Net;
 using HtmlAgilityPack;
 using Microsoft.AppCenter.Crashes;
-using Microsoft.Extensions.Logging;
 using Serilog.Core;
 
-namespace ImagoApp.Util
+namespace ImagoApp.Application
 {
     public static class WikiHelper
     {

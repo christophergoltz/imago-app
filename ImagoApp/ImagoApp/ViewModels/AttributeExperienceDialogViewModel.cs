@@ -1,8 +1,9 @@
 ﻿using System.Collections.ObjectModel;
+using ImagoApp.Application;
 
 namespace ImagoApp.ViewModels
 {
-    public class AttributeExperienceDialogViewModel : Util.BindableBase
+    public class AttributeExperienceDialogViewModel : BindableBase
     {
         private ObservableCollection<OpenAttributeExperienceViewModel> _openAttributeExperience;
 

@@ -1,8 +1,9 @@
-﻿using ImagoApp.Application.Models;
+﻿using ImagoApp.Application;
+using ImagoApp.Application.Models;
 
 namespace ImagoApp.ViewModels
 {
-    public class SkillViewModel : Util.BindableBase
+    public class SkillViewModel : BindableBase
     {
         private readonly SkillGroupModel _skillGroup;
         private readonly CharacterViewModel _characterViewModel;

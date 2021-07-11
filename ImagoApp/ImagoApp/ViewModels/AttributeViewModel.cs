@@ -1,8 +1,9 @@
-﻿using ImagoApp.Application.Models;
+﻿using ImagoApp.Application;
+using ImagoApp.Application.Models;
 
 namespace ImagoApp.ViewModels
 {
-    public class AttributeViewModel : Util.BindableBase
+    public class AttributeViewModel : BindableBase
     {
         public AttributeViewModel(Attribute attribute, CharacterViewModel characterViewModel)
         {

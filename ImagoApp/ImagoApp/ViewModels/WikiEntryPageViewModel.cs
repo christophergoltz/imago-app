@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows.Input;
+using ImagoApp.Application;
 using ImagoApp.Application.Models;
 using ImagoApp.Util;
 using Xamarin.Forms;

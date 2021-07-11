@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Windows.Input;
+using ImagoApp.Application;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Services;
 using ImagoApp.Infrastructure.Repositories;
@@ -8,7 +9,7 @@ using Xamarin.Forms;
 
 namespace ImagoApp.ViewModels
 {
-    public class StatusPageViewModel : Util.BindableBase
+    public class StatusPageViewModel : BindableBase
     {
         private readonly IWikiDataService _wikiDataService;
         private WeaponDetailViewModel _weaponDetailViewModel;

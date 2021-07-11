@@ -1,6 +1,4 @@
-﻿using ImagoApp.Util;
-
-namespace ImagoApp.Application.Models
+﻿namespace ImagoApp.Application.Models
 {
     public abstract class TalentBase : BindableBase
     {

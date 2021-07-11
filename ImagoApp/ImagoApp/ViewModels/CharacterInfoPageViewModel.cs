@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using ImagoApp.Application;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Services;
 using ImagoApp.Shared.Enums;
@@ -9,7 +10,7 @@ using Xamarin.Forms;
 
 namespace ImagoApp.ViewModels
 {
-    public class CharacterInfoPageViewModel : Util.BindableBase
+    public class CharacterInfoPageViewModel : BindableBase
     {
         private readonly IRuleService _ruleService;
         private string _title;

@@ -1,6 +1,6 @@
 ﻿using ImagoApp.Application.Models;
 
-namespace ImagoApp.Util
+namespace ImagoApp.Application
 {
     public static class SkillExtensions
     {

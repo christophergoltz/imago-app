@@ -3,9 +3,10 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using ImagoApp.Application;
 using ImagoApp.Application.Models;
+using ImagoApp.Application.Services;
 using ImagoApp.Converter;
-using ImagoApp.Services;
 using ImagoApp.Util;
 using Xamarin.Forms;
 

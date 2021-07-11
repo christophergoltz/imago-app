@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
+using ImagoApp.Application;
 using ImagoApp.Application.Models;
 using ImagoApp.ViewModels;
 using Xamarin.Forms;
@@ -26,8 +27,8 @@ namespace ImagoApp.Views.CustomControls
                 //no title given, try to create one
                 string title;
 
-                if (e.Url.Contains(Util.WikiConstants.WikiUrlPrefix))
-                    title = e.Url.Replace(Util.WikiConstants.WikiUrlPrefix, "");
+                if (e.Url.Contains(WikiConstants.WikiUrlPrefix))
+                    title = e.Url.Replace(WikiConstants.WikiUrlPrefix, "");
                 else
                     title = e.Url.Split('/').Last();
 
@@ -57,7 +58,7 @@ namespace ImagoApp.Views.CustomControls
                     return;
                 }
 
-                if (onlyPage.Url != Util.WikiConstants.WikiMainPageUrl && e.Url == Util.WikiConstants.WikiMainPageUrl)
+                if (onlyPage.Url != WikiConstants.WikiMainPageUrl && e.Url == WikiConstants.WikiMainPageUrl)
                 {
                     //user wants to navigate to wiki mainpage, dont create a new one, focus first tab
                     WikiPageViewModel.Instance.GoToStartWikiPage();
@@ -65,7 +66,7 @@ namespace ImagoApp.Views.CustomControls
                     return;
                 }
 
-                if (e.Url != Util.WikiConstants.WikiMainPageUrl)
+                if (e.Url != WikiConstants.WikiMainPageUrl)
                 {
                     Debug.WriteLine("Cancelling WikiNavigation, Opening new Page for: " + e.Url);
                     e.Cancel = true;

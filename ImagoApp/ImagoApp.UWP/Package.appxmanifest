@@ -9,7 +9,7 @@
   <Identity
     Name="00cac28b-d367-48db-94d6-7a78afb428c7"
     Publisher="CN=Christopher Goltz"
-    Version="0.1.5.0" />
+    Version="0.0.1.0" />
 
   <mp:PhoneIdentity PhoneProductId="ec0cc741-fd3e-485c-81be-68815c480690" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Acr.UserDialogs;
+using ImagoApp.Application;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Models.Template;
 using ImagoApp.Application.Services;

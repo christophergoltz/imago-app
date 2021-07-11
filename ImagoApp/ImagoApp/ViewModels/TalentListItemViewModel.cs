@@ -1,9 +1,10 @@
 ﻿using System;
+using ImagoApp.Application;
 using ImagoApp.Application.Models;
 
 namespace ImagoApp.ViewModels
 {
-    public class TalentListItemViewModel : Util.BindableBase
+    public class TalentListItemViewModel : BindableBase
     {
         private bool _inUse;
         private int? _difficultyOverride;

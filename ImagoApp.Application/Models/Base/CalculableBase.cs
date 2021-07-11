@@ -1,5 +1,4 @@
-﻿using ImagoApp.Util;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace ImagoApp.Application.Models.Base
 {

@@ -1,8 +1,9 @@
-﻿using ImagoApp.Application.Models;
+﻿using ImagoApp.Application;
+using ImagoApp.Application.Models;
 
 namespace ImagoApp.ViewModels
 {
-    public class EquippableItemViewModel : Util.BindableBase
+    public class EquippableItemViewModel : BindableBase
     {
         private EquipableItem _equipableItem;
         private readonly CharacterViewModel _characterViewModel;

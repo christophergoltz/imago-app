@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using ImagoApp.Application;
 using ImagoApp.Util;
 
 namespace ImagoApp.ViewModels

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
+using ImagoApp.Application;
 using ImagoApp.Util;
 using ImagoApp.ViewModels;
 using Xamarin.Forms;

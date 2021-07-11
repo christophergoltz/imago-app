@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Input;
+using ImagoApp.Application;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Services;
-using ImagoApp.Services;
 using ImagoApp.Shared.Enums;
 using ImagoApp.Util;
 using Xamarin.Forms;

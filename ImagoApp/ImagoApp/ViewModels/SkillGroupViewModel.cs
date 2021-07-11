@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ImagoApp.Application;
 using ImagoApp.Application.Models;
 
 namespace ImagoApp.ViewModels
 {
-    public class SkillGroupViewModel : Util.BindableBase
+    public class SkillGroupViewModel : BindableBase
     {
         private SkillGroupModel _skillGroup;
         private List<SkillViewModel> _skills;

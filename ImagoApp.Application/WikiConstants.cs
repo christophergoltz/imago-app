@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using ImagoApp.Shared.Enums;
 
-namespace ImagoApp.Util
+namespace ImagoApp.Application
 {
     public static class WikiConstants
     {

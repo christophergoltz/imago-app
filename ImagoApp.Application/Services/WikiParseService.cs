@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using HtmlAgilityPack;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Models.Template;
-using ImagoApp.Application.Services;
-using ImagoApp.Infrastructure.Repositories;
 using ImagoApp.Shared.Enums;
-using ImagoApp.Util;
 using Serilog.Core;
 
-namespace ImagoApp.Services
+namespace ImagoApp.Application.Services
 {
     public interface IWikiParseService
     {

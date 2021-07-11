@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using ImagoApp.Application;
 using ImagoApp.Util;
 using Xunit;
 using Xunit.Abstractions;

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Windows.Input;
+using ImagoApp.Application;
 using ImagoApp.Application.Models;
 using Xamarin.Forms;
 
 namespace ImagoApp.ViewModels
 {
-    public class WeaponDetailViewModel : Util.BindableBase
+    public class WeaponDetailViewModel : BindableBase
     {
         private readonly CharacterViewModel _characterViewModel;
         private Weapon _weapon;

@@ -1,9 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using ImagoApp.Shared.Enums;
-using ImagoApp.Util;
 
-namespace ImagoApp.Services
+namespace ImagoApp.Application.Services
 {
     public interface IWikiService
     {

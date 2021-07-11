@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
-namespace ImagoApp.Util
+namespace ImagoApp.Application
 {
     [DebuggerNonUserCode]
     public class BindableBase : INotifyPropertyChanged
