@@ -32,7 +32,6 @@ namespace ImagoApp.ViewModels
         private readonly ICharacterCreationService _characterCreationService;
         private readonly IWikiService _wikiService;
         private readonly string _logFolder;
-        private readonly IGithubUpdateService _githubUpdateService;
         private readonly string _logFileName = "wiki_parse.log";
         private ObservableCollection<Character> _characters;
 
@@ -57,13 +56,11 @@ namespace ImagoApp.ViewModels
             IRuleService ruleService,
             ICharacterCreationService characterCreationService,
             IWikiService wikiService,
-            string logFolder,
-            IGithubUpdateService githubUpdateService)
+            string logFolder)
         {
             VersionTracking.Track();
             Version = VersionTracking.CurrentVersion;
             DatabaseInfoViewModel = new DatabaseInfoViewModel();
-            UpdateButtonText = "Updates werden abgerufen..";
 
             _viewModelLocator = viewModelLocator;
             _characterService = characterService;
@@ -73,49 +70,14 @@ namespace ImagoApp.ViewModels
             _characterCreationService = characterCreationService;
             _wikiService = wikiService;
             _logFolder = logFolder;
-            _githubUpdateService = githubUpdateService;
 
             Task.Run(() =>
             {
                 RefreshDatabaseInfos();
                 RefreshCharacterList();
-                CheckForUpdate();
             });
         }
-
-        private ICommand _updateToLatestVersionCommand;
-
-        public ICommand UpdateToLatestVersionCommand => _updateToLatestVersionCommand ?? (_updateToLatestVersionCommand = new Command(() =>
-        {
-            //todo call updater
-        }, () => _updateAvailable));
-
-        private bool _updateAvailable = false;
-
-        public string UpdateButtonText
-        {
-            get => _updateButtonText;
-            set => SetProperty(ref _updateButtonText, value);
-        }
-
-        private void CheckForUpdate()
-        {
-            var latestRelease = _githubUpdateService.GetLatestRelease();
-            if (latestRelease > new Version(Version))
-            {
-                //update avaliable
-                UpdateButtonText = latestRelease + " verfügbar";
-                _updateAvailable = true;
-            }
-            else
-            {
-                UpdateButtonText = "aktuell";
-                _updateAvailable = false;
-            }
-
-            Device.BeginInvokeOnMainThread(() => ((Command)UpdateToLatestVersionCommand).ChangeCanExecute());
-        }
-
+     
         private void IncreaseProgressPercentage(IProgressDialog progressDialog, ref int current, int total)
         {
             current++;

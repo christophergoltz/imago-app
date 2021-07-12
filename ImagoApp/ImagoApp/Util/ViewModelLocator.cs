@@ -17,7 +17,6 @@ namespace ImagoApp.Util
         private readonly Lazy<IWikiDataService> _wikiDataService;
         private readonly Lazy<ICharacterService> _characterService;
         private readonly Lazy<ICharacterCreationService> _characterCreationService;
-        private readonly Lazy<IGithubUpdateService> _iGithubUpdateService;
         private readonly IMapper _mapper;
        
         public ViewModelLocator(string imagoFolder)
@@ -48,7 +47,6 @@ namespace ImagoApp.Util
             IWeaponTemplateRepository weaponTemplateRepository = new WeaponTemplateRepository(imagoFolder);
             ITalentRepository talentRepository = new TalentRepository(imagoFolder);
             IMasteryRepository masteryRepository = new MasteryRepository(imagoFolder);
-            IGithubUpdateRepository githubUpdateRepository = new GithubUpdateRepository();
 
             _ruleService = new Lazy<IRuleService>(() => new RuleService());
             _wikiDataService = new Lazy<IWikiDataService>(() => new WikiDataService(_mapper, armorTemplateRepository, 
@@ -57,7 +55,6 @@ namespace ImagoApp.Util
             _wikiParseService = new Lazy<IWikiParseService>(() => new WikiParseService(_wikiDataService.Value));
             _characterService = new Lazy<ICharacterService>(() => new CharacterService(characterRepository, _mapper));
             _characterCreationService = new Lazy<ICharacterCreationService>(() => new CharacterCreationService());
-            _iGithubUpdateService = new Lazy<IGithubUpdateService>(() => new GithubUpdateService(githubUpdateRepository));
         }
 
         public IMapper Mapper()
@@ -90,11 +87,6 @@ namespace ImagoApp.Util
         public ICharacterCreationService CharacterCreationService()
         {
             return _characterCreationService.Value;
-        }
-
-        public IGithubUpdateService GithubUpdateService()
-        {
-            return _iGithubUpdateService.Value;
         }
     }
 }

@@ -28,21 +28,6 @@
                     <StackLayout Orientation="Horizontal">
                         <Label Margin="20,0,0,0" FontSize="22" Text="Version:"></Label>
                         <Label FontSize="22" Text="{Binding Version}"></Label>
-                        <Button Text="{Binding UpdateButtonText}" x:Name="UpdateButtonControl"
-                                Command="{Binding UpdateToLatestVersionCommand}">
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Style.Triggers>
-                                        <DataTrigger TargetType="Button" 
-                                                     Binding="{Binding IsEnabled, Source={x:Reference UpdateButtonControl}}">
-                                            <Setter Property="BackgroundColor" Value="{StaticResource GruenesUmbra1}"></Setter>
-                                            <Setter Property="TextColor" Value="white"></Setter>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                        </Button>
-                        
                         <Button Text="Changelog ↗" Command="{Binding OpenChangeLogCommand}"></Button>
                     </StackLayout>
                     <StackLayout Orientation="Horizontal">

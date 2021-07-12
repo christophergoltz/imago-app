@@ -7,14 +7,14 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="00cac28b-d367-48db-94d6-7a78afb428c7"
-    Publisher="CN=Christopher Goltz"
-    Version="0.0.2.0" />
+    Name="19969ChristopherGoltz.ImagoApp"
+    Publisher="CN=0FC70DBA-1113-4CA2-AF34-17E9BD77CB06"
+    Version="0.1.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="ec0cc741-fd3e-485c-81be-68815c480690" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="5159ff7e-5eab-43e5-abce-30770213b4e4" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>Imago.App</DisplayName>
+    <DisplayName>ImagoApp</DisplayName>
     <PublisherDisplayName>Christopher Goltz</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -32,10 +32,10 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="Imago.UWP.App">
       <uap:VisualElements
-        DisplayName="Imago.App"
+        DisplayName="ImagoApp"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="Imago App"
+        Description="ImagoApp"
         BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square310x310Logo="Assets\LargeTile.png" Square71x71Logo="Assets\SmallTile.png">
           <uap:ShowNameOnTiles>
