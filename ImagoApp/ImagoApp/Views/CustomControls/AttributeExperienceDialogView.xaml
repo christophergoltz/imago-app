@@ -55,23 +55,24 @@
             </StackLayout>
 
             <Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="7" >
-                <FlexLayout  
-                        BindableLayout.ItemsSource="{Binding OpenAttributeExperience}"
-                            Direction="Row" Wrap="Wrap" AlignContent="Start" AlignItems="Start" >
-                    <BindableLayout.ItemTemplate>
-                        <DataTemplate x:DataType="viewModels:OpenAttributeExperienceViewModel">
-                            <Frame Margin="10" VerticalOptions="Start" >
-                                <Frame.GestureRecognizers>
-                                    <DragGestureRecognizer DragStarting="OnDragStarting" DropCompleted="DragGestureRecognizer_OnDropCompleted" />
-                                </Frame.GestureRecognizers>
-                                <Grid BackgroundColor="Red">
-                                    <Label Text="{Binding SourceType, Converter={StaticResource EnumToDisplayTextConverter}}" 
+                <ScrollView>
+                    <FlexLayout  BindableLayout.ItemsSource="{Binding OpenAttributeExperience}"
+                             Direction="Row" Wrap="Wrap" AlignContent="Start" AlignItems="Start" >
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="viewModels:OpenAttributeExperienceViewModel">
+                                <Frame Margin="10" VerticalOptions="Start" >
+                                    <Frame.GestureRecognizers>
+                                        <DragGestureRecognizer DragStarting="OnDragStarting" DropCompleted="DragGestureRecognizer_OnDropCompleted" />
+                                    </Frame.GestureRecognizers>
+                                    <Grid BackgroundColor="Red">
+                                        <Label Text="{Binding SourceType, Converter={StaticResource EnumToDisplayTextConverter}}" 
                                            FontSize="22" Margin="7,5"></Label>
-                                </Grid>
-                            </Frame>
-                        </DataTemplate>
-                    </BindableLayout.ItemTemplate>
-                </FlexLayout>
+                                    </Grid>
+                                </Frame>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                </ScrollView>
             </Frame>
 
             <Frame Grid.Row="2" Grid.Column="0" HeightRequest="300">
