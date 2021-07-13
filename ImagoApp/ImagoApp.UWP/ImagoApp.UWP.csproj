@@ -136,7 +136,6 @@
     <Content Include="Assets\StoreLogo.scale-150.png" />
     <Content Include="Assets\Wide310x150Logo.scale-125.png" />
     <Content Include="Assets\Wide310x150Logo.scale-150.png" />
-    <Content Include="body_full_outline.jpg" />
     <Content Include="charakter.png" />
     <Content Include="charakter_weiss.png" />
     <Content Include="erschaffung.png" />
@@ -199,8 +198,6 @@
     <Content Include="wissenschaft.png" />
     <Content Include="wissenschaft_weiss.png" />
     <Content Include="xamarin_logo.png" />
-    <Content Include="icon_about.png" />
-    <Content Include="icon_feed.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
