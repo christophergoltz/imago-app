@@ -84,13 +84,15 @@
                     <Grid  Margin="10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="0" Text="Charakter Datenbank" FontSize="24"></Label>
-                        <Label Grid.Column="2" Margin="25,0"  HorizontalOptions="EndAndExpand" Text="{Binding DatabaseInfoViewModel.CharacterDatabaseInfo.Length, Converter={StaticResource FileInfoLenghtToSmartFileSizeConverter}}" FontSize="24"></Label>
-                        <Label Grid.Column="3" HorizontalOptions="EndAndExpand" Text="{Binding DatabaseInfoViewModel.CharacterDatabaseInfo.LastWriteTime, StringFormat='{0:dd.MM.yyyy HH:mm}'}" FontSize="24"></Label>
+                        <Button Grid.Column="1" Text="Appdata Ordner öffnen" Command="{Binding OpenAppDataFolderCommand}"></Button>
+                        <Label Grid.Column="3" Margin="25,0"  HorizontalOptions="EndAndExpand" Text="{Binding DatabaseInfoViewModel.CharacterDatabaseInfo.Length, Converter={StaticResource FileInfoLenghtToSmartFileSizeConverter}}" FontSize="24"></Label>
+                        <Label Grid.Column="4" HorizontalOptions="EndAndExpand" Text="{Binding DatabaseInfoViewModel.CharacterDatabaseInfo.LastWriteTime, StringFormat='{0:dd.MM.yyyy HH:mm}'}" FontSize="24"></Label>
                     </Grid>
                 </StackLayout>
             </Frame>

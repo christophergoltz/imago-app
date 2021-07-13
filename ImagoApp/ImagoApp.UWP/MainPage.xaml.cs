@@ -10,7 +10,7 @@ namespace ImagoApp.UWP
         {
             InitializeComponent();
             SystemNavigationManagerPreview.GetForCurrentView().CloseRequested += OnCloseRequest;
-            LoadApplication(new ImagoApp.App());
+            LoadApplication(new ImagoApp.App(new FileService()));
         }
         
         private void OnCloseRequest(object sender, SystemNavigationCloseRequestedPreviewEventArgs e)

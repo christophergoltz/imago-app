@@ -31,7 +31,8 @@ namespace ImagoApp.ViewModels
         private readonly IRuleService _ruleService;
         private readonly ICharacterCreationService _characterCreationService;
         private readonly IWikiService _wikiService;
-        private readonly string _logFolder;
+        private readonly string _appdataFolder;
+        private readonly IFileService _fileService;
         private readonly string _logFileName = "wiki_parse.log";
 
         public ObservableCollection<Character> Characters { get; private set; }
@@ -51,7 +52,7 @@ namespace ImagoApp.ViewModels
             IRuleService ruleService,
             ICharacterCreationService characterCreationService,
             IWikiService wikiService,
-            string logFolder)
+            string appdataFolder, IFileService fileService)
         {
             VersionTracking.Track();
             Version = VersionTracking.CurrentVersion;
@@ -65,7 +66,8 @@ namespace ImagoApp.ViewModels
             _ruleService = ruleService;
             _characterCreationService = characterCreationService;
             _wikiService = wikiService;
-            _logFolder = logFolder;
+            _appdataFolder = appdataFolder;
+            _fileService = fileService;
 
             Task.Run(() =>
             {
@@ -73,6 +75,13 @@ namespace ImagoApp.ViewModels
                 CheckWikiData();
             });
         }
+
+        private ICommand _openAppDataFolderCommand;
+
+        public ICommand OpenAppDataFolderCommand => _openAppDataFolderCommand ?? (_openAppDataFolderCommand = new Command(() =>
+        {
+            _fileService.OpenFolder(_appdataFolder);
+        }));
 
         private void CheckWikiData()
         {
@@ -114,7 +123,7 @@ namespace ImagoApp.ViewModels
 
         public ICommand ParseWikiCommand => _parseWikiCommand ?? (_parseWikiCommand = new Command(async () =>
         {
-            var logFile = Path.Combine(_logFolder, $"wiki_parse.log");
+            var logFile = Path.Combine(_appdataFolder, $"wiki_parse.log");
             if (File.Exists(logFile))
                 File.Delete(logFile);
 
@@ -171,7 +180,7 @@ namespace ImagoApp.ViewModels
                         {
                             if (!result)
                             {
-                                var target = new ReadOnlyFile(Path.Combine(_logFolder, _logFileName));
+                                var target = new ReadOnlyFile(Path.Combine(_appdataFolder, _logFileName));
                                 var request = new OpenFileRequest {File = target};
                                 Launcher.OpenAsync(request);
                             }

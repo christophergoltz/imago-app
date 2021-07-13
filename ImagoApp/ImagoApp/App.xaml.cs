@@ -17,7 +17,7 @@ namespace ImagoApp
 
         private static ViewModelLocator _viewModelLocator;
 
-        public App()
+        public App(IFileService fileService)
         {
             InitializeComponent();
 
@@ -34,7 +34,7 @@ namespace ImagoApp
                 _viewModelLocator.WikiParseService(), _viewModelLocator.WikiDataService(),
                 _viewModelLocator.RuleService(),
                 _viewModelLocator.CharacterCreationService(), _viewModelLocator.WikiService(),
-                localApplicationData);
+                localApplicationData, fileService);
 
             MainPage = new StartPage(startPageViewModel);
         }
