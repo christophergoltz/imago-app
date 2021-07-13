@@ -75,16 +75,30 @@ namespace ImagoApp.ViewModels
             {
                 RefreshDatabaseInfos();
                 RefreshCharacterList();
+                CheckWikiData();
             });
         }
-     
-        private void IncreaseProgressPercentage(IProgressDialog progressDialog, ref int current, int total)
-        {
-            current++;
-            _percent = (int) ((double) current / total * 100);
-            progressDialog.PercentComplete = _percent;
-        }
 
+        private void CheckWikiData()
+        {
+            var count =
+                _wikiDataService.GetArmorWikiDataItemCount() +
+                _wikiDataService.GetWeaponWikiDataItemCount() +
+                _wikiDataService.GetTalentWikiDataItemCount() +
+                _wikiDataService.GetMasteryWikiDataItemCount();
+
+            var dbInfo = _wikiDataService.GetDatabaseInfo();
+
+            if (count == 0 || dbInfo.LastWriteTime < DateTime.Now.AddDays(-30))
+            {
+                //wikidata is empty or older than 30 days
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    ParseWikiCommand?.Execute(null);
+                });
+            }
+        }
+        
         private class CollectionSink : ILogEventSink
         {
             public ICollection<LogEvent> Events { get; } = new List<LogEvent>();
@@ -106,48 +120,45 @@ namespace ImagoApp.ViewModels
 
         public ICommand ParseWikiCommand => _parseWikiCommand ?? (_parseWikiCommand = new Command(async () =>
         {
-            var totalActionCount = 4;
-            var currentActionCount = 0;
-            
             var logFile = Path.Combine(_logFolder, $"wiki_parse.log");
             if (File.Exists(logFile))
                 File.Delete(logFile);
 
-            var col = new CollectionSink();
+            var logEventSink = new CollectionSink();
             
             using (var logger = new LoggerConfiguration().WriteTo.Debug()
                 .WriteTo.File(logFile)
-                .WriteTo.Sink(col)
+                .WriteTo.Sink(logEventSink)
                 .CreateLogger())
             {
                 using (var progressDialog = UserDialogs.Instance.Progress(""))
                 {
                     progressDialog.Title = "Rüstungen werden geladen";
-                    await Task.Delay(50);
+                    await Task.Delay(150);
 
                     var armorCount = _wikiParseService.RefreshArmorFromWiki(logger);
-                    IncreaseProgressPercentage(progressDialog, ref currentActionCount, totalActionCount);
                     progressDialog.Title = "Waffen werden geladen";
+                    progressDialog.PercentComplete = 25;
                     await Task.Delay(50);
 
                     var weaponCount = _wikiParseService.RefreshWeaponsFromWiki(logger);
-                    IncreaseProgressPercentage(progressDialog, ref currentActionCount, totalActionCount);
                     progressDialog.Title = "Talente werden geladen";
+                    progressDialog.PercentComplete = 50;
                     await Task.Delay(50);
 
                     var talentCount = _wikiParseService.RefreshTalentsFromWiki(logger);
-                    IncreaseProgressPercentage(progressDialog, ref currentActionCount, totalActionCount);
                     progressDialog.Title = "Meisterschaften werden geladen";
+                    progressDialog.PercentComplete = 75;
                     await Task.Delay(50);
 
                     var masteryCount = _wikiParseService.RefreshMasteriesFromWiki(logger);
-                    IncreaseProgressPercentage(progressDialog, ref currentActionCount, totalActionCount);
                     progressDialog.Title = "Wird abgeschlossen";
+                    progressDialog.PercentComplete = 100;
 
                     var msg = $"{Environment.NewLine}Status:" +
-                              $"{Environment.NewLine}      Warnungen: {col.Events.Count(_ => _.Level == LogEventLevel.Warning)}" +
-                              $"{Environment.NewLine}      Fehler: {col.Events.Count(_ => _.Level == LogEventLevel.Error)}" +
-                              $"{Environment.NewLine}      Kritisch: {col.Events.Count(_ => _.Level == LogEventLevel.Fatal)}" +
+                              $"{Environment.NewLine}      Warnungen: {logEventSink.Events.Count(_ => _.Level == LogEventLevel.Warning)}" +
+                              $"{Environment.NewLine}      Fehler: {logEventSink.Events.Count(_ => _.Level == LogEventLevel.Error)}" +
+                              $"{Environment.NewLine}      Kritisch: {logEventSink.Events.Count(_ => _.Level == LogEventLevel.Fatal)}" +
                               $"{Environment.NewLine}" +
                               $"{Environment.NewLine}" +
                               $"Gefundene Daten:" +
