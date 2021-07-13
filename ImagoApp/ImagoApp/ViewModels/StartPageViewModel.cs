@@ -85,30 +85,6 @@ namespace ImagoApp.ViewModels
             progressDialog.PercentComplete = _percent;
         }
 
-        private string GetProgressDialog(string currentTitle, CollectionSink collectionSink, int? armorCount = null, int? weaponCount = null, int? talentCount = null, int? masteryCount = null)
-        {
-            return $"Daten werden aus dem Wiki gelesen.." +
-                   $"{Environment.NewLine}" +
-                   $"--------------------------------------------------------" +
-                   $"{Environment.NewLine}" +
-                   $"{Environment.NewLine}" +
-                   $"{currentTitle}" +
-                   $"{Environment.NewLine}" +
-                   $"{Environment.NewLine}" +
-                   $"Status:" +
-                   $"{Environment.NewLine}      Warnungen: {collectionSink.Events.Count(_=>_.Level == LogEventLevel.Warning)}" +
-                   $"{Environment.NewLine}      Fehler: {collectionSink.Events.Count(_ => _.Level == LogEventLevel.Error)}" +
-                   $"{Environment.NewLine}      Kritisch: {collectionSink.Events.Count(_ => _.Level == LogEventLevel.Fatal)}" +
-                   $"{Environment.NewLine}" +
-                   $"{Environment.NewLine}" +
-                   $"Gefundene Daten:" +
-                   $"{Environment.NewLine}      Rüstungen: {armorCount?.ToString()}" +
-                   $"{Environment.NewLine}      Waffen: {weaponCount?.ToString()}" +
-                   $"{Environment.NewLine}      Talente: {talentCount?.ToString()}" +
-                   $"{Environment.NewLine}      Meisterschaften: {masteryCount?.ToString()}" +
-                   $"{Environment.NewLine}";
-        }
-
         private class CollectionSink : ILogEventSink
         {
             public ICollection<LogEvent> Events { get; } = new List<LogEvent>();
@@ -132,15 +108,13 @@ namespace ImagoApp.ViewModels
         {
             var totalActionCount = 4;
             var currentActionCount = 0;
-
-            //         var logFile = Path.Combine(_logFolder, $"wiki_parse_{DateTime.Now:dd.MM.yyyy_HH.mm}.log");
+            
             var logFile = Path.Combine(_logFolder, $"wiki_parse.log");
             if (File.Exists(logFile))
                 File.Delete(logFile);
 
             var col = new CollectionSink();
-
-
+            
             using (var logger = new LoggerConfiguration().WriteTo.Debug()
                 .WriteTo.File(logFile)
                 .WriteTo.Sink(col)
@@ -148,35 +122,58 @@ namespace ImagoApp.ViewModels
             {
                 using (var progressDialog = UserDialogs.Instance.Progress(""))
                 {
-                    progressDialog.Title = GetProgressDialog("Rüstungen werden geladen", col);
+                    progressDialog.Title = "Rüstungen werden geladen";
                     await Task.Delay(50);
 
                     var armorCount = _wikiParseService.RefreshArmorFromWiki(logger);
                     IncreaseProgressPercentage(progressDialog, ref currentActionCount, totalActionCount);
-                    progressDialog.Title = GetProgressDialog("Waffen werden geladen", col, armorCount);
+                    progressDialog.Title = "Waffen werden geladen";
                     await Task.Delay(50);
 
                     var weaponCount = _wikiParseService.RefreshWeaponsFromWiki(logger);
                     IncreaseProgressPercentage(progressDialog, ref currentActionCount, totalActionCount);
-                    progressDialog.Title = GetProgressDialog("Talente werden geladen", col, armorCount, weaponCount);
+                    progressDialog.Title = "Talente werden geladen";
                     await Task.Delay(50);
 
                     var talentCount = _wikiParseService.RefreshTalentsFromWiki(logger);
                     IncreaseProgressPercentage(progressDialog, ref currentActionCount, totalActionCount);
-                    progressDialog.Title = GetProgressDialog("Meisterschaften werden geladen", col, armorCount,
-                        weaponCount,
-                        talentCount);
+                    progressDialog.Title = "Meisterschaften werden geladen";
                     await Task.Delay(50);
 
                     var masteryCount = _wikiParseService.RefreshMasteriesFromWiki(logger);
                     IncreaseProgressPercentage(progressDialog, ref currentActionCount, totalActionCount);
-                    progressDialog.Title = GetProgressDialog("Wird abgeschlossen", col, armorCount, weaponCount,
-                        talentCount, masteryCount);
-                    await Task.Delay(1500);
+                    progressDialog.Title = "Wird abgeschlossen";
+
+                    var msg = $"{Environment.NewLine}Status:" +
+                              $"{Environment.NewLine}      Warnungen: {col.Events.Count(_ => _.Level == LogEventLevel.Warning)}" +
+                              $"{Environment.NewLine}      Fehler: {col.Events.Count(_ => _.Level == LogEventLevel.Error)}" +
+                              $"{Environment.NewLine}      Kritisch: {col.Events.Count(_ => _.Level == LogEventLevel.Fatal)}" +
+                              $"{Environment.NewLine}" +
+                              $"{Environment.NewLine}" +
+                              $"Gefundene Daten:" +
+                              $"{Environment.NewLine}      Rüstungen: {armorCount?.ToString()}" +
+                              $"{Environment.NewLine}      Waffen: {weaponCount?.ToString()}" +
+                              $"{Environment.NewLine}      Talente: {talentCount?.ToString()}" +
+                              $"{Environment.NewLine}      Meisterschaften: {masteryCount?.ToString()}";
+                    
+                    UserDialogs.Instance.Confirm(new ConfirmConfig
+                    {
+                        Message = msg,
+                        Title = "Daten wurde aus dem Wiki gelesen",
+                        OkText = "OK",
+                        CancelText = "Logdatei öffnen",
+                        OnAction = result =>
+                        {
+                            if (!result)
+                            {
+                                var target = new ReadOnlyFile(Path.Combine(_logFolder, _logFileName));
+                                var request = new OpenFileRequest {File = target};
+                                Launcher.OpenAsync(request);
+                            }
+                        }
+                    });
                 }
             }
-
-            ((Command)OpenLogFileCommand).ChangeCanExecute();
 
             RefreshDatabaseInfos();
         }));
@@ -194,16 +191,7 @@ namespace ImagoApp.ViewModels
                 }
             });
         }));
-
-        private ICommand _openLogFileCommand;
-
-        public ICommand OpenLogFileCommand => _openLogFileCommand ?? (_openLogFileCommand = new Command(() =>
-        {
-            var target = new ReadOnlyFile(Path.Combine(_logFolder, _logFileName));
-            var request = new OpenFileRequest { File = target };
-            Launcher.OpenAsync(request);
-        }, () => File.Exists(Path.Combine(_logFolder, _logFileName))));
-
+        
         private async Task OpenCharacter(Character character, bool editMode)
         {
             var viewModel = new CharacterViewModel(character, _ruleService);
@@ -266,8 +254,7 @@ namespace ImagoApp.ViewModels
         private ICommand _generateTestCharacterCommand;
         private string _version;
         private int _percent;
-        private string _updateButtonText;
-
+        
         public ICommand GenerateTestCharacterCommand => _generateTestCharacterCommand ?? (_generateTestCharacterCommand = new Command(() =>
             {
                 Task.Run(async () =>

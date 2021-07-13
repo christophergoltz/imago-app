@@ -43,7 +43,6 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -52,11 +51,9 @@
                        
                         <Button Grid.Column="1" Text="Daten aus Wiki laden" VerticalOptions="Center" Margin="5"
                                 Command="{Binding ParseWikiCommand,Source={RelativeSource AncestorType={x:Type viewModels:StartPageViewModel}}}"></Button>
-                        <Button Grid.Column="2" Text="Log-Datei öffnen" VerticalOptions="Center" Margin="5"
-                                Command="{Binding OpenLogFileCommand,Source={RelativeSource AncestorType={x:Type viewModels:StartPageViewModel}}}"></Button>
 
-                        <Label Grid.Column="4" Margin="25,0" HorizontalOptions="EndAndExpand" Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.Length, Converter={StaticResource FileInfoLenghtToSmartFileSizeConverter}}" FontSize="24"></Label>
-                        <Label Grid.Column="5" Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.LastWriteTime, StringFormat='{0:dd.MM.yyyy HH:mm}'}" HorizontalOptions="EndAndExpand" FontSize="24"></Label>
+                        <Label Grid.Column="3" Margin="25,0" HorizontalOptions="EndAndExpand" Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.Length, Converter={StaticResource FileInfoLenghtToSmartFileSizeConverter}}" FontSize="24"></Label>
+                        <Label Grid.Column="4" Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.LastWriteTime, StringFormat='{0:dd.MM.yyyy HH:mm}'}" HorizontalOptions="EndAndExpand" FontSize="24"></Label>
                     </Grid>
 
                     <StackLayout Orientation="Horizontal">
