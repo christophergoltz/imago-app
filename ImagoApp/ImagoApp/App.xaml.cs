@@ -15,14 +15,14 @@ namespace ImagoApp
         public static StartPage StartPage;
         public static CharacterViewModel CurrentCharacterViewModel { get; set; }
 
-        private static ViewModelLocator _viewModelLocator;
+        private static ServiceLocator _serviceLocator;
 
         public App(IFileService fileService)
         {
             InitializeComponent();
 
             var localApplicationData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            _viewModelLocator = new ViewModelLocator(localApplicationData);
+            _serviceLocator = new ServiceLocator(localApplicationData);
 
 #if DEBUG
             AppCenter.Start("uwp=4350071e-000b-4ab6-bfae-369afc829008;", typeof(Analytics), typeof(Crashes));
@@ -30,10 +30,10 @@ namespace ImagoApp
             AppCenter.Start("uwp=5b35b16b-6bde-4772-9972-b7d1809327fb;",typeof(Analytics), typeof(Crashes));
 #endif
             
-            var startPageViewModel = new StartPageViewModel(_viewModelLocator, _viewModelLocator.CharacterService(),
-                _viewModelLocator.WikiParseService(), _viewModelLocator.WikiDataService(),
-                _viewModelLocator.RuleService(),
-                _viewModelLocator.CharacterCreationService(), _viewModelLocator.WikiService(),
+            var startPageViewModel = new StartPageViewModel(_serviceLocator, _serviceLocator.CharacterService(),
+                _serviceLocator.WikiParseService(), _serviceLocator.WikiDataService(),
+                _serviceLocator.RuleService(),
+                _serviceLocator.CharacterCreationService(), _serviceLocator.WikiService(),
                 localApplicationData, fileService);
 
             MainPage = new StartPage(startPageViewModel);
@@ -44,7 +44,7 @@ namespace ImagoApp
             if (CurrentCharacterViewModel == null)
                 return true;
 
-            return _viewModelLocator.CharacterService().SaveCharacter(CurrentCharacterViewModel.Character);
+            return _serviceLocator.CharacterService().SaveCharacter(CurrentCharacterViewModel.Character);
         }
 
         protected override void OnStart()

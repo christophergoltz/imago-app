@@ -9,7 +9,7 @@ using ImagoApp.ViewModels;
 
 namespace ImagoApp.Util
 {
-    public sealed class ViewModelLocator
+    public sealed class ServiceLocator
     {
         private readonly Lazy<IRuleService> _ruleService;
         private readonly Lazy<IWikiService> _wikiService;
@@ -19,7 +19,7 @@ namespace ImagoApp.Util
         private readonly Lazy<ICharacterCreationService> _characterCreationService;
         private readonly IMapper _mapper;
        
-        public ViewModelLocator(string imagoFolder)
+        public ServiceLocator(string imagoFolder)
         {
             Debug.WriteLine("DatabaseFolder: " + imagoFolder);
 

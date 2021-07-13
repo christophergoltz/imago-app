@@ -24,7 +24,7 @@ namespace ImagoApp.ViewModels
 {
     public class StartPageViewModel : BindableBase
     {
-        private readonly ViewModelLocator _viewModelLocator;
+        private readonly ServiceLocator _serviceLocator;
         private readonly ICharacterService _characterService;
         private readonly IWikiParseService _wikiParseService;
         private readonly IWikiDataService _wikiDataService;
@@ -45,7 +45,7 @@ namespace ImagoApp.ViewModels
 
         public DatabaseInfoViewModel DatabaseInfoViewModel { get; set; }
 
-        public StartPageViewModel(ViewModelLocator viewModelLocator, 
+        public StartPageViewModel(ServiceLocator serviceLocator, 
             ICharacterService characterService,
             IWikiParseService wikiParseService,
             IWikiDataService wikiDataService,
@@ -59,7 +59,7 @@ namespace ImagoApp.ViewModels
             DatabaseInfoViewModel = new DatabaseInfoViewModel();
             Characters = new ObservableCollection<Character>();
 
-            _viewModelLocator = viewModelLocator;
+            _serviceLocator = serviceLocator;
             _characterService = characterService;
             _wikiParseService = wikiParseService;
             _wikiDataService = wikiDataService;
@@ -214,24 +214,24 @@ namespace ImagoApp.ViewModels
             try
             {
                 //create all required dependencies
-                var c = new CharacterInfoPageViewModel(viewModel, _viewModelLocator.RuleService());
-                var i = new WikiPageViewModel();
-                var t = new SkillPageViewModel(viewModel, _viewModelLocator.WikiService(),
-                    _viewModelLocator.WikiDataService(), _viewModelLocator.RuleService());
-                t.OpenWikiPageRequested += (sender, s) => { i.OpenWikiPage(s); };
-                var z = new StatusPageViewModel(viewModel, _viewModelLocator.WikiDataService());
-                var u = new InventoryViewModel(viewModel);
-                var vm = new AppShellViewModel(_characterService, c, t, z, u, i)
+                var characterInfoPageViewModel = new CharacterInfoPageViewModel(viewModel, _serviceLocator.RuleService());
+                var wikiPageViewModel = new WikiPageViewModel();
+                var skillPageViewModel = new SkillPageViewModel(viewModel, _serviceLocator.WikiService(),
+                    _serviceLocator.WikiDataService(), _serviceLocator.RuleService());
+                skillPageViewModel.OpenWikiPageRequested += (sender, s) => { wikiPageViewModel.OpenWikiPage(s); };
+                var statusPageViewModel = new StatusPageViewModel(viewModel, _serviceLocator.WikiDataService());
+                var inventoryViewModel = new InventoryViewModel(viewModel);
+                var appShellViewModel = new AppShellViewModel(_characterService, characterInfoPageViewModel, skillPageViewModel, statusPageViewModel, inventoryViewModel, wikiPageViewModel)
                 {
                     EditMode = editMode
                 };
 
-                var shell = new AppShell(vm);
+                var appShell = new AppShell(appShellViewModel);
 
                 await Device.InvokeOnMainThreadAsync(() =>
                 {
                     App.StartPage = (StartPage) Xamarin.Forms.Application.Current.MainPage;
-                    Xamarin.Forms.Application.Current.MainPage = shell;
+                    Xamarin.Forms.Application.Current.MainPage = appShell;
                 });
             }
             catch (Exception e)
