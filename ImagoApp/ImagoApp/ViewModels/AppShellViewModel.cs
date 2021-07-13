@@ -55,9 +55,10 @@ namespace ImagoApp.ViewModels
             return newDetail;
         }
 
-        public AppShellViewModel(ICharacterService characterService, CharacterInfoPageViewModel  characterInfoPageViewModel,
+        public AppShellViewModel(ICharacterService characterService,
+            CharacterInfoPageViewModel characterInfoPageViewModel,
             SkillPageViewModel skillPageViewModel, StatusPageViewModel statusPageViewModel,
-            InventoryViewModel inventoryViewModel, WikiPageViewModel wikiPageViewModel )
+            InventoryViewModel inventoryViewModel, WikiPageViewModel wikiPageViewModel)
         {
             _characterService = characterService;
             _characterInfoPageViewModel = characterInfoPageViewModel;
@@ -66,26 +67,49 @@ namespace ImagoApp.ViewModels
             _inventoryViewModel = inventoryViewModel;
             _wikiPageViewModel = wikiPageViewModel;
 
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                MenuItems = CreateMainMenu();
-            });
-            
+            Device.BeginInvokeOnMainThread(() => { MenuItems = CreateMainMenu(); });
+
             GoToMainMenuCommand = new Command(() =>
             {
+                bool saveResult= false;
                 Task.Run(async () =>
                 {
                     using (UserDialogs.Instance.Loading("Charakter wird gespeichert", null, null, true, MaskType.Black))
                     {
-                        await Task.Delay(250);
-                        var result = _characterService.SaveCharacter(App.CurrentCharacterViewModel.Character);
-                        if (result)
-                            await Device.InvokeOnMainThreadAsync(() =>
-                            {
-                                Xamarin.Forms.Application.Current.MainPage = App.StartPage;
-                            });
+                        await Task.Delay(50);
+                        saveResult = App.SaveCurrentCharacter();
+                        await Task.Delay(50);
+                    }
 
-                        await Task.Delay(250);
+                    if (saveResult)
+                    {
+                        await Device.InvokeOnMainThreadAsync(() =>
+                        {
+                            Xamarin.Forms.Application.Current.MainPage = App.StartPage;
+                        });
+                    }
+                    else
+                    {
+                        UserDialogs.Instance.Confirm(new ConfirmConfig
+                        {
+                            Message = $"{Environment.NewLine}Wie soll fortgefahren werden?" +
+                                      $"{Environment.NewLine}{Environment.NewLine}      Abbrechen: Charakter bleibt geöffnet und speichern kann erneut versucht werden" +
+                                      $"{Environment.NewLine}{Environment.NewLine}      Änderungen löschen: Die letzten Änderungen am Charakter werden nicht gespeichert und die Startseite wird geöffnet",
+                            Title = "Fehler, der Charakter konnte nicht gespeichert werden",
+                            OkText = "Abbrechen",
+                            CancelText = "Änderungen löschen",
+                            OnAction = result =>
+                            {
+                                if (!result)
+                                {
+                                    //user confirmed to go back anyway
+                                    Device.BeginInvokeOnMainThread(() =>
+                                    {
+                                        Xamarin.Forms.Application.Current.MainPage = App.StartPage;
+                                    });
+                                }
+                            }
+                        });
                     }
                 });
             });

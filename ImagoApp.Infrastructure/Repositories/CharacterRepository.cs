@@ -55,9 +55,7 @@ namespace ImagoApp.Infrastructure.Repositories
             {
                 item.LastEdit = DateTime.Now;
                 var collection = db.GetCollection<CharacterEntity>(CollectionName);
-                var result = collection.Update(item);
-
-                return result;
+                return collection.Update(item);
             }
         }
 
