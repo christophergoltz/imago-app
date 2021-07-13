@@ -33,13 +33,8 @@ namespace ImagoApp.ViewModels
         private readonly IWikiService _wikiService;
         private readonly string _logFolder;
         private readonly string _logFileName = "wiki_parse.log";
-        private ObservableCollection<Character> _characters;
 
-        public ObservableCollection<Character> Characters
-        {
-            get => _characters;
-            set => SetProperty(ref _characters, value);
-        }
+        public ObservableCollection<Character> Characters { get; private set; }
 
         public string Version
         {
@@ -61,6 +56,7 @@ namespace ImagoApp.ViewModels
             VersionTracking.Track();
             Version = VersionTracking.CurrentVersion;
             DatabaseInfoViewModel = new DatabaseInfoViewModel();
+            Characters = new ObservableCollection<Character>();
 
             _viewModelLocator = viewModelLocator;
             _characterService = characterService;
@@ -73,8 +69,7 @@ namespace ImagoApp.ViewModels
 
             Task.Run(() =>
             {
-                RefreshDatabaseInfos();
-                RefreshCharacterList();
+                RefreshData(false);
                 CheckWikiData();
             });
         }
@@ -110,7 +105,6 @@ namespace ImagoApp.ViewModels
         }
 
         private ICommand _openChangeLogCommand;
-
         public ICommand OpenChangeLogCommand => _openChangeLogCommand ?? (_openChangeLogCommand = new Command(() =>
         {
             Launcher.OpenAsync(_wikiService.GetChangelogUrl());
@@ -186,7 +180,7 @@ namespace ImagoApp.ViewModels
                 }
             }
 
-            RefreshDatabaseInfos();
+            RefreshData(false);
         }));
 
         private ICommand _openCharacterCommand;
@@ -210,7 +204,6 @@ namespace ImagoApp.ViewModels
 
             try
             {
-
                 //create all required dependencies
                 var c = new CharacterInfoPageViewModel(viewModel, _viewModelLocator.RuleService());
                 var i = new WikiPageViewModel();
@@ -254,7 +247,7 @@ namespace ImagoApp.ViewModels
                         newChar.Version = Version;
                         
                         _characterService.AddCharacter(newChar);
-                        RefreshCharacterList();
+                        RefreshData(true);
 
                         await OpenCharacter(newChar, true);
                         await Task.Delay(250);
@@ -264,7 +257,6 @@ namespace ImagoApp.ViewModels
 
         private ICommand _generateTestCharacterCommand;
         private string _version;
-        private int _percent;
         
         public ICommand GenerateTestCharacterCommand => _generateTestCharacterCommand ?? (_generateTestCharacterCommand = new Command(() =>
             {
@@ -281,7 +273,7 @@ namespace ImagoApp.ViewModels
                         newChar.Version = Version;
                         
                         _characterService.AddCharacter(newChar);
-                        RefreshCharacterList();
+                        RefreshData(true);
 
                         await OpenCharacter(newChar, false);
                         await Task.Delay(250);
@@ -289,14 +281,22 @@ namespace ImagoApp.ViewModels
                 });
             }));
         
-        private void RefreshCharacterList()
+        public void RefreshData(bool resetCurrentCharacter)
         {
-            var characters = _characterService.GetAll();
-            Characters = new ObservableCollection<Character>(characters.OrderByDescending(entity => entity.LastEdit));
-        }
+            if (resetCurrentCharacter)
+                App.CurrentCharacterViewModel = null;
 
-        private void RefreshDatabaseInfos()
-        {
+            var characters = _characterService.GetAll();
+
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                Characters.Clear();
+                foreach (var character in characters.OrderByDescending(entity => entity.LastEdit))
+                {
+                    Characters.Add(character);
+                }
+            });
+
             DatabaseInfoViewModel.ArmorTemplateCount = _wikiDataService.GetArmorWikiDataItemCount();
             DatabaseInfoViewModel.WeaponTemplateCount = _wikiDataService.GetWeaponWikiDataItemCount();
             DatabaseInfoViewModel.TalentTemplateCount = _wikiDataService.GetTalentWikiDataItemCount();

@@ -41,7 +41,7 @@ namespace ImagoApp.Application.Services
             Debug.WriteLine("Start saving..");
             var entity = _mapper.Map<CharacterEntity>(character);
             var result = _characterRepository.UpdateItem(entity);
-            Debug.WriteLine("Done saving..");
+            Debug.WriteLine("Done saving: " + result);
             return result;
         }
 

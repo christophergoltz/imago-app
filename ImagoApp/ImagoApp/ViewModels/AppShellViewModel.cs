@@ -71,7 +71,7 @@ namespace ImagoApp.ViewModels
 
             GoToMainMenuCommand = new Command(() =>
             {
-                bool saveResult= false;
+                bool saveResult = false;
                 Task.Run(async () =>
                 {
                     using (UserDialogs.Instance.Loading("Charakter wird gespeichert", null, null, true, MaskType.Black))
@@ -86,6 +86,9 @@ namespace ImagoApp.ViewModels
                         await Device.InvokeOnMainThreadAsync(() =>
                         {
                             Xamarin.Forms.Application.Current.MainPage = App.StartPage;
+
+                            //clean up last ressources
+                            App.StartPage.StartPageViewModel.RefreshData(true);
                         });
                     }
                     else
@@ -106,6 +109,9 @@ namespace ImagoApp.ViewModels
                                     Device.BeginInvokeOnMainThread(() =>
                                     {
                                         Xamarin.Forms.Application.Current.MainPage = App.StartPage;
+
+                                        //clean up last ressources
+                                        App.StartPage.StartPageViewModel.RefreshData(true);
                                     });
                                 }
                             }
