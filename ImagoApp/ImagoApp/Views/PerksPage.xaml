@@ -4,7 +4,7 @@
              x:Class="ImagoApp.Views.PerksPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="[tbd]"
+            <Label Text="Hier gibt es nocht nichts zu sehen" FontSize="22"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
         </StackLayout>
