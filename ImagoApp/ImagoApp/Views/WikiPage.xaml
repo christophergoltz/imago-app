@@ -3,16 +3,22 @@
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
             xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp"
+            xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application"
             x:Class="ImagoApp.Views.WikiPage"
             Title="Imago Wiki" 
             x:DataType="viewModels:WikiPageViewModel"
-            ItemsSource="{Binding WikiEntryList}"
-            SelectedItem="{Binding SelectedWikiPageEntry}"
+            ItemsSource="{Binding WikiTabList}"
+            SelectedItem="{Binding SelectedWikiTab}"
             BarBackgroundColor="LightGray"
-            BarTextColor="Black">
+            BarTextColor="Black"
+            x:Name="WikiPageControl">
     <TabbedPage.ItemTemplate>
-        <DataTemplate>
-            <customControls:WikiEntryPage/>
+        <DataTemplate x:DataType="models:WikiTabModel">
+            <customControls:WikiTabView 
+                WikiTabModel="{Binding .}" 
+                OpenPageCommand="{Binding WikiPageViewModel.OpenWikiPageCommand, Source={x:Reference WikiPageControl}}"
+                CloseTabCommand="{Binding WikiPageViewModel.CloseWikiTabCommand, Source={x:Reference WikiPageControl}}"
+                GoBackToMainpageCommand="{Binding WikiPageViewModel.GoBackToWikiMainpageCommand, Source={x:Reference WikiPageControl}}"/>
         </DataTemplate>
     </TabbedPage.ItemTemplate>
 </TabbedPage>

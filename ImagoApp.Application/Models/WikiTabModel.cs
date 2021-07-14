@@ -1,8 +1,8 @@
 ﻿namespace ImagoApp.Application.Models
 {
-    public class WikiPageEntry : BindableBase
+    public class WikiTabModel : BindableBase
     {
-        public WikiPageEntry(string url)
+        public WikiTabModel(string url)
         {
             Url = url;
         }

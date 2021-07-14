@@ -59,7 +59,7 @@
     <EmbeddedResource Update="Views\CustomControls\WeaponDetailView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\CustomControls\WikiEntryPage.xaml">
+    <EmbeddedResource Update="Views\CustomControls\WikiTabView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\InventoryPage.xaml">
@@ -85,6 +85,9 @@
   <ItemGroup>
     <Compile Update="Views\CustomControls\WeaponDetailView.xaml.cs">
       <DependentUpon>WeaponDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\CustomControls\WikiTabView.xaml.cs">
+      <DependentUpon>WikiTabView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>

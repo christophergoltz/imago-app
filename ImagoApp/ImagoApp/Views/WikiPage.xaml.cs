@@ -7,9 +7,10 @@ namespace ImagoApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class WikiPage : TabbedPage
     {
+        public WikiPageViewModel WikiPageViewModel { get; }
         public WikiPage(WikiPageViewModel wikiPageViewModel)
         {
-            BindingContext = wikiPageViewModel;
+            BindingContext = WikiPageViewModel = wikiPageViewModel;
             InitializeComponent();
         }
     }

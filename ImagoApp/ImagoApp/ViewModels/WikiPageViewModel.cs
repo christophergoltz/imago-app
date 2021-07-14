@@ -1,65 +1,62 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
 using ImagoApp.Application;
 using ImagoApp.Application.Models;
 using ImagoApp.Util;
+using Xamarin.Forms;
 
 namespace ImagoApp.ViewModels
 {
     public class WikiPageViewModel : BindableBase
     {
-        private WikiEntryPageViewModel _selectedWikiPageEntry;
-        public ObservableCollection<WikiEntryPageViewModel> WikiEntryList { get; set; }
-        public static WikiPageViewModel Instance { get; set; }
+        private WikiTabModel _selectedWikiTab;
+        public ObservableCollection<WikiTabModel> WikiTabList { get; set; }
 
-        public event EventHandler<string> OpenWikiPageRequested;
-
-        public WikiEntryPageViewModel SelectedWikiPageEntry
+        public WikiTabModel SelectedWikiTab
         {
-            get => _selectedWikiPageEntry;
-            set => SetProperty(ref _selectedWikiPageEntry, value);
+            get => _selectedWikiTab;
+            set => SetProperty(ref _selectedWikiTab, value);
         }
 
         public WikiPageViewModel()
         {
-            WikiEntryList = new ObservableCollection<WikiEntryPageViewModel>()
+            WikiTabList = new ObservableCollection<WikiTabModel>
             {
-                CreateNewWikiEntryPageViewModel(new WikiPageEntry(WikiConstants.WikiMainPageUrl)
+                new WikiTabModel(WikiConstants.WikiMainPageUrl)
                 {
                     Title = "Startseite"
-                })
+                }
             };
         }
+
+        private ICommand _closeWikiTabCommand;
+        public ICommand CloseWikiTabCommand => _closeWikiTabCommand ?? (_closeWikiTabCommand = new Command<WikiTabModel>(wikiTabModel =>
+        {
+            WikiTabList.Remove(wikiTabModel);
+        }));
+
+        private ICommand _openWikiPageCommand;
+        public ICommand OpenWikiPageCommand => _openWikiPageCommand ?? (_openWikiPageCommand = new Command<string>(url =>
+        {
+            OpenWikiPage(url);
+        }));
+
+        private ICommand _goBackToWikiMainpageCommand;
+        public ICommand GoBackToWikiMainpageCommand => _goBackToWikiMainpageCommand ?? (_goBackToWikiMainpageCommand = new Command(() =>
+        {
+            SelectedWikiTab = WikiTabList[0];
+        }));
 
         public void OpenWikiPage(string url)
         {
-            var vm = CreateNewWikiEntryPageViewModel(new WikiPageEntry(url));
-            WikiEntryList.Add(vm);
-            SelectedWikiPageEntry = vm;
-        }
-
-        public void GoToStartWikiPage()
-        {
-            SelectedWikiPageEntry = WikiEntryList[0];
-        }
-
-        private WikiEntryPageViewModel CreateNewWikiEntryPageViewModel(WikiPageEntry entry)
-        {
-            var viewModel = new WikiEntryPageViewModel(entry);
-
-            viewModel.PageCloseRequested += (sender, model) =>
+            Device.BeginInvokeOnMainThread(() =>
             {
-                WikiEntryList.Remove(model);
-                SelectedWikiPageEntry = WikiEntryList.LastOrDefault();
-            };
-            viewModel.OpenWikiPageRequested += (sender, s) =>
-            {
-                OpenWikiPageRequested?.Invoke(this, s);
-            };
-
-            return viewModel;
+                var wikiTabModel = new WikiTabModel(url);
+                WikiTabList.Add(wikiTabModel);
+                SelectedWikiTab = wikiTabModel;
+            });
         }
-
     }
 }
