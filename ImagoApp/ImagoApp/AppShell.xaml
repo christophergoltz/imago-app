@@ -7,7 +7,7 @@
        xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp"
        Appearing="AppShell_OnAppearing"
        Title="Imago"    
-        x:DataType="viewModels:AppShellViewModel"  
+       x:DataType="viewModels:AppShellViewModel"  
        x:Class="ImagoApp.AppShell">
     <FlyoutPage.Detail>
         <NavigationPage Title="Imago" HasNavigationBar="False">
@@ -35,7 +35,7 @@
                 <BoxView Grid.Row="1" Color="White"/>
 
                  <!--menu items-->
-                <CollectionView Grid.Row="2" SelectionMode="Single" SelectionChanged="SelectableItemsView_OnSelectionChanged" SelectedItem="SelectableItemsView_OnSelectionChanged" 
+                <CollectionView Grid.Row="2" SelectionMode="Single" SelectionChanged="SelectableItemsView_OnSelectionChanged" x:Name="MainMenuCollectionView"
                                 ItemsSource="{Binding MenuItems}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="customControls:FlyoutPageItem">

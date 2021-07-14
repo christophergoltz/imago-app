@@ -16,7 +16,8 @@ namespace ImagoApp
             appShellViewModel.WikiPageOpenRequested += (sender, args) =>
             {
                 var wikiPage = AppShellViewModel.MenuItems.First(item => item.PageType == typeof(WikiPage));
-                SetSelectedPage(wikiPage);
+                //direct access to listview is required to set selection accordingly to ui
+                MainMenuCollectionView.SelectedItem = wikiPage;
             };
             BindingContext = AppShellViewModel = appShellViewModel;
             InitializeComponent();
@@ -27,7 +28,8 @@ namespace ImagoApp
             Device.BeginInvokeOnMainThread(() =>
             {
                 var flyoutPageItem = AppShellViewModel.MenuItems.First();
-                SetSelectedPage(flyoutPageItem);
+                //direct access to listview is required to set selection accordingly to ui
+                MainMenuCollectionView.SelectedItem = flyoutPageItem;
             });
         }
 
@@ -37,21 +39,16 @@ namespace ImagoApp
             {
                 if (e.CurrentSelection.First() is FlyoutPageItem flyoutPageItem)
                 {
-                    SetSelectedPage(flyoutPageItem);
+                    flyoutPageItem.IsSelected = true;
+                    Detail = flyoutPageItem.NavigationPage;
+
+                    //reset old selection
+                    var oldItems = AppShellViewModel.MenuItems.Where(pageItem => pageItem != flyoutPageItem).ToList();
+                    foreach (var oldItem in oldItems)
+                    {
+                        oldItem.IsSelected = false;
+                    }
                 }
-            }
-        }
-
-        private void SetSelectedPage(FlyoutPageItem flyoutPageItem)
-        {
-            flyoutPageItem.IsSelected = true;
-            Detail = flyoutPageItem.NavigationPage;
-
-            //reset old selection
-            var oldItems = AppShellViewModel.MenuItems.Where(pageItem => pageItem != flyoutPageItem).ToList();
-            foreach (var oldItem in oldItems)
-            {
-                oldItem.IsSelected = false;
             }
         }
     }

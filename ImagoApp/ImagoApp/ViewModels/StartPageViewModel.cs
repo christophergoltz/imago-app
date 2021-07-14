@@ -224,10 +224,10 @@ namespace ImagoApp.ViewModels
                     EditMode = editMode
                 };
 
-                skillPageViewModel.OpenWikiPageRequested += (sender, s) =>
+                skillPageViewModel.OpenWikiPageRequested += (sender, url) =>
                 {
                     appShellViewModel.RaiseWikiPageOpenRequested();
-                    wikiPageViewModel.OpenWikiPage(s);
+                    wikiPageViewModel.OpenWikiPage(url);
                 };
 
                 var appShell = new AppShell(appShellViewModel);
