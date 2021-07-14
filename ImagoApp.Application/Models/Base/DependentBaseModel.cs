@@ -2,7 +2,7 @@
 
 namespace ImagoApp.Application.Models.Base
 {
-    public abstract class DependentBase : IncreasableBase
+    public abstract class DependentBaseModel : IncreasableBaseModel
     {
         private int _baseValue;
         

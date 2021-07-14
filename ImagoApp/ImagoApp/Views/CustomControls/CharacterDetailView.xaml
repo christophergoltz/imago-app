@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ImagoApp.Views.CustomControls.CharacterDetailView" x:Name="CharacterDetailViewControl">
   <ContentView.Content>
-        <Grid BindingContext="{Binding  Character, Source={x:Reference CharacterDetailViewControl}}">
+        <Grid BindingContext="{Binding  CharacterModel, Source={x:Reference CharacterDetailViewControl}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>

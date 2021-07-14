@@ -2,7 +2,7 @@
 
 namespace ImagoApp.Application.Models.Base
 {
-    public abstract class CalculableBase : BindableBase
+    public abstract class CalculableBaseModel : BindableBase
     {
         private double _finalValue;
         

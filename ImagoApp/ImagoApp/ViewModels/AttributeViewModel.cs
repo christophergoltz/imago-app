@@ -5,31 +5,31 @@ namespace ImagoApp.ViewModels
 {
     public class AttributeViewModel : BindableBase
     {
-        public AttributeViewModel(Attribute attribute, CharacterViewModel characterViewModel)
+        public AttributeViewModel(AttributeModel attributeModel, CharacterViewModel characterViewModel)
         {
-            Attribute = attribute;
+            AttributeModel = attributeModel;
             CharacterViewModel = characterViewModel;
         }
 
-        public Attribute Attribute { get; set; }
+        public AttributeModel AttributeModel { get; set; }
         public CharacterViewModel CharacterViewModel { get; }
 
         public int Corrosion
         {
-            get => Attribute.Corrosion;
+            get => AttributeModel.Corrosion;
             set
             {
-                CharacterViewModel.SetCorrosionValue(Attribute, value);
+                CharacterViewModel.SetCorrosionValue(AttributeModel, value);
                 OnPropertyChanged(nameof(Corrosion));
             }
         }
 
         public int Modification
         {
-            get => Attribute.ModificationValue;
+            get => AttributeModel.ModificationValue;
             set
             {
-                CharacterViewModel.SetModificationValue(Attribute, value);
+                CharacterViewModel.SetModificationValue(AttributeModel, value);
                 OnPropertyChanged(nameof(Modification));
             }
         }
@@ -37,10 +37,10 @@ namespace ImagoApp.ViewModels
 
         public int TotalExperienceValue
         {
-            get => Attribute.TotalExperience;
+            get => AttributeModel.TotalExperience;
             set
             {
-                CharacterViewModel.SetExperienceToAttribute(Attribute, value);
+                CharacterViewModel.SetExperienceToAttribute(AttributeModel, value);
                 OnPropertyChanged(nameof(TotalExperienceValue));
             }
         }

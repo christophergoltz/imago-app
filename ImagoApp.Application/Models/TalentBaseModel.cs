@@ -1,6 +1,6 @@
 ﻿namespace ImagoApp.Application.Models
 {
-    public abstract class TalentBase : BindableBase
+    public abstract class TalentBaseModel : BindableBase
     {
         private string _name;
         private bool _activeUse;
@@ -9,12 +9,12 @@
         private string _phaseValueMod;
         private string _description;
 
-        public TalentBase()
+        public TalentBaseModel()
         {
 
         }
 
-        protected TalentBase(string name, string shortDescription, string description, bool activeUse, int? difficulty,
+        protected TalentBaseModel(string name, string shortDescription, string description, bool activeUse, int? difficulty,
             string phaseValueMod)
         {
             Name = name;

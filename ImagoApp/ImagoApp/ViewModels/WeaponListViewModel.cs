@@ -21,11 +21,11 @@ namespace ImagoApp.ViewModels
         private readonly IWikiDataService _wikiDataService;
         public ICommand AddWeaponCommand { get; }
 
-        public event EventHandler<Weapon> OpenWeaponRequested;
+        public event EventHandler<WeaponModel> OpenWeaponRequested;
 
         public WeaponListViewModel(CharacterViewModel characterViewModel, IWikiDataService wikiDataService)
         {
-            foreach (var weapon in characterViewModel.Character.Weapons)
+            foreach (var weapon in characterViewModel.CharacterModel.Weapons)
             {
                 weapon.PropertyChanged += OnWeaponLoadValueChanged;
             }
@@ -65,7 +65,7 @@ namespace ImagoApp.ViewModels
 
                     await Device.InvokeOnMainThreadAsync(() =>
                     {
-                        _characterViewModel.Character.Weapons.Add(newWeapon);
+                        _characterViewModel.CharacterModel.Weapons.Add(newWeapon);
                     });
 
                     newWeapon.PropertyChanged += OnWeaponLoadValueChanged;
@@ -78,7 +78,7 @@ namespace ImagoApp.ViewModels
 
         private void OnWeaponLoadValueChanged(object sender, PropertyChangedEventArgs args)
         {
-            if (args.PropertyName.Equals(nameof(Weapon.LoadValue)))
+            if (args.PropertyName.Equals(nameof(WeaponModel.LoadValue)))
             {
                 _characterViewModel.RecalculateHandicapAttributes();
             }

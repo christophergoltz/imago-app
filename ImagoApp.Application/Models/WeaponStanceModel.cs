@@ -1,6 +1,6 @@
 ﻿namespace ImagoApp.Application.Models
 {
-    public class WeaponStance : BindableBase
+    public class WeaponStanceModel : BindableBase
     {
         private string _type;
         private string _phaseValue;
@@ -9,7 +9,7 @@
         private string _range;
 
 
-        public WeaponStance(string type, string phaseValue, string damageFormula, string parryModifier, string range)
+        public WeaponStanceModel(string type, string phaseValue, string damageFormula, string parryModifier, string range)
         {
             Type = type;
             ParryModifier = parryModifier;

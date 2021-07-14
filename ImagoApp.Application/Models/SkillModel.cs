@@ -3,7 +3,7 @@ using ImagoApp.Shared.Enums;
 
 namespace ImagoApp.Application.Models
 {
-    public class SkillModel : DependentBase
+    public class SkillModel : DependentBaseModel
     {
         public SkillModel()
         {

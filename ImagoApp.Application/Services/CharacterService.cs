@@ -13,9 +13,9 @@ namespace ImagoApp.Application.Services
 {
     public interface ICharacterService
     {
-        List<Character> GetAll();
-        bool SaveCharacter(Character character);
-        bool AddCharacter(Character character);
+        List<CharacterModel> GetAll();
+        bool SaveCharacter(CharacterModel characterModel);
+        bool AddCharacter(CharacterModel characterModel);
         FileInfo GetDatabaseInfo();
     }
 
@@ -30,26 +30,26 @@ namespace ImagoApp.Application.Services
             _mapper = mapper;
         }
 
-        public List<Character> GetAll()
+        public List<CharacterModel> GetAll()
         {
             var entities = _characterRepository.GetAllItems();
-            return _mapper.Map<List<Character>>(entities);
+            return _mapper.Map<List<CharacterModel>>(entities);
         }
 
-        public bool SaveCharacter(Character character)
+        public bool SaveCharacter(CharacterModel characterModel)
         {
             Debug.WriteLine("Start saving..");
-            var entity = _mapper.Map<CharacterEntity>(character);
+            var entity = _mapper.Map<CharacterEntity>(characterModel);
             var result = _characterRepository.UpdateItem(entity);
             Debug.WriteLine("Done saving: " + result);
             return result;
         }
 
-        public bool AddCharacter(Character character)
+        public bool AddCharacter(CharacterModel characterModel)
         {
             try
             {
-                var entity = _mapper.Map<CharacterEntity>(character);
+                var entity = _mapper.Map<CharacterEntity>(characterModel);
                 var result = _characterRepository.InsertItem(entity);
                 return result;
             }

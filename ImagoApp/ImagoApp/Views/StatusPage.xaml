@@ -8,7 +8,7 @@
              x:DataType="viewModels:StatusPageViewModel">
     <ContentPage.Resources>
         <ResourceDictionary>
-            <DataTemplate x:DataType="models:WeaponStance" x:Key="WeaponStanceQuickViewTemplate">
+            <DataTemplate x:DataType="models:WeaponStanceModel" x:Key="WeaponStanceQuickViewTemplate">
                 <Grid Margin="30,5,20,5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
@@ -23,7 +23,7 @@
                                Text="{Binding DamageFormula}" />
                 </Grid>
             </DataTemplate>
-            <DataTemplate x:DataType="models:Weapon" x:Key="WeaponQuickViewTemplate">
+            <DataTemplate x:DataType="models:WeaponModel" x:Key="WeaponQuickViewTemplate">
                 <Frame>
                     <Grid Padding="0,0,0,15" Style="{StaticResource SingleGradiantStyle}">
                         <Grid.GestureRecognizers>
@@ -117,7 +117,7 @@
                             <ScrollView Margin="0,10,0,0" >
                                 <StackLayout
                                     BindableLayout.ItemTemplate="{StaticResource WeaponQuickViewTemplate}"
-                                    BindableLayout.ItemsSource="{Binding CharacterViewModel.Character.Weapons}">
+                                    BindableLayout.ItemsSource="{Binding CharacterViewModel.CharacterModel.Weapons}">
                                 </StackLayout>
                             </ScrollView>
                         </StackLayout>
@@ -145,7 +145,7 @@
                                 </Grid>
                             </ListView.Header>
                             <ListView.ItemTemplate>
-                                <DataTemplate x:DataType="models:DerivedAttribute">
+                                <DataTemplate x:DataType="models:DerivedAttributeModel">
                                     <ViewCell>
                                         <Grid Padding="10,4">
                                             <Grid.ColumnDefinitions>
@@ -192,7 +192,7 @@
                                 </Grid>
                             </ListView.Header>
                             <ListView.ItemTemplate>
-                                <DataTemplate x:DataType="models:DerivedAttribute">
+                                <DataTemplate x:DataType="models:DerivedAttributeModel">
                                     <ViewCell>
                                         <Grid Padding="10,4">
                                             <Grid.ColumnDefinitions>

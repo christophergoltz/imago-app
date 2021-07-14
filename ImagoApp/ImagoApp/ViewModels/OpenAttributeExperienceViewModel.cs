@@ -8,9 +8,9 @@ namespace ImagoApp.ViewModels
     public class OpenAttributeExperienceViewModel : BindableBase
     {
         public SkillGroupModelType SourceType { get; set; }
-        public List<Attribute> PossibleTargets { get; set; }
+        public List<AttributeModel> PossibleTargets { get; set; }
         
-        public OpenAttributeExperienceViewModel(SkillGroupModelType sourceType, List<Attribute> possibleTargets)
+        public OpenAttributeExperienceViewModel(SkillGroupModelType sourceType, List<AttributeModel> possibleTargets)
         {
             SourceType = sourceType;
             PossibleTargets = possibleTargets;

@@ -10,7 +10,7 @@
             <Grid BindingContext="{Binding BodyPartArmorListViewModel,
                 Source={x:Reference BodyPartArmorListViewControl}}"  Style="{StaticResource SingleGradiantStyle}">
                <ListView SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" VerticalScrollBarVisibility="Default"
-                              ItemsSource="{Binding BodyPart.Armor}">
+                              ItemsSource="{Binding BodyPartModel.Armor}">
                    <ListView.Header>
                         <Grid Padding="5">
                             <Grid.ColumnDefinitions>
@@ -29,16 +29,16 @@
                             </Grid.RowDefinitions>
 
                             <ProgressBar Grid.ColumnSpan="8" Margin="-5" BackgroundColor="Transparent"
-                                    ProgressColor="{Binding BodyPart, Converter={StaticResource BodyPartToCurrentHitpointsColor}}"  
-                                    Progress="{Binding BodyPart, Converter={StaticResource BodyPartToCurrentHitpointsPercentage}}" 
+                                    ProgressColor="{Binding BodyPartModel, Converter={StaticResource BodyPartToCurrentHitpointsColor}}"  
+                                    Progress="{Binding BodyPartModel, Converter={StaticResource BodyPartToCurrentHitpointsPercentage}}" 
                                     HorizontalOptions="FillAndExpand"/>
 
                             <StackLayout Grid.Row="0" VerticalOptions="Center" Grid.Column="0" Orientation="Horizontal">
                                 <Label Margin="10,0,0,0" VerticalOptions="Center" FontAttributes="Bold" FontSize="18"
-                                       Text="{Binding BodyPart.Type, Converter={StaticResource EnumToDisplayTextConverter}}" />
-                                <Entry HorizontalTextAlignment="End" VerticalOptions="Center" FontAttributes="Bold" Text="{Binding BodyPart.CurrentHitpoints}"/>
+                                       Text="{Binding BodyPartModel.Type, Converter={StaticResource EnumToDisplayTextConverter}}" />
+                                <Entry HorizontalTextAlignment="End" VerticalOptions="Center" FontAttributes="Bold" Text="{Binding BodyPartModel.CurrentHitpoints}"/>
                                 <Label VerticalOptions="Center" FontAttributes="Bold" Text="/"/>
-                                <Label VerticalOptions="Center" FontAttributes="Bold" Text="{Binding BodyPart.MaxHitpoints}"/>
+                                <Label VerticalOptions="Center" FontAttributes="Bold" Text="{Binding BodyPartModel.MaxHitpoints}"/>
                             </StackLayout>
 
                             <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="1" Text="Physisch" Margin="5,0,10,0" FontAttributes="Bold"/>
@@ -55,7 +55,7 @@
                         </Grid>
                     </ListView.Header>
                     <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="models:ArmorPartModel">
+                        <DataTemplate x:DataType="models:ArmorPartModelModel">
                             <ViewCell>
                                 <Grid Padding="10,4">
                                     <Grid.ColumnDefinitions>

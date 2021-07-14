@@ -17,31 +17,31 @@ namespace ImagoApp.ViewModels
     public class BodyPartArmorListViewModel : BindableBase
     {
         private readonly CharacterViewModel _characterViewModel;
-        public BodyPart BodyPart { get; }
+        public BodyPartModel BodyPartModel { get; }
 
         public ICommand RemoveArmorCommand { get; set; }
         public ICommand AddArmorCommand { get; set; }
 
-        public BodyPartArmorListViewModel(CharacterViewModel characterViewModel, IWikiDataService wikiDataService, BodyPart bodyPart)
+        public BodyPartArmorListViewModel(CharacterViewModel characterViewModel, IWikiDataService wikiDataService, BodyPartModel bodyPartModel)
         {
             _characterViewModel = characterViewModel;
-            BodyPart = bodyPart;
-            BodyPart.PropertyChanged += (sender, args) =>
+            BodyPartModel = bodyPartModel;
+            BodyPartModel.PropertyChanged += (sender, args) =>
             {
-                if (args.PropertyName.Equals(nameof(BodyPart.CurrentHitpoints)) || args.PropertyName.Equals(nameof(BodyPart.MaxHitpoints)))
+                if (args.PropertyName.Equals(nameof(BodyPartModel.CurrentHitpoints)) || args.PropertyName.Equals(nameof(BodyPartModel.MaxHitpoints)))
                 {
-                    OnPropertyChanged(nameof(BodyPart));
+                    OnPropertyChanged(nameof(BodyPartModel));
                 }
             };
             
-            foreach (var armor in bodyPart.Armor)
+            foreach (var armor in bodyPartModel.Armor)
             {
                 armor.PropertyChanged += OnArmorPropertyChanged;
             }
             
-            RemoveArmorCommand = new Command<ArmorPartModel>(armor =>
+            RemoveArmorCommand = new Command<ArmorPartModelModel>(armor =>
             {
-                BodyPart.Armor.Remove(armor);
+                BodyPartModel.Armor.Remove(armor);
                 characterViewModel.RecalculateHandicapAttributes();
             });
 
@@ -55,7 +55,7 @@ namespace ImagoApp.ViewModels
                     {
                         await Task.Delay(250);
 
-                        var currentBodyPart = bodyPart.Type.MapBodyPartTypeToArmorPartType();
+                        var currentBodyPart = bodyPartModel.Type.MapBodyPartTypeToArmorPartType();
                         var allArmor = wikiDataService.GetAllArmor();
                         armor = allArmor
                             .Where(pair => pair.ArmorPartType == currentBodyPart)
@@ -80,7 +80,7 @@ namespace ImagoApp.ViewModels
                     var newArmor = wikiDataService.GetArmorFromTemplate(selectedArmor);
                     await Device.InvokeOnMainThreadAsync(() =>
                     {
-                        BodyPart.Armor.Add(newArmor);
+                        BodyPartModel.Armor.Add(newArmor);
                     });
 
                     newArmor.PropertyChanged += OnArmorPropertyChanged;
@@ -91,9 +91,9 @@ namespace ImagoApp.ViewModels
 
         private void OnArmorPropertyChanged(object sender, PropertyChangedEventArgs args)
         {
-            if (args.PropertyName.Equals(nameof(ArmorPartModel.LoadValue))
-                || args.PropertyName.Equals(nameof(ArmorPartModel.Fight))
-                || args.PropertyName.Equals(nameof(ArmorPartModel.Adventure)))
+            if (args.PropertyName.Equals(nameof(ArmorPartModelModel.LoadValue))
+                || args.PropertyName.Equals(nameof(ArmorPartModelModel.Fight))
+                || args.PropertyName.Equals(nameof(ArmorPartModelModel.Adventure)))
             {
                 _characterViewModel.RecalculateHandicapAttributes();
             }

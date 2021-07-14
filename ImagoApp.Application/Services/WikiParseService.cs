@@ -147,7 +147,7 @@ namespace ImagoApp.Application.Services
                 var weaponName = string.Empty;
                 try
                 {
-                    var weaponStances = new List<WeaponStance>();
+                    var weaponStances = new List<WeaponStanceModel>();
 
                     var rows = table.SelectNodes("tr");
                     var header = rows[0];
@@ -176,7 +176,7 @@ namespace ImagoApp.Application.Services
                         var parry = CleanUpString(dataCells[3].InnerText);
                         var range = CleanUpString(dataCells[4].InnerText);
                         
-                        weaponStances.Add(new WeaponStance(weaponStanceType, phase, damage, parry, range));
+                        weaponStances.Add(new WeaponStanceModel(weaponStanceType, phase, damage, parry, range));
                     }
 
                     result.Add(new WeaponTemplateModel

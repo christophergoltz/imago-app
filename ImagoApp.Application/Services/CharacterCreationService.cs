@@ -6,21 +6,20 @@ using System.Text;
 using ImagoApp.Application.Models;
 using ImagoApp.Shared.Enums;
 using Newtonsoft.Json;
-using Attribute = ImagoApp.Application.Models.Attribute;
 
 namespace ImagoApp.Application.Services
 {
     public interface ICharacterCreationService
     {
-        Character CreateNewCharacter();
-        Character CreateExampleCharacter();
+        CharacterModel CreateNewCharacter();
+        CharacterModel CreateExampleCharacter();
     }
 
     public class CharacterCreationService : ICharacterCreationService
     {
-        public Character CreateNewCharacter()
+        public CharacterModel CreateNewCharacter()
         {
-            var character = new Character
+            var character = new CharacterModel
             {
                 Attributes = CreateAttributes(),
                 SkillGroups = new List<SkillGroupModel>(),
@@ -29,8 +28,8 @@ namespace ImagoApp.Application.Services
                 OpenAttributeIncreases = new ObservableCollection<SkillGroupModelType>(),
                 RaceType = RaceType.Mensch,
                 BodyParts = CreateBodyParts(),
-                Weapons = new ObservableCollection<Weapon>(),
-                EquippedItems = new ObservableCollection<EquipableItem>(),
+                Weapons = new ObservableCollection<WeaponModel>(),
+                EquippedItems = new ObservableCollection<EquipableItemModel>(),
                 BloodCarrier = new ObservableCollection<BloodCarrierModel>()
             };
 
@@ -47,7 +46,7 @@ namespace ImagoApp.Application.Services
             return character;
         }
 
-        public Character CreateExampleCharacter()
+        public CharacterModel CreateExampleCharacter()
         {
             var character = CreateNewCharacter();
             character.Attributes.First(attribute => attribute.Type == AttributeType.Charisma).TotalExperience = 260;
@@ -55,30 +54,30 @@ namespace ImagoApp.Application.Services
             return character;
         }
 
-        private List<BodyPart> CreateBodyParts()
+        private List<BodyPartModel> CreateBodyParts()
         {
-            return new List<BodyPart>
+            return new List<BodyPartModel>
             {
-                new BodyPart(BodyPartType.Kopf, 7, new ObservableCollection<ArmorPartModel>()),
-                new BodyPart(BodyPartType.Torso, 12, new ObservableCollection<ArmorPartModel>()),
-                new BodyPart(BodyPartType.ArmLinks, 1, new ObservableCollection<ArmorPartModel>()),
-                new BodyPart(BodyPartType.ArmRechts, 8, new ObservableCollection<ArmorPartModel>()),
-                new BodyPart(BodyPartType.BeinLinks, 6, new ObservableCollection<ArmorPartModel>()),
-                new BodyPart(BodyPartType.BeinRechts, 3, new ObservableCollection<ArmorPartModel>())
+                new BodyPartModel(BodyPartType.Kopf, 7, new ObservableCollection<ArmorPartModelModel>()),
+                new BodyPartModel(BodyPartType.Torso, 12, new ObservableCollection<ArmorPartModelModel>()),
+                new BodyPartModel(BodyPartType.ArmLinks, 1, new ObservableCollection<ArmorPartModelModel>()),
+                new BodyPartModel(BodyPartType.ArmRechts, 8, new ObservableCollection<ArmorPartModelModel>()),
+                new BodyPartModel(BodyPartType.BeinLinks, 6, new ObservableCollection<ArmorPartModelModel>()),
+                new BodyPartModel(BodyPartType.BeinRechts, 3, new ObservableCollection<ArmorPartModelModel>())
             };
         }
 
-        private List<Attribute> CreateAttributes()
+        private List<AttributeModel> CreateAttributes()
         {
-            return new List<Attribute>
+            return new List<AttributeModel>
             {
-                new Attribute(AttributeType.Staerke) ,
-                new Attribute(AttributeType.Geschicklichkeit) ,
-                new Attribute(AttributeType.Konstitution),
-                new Attribute(AttributeType.Intelligenz) ,
-                new Attribute(AttributeType.Willenskraft),
-                new Attribute(AttributeType.Charisma) ,
-                new Attribute(AttributeType.Wahrnehmung)
+                new AttributeModel(AttributeType.Staerke) ,
+                new AttributeModel(AttributeType.Geschicklichkeit) ,
+                new AttributeModel(AttributeType.Konstitution),
+                new AttributeModel(AttributeType.Intelligenz) ,
+                new AttributeModel(AttributeType.Willenskraft),
+                new AttributeModel(AttributeType.Charisma) ,
+                new AttributeModel(AttributeType.Wahrnehmung)
             };
         }
 

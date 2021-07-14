@@ -19,14 +19,14 @@ namespace ImagoApp.ViewModels
         private SkillGroupDetailViewModel _skillGroupDetailViewModel;
         private SkillDetailViewModel _skillDetailViewModel;
         public event EventHandler<string> OpenWikiPageRequested;
-        public SkillGroupViewModel Bewegung => new SkillGroupViewModel(CharacterViewModel.Character.SkillGroups.First(_=>_.Type == SkillGroupModelType.Bewegung), CharacterViewModel);
-        public SkillGroupViewModel Nahkampf => new SkillGroupViewModel(CharacterViewModel.Character.SkillGroups.First(_ => _.Type == SkillGroupModelType.Nahkampf), CharacterViewModel);
-        public SkillGroupViewModel Heimlichkeit => new SkillGroupViewModel(CharacterViewModel.Character.SkillGroups.First(_ => _.Type == SkillGroupModelType.Heimlichkeit), CharacterViewModel);
-        public SkillGroupViewModel Fernkampf => new SkillGroupViewModel(CharacterViewModel.Character.SkillGroups.First(_ => _.Type == SkillGroupModelType.Fernkampf), CharacterViewModel);
-        public SkillGroupViewModel Webkunst => new SkillGroupViewModel(CharacterViewModel.Character.SkillGroups.First(_ => _.Type == SkillGroupModelType.Webkunst), CharacterViewModel);
-        public SkillGroupViewModel Wissenschaft => new SkillGroupViewModel(CharacterViewModel.Character.SkillGroups.First(_ => _.Type == SkillGroupModelType.Wissenschaft), CharacterViewModel);
-        public SkillGroupViewModel Handwerk => new SkillGroupViewModel(CharacterViewModel.Character.SkillGroups.First(_ => _.Type == SkillGroupModelType.Handwerk), CharacterViewModel);
-        public SkillGroupViewModel Soziales => new SkillGroupViewModel(CharacterViewModel.Character.SkillGroups.First(_ => _.Type == SkillGroupModelType.Soziales), CharacterViewModel);
+        public SkillGroupViewModel Bewegung => new SkillGroupViewModel(CharacterViewModel.CharacterModel.SkillGroups.First(_=>_.Type == SkillGroupModelType.Bewegung), CharacterViewModel);
+        public SkillGroupViewModel Nahkampf => new SkillGroupViewModel(CharacterViewModel.CharacterModel.SkillGroups.First(_ => _.Type == SkillGroupModelType.Nahkampf), CharacterViewModel);
+        public SkillGroupViewModel Heimlichkeit => new SkillGroupViewModel(CharacterViewModel.CharacterModel.SkillGroups.First(_ => _.Type == SkillGroupModelType.Heimlichkeit), CharacterViewModel);
+        public SkillGroupViewModel Fernkampf => new SkillGroupViewModel(CharacterViewModel.CharacterModel.SkillGroups.First(_ => _.Type == SkillGroupModelType.Fernkampf), CharacterViewModel);
+        public SkillGroupViewModel Webkunst => new SkillGroupViewModel(CharacterViewModel.CharacterModel.SkillGroups.First(_ => _.Type == SkillGroupModelType.Webkunst), CharacterViewModel);
+        public SkillGroupViewModel Wissenschaft => new SkillGroupViewModel(CharacterViewModel.CharacterModel.SkillGroups.First(_ => _.Type == SkillGroupModelType.Wissenschaft), CharacterViewModel);
+        public SkillGroupViewModel Handwerk => new SkillGroupViewModel(CharacterViewModel.CharacterModel.SkillGroups.First(_ => _.Type == SkillGroupModelType.Handwerk), CharacterViewModel);
+        public SkillGroupViewModel Soziales => new SkillGroupViewModel(CharacterViewModel.CharacterModel.SkillGroups.First(_ => _.Type == SkillGroupModelType.Soziales), CharacterViewModel);
 
         private ICommand _openSkillDetailCommandCommand;
         public ICommand OpenSkillDetailCommand => _openSkillDetailCommandCommand ?? (_openSkillDetailCommandCommand = new Command<(SkillModel Skill, SkillGroupModel SkillGroup)>(parameter =>
@@ -69,7 +69,7 @@ namespace ImagoApp.ViewModels
                 OnPropertyChanged(nameof(SkillExperienceBalance));
             }
         }
-        public int SkillExperienceBalance => TotalSkillExperience - CharacterViewModel.Character.SkillGroups.SelectMany(model => model.Skills).Sum(model => model.TotalExperience);
+        public int SkillExperienceBalance => TotalSkillExperience - CharacterViewModel.CharacterModel.SkillGroups.SelectMany(model => model.Skills).Sum(model => model.TotalExperience);
         
         public SkillPageViewModel(CharacterViewModel characterViewModel, IWikiService wikiService, IWikiDataService wikiDataService, IRuleService ruleService)
         {
@@ -79,7 +79,7 @@ namespace ImagoApp.ViewModels
             CharacterViewModel = characterViewModel;
             TotalSkillExperience = 1350;
 
-            foreach (var skill in characterViewModel.Character.SkillGroups.SelectMany(model => model.Skills))
+            foreach (var skill in characterViewModel.CharacterModel.SkillGroups.SelectMany(model => model.Skills))
             {
                 skill.PropertyChanged += (sender, args) =>
                 {

@@ -1,6 +1,6 @@
 ﻿namespace ImagoApp.Application.Models
 {
-    public class BloodCarrierModel : ItemBase
+    public class BloodCarrierModel : ItemBaseModel
     {
         private int _currentCapacity;
         private int _maximumCapacity;

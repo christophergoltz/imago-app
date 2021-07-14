@@ -9,12 +9,12 @@ namespace ImagoApp.ViewModels
     public class WeaponDetailViewModel : BindableBase
     {
         private readonly CharacterViewModel _characterViewModel;
-        private Weapon _weapon;
+        private WeaponModel _weaponModel;
 
-        public Weapon Weapon
+        public WeaponModel WeaponModel
         {
-            get => _weapon;
-            set => SetProperty(ref _weapon, value);
+            get => _weaponModel;
+            set => SetProperty(ref _weaponModel, value);
         }
 
         public ICommand CloseCommand { get; set; }
@@ -25,10 +25,10 @@ namespace ImagoApp.ViewModels
 
         public bool FightValue
         {
-            get => Weapon.Fight;
+            get => WeaponModel.Fight;
             set
             {
-                Weapon.Fight = value;
+                WeaponModel.Fight = value;
                 _characterViewModel.RecalculateHandicapAttributes();
                 OnPropertyChanged(nameof(FightValue));
             }
@@ -36,10 +36,10 @@ namespace ImagoApp.ViewModels
 
         public bool AdventureValue
         {
-            get => Weapon.Adventure;
+            get => WeaponModel.Adventure;
             set
             {
-                Weapon.Adventure = value;
+                WeaponModel.Adventure = value;
                 _characterViewModel.RecalculateHandicapAttributes();
                 OnPropertyChanged(nameof(AdventureValue));
             }
@@ -47,19 +47,19 @@ namespace ImagoApp.ViewModels
 
         public int LoadValue
         {
-            get => Weapon.LoadValue;
+            get => WeaponModel.LoadValue;
             set
             {
-                Weapon.LoadValue = value;
+                WeaponModel.LoadValue = value;
                 _characterViewModel.RecalculateHandicapAttributes();
                 OnPropertyChanged(nameof(LoadValue));
             }
         }
 
-        public WeaponDetailViewModel(Weapon weapon, CharacterViewModel characterViewModel)
+        public WeaponDetailViewModel(WeaponModel weaponModel, CharacterViewModel characterViewModel)
         {
             _characterViewModel = characterViewModel;
-            Weapon = weapon;
+            WeaponModel = weaponModel;
             
             CloseCommand = new Command(() =>
             {

@@ -2,22 +2,22 @@
 
 namespace ImagoApp.Application.Models
 {
-    public class Weapon : DurabilityItem
+    public class WeaponModel : DurabilityItemModelModel
     {
-        private List<WeaponStance> _weaponStances;
+        private List<WeaponStanceModel> _weaponStances;
 
-        public Weapon()
+        public WeaponModel()
         {
             
         }
 
-        public Weapon(string name, List<WeaponStance> weaponStances, bool fight, bool adventure, int loadValue, int durability)
+        public WeaponModel(string name, List<WeaponStanceModel> weaponStances, bool fight, bool adventure, int loadValue, int durability)
         : base(name, loadValue, fight, adventure, durability )
         {
             WeaponStances = weaponStances;
         }
         
-        public List<WeaponStance> WeaponStances
+        public List<WeaponStanceModel> WeaponStances
         {
             get => _weaponStances;
             set => SetProperty(ref _weaponStances, value);

@@ -7,21 +7,21 @@ namespace ImagoApp.ViewModels
     {
         private readonly CharacterViewModel _characterViewModel;
 
-        public SpecialAttributeViewModel(CharacterViewModel characterViewModel, SpecialAttribute specialAttribute)
+        public SpecialAttributeViewModel(CharacterViewModel characterViewModel, SpecialAttributeModel specialAttributeModel)
         {
             _characterViewModel = characterViewModel;
-            SpecialAttribute = specialAttribute;
+            SpecialAttributeModel = specialAttributeModel;
         }
 
-        public SpecialAttribute SpecialAttribute { get; set; }
-        public Character Character { get; set; }
+        public SpecialAttributeModel SpecialAttributeModel { get; set; }
+        public CharacterModel CharacterModel { get; set; }
         
         public int Modification
         {
-            get => SpecialAttribute.ModificationValue;
+            get => SpecialAttributeModel.ModificationValue;
             set
             {
-                _characterViewModel.SetModificationValue(SpecialAttribute, value);
+                _characterViewModel.SetModificationValue(SpecialAttributeModel, value);
                 OnPropertyChanged(nameof(Modification));
             }
         }

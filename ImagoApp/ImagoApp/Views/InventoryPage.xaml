@@ -60,7 +60,7 @@
                                             <ColumnDefinition Width="50" />
                                             <ColumnDefinition Width="50" />
                                         </Grid.ColumnDefinitions>
-                                        <Entry FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding EquipableItem.Name}"/>
+                                        <Entry FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding EquipableItemModel.Name}"/>
                                         <Entry Keyboard="Numeric" FontSize="18" Grid.Column="1" VerticalOptions="Center" Text="{Binding LoadValue}"/>
                                         <CheckBox Grid.Column="2" Margin="25,0,0,0" HorizontalOptions="Center" VerticalOptions="Center" IsChecked="{Binding Fight}"/>
                                         <CheckBox Grid.Column="3" Margin="25,0,0,0" HorizontalOptions="Center" VerticalOptions="Center" IsChecked="{Binding Adventure}"/>
@@ -97,7 +97,7 @@
                             </Grid>
                         </ListView.Header>
                         <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="models:DerivedAttribute">
+                            <DataTemplate x:DataType="models:DerivedAttributeModel">
                                 <ViewCell>
                                     <Grid Padding="10,4">
                                         <Grid.ColumnDefinitions>
@@ -137,7 +137,7 @@
                             </Grid>
                         </ListView.Header>
                         <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="models:DerivedAttribute">
+                            <DataTemplate x:DataType="models:DerivedAttributeModel">
                                 <ViewCell>
                                     <Grid Padding="10,4">
                                         <Grid.ColumnDefinitions>

@@ -4,7 +4,7 @@ using ImagoApp.Shared.Enums;
 
 namespace ImagoApp.Application.Models
 {
-    public class MasteryModel : TalentBase
+    public class MasteryModel : TalentBaseModel
     {
         private List<SkillGroupRequirementModel> _requirements;
         private SkillGroupModelType _targetSkill;

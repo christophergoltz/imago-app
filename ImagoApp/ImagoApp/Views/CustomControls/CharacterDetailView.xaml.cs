@@ -14,12 +14,12 @@ namespace ImagoApp.Views.CustomControls
 
         public static readonly BindableProperty CharacterProperty = BindableProperty.Create(
             "Character", // the name of the bindable property
-            typeof(Character), // the bindable property type
+            typeof(CharacterModel), // the bindable property type
             typeof(CharacterDetailView));
 
-        public Character Character
+        public CharacterModel CharacterModel
         {
-            get => (Character)GetValue(CharacterProperty);
+            get => (CharacterModel)GetValue(CharacterProperty);
             set => SetValue(CharacterProperty, value);
         }
 

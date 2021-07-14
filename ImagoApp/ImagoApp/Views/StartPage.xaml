@@ -119,7 +119,7 @@
                             </Grid>
                         </ListView.Header>
                         <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="models:Character">
+                            <DataTemplate x:DataType="models:CharacterModel">
                                 <ViewCell>
                                     <Grid Margin="20,10">
                                         <Grid.GestureRecognizers>

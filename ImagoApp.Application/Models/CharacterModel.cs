@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace ImagoApp.Application.Models
 {
-    public class Character
+    public class CharacterModel
     {
         public Guid Guid { get; set; }
         public DateTime CreatedAt { get; set; }
@@ -27,16 +27,16 @@ namespace ImagoApp.Application.Models
         public string Note { get; set; }
         public int FreeSkillExperience { get; set; }
 
-        public List<Attribute> Attributes { get; set; }
+        public List<AttributeModel> Attributes { get; set; }
         public List<SkillGroupModel> SkillGroups { get; set; }
 
         public ObservableCollection<SkillGroupModelType> OpenAttributeIncreases { get; set; }
 
-        public List<BodyPart> BodyParts { get; set; }
+        public List<BodyPartModel> BodyParts { get; set; }
 
-        public ObservableCollection<Weapon> Weapons { get; set; }
+        public ObservableCollection<WeaponModel> Weapons { get; set; }
 
-        public ObservableCollection<EquipableItem> EquippedItems { get; set; }
+        public ObservableCollection<EquipableItemModel> EquippedItems { get; set; }
         
         public ObservableCollection<BloodCarrierModel> BloodCarrier { get; set; }
         

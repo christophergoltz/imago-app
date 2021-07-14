@@ -25,13 +25,13 @@ namespace ImagoApp.ViewModels
         public ICommand SaveOpenAttributeExperienceCommand => _saveOpenAttributeExperienceCommand ?? (_saveOpenAttributeExperienceCommand = new Command(() =>
         {
             //todo move to service and reuse
-            var staerke = CharacterViewModel.Character.Attributes.First(attribute => attribute.Type == AttributeType.Staerke);
-            var geschick = CharacterViewModel.Character.Attributes.First(attribute => attribute.Type == AttributeType.Geschicklichkeit);
-            var intelligenz = CharacterViewModel.Character.Attributes.First(attribute => attribute.Type == AttributeType.Intelligenz);
-            var konst = CharacterViewModel.Character.Attributes.First(attribute => attribute.Type == AttributeType.Konstitution);
-            var wahr = CharacterViewModel.Character.Attributes.First(attribute => attribute.Type == AttributeType.Wahrnehmung);
-            var will = CharacterViewModel.Character.Attributes.First(attribute => attribute.Type == AttributeType.Willenskraft);
-            var cha = CharacterViewModel.Character.Attributes.First(attribute => attribute.Type == AttributeType.Charisma);
+            var staerke = CharacterViewModel.CharacterModel.Attributes.First(attribute => attribute.Type == AttributeType.Staerke);
+            var geschick = CharacterViewModel.CharacterModel.Attributes.First(attribute => attribute.Type == AttributeType.Geschicklichkeit);
+            var intelligenz = CharacterViewModel.CharacterModel.Attributes.First(attribute => attribute.Type == AttributeType.Intelligenz);
+            var konst = CharacterViewModel.CharacterModel.Attributes.First(attribute => attribute.Type == AttributeType.Konstitution);
+            var wahr = CharacterViewModel.CharacterModel.Attributes.First(attribute => attribute.Type == AttributeType.Wahrnehmung);
+            var will = CharacterViewModel.CharacterModel.Attributes.First(attribute => attribute.Type == AttributeType.Willenskraft);
+            var cha = CharacterViewModel.CharacterModel.Attributes.First(attribute => attribute.Type == AttributeType.Charisma);
 
             //apply distributed to attributes
             staerke.ExperienceBySkillGroup += AttributeExperienceDialogViewModel.Staerke.Count;
@@ -52,7 +52,7 @@ namespace ImagoApp.ViewModels
             resolvedAttributeExperience.AddRange(AttributeExperienceDialogViewModel.Willenskraft);
             foreach (var experienceViewModel in resolvedAttributeExperience)
             {
-                CharacterViewModel.Character.OpenAttributeIncreases.Remove(experienceViewModel.SourceType);
+                CharacterViewModel.CharacterModel.OpenAttributeIncreases.Remove(experienceViewModel.SourceType);
             }
 
             //todo find another way to recalc increasings etc.
@@ -77,13 +77,13 @@ namespace ImagoApp.ViewModels
         public ICommand AddNewBloodCarrierCommand => _addNewBloodCarrierCommand ?? (_addNewBloodCarrierCommand = new Command(() =>
         {
             //todo move to service
-            CharacterViewModel.Character.BloodCarrier.Add(new BloodCarrierModel("", 0, 0, 0));
+            CharacterViewModel.CharacterModel.BloodCarrier.Add(new BloodCarrierModel("", 0, 0, 0));
         }));
 
         private ICommand _removeBloodCarrierCommand;
         public ICommand RemoveBloodCarrierCommand => _removeBloodCarrierCommand ?? (_removeBloodCarrierCommand = new Command<BloodCarrierModel>(model =>
         {
-            CharacterViewModel.Character.BloodCarrier.Remove(model);
+            CharacterViewModel.CharacterModel.BloodCarrier.Remove(model);
         }));
         
         private int _totalAttributeExperience;
@@ -105,10 +105,10 @@ namespace ImagoApp.ViewModels
         {
              TotalAttributeExperience = 940;
             _ruleService = ruleService;
-            Title = characterViewModel.Character.Name;
+            Title = characterViewModel.CharacterModel.Name;
             CharacterViewModel = characterViewModel;
 
-            AttributeViewModels = characterViewModel.Character.Attributes.Select(_ => new AttributeViewModel(_, characterViewModel)).ToList();
+            AttributeViewModels = characterViewModel.CharacterModel.Attributes.Select(_ => new AttributeViewModel(_, characterViewModel)).ToList();
             foreach (var vm in AttributeViewModels)
             {
                 vm.PropertyChanged += (sender, args) =>
@@ -128,18 +128,18 @@ namespace ImagoApp.ViewModels
 
         public void OpenAttributeExperienceDialogIfNeeded()
         {
-            if (CharacterViewModel.Character.OpenAttributeIncreases == null)
+            if (CharacterViewModel.CharacterModel.OpenAttributeIncreases == null)
                 return;
             
-            if (!CharacterViewModel.Character.OpenAttributeIncreases.Any())
+            if (!CharacterViewModel.CharacterModel.OpenAttributeIncreases.Any())
                 return;
 
             var list = new ObservableCollection<OpenAttributeExperienceViewModel>();
 
-            foreach (var attributeIncrease in CharacterViewModel.Character.OpenAttributeIncreases)
+            foreach (var attributeIncrease in CharacterViewModel.CharacterModel.OpenAttributeIncreases)
             {
                 var affectedAttributeTypes = _ruleService.GetSkillGroupSources(attributeIncrease).Distinct().ToList();
-                var affectedAttributes = CharacterViewModel.Character.Attributes.Where(attribute => affectedAttributeTypes.Contains(attribute.Type)).ToList();
+                var affectedAttributes = CharacterViewModel.CharacterModel.Attributes.Where(attribute => affectedAttributeTypes.Contains(attribute.Type)).ToList();
                 list.Add(new OpenAttributeExperienceViewModel(attributeIncrease, affectedAttributes));
             }
 

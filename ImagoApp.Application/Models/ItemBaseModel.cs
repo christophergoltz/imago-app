@@ -1,13 +1,13 @@
 ﻿namespace ImagoApp.Application.Models
 {
-    public abstract class ItemBase : BindableBase
+    public abstract class ItemBaseModel : BindableBase
     {
-        public ItemBase()
+        public ItemBaseModel()
         {
 
         }
 
-        public ItemBase(string name)
+        public ItemBaseModel(string name)
         {
             Name = name;
         }

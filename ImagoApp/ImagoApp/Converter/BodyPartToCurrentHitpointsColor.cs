@@ -11,7 +11,7 @@ namespace ImagoApp.Converter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is BodyPart bodyPart)
+            if (value is BodyPartModel bodyPart)
             {
                 var currentHitpointsPercentage = (int)((double)bodyPart.CurrentHitpoints / bodyPart.MaxHitpoints * 100);
                 if (currentHitpointsPercentage > 100)

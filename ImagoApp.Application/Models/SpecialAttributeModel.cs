@@ -1,16 +1,17 @@
-﻿using ImagoApp.Shared.Enums;
+﻿using ImagoApp.Application.Models.Base;
+using ImagoApp.Shared.Enums;
 
 namespace ImagoApp.Application.Models
 {
-    public class SpecialAttribute : Base.ModifiableBase
+    public class SpecialAttributeModel : ModifiableBaseModel
     {
         private SpecialAttributeType _type;
 
-        public SpecialAttribute()
+        public SpecialAttributeModel()
         {
         }
 
-        public SpecialAttribute(SpecialAttributeType type)
+        public SpecialAttributeModel(SpecialAttributeType type)
         {
             Type = type;
         }

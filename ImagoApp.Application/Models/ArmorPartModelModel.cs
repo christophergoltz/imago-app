@@ -3,14 +3,14 @@ using ImagoApp.Shared.Enums;
 
 namespace ImagoApp.Application.Models
 {
-    public class ArmorPartModel : DurabilityItem
+    public class ArmorPartModelModel : DurabilityItemModelModel
     {
-        public ArmorPartModel()
+        public ArmorPartModelModel()
         {
             
         }
 
-        public ArmorPartModel(ArmorPartType armorPartType, string name, int loadValue, bool fight, bool adventure, int durability, int energyDefense, int physicalDefense) 
+        public ArmorPartModelModel(ArmorPartType armorPartType, string name, int loadValue, bool fight, bool adventure, int durability, int energyDefense, int physicalDefense) 
             : base(name, loadValue, fight, adventure, durability)
         {
             ArmorPartType = armorPartType;

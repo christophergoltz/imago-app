@@ -4,19 +4,20 @@
        xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
        xmlns:views="clr-namespace:ImagoApp.Views;assembly=ImagoApp"
        xmlns:local="clr-namespace:ImagoApp;assembly=ImagoApp"
+       xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp"
        Appearing="AppShell_OnAppearing"
        Title="Imago"    
         x:DataType="viewModels:AppShellViewModel"  
        x:Class="ImagoApp.AppShell">
     <FlyoutPage.Detail>
-        <NavigationPage Title="awd" HasNavigationBar="False">
+        <NavigationPage Title="Imago" HasNavigationBar="False">
             <x:Arguments>
                 <ContentPage Title="Imago"/>
             </x:Arguments>
         </NavigationPage>
     </FlyoutPage.Detail>
     <FlyoutPage.Flyout>
-        <ContentPage Title="awd"  BackgroundColor="{StaticResource AntiUmbra}">
+        <ContentPage Title="Menü" BackgroundColor="{StaticResource AntiUmbra}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"></RowDefinition>
@@ -37,7 +38,7 @@
                 <CollectionView Grid.Row="2" SelectionMode="Single" SelectionChanged="SelectableItemsView_OnSelectionChanged" SelectedItem="SelectableItemsView_OnSelectionChanged" 
                                 ItemsSource="{Binding MenuItems}">
                     <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="local:FlyoutPageItem">
+                        <DataTemplate x:DataType="customControls:FlyoutPageItem">
                             <Grid BackgroundColor="{StaticResource AntiUmbra}">
                                 <Grid Padding="20" Margin="10">
                                     <Grid.Style>

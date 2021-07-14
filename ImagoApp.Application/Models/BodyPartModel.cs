@@ -6,14 +6,14 @@ using Newtonsoft.Json;
 
 namespace ImagoApp.Application.Models
 {
-    public class BodyPart : BindableBase
+    public class BodyPartModel : BindableBase
     {
         private int _maxHitpoints;
         private int _currentHitpoints;
-        private ObservableCollection<ArmorPartModel> _armor;
+        private ObservableCollection<ArmorPartModelModel> _armor;
         private BodyPartType _type;
 
-        public BodyPart(BodyPartType type, int currentHitpoints, ObservableCollection<ArmorPartModel> armor)
+        public BodyPartModel(BodyPartType type, int currentHitpoints, ObservableCollection<ArmorPartModelModel> armor)
         {
             Type = type;
             CurrentHitpoints = currentHitpoints;
@@ -32,7 +32,7 @@ namespace ImagoApp.Application.Models
             set => SetProperty(ref _currentHitpoints, value);
         }
         
-        public ObservableCollection<ArmorPartModel> Armor
+        public ObservableCollection<ArmorPartModelModel> Armor
         {
             get => _armor;
             set => SetProperty(ref _armor, value);

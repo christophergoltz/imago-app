@@ -3,7 +3,7 @@ using ImagoApp.Shared.Enums;
 
 namespace ImagoApp.Application.Models
 {
-    public class TalentModel : TalentBase
+    public class TalentModel : TalentBaseModel
     {
         private List<SkillRequirementModel> _requirements;
         private SkillModelType _targetSkillModel;

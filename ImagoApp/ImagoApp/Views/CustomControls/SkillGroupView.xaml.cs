@@ -49,7 +49,7 @@ namespace ImagoApp.Views.CustomControls
             set { SetValue(OpenSkillGroupCommandProperty, value); }
         }
         
-        public ICommand SkillBaseTapCommand => new Command<DependentBase>(parameter =>
+        public ICommand SkillBaseTapCommand => new Command<DependentBaseModel>(parameter =>
         {
             if (parameter is SkillGroupModel group)
             {

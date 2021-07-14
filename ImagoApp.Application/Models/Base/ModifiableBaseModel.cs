@@ -1,6 +1,6 @@
 ﻿namespace ImagoApp.Application.Models.Base
 {
-    public abstract class ModifiableBase : CalculableBase
+    public abstract class ModifiableBaseModel : CalculableBaseModel
     {
         private int _modificationValue;
 

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ImagoApp.Application.Models
 {
-    public class WeightItemModel : ItemBase
+    public class WeightItemModel : ItemBaseModel
     {
         private int _loadValue;
 

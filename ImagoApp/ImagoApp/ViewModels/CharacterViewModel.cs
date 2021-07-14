@@ -9,13 +9,12 @@ using ImagoApp.Shared.Enums;
 using ImagoApp.Util;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Crashes;
-using Attribute = ImagoApp.Application.Models.Attribute;
 
 namespace ImagoApp.ViewModels
 {
     public class CharacterViewModel : BindableBase
     {
-        public Character Character { get; }
+        public CharacterModel CharacterModel { get; }
         private readonly IRuleService _ruleService;
         private bool _editMode;
 
@@ -25,9 +24,9 @@ namespace ImagoApp.ViewModels
             set => SetProperty(ref _editMode, value);
         }
 
-        public CharacterViewModel(Character character, IRuleService ruleService)
+        public CharacterViewModel(CharacterModel characterModel, IRuleService ruleService)
         {
-            Character = character;
+            CharacterModel = characterModel;
             _ruleService = ruleService;
 
             //todo move to character service
@@ -50,18 +49,18 @@ namespace ImagoApp.ViewModels
                 DerivedAttributeType.BehinderungAbenteuer,
                 DerivedAttributeType.BehinderungGesamt
             };
-            DerivedAttributes = derivedAttributeTypes.Select(type => new DerivedAttribute(type)).ToList();
+            DerivedAttributes = derivedAttributeTypes.Select(type => new DerivedAttributeModel(type)).ToList();
 
-            SpecialAttributes = new List<SpecialAttribute>() {new SpecialAttribute(SpecialAttributeType.Initiative)};
+            SpecialAttributes = new List<SpecialAttributeModel>() {new SpecialAttributeModel(SpecialAttributeType.Initiative)};
 
 
 
         }
 
-        public List<SpecialAttribute> SpecialAttributes { get; set; }
-        public List<DerivedAttribute> DerivedAttributes { get; set; }
+        public List<SpecialAttributeModel> SpecialAttributes { get; set; }
+        public List<DerivedAttributeModel> DerivedAttributes { get; set; }
 
-        public List<DerivedAttribute> CreationDerivedAttributes => DerivedAttributes
+        public List<DerivedAttributeModel> CreationDerivedAttributes => DerivedAttributes
             .Where(_ => _.Type == DerivedAttributeType.Egoregenration ||
                         _.Type == DerivedAttributeType.Schadensmod ||
                         _.Type == DerivedAttributeType.Traglast ||
@@ -71,27 +70,27 @@ namespace ImagoApp.ViewModels
                         _.Type == DerivedAttributeType.SprunghoeheGesamt)
             .ToList();
 
-        public List<DerivedAttribute> FightDerivedAttributes => DerivedAttributes
+        public List<DerivedAttributeModel> FightDerivedAttributes => DerivedAttributes
             .Where(_ => _.Type == DerivedAttributeType.SprungreichweiteKampf ||
                         _.Type == DerivedAttributeType.SprunghoeheKampf ||
                         _.Type == DerivedAttributeType.Sprintreichweite ||
                         _.Type == DerivedAttributeType.TaktischeBewegung)
             .ToList();
 
-        public List<DerivedAttribute> AdventureDerivedAttributes => DerivedAttributes
+        public List<DerivedAttributeModel> AdventureDerivedAttributes => DerivedAttributes
             .Where(_ => _.Type == DerivedAttributeType.SprungreichweiteAbenteuer ||
                         _.Type == DerivedAttributeType.SprunghoeheAbenteuer ||
                         _.Type == DerivedAttributeType.SprungreichweiteGesamt ||
                         _.Type == DerivedAttributeType.SprunghoeheGesamt)
             .ToList();
 
-        public List<DerivedAttribute> HandicapAttributes => DerivedAttributes
+        public List<DerivedAttributeModel> HandicapAttributes => DerivedAttributes
             .Where(_ => _.Type == DerivedAttributeType.BehinderungKampf ||
                         _.Type == DerivedAttributeType.BehinderungAbenteuer ||
                         _.Type == DerivedAttributeType.BehinderungGesamt)
             .ToList();
 
-        public List<DerivedAttribute> CharacterInfoDerivedAttributes => DerivedAttributes
+        public List<DerivedAttributeModel> CharacterInfoDerivedAttributes => DerivedAttributes
             .Where(_ => _.Type == DerivedAttributeType.Egoregenration ||
                                          _.Type == DerivedAttributeType.Schadensmod ||
                                          _.Type == DerivedAttributeType.Traglast)
@@ -120,31 +119,31 @@ namespace ImagoApp.ViewModels
             UpdateNewBaseValueToSkillsOfGroup(skillGroupModel);
         }
 
-        public void SetModificationValue(Attribute attribute, int modificationValue)
+        public void SetModificationValue(AttributeModel attributeModel, int modificationValue)
         {
-            attribute.ModificationValue = modificationValue;
-            SkillExtensions.RecalculateFinalValue(attribute);
-            UpdateNewFinalValueOfAttribute(attribute);
+            attributeModel.ModificationValue = modificationValue;
+            SkillExtensions.RecalculateFinalValue(attributeModel);
+            UpdateNewFinalValueOfAttribute(attributeModel);
         }
 
-        public void SetModificationValue(SpecialAttribute specialAttribute, int modificationValue)
+        public void SetModificationValue(SpecialAttributeModel specialAttributeModel, int modificationValue)
         {
-            specialAttribute.ModificationValue = modificationValue;
-            RecalculateSpecialAttributes(specialAttribute);
+            specialAttributeModel.ModificationValue = modificationValue;
+            RecalculateSpecialAttributes(specialAttributeModel);
         }
 
-        public void SetCorrosionValue(Attribute attribute, int corrosionValue)
+        public void SetCorrosionValue(AttributeModel attributeModel, int corrosionValue)
         {
-            attribute.Corrosion = corrosionValue;
-            SkillExtensions.RecalculateFinalValue(attribute);
-            UpdateNewFinalValueOfAttribute(attribute);
+            attributeModel.Corrosion = corrosionValue;
+            SkillExtensions.RecalculateFinalValue(attributeModel);
+            UpdateNewFinalValueOfAttribute(attributeModel);
         }
 
         public bool CheckTalentRequirement(List<SkillRequirementModel> requirements)
         {
             foreach (var requirement in requirements)
             {
-                var skill = Character.SkillGroups.SelectMany(pair => pair.Skills).First(_ => _.Type == requirement.Type);
+                var skill = CharacterModel.SkillGroups.SelectMany(pair => pair.Skills).First(_ => _.Type == requirement.Type);
                 if (skill.IncreaseValue < requirement.Value)
                 {
                     return false;
@@ -158,7 +157,7 @@ namespace ImagoApp.ViewModels
         {
             foreach (var requirement in requirements)
             {
-                var skillGroup = Character.SkillGroups.First(_=> _.Type == requirement.Type);
+                var skillGroup = CharacterModel.SkillGroups.First(_=> _.Type == requirement.Type);
                 if (skillGroup.IncreaseValue < requirement.Value)
                 {
                     return false;
@@ -167,21 +166,21 @@ namespace ImagoApp.ViewModels
             return true;
         }
 
-        public void AddOneExperienceToAttributeBySkillGroup(Attribute attribute)
+        public void AddOneExperienceToAttributeBySkillGroup(AttributeModel attributeModel)
         {
-            attribute.ExperienceBySkillGroup += 1;
+            attributeModel.ExperienceBySkillGroup += 1;
 
             //force recalc of increaseablebase
-            attribute.TotalExperience = attribute.TotalExperience;
+            attributeModel.TotalExperience = attributeModel.TotalExperience;
 
-            UpdateNewFinalValueOfAttribute(attribute);
+            UpdateNewFinalValueOfAttribute(attributeModel);
         }
 
 
-        public void SetExperienceToAttribute(Attribute attribute, int experience)
+        public void SetExperienceToAttribute(AttributeModel attributeModel, int experience)
         {
-            attribute.TotalExperience = experience;
-            UpdateNewFinalValueOfAttribute(attribute);
+            attributeModel.TotalExperience = experience;
+            UpdateNewFinalValueOfAttribute(attributeModel);
         }
 
         private int SetExperienceToSkillGroup(SkillGroupModel skillGroupModel, int experience)
@@ -206,7 +205,7 @@ namespace ImagoApp.ViewModels
                 //add
                 for (var i = 0; i < openAttributeExperience; i++)
                 {
-                    Character.OpenAttributeIncreases.Add(skillGroupModel.Type);
+                    CharacterModel.OpenAttributeIncreases.Add(skillGroupModel.Type);
                 }
             }
             else if (openAttributeExperience < 0)
@@ -216,8 +215,8 @@ namespace ImagoApp.ViewModels
                 //remove
                 for (var i = 0; i < (openAttributeExperience * -1); i++)
                 {
-                    if (Character.OpenAttributeIncreases.Contains(skillGroupModel.Type))
-                        Character.OpenAttributeIncreases.Remove(skillGroupModel.Type);
+                    if (CharacterModel.OpenAttributeIncreases.Contains(skillGroupModel.Type))
+                        CharacterModel.OpenAttributeIncreases.Remove(skillGroupModel.Type);
                     else
                     {
                         leftOverExperienceToReduce++;
@@ -245,11 +244,11 @@ namespace ImagoApp.ViewModels
             //todo if sw was reduced, take exp from kategoriy
         }
         
-        public void UpdateNewFinalValueOfAttribute(Attribute changedAttribute)
+        public void UpdateNewFinalValueOfAttribute(AttributeModel changedAttributeModel)
         {
             //updating all dependent skillgroups
-            var affectedSkillGroupTypes = _ruleService.GetSkillGroupsByAttribute(changedAttribute.Type);
-            var skillGroups = Character.SkillGroups
+            var affectedSkillGroupTypes = _ruleService.GetSkillGroupsByAttribute(changedAttributeModel.Type);
+            var skillGroups = CharacterModel.SkillGroups
                 .Where(model => affectedSkillGroupTypes
                     .Contains(model.Type));
 
@@ -260,7 +259,7 @@ namespace ImagoApp.ViewModels
                 double tmp = 0;
                 foreach (var attributeType in attributeTypesForCalculation)
                 {
-                    tmp += Character.Attributes.First(attribute => attribute.Type == attributeType).FinalValue;
+                    tmp += CharacterModel.Attributes.First(attribute => attribute.Type == attributeType).FinalValue;
                 }
 
                 var newBaseValue = (int) Math.Round((tmp / 6), MidpointRounding.AwayFromZero);
@@ -319,7 +318,7 @@ namespace ImagoApp.ViewModels
             RecalculateSpecialAttributes(SpecialAttributes.ToArray());
 
             //update bodyparts
-            foreach (var bodyPart in Character.BodyParts)
+            foreach (var bodyPart in CharacterModel.BodyParts)
             {
                 double constFinalValue = GetAttributeSum(AttributeType.Konstitution);
 
@@ -360,7 +359,7 @@ namespace ImagoApp.ViewModels
             RecalculateHandicapAttributes();
         }
 
-        public void RecalculateSpecialAttributes(params SpecialAttribute[] attributes)
+        public void RecalculateSpecialAttributes(params SpecialAttributeModel[] attributes)
         {
             foreach (var specialAttribute in attributes)
             {
@@ -461,33 +460,33 @@ namespace ImagoApp.ViewModels
 
         private int GetFightLoad()
         {
-            var fightingArmorLoad = Character.BodyParts.Sum(bodyPart =>
+            var fightingArmorLoad = CharacterModel.BodyParts.Sum(bodyPart =>
                 bodyPart.Armor.Where(armor => armor.Fight).Sum(_ => _.LoadValue));
-            var fightingWeaponLoad = Character.Weapons.Sum(weapon => weapon.LoadValue);
-            var fightingItemLoad = Character.EquippedItems.Where(item => item.Fight).Sum(_ => _.LoadValue);
+            var fightingWeaponLoad = CharacterModel.Weapons.Sum(weapon => weapon.LoadValue);
+            var fightingItemLoad = CharacterModel.EquippedItems.Where(item => item.Fight).Sum(_ => _.LoadValue);
             return fightingArmorLoad + fightingWeaponLoad + fightingItemLoad;
         }
 
         private int GetAdventureLoad()
         {
-            var adventureItemLoad = Character.EquippedItems.Where(item => item.Adventure).Sum(_ => _.LoadValue);
-            var adventureArmorLoad = Character.BodyParts.Sum(bodyPart =>
+            var adventureItemLoad = CharacterModel.EquippedItems.Where(item => item.Adventure).Sum(_ => _.LoadValue);
+            var adventureArmorLoad = CharacterModel.BodyParts.Sum(bodyPart =>
                 bodyPart.Armor.Where(armor => armor.Adventure).Sum(_ => _.LoadValue));
-            var fightingWeaponLoad = Character.Weapons.Sum(weapon => weapon.LoadValue);
+            var fightingWeaponLoad = CharacterModel.Weapons.Sum(weapon => weapon.LoadValue);
             return adventureArmorLoad + fightingWeaponLoad + adventureItemLoad;
         }
 
         private int GetCompleteLoad()
         {
-            var itemLoad = Character.EquippedItems.Sum(_ => _.LoadValue);
-            var armorLoad = Character.BodyParts.Sum(bodyPart => bodyPart.Armor.Sum(_ => _.LoadValue));
-            var fightLoad = Character.Weapons.Sum(weapon => weapon.LoadValue);
+            var itemLoad = CharacterModel.EquippedItems.Sum(_ => _.LoadValue);
+            var armorLoad = CharacterModel.BodyParts.Sum(bodyPart => bodyPart.Armor.Sum(_ => _.LoadValue));
+            var fightLoad = CharacterModel.Weapons.Sum(weapon => weapon.LoadValue);
             return armorLoad + fightLoad + itemLoad;
         }
 
         private double GetAttributeSum(params AttributeType[] attributes)
         {
-            return attributes.Sum(attributeType => Character.Attributes.First(_ => _.Type == attributeType).FinalValue);
+            return attributes.Sum(attributeType => CharacterModel.Attributes.First(_ => _.Type == attributeType).FinalValue);
         }
         private double GetDerivedAttributeSum(params DerivedAttributeType[] attributes)
         {

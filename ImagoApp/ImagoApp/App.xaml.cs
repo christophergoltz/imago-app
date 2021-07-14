@@ -44,7 +44,7 @@ namespace ImagoApp
             if (CurrentCharacterViewModel == null)
                 return true;
 
-            return _serviceLocator.CharacterService().SaveCharacter(CurrentCharacterViewModel.Character);
+            return _serviceLocator.CharacterService().SaveCharacter(CurrentCharacterViewModel.CharacterModel);
         }
 
         protected override void OnStart()

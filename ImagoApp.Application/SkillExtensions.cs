@@ -14,9 +14,9 @@ namespace ImagoApp.Application
             skillGroupModel.FinalValue = skillGroupModel.BaseValue + skillGroupModel.IncreaseValue + skillGroupModel.ModificationValue;
         }
 
-        public static void RecalculateFinalValue(this Attribute attribute)
+        public static void RecalculateFinalValue(this AttributeModel attributeModel)
         {
-            attribute.FinalValue = attribute.NaturalValue + attribute.IncreaseValue + attribute.ModificationValue - attribute.Corrosion;
+            attributeModel.FinalValue = attributeModel.NaturalValue + attributeModel.IncreaseValue + attributeModel.ModificationValue - attributeModel.Corrosion;
         }
     }
 }

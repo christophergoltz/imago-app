@@ -22,19 +22,19 @@ namespace ImagoApp.ViewModels
             DeleteSelectedEquippedItem = new Command<EquippableItemViewModel>(item =>
             {
                 EquippableItemViewModels.Remove(item);
-                characterViewModel.Character.EquippedItems.Remove(item.EquipableItem);
+                characterViewModel.CharacterModel.EquippedItems.Remove(item.EquipableItemModel);
                 characterViewModel.RecalculateHandicapAttributes();
             });
 
             AddNewEquippedItem = new Command(() =>
             {
-                var equipableItem = new EquipableItem(string.Empty,0, false, false);
-                CharacterViewModel.Character.EquippedItems.Add(equipableItem);
+                var equipableItem = new EquipableItemModel(string.Empty,0, false, false);
+                CharacterViewModel.CharacterModel.EquippedItems.Add(equipableItem);
                 EquippableItemViewModels.Add(new EquippableItemViewModel(equipableItem, characterViewModel));
             });
 
             EquippableItemViewModels = new ObservableCollection<EquippableItemViewModel>(
-                characterViewModel.Character.EquippedItems.Select(item => new EquippableItemViewModel(item, characterViewModel)));
+                characterViewModel.CharacterModel.EquippedItems.Select(item => new EquippableItemViewModel(item, characterViewModel)));
         }
     }
 }

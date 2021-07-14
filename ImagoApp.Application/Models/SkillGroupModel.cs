@@ -5,7 +5,7 @@ using ImagoApp.Shared.Enums;
 
 namespace ImagoApp.Application.Models
 {
-    public class SkillGroupModel : DependentBase
+    public class SkillGroupModel : DependentBaseModel
     {
         public SkillGroupModelType Type { get; set; }
 

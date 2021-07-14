@@ -5,11 +5,11 @@ using ImagoApp.Shared.Enums;
 namespace ImagoApp.Application.Models
 {
     //eg. schadensmod, traglast
-    public class DerivedAttribute : CalculableBase
+    public class DerivedAttributeModel : CalculableBaseModel
     {
         private DerivedAttributeType _type;
 
-        public DerivedAttribute(DerivedAttributeType type)
+        public DerivedAttributeModel(DerivedAttributeType type)
         {
             Type = type;
         }

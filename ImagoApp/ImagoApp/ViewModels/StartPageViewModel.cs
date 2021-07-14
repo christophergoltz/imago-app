@@ -35,7 +35,7 @@ namespace ImagoApp.ViewModels
         private readonly IFileService _fileService;
         private readonly string _logFileName = "wiki_parse.log";
 
-        public ObservableCollection<Character> Characters { get; private set; }
+        public ObservableCollection<CharacterModel> Characters { get; private set; }
 
         public string Version
         {
@@ -57,7 +57,7 @@ namespace ImagoApp.ViewModels
             VersionTracking.Track();
             Version = VersionTracking.CurrentVersion;
             DatabaseInfoViewModel = new DatabaseInfoViewModel();
-            Characters = new ObservableCollection<Character>();
+            Characters = new ObservableCollection<CharacterModel>();
 
             _serviceLocator = serviceLocator;
             _characterService = characterService;
@@ -193,7 +193,7 @@ namespace ImagoApp.ViewModels
         }));
 
         private ICommand _openCharacterCommand;
-        public ICommand OpenCharacterCommand => _openCharacterCommand ?? (_openCharacterCommand = new Command<Character>(entity =>
+        public ICommand OpenCharacterCommand => _openCharacterCommand ?? (_openCharacterCommand = new Command<CharacterModel>(entity =>
         {
             Task.Run(async () =>
             {
@@ -206,9 +206,9 @@ namespace ImagoApp.ViewModels
             });
         }));
         
-        private async Task OpenCharacter(Character character, bool editMode)
+        private async Task OpenCharacter(CharacterModel characterModel, bool editMode)
         {
-            var characterViewModel = new CharacterViewModel(character, _ruleService);
+            var characterViewModel = new CharacterViewModel(characterModel, _ruleService);
             App.CurrentCharacterViewModel = characterViewModel;
 
             try
@@ -216,14 +216,18 @@ namespace ImagoApp.ViewModels
                 //create all required dependencies
                 var characterInfoPageViewModel = new CharacterInfoPageViewModel(characterViewModel, _serviceLocator.RuleService());
                 var wikiPageViewModel = new WikiPageViewModel(characterViewModel);
-                var skillPageViewModel = new SkillPageViewModel(characterViewModel, _serviceLocator.WikiService(),
-                    _serviceLocator.WikiDataService(), _serviceLocator.RuleService());
-                skillPageViewModel.OpenWikiPageRequested += (sender, s) => { wikiPageViewModel.OpenWikiPage(s); };
+                var skillPageViewModel = new SkillPageViewModel(characterViewModel, _serviceLocator.WikiService(), _serviceLocator.WikiDataService(), _serviceLocator.RuleService());
                 var statusPageViewModel = new StatusPageViewModel(characterViewModel, _serviceLocator.WikiDataService());
                 var inventoryViewModel = new InventoryViewModel(characterViewModel);
                 var appShellViewModel = new AppShellViewModel(_characterService, characterInfoPageViewModel, skillPageViewModel, statusPageViewModel, inventoryViewModel, wikiPageViewModel)
                 {
                     EditMode = editMode
+                };
+
+                skillPageViewModel.OpenWikiPageRequested += (sender, s) =>
+                {
+                    appShellViewModel.RaiseWikiPageOpenRequested();
+                    wikiPageViewModel.OpenWikiPage(s);
                 };
 
                 var appShell = new AppShell(appShellViewModel);

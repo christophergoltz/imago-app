@@ -22,12 +22,12 @@ namespace ImagoApp.ViewModels
         public WikiPageViewModel(CharacterViewModel characterViewModel)
         {
             CharacterViewModel = characterViewModel;
-            if (CharacterViewModel.Character.WikiPages == null)
-                CharacterViewModel.Character.WikiPages = new ObservableCollection<WikiTabModel>();
+            if (CharacterViewModel.CharacterModel.WikiPages == null)
+                CharacterViewModel.CharacterModel.WikiPages = new ObservableCollection<WikiTabModel>();
 
-            if (!CharacterViewModel.Character.WikiPages.Any())
+            if (!CharacterViewModel.CharacterModel.WikiPages.Any())
             {
-                CharacterViewModel.Character.WikiPages.Add(new WikiTabModel(WikiConstants.WikiMainPageUrl)
+                CharacterViewModel.CharacterModel.WikiPages.Add(new WikiTabModel(WikiConstants.WikiMainPageUrl)
                 {
                     Title = "Startseite"
                 });
@@ -37,19 +37,16 @@ namespace ImagoApp.ViewModels
         private ICommand _closeWikiTabCommand;
         public ICommand CloseWikiTabCommand => _closeWikiTabCommand ?? (_closeWikiTabCommand = new Command<WikiTabModel>(wikiTabModel =>
         {
-            CharacterViewModel.Character.WikiPages.Remove(wikiTabModel);
+            CharacterViewModel.CharacterModel.WikiPages.Remove(wikiTabModel);
         }));
 
         private ICommand _openWikiPageCommand;
-        public ICommand OpenWikiPageCommand => _openWikiPageCommand ?? (_openWikiPageCommand = new Command<string>(url =>
-        {
-            OpenWikiPage(url);
-        }));
+        public ICommand OpenWikiPageCommand => _openWikiPageCommand ?? (_openWikiPageCommand = new Command<string>(OpenWikiPage));
 
         private ICommand _goBackToWikiMainpageCommand;
         public ICommand GoBackToWikiMainpageCommand => _goBackToWikiMainpageCommand ?? (_goBackToWikiMainpageCommand = new Command(() =>
         {
-            SelectedWikiTab = CharacterViewModel.Character.WikiPages[0];
+            SelectedWikiTab = CharacterViewModel.CharacterModel.WikiPages[0];
         }));
 
         public void OpenWikiPage(string url)
@@ -57,7 +54,7 @@ namespace ImagoApp.ViewModels
             Device.BeginInvokeOnMainThread(() =>
             {
                 var wikiTabModel = new WikiTabModel(url);
-                CharacterViewModel.Character.WikiPages.Add(wikiTabModel);
+                CharacterViewModel.CharacterModel.WikiPages.Add(wikiTabModel);
                 SelectedWikiTab = wikiTabModel;
             });
         }

@@ -3,15 +3,15 @@ using ImagoApp.Shared.Enums;
 
 namespace ImagoApp.Application.Models
 {
-    public class Attribute : IncreasableBase
+    public class AttributeModel : IncreasableBaseModel
     {
         //required for deserialization
-        public Attribute()
+        public AttributeModel()
         {
             
         }
 
-        public Attribute(AttributeType type)
+        public AttributeModel(AttributeType type)
         {
             Type = type;
         }

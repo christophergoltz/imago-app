@@ -33,7 +33,7 @@ namespace ImagoApp.Views.CustomControls
             set { SetValue(CommandProperty, value); }
         }
         
-        public ICommand RemoveWeaponCommand => new Command<Weapon>(weapon =>
+        public ICommand RemoveWeaponCommand => new Command<WeaponModel>(weapon =>
         {
             if (Command.CanExecute(weapon))
             {

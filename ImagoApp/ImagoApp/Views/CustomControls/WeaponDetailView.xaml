@@ -5,7 +5,7 @@
              x:Class="ImagoApp.Views.CustomControls.WeaponDetailView" 
              x:Name="WeaponViewControl">
     <ContentView.Resources>
-        <DataTemplate x:Key="WeaponStanceListViewItemTemplate" x:DataType="models:WeaponStance">
+        <DataTemplate x:Key="WeaponStanceListViewItemTemplate" x:DataType="models:WeaponStanceModel">
             <Grid Padding="10,4">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -43,7 +43,7 @@
                     Command="{Binding WeaponDetailViewModel.CloseCommand, Source={x:Reference WeaponViewControl}}"/>
 
             <StackLayout Orientation="Horizontal" Grid.Row="0" Grid.Column="0" >
-                <Entry WidthRequest="600"  FontSize="26" FontAttributes="Bold" Text="{Binding Weapon.Name}" />
+                <Entry WidthRequest="600"  FontSize="26" FontAttributes="Bold" Text="{Binding WeaponModel.Name}" />
 
                 <Button Text="🗑" Padding="0,-4,0,0" WidthRequest="45" 
                         HeightRequest="45"  FontSize="22"  VerticalOptions="Center" TextColor="Red" BackgroundColor="LightGray" 
@@ -57,7 +57,7 @@
 
             <StackLayout Margin="10" VerticalOptions="Center"  Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
                 <Label VerticalOptions="Center" FontSize="18" FontAttributes="Bold" Text="Haltbarkeit"></Label>
-                <Entry Margin="10,0"  VerticalOptions="Center"  Keyboard="Numeric" WidthRequest="100"  FontSize="18"  Text="{Binding Weapon.DurabilityValue}"></Entry>
+                <Entry Margin="10,0"  VerticalOptions="Center"  Keyboard="Numeric" WidthRequest="100"  FontSize="18"  Text="{Binding WeaponModel.DurabilityValue}"></Entry>
             </StackLayout>
 
             <StackLayout Margin="10" VerticalOptions="Center"  Grid.Column="0" Grid.Row="3" Orientation="Horizontal">
@@ -91,7 +91,7 @@
 
             <!-- weapon stances -->
             <StackLayout Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Margin="15,15,15,0"  VerticalOptions="FillAndExpand"
-                         BindableLayout.ItemsSource="{Binding Weapon.WeaponStances}"
+                         BindableLayout.ItemsSource="{Binding WeaponModel.WeaponStances}"
                          BindableLayout.ItemTemplate="{StaticResource WeaponStanceListViewItemTemplate}">
             </StackLayout>
         </Grid>

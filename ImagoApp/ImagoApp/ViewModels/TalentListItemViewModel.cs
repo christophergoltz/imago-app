@@ -10,9 +10,9 @@ namespace ImagoApp.ViewModels
         private int? _difficultyOverride;
         public event EventHandler TalentValueChanged;
 
-        public TalentBase Talent { get; }
+        public TalentBaseModel Talent { get; }
 
-        public TalentListItemViewModel(TalentBase talent)
+        public TalentListItemViewModel(TalentBaseModel talent)
         {
             Talent = talent;
         }

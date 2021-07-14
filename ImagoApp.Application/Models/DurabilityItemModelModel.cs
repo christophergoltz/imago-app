@@ -1,13 +1,13 @@
 ﻿namespace ImagoApp.Application.Models
 {
-    public abstract class DurabilityItem : EquipableItem
+    public abstract class DurabilityItemModelModel : EquipableItemModel
     {
-        public DurabilityItem(string name,int load, bool fight, bool adventure, int durability) : base(name, load, adventure, fight)
+        public DurabilityItemModelModel(string name,int load, bool fight, bool adventure, int durability) : base(name, load, adventure, fight)
         {
             DurabilityValue = durability;
         }
 
-        public DurabilityItem()
+        public DurabilityItemModelModel()
         {
             
         }

@@ -7,7 +7,7 @@
             x:Class="ImagoApp.Views.WikiPage"
             Title="Imago Wiki" 
             x:DataType="viewModels:WikiPageViewModel"
-            ItemsSource="{Binding CharacterViewModel.Character.WikiPages}"
+            ItemsSource="{Binding CharacterViewModel.CharacterModel.WikiPages}"
             SelectedItem="{Binding SelectedWikiTab}"
             BarBackgroundColor="LightGray"
             BarTextColor="Black"

@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace ImagoApp.Application.Models.Base
 {
-    public abstract class IncreasableBase : ModifiableBase
+    public abstract class IncreasableBaseModel : ModifiableBaseModel
     {
         private int _totalExperience;
 
@@ -15,7 +15,7 @@ namespace ImagoApp.Application.Models.Base
                 SetProperty(ref _totalExperience, value);
                 (int IncreaseLevel, int LeftoverExperience, int ExperienceForNextIncrease) increaseInfo = (0,0,0);
 
-                if (this is Attribute attribute)
+                if (this is AttributeModel attribute)
                     increaseInfo = IncreaseConstants.GetIncreaseInfo(IncreaseConstants.IncreaseType.Attribute, value + attribute.ExperienceBySkillGroup);
                 if (this is SkillGroupModel)
                     increaseInfo = IncreaseConstants.GetIncreaseInfo(IncreaseConstants.IncreaseType.SkillGroup, value);
@@ -30,7 +30,7 @@ namespace ImagoApp.Application.Models.Base
                 OnPropertyChanged(nameof(ExperienceValue));
                 OnPropertyChanged(nameof(ExperienceForNextIncreasedRequired));
 
-                if (this is Attribute attribute2)
+                if (this is AttributeModel attribute2)
                     attribute2.RecalculateFinalValue();
                 if (this is SkillGroupModel skillGroup)
                     skillGroup.RecalculateFinalValue();

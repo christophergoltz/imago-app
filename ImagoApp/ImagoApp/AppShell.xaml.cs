@@ -1,42 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Acr.UserDialogs;
-using ImagoApp.Application;
-using ImagoApp.Util;
 using ImagoApp.ViewModels;
+using ImagoApp.Views;
+using ImagoApp.Views.CustomControls;
 using Xamarin.Forms;
 
 namespace ImagoApp
 {
-    public class FlyoutPageItem : BindableBase
-    {
-        public FlyoutPageItem(string iconSource, Type pageType, NavigationPage page)
-        {
-            IconSource = iconSource;
-            PageType = pageType;
-            NavigationPage = page;
-        }
-
-        private bool _isSelected;
-        public string IconSource { get; set; }
-        public NavigationPage NavigationPage { get; set; }
-        public Type PageType { get; set; }
-
-        public bool IsSelected
-        {
-            get => _isSelected;
-            set => SetProperty(ref _isSelected, value);
-        }
-    }
-
     public partial class AppShell
     {
         public AppShellViewModel AppShellViewModel { get; }
 
         public AppShell(AppShellViewModel appShellViewModel)
         {
+            appShellViewModel.WikiPageOpenRequested += (sender, args) =>
+            {
+                var wikiPage = AppShellViewModel.MenuItems.First(item => item.PageType == typeof(WikiPage));
+                SetSelectedPage(wikiPage);
+            };
             BindingContext = AppShellViewModel = appShellViewModel;
             InitializeComponent();
         }

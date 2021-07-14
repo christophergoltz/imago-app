@@ -4,9 +4,7 @@ using System.Text;
 using AutoMapper;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Models.Base;
-using ImagoApp.Application.Models.Template;
 using ImagoApp.Infrastructure.Entities;
-using ImagoApp.Infrastructure.Entities.Template;
 
 namespace ImagoApp.Application.MappingProfiles
 {
@@ -15,11 +13,11 @@ namespace ImagoApp.Application.MappingProfiles
         public CharacterMappingProfile()
         {
             //entity to model
-            CreateMap<CharacterEntity, Character>()
+            CreateMap<CharacterEntity, CharacterModel>()
                 .IncludeAllDerived();
-            CreateMap<AttributeEntity, Models.Attribute>()
+            CreateMap<AttributeEntity, AttributeModel>()
                 .IncludeAllDerived();
-            CreateMap<SpecialAttributeEntity, SpecialAttribute>()
+            CreateMap<SpecialAttributeEntity, SpecialAttributeModel>()
                 .IncludeAllDerived();
 
             CreateMap<SkillGroupEntity, SkillGroupModel>()
@@ -29,55 +27,55 @@ namespace ImagoApp.Application.MappingProfiles
 
             CreateMap<BloodCarrierEntity, BloodCarrierModel>();
 
-            CreateMap<IncreasableBaseEntity, IncreasableBase>()
+            CreateMap<IncreasableBaseEntity, IncreasableBaseModel>()
                 .IncludeAllDerived()
                 .ForMember(e => e.ExperienceForNextIncreasedRequired, opt => opt.Ignore())
                 .ForMember(e => e.IncreaseValue, opt => opt.Ignore())
                 .ForMember(e => e.ExperienceValue, opt => opt.Ignore());
-            CreateMap<CalculableBaseEntity, CalculableBase>()
+            CreateMap<CalculableBaseEntity, CalculableBaseModel>()
                 .IncludeAllDerived()
                 .ForMember(e => e.FinalValue, opt => opt.Ignore());
-            CreateMap<DependentBaseEntity, DependentBase>()
+            CreateMap<DependentBaseEntity, DependentBaseModel>()
                 .IncludeAllDerived()
                 .ForMember(e => e.BaseValue, opt => opt.Ignore());
 
             CreateMap<SkillRequirementEntity, SkillRequirementModel>();
             CreateMap<SkillGroupRequirementEntity, SkillGroupRequirementModel>();
 
-            CreateMap<WeaponEntity, Weapon>()
+            CreateMap<WeaponEntity, WeaponModel>()
                 .IncludeAllDerived();
-            CreateMap<WeaponStanceEntity, WeaponStance>()
+            CreateMap<WeaponStanceEntity, WeaponStanceModel>()
                 .IncludeAllDerived();
-            CreateMap<BodyPartEntity, BodyPart>()
+            CreateMap<BodyPartEntity, BodyPartModel>()
                 .IncludeAllDerived();
-            CreateMap<ArmorPartEntity, ArmorPartModel>()
+            CreateMap<ArmorPartEntity, ArmorPartModelModel>()
                 .IncludeAllDerived();
-            CreateMap<EquipableItemEntity, EquipableItem>()
+            CreateMap<EquipableItemEntity, EquipableItemModel>()
                 .IncludeAllDerived();
             CreateMap<WikiTabEntity, WikiTabModel>();
 
             //model to entity
-            CreateMap<Weapon, WeaponEntity>();
-            CreateMap<Character, CharacterEntity>();
-            CreateMap<Models.Attribute, AttributeEntity>();
-            CreateMap<SpecialAttribute, SpecialAttributeEntity>();
+            CreateMap<WeaponModel, WeaponEntity>();
+            CreateMap<CharacterModel, CharacterEntity>();
+            CreateMap<AttributeModel, AttributeEntity>();
+            CreateMap<SpecialAttributeModel, SpecialAttributeEntity>();
 
             CreateMap<SkillGroupModel, SkillGroupEntity>();
             CreateMap<SkillModel, SkillEntity>();
 
             CreateMap<BloodCarrierModel, BloodCarrierEntity>();
 
-            CreateMap<IncreasableBase, IncreasableBaseEntity>();
-            CreateMap<CalculableBase, CalculableBaseEntity>();
-            CreateMap<DependentBase, DependentBaseEntity>();
+            CreateMap<IncreasableBaseModel, IncreasableBaseEntity>();
+            CreateMap<CalculableBaseModel, CalculableBaseEntity>();
+            CreateMap<DependentBaseModel, DependentBaseEntity>();
 
             CreateMap<SkillRequirementModel, SkillRequirementEntity>();
             CreateMap<SkillGroupRequirementModel, SkillGroupRequirementEntity>();
 
-            CreateMap<BodyPart, BodyPartEntity>();
-            CreateMap<WeaponStance, WeaponStanceEntity>();
-            CreateMap<ArmorPartModel, ArmorPartEntity>();
-            CreateMap<EquipableItem, EquipableItemEntity>();
+            CreateMap<BodyPartModel, BodyPartEntity>();
+            CreateMap<WeaponStanceModel, WeaponStanceEntity>();
+            CreateMap<ArmorPartModelModel, ArmorPartEntity>();
+            CreateMap<EquipableItemModel, EquipableItemEntity>();
             CreateMap<WikiTabModel, WikiTabEntity>();
         }
     }

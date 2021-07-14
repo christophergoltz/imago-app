@@ -12,7 +12,7 @@ namespace ImagoApp.Converter
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var bodyPartType = (BodyPartType) parameter;
-            var bodyParts = (Dictionary<BodyPartType, BodyPart>) value;
+            var bodyParts = (Dictionary<BodyPartType, BodyPartModel>) value;
 
             return bodyParts[bodyPartType];
         }

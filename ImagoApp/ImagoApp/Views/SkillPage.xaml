@@ -63,7 +63,7 @@
                                 <StackLayout >
                                     <StackLayout Margin="10" VerticalOptions="Center" Orientation="Horizontal">
                                         <Label VerticalOptions="Center" Text="Freie Ep: " FontSize="18"  FontAttributes="Bold"/>
-                                        <Entry Keyboard="Numeric" WidthRequest="100" VerticalOptions="Center"  FontSize="18" Text="{Binding CharacterViewModel.Character.FreeSkillExperience}"/>
+                                        <Entry Keyboard="Numeric" WidthRequest="100" VerticalOptions="Center"  FontSize="18" Text="{Binding CharacterViewModel.CharacterModel.FreeSkillExperience}"/>
                                     </StackLayout>
                                 </StackLayout>
                             </Frame>
@@ -88,7 +88,7 @@
                                             </Grid>
                                         </ListView.Header>
                                         <ListView.ItemTemplate>
-                                            <DataTemplate x:DataType="models:DerivedAttribute">
+                                            <DataTemplate x:DataType="models:DerivedAttributeModel">
                                                 <ViewCell>
                                                     <Grid Padding="10,4">
                                                         <Grid.ColumnDefinitions>

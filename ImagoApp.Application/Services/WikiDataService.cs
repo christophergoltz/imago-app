@@ -24,8 +24,8 @@ namespace ImagoApp.Application.Services
         void AddTalents(List<TalentModel> items);
         List<TalentModel> GetAllTalents();
         void DeleteAllTalents();
-        Weapon GetWeaponFromTemplate(WeaponTemplateModel model);
-        ArmorPartModel GetArmorFromTemplate(ArmorPartTemplateModel model);
+        WeaponModel GetWeaponFromTemplate(WeaponTemplateModel model);
+        ArmorPartModelModel GetArmorFromTemplate(ArmorPartTemplateModel model);
         int GetArmorWikiDataItemCount();
         int GetWeaponWikiDataItemCount();
         int GetTalentWikiDataItemCount();
@@ -74,14 +74,14 @@ namespace ImagoApp.Application.Services
             return _masteryRepository.GetItemCount();
         }
 
-        public Weapon GetWeaponFromTemplate(WeaponTemplateModel model)
+        public WeaponModel GetWeaponFromTemplate(WeaponTemplateModel model)
         {
-            return new Weapon(model.Name, model.WeaponStances, true, true, model.LoadValue, model.DurabilityValue);
+            return new WeaponModel(model.Name, model.WeaponStances, true, true, model.LoadValue, model.DurabilityValue);
         }
 
-        public ArmorPartModel GetArmorFromTemplate(ArmorPartTemplateModel model)
+        public ArmorPartModelModel GetArmorFromTemplate(ArmorPartTemplateModel model)
         {
-            return new ArmorPartModel(model.ArmorPartType, model.Name, model.LoadValue,true, true, model.DurabilityValue, model.EnergyDefense, model.PhysicalDefense);
+            return new ArmorPartModelModel(model.ArmorPartType, model.Name, model.LoadValue,true, true, model.DurabilityValue, model.EnergyDefense, model.PhysicalDefense);
         }
 
         public FileInfo GetDatabaseInfo()

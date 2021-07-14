@@ -7,6 +7,7 @@ using ImagoApp.Application;
 using ImagoApp.Application.Services;
 using ImagoApp.Util;
 using ImagoApp.Views;
+using ImagoApp.Views.CustomControls;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -23,6 +24,13 @@ namespace ImagoApp.ViewModels
         public ICommand GoToMainMenuCommand { get; }
         private bool _editMode;
         private List<FlyoutPageItem> _menuItems;
+
+        public event EventHandler WikiPageOpenRequested;
+
+        public void RaiseWikiPageOpenRequested()
+        {
+            WikiPageOpenRequested?.Invoke(this, EventArgs.Empty);
+        }
 
         public List<FlyoutPageItem> MenuItems
         {
