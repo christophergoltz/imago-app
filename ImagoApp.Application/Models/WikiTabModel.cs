@@ -7,6 +7,11 @@
             Url = url;
         }
 
+        public WikiTabModel()
+        {
+            
+        }
+
         private string _url;
         private string _title;
 

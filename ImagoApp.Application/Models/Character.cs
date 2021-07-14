@@ -39,5 +39,7 @@ namespace ImagoApp.Application.Models
         public ObservableCollection<EquipableItem> EquippedItems { get; set; }
         
         public ObservableCollection<BloodCarrierModel> BloodCarrier { get; set; }
+        
+        public ObservableCollection<WikiTabModel> WikiPages { get; set; }
     }
 }

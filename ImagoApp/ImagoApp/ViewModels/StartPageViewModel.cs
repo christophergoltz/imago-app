@@ -208,19 +208,19 @@ namespace ImagoApp.ViewModels
         
         private async Task OpenCharacter(Character character, bool editMode)
         {
-            var viewModel = new CharacterViewModel(character, _ruleService);
-            App.CurrentCharacterViewModel = viewModel;
+            var characterViewModel = new CharacterViewModel(character, _ruleService);
+            App.CurrentCharacterViewModel = characterViewModel;
 
             try
             {
                 //create all required dependencies
-                var characterInfoPageViewModel = new CharacterInfoPageViewModel(viewModel, _serviceLocator.RuleService());
-                var wikiPageViewModel = new WikiPageViewModel();
-                var skillPageViewModel = new SkillPageViewModel(viewModel, _serviceLocator.WikiService(),
+                var characterInfoPageViewModel = new CharacterInfoPageViewModel(characterViewModel, _serviceLocator.RuleService());
+                var wikiPageViewModel = new WikiPageViewModel(characterViewModel);
+                var skillPageViewModel = new SkillPageViewModel(characterViewModel, _serviceLocator.WikiService(),
                     _serviceLocator.WikiDataService(), _serviceLocator.RuleService());
                 skillPageViewModel.OpenWikiPageRequested += (sender, s) => { wikiPageViewModel.OpenWikiPage(s); };
-                var statusPageViewModel = new StatusPageViewModel(viewModel, _serviceLocator.WikiDataService());
-                var inventoryViewModel = new InventoryViewModel(viewModel);
+                var statusPageViewModel = new StatusPageViewModel(characterViewModel, _serviceLocator.WikiDataService());
+                var inventoryViewModel = new InventoryViewModel(characterViewModel);
                 var appShellViewModel = new AppShellViewModel(_characterService, characterInfoPageViewModel, skillPageViewModel, statusPageViewModel, inventoryViewModel, wikiPageViewModel)
                 {
                     EditMode = editMode

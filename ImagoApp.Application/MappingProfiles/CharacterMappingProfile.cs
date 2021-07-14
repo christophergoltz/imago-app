@@ -54,6 +54,7 @@ namespace ImagoApp.Application.MappingProfiles
                 .IncludeAllDerived();
             CreateMap<EquipableItemEntity, EquipableItem>()
                 .IncludeAllDerived();
+            CreateMap<WikiTabEntity, WikiTabModel>();
 
             //model to entity
             CreateMap<Weapon, WeaponEntity>();
@@ -77,6 +78,7 @@ namespace ImagoApp.Application.MappingProfiles
             CreateMap<WeaponStance, WeaponStanceEntity>();
             CreateMap<ArmorPartModel, ArmorPartEntity>();
             CreateMap<EquipableItem, EquipableItemEntity>();
+            CreateMap<WikiTabModel, WikiTabEntity>();
         }
     }
 }
