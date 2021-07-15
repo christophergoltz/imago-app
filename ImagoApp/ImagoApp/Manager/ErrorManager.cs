@@ -23,6 +23,8 @@ namespace ImagoApp.Manager
         {
             Debug.WriteLine(exception);
 
+            App.SaveCurrentCharacter();
+
             var stackTrace = Environment.StackTrace;
 
             if (customProperites == null)
@@ -37,6 +39,8 @@ namespace ImagoApp.Manager
         public void TrackException(Exception exception, string affectedCharacter = null, Dictionary<string, string> customProperites = null)
         {
             Debug.WriteLine(exception);
+
+            App.SaveCurrentCharacter();
 
             var stackTrace = Environment.StackTrace;
 
