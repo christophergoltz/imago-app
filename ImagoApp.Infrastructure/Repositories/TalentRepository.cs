@@ -12,7 +12,7 @@ namespace ImagoApp.Infrastructure.Repositories
 
     public class TalentRepository : Repository<TalentEntity>, ITalentRepository
     {
-        public TalentRepository(string databaseFolder) : base(Path.Combine(databaseFolder, "ImagoApp_Wikidata.db"))
+        public TalentRepository(string databaseFile) : base(databaseFile)
         {
         }
     }

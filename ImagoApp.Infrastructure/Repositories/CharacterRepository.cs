@@ -21,16 +21,13 @@ namespace ImagoApp.Infrastructure.Repositories
 
     public class CharacterRepository : ICharacterRepository
     {
-        private readonly string _databaseFile;
         private readonly string _connectionString;
         private const string CollectionName = nameof(CharacterEntity);
 
-        public CharacterRepository(string databaseFolder)
+        public CharacterRepository(string databaseFile)
         {
-            _databaseFile = Path.Combine(databaseFolder, "ImagoApp_Character.db");
-
             //https://github.com/mbdavid/LiteDB/wiki/Connection-String
-            _connectionString = $"filename={_databaseFile}";
+            _connectionString = $"filename={databaseFile}";
             
             var mapper = BsonMapper.Global;
             mapper.EnumAsInteger = true;
