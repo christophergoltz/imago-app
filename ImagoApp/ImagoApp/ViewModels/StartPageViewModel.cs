@@ -78,6 +78,19 @@ namespace ImagoApp.ViewModels
             });
         }
 
+        private ICommand _openImportantNotesCommand;
+        public ICommand OpenImportantNotesCommand => _openImportantNotesCommand ?? (_openImportantNotesCommand = new Command(() =>
+        {
+            try
+            {
+                Launcher.OpenAsync(WikiConstants.ImportantNotesUrl);
+            }
+            catch (Exception exception)
+            {
+                App.ErrorManager.TrackException(exception);
+            }
+        }));
+
         private ICommand _openAppDataFolderCommand;
 
         public ICommand OpenAppDataFolderCommand => _openAppDataFolderCommand ?? (_openAppDataFolderCommand = new Command(() =>
@@ -131,7 +144,7 @@ namespace ImagoApp.ViewModels
         {
             try
             {
-                Launcher.OpenAsync(_wikiService.GetChangelogUrl());
+                Launcher.OpenAsync(WikiConstants.ChangelogUrl);
             }
             catch (Exception exception)
             {

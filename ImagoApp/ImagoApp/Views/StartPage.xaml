@@ -94,6 +94,15 @@
                         <Label Grid.Column="3" Margin="25,0"  HorizontalOptions="EndAndExpand" Text="{Binding DatabaseInfoViewModel.CharacterDatabaseInfo.Length, Converter={StaticResource FileInfoLenghtToSmartFileSizeConverter}}" FontSize="24"></Label>
                         <Label Grid.Column="4" HorizontalOptions="EndAndExpand" Text="{Binding DatabaseInfoViewModel.CharacterDatabaseInfo.LastWriteTime, StringFormat='{0:dd.MM.yyyy HH:mm}'}" FontSize="24"></Label>
                     </Grid>
+                    <Button HorizontalOptions="Start" Margin="20,10" Text="Wichtige Benutzungshinweise &#8599;" FontSize="20" 
+                            Padding="7,3" Background="limegreen" 
+                            Command="{Binding OpenImportantNotesCommand}"/>
+                    <Frame BackgroundColor="{StaticResource AntiUmbra3}" BorderColor="Transparent">
+                        <Label FontSize="18" Margin="20"
+                               TextColor="{StaticResource RotesUmbra}" FontAttributes="Bold"
+                               Text="Achtung: Die Charakterdatenbank wird unwiederruflich durch Windows bei einer Deinstallation gelöscht!"></Label>
+                    </Frame>
+                  
                 </StackLayout>
             </Frame>
 

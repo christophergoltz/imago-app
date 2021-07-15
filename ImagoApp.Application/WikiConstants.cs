@@ -5,20 +5,21 @@ namespace ImagoApp.Application
 {
     public static class WikiConstants
     {
-        public static readonly string WikiMainPageUrl = "http://imago-rp.de/index.php/Hauptseite";
-        public static readonly string WikiUrlPrefix = "http://imago-rp.de/index.php/";
+        public const string WikiMainPageUrl = "http://imago-rp.de/index.php/Hauptseite";
+        public const string WikiUrlPrefix = "http://imago-rp.de/index.php/";
 
-        public static readonly string ArmorUrl = "http://imago-rp.de/index.php/R%C3%BCstungen";
-        public static readonly string MeleeWeaponUrl = "http://imago-rp.de/index.php/Nahkampfwaffen";
-        public static readonly string RangedWeaponUrl = "http://imago-rp.de/index.php/Fernkampfwaffen";
-        public static readonly string SpecialWeaponUrl = "http://imago-rp.de/index.php/Spezialwaffen";
-        public static readonly string ShieldsUrl = "http://imago-rp.de/index.php/Schilde";
+        public const string ArmorUrl = "http://imago-rp.de/index.php/R%C3%BCstungen";
+        public const string MeleeWeaponUrl = "http://imago-rp.de/index.php/Nahkampfwaffen";
+        public const string RangedWeaponUrl = "http://imago-rp.de/index.php/Fernkampfwaffen";
+        public const string SpecialWeaponUrl = "http://imago-rp.de/index.php/Spezialwaffen";
+        public const string ShieldsUrl = "http://imago-rp.de/index.php/Schilde";
 
-        public static readonly string HealingUrl = "http://imago-rp.de/index.php/Heilung";
-        public static readonly string DailyGoodsUrl = "http://imago-rp.de/index.php/Alltagsg%C3%BCter";
-        public static readonly string AmmunitionUrl = "http://imago-rp.de/index.php/Munition";
+        public const string HealingUrl = "http://imago-rp.de/index.php/Heilung";
+        public const string DailyGoodsUrl = "http://imago-rp.de/index.php/Alltagsg%C3%BCter";
+        public const string AmmunitionUrl = "http://imago-rp.de/index.php/Munition";
 
-        public static readonly string ChangelogUrl = "http://imago-rp.de/index.php/Imago.App_(Changelog)";
+        public const string ChangelogUrl = "https://github.com/christophergoltz/imago-app/blob/develop/CHANGELOG.md";
+        public const string ImportantNotesUrl = "https://github.com/christophergoltz/imago-app/wiki/Wichtige-Hinweise";
 
         public static readonly Dictionary<SkillGroupModelType, string> SkillGroupTypeLookUp = new Dictionary<SkillGroupModelType, string>()
             {
