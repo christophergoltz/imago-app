@@ -151,7 +151,7 @@
                         <TapGestureRecognizer Command="{Binding SkillDetailViewModel.CloseCommand}"/>
                     </ContentView.GestureRecognizers>
                 </ContentView>
-                <Frame WidthRequest="1400" HeightRequest="800" VerticalOptions="Center" HorizontalOptions="Center">
+                <Frame WidthRequest="1400" HeightRequest="900" VerticalOptions="Center" HorizontalOptions="Center">
                     <customControls:SkillDetailView  VerticalOptions="Fill" HorizontalOptions="Fill" SkillDetailViewModel="{Binding SkillDetailViewModel, Source={RelativeSource AncestorType={x:Type viewModels:SkillPageViewModel}}}"/>
                 </Frame>
             </Grid>

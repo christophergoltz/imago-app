@@ -4,135 +4,116 @@
              xmlns:system="clr-namespace:System;assembly=netstandard"
              xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp"
              xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
-             xmlns:views="http://xamarin.com/schemas/2020/toolkit"
              x:Class="ImagoApp.Views.CustomControls.SkillDetailView" x:DataType="customControls:SkillDetailView">
     <ContentView.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="TalentBaseDetailTemplate" x:DataType="viewModels:TalentListItemViewModel">
-                <views:Expander Margin="10,5" x:Name="TalentDetailExpanderControl">
-                    <views:Expander.Header>
-                        <Grid>
-                            <Grid.Style>
-                                <Style TargetType="Grid">
+                <StackLayout  Margin="10,5" x:Name="TalentDetailExpanderControl">
+                    <Grid>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Style.Triggers>
+                                    <DataTrigger TargetType="Grid" Binding="{Binding Available}" Value="false">
+                                        <Setter Property="BackgroundColor" Value="{DynamicResource AntiUmbra3}"></Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                            <ColumnDefinition Width="80"></ColumnDefinition>
+                            <ColumnDefinition Width="50"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Column="0" FontSize="18" VerticalOptions="Center" Text="{Binding Talent.Name}">
+                            <Label.Style>
+                                <Style TargetType="Label">
                                     <Style.Triggers>
-                                        <DataTrigger TargetType="Grid" Binding="{Binding Available}" Value="false">
-                                            <Setter Property="BackgroundColor" Value="{DynamicResource AntiUmbra3}"></Setter>
+                                        <DataTrigger TargetType="Label" Binding="{Binding Available}" Value="False">
+                                            <Setter Property="TextDecorations" Value="Strikethrough"></Setter>
+                                            <Setter Property="FontAttributes" Value="Italic"></Setter>
+                                            <Setter Property="TextColor" Value="white"></Setter>
                                         </DataTrigger>
                                     </Style.Triggers>
+                                    <Setter Property="TextDecorations" Value="None"></Setter>
+                                    <Setter Property="FontAttributes" Value="None"></Setter>
+                                    <Setter Property="TextColor" Value="Black"></Setter>
                                 </Style>
-                            </Grid.Style>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                                <ColumnDefinition Width="150"></ColumnDefinition>
-                                <ColumnDefinition Width="80"></ColumnDefinition>
-                                <ColumnDefinition Width="50"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
+                            </Label.Style>
+                        </Label>
 
-                            <Label Grid.Column="0" Text="˃" FontAttributes="Bold" FontSize="22" VerticalOptions="Center">
-                                <Label.Style>
-                                    <Style TargetType="Label">
-                                        <Style.Triggers>
-                                            <DataTrigger TargetType="Label"
-                                                         Binding="{Binding IsExpanded, 
-                                                Source={x:Reference TalentDetailExpanderControl}}" Value="True">
-                                                <Setter Property="Rotation" Value="90"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Label.Style>
-                            </Label>
+                        <Label FontSize="16" TextColor="Gray" FontAttributes="Italic" VerticalOptions="Center" Grid.Column="1" Text="{Binding Talent.PhaseValueMod}" >
+                            <Label.Style>
+                                <Style TargetType="Label">
+                                    <Style.Triggers>
+                                        <MultiTrigger TargetType="Label">
+                                            <MultiTrigger.Conditions>
+                                                <BindingCondition Binding="{Binding Available}" Value="True"></BindingCondition>
+                                            </MultiTrigger.Conditions>
+                                            <Setter Property="IsVisible" Value="True"></Setter>
+                                        </MultiTrigger>
+                                    </Style.Triggers>
+                                    <Setter Property="IsVisible" Value="False"></Setter>
+                                </Style>
+                            </Label.Style>
+                        </Label>
 
-                            <Label Grid.Column="1" FontSize="18" VerticalOptions="Center" Text="{Binding Talent.Name}">
-                                <Label.Style>
-                                    <Style TargetType="Label">
-                                        <Style.Triggers>
-                                            <DataTrigger TargetType="Label" Binding="{Binding Available}" Value="False">
-                                                <Setter Property="TextDecorations" Value="Strikethrough"></Setter>
-                                                <Setter Property="FontAttributes" Value="Italic"></Setter>
-                                                <Setter Property="TextColor" Value="white"></Setter>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                        <Setter Property="TextDecorations" Value="None"></Setter>
-                                        <Setter Property="FontAttributes" Value="None"></Setter>
-                                        <Setter Property="TextColor" Value="Black"></Setter>
-                                    </Style>
-                                </Label.Style>
-                            </Label>
+                        <Label  FontSize="18"  VerticalOptions="Center"  Grid.Column="2" Text="{Binding Talent.Difficulty}" >
+                            <Label.Style>
+                                <Style TargetType="Label">
+                                    <Style.Triggers>
+                                        <MultiTrigger TargetType="Label">
+                                            <MultiTrigger.Conditions>
+                                                <BindingCondition Binding="{Binding Talent.Difficulty, Converter={StaticResource ObjectNotNullToBoolConverter}}" Value="True"></BindingCondition>
+                                                <BindingCondition Binding="{Binding Available}" Value="True"></BindingCondition>
+                                            </MultiTrigger.Conditions>
+                                            <Setter Property="IsVisible" Value="True"></Setter>
+                                        </MultiTrigger>
+                                    </Style.Triggers>
+                                    <Setter Property="IsVisible" Value="False"></Setter>
+                                </Style>
+                            </Label.Style>
+                        </Label>
 
-                            <Label FontSize="16" TextColor="Gray" FontAttributes="Italic" VerticalOptions="Center" Grid.Column="2" Text="{Binding Talent.PhaseValueMod}" >
-                                <Label.Style>
-                                    <Style TargetType="Label">
-                                        <Style.Triggers>
-                                            <MultiTrigger TargetType="Label">
-                                                <MultiTrigger.Conditions>
-                                                    <BindingCondition Binding="{Binding Available}" Value="True"></BindingCondition>
-                                                </MultiTrigger.Conditions>
-                                                <Setter Property="IsVisible" Value="True"></Setter>
-                                            </MultiTrigger>
-                                        </Style.Triggers>
-                                        <Setter Property="IsVisible" Value="False"></Setter>
-                                    </Style>
-                                </Label.Style>
-                            </Label>
-
-                            <Label  FontSize="18"  VerticalOptions="Center"  Grid.Column="3" Text="{Binding Talent.Difficulty}" >
-                                <Label.Style>
-                                    <Style TargetType="Label">
-                                        <Style.Triggers>
-                                            <MultiTrigger TargetType="Label">
-                                                <MultiTrigger.Conditions>
-                                                    <BindingCondition Binding="{Binding Talent.Difficulty, Converter={StaticResource ObjectNotNullToBoolConverter}}" Value="True"></BindingCondition>
-                                                    <BindingCondition Binding="{Binding Available}" Value="True"></BindingCondition>
-                                                </MultiTrigger.Conditions>
-                                                <Setter Property="IsVisible" Value="True"></Setter>
-                                            </MultiTrigger>
-                                        </Style.Triggers>
-                                        <Setter Property="IsVisible" Value="False"></Setter>
-                                    </Style>
-                                </Label.Style>
-                            </Label>
-
-                            <Entry  FontSize="18"  VerticalOptions="Center" Keyboard="Numeric" Grid.Column="3" 
+                        <Entry  FontSize="18"  VerticalOptions="Center" Keyboard="Numeric" Grid.Column="2" 
                                 Text="{Binding DifficultyOverride}" >
-                                <Entry.Style>
-                                    <Style TargetType="Entry">
-                                        <Style.Triggers>
-                                            <MultiTrigger TargetType="Entry">
-                                                <MultiTrigger.Conditions>
-                                                    <BindingCondition Binding="{Binding Talent.Difficulty}" Value="{x:Null}"></BindingCondition>
-                                                    <BindingCondition Binding="{Binding Available}" Value="True"></BindingCondition>
-                                                </MultiTrigger.Conditions>
-                                                <Setter Property="IsVisible" Value="true"></Setter>
-                                            </MultiTrigger>
-                                        </Style.Triggers>
-                                        <Setter Property="IsVisible" Value="False"></Setter>
-                                    </Style>
-                                </Entry.Style>
-                            </Entry>
+                            <Entry.Style>
+                                <Style TargetType="Entry">
+                                    <Style.Triggers>
+                                        <MultiTrigger TargetType="Entry">
+                                            <MultiTrigger.Conditions>
+                                                <BindingCondition Binding="{Binding Talent.Difficulty}" Value="{x:Null}"></BindingCondition>
+                                                <BindingCondition Binding="{Binding Available}" Value="True"></BindingCondition>
+                                            </MultiTrigger.Conditions>
+                                            <Setter Property="IsVisible" Value="true"></Setter>
+                                        </MultiTrigger>
+                                    </Style.Triggers>
+                                    <Setter Property="IsVisible" Value="False"></Setter>
+                                </Style>
+                            </Entry.Style>
+                        </Entry>
 
-                            <CheckBox  VerticalOptions="Center" IsChecked="{Binding InUse}" Grid.Column="4">
-                                <CheckBox.Style>
-                                    <Style TargetType="CheckBox">
-                                        <Style.Triggers>
-                                            <MultiTrigger TargetType="CheckBox">
-                                                <MultiTrigger.Conditions>
-                                                    <BindingCondition Binding="{Binding Talent.ActiveUse}" Value="True"></BindingCondition>
-                                                    <BindingCondition Binding="{Binding Available}" Value="True"></BindingCondition>
-                                                </MultiTrigger.Conditions>
-                                                <Setter Property="IsVisible" Value="true"></Setter>
-                                            </MultiTrigger>
-                                        </Style.Triggers>
-                                        <Setter Property="IsVisible" Value="False"></Setter>
-                                    </Style>
-                                </CheckBox.Style>
-                            </CheckBox>
-                        </Grid>
-                    </views:Expander.Header>
-                    <views:Expander.Content>
-                        <Label Text="{Binding Talent.Description}"></Label>
-                    </views:Expander.Content>
-                </views:Expander>
+                        <CheckBox  VerticalOptions="Center" IsChecked="{Binding InUse}" Grid.Column="3">
+                            <CheckBox.Style>
+                                <Style TargetType="CheckBox">
+                                    <Style.Triggers>
+                                        <MultiTrigger TargetType="CheckBox">
+                                            <MultiTrigger.Conditions>
+                                                <BindingCondition Binding="{Binding Talent.ActiveUse}" Value="True"></BindingCondition>
+                                                <BindingCondition Binding="{Binding Available}" Value="True"></BindingCondition>
+                                            </MultiTrigger.Conditions>
+                                            <Setter Property="IsVisible" Value="true"></Setter>
+                                        </MultiTrigger>
+                                    </Style.Triggers>
+                                    <Setter Property="IsVisible" Value="False"></Setter>
+                                </Style>
+                            </CheckBox.Style>
+                        </CheckBox>
+                    </Grid>
+                    <Label FontSize="12"  Text="{Binding Talent.Description}" 
+                           Margin="10,0,0,0"  TextColor="DimGray" FontAttributes="Italic"/>
+                </StackLayout>
             </DataTemplate>
 
             <DataTemplate x:Key="HandicapItemTemplate" x:DataType="viewModels:HandicapListViewItemViewModel">
@@ -161,17 +142,16 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="1"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!-- header -->
-        <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Padding="15" Margin="0,0,0,-6" Style="{StaticResource EvenGradiantStyle}">
+        <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Padding="15" Margin="0,0,0,-6" Style="{StaticResource EvenGradiantStyle}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="5*"/>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="3*"/>
-                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="35*"/>
+                <ColumnDefinition Width="15*"/>
+                <ColumnDefinition Width="30*"/>
+                <ColumnDefinition Width="15*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -181,7 +161,7 @@
             </Grid.RowDefinitions>
 
             <StackLayout VerticalOptions="Center"  Grid.Column="0" Grid.Row="0" Orientation="Horizontal">
-                <Label  Text="{Binding SkillDetailViewModel.SkillModel.Type, Converter={StaticResource EnumToDisplayTextConverter}}"
+                <Label Text="{Binding SkillDetailViewModel.SkillModel.Type, Converter={StaticResource EnumToDisplayTextConverter}}"
                             Margin="5,5,0,0" FontAttributes="Bold" FontSize="28"/>
                 <Button Margin="20,8,0,0" VerticalOptions="Center" Text="Wiki &#8599;" FontSize="20" 
                             Padding="7,3" Background="limegreen" 
@@ -262,13 +242,13 @@
                         Command="{Binding SkillDetailViewModel.CloseCommand}"/>
         </Grid>
 
-        <WebView Grid.Row="2" Grid.Column="0" Navigating="WebView_OnNavigating"
+        <WebView Grid.Row="1" Grid.Column="0" Navigating="WebView_OnNavigating"
                              Source="{Binding SkillDetailViewModel.QuickWikiView}"></WebView>
 
-        <BoxView Grid.Column="2" Grid.Row="2" Color="Black"/>
+        <BoxView Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Color="Black"/>
 
         <!-- probe -->
-        <Grid Grid.Column="3" Grid.Row="2" WidthRequest="500">
+        <Grid Grid.Column="3" Grid.Row="0" Grid.RowSpan="2" WidthRequest="500">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
@@ -279,11 +259,12 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
                 <BoxView Grid.Row="0" Color="Black"/>
-                <Label Grid.Row="1" HorizontalOptions="Center" FontSize="22" Text="Probenwurf gegen"></Label>
-                <Label Grid.Row="2" HorizontalOptions="Center" FontAttributes="Bold" FontSize="32" Text="{Binding SkillDetailViewModel.FinalTestValue}"></Label>
+                <StackLayout Grid.Row="1" Orientation="Horizontal" HorizontalOptions="Center" Margin="0,0,0,5">
+                    <Label VerticalOptions="Center" FontSize="22" Text="Probenwurf gegen"></Label>
+                    <Label Margin="10,0,0,0" VerticalOptions="Center" FontAttributes="Bold" FontSize="32" Text="{Binding SkillDetailViewModel.FinalTestValue}"></Label>
+                </StackLayout>
             </Grid>
 
             <!-- probe -->
