@@ -294,7 +294,7 @@ namespace ImagoApp.Application.Services
                         var skill = MappingStringToSkillType(strings[0], logger);
                         if (skill == SkillModelType.Unbekannt)
                         {
-                            logger.Error($"Vorraussetztung \"{requirement}\" für Talent \"{name}\" kann nicht gelesen werden .. wird ignoriert");
+                            logger.Error($"Vorraussetztung \"{requirement}\" für Kunst \"{name}\" kann nicht gelesen werden .. wird ignoriert");
                             continue;
                         }
 
@@ -316,7 +316,7 @@ namespace ImagoApp.Application.Services
                     }
                     else
                     {
-                        logger.Warning($"Talent \"{name}\" hat keine Kurzbeschreibung");
+                        logger.Warning($"Kunst \"{name}\" hat keine Kurzbeschreibung");
                     }
 
                     var desc = string.Empty;
@@ -333,16 +333,23 @@ namespace ImagoApp.Application.Services
                         }
                     }
 
+                    if (difficulty.HasValue && difficulty.Value > 0 && !activeUse)
+                    {
+                        var message = $"Bei der Kunst {name} der Fertigkeit {modelType} ist eine Schwierigkeit von {difficulty.Value} angegeben, diese muss allerdings bei einer passiven Kunst immer 0 sein;";
+                        logger.Error(new WikiParseException(message), message);
+                        difficulty = 0;
+                    }
+
                     talents.Add(new TalentModel(modelType, name, shortDescription, desc, requirements, difficulty, activeUse,
                         phaseValueMod));
                 }
                 catch (Exception exception)
                 {
-                    logger.Error(exception,   $"Talent \"{name}\" kann nicht von \"{url}\" gelesen werden.{Environment.NewLine}Fehler:{exception}");
+                    logger.Error(exception,   $"Kunst \"{name}\" kann nicht von \"{url}\" gelesen werden.{Environment.NewLine}Fehler:{exception}");
                 }
             }
 
-            logger.Information($"Talente für Fertigkeit \"{modelType}\" hinzugefügt [{string.Join(", ", talents.Select(model => model.Name))}]");
+            logger.Information($"Künste für Fertigkeit \"{modelType}\" hinzugefügt [{string.Join(", ", talents.Select(model => model.Name))}]");
             return talents;
         }
 
@@ -465,7 +472,7 @@ namespace ImagoApp.Application.Services
                         var skill = MappingStringToSkillGroupType(strings[0], logger);
                         if (skill == SkillGroupModelType.Unbekannt)
                         {
-                            logger.Error($"Vorraussetztung \"{requirement}\" für Talent \"{name}\" kann nicht gelesen werden .. wird ignoriert");
+                            logger.Error($"Vorraussetztung \"{requirement}\" für Meisterschaft \"{name}\" kann nicht gelesen werden .. wird ignoriert");
                             continue;
                         }
 
@@ -500,15 +507,23 @@ namespace ImagoApp.Application.Services
                         }
                     }
 
+                    if (difficulty.HasValue && difficulty.Value > 0 && !activeUse)
+                    {
+                        var message =
+                            $"Bei der Meisterschaft {name} der Kategorie {modelType} ist eine Schwierigkeit von {difficulty.Value} angegeben, diese muss allerdings bei einer passiven Meisterschaft immer 0 entsprechen";
+                        logger.Error(new WikiParseException(message), message);
+                        difficulty = 0;
+                    }
+
                     talents.Add(new MasteryModel(modelType, name, shortDescription, desc, requirements, difficulty, activeUse, phaseValueMod));
                 }
                 catch (Exception exception)
                 {
-                    logger.Error(exception, $"Talent \"{name}\" kann nicht von \"{url}\" gelesen werden");
+                    logger.Error(exception, $"Meisterschaft \"{name}\" kann nicht von \"{url}\" gelesen werden");
                 }
             }
 
-            logger.Information($"Talente für Fertigkeit \"{modelType}\" hinzugefügt [{string.Join(", ", talents.Select(model => model.Name))}]");
+            logger.Information($"Meisterschaft für Fertigkeit \"{modelType}\" hinzugefügt [{string.Join(", ", talents.Select(model => model.Name))}]");
             return talents;
         }
 

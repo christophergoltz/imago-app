@@ -15,6 +15,7 @@ using ImagoApp.Shared.Enums;
 using ImagoApp.Util;
 using ImagoApp.Views;
 using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
@@ -117,6 +118,9 @@ namespace ImagoApp.ViewModels
 
             public void Emit(LogEvent le)
             {
+                if (le.Level >= LogEventLevel.Error)
+                    Crashes.TrackError(le.Exception);
+                
                 Events.Add(le);
             }
         }
@@ -155,7 +159,7 @@ namespace ImagoApp.ViewModels
                     using (var progressDialog = UserDialogs.Instance.Progress(""))
                     {
                         progressDialog.Title = "Rüstungen werden geladen";
-                        await Task.Delay(150);
+                        await Task.Delay(500);
 
                         var armorCount = _wikiParseService.RefreshArmorFromWiki(logger);
                         progressDialog.Title = "Waffen werden geladen";
