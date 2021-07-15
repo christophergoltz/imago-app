@@ -83,7 +83,6 @@ namespace ImagoApp.ViewModels
             get => SkillGroupModel?.ModificationValue ?? 0;
             set
             {
-                Debug.WriteLine("Set SelectedSkillModification to " + value);
                 _characterViewModel.SetModificationValue(SkillGroupModel, value);
                 OnPropertyChanged(nameof(SelectedSkillModification));
             }

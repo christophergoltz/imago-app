@@ -258,6 +258,7 @@ namespace ImagoApp.ViewModels
 
                 skillPageViewModel.OpenWikiPageRequested += (sender, url) => OpenWikiPage(url);
                 statusPageViewModel.OpenWikiPageRequested += (sender, url) => OpenWikiPage(url);
+                inventoryViewModel.OpenWikiPageRequested += (sender, url) => OpenWikiPage(url);
 
                 void OpenWikiPage(string url)
                 {
