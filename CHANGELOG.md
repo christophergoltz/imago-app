@@ -1,3 +1,5 @@
+Die Roadmap kann [hier](https://github.com/christophergoltz/imago-app/blob/develop/ROADMAP.md) gefunden werden
+
 # Version 0.1.1 - [tba]
 ## Hinzugefügt
 - Wiki

@@ -10,3 +10,9 @@ Verfügbar im Microsoft Store unter
 
 # Wichtige Hinweise
 Siehe [Wichtige Hinweise](https://github.com/christophergoltz/imago-app/wiki/Wichtige-Hinweise)
+
+# Changelog
+Siehe [Versionshistorie](https://github.com/christophergoltz/imago-app/blob/develop/CHANGELOG.md)
+
+# Roadmap
+Siehe [Roadmap](https://github.com/christophergoltz/imago-app/blob/develop/ROADMAP.md)
