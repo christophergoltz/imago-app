@@ -24,7 +24,7 @@
     </ContentView.Resources>
     <ContentView.Content>
         <Grid BindingContext="{Binding AttributeExperienceDialogViewModel, Source={x:Reference AttributeExperienceDialogViewControl}}" 
-              BackgroundColor="White" WidthRequest="1300" HeightRequest="800"
+             WidthRequest="1300" HeightRequest="800" Style="{StaticResource BackgroundGridStyle}"
               VerticalOptions="Center" HorizontalOptions="Center" Padding="20">
 
             <Grid.RowDefinitions>
@@ -56,7 +56,7 @@
 
             <Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="7" >
                 <ScrollView>
-                    <FlexLayout  BindableLayout.ItemsSource="{Binding OpenAttributeExperience}"
+                    <FlexLayout BackgroundColor="{StaticResource AntiUmbra3}" BindableLayout.ItemsSource="{Binding OpenAttributeExperience}"
                              Direction="Row" Wrap="Wrap" AlignContent="Start" AlignItems="Start" >
                         <BindableLayout.ItemTemplate>
                             <DataTemplate x:DataType="viewModels:OpenAttributeExperienceViewModel">
@@ -76,7 +76,7 @@
             </Frame>
 
             <Frame Grid.Row="2" Grid.Column="0" HeightRequest="300">
-                <ListView x:Name="Charisma" Header="Charisma"
+                <ListView x:Name="Charisma" Header="Charisma" BackgroundColor="{StaticResource AntiUmbra3}"
                           HeaderTemplate="{StaticResource ListViewHeaderTemplate}" 
                           ItemTemplate="{StaticResource ListViewItemDoneTemplate}"
                           ItemsSource="{Binding Charisma}">
@@ -87,7 +87,7 @@
             </Frame>
 
             <Frame Grid.Row="2" Grid.Column="1" HeightRequest="300">
-                <ListView x:Name="Geschicklichkeit" Header="Geschicklichkeit" 
+                <ListView x:Name="Geschicklichkeit" Header="Geschicklichkeit" BackgroundColor="{StaticResource AntiUmbra3}"
                           HeaderTemplate="{StaticResource ListViewHeaderTemplate}" 
                           ItemTemplate="{StaticResource ListViewItemDoneTemplate}"
                           ItemsSource="{Binding Geschicklichkeit}">
@@ -98,7 +98,7 @@
             </Frame>
 
             <Frame Grid.Row="2" Grid.Column="2" HeightRequest="300">
-                <ListView x:Name="Intelligenz" Header="Intelligenz"
+                <ListView x:Name="Intelligenz" Header="Intelligenz" BackgroundColor="{StaticResource AntiUmbra3}"
                           HeaderTemplate="{StaticResource ListViewHeaderTemplate}" 
                           ItemTemplate="{StaticResource ListViewItemDoneTemplate}"
                           ItemsSource="{Binding Intelligenz}">
@@ -109,7 +109,7 @@
             </Frame>
 
             <Frame Grid.Row="2" Grid.Column="3" HeightRequest="300">
-                <ListView x:Name="Konstitution" Header="Konstitution"
+                <ListView x:Name="Konstitution" Header="Konstitution" BackgroundColor="{StaticResource AntiUmbra3}"
                           HeaderTemplate="{StaticResource ListViewHeaderTemplate}" 
                           ItemTemplate="{StaticResource ListViewItemDoneTemplate}"
                           ItemsSource="{Binding Konstitution}">
@@ -120,7 +120,7 @@
             </Frame>
 
             <Frame Grid.Row="2" Grid.Column="4" HeightRequest="300">
-                <ListView x:Name="Staerke" Header="Stärke"
+                <ListView x:Name="Staerke" Header="Stärke" BackgroundColor="{StaticResource AntiUmbra3}"
                           HeaderTemplate="{StaticResource ListViewHeaderTemplate}" 
                           ItemTemplate="{StaticResource ListViewItemDoneTemplate}"
                           ItemsSource="{Binding Staerke}">
@@ -131,7 +131,7 @@
             </Frame>
 
             <Frame Grid.Row="2" Grid.Column="5" HeightRequest="300">
-                <ListView x:Name="Wahrnehmung" Header="Wahrnehmung"
+                <ListView x:Name="Wahrnehmung" Header="Wahrnehmung" BackgroundColor="{StaticResource AntiUmbra3}"
                           HeaderTemplate="{StaticResource ListViewHeaderTemplate}" 
                           ItemTemplate="{StaticResource ListViewItemDoneTemplate}"
                           ItemsSource="{Binding Wahrnehmung}">
@@ -142,7 +142,7 @@
             </Frame>
 
             <Frame Grid.Row="2" Grid.Column="6" HeightRequest="300">
-                <ListView x:Name="Willenskraft" Header="Willenskraft"    
+                <ListView x:Name="Willenskraft" Header="Willenskraft"     BackgroundColor="{StaticResource AntiUmbra3}"
                           HeaderTemplate="{StaticResource ListViewHeaderTemplate}" 
                           ItemTemplate="{StaticResource ListViewItemDoneTemplate}"
                           ItemsSource="{Binding Willenskraft}">
