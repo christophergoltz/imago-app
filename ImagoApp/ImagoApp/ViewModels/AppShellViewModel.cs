@@ -15,7 +15,6 @@ namespace ImagoApp.ViewModels
 {
     public class AppShellViewModel : BindableBase
     {
-        private readonly ICharacterService _characterService;
         private readonly CharacterInfoPageViewModel _characterInfoPageViewModel;
         private readonly SkillPageViewModel _skillPageViewModel;
         private readonly StatusPageViewModel _statusPageViewModel;
@@ -63,12 +62,12 @@ namespace ImagoApp.ViewModels
             return newDetail;
         }
 
-        public AppShellViewModel(ICharacterService characterService,
-            CharacterInfoPageViewModel characterInfoPageViewModel,
-            SkillPageViewModel skillPageViewModel, StatusPageViewModel statusPageViewModel,
-            InventoryViewModel inventoryViewModel, WikiPageViewModel wikiPageViewModel)
+        public AppShellViewModel(CharacterInfoPageViewModel characterInfoPageViewModel,
+            SkillPageViewModel skillPageViewModel, 
+            StatusPageViewModel statusPageViewModel,
+            InventoryViewModel inventoryViewModel, 
+            WikiPageViewModel wikiPageViewModel)
         {
-            _characterService = characterService;
             _characterInfoPageViewModel = characterInfoPageViewModel;
             _skillPageViewModel = skillPageViewModel;
             _statusPageViewModel = statusPageViewModel;
@@ -79,51 +78,59 @@ namespace ImagoApp.ViewModels
 
             GoToMainMenuCommand = new Command(() =>
             {
-                bool saveResult = false;
                 Task.Run(async () =>
                 {
-                    using (UserDialogs.Instance.Loading("Charakter wird gespeichert", null, null, true, MaskType.Black))
+                    try
                     {
-                        await Task.Delay(50);
-                        saveResult = App.SaveCurrentCharacter();
-                        await Task.Delay(50);
-                    }
-
-                    if (saveResult)
-                    {
-                        await Device.InvokeOnMainThreadAsync(() =>
+                        bool saveResult = false;
+                        using (UserDialogs.Instance.Loading("Charakter wird gespeichert", null, null, true,
+                            MaskType.Black))
                         {
-                            Xamarin.Forms.Application.Current.MainPage = App.StartPage;
+                            await Task.Delay(50);
+                            saveResult = App.SaveCurrentCharacter();
+                            await Task.Delay(50);
+                        }
 
-                            //clean up last ressources
-                            App.StartPage.StartPageViewModel.RefreshData(true);
-                        });
-                    }
-                    else
-                    {
-                        UserDialogs.Instance.Confirm(new ConfirmConfig
+                        if (saveResult)
                         {
-                            Message = $"{Environment.NewLine}Wie soll fortgefahren werden?" +
-                                      $"{Environment.NewLine}{Environment.NewLine}      Abbrechen: Charakter bleibt geöffnet und speichern kann erneut versucht werden" +
-                                      $"{Environment.NewLine}{Environment.NewLine}      Änderungen löschen: Die letzten Änderungen am Charakter werden nicht gespeichert und die Startseite wird geöffnet",
-                            Title = "Fehler, der Charakter konnte nicht gespeichert werden",
-                            OkText = "Abbrechen",
-                            CancelText = "Änderungen löschen",
-                            OnAction = result =>
+                            await Device.InvokeOnMainThreadAsync(() =>
                             {
-                                if (!result)
-                                {
-                                    //user confirmed to go back anyway
-                                    Device.BeginInvokeOnMainThread(() =>
-                                    {
-                                        Xamarin.Forms.Application.Current.MainPage = App.StartPage;
+                                Xamarin.Forms.Application.Current.MainPage = App.StartPage;
 
-                                        //clean up last ressources
-                                        App.StartPage.StartPageViewModel.RefreshData(true);
-                                    });
+                                //clean up last ressources
+                                App.StartPage.StartPageViewModel.RefreshData(true);
+                            });
+                        }
+                        else
+                        {
+                            UserDialogs.Instance.Confirm(new ConfirmConfig
+                            {
+                                Message = $"{Environment.NewLine}Wie soll fortgefahren werden?" +
+                                          $"{Environment.NewLine}{Environment.NewLine}      Abbrechen: Charakter bleibt geöffnet und speichern kann erneut versucht werden" +
+                                          $"{Environment.NewLine}{Environment.NewLine}      Änderungen löschen: Die letzten Änderungen am Charakter werden nicht gespeichert und die Startseite wird geöffnet",
+                                Title = "Fehler, der Charakter konnte nicht gespeichert werden",
+                                OkText = "Abbrechen",
+                                CancelText = "Änderungen löschen",
+                                OnAction = result =>
+                                {
+                                    if (!result)
+                                    {
+                                        //user confirmed to go back anyway
+                                        Device.BeginInvokeOnMainThread(() =>
+                                        {
+                                            Xamarin.Forms.Application.Current.MainPage = App.StartPage;
+
+                                            //clean up last ressources
+                                            App.StartPage.StartPageViewModel.RefreshData(true);
+                                        });
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
+                    }
+                    catch (Exception exception)
+                    {
+                        App.ErrorManager.TrackException(exception, _characterInfoPageViewModel.CharacterViewModel.CharacterModel.Name);
                     }
                 });
             });

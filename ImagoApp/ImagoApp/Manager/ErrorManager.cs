@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using ImagoApp.Application.Services;
 using ImagoApp.ViewModels;
@@ -19,6 +20,8 @@ namespace ImagoApp.Manager
 
         public void TrackException(Exception exception, string affectedCharacter = null, Dictionary<string, string> customProperites = null)
         {
+            Debug.WriteLine(exception);
+
             //show ui
             var vm = new ErrorPageViewModel(affectedCharacter);
             vm.OnCancelled += (sender, args) =>

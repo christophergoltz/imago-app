@@ -14,20 +14,21 @@ namespace ImagoApp
 {
     public partial class App
     {
+        public static ErrorManager ErrorManager;
         public static StartPage StartPage;
         public static CharacterViewModel CurrentCharacterViewModel { get; set; }
 
         private static ServiceLocator _serviceLocator;
-
-        public static ErrorManager ErrorManager;
-
+        
         public App(IFileService fileService)
         {
             InitializeComponent();
 
+            //setup di
             var localApplicationData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             _serviceLocator = new ServiceLocator(localApplicationData);
 
+            //configure appcenter
 #if DEBUG
             AppCenter.Start("uwp=4350071e-000b-4ab6-bfae-369afc829008;", typeof(Analytics), typeof(Crashes));
 #elif RELEASE

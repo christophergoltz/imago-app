@@ -220,7 +220,7 @@ namespace ImagoApp.ViewModels
                 var skillPageViewModel = new SkillPageViewModel(characterViewModel, _serviceLocator.WikiService(), _serviceLocator.WikiDataService(), _serviceLocator.RuleService());
                 var statusPageViewModel = new StatusPageViewModel(characterViewModel, _serviceLocator.WikiDataService());
                 var inventoryViewModel = new InventoryViewModel(characterViewModel);
-                var appShellViewModel = new AppShellViewModel(_characterService, characterInfoPageViewModel, skillPageViewModel, statusPageViewModel, inventoryViewModel, wikiPageViewModel)
+                var appShellViewModel = new AppShellViewModel(characterInfoPageViewModel, skillPageViewModel, statusPageViewModel, inventoryViewModel, wikiPageViewModel)
                 {
                     EditMode = editMode
                 };
