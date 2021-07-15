@@ -14,6 +14,7 @@ using ImagoApp.Infrastructure.Repositories;
 using ImagoApp.Shared.Enums;
 using ImagoApp.Util;
 using ImagoApp.Views;
+using Microsoft.AppCenter.Analytics;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
@@ -226,6 +227,11 @@ namespace ImagoApp.ViewModels
 
                 skillPageViewModel.OpenWikiPageRequested += (sender, url) =>
                 {
+                    Analytics.TrackEvent("Open WikiPage", new Dictionary<string, string>()
+                    {
+                        {"url", url}
+                    });
+
                     appShellViewModel.RaiseWikiPageOpenRequested();
                     wikiPageViewModel.OpenWikiPage(url);
                 };

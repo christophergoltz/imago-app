@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Threading;
 using AutoMapper;
 using ImagoApp.Application.MappingProfiles;
@@ -17,6 +18,7 @@ namespace ImagoApp.Util
         private readonly Lazy<IWikiDataService> _wikiDataService;
         private readonly Lazy<ICharacterService> _characterService;
         private readonly Lazy<ICharacterCreationService> _characterCreationService;
+        private readonly Lazy<IErrorService> _errorService;
         private readonly IMapper _mapper;
        
         public ServiceLocator(string imagoFolder)
@@ -42,11 +44,14 @@ namespace ImagoApp.Util
 
             _mapper = config.CreateMapper();
             
-            ICharacterRepository characterRepository = new CharacterRepository(imagoFolder);
-            IArmorTemplateRepository armorTemplateRepository = new ArmorTemplateRepository(imagoFolder);
-            IWeaponTemplateRepository weaponTemplateRepository = new WeaponTemplateRepository(imagoFolder);
-            ITalentRepository talentRepository = new TalentRepository(imagoFolder);
-            IMasteryRepository masteryRepository = new MasteryRepository(imagoFolder);
+            var characterDatabaseFile = Path.Combine(imagoFolder, "ImagoApp_Character.db");
+            var wikidataDatabaseFile = Path.Combine(imagoFolder, "ImagoApp_Wikidata.db");
+
+            ICharacterRepository characterRepository = new CharacterRepository(characterDatabaseFile);
+            IArmorTemplateRepository armorTemplateRepository = new ArmorTemplateRepository(wikidataDatabaseFile);
+            IWeaponTemplateRepository weaponTemplateRepository = new WeaponTemplateRepository(wikidataDatabaseFile);
+            ITalentRepository talentRepository = new TalentRepository(wikidataDatabaseFile);
+            IMasteryRepository masteryRepository = new MasteryRepository(wikidataDatabaseFile);
 
             _ruleService = new Lazy<IRuleService>(() => new RuleService());
             _wikiDataService = new Lazy<IWikiDataService>(() => new WikiDataService(_mapper, armorTemplateRepository, 
@@ -55,6 +60,7 @@ namespace ImagoApp.Util
             _wikiParseService = new Lazy<IWikiParseService>(() => new WikiParseService(_wikiDataService.Value));
             _characterService = new Lazy<ICharacterService>(() => new CharacterService(characterRepository, _mapper));
             _characterCreationService = new Lazy<ICharacterCreationService>(() => new CharacterCreationService());
+            _errorService = new Lazy<IErrorService>(() => new ErrorService(characterDatabaseFile));
         }
 
         public IMapper Mapper()
@@ -87,6 +93,11 @@ namespace ImagoApp.Util
         public ICharacterCreationService CharacterCreationService()
         {
             return _characterCreationService.Value;
+        }
+
+        public IErrorService ErrorService()
+        {
+            return _errorService.Value;
         }
     }
 }
