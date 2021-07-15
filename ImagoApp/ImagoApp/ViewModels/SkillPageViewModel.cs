@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 using ImagoApp.Application;
@@ -31,21 +32,45 @@ namespace ImagoApp.ViewModels
         private ICommand _openSkillDetailCommandCommand;
         public ICommand OpenSkillDetailCommand => _openSkillDetailCommandCommand ?? (_openSkillDetailCommandCommand = new Command<(SkillModel Skill, SkillGroupModel SkillGroup)>(parameter =>
         {
-            var vm = new SkillDetailViewModel(parameter.Skill, parameter.SkillGroup, CharacterViewModel, _wikiService, _wikiDataService, _ruleService);
-            vm.CloseRequested += (sender, args) => { SkillDetailViewModel = null; };
-            vm.OpenWikiPageRequested += (sender, s) => { OpenWikiPageRequested?.Invoke(this, s); };
+            try
+            {
+                var vm = new SkillDetailViewModel(parameter.Skill, parameter.SkillGroup, CharacterViewModel, _wikiService, _wikiDataService, _ruleService);
+                vm.CloseRequested += (sender, args) => { SkillDetailViewModel = null; };
+                vm.OpenWikiPageRequested += (sender, s) => { OpenWikiPageRequested?.Invoke(this, s); };
 
-            SkillDetailViewModel = vm;
+                SkillDetailViewModel = vm;
+            }
+            catch (Exception exception)
+            {
+                App.ErrorManager.TrackException(exception, CharacterViewModel.CharacterModel.Name, new Dictionary<string, string>()
+                {
+                    { "Skill", parameter.Skill.Type.ToString()},
+                    { "SkillGroup", parameter.SkillGroup.Type.ToString()}
+                });
+            }
         }));
 
         private ICommand _openSkillGroupDetailCommand;
-        public ICommand OpenSkillGroupDetailCommand => _openSkillGroupDetailCommand ?? (_openSkillGroupDetailCommand = new Command<SkillGroupModel>(group =>
-        {
-            var vm = new SkillGroupDetailViewModel(group, CharacterViewModel, _wikiService);
-            vm.CloseRequested += (sender, args) => { SkillGroupDetailViewModel = null; };
-            vm.OpenWikiPageRequested += (sender, s) => { OpenWikiPageRequested?.Invoke(this, s); };
-            SkillGroupDetailViewModel = vm;
-        }));
+
+        public ICommand OpenSkillGroupDetailCommand => _openSkillGroupDetailCommand ?? (_openSkillGroupDetailCommand =
+            new Command<SkillGroupModel>(group =>
+            {
+                try
+                {
+                    var vm = new SkillGroupDetailViewModel(group, CharacterViewModel, _wikiService);
+                    vm.CloseRequested += (sender, args) => { SkillGroupDetailViewModel = null; };
+                    vm.OpenWikiPageRequested += (sender, s) => { OpenWikiPageRequested?.Invoke(this, s); };
+                    SkillGroupDetailViewModel = vm;
+                }
+                catch (Exception exception)
+                {
+                    App.ErrorManager.TrackException(exception, CharacterViewModel.CharacterModel.Name,
+                        new Dictionary<string, string>()
+                        {
+                            {"SkillGroup", group.Type.ToString()}
+                        });
+                }
+            }));
         
         public SkillDetailViewModel SkillDetailViewModel
         {

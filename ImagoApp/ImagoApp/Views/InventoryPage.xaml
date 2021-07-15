@@ -40,7 +40,7 @@
                                     <Label VerticalOptions="Center" Text="Gegenstand" FontAttributes="Bold"/>
                                     <Button Text="+" Padding="0,-6,0,0" WidthRequest="30" HeightRequest="30"  FontSize="22"
                                             VerticalOptions="Center" HorizontalOptions="End" TextColor="Green" BackgroundColor="LightGray" 
-                                            Command="{Binding AddNewEquippedItem, Source={RelativeSource AncestorType={x:Type viewModels:InventoryViewModel}}}"/>
+                                            Command="{Binding AddItemCommand, Source={RelativeSource AncestorType={x:Type viewModels:InventoryViewModel}}}"/>
                                 </StackLayout>
                               
                                 <Label Grid.Row="0" VerticalOptions="Center"  Grid.Column="1" Text="Last" FontAttributes="Bold"/>
@@ -66,7 +66,7 @@
                                         <CheckBox Grid.Column="3" Margin="25,0,0,0" HorizontalOptions="Center" VerticalOptions="Center" IsChecked="{Binding Adventure}"/>
                                         <Button Grid.Column="4" Text="🗑" Padding="0,-4,0,0" WidthRequest="35" HeightRequest="35"  FontSize="22"  VerticalOptions="Start" 
                                                 HorizontalOptions="End" TextColor="Red" BackgroundColor="LightGray" CommandParameter="{Binding .}"
-                                                Command="{Binding DeleteSelectedEquippedItem, Source={RelativeSource AncestorType={x:Type viewModels:InventoryViewModel}}}"/>
+                                                Command="{Binding RemoveItemCommand, Source={RelativeSource AncestorType={x:Type viewModels:InventoryViewModel}}}"/>
                                     </Grid>
                                 </ViewCell>
                             </DataTemplate>

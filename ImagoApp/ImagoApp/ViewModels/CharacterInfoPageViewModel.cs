@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -24,66 +25,94 @@ namespace ImagoApp.ViewModels
         private ICommand _saveOpenAttributeExperienceCommand;
         public ICommand SaveOpenAttributeExperienceCommand => _saveOpenAttributeExperienceCommand ?? (_saveOpenAttributeExperienceCommand = new Command(() =>
         {
-            //todo move to service and reuse
-            var staerke = CharacterViewModel.CharacterModel.Attributes.First(attribute => attribute.Type == AttributeType.Staerke);
-            var geschick = CharacterViewModel.CharacterModel.Attributes.First(attribute => attribute.Type == AttributeType.Geschicklichkeit);
-            var intelligenz = CharacterViewModel.CharacterModel.Attributes.First(attribute => attribute.Type == AttributeType.Intelligenz);
-            var konst = CharacterViewModel.CharacterModel.Attributes.First(attribute => attribute.Type == AttributeType.Konstitution);
-            var wahr = CharacterViewModel.CharacterModel.Attributes.First(attribute => attribute.Type == AttributeType.Wahrnehmung);
-            var will = CharacterViewModel.CharacterModel.Attributes.First(attribute => attribute.Type == AttributeType.Willenskraft);
-            var cha = CharacterViewModel.CharacterModel.Attributes.First(attribute => attribute.Type == AttributeType.Charisma);
-
-            //apply distributed to attributes
-            staerke.ExperienceBySkillGroup += AttributeExperienceDialogViewModel.Staerke.Count;
-            geschick.ExperienceBySkillGroup += AttributeExperienceDialogViewModel.Geschicklichkeit.Count;
-            intelligenz.ExperienceBySkillGroup += AttributeExperienceDialogViewModel.Intelligenz.Count;
-            konst.ExperienceBySkillGroup += AttributeExperienceDialogViewModel.Konstitution.Count;
-            wahr.ExperienceBySkillGroup += AttributeExperienceDialogViewModel.Wahrnehmung.Count;
-            will.ExperienceBySkillGroup += AttributeExperienceDialogViewModel.Willenskraft.Count;
-            cha.ExperienceBySkillGroup += AttributeExperienceDialogViewModel.Charisma.Count;
-
-            //remove resolved experience from OpenAttributeIncreases 
-            var resolvedAttributeExperience = AttributeExperienceDialogViewModel.Charisma.ToList();
-            resolvedAttributeExperience.AddRange(AttributeExperienceDialogViewModel.Staerke);
-            resolvedAttributeExperience.AddRange(AttributeExperienceDialogViewModel.Geschicklichkeit);
-            resolvedAttributeExperience.AddRange(AttributeExperienceDialogViewModel.Intelligenz);
-            resolvedAttributeExperience.AddRange(AttributeExperienceDialogViewModel.Konstitution);
-            resolvedAttributeExperience.AddRange(AttributeExperienceDialogViewModel.Wahrnehmung);
-            resolvedAttributeExperience.AddRange(AttributeExperienceDialogViewModel.Willenskraft);
-            foreach (var experienceViewModel in resolvedAttributeExperience)
+            try
             {
-                CharacterViewModel.CharacterModel.OpenAttributeIncreases.Remove(experienceViewModel.SourceType);
+                //todo move to service and reuse
+                var staerke = CharacterViewModel.CharacterModel.Attributes.First(attribute => attribute.Type == AttributeType.Staerke);
+                var geschick = CharacterViewModel.CharacterModel.Attributes.First(attribute => attribute.Type == AttributeType.Geschicklichkeit);
+                var intelligenz = CharacterViewModel.CharacterModel.Attributes.First(attribute => attribute.Type == AttributeType.Intelligenz);
+                var konst = CharacterViewModel.CharacterModel.Attributes.First(attribute => attribute.Type == AttributeType.Konstitution);
+                var wahr = CharacterViewModel.CharacterModel.Attributes.First(attribute => attribute.Type == AttributeType.Wahrnehmung);
+                var will = CharacterViewModel.CharacterModel.Attributes.First(attribute => attribute.Type == AttributeType.Willenskraft);
+                var cha = CharacterViewModel.CharacterModel.Attributes.First(attribute => attribute.Type == AttributeType.Charisma);
+
+                //apply distributed to attributes
+                staerke.ExperienceBySkillGroup += AttributeExperienceDialogViewModel.Staerke.Count;
+                geschick.ExperienceBySkillGroup += AttributeExperienceDialogViewModel.Geschicklichkeit.Count;
+                intelligenz.ExperienceBySkillGroup += AttributeExperienceDialogViewModel.Intelligenz.Count;
+                konst.ExperienceBySkillGroup += AttributeExperienceDialogViewModel.Konstitution.Count;
+                wahr.ExperienceBySkillGroup += AttributeExperienceDialogViewModel.Wahrnehmung.Count;
+                will.ExperienceBySkillGroup += AttributeExperienceDialogViewModel.Willenskraft.Count;
+                cha.ExperienceBySkillGroup += AttributeExperienceDialogViewModel.Charisma.Count;
+
+                //remove resolved experience from OpenAttributeIncreases 
+                var resolvedAttributeExperience = AttributeExperienceDialogViewModel.Charisma.ToList();
+                resolvedAttributeExperience.AddRange(AttributeExperienceDialogViewModel.Staerke);
+                resolvedAttributeExperience.AddRange(AttributeExperienceDialogViewModel.Geschicklichkeit);
+                resolvedAttributeExperience.AddRange(AttributeExperienceDialogViewModel.Intelligenz);
+                resolvedAttributeExperience.AddRange(AttributeExperienceDialogViewModel.Konstitution);
+                resolvedAttributeExperience.AddRange(AttributeExperienceDialogViewModel.Wahrnehmung);
+                resolvedAttributeExperience.AddRange(AttributeExperienceDialogViewModel.Willenskraft);
+                foreach (var experienceViewModel in resolvedAttributeExperience)
+                {
+                    CharacterViewModel.CharacterModel.OpenAttributeIncreases.Remove(experienceViewModel.SourceType);
+                }
+
+                //todo find another way to recalc increasings etc.
+                staerke.TotalExperience = staerke.TotalExperience;
+                geschick.TotalExperience = geschick.TotalExperience;
+                intelligenz.TotalExperience = intelligenz.TotalExperience;
+                konst.TotalExperience = konst.TotalExperience;
+                wahr.TotalExperience = wahr.TotalExperience;
+                will.TotalExperience = will.TotalExperience;
+                cha.TotalExperience = cha.TotalExperience;
+
+                AttributeExperienceDialogViewModel = null;
             }
-
-            //todo find another way to recalc increasings etc.
-            staerke.TotalExperience = staerke.TotalExperience;
-            geschick.TotalExperience = geschick.TotalExperience;
-            intelligenz.TotalExperience = intelligenz.TotalExperience;
-            konst.TotalExperience = konst.TotalExperience;
-            wahr.TotalExperience = wahr.TotalExperience;
-            will.TotalExperience = will.TotalExperience;
-            cha.TotalExperience = cha.TotalExperience;
-
-            AttributeExperienceDialogViewModel = null;
+            catch (Exception e)
+            {
+                App.ErrorManager.TrackException(e, CharacterViewModel.CharacterModel.Name);
+            }
         }));
 
         private ICommand _cancelOpenAttributeExperienceCommand;
         public ICommand CancelOpenAttributeExperienceCommand => _cancelOpenAttributeExperienceCommand ?? (_cancelOpenAttributeExperienceCommand = new Command(() =>
         {
-            AttributeExperienceDialogViewModel = null;
+            try
+            {
+                AttributeExperienceDialogViewModel = null;
+            }
+            catch (Exception e)
+            {
+                App.ErrorManager.TrackException(e, CharacterViewModel.CharacterModel.Name);
+            }
         }));
 
         private ICommand _addNewBloodCarrierCommand;
         public ICommand AddNewBloodCarrierCommand => _addNewBloodCarrierCommand ?? (_addNewBloodCarrierCommand = new Command(() =>
         {
-            //todo move to service
-            CharacterViewModel.CharacterModel.BloodCarrier.Add(new BloodCarrierModel("", 0, 0, 0));
+            try
+            {
+                //todo move to service
+                CharacterViewModel.CharacterModel.BloodCarrier.Add(new BloodCarrierModel("", 0, 0, 0));
+            }
+            catch (Exception e)
+            {
+                App.ErrorManager.TrackException(e, CharacterViewModel.CharacterModel.Name);
+            }
         }));
 
         private ICommand _removeBloodCarrierCommand;
         public ICommand RemoveBloodCarrierCommand => _removeBloodCarrierCommand ?? (_removeBloodCarrierCommand = new Command<BloodCarrierModel>(model =>
         {
-            CharacterViewModel.CharacterModel.BloodCarrier.Remove(model);
+            try
+            {
+                CharacterViewModel.CharacterModel.BloodCarrier.Remove(model);
+            }
+            catch (Exception e)
+            {
+                App.ErrorManager.TrackException(e, CharacterViewModel.CharacterModel.Name);
+            }
         }));
         
         private int _totalAttributeExperience;

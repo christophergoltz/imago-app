@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Acr.UserDialogs;
 using ImagoApp.Application;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Services;
@@ -29,12 +30,78 @@ namespace ImagoApp.ViewModels
         public event EventHandler CloseRequested;
         public SkillModel SkillModel { get; }
 
-        public event EventHandler<string> OpenWikiPageRequested; 
+        public event EventHandler<string> OpenWikiPageRequested;
 
-        public ICommand IncreaseExperienceCommand { get; set; }
-        public ICommand DecreaseExperienceCommand { get; set; }
-        public ICommand OpenWikiCommand { get; set; }
-        public ICommand CloseCommand { get; set; }
+        private ICommand _increaseExperienceCommand;
+
+        public ICommand IncreaseExperienceCommand => _increaseExperienceCommand ?? (_increaseExperienceCommand = new Command<int>(experienceValue =>
+        {
+            try
+            {
+                var newExp = SkillModel.TotalExperience + experienceValue;
+                _characterViewModel.SetExperienceToSkill(SkillModel, _parent, newExp);
+                UpdateTalentRequirements();
+                RecalcTestValue();
+            }
+            catch (Exception exception)
+            {
+                App.ErrorManager.TrackException(exception, _characterViewModel.CharacterModel.Name, new Dictionary<string, string>()
+                {
+                    { "Experience Value", experienceValue.ToString()}
+                });
+            }
+        }));
+
+        private ICommand _decreaseExperienceCommand;
+        public ICommand DecreaseExperienceCommand => _decreaseExperienceCommand ?? (_decreaseExperienceCommand = new Command(() =>
+        {
+            try
+            {
+                //todo parameter; _characterViewModel.SetExperienceToSkill
+                _characterViewModel.RemoveOneExperienceFromSkill(SkillModel);
+            }
+            catch (Exception exception)
+            {
+                App.ErrorManager.TrackException(exception, _characterViewModel.CharacterModel.Name);
+            }
+        }));
+
+        private ICommand _openWikiCommand;
+
+        public ICommand OpenWikiCommand => _openWikiCommand ?? (_openWikiCommand = new Command(() =>
+        {
+            try
+            {
+                var url = _wikiService.GetWikiUrl(SkillModel.Type);
+
+                if (string.IsNullOrWhiteSpace(url))
+                {
+                    App.ErrorManager.TrackExceptionSilent(new InvalidOperationException($"No url found for {SkillModel.Type}"), _characterViewModel.CharacterModel.Name);
+                    UserDialogs.Instance.Alert($"Uups, für {SkillModel.Type} ist wohl nichts hinterlegt..", "Fehlender Link", "OK");
+                    return;
+                }
+
+                OpenWikiPageRequested?.Invoke(this, url);
+            }
+            catch (Exception exception)
+            {
+                App.ErrorManager.TrackException(exception, _characterViewModel.CharacterModel.Name);
+            }
+        }));
+
+        private ICommand _closeCommand;
+
+        public ICommand CloseCommand => _closeCommand ?? (_closeCommand = new Command(() =>
+        {
+            try
+            {
+                CloseRequested?.Invoke(this, EventArgs.Empty);
+            }
+            catch (Exception exception)
+            {
+                App.ErrorManager.TrackException(exception, _characterViewModel.CharacterModel.Name);
+            }
+        }));
 
         private HtmlWebViewSource _quickWikiView;
 
@@ -96,34 +163,7 @@ namespace ImagoApp.ViewModels
             SkillModel = skillModel;
 
             SourceFormula = _converter.Convert(parent.Type, null, null, CultureInfo.InvariantCulture).ToString();
-
-            IncreaseExperienceCommand = new Command<int>(experience =>
-            {
-                var newExp = SkillModel.TotalExperience + experience;
-                _characterViewModel.SetExperienceToSkill(SkillModel, parent, newExp);
-                UpdateTalentRequirements();
-                RecalcTestValue();
-            });
-
-            //todo parameter; _characterViewModel.SetExperienceToSkill
-            DecreaseExperienceCommand = new Command(() => { _characterViewModel.RemoveOneExperienceFromSkill(skillModel); });
-
-            OpenWikiCommand = new Command(async () =>
-            {
-                var url = wikiService.GetWikiUrl(skillModel.Type);
-
-                if (string.IsNullOrWhiteSpace(url))
-                {
-                    await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Fehlender Link",
-                        "Uups, hier ist wohl nichts hinterlegt..", "OK");
-                    return;
-                }
-
-                OpenWikiPageRequested?.Invoke(this, url);
-            });
-
-            CloseCommand = new Command(() => { CloseRequested?.Invoke(this, EventArgs.Empty); });
-
+            
             Task.Run(LoadWikiPage);
             Task.Run(InitializeTestView);
         }

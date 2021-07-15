@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -37,17 +38,49 @@ namespace ImagoApp.ViewModels
         private ICommand _closeWikiTabCommand;
         public ICommand CloseWikiTabCommand => _closeWikiTabCommand ?? (_closeWikiTabCommand = new Command<WikiTabModel>(wikiTabModel =>
         {
-            CharacterViewModel.CharacterModel.WikiPages.Remove(wikiTabModel);
+            try
+            {
+                CharacterViewModel.CharacterModel.WikiPages.Remove(wikiTabModel);
+            }
+            catch (Exception e)
+            {
+               App.ErrorManager.TrackException(e, CharacterViewModel.CharacterModel.Name, new Dictionary<string, string>()
+               {
+                   { "url", wikiTabModel.Url}
+               });
+            }
         }));
 
         private ICommand _openWikiPageCommand;
-        public ICommand OpenWikiPageCommand => _openWikiPageCommand ?? (_openWikiPageCommand = new Command<string>(OpenWikiPage));
+        public ICommand OpenWikiPageCommand => _openWikiPageCommand ?? (_openWikiPageCommand = new Command<string>(url =>
+        {
+            try
+            {
+                OpenWikiPage(url);
+            }
+            catch (Exception e)
+            {
+                App.ErrorManager.TrackException(e, CharacterViewModel.CharacterModel.Name, new Dictionary<string, string>()
+                {
+                    { "url", url}
+                });
+            }
+        }));
 
         private ICommand _goBackToWikiMainpageCommand;
-        public ICommand GoBackToWikiMainpageCommand => _goBackToWikiMainpageCommand ?? (_goBackToWikiMainpageCommand = new Command(() =>
-        {
-            SelectedWikiTab = CharacterViewModel.CharacterModel.WikiPages[0];
-        }));
+
+        public ICommand GoBackToWikiMainpageCommand => _goBackToWikiMainpageCommand ?? (_goBackToWikiMainpageCommand =
+            new Command(() =>
+            {
+                try
+                {
+                    SelectedWikiTab = CharacterViewModel.CharacterModel.WikiPages[0];
+                }
+                catch (Exception e)
+                {
+                    App.ErrorManager.TrackException(e, CharacterViewModel.CharacterModel.Name);
+                }
+            }));
 
         public void OpenWikiPage(string url)
         {

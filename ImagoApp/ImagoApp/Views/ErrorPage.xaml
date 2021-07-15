@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
+             Title="egs"
+             x:Class="ImagoApp.Views.ErrorPage" x:DataType="viewModels:ErrorPageViewModel">
+    <ContentPage.Content>
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" ></RowDefinition>
+                <RowDefinition Height="Auto" ></RowDefinition>
+                <RowDefinition Height="Auto" ></RowDefinition>
+                <RowDefinition Height="Auto" ></RowDefinition>
+                <RowDefinition Height="Auto" ></RowDefinition>
+                <RowDefinition Height="*" ></RowDefinition>
+                <RowDefinition Height="Auto" ></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Label FontAttributes="Bold" FontSize="34" Grid.Row="0" Margin="20" Text="Ups, die App hat wohl zu viel mit Protoraum experimentiert"></Label>
+            <Label FontSize="28" Grid.Row="1" Margin="40,0,0,0" Text="Ein unerwarter Fehler ist aufgetreten"></Label>
+
+            <StackLayout Margin="40,50,0,0" Orientation="Horizontal" Grid.Row="2">
+                <Label FontSize="22" Text="Charakter-Information senden"></Label>
+                <CheckBox Margin="20,0,0,0" 
+                          IsChecked="{Binding IncludeDatabase}"></CheckBox>
+                <Label FontSize="18" VerticalOptions="Center" TextColor="Black" FontAttributes="Italic" Text="[Dies kann bei der Fehlerbehebung helfen, wenn es sich dabei um einen Fehler basierend auf den Charakterdaten handelt]"></Label>
+            </StackLayout>
+
+            <StackLayout Margin="80,10,0,0" Orientation="Horizontal" Grid.Row="3">
+                <Label VerticalOptions="Center" FontSize="22" Text="Betroffener Charakter"></Label>
+                <Entry Margin="10,0,0,0" VerticalOptions="Center" FontSize="22" 
+                       Text="{Binding AffectedCharacter}" IsEnabled="{Binding IncludeDatabase}" WidthRequest="300"></Entry>
+            </StackLayout>
+
+            <Label Margin="40,60,0,20" FontSize="22" Grid.Row="4" Text="Beschreibung"></Label>
+            <Editor Margin="40,10,0,20" MaxLength="125" FontSize="18" Grid.Row="5" 
+                    Placeholder="Beschreibe kurz den Fehler ;)" 
+                    Text="{Binding Description}"></Editor>
+
+            <Button FontSize="22" Grid.Row="6" Text="Abbrechen" HorizontalOptions="Start"
+                    Command="{Binding CancelCommand}"></Button>
+            <Button FontSize="22" Grid.Row="6" Text="Fehlerbericht senden" BackgroundColor="DodgerBlue" HorizontalOptions="EndAndExpand"
+                    Command="{Binding SendCommand}"></Button>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

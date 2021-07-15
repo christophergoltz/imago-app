@@ -12,7 +12,7 @@ namespace ImagoApp.Infrastructure.Repositories
 
     public class MasteryRepository : Repository<MasteryEntity>, IMasteryRepository
     {
-        public MasteryRepository(string databaseFolder) : base(Path.Combine(databaseFolder, "ImagoApp_Wikidata.db"))
+        public MasteryRepository(string databaseFile) : base(databaseFile)
         {
         }
     }

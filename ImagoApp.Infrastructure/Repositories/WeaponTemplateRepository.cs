@@ -12,7 +12,7 @@ namespace ImagoApp.Infrastructure.Repositories
 
     public class WeaponTemplateRepository : Repository<WeaponTemplateEntity>, IWeaponTemplateRepository
     {
-        public WeaponTemplateRepository(string databaseFolder) : base(Path.Combine(databaseFolder, "ImagoApp_Wikidata.db"))
+        public WeaponTemplateRepository(string databaseFile) : base(databaseFile)
         {
         }
     }

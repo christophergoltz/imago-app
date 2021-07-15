@@ -13,7 +13,7 @@ namespace ImagoApp.Infrastructure.Repositories
 
     public class ArmorTemplateRepository : Repository<ArmorPartTemplateEntity>, IArmorTemplateRepository
     {
-        public ArmorTemplateRepository(string databaseFolder) : base(Path.Combine(databaseFolder, "ImagoApp_Wikidata.db"))
+        public ArmorTemplateRepository(string databaseFile) : base(databaseFile)
         {
         }
     }

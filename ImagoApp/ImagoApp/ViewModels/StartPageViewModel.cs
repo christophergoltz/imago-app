@@ -14,6 +14,7 @@ using ImagoApp.Infrastructure.Repositories;
 using ImagoApp.Shared.Enums;
 using ImagoApp.Util;
 using ImagoApp.Views;
+using Microsoft.AppCenter.Analytics;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
@@ -80,7 +81,14 @@ namespace ImagoApp.ViewModels
 
         public ICommand OpenAppDataFolderCommand => _openAppDataFolderCommand ?? (_openAppDataFolderCommand = new Command(() =>
         {
-            _fileService.OpenFolder(_appdataFolder);
+            try
+            {
+                _fileService.OpenFolder(_appdataFolder);
+            }
+            catch (Exception exception)
+            {
+                App.ErrorManager.TrackException(exception);
+            }
         }));
 
         private void CheckWikiData()
@@ -114,97 +122,121 @@ namespace ImagoApp.ViewModels
         }
 
         private ICommand _openChangeLogCommand;
+
         public ICommand OpenChangeLogCommand => _openChangeLogCommand ?? (_openChangeLogCommand = new Command(() =>
         {
-            Launcher.OpenAsync(_wikiService.GetChangelogUrl());
+            try
+            {
+                Launcher.OpenAsync(_wikiService.GetChangelogUrl());
+            }
+            catch (Exception exception)
+            {
+                App.ErrorManager.TrackException(exception);
+            }
         }));
 
         private ICommand _parseWikiCommand;
 
         public ICommand ParseWikiCommand => _parseWikiCommand ?? (_parseWikiCommand = new Command(async () =>
         {
-            var logFile = Path.Combine(_appdataFolder, $"wiki_parse.log");
-            if (File.Exists(logFile))
-                File.Delete(logFile);
-
-            var logEventSink = new CollectionSink();
-            
-            using (var logger = new LoggerConfiguration().WriteTo.Debug()
-                .WriteTo.File(logFile)
-                .WriteTo.Sink(logEventSink)
-                .CreateLogger())
+            try
             {
-                using (var progressDialog = UserDialogs.Instance.Progress(""))
+                var logFile = Path.Combine(_appdataFolder, $"wiki_parse.log");
+                if (File.Exists(logFile))
+                    File.Delete(logFile);
+
+                var logEventSink = new CollectionSink();
+
+                using (var logger = new LoggerConfiguration().WriteTo.Debug()
+                    .WriteTo.File(logFile)
+                    .WriteTo.Sink(logEventSink)
+                    .CreateLogger())
                 {
-                    progressDialog.Title = "Rüstungen werden geladen";
-                    await Task.Delay(150);
-
-                    var armorCount = _wikiParseService.RefreshArmorFromWiki(logger);
-                    progressDialog.Title = "Waffen werden geladen";
-                    progressDialog.PercentComplete = 25;
-                    await Task.Delay(50);
-
-                    var weaponCount = _wikiParseService.RefreshWeaponsFromWiki(logger);
-                    progressDialog.Title = "Talente werden geladen";
-                    progressDialog.PercentComplete = 50;
-                    await Task.Delay(50);
-
-                    var talentCount = _wikiParseService.RefreshTalentsFromWiki(logger);
-                    progressDialog.Title = "Meisterschaften werden geladen";
-                    progressDialog.PercentComplete = 75;
-                    await Task.Delay(50);
-
-                    var masteryCount = _wikiParseService.RefreshMasteriesFromWiki(logger);
-                    progressDialog.Title = "Wird abgeschlossen";
-                    progressDialog.PercentComplete = 100;
-
-                    var msg = $"{Environment.NewLine}Status:" +
-                              $"{Environment.NewLine}      Warnungen: {logEventSink.Events.Count(_ => _.Level == LogEventLevel.Warning)}" +
-                              $"{Environment.NewLine}      Fehler: {logEventSink.Events.Count(_ => _.Level == LogEventLevel.Error)}" +
-                              $"{Environment.NewLine}      Kritisch: {logEventSink.Events.Count(_ => _.Level == LogEventLevel.Fatal)}" +
-                              $"{Environment.NewLine}" +
-                              $"{Environment.NewLine}" +
-                              $"Gefundene Daten:" +
-                              $"{Environment.NewLine}      Rüstungen: {armorCount?.ToString()}" +
-                              $"{Environment.NewLine}      Waffen: {weaponCount?.ToString()}" +
-                              $"{Environment.NewLine}      Talente: {talentCount?.ToString()}" +
-                              $"{Environment.NewLine}      Meisterschaften: {masteryCount?.ToString()}";
-                    
-                    UserDialogs.Instance.Confirm(new ConfirmConfig
+                    using (var progressDialog = UserDialogs.Instance.Progress(""))
                     {
-                        Message = msg,
-                        Title = "Daten wurde aus dem Wiki gelesen",
-                        OkText = "OK",
-                        CancelText = "Logdatei öffnen",
-                        OnAction = result =>
-                        {
-                            if (!result)
-                            {
-                                var target = new ReadOnlyFile(Path.Combine(_appdataFolder, _logFileName));
-                                var request = new OpenFileRequest {File = target};
-                                Launcher.OpenAsync(request);
-                            }
-                        }
-                    });
-                }
-            }
+                        progressDialog.Title = "Rüstungen werden geladen";
+                        await Task.Delay(150);
 
-            RefreshData(false);
+                        var armorCount = _wikiParseService.RefreshArmorFromWiki(logger);
+                        progressDialog.Title = "Waffen werden geladen";
+                        progressDialog.PercentComplete = 25;
+                        await Task.Delay(50);
+
+                        var weaponCount = _wikiParseService.RefreshWeaponsFromWiki(logger);
+                        progressDialog.Title = "Talente werden geladen";
+                        progressDialog.PercentComplete = 50;
+                        await Task.Delay(50);
+
+                        var talentCount = _wikiParseService.RefreshTalentsFromWiki(logger);
+                        progressDialog.Title = "Meisterschaften werden geladen";
+                        progressDialog.PercentComplete = 75;
+                        await Task.Delay(50);
+
+                        var masteryCount = _wikiParseService.RefreshMasteriesFromWiki(logger);
+                        progressDialog.Title = "Wird abgeschlossen";
+                        progressDialog.PercentComplete = 100;
+
+                        var msg = $"{Environment.NewLine}Status:" +
+                                  $"{Environment.NewLine}      Warnungen: {logEventSink.Events.Count(_ => _.Level == LogEventLevel.Warning)}" +
+                                  $"{Environment.NewLine}      Fehler: {logEventSink.Events.Count(_ => _.Level == LogEventLevel.Error)}" +
+                                  $"{Environment.NewLine}      Kritisch: {logEventSink.Events.Count(_ => _.Level == LogEventLevel.Fatal)}" +
+                                  $"{Environment.NewLine}" +
+                                  $"{Environment.NewLine}" +
+                                  $"Gefundene Daten:" +
+                                  $"{Environment.NewLine}      Rüstungen: {armorCount?.ToString()}" +
+                                  $"{Environment.NewLine}      Waffen: {weaponCount?.ToString()}" +
+                                  $"{Environment.NewLine}      Talente: {talentCount?.ToString()}" +
+                                  $"{Environment.NewLine}      Meisterschaften: {masteryCount?.ToString()}";
+
+                        UserDialogs.Instance.Confirm(new ConfirmConfig
+                        {
+                            Message = msg,
+                            Title = "Daten wurde aus dem Wiki gelesen",
+                            OkText = "OK",
+                            CancelText = "Logdatei öffnen",
+                            OnAction = result =>
+                            {
+                                if (!result)
+                                {
+                                    var target = new ReadOnlyFile(Path.Combine(_appdataFolder, _logFileName));
+                                    var request = new OpenFileRequest {File = target};
+                                    Launcher.OpenAsync(request);
+                                }
+                            }
+                        });
+                    }
+                }
+
+                RefreshData(false);
+            }
+            catch (Exception exception)
+            {
+                App.ErrorManager.TrackException(exception);
+            }
         }));
 
         private ICommand _openCharacterCommand;
-        public ICommand OpenCharacterCommand => _openCharacterCommand ?? (_openCharacterCommand = new Command<CharacterModel>(entity =>
-        {
-            Task.Run(async () =>
+
+        public ICommand OpenCharacterCommand => _openCharacterCommand ?? (_openCharacterCommand =
+            new Command<CharacterModel>(entity =>
             {
-                using (UserDialogs.Instance.Loading("Character wird geladen.."))
+                Task.Run(async () =>
                 {
-                    await Task.Delay(250);
-                    await OpenCharacter(entity, false);
-                    await Task.Delay(250);
-                }
-            });
-        }));
+                    try
+                    {
+                        using (UserDialogs.Instance.Loading("Character wird geladen.."))
+                        {
+                            await Task.Delay(250);
+                            await OpenCharacter(entity, false);
+                            await Task.Delay(250);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        App.ErrorManager.TrackException(e, entity.Name);
+                    }
+                });
+            }));
         
         private async Task OpenCharacter(CharacterModel characterModel, bool editMode)
         {
@@ -219,13 +251,18 @@ namespace ImagoApp.ViewModels
                 var skillPageViewModel = new SkillPageViewModel(characterViewModel, _serviceLocator.WikiService(), _serviceLocator.WikiDataService(), _serviceLocator.RuleService());
                 var statusPageViewModel = new StatusPageViewModel(characterViewModel, _serviceLocator.WikiDataService());
                 var inventoryViewModel = new InventoryViewModel(characterViewModel);
-                var appShellViewModel = new AppShellViewModel(_characterService, characterInfoPageViewModel, skillPageViewModel, statusPageViewModel, inventoryViewModel, wikiPageViewModel)
+                var appShellViewModel = new AppShellViewModel(characterInfoPageViewModel, skillPageViewModel, statusPageViewModel, inventoryViewModel, wikiPageViewModel)
                 {
                     EditMode = editMode
                 };
 
                 skillPageViewModel.OpenWikiPageRequested += (sender, url) =>
                 {
+                    Analytics.TrackEvent("Open WikiPage", new Dictionary<string, string>()
+                    {
+                        {"url", url}
+                    });
+
                     appShellViewModel.RaiseWikiPageOpenRequested();
                     wikiPageViewModel.OpenWikiPage(url);
                 };
@@ -246,24 +283,32 @@ namespace ImagoApp.ViewModels
         }
 
         private ICommand _createNewCharacterCommand;
+
         public ICommand CreateNewCharacterCommand => _createNewCharacterCommand ?? (_createNewCharacterCommand =
             new Command(() =>
             {
                 Task.Run(async () =>
                 {
-                    using (UserDialogs.Instance.Loading("Neuer Charakter wird erstellt.."))
+                    try
                     {
-                        await Task.Delay(250);
-                        var newChar = _characterCreationService.CreateNewCharacter();
-                        newChar.Name = "";
-                        newChar.RaceType = RaceType.Mensch;
-                        newChar.Version = Version;
-                        
-                        _characterService.AddCharacter(newChar);
-                        RefreshData(true);
+                        using (UserDialogs.Instance.Loading("Neuer Charakter wird erstellt.."))
+                        {
+                            await Task.Delay(250);
+                            var newChar = _characterCreationService.CreateNewCharacter();
+                            newChar.Name = "";
+                            newChar.RaceType = RaceType.Mensch;
+                            newChar.Version = Version;
 
-                        await OpenCharacter(newChar, true);
-                        await Task.Delay(250);
+                            _characterService.AddCharacter(newChar);
+                            RefreshData(true);
+
+                            await OpenCharacter(newChar, true);
+                            await Task.Delay(250);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        App.ErrorManager.TrackException(e);
                     }
                 });
             }));
@@ -275,21 +320,28 @@ namespace ImagoApp.ViewModels
             {
                 Task.Run(async () =>
                 {
-                    using (UserDialogs.Instance.Loading("Testcharacter wird geladen.."))
+                    try
                     {
-                        await Task.Delay(250);
-                        var newChar = _characterCreationService.CreateExampleCharacter();
-                        newChar.Name = "Testspieler";
-                        newChar.RaceType = RaceType.Mensch;
-                        newChar.CreatedBy = "System";
-                        newChar.Owner = "Testuser";
-                        newChar.Version = Version;
-                        
-                        _characterService.AddCharacter(newChar);
-                        RefreshData(true);
+                        using (UserDialogs.Instance.Loading("Testcharacter wird geladen.."))
+                        {
+                            await Task.Delay(250);
+                            var newChar = _characterCreationService.CreateExampleCharacter();
+                            newChar.Name = "Testspieler";
+                            newChar.RaceType = RaceType.Mensch;
+                            newChar.CreatedBy = "System";
+                            newChar.Owner = "Testuser";
+                            newChar.Version = Version;
 
-                        await OpenCharacter(newChar, false);
-                        await Task.Delay(250);
+                            _characterService.AddCharacter(newChar);
+                            RefreshData(true);
+
+                            await OpenCharacter(newChar, false);
+                            await Task.Delay(250);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        App.ErrorManager.TrackException(e);
                     }
                 });
             }));
