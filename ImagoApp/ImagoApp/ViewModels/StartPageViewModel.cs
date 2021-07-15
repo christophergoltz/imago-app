@@ -141,7 +141,6 @@ namespace ImagoApp.ViewModels
         {
             try
             {
-
                 var logFile = Path.Combine(_appdataFolder, $"wiki_parse.log");
                 if (File.Exists(logFile))
                     File.Delete(logFile);

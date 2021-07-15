@@ -1,6 +1,7 @@
 ﻿using System;
 using Windows.UI.Core.Preview;
 using Acr.UserDialogs;
+using Microsoft.AppCenter.Crashes;
 
 namespace ImagoApp.UWP
 {
@@ -19,6 +20,9 @@ namespace ImagoApp.UWP
             if (!saved)
             {
                 e.Handled = true;
+
+                Crashes.TrackError(new InvalidOperationException("Character couldnt be saved on app quit"));
+
                 UserDialogs.Instance.Confirm(new ConfirmConfig
                 {
                     Message = $"{Environment.NewLine}Wie soll fortgefahren werden?" +

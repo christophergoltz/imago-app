@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.System;
+using Microsoft.AppCenter.Crashes;
 
 namespace ImagoApp.UWP
 {
@@ -19,7 +21,11 @@ namespace ImagoApp.UWP
             }
             catch (Exception exception)
             {
-                Console.WriteLine(exception);
+                Debug.WriteLine(exception);
+                Crashes.TrackError(exception, new Dictionary<string, string>()
+                {
+                    { "path", path}
+                });
             }
         }
     }
