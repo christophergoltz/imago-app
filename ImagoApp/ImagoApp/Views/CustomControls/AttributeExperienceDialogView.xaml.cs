@@ -61,6 +61,8 @@ namespace ImagoApp.Views.CustomControls
                     ResetDropHighlight(true);
 
                     e.Data.Properties.Add(nameof(ViewModels.OpenAttributeExperienceViewModel), viewModel);
+                    
+                    var greenColor = (Color)Xamarin.Forms.Application.Current.Resources["HellGruenesUmbra2"];
 
                     foreach (var attribute in viewModel.PossibleTargets)
                     {
@@ -69,31 +71,31 @@ namespace ImagoApp.Views.CustomControls
                             case AttributeType.Unknown:
                                 break;
                             case AttributeType.Staerke:
-                                Staerke.BackgroundColor = Color.GreenYellow;
+                                Staerke.BackgroundColor = greenColor;
                                 ((DropGestureRecognizer)Staerke.GestureRecognizers.First(_ => _.GetType() == typeof(DropGestureRecognizer))).AllowDrop = true;
                                 break;
                             case AttributeType.Geschicklichkeit:
-                                Geschicklichkeit.BackgroundColor = Color.GreenYellow;
+                                Geschicklichkeit.BackgroundColor = greenColor;
                                 ((DropGestureRecognizer)Geschicklichkeit.GestureRecognizers.First(_ => _.GetType() == typeof(DropGestureRecognizer))).AllowDrop = true;
                                 break;
                             case AttributeType.Konstitution:
-                                Konstitution.BackgroundColor = Color.GreenYellow;
+                                Konstitution.BackgroundColor = greenColor;
                                 ((DropGestureRecognizer)Konstitution.GestureRecognizers.First(_ => _.GetType() == typeof(DropGestureRecognizer))).AllowDrop = true;
                                 break;
                             case AttributeType.Intelligenz:
-                                Intelligenz.BackgroundColor = Color.GreenYellow;
+                                Intelligenz.BackgroundColor = greenColor;
                                 ((DropGestureRecognizer)Intelligenz.GestureRecognizers.First(_ => _.GetType() == typeof(DropGestureRecognizer))).AllowDrop = true;
                                 break;
                             case AttributeType.Willenskraft:
-                                Willenskraft.BackgroundColor = Color.GreenYellow;
+                                Willenskraft.BackgroundColor = greenColor;
                                 ((DropGestureRecognizer)Willenskraft.GestureRecognizers.First(_ => _.GetType() == typeof(DropGestureRecognizer))).AllowDrop = true;
                                 break;
                             case AttributeType.Charisma:
-                                Charisma.BackgroundColor = Color.GreenYellow;
+                                Charisma.BackgroundColor = greenColor;
                                 ((DropGestureRecognizer)Charisma.GestureRecognizers.First(_ => _.GetType() == typeof(DropGestureRecognizer))).AllowDrop = true;
                                 break;
                             case AttributeType.Wahrnehmung:
-                                Wahrnehmung.BackgroundColor = Color.GreenYellow;
+                                Wahrnehmung.BackgroundColor = greenColor;
                                 ((DropGestureRecognizer)Wahrnehmung.GestureRecognizers.First(_ => _.GetType() == typeof(DropGestureRecognizer))).AllowDrop = true;
                                 break;
                         }
@@ -104,13 +106,15 @@ namespace ImagoApp.Views.CustomControls
 
         private void ResetDropHighlight(bool gestures)
         {
-            Charisma.BackgroundColor = Color.White;
-            Staerke.BackgroundColor = Color.White;
-            Wahrnehmung.BackgroundColor = Color.White;
-            Willenskraft.BackgroundColor = Color.White;
-            Konstitution.BackgroundColor = Color.White;
-            Intelligenz.BackgroundColor = Color.White;
-            Geschicklichkeit.BackgroundColor = Color.White;
+            var color = (Color)Xamarin.Forms.Application.Current.Resources["AntiUmbra3"];
+
+            Charisma.BackgroundColor = color;
+            Staerke.BackgroundColor = color;
+            Wahrnehmung.BackgroundColor = color;
+            Willenskraft.BackgroundColor = color;
+            Konstitution.BackgroundColor = color;
+            Intelligenz.BackgroundColor = color;
+            Geschicklichkeit.BackgroundColor = color;
 
             if (gestures)
             {

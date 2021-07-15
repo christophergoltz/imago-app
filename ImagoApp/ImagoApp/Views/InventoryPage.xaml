@@ -41,6 +41,13 @@
                                     <Button Text="+" Padding="0,-6,0,0" WidthRequest="30" HeightRequest="30"  FontSize="22"
                                             VerticalOptions="Center" HorizontalOptions="End" TextColor="Green" BackgroundColor="LightGray" 
                                             Command="{Binding AddItemCommand, Source={RelativeSource AncestorType={x:Type viewModels:InventoryViewModel}}}"/>
+
+                                    <Button VerticalOptions="Center" Text="Alltagsgüter &#8599;" FontSize="20" 
+                                            Padding="7,3" Background="limegreen" 
+                                            Command="{Binding OpenDailyGoodsWikiCommand}"/>
+                                    <Button VerticalOptions="Center" Text="Munition &#8599;" FontSize="20" 
+                                            Padding="7,3" Background="limegreen" 
+                                            Command="{Binding OpenAmmunitionCommand}"/>
                                 </StackLayout>
                               
                                 <Label Grid.Row="0" VerticalOptions="Center"  Grid.Column="1" Text="Last" FontAttributes="Bold"/>

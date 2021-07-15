@@ -100,18 +100,43 @@
                             <Grid Margin="10,10,10,0">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="1" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <Label Grid.Row="0" Grid.Column="0" VerticalOptions="Center" FontSize="18" Text="Waffen"
                                    FontAttributes="Bold"/>
-                                <Button Grid.Row="0" Grid.Column="1" Text="+" Padding="0,-6,0,0" WidthRequest="25" 
-                                    HeightRequest="25" FontSize="22" 
-                                    VerticalOptions="Center" HorizontalOptions="Center" TextColor="Green" BackgroundColor="LightGray" 
-                                    Command="{Binding WeaponListViewModel.AddWeaponCommand}"/>
+
+                                <Button Grid.Row="0" Grid.Column="2" Text="+" Padding="0,-6,0,0" WidthRequest="25" 
+                                        HeightRequest="25" FontSize="22" 
+                                        VerticalOptions="Center" HorizontalOptions="Center" TextColor="Green" BackgroundColor="LightGray" 
+                                        Command="{Binding WeaponListViewModel.AddWeaponCommand}"/>
+
+                                <StackLayout Grid.ColumnSpan="3" Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+                                    <Button VerticalOptions="Center" Text="Nahkampfwaffen &#8599;" FontSize="20" 
+                                            Padding="7,3" Background="limegreen" 
+                                            Command="{Binding WeaponListViewModel.OpenMeleeWeaponWikiCommand}"/>
+                                    <Button VerticalOptions="Center" Text="Schilde &#8599;" FontSize="20" 
+                                            Padding="7,3" Background="limegreen" HorizontalOptions="FillAndExpand"
+                                            Command="{Binding WeaponListViewModel.OpenShieldWikiCommand}"/>
+                                </StackLayout>
+
+                                <StackLayout  Grid.ColumnSpan="3"  Grid.Row="2" Grid.Column="0">
+                                    <Button VerticalOptions="Center" Text="Fernkampfwaffen &#8599;" FontSize="20" 
+                                             Padding="7,3" Background="limegreen" 
+                                        Command="{Binding WeaponListViewModel.OpenRangedWeaponWikiCommand}"/>
+                                </StackLayout>
+
+                                <StackLayout  Grid.ColumnSpan="3"  Grid.Row="3" Grid.Column="0">
+                                    <Button VerticalOptions="Center" Text="Spezialwaffen &#8599;" FontSize="20" 
+                                            Padding="7,3" Background="limegreen" 
+                                            Command="{Binding WeaponListViewModel.OpenSpecialWeaponWikiCommand}"/>
+                                </StackLayout>
                             </Grid>
 
                             <ScrollView Margin="0,10,0,0" >
@@ -164,8 +189,10 @@
 
                 <!-- healing -->
                 <Frame Grid.Row="1" Grid.Column="1">
-                    <StackLayout>
-                        <Label Text="Heilung oder sowas?: [tbd]" FontSize="18"/>
+                    <StackLayout Margin="20">
+                        <Button VerticalOptions="Center" Text="Heilung &#8599;" FontSize="20" 
+                                Padding="7,3" Background="limegreen" HorizontalOptions="Start"
+                                Command="{Binding OpenHealingWikiCommand}"/>
                     </StackLayout>
                 </Frame>
 

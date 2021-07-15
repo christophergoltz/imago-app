@@ -11,12 +11,11 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="1"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!-- header -->
-        <Grid Grid.Column="0" Grid.Row="0" Padding="15" Margin="0,0,-6,-6"  Background="{DynamicResource BraunVerlauf1}">
+        <Grid Grid.Column="0" Grid.Row="0" Padding="15" Margin="0,0,-6,-6" Style="{StaticResource EvenGradiantStyle}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5*"/>
                 <ColumnDefinition Width="3*"/>
@@ -85,9 +84,7 @@
                         Command="{Binding SkillGroupDetailViewModel.CloseCommand}"/>
         </Grid>
 
-        <BoxView Grid.Column="0" Grid.Row="1" Color="Black"/>
-
-        <WebView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Navigating="WebView_OnNavigating"
+        <WebView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Navigating="WebView_OnNavigating"
                              Source="{Binding SkillGroupDetailViewModel.QuickWikiView}"></WebView>
     </Grid>
 </ContentView>

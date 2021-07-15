@@ -30,7 +30,6 @@ namespace ImagoApp.Views.CustomControls
                 return false;
 
             var isClosable = WikiTabModel.Url != WikiConstants.WikiMainPageUrl;
-            Debug.WriteLine("Check if " + WikiTabModel.Url + " is closable.. " + isClosable);
             return isClosable;
         }));
 
@@ -103,8 +102,6 @@ namespace ImagoApp.Views.CustomControls
 
             var newTitle = HttpUtility.UrlDecode(title);
             WikiTabModel.Title = newTitle;
-
-            Debug.WriteLine("Updated WikiPageEntry.Url to " + e.Url + "; Title to " + newTitle);
         }
 
         private void WebView_OnNavigating(object sender, WebNavigatingEventArgs e)
@@ -132,7 +129,6 @@ namespace ImagoApp.Views.CustomControls
 
             if (e.Url != WikiConstants.WikiMainPageUrl)
             {
-                Debug.WriteLine("Cancelling WikiNavigation, Opening new Page for: " + e.Url);
                 e.Cancel = true;
 
                 OpenPageCommand?.Execute(e.Url);

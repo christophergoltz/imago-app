@@ -256,7 +256,11 @@ namespace ImagoApp.ViewModels
                     EditMode = editMode
                 };
 
-                skillPageViewModel.OpenWikiPageRequested += (sender, url) =>
+                skillPageViewModel.OpenWikiPageRequested += (sender, url) => OpenWikiPage(url);
+                statusPageViewModel.OpenWikiPageRequested += (sender, url) => OpenWikiPage(url);
+                inventoryViewModel.OpenWikiPageRequested += (sender, url) => OpenWikiPage(url);
+
+                void OpenWikiPage(string url)
                 {
                     Analytics.TrackEvent("Open WikiPage", new Dictionary<string, string>()
                     {
@@ -265,8 +269,8 @@ namespace ImagoApp.ViewModels
 
                     appShellViewModel.RaiseWikiPageOpenRequested();
                     wikiPageViewModel.OpenWikiPage(url);
-                };
-
+                }
+                
                 var appShell = new AppShell(appShellViewModel);
 
                 await Device.InvokeOnMainThreadAsync(() =>

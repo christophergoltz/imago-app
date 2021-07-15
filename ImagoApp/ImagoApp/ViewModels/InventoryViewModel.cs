@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using ImagoApp.Application;
 using ImagoApp.Application.Models;
 using Xamarin.Forms;
 
@@ -9,6 +10,7 @@ namespace ImagoApp.ViewModels
 {
     public class InventoryViewModel
     {
+        public event EventHandler<string> OpenWikiPageRequested;
         public CharacterViewModel CharacterViewModel { get; }
 
         private ICommand _removeItemCommand;
@@ -27,6 +29,36 @@ namespace ImagoApp.ViewModels
                     App.ErrorManager.TrackException(e, CharacterViewModel.CharacterModel.Name);
                 }
             }));
+
+        private ICommand _openDailyGoodsWikiCommand;
+
+        public ICommand OpenDailyGoodsWikiCommand => _openDailyGoodsWikiCommand ?? (_openDailyGoodsWikiCommand = new Command(() =>
+        {
+            try
+            {
+                var url = WikiConstants.DailyGoodsUrl;
+                OpenWikiPageRequested?.Invoke(this, url);
+            }
+            catch (Exception exception)
+            {
+                App.ErrorManager.TrackException(exception, CharacterViewModel.CharacterModel.Name);
+            }
+        }));
+
+        private ICommand _openAmmunitionCommand;
+
+        public ICommand OpenAmmunitionCommand => _openAmmunitionCommand ?? (_openAmmunitionCommand = new Command(() =>
+        {
+            try
+            {
+                var url = WikiConstants.AmmunitionUrl;
+                OpenWikiPageRequested?.Invoke(this, url);
+            }
+            catch (Exception exception)
+            {
+                App.ErrorManager.TrackException(exception, CharacterViewModel.CharacterModel.Name);
+            }
+        }));
 
         private ICommand _addItemCommand;
 
