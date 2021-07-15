@@ -20,6 +20,66 @@ namespace ImagoApp.ViewModels
         private readonly CharacterViewModel _characterViewModel;
         private readonly IWikiDataService _wikiDataService;
         private ICommand _addWeaponCommand;
+        public event EventHandler<string> OpenWikiPageRequested;
+
+        private ICommand _openMeleeWeaponWikiCommand;
+
+        public ICommand OpenMeleeWeaponWikiCommand => _openMeleeWeaponWikiCommand ?? (_openMeleeWeaponWikiCommand = new Command(() =>
+        {
+            try
+            {
+                var url = WikiConstants.MeleeWeaponUrl;
+                OpenWikiPageRequested?.Invoke(this, url);
+            }
+            catch (Exception exception)
+            {
+                App.ErrorManager.TrackException(exception, _characterViewModel.CharacterModel.Name);
+            }
+        }));
+
+        private ICommand _openRangedWeaponWikiCommand;
+        public ICommand OpenRangedWeaponWikiCommand => _openRangedWeaponWikiCommand ?? (_openRangedWeaponWikiCommand = new Command(() =>
+        {
+            try
+            {
+                var url = WikiConstants.RangedWeaponUrl;
+                OpenWikiPageRequested?.Invoke(this, url);
+            }
+            catch (Exception exception)
+            {
+                App.ErrorManager.TrackException(exception, _characterViewModel.CharacterModel.Name);
+            }
+        }));
+
+        private ICommand _openShieldWikiCommand;
+        public ICommand OpenShieldWikiCommand => _openShieldWikiCommand ?? (_openShieldWikiCommand = new Command(() =>
+        {
+            try
+            {
+                var url = WikiConstants.ShieldsUrl;
+                OpenWikiPageRequested?.Invoke(this, url);
+            }
+            catch (Exception exception)
+            {
+                App.ErrorManager.TrackException(exception, _characterViewModel.CharacterModel.Name);
+            }
+        }));
+
+        private ICommand _openSpecialWeaponWikiCommand;
+        public ICommand OpenSpecialWeaponWikiCommand => _openSpecialWeaponWikiCommand ?? (_openSpecialWeaponWikiCommand = new Command(() =>
+        {
+            try
+            {
+                var url = WikiConstants.SpecialWeaponUrl;
+                OpenWikiPageRequested?.Invoke(this, url);
+            }
+            catch (Exception exception)
+            {
+                App.ErrorManager.TrackException(exception, _characterViewModel.CharacterModel.Name);
+            }
+        }));
+
+
         public ICommand AddWeaponCommand => _addWeaponCommand ?? (_addWeaponCommand = new Command(() =>
         {
             Task.Run(async () =>

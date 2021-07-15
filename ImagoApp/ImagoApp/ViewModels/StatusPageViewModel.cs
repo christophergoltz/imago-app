@@ -14,17 +14,25 @@ namespace ImagoApp.ViewModels
     {
         private WeaponDetailViewModel _weaponDetailViewModel;
         public CharacterViewModel CharacterViewModel { get; }
-        
+        public event EventHandler<string> OpenWikiPageRequested;
+
         public WeaponDetailViewModel WeaponDetailViewModel
         {
             get => _weaponDetailViewModel;
             set => SetProperty(ref _weaponDetailViewModel, value);
         }
 
+        private ICommand _openHealingWikiCommand;
+
+        public ICommand OpenHealingWikiCommand => _openHealingWikiCommand ?? (_openHealingWikiCommand = new Command(() =>
+        {
+            var url = WikiConstants.HealingUrl;
+            OpenWikiPageRequested?.Invoke(this, url);
+        }));
+
         public WeaponListViewModel WeaponListViewModel { get; set; }
 
         private ICommand _openWeaponCommand;
-
         public ICommand OpenWeaponCommand => _openWeaponCommand ?? (_openWeaponCommand = new Command<WeaponModel>(weapon=>
         {
             try
@@ -58,6 +66,7 @@ namespace ImagoApp.ViewModels
 
             WeaponListViewModel = new WeaponListViewModel(characterViewModel, wikiDataService);
             WeaponListViewModel.OpenWeaponRequested += (sender, weapon) => OpenWeaponCommand?.Execute(weapon);
+            WeaponListViewModel.OpenWikiPageRequested += (sender, url) => { OpenWikiPageRequested?.Invoke(sender, url); };
         }
 
         public BodyPartArmorListViewModel KopfViewModel { get; set; }
