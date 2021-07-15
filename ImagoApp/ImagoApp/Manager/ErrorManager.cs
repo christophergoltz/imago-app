@@ -18,6 +18,20 @@ namespace ImagoApp.Manager
             _errorService = errorService;
         }
 
+        public void TrackExceptionSilent(Exception exception, string affectedCharacter = null, bool includeCharacterDatabase = false,
+            Dictionary<string, string> customProperites = null)
+        {
+            Debug.WriteLine(exception);
+
+            if (customProperites == null)
+                customProperites = new Dictionary<string, string>();
+
+            if (!string.IsNullOrWhiteSpace(affectedCharacter))
+                customProperites.Add("Affected Character",affectedCharacter);
+
+            _errorService.TrackException(exception, customProperites, includeCharacterDatabase, null);
+        }
+
         public void TrackException(Exception exception, string affectedCharacter = null, Dictionary<string, string> customProperites = null)
         {
             Debug.WriteLine(exception);

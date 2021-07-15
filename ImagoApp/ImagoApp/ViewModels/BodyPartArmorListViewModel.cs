@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,14 +18,81 @@ namespace ImagoApp.ViewModels
     public class BodyPartArmorListViewModel : BindableBase
     {
         private readonly CharacterViewModel _characterViewModel;
+        private readonly IWikiDataService _wikiDataService;
         public BodyPartModel BodyPartModel { get; }
 
-        public ICommand RemoveArmorCommand { get; set; }
-        public ICommand AddArmorCommand { get; set; }
+        private ICommand _removeArmorCommand;
+        public ICommand RemoveArmorCommand => _removeArmorCommand ?? (_removeArmorCommand = new Command<ArmorPartModelModel>(armor =>
+        {
+            try
+            {
+                BodyPartModel.Armor.Remove(armor);
+                _characterViewModel.RecalculateHandicapAttributes();
+            }
+            catch (Exception exception)
+            {
+                App.ErrorManager.TrackException(exception, _characterViewModel.CharacterModel.Name);
+            }
+        }));
 
+
+        private ICommand _addArmorCommand;
+        public ICommand AddArmorCommand => _addArmorCommand ?? (_addArmorCommand = new Command(() =>
+        {
+            try
+            {
+                Task.Run(async () =>
+                {
+                    Dictionary<string, ArmorPartTemplateModel> armor;
+
+                    using (UserDialogs.Instance.Loading("Rüstungen werden geladen", null, null, true, MaskType.Black))
+                    {
+                        await Task.Delay(250);
+
+                        var currentBodyPart = BodyPartModel.Type.MapBodyPartTypeToArmorPartType();
+                        var allArmor = _wikiDataService.GetAllArmor();
+                        armor = allArmor
+                            .Where(pair => pair.ArmorPartType == currentBodyPart)
+                            .Select(pair => pair)
+                            .ToDictionary(_ => _.Name, _ => _);
+
+                        await Task.Delay(250);
+                    }
+
+                    string result = null;
+
+                    await Device.InvokeOnMainThreadAsync(async () =>
+                    {
+                        result = await UserDialogs.Instance.ActionSheetAsync($"Rüstung hinzufügen", "Abbrechen", null,
+                            null,
+                            armor.Keys.OrderBy(s => s).ToArray());
+                    });
+
+                    if (result == null || result.Equals("Abbrechen"))
+                        return;
+
+                    var selectedArmor = armor[result];
+                    var newArmor = _wikiDataService.GetArmorFromTemplate(selectedArmor);
+                    await Device.InvokeOnMainThreadAsync(() =>
+                    {
+                        BodyPartModel.Armor.Add(newArmor);
+                    });
+
+                    newArmor.PropertyChanged += OnArmorPropertyChanged;
+                    _characterViewModel.RecalculateHandicapAttributes();
+                });
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                throw;
+            }
+        }));
+        
         public BodyPartArmorListViewModel(CharacterViewModel characterViewModel, IWikiDataService wikiDataService, BodyPartModel bodyPartModel)
         {
             _characterViewModel = characterViewModel;
+            _wikiDataService = wikiDataService;
             BodyPartModel = bodyPartModel;
             BodyPartModel.PropertyChanged += (sender, args) =>
             {
@@ -38,55 +106,6 @@ namespace ImagoApp.ViewModels
             {
                 armor.PropertyChanged += OnArmorPropertyChanged;
             }
-            
-            RemoveArmorCommand = new Command<ArmorPartModelModel>(armor =>
-            {
-                BodyPartModel.Armor.Remove(armor);
-                characterViewModel.RecalculateHandicapAttributes();
-            });
-
-            AddArmorCommand = new Command(() =>
-            {
-                Task.Run(async () =>
-                {
-                    Dictionary<string, ArmorPartTemplateModel> armor;
-
-                    using (UserDialogs.Instance.Loading("Rüstungen werden geladen", null, null, true, MaskType.Black))
-                    {
-                        await Task.Delay(250);
-
-                        var currentBodyPart = bodyPartModel.Type.MapBodyPartTypeToArmorPartType();
-                        var allArmor = wikiDataService.GetAllArmor();
-                        armor = allArmor
-                            .Where(pair => pair.ArmorPartType == currentBodyPart)
-                            .Select(pair => pair)
-                            .ToDictionary(_ => _.Name, _ => _);
-
-                        await Task.Delay(250);
-                    }
-
-                    string result = null;
-                    
-                    await Device.InvokeOnMainThreadAsync(async () =>
-                    {
-                        result = await UserDialogs.Instance.ActionSheetAsync($"Rüstung hinzufügen", "Abbrechen", null, null,
-                            armor.Keys.OrderBy(s => s).ToArray());
-                    });
-
-                    if (result == null || result.Equals("Abbrechen"))
-                        return;
-
-                    var selectedArmor = armor[result];
-                    var newArmor = wikiDataService.GetArmorFromTemplate(selectedArmor);
-                    await Device.InvokeOnMainThreadAsync(() =>
-                    {
-                        BodyPartModel.Armor.Add(newArmor);
-                    });
-
-                    newArmor.PropertyChanged += OnArmorPropertyChanged;
-                    characterViewModel.RecalculateHandicapAttributes();
-                });
-            });
         }
 
         private void OnArmorPropertyChanged(object sender, PropertyChangedEventArgs args)

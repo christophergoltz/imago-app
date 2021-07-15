@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Acr.UserDialogs;
 using ImagoApp.Application;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Services;
@@ -21,8 +22,44 @@ namespace ImagoApp.ViewModels
         private readonly IWikiService _wikiService;
         public SkillGroupModel SkillGroupModel { get; }
         public event EventHandler CloseRequested;
-        public ICommand OpenWikiCommand { get; set; }
-        public ICommand CloseCommand { get; set; }
+
+        private ICommand _openWikiCommand;
+
+        public ICommand OpenWikiCommand => _openWikiCommand ?? (_openWikiCommand = new Command(() =>
+        {
+            try
+            {
+                var url = _wikiService.GetWikiUrl(SkillGroupModel.Type);
+
+                if (string.IsNullOrWhiteSpace(url))
+                {
+                    App.ErrorManager.TrackExceptionSilent(new InvalidOperationException($"No url found for {SkillGroupModel.Type}"), _characterViewModel.CharacterModel.Name);
+                    UserDialogs.Instance.Alert($"Uups, für {SkillGroupModel.Type} ist wohl nichts hinterlegt..", "Fehlender Link", "OK");
+                    return;
+                }
+
+                OpenWikiPageRequested?.Invoke(this, url);
+            }
+            catch (Exception exception)
+            {
+                App.ErrorManager.TrackException(exception, _characterViewModel.CharacterModel.Name);
+            }
+        }));
+
+        private ICommand _closeCommand;
+
+        public ICommand CloseCommand => _closeCommand ?? (_closeCommand = new Command(() =>
+        {
+            try
+            {
+                CloseRequested?.Invoke(this, EventArgs.Empty);
+            }
+            catch (Exception exception)
+            {
+                App.ErrorManager.TrackException(exception, _characterViewModel.CharacterModel.Name);
+            }
+        }));
+
 
         private HtmlWebViewSource _quickWikiView;
         public event EventHandler<string> OpenWikiPageRequested;
@@ -58,23 +95,7 @@ namespace ImagoApp.ViewModels
             _wikiService = wikiService;
             SkillGroupModel = skillGroupModel;
             SourceFormula = _converter.Convert(skillGroupModel.Type, null, null, CultureInfo.InvariantCulture).ToString();
-
-            OpenWikiCommand = new Command(async () =>
-            {
-                var url = wikiService.GetWikiUrl(skillGroupModel.Type);
-
-                if (string.IsNullOrWhiteSpace(url))
-                {
-                    await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Fehlender Link",
-                        "Uups, hier ist wohl nichts hinterlegt..", "OK");
-                    return;
-                }
-
-                OpenWikiPageRequested?.Invoke(this, url);
-            });
-
-            CloseCommand = new Command(() => { CloseRequested?.Invoke(this, EventArgs.Empty); });
-
+            
             Task.Run(LoadWikiPage);
         }
 

@@ -19,22 +19,12 @@ namespace ImagoApp.ViewModels
     {
         private readonly CharacterViewModel _characterViewModel;
         private readonly IWikiDataService _wikiDataService;
-        public ICommand AddWeaponCommand { get; }
-
-        public event EventHandler<WeaponModel> OpenWeaponRequested;
-
-        public WeaponListViewModel(CharacterViewModel characterViewModel, IWikiDataService wikiDataService)
+        private ICommand _addWeaponCommand;
+        public ICommand AddWeaponCommand => _addWeaponCommand ?? (_addWeaponCommand = new Command(() =>
         {
-            foreach (var weapon in characterViewModel.CharacterModel.Weapons)
+            Task.Run(async () =>
             {
-                weapon.PropertyChanged += OnWeaponLoadValueChanged;
-            }
-            _characterViewModel = characterViewModel;
-            _wikiDataService = wikiDataService;
-
-            AddWeaponCommand = new Command(() =>
-            {
-                Task.Run(async () =>
+                try
                 {
                     Dictionary<string, WeaponTemplateModel> weapons;
 
@@ -54,7 +44,7 @@ namespace ImagoApp.ViewModels
                     await Device.InvokeOnMainThreadAsync(async () =>
                     {
                         result = await UserDialogs.Instance.ActionSheetAsync($"Waffe hinzufügen", "Abbrechen", null,
-                                CancellationToken.None, weapons.Keys.OrderBy(s => s).ToArray());
+                            CancellationToken.None, weapons.Keys.OrderBy(s => s).ToArray());
                     });
 
                     if (result == null || result.Equals("Abbrechen"))
@@ -72,8 +62,24 @@ namespace ImagoApp.ViewModels
                     _characterViewModel.RecalculateHandicapAttributes();
 
                     OpenWeaponRequested?.Invoke(this, newWeapon);
-                });
+                }
+                catch (Exception e)
+                {
+                    App.ErrorManager.TrackException(e, _characterViewModel.CharacterModel.Name);
+                }
             });
+        }));
+
+        public event EventHandler<WeaponModel> OpenWeaponRequested;
+
+        public WeaponListViewModel(CharacterViewModel characterViewModel, IWikiDataService wikiDataService)
+        {
+            foreach (var weapon in characterViewModel.CharacterModel.Weapons)
+            {
+                weapon.PropertyChanged += OnWeaponLoadValueChanged;
+            }
+            _characterViewModel = characterViewModel;
+            _wikiDataService = wikiDataService;
         }
 
         private void OnWeaponLoadValueChanged(object sender, PropertyChangedEventArgs args)

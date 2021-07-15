@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows.Input;
 using ImagoApp.Application;
 using ImagoApp.Application.Models;
@@ -11,7 +12,6 @@ namespace ImagoApp.ViewModels
 {
     public class StatusPageViewModel : BindableBase
     {
-        private readonly IWikiDataService _wikiDataService;
         private WeaponDetailViewModel _weaponDetailViewModel;
         public CharacterViewModel CharacterViewModel { get; }
         
@@ -23,25 +23,11 @@ namespace ImagoApp.ViewModels
 
         public WeaponListViewModel WeaponListViewModel { get; set; }
 
-        public ICommand OpenWeaponCommand { get; set; }
+        private ICommand _openWeaponCommand;
 
-        public StatusPageViewModel(CharacterViewModel characterViewModel, IWikiDataService wikiDataService)
+        public ICommand OpenWeaponCommand => _openWeaponCommand ?? (_openWeaponCommand = new Command<WeaponModel>(weapon=>
         {
-            _wikiDataService = wikiDataService;
-            CharacterViewModel = characterViewModel;
-            
-
-            KopfViewModel = new BodyPartArmorListViewModel(characterViewModel, wikiDataService, CharacterViewModel.CharacterModel.BodyParts.First(_=> _.Type == BodyPartType.Kopf));
-            TorsoViewModel = new BodyPartArmorListViewModel(characterViewModel, wikiDataService, CharacterViewModel.CharacterModel.BodyParts.First(_ => _.Type == BodyPartType.Torso));
-            ArmLinksViewModel = new BodyPartArmorListViewModel(characterViewModel, wikiDataService, CharacterViewModel.CharacterModel.BodyParts.First(_ => _.Type == BodyPartType.ArmLinks));
-            ArmRechtsViewModel = new BodyPartArmorListViewModel(characterViewModel, wikiDataService, CharacterViewModel.CharacterModel.BodyParts.First(_ => _.Type == BodyPartType.ArmRechts));
-            BeinLinksViewModel = new BodyPartArmorListViewModel(characterViewModel, wikiDataService, CharacterViewModel.CharacterModel.BodyParts.First(_ => _.Type == BodyPartType.BeinLinks));
-            BeinRechtsViewModel = new BodyPartArmorListViewModel(characterViewModel, wikiDataService, CharacterViewModel.CharacterModel.BodyParts.First(_ => _.Type == BodyPartType.BeinRechts));
-
-            WeaponListViewModel = new WeaponListViewModel(characterViewModel, wikiDataService);
-            WeaponListViewModel.OpenWeaponRequested += (sender, weapon) => OpenWeaponCommand?.Execute(weapon);
-
-            OpenWeaponCommand = new Command<WeaponModel>(weapon =>
+            try
             {
                 var vm = new WeaponDetailViewModel(weapon, CharacterViewModel);
                 vm.CloseRequested += (sender, args) => WeaponDetailViewModel = null;
@@ -52,7 +38,26 @@ namespace ImagoApp.ViewModels
                     WeaponDetailViewModel = null;
                 };
                 WeaponDetailViewModel = vm;
-            });
+            }
+            catch (Exception exception)
+            {
+                App.ErrorManager.TrackException(exception, CharacterViewModel.CharacterModel.Name);
+            }
+        }));
+
+        public StatusPageViewModel(CharacterViewModel characterViewModel, IWikiDataService wikiDataService)
+        {
+            CharacterViewModel = characterViewModel;
+            
+            KopfViewModel = new BodyPartArmorListViewModel(characterViewModel, wikiDataService, CharacterViewModel.CharacterModel.BodyParts.First(_=> _.Type == BodyPartType.Kopf));
+            TorsoViewModel = new BodyPartArmorListViewModel(characterViewModel, wikiDataService, CharacterViewModel.CharacterModel.BodyParts.First(_ => _.Type == BodyPartType.Torso));
+            ArmLinksViewModel = new BodyPartArmorListViewModel(characterViewModel, wikiDataService, CharacterViewModel.CharacterModel.BodyParts.First(_ => _.Type == BodyPartType.ArmLinks));
+            ArmRechtsViewModel = new BodyPartArmorListViewModel(characterViewModel, wikiDataService, CharacterViewModel.CharacterModel.BodyParts.First(_ => _.Type == BodyPartType.ArmRechts));
+            BeinLinksViewModel = new BodyPartArmorListViewModel(characterViewModel, wikiDataService, CharacterViewModel.CharacterModel.BodyParts.First(_ => _.Type == BodyPartType.BeinLinks));
+            BeinRechtsViewModel = new BodyPartArmorListViewModel(characterViewModel, wikiDataService, CharacterViewModel.CharacterModel.BodyParts.First(_ => _.Type == BodyPartType.BeinRechts));
+
+            WeaponListViewModel = new WeaponListViewModel(characterViewModel, wikiDataService);
+            WeaponListViewModel.OpenWeaponRequested += (sender, weapon) => OpenWeaponCommand?.Execute(weapon);
         }
 
         public BodyPartArmorListViewModel KopfViewModel { get; set; }
