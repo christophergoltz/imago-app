@@ -23,18 +23,22 @@ namespace ImagoApp.Manager
         {
             Debug.WriteLine(exception);
 
+            var stackTrace = Environment.StackTrace;
+
             if (customProperites == null)
                 customProperites = new Dictionary<string, string>();
 
             if (!string.IsNullOrWhiteSpace(affectedCharacter))
                 customProperites.Add("Affected Character",affectedCharacter);
 
-            _errorService.TrackException(exception, customProperites, includeCharacterDatabase, null);
+            _errorService.TrackException(exception, customProperites, includeCharacterDatabase, null, stackTrace);
         }
 
         public void TrackException(Exception exception, string affectedCharacter = null, Dictionary<string, string> customProperites = null)
         {
             Debug.WriteLine(exception);
+
+            var stackTrace = Environment.StackTrace;
 
             //show ui
             var vm = new ErrorPageViewModel(affectedCharacter);
@@ -53,7 +57,7 @@ namespace ImagoApp.Manager
                 if (!string.IsNullOrWhiteSpace(args.AffectedCharacter))
                     customProperites.Add("Affected Character", args.AffectedCharacter);
                 
-                _errorService.TrackException(exception, customProperites, args.IncludeDatabase, args.Description);
+                _errorService.TrackException(exception, customProperites, args.IncludeDatabase, args.Description, stackTrace);
 
                 Device.BeginInvokeOnMainThread(async () =>
                 {

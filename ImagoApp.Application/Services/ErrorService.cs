@@ -10,7 +10,7 @@ namespace ImagoApp.Application.Services
     public interface IErrorService
     {
         void TrackException(Exception exception, Dictionary<string, string> properties,
-            bool includeCharacterDatabase, string description);
+            bool includeCharacterDatabase, string description, string stacktrace);
     }
 
     public class ErrorService : IErrorService
@@ -23,9 +23,9 @@ namespace ImagoApp.Application.Services
         }
 
         public void TrackException(Exception exception, Dictionary<string, string> properties,
-            bool includeCharacterDatabase, string description)
+            bool includeCharacterDatabase, string description, string stacktrace)
         {
-            var attachments = CreateErrorAttachments(includeCharacterDatabase, description);
+            var attachments = CreateErrorAttachments(includeCharacterDatabase, description, stacktrace);
             if (attachments.Any())
             {
                 Crashes.TrackError(exception, properties, attachments);
@@ -36,7 +36,7 @@ namespace ImagoApp.Application.Services
             }
         }
 
-        private ErrorAttachmentLog[] CreateErrorAttachments(bool includeCharacterDatabase, string description)
+        private ErrorAttachmentLog[] CreateErrorAttachments(bool includeCharacterDatabase, string description, string stacktrace)
         {
             var attachments = new List<ErrorAttachmentLog>();
 
@@ -50,6 +50,18 @@ namespace ImagoApp.Application.Services
             if (!string.IsNullOrWhiteSpace(description))
             {
                 attachments.Add(ErrorAttachmentLog.AttachmentWithText(description, "description.txt"));
+            }
+
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(stacktrace))
+                {
+                    attachments.Add(ErrorAttachmentLog.AttachmentWithText(stacktrace, "stacktrace.txt"));
+                }
+            }
+            catch (Exception)
+            {
+               //ignored
             }
 
             return attachments.ToArray();

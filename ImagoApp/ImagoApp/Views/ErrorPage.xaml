@@ -20,18 +20,19 @@
             <Label FontSize="28" Grid.Row="1" Margin="40,0,0,0" Text="Ein unerwarter Fehler ist aufgetreten"></Label>
 
             <StackLayout Margin="40,50,0,0" Orientation="Horizontal" Grid.Row="2">
-                <Label FontSize="22" Text="Datenbankdatei senden"></Label>
+                <Label FontSize="22" Text="Charakter-Information senden"></Label>
                 <CheckBox Margin="20,0,0,0" 
                           IsChecked="{Binding IncludeDatabase}"></CheckBox>
+                <Label FontSize="18" VerticalOptions="Center" TextColor="Black" FontAttributes="Italic" Text="[Dies kann bei der Fehlerbehebung helfen, wenn es sich dabei um einen Fehler basierend auf den Charakterdaten handelt]"></Label>
             </StackLayout>
 
-            <StackLayout Margin="80,0,0,0" Orientation="Horizontal" Grid.Row="3">
+            <StackLayout Margin="80,10,0,0" Orientation="Horizontal" Grid.Row="3">
                 <Label VerticalOptions="Center" FontSize="22" Text="Betroffener Charakter"></Label>
                 <Entry Margin="10,0,0,0" VerticalOptions="Center" FontSize="22" 
                        Text="{Binding AffectedCharacter}" IsEnabled="{Binding IncludeDatabase}" WidthRequest="300"></Entry>
             </StackLayout>
 
-            <Label Margin="40,40,0,0" FontSize="22" Grid.Row="4" Text="Beschreibung"></Label>
+            <Label Margin="40,60,0,20" FontSize="22" Grid.Row="4" Text="Beschreibung"></Label>
             <Editor Margin="40,10,0,20" MaxLength="125" FontSize="18" Grid.Row="5" 
                     Placeholder="Beschreibe kurz den Fehler ;)" 
                     Text="{Binding Description}"></Editor>
