@@ -133,7 +133,7 @@
 
                         <StackLayout Margin="10" VerticalOptions="Center" Orientation="Horizontal">
                             <Label VerticalOptions="Center"  Text="Hautfarbe / Schuppenfarbe: " FontSize="18"  FontAttributes="Bold"/>
-                            <Entry  WidthRequest="150" VerticalOptions="Center"  FontSize="18" Text="{Binding CharacterViewModel.CharacterModel.SkinColor}"/>
+                            <Entry  WidthRequest="250" VerticalOptions="Center"  FontSize="18" Text="{Binding CharacterViewModel.CharacterModel.SkinColor}"/>
                         </StackLayout>
 
                         <StackLayout Margin="10" VerticalOptions="Center" Orientation="Horizontal">
