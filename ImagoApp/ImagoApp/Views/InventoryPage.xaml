@@ -52,7 +52,7 @@
                               
                                 <Label Grid.Row="0" VerticalOptions="Center"  Grid.Column="1" Text="Last" FontAttributes="Bold"/>
                                 <Image HeightRequest="30" WidthRequest="30" VerticalOptions="Center" Grid.Row="0" Grid.Column="2" Margin="10" Source="swords.png"></Image>
-                                <Image HeightRequest="30" WidthRequest="30" VerticalOptions="Center"  Grid.Row="0" Grid.Column="3"  Margin="10" Source="inventar"></Image>
+                                <Image HeightRequest="30" WidthRequest="30" VerticalOptions="Center"  Grid.Row="0" Grid.Column="3"  Margin="10" Source="inventar.png"></Image>
                                 <BoxView Grid.Column="0" HeightRequest="1" Grid.Row="1" Grid.ColumnSpan="5" Color="Black"/>
                             </Grid>
                         </ListView.Header>
