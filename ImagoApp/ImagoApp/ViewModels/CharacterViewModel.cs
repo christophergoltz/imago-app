@@ -119,6 +119,13 @@ namespace ImagoApp.ViewModels
             UpdateNewBaseValueToSkillsOfGroup(skillGroupModel);
         }
 
+        public void SetNaturalValue(AttributeModel attributeModel, int naturalValue)
+        {
+            attributeModel.NaturalValue = naturalValue;
+            SkillExtensions.RecalculateFinalValue(attributeModel);
+            UpdateNewFinalValueOfAttribute(attributeModel);
+        }
+
         public void SetModificationValue(AttributeModel attributeModel, int modificationValue)
         {
             attributeModel.ModificationValue = modificationValue;

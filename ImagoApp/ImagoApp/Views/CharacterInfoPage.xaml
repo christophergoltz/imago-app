@@ -55,7 +55,8 @@
                     <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding AttributeModel.Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
                     <Label BackgroundColor="{StaticResource GruenesUmbra1}" Padding="5,2" TextColor="White" FontSize="18" Grid.Column="1" VerticalOptions="Center" Text="{Binding AttributeModel.ExperienceBySkillGroup}"/>
                     <Entry TextColor="White" BackgroundColor="{StaticResource GruenesUmbra1}" FontSize="18" Grid.Column="2" Keyboard="Numeric" VerticalOptions="Center" Text="{Binding TotalExperienceValue}"/>
-                    <Label FontSize="18" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding AttributeModel.NaturalValue}"/>
+                    <Entry FontSize="18" Grid.Column="3" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="{StaticResource GruenesUmbra1}" 
+                           Text="{Binding NaturalValue}"/>
                     <Label FontSize="18" Grid.Column="4" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding AttributeModel.IncreaseValue}"/>
                     <Label FontSize="18" Grid.Column="5" VerticalOptions="Center" HorizontalOptions="Center">
                         <Label.Text>
