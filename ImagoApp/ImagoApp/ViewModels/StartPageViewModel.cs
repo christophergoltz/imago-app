@@ -208,7 +208,7 @@ namespace ImagoApp.ViewModels
                         UserDialogs.Instance.Confirm(new ConfirmConfig
                         {
                             Message = msg,
-                            Title = "Daten wurde aus dem Wiki gelesen",
+                            Title = "Daten wurden aus dem Wiki geladen",
                             OkText = "OK",
                             CancelText = "Logdatei öffnen",
                             OnAction = result =>
