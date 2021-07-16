@@ -26,7 +26,6 @@ namespace ImagoApp.Application.Services
                 Guid = Guid.NewGuid(),
                 CreatedAt = DateTime.Now,
                 OpenAttributeIncreases = new ObservableCollection<SkillGroupModelType>(),
-                RaceType = RaceType.Mensch,
                 BodyParts = CreateBodyParts(),
                 Weapons = new ObservableCollection<WeaponModel>(),
                 EquippedItems = new ObservableCollection<EquipableItemModel>(),

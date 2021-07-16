@@ -103,7 +103,7 @@
 
                         <StackLayout Margin="10" VerticalOptions="Center" Orientation="Horizontal">
                             <Label VerticalOptions="Center"  Text="Rasse: " FontSize="18"  FontAttributes="Bold"/>
-                            <Label VerticalOptions="Center"  FontSize="18" Text="{Binding CharacterViewModel.CharacterModel.RaceType}"/>
+                            <Label VerticalOptions="Center"  FontSize="18" Text="-"/>
                         </StackLayout>
 
                         <StackLayout Margin="10" VerticalOptions="Center" Orientation="Horizontal">

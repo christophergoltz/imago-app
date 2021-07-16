@@ -317,7 +317,6 @@ namespace ImagoApp.ViewModels
                             await Task.Delay(250);
                             var newChar = _characterCreationService.CreateNewCharacter();
                             newChar.Name = "";
-                            newChar.RaceType = RaceType.Mensch;
                             newChar.Version = Version;
 
                             _characterService.AddCharacter(newChar);
@@ -348,7 +347,6 @@ namespace ImagoApp.ViewModels
                             await Task.Delay(250);
                             var newChar = _characterCreationService.CreateExampleCharacter();
                             newChar.Name = "Testspieler";
-                            newChar.RaceType = RaceType.Mensch;
                             newChar.CreatedBy = "System";
                             newChar.Owner = "Testuser";
                             newChar.Version = Version;
