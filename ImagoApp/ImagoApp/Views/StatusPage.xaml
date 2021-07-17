@@ -43,9 +43,9 @@
                         <Label Margin="10,10,0,0" Grid.Row="0" Grid.Column="0" FontSize="18" FontAttributes="Bold" Text="{Binding Name}" />
 
                         <StackLayout VerticalOptions="Center" Grid.Row="0" Grid.Column="1" Orientation="Horizontal" >
-                            <Image HeightRequest="25" WidthRequest="25" Margin="10" VerticalOptions="Center" Source="swords.png"
+                            <Image HeightRequest="25" WidthRequest="25" Margin="10" VerticalOptions="Center" Source="Images/swords.png"
                                    IsVisible="{Binding Fight}"/>
-                            <Image HeightRequest="25" WidthRequest="25" Margin="0,10,10,10" VerticalOptions="Center" Source="inventar.png"  
+                            <Image HeightRequest="25" WidthRequest="25" Margin="0,10,10,10" VerticalOptions="Center" Source="Images/inventar.png"  
                                    IsVisible="{Binding Adventure}" />
                         </StackLayout>
 

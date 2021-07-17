@@ -61,10 +61,10 @@
             </StackLayout>
 
             <StackLayout Margin="10" VerticalOptions="Center"  Grid.Column="0" Grid.Row="3" Orientation="Horizontal">
-                <Image HeightRequest="30" WidthRequest="30" VerticalOptions="Center" Margin="5,5,10,5" Source="swords.png"></Image>
+                <Image HeightRequest="30" WidthRequest="30" VerticalOptions="Center" Margin="5,5,10,5" Source="Images/swords.png"></Image>
                 <CheckBox IsChecked="{Binding FightValue}"></CheckBox>
 
-                <Image HeightRequest="30" WidthRequest="30" VerticalOptions="Center"   Margin="15,5" Source="inventar.png"></Image>
+                <Image HeightRequest="30" WidthRequest="30" VerticalOptions="Center"   Margin="15,5" Source="Images/inventar.png"></Image>
                 <CheckBox IsChecked="{Binding AdventureValue}" ></CheckBox>
             </StackLayout>
 
