@@ -44,5 +44,15 @@ namespace ImagoApp.ViewModels
                 OnPropertyChanged(nameof(TotalExperienceValue));
             }
         }
+
+        public int NaturalValue
+        {
+            get => AttributeModel.NaturalValue;
+            set
+            {
+                CharacterViewModel.SetNaturalValue(AttributeModel, value);
+                OnPropertyChanged(nameof(NaturalValue));
+            }
+        }
     }
 }

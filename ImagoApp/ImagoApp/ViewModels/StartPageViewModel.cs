@@ -10,8 +10,6 @@ using Acr.UserDialogs;
 using ImagoApp.Application;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Services;
-using ImagoApp.Infrastructure.Repositories;
-using ImagoApp.Shared.Enums;
 using ImagoApp.Util;
 using ImagoApp.Views;
 using Microsoft.AppCenter.Analytics;
@@ -92,7 +90,6 @@ namespace ImagoApp.ViewModels
         }));
 
         private ICommand _openAppDataFolderCommand;
-
         public ICommand OpenAppDataFolderCommand => _openAppDataFolderCommand ?? (_openAppDataFolderCommand = new Command(() =>
         {
             try
@@ -208,7 +205,7 @@ namespace ImagoApp.ViewModels
                         UserDialogs.Instance.Confirm(new ConfirmConfig
                         {
                             Message = msg,
-                            Title = "Daten wurde aus dem Wiki gelesen",
+                            Title = "Daten wurden aus dem Wiki geladen",
                             OkText = "OK",
                             CancelText = "Logdatei öffnen",
                             OnAction = result =>
@@ -231,31 +228,8 @@ namespace ImagoApp.ViewModels
                 App.ErrorManager.TrackException(exception);
             }
         }));
-
-        private ICommand _openCharacterCommand;
-
-        public ICommand OpenCharacterCommand => _openCharacterCommand ?? (_openCharacterCommand =
-            new Command<CharacterModel>(entity =>
-            {
-                Task.Run(async () =>
-                {
-                    try
-                    {
-                        using (UserDialogs.Instance.Loading("Character wird geladen.."))
-                        {
-                            await Task.Delay(250);
-                            await OpenCharacter(entity, false);
-                            await Task.Delay(250);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        App.ErrorManager.TrackException(e, entity.Name);
-                    }
-                });
-            }));
         
-        private async Task OpenCharacter(CharacterModel characterModel, bool editMode)
+        public async Task OpenCharacter(CharacterModel characterModel, bool editMode)
         {
             var characterViewModel = new CharacterViewModel(characterModel, _ruleService);
             App.CurrentCharacterViewModel = characterViewModel;
@@ -317,7 +291,6 @@ namespace ImagoApp.ViewModels
                             await Task.Delay(250);
                             var newChar = _characterCreationService.CreateNewCharacter();
                             newChar.Name = "";
-                            newChar.RaceType = RaceType.Mensch;
                             newChar.Version = Version;
 
                             _characterService.AddCharacter(newChar);
@@ -348,7 +321,6 @@ namespace ImagoApp.ViewModels
                             await Task.Delay(250);
                             var newChar = _characterCreationService.CreateExampleCharacter();
                             newChar.Name = "Testspieler";
-                            newChar.RaceType = RaceType.Mensch;
                             newChar.CreatedBy = "System";
                             newChar.Owner = "Testuser";
                             newChar.Version = Version;

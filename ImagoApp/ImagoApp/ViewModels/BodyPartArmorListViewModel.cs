@@ -56,6 +56,12 @@ namespace ImagoApp.ViewModels
                             .Select(pair => pair)
                             .ToDictionary(_ => _.Name, _ => _);
 
+                        armor.Add("Natürlich", new ArmorPartTemplateModel()
+                        {
+                            ArmorPartType = currentBodyPart,
+                            Name = "Natürlich"
+                        });
+
                         await Task.Delay(250);
                     }
 

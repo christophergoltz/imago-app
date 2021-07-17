@@ -14,7 +14,6 @@ namespace ImagoApp.Application.Models
         public string Version { get; set; }
 
         public string Name { get; set; }
-        public RaceType RaceType { get; set; }
         public string Height { get; set; }
         public string Weight { get; set; }
         public string EyeColor { get; set; }
