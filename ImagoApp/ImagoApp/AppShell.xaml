@@ -50,7 +50,7 @@
                                             </Style.Triggers>
                                         </Style>
                                     </Grid.Style>
-                                    <Image Source="{Binding IconSource}" WidthRequest="50" />
+                                    <Image Source="{Binding IconSource}" WidthRequest="40" />
                                 </Grid>
                             </Grid>
                         </DataTemplate>
