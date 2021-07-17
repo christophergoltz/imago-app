@@ -109,7 +109,8 @@
             <!-- Characters -->
             <Frame Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" Margin="10">
                 <Grid Style="{StaticResource SingleGradiantStyle}">
-                    <ListView SelectionMode="None" ItemsSource="{Binding Characters}" >
+                    <ListView SelectionMode="Single" ItemsSource="{Binding Characters}"
+                              ItemSelected="CharacterListView_OnItemSelected">
                         <ListView.Header>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -131,10 +132,6 @@
                             <DataTemplate x:DataType="models:CharacterModel">
                                 <ViewCell>
                                     <Grid Margin="20,10">
-                                        <Grid.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding OpenCharacterCommand, Source={RelativeSource AncestorType={x:Type viewModels:StartPageViewModel}}}" 
-                                                          CommandParameter="{Binding .}"/>
-                                        </Grid.GestureRecognizers>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"></ColumnDefinition>
                                             <ColumnDefinition Width="125"></ColumnDefinition>
