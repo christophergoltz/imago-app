@@ -46,7 +46,8 @@ namespace ImagoApp.ViewModels
                 new FlyoutPageItem("weben_weiss.png", typeof(SkillPage),CreateNavigationPageForContent(new SkillPage(_skillPageViewModel))),
                 new FlyoutPageItem("nahkampf_weiss.png", typeof(StatusPage),CreateNavigationPageForContent(new StatusPage(_statusPageViewModel))),
                 new FlyoutPageItem("inventar_weiss.png", typeof(InventoryPage),CreateNavigationPageForContent(new InventoryPage(_inventoryViewModel))),
-                new FlyoutPageItem("wiki_weiss.png", typeof(WikiPage),CreateNavigationPageForContent(new WikiPage(_wikiPageViewModel)))
+                new FlyoutPageItem("wiki_weiss.png", typeof(WikiPage),CreateNavigationPageForContent(new WikiPage(_wikiPageViewModel))),
+                new FlyoutPageItem("Images/weltenkarte_weiss.png", typeof(WorldMapPage),CreateNavigationPageForContent(new WorldMapPage()))
             };
 
             return result;
