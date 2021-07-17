@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
+using Windows.Foundation;
 using Windows.UI.Core.Preview;
+using Windows.UI.Xaml.Input;
 using Acr.UserDialogs;
 using Microsoft.AppCenter.Crashes;
 
@@ -7,11 +10,14 @@ namespace ImagoApp.UWP
 {
     public sealed partial class MainPage
     {
+        private ImagoApp.App _app;
+
         public MainPage()
         {
             InitializeComponent();
             SystemNavigationManagerPreview.GetForCurrentView().CloseRequested += OnCloseRequest;
-            LoadApplication(new ImagoApp.App(new FileService()));
+            _app = new ImagoApp.App(new FileService());
+            LoadApplication(_app);
         }
         
         private void OnCloseRequest(object sender, SystemNavigationCloseRequestedPreviewEventArgs e)
@@ -41,6 +47,15 @@ namespace ImagoApp.UWP
                     }
                 });
             }
+        }
+
+        private void MainPage_OnPointerWheelChanged(object sender, PointerRoutedEventArgs e)
+        {
+            Windows.UI.Input.PointerPoint pp = e.GetCurrentPoint(sender as MainPage);
+            int wheelDelta = pp.Properties.MouseWheelDelta;
+
+            Point cursorLocation = pp.Position;
+            _app.Zoom(wheelDelta, new Xamarin.Forms.Point(cursorLocation.X, cursorLocation.Y));
         }
     }
 }

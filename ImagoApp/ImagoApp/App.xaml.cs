@@ -9,6 +9,7 @@ using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace ImagoApp
 {
@@ -54,6 +55,23 @@ namespace ImagoApp
                 return true;
 
             return _serviceLocator.CharacterService().SaveCharacter(CurrentCharacterViewModel.CharacterModel);
+        }
+
+        public void Zoom(int delta, Point cursorLocation)
+        {
+            if (App.Current.MainPage is AppShell appShell)
+            {
+                var t = appShell.Detail;
+                if (t is NavigationPage navigationPage)
+                {
+                    t = navigationPage.CurrentPage;
+                }
+
+                if (t is WorldMapPage worldMapPage)
+                {
+                    worldMapPage.Zoom(delta, cursorLocation);
+                }
+            }
         }
 
         protected override void OnStart()
