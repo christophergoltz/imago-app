@@ -12,10 +12,6 @@ namespace ImagoApp.Views.CustomControls
     public class CustomSKCanvas : SKCanvasView, INotifyPropertyChanged
     {
         private double _currentScale = 1;
-        private double _startX;
-        private double _startY;
-
-
         private const double MIN_SCALE = 1;
         private const double MAX_SCALE = 4;
 
@@ -30,13 +26,6 @@ namespace ImagoApp.Views.CustomControls
             var pan = new PanGestureRecognizer();
             pan.PanUpdated += OnPanUpdated;
             GestureRecognizers.Add(pan);
-
-            var tap = new TapGestureRecognizer
-            {
-                NumberOfTapsRequired = 2
-            };
-            tap.Tapped += OnTapped;
-            GestureRecognizers.Add(tap);
 
             Scale = MIN_SCALE;
             TranslationX = TranslationY = 0;
@@ -53,6 +42,9 @@ namespace ImagoApp.Views.CustomControls
                 //zoom out
                 CurrentScale -= 0.2;
                 this.ScaleTo(CurrentScale, 250, Easing.CubicInOut);
+
+                //todo need to be improved - tranlsate to middle and respect bounds
+                this.TranslateTo(0,0, 250, Easing.CubicInOut);
             }
             else if (delta > 0)
             {
@@ -63,8 +55,6 @@ namespace ImagoApp.Views.CustomControls
                 CurrentScale += 0.2;
                 this.ScaleTo(CurrentScale, 250, Easing.CubicInOut);
             }
-
-            //    this.TranslateTo(cursorLocation.X, cursorLocation.Y);
         }
 
         protected override SizeRequest OnMeasure(double widthConstraint, double heightConstraint)
@@ -72,85 +62,58 @@ namespace ImagoApp.Views.CustomControls
             Scale = MIN_SCALE;
             TranslationX = TranslationY = 0;
             AnchorX = AnchorY = 0;
-
-          
-
+            
             return base.OnMeasure(widthConstraint, heightConstraint);
         }
 
-        private void OnTapped(object sender, EventArgs e)
-        {
-
-            Debug.WriteLine("OnTapped");
-            if (Scale > MIN_SCALE)
-            {
-                this.ScaleTo(MIN_SCALE, 250, Easing.CubicInOut);
-                this.TranslateTo(0, 0, 250, Easing.CubicInOut);
-            }
-            else
-            {
-                AnchorX = AnchorY = 0.5; //TODO tapped position
-                this.ScaleTo(MAX_SCALE, 250, Easing.CubicInOut);
-            }
-        }
-
-
-        public double StartX
-        {
-            get => _startX;
-            private set => SetProperty(ref _startX, value);
-        }
-
-        public double StartY
-        {
-            get => _startY;
-            private set => SetProperty(ref _startY, value);
-        }
-
-        public double AAnchorX => AnchorX;
-        public double AAnchorY => AnchorY;
-
+        private double _oldTranslationX;
+        private double _oldTranslationY;
         private void OnPanUpdated(object sender, PanUpdatedEventArgs e)
         {
             switch (e.StatusType)
             {
                 case GestureStatus.Started:
-                    StartX = (1 - AnchorX) * Width;
-                    StartY = (1 - AnchorY) * Height;
+                {
+                    _oldTranslationX = TranslationX;
+                    _oldTranslationY = TranslationY;
                     break;
+                }
                 case GestureStatus.Running:
                 {
-                    //normal behavior at Scale 2
-                    var transformMargin = CurrentScale - 1;
+                    var newX = _oldTranslationX + e.TotalX;
+                    var newY = _oldTranslationY + e.TotalY;
 
-                    //x
-                    var clampX = Clamp(1 - (StartX + e.TotalX) / Width, 0, 1);
-                    double newAnchorX = transformMargin == 0
-                        ? clampX
-                        : clampX / transformMargin;
-                    AnchorX = newAnchorX;
-                    OnPropertyChanged(nameof(AAnchorX));
-
-                    //y
-                    var clampY = Clamp(1 - (StartY + e.TotalY) / Height, 0, 1);
-                    double newAnchorY = transformMargin == 0
-                        ? clampY
-                        : clampY / transformMargin;
-                    AnchorY = newAnchorY;
-                    OnPropertyChanged(nameof(AAnchorY));
+                    Pan(newX, newY);
                     break;
                 }
             }
         }
 
-        private T Clamp<T>(T value, T minimum, T maximum) where T : IComparable
+        private void Pan(double x, double y)
         {
-            if (value.CompareTo(minimum) < 0)
-                return minimum;
-            else if (value.CompareTo(maximum) > 0)
-                return maximum;
-            else
-                return value;
+            //prevent left
+            if (x > 0)
+                x = 0;
+
+            //prevent right
+            var maxTranslX = (Width * Scale) - Width;
+            if (x * -1 > maxTranslX)
+                x = maxTranslX * -1;
+
+            TranslationX = x;
+            OnPropertyChanged(nameof(TranslationX));
+
+            //prevent top
+            if (y > 0)
+                y = 0;
+
+            //prevent bottom
+            var maxTranslY = (Height * Scale) - Height;
+            if (y * -1 > maxTranslY)
+                y = maxTranslY * -1;
+
+            TranslationY = y;
+            OnPropertyChanged(nameof(TranslationY));
         }
 
         #region INotifyPropertyChanged

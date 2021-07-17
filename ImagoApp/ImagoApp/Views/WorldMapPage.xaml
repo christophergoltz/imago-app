@@ -9,25 +9,19 @@
             <RowDefinition Height="100"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>-->
-        <customControls:CustomSKCanvas 
+        <customControls:CustomSKCanvas Margin="0,80,0,0"
                                        BackgroundColor="{StaticResource AntiUmbra3}" 
                                        x:Name="DrawingSKCanvas" 
                                        PaintSurface="SKCanvasView_OnPaintSurface">
         </customControls:CustomSKCanvas>
 
-        <StackLayout Padding="20" Grid.Row="0" Orientation="Horizontal" BackgroundColor="{StaticResource GruenesUmbra2}" VerticalOptions="Start" HorizontalOptions="FillAndExpand">
-            <Label FontSize="22" Text="AnchorX"></Label>
-            <Label FontSize="22" Text="{Binding AAnchorX, Source={x:Reference DrawingSKCanvas}}"></Label>
-               
-            <Label FontSize="22" Margin="10,0,0,0" Text="AnchorY"></Label>
-            <Label FontSize="22" Text="{Binding AAnchorY, Source={x:Reference DrawingSKCanvas}}"></Label>
+        <StackLayout HeightRequest="80" Orientation="Horizontal" BackgroundColor="{StaticResource GruenesUmbra2}" VerticalOptions="Start" HorizontalOptions="FillAndExpand">
+            <Label FontSize="22" Text="TranslationX"></Label>
+            <Label FontSize="22" Text="{Binding TranslationX, Source={x:Reference DrawingSKCanvas}}"></Label>
+
+            <Label FontSize="22" Margin="10,0,0,0" Text="TranslationY"></Label>
+            <Label FontSize="22" Text="{Binding TranslationY, Source={x:Reference DrawingSKCanvas}}"></Label>
            
-            <Label FontSize="22" Margin="10,0,0,0" Text="StartX"></Label>
-            <Label FontSize="22" Text="{Binding StartX, Source={x:Reference DrawingSKCanvas}}"></Label>
-         
-            <Label FontSize="22" Margin="10,0,0,0" Text="StartY"></Label>
-            <Label FontSize="22" Text="{Binding StartY, Source={x:Reference DrawingSKCanvas}}"></Label>
-               
             <Label FontSize="22"  Margin="10,0,0,0" Text="Zoom"></Label>
             <Label FontSize="22" Text="{Binding CurrentScale, Source={x:Reference DrawingSKCanvas}}"></Label>
         </StackLayout>
