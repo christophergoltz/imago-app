@@ -60,7 +60,7 @@
                 <BoxView Grid.Row="4" Color="{StaticResource AntiUmbra2}"/>
 
                 <Grid Grid.Row="5" Padding="0" Margin="15">
-                    <ImageButton Source="Images/hauptmenue_weiss.png" HeightRequest="80" Command="{Binding GoToMainMenuCommand}"/>
+                    <ImageButton Source="Images/hauptmenue_weiss.png" HeightRequest="70" Command="{Binding GoToMainMenuCommand}"/>
                 </Grid>
 
                  <!--footer-->

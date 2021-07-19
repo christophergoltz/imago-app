@@ -140,8 +140,6 @@
     <Content Include="Images\handwerk_weiss.png" />
     <Content Include="Images\hauptmenue.png" />
     <Content Include="Images\hauptmenue_weiss.png" />
-    <Content Include="Images\weltenkarte.png" />
-    <Content Include="Images\weltenkarte_weiss.png" />
     <Content Include="Images\imago_big.png" />
     <Content Include="Images\imago_logo_white.png" />
     <Content Include="Images\inventar.png" />
