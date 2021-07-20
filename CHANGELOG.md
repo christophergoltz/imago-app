@@ -1,6 +1,6 @@
 Die Roadmap kann [hier](https://github.com/christophergoltz/imago-app/blob/develop/ROADMAP.md) gefunden werden
 
-# Version 0.1.1 - [tba]
+# Version 0.1.1 - 20.07.2021
 ## Hinzugefügt
 - Wiki
     - Geöffnete Seiten werden gespeichert und beim öffnen des Charakters wieder geladen
@@ -8,6 +8,8 @@ Die Roadmap kann [hier](https://github.com/christophergoltz/imago-app/blob/devel
 
 ## Verbessert
 - Das Laden der Wiki-Daten wird automatisch gestartet wenn keine vorhanden sind oder die bestehenden älter als 30 Tage sind
+- Neue Imago-Logos und Icons
+- Die Navigations-Leiste im Charakterbildschirm wurde verbesser, Navigation lädt nun schneller
 
 ## Behoben
 - Die Charakterliste wird nach dem verlassen eine Charakterbogens nun richtig aktualisiert

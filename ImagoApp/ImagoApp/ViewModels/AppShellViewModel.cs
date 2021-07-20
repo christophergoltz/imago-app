@@ -15,7 +15,7 @@ namespace ImagoApp.ViewModels
 {
     public class AppShellViewModel : BindableBase
     {
-        private readonly CharacterInfoPageViewModel _characterInfoPageViewModel;
+        public readonly CharacterInfoPageViewModel CharacterInfoPageViewModel;
         private readonly SkillPageViewModel _skillPageViewModel;
         private readonly StatusPageViewModel _statusPageViewModel;
         private readonly InventoryViewModel _inventoryViewModel;
@@ -41,7 +41,7 @@ namespace ImagoApp.ViewModels
         {
             var result = new List<FlyoutPageItem>()
             {
-                new FlyoutPageItem("Images/charakter_weiss.png", typeof(CharacterInfoPage),CreateNavigationPageForContent(new CharacterInfoPage(_characterInfoPageViewModel))),
+                new FlyoutPageItem("Images/charakter_weiss.png", typeof(CharacterInfoPage),CreateNavigationPageForContent(new CharacterInfoPage(CharacterInfoPageViewModel))),
                 new FlyoutPageItem("Images/vor_und_nachteile_weiss.png", typeof(PerksPage),CreateNavigationPageForContent(new PerksPage())),
                 new FlyoutPageItem("Images/weben_weiss.png", typeof(SkillPage),CreateNavigationPageForContent(new SkillPage(_skillPageViewModel))),
                 new FlyoutPageItem("Images/nahkampf_weiss.png", typeof(StatusPage),CreateNavigationPageForContent(new StatusPage(_statusPageViewModel))),
@@ -68,7 +68,7 @@ namespace ImagoApp.ViewModels
             InventoryViewModel inventoryViewModel, 
             WikiPageViewModel wikiPageViewModel)
         {
-            _characterInfoPageViewModel = characterInfoPageViewModel;
+            CharacterInfoPageViewModel = characterInfoPageViewModel;
             _skillPageViewModel = skillPageViewModel;
             _statusPageViewModel = statusPageViewModel;
             _inventoryViewModel = inventoryViewModel;
@@ -130,7 +130,7 @@ namespace ImagoApp.ViewModels
                     }
                     catch (Exception exception)
                     {
-                        App.ErrorManager.TrackException(exception, _characterInfoPageViewModel.CharacterViewModel.CharacterModel.Name);
+                        App.ErrorManager.TrackException(exception, CharacterInfoPageViewModel.CharacterViewModel.CharacterModel.Name);
                     }
                 });
             });

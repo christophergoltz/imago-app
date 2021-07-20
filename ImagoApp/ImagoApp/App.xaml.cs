@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
 using Acr.UserDialogs;
 using ImagoApp.Manager;
 using ImagoApp.Util;
@@ -62,6 +65,18 @@ namespace ImagoApp
 
         protected override void OnSleep()
         {
+           var result = SaveCurrentCharacter();
+           if (!result)
+           {
+               ErrorManager.TrackExceptionSilent(
+                   new InvalidOperationException(),
+                   CurrentCharacterViewModel.CharacterModel.Name,
+                   false,
+                   new Dictionary<string, string>()
+                   {
+                       {"SaveResult", "false"}
+                   });
+           }
         }
 
         protected override void OnResume()
