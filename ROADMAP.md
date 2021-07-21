@@ -1,5 +1,6 @@
 # Version 0.2
 - Charakter Im-/Export (Json)
+- Charakter löschen
 - Charakterdatenbank manuell speichern/wiederherstellen
 - Einfachste Webkünste
 - Rassenunterstützung
