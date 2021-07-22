@@ -4,6 +4,7 @@ Die Roadmap kann [hier](https://github.com/christophergoltz/imago-app/blob/devel
 ## Hinzugefügt
 - Auf der Startseite wurde ein direkter Link zur Roadmap hinzugefügt
 - Die Sprungreichweite und Sprunghöhe für den Kampf wird nun im Inventar unterhalb der Behinderung angezeigt
+- Beim aktivieren des Charakterbearbeitungsmodus außerhalb der Charakterschaffung wird nun eine Warnung angezeigt
 
 ##Verbessert
 - Die App wird nun im Vollbildschirm gestartet (Bei älteren Windows 10 Versionen kann es sein, dass das nicht sofort beim ersten Start funktioniert)

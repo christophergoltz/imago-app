@@ -244,7 +244,11 @@ namespace ImagoApp.ViewModels
         
         public async Task OpenCharacter(CharacterModel characterModel, bool editMode)
         {
-            var characterViewModel = new CharacterViewModel(characterModel, _ruleService);
+            var characterViewModel = new CharacterViewModel(characterModel, _ruleService)
+            {
+                EditMode = editMode
+            };
+
             App.CurrentCharacterViewModel = characterViewModel;
 
             try
@@ -255,10 +259,11 @@ namespace ImagoApp.ViewModels
                 var skillPageViewModel = new SkillPageViewModel(characterViewModel, _serviceLocator.WikiService(), _serviceLocator.WikiDataService(), _serviceLocator.RuleService());
                 var statusPageViewModel = new StatusPageViewModel(characterViewModel, _serviceLocator.WikiDataService());
                 var inventoryViewModel = new InventoryViewModel(characterViewModel);
-                var appShellViewModel = new AppShellViewModel(characterInfoPageViewModel, skillPageViewModel, statusPageViewModel, inventoryViewModel, wikiPageViewModel)
-                {
-                    EditMode = editMode
-                };
+                var appShellViewModel = new AppShellViewModel(characterViewModel, characterInfoPageViewModel, skillPageViewModel,
+                    statusPageViewModel, inventoryViewModel, wikiPageViewModel);
+
+                //notify the main menu that editmode may have changed
+                appShellViewModel.RaiseEditModeChanged();
 
                 skillPageViewModel.OpenWikiPageRequested += (sender, url) => OpenWikiPage(url);
                 statusPageViewModel.OpenWikiPageRequested += (sender, url) => OpenWikiPage(url);
