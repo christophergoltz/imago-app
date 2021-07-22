@@ -7,6 +7,9 @@ Die Roadmap kann [hier](https://github.com/christophergoltz/imago-app/blob/devel
 ##Verbessert
 - Die App wird nun im Vollbildschirm gestartet (Bei älteren Windows 10 Versionen kann es sein, dass das nicht sofort beim ersten Start funktioniert)
 
+## Behoben
+- Die Navigation innerhalb der Fertigkeitsseite bei der Charaktererschaffung mit [Tab] wird nun in der richtigen Reihenfolge (Oben nach unten, links nach rechts) durchgeführt
+
 # Version 0.1.1 - 20.07.2021
 ## Hinzugefügt
 - Wiki

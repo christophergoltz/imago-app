@@ -107,40 +107,40 @@
                         </Grid>
 
 
-                        <customControls:SkillGroupView Grid.Row="0" Grid.Column="0" 
-                                               OpenSkillCommand="{Binding OpenSkillDetailCommand}"
-                                               OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
-                                               SkillGroupViewModel="{Binding Bewegung}"/>
-                        <customControls:SkillGroupView Grid.Row="0" Grid.Column="2"
-                                               OpenSkillCommand="{Binding OpenSkillDetailCommand}"
-                                               OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
-                                               SkillGroupViewModel="{Binding Wissenschaft}"/>
-
+                        <customControls:SkillGroupView Grid.Row="0" Grid.Column="0"
+                                                       OpenSkillCommand="{Binding OpenSkillDetailCommand}"
+                                                       OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
+                                                       SkillGroupViewModel="{Binding Bewegung}"/>
                         <customControls:SkillGroupView Grid.Row="1" Grid.Column="0" 
-                                               OpenSkillCommand="{Binding OpenSkillDetailCommand}"
-                                               OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
-                                               SkillGroupViewModel="{Binding Heimlichkeit}"/>
-                        <customControls:SkillGroupView Grid.Row="1" Grid.Column="1" 
-                                               OpenSkillCommand="{Binding OpenSkillDetailCommand}"
-                                               OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
-                                               SkillGroupViewModel="{Binding Nahkampf}"/>
-                        <customControls:SkillGroupView Grid.Row="1" Grid.Column="2" 
-                                               OpenSkillCommand="{Binding OpenSkillDetailCommand}"
-                                               OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
-                                               SkillGroupViewModel="{Binding Soziales}"/>
-
+                                                       OpenSkillCommand="{Binding OpenSkillDetailCommand}"
+                                                       OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
+                                                       SkillGroupViewModel="{Binding Heimlichkeit}"/>
                         <customControls:SkillGroupView Grid.Row="2" Grid.Column="0" 
-                                               OpenSkillCommand="{Binding OpenSkillDetailCommand}"
-                                               OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
-                                               SkillGroupViewModel="{Binding Webkunst}"/>
-                        <customControls:SkillGroupView Grid.Row="2" Grid.Column="1" 
-                                               OpenSkillCommand="{Binding OpenSkillDetailCommand}"
-                                               OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
-                                               SkillGroupViewModel="{Binding Fernkampf}"/>
+                                                       OpenSkillCommand="{Binding OpenSkillDetailCommand}"
+                                                       OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
+                                                       SkillGroupViewModel="{Binding Webkunst}"/>
+
                         <customControls:SkillGroupView Grid.Row="0" Grid.Column="1"
-                                               OpenSkillCommand="{Binding OpenSkillDetailCommand}"
-                                               OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
-                                               SkillGroupViewModel="{Binding Handwerk}"/>
+                                                       OpenSkillCommand="{Binding OpenSkillDetailCommand}"
+                                                       OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
+                                                       SkillGroupViewModel="{Binding Handwerk}"/>
+                        <customControls:SkillGroupView Grid.Row="1" Grid.Column="1"  
+                                                       OpenSkillCommand="{Binding OpenSkillDetailCommand}"
+                                                       OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
+                                                       SkillGroupViewModel="{Binding Nahkampf}"/>
+                        <customControls:SkillGroupView Grid.Row="2" Grid.Column="1" 
+                                                       OpenSkillCommand="{Binding OpenSkillDetailCommand}"
+                                                       OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
+                                                       SkillGroupViewModel="{Binding Fernkampf}"/>
+
+                        <customControls:SkillGroupView Grid.Row="0" Grid.Column="2"
+                                                       OpenSkillCommand="{Binding OpenSkillDetailCommand}"
+                                                       OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
+                                                       SkillGroupViewModel="{Binding Wissenschaft}"/>
+                        <customControls:SkillGroupView Grid.Row="1" Grid.Column="2" 
+                                                       OpenSkillCommand="{Binding OpenSkillDetailCommand}"
+                                                       OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
+                                                       SkillGroupViewModel="{Binding Soziales}"/>
                     </Grid>
                 </StackLayout>
             </ScrollView>
