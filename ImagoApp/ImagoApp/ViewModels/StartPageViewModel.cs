@@ -30,7 +30,6 @@ namespace ImagoApp.ViewModels
         private readonly IWikiDataService _wikiDataService;
         private readonly IRuleService _ruleService;
         private readonly ICharacterCreationService _characterCreationService;
-        private readonly IWikiService _wikiService;
         private readonly string _appdataFolder;
         private readonly IFileService _fileService;
         private readonly string _logFileName = "wiki_parse.log";
@@ -51,11 +50,10 @@ namespace ImagoApp.ViewModels
             IWikiDataService wikiDataService,
             IRuleService ruleService,
             ICharacterCreationService characterCreationService,
-            IWikiService wikiService,
             string appdataFolder, IFileService fileService)
         {
             VersionTracking.Track();
-            Version = VersionTracking.CurrentVersion;
+            Version = new Version(VersionTracking.CurrentVersion).ToString(3);
             DatabaseInfoViewModel = new DatabaseInfoViewModel();
             Characters = new ObservableCollection<CharacterModel>();
 
@@ -65,7 +63,6 @@ namespace ImagoApp.ViewModels
             _wikiDataService = wikiDataService;
             _ruleService = ruleService;
             _characterCreationService = characterCreationService;
-            _wikiService = wikiService;
             _appdataFolder = appdataFolder;
             _fileService = fileService;
 
@@ -73,6 +70,30 @@ namespace ImagoApp.ViewModels
             {
                 RefreshData(false);
                 CheckWikiData();
+
+                if(VersionTracking.IsFirstLaunchForCurrentBuild || VersionTracking.IsFirstLaunchForCurrentVersion)
+                    AlertNewVersion();
+            });
+        }
+
+        private void AlertNewVersion()
+        {
+            UserDialogs.Instance.Confirm(new ConfirmConfig
+            {
+                Message = "Die neue Version wurde erfolgreich Heruntergeladen und installiert",
+                Title = $"Neue Version {Version}",
+                CancelText = "OK",
+                OkText = "Changelog öffnen",
+                OnAction = result =>
+                {
+                    if (result)
+                    {
+                        Device.BeginInvokeOnMainThread(() =>
+                        {
+                            OpenChangeLogCommand?.Execute(null);
+                        });
+                    }
+                }
             });
         }
 
@@ -81,7 +102,7 @@ namespace ImagoApp.ViewModels
         {
             try
             {
-                Launcher.OpenAsync(WikiConstants.RoadmapUrl);
+                Launcher.OpenAsync(WikiConstants.ImportantNotesUrl);
             }
             catch (Exception exception)
             {
@@ -94,7 +115,7 @@ namespace ImagoApp.ViewModels
         {
             try
             {
-                Launcher.OpenAsync(WikiConstants.ImportantNotesUrl);
+                Launcher.OpenAsync(WikiConstants.RoadmapUrl);
             }
             catch (Exception exception)
             {
