@@ -81,6 +81,19 @@ namespace ImagoApp.ViewModels
         {
             try
             {
+                Launcher.OpenAsync(WikiConstants.RoadmapUrl);
+            }
+            catch (Exception exception)
+            {
+                App.ErrorManager.TrackException(exception);
+            }
+        }));
+
+        private ICommand _openRoadmapCommand;
+        public ICommand OpenRoadmapCommand => _openRoadmapCommand ?? (_openRoadmapCommand = new Command(() =>
+        {
+            try
+            {
                 Launcher.OpenAsync(WikiConstants.ImportantNotesUrl);
             }
             catch (Exception exception)

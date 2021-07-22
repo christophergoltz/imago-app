@@ -1,6 +1,9 @@
 Die Roadmap kann [hier](https://github.com/christophergoltz/imago-app/blob/develop/ROADMAP.md) gefunden werden
 
 # Version 0.1.2 - [tba]
+## Hinzugefügt
+- Auf der Startseite wurde ein direkter Link zur Roadmap hinzugefügt
+
 ##Verbessert
 - Die App wird nun im Vollbildschirm gestartet (Bei älteren Windows 10 Versionen kann es sein, dass das nicht sofort beim ersten Start funktioniert)
 

@@ -23,17 +23,29 @@
 
             <!-- app info -->
             <Frame Grid.Column="0" Grid.Row="0" Margin="10">
-                <StackLayout Padding="5,0,0,20">
-                    <Label Text="ImagoApp" Margin="10" FontSize="34"></Label>
-                    <StackLayout Orientation="Horizontal">
-                        <Label Margin="20,0,0,0" FontSize="22" Text="Version:"></Label>
-                        <Label FontSize="22" Text="{Binding Version}"></Label>
-                        <Button Text="Changelog ↗" Command="{Binding OpenChangeLogCommand}"></Button>
+                <Grid Padding="5,0,0,20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Row="0" Grid.Column="0" Text="ImagoApp" Margin="10" FontSize="34"></Label>
+
+                    <StackLayout Grid.Row="1" Orientation="Horizontal" VerticalOptions="FillAndExpand" >
+                        <Label VerticalOptions="Center" Margin="20,0,0,0" FontSize="22" Text="Version:"></Label>
+                        <Label VerticalOptions="Center" FontSize="22" Text="{Binding Version}"></Label>
+                        <Label VerticalOptions="Center" HorizontalOptions="EndAndExpand" Margin="20,5"  FontSize="22"  Text="Regel-Version: 7 (Zeta)"></Label>
                     </StackLayout>
-                    <StackLayout Orientation="Horizontal">
-                        <Label  Margin="20,0,0,0"  FontSize="22"  Text="Regel-Version: 7 (Zeta)"></Label>
+
+                    <StackLayout Orientation="Horizontal" Grid.Row="2" Margin="20,0,0,0">
+                        <Button FontSize="20"  VerticalOptions="Center"  Margin="10,5" Text="Changelog ↗" Command="{Binding OpenChangeLogCommand}"></Button>
+                        <Button FontSize="20"  VerticalOptions="Center"  Margin="10,5" Text="Roadmap ↗" Command="{Binding OpenRoadmapCommand}"></Button>
+                        <Button VerticalOptions="Center"  HorizontalOptions="EndAndExpand" Margin="20,10" Text="Wichtige Benutzungshinweise &#8599;" FontSize="20" 
+                                Padding="7,3" Background="limegreen" 
+                                Command="{Binding OpenImportantNotesCommand}"/>
                     </StackLayout>
-                </StackLayout>
+                </Grid>
             </Frame>
 
             <!-- wiki database -->
@@ -94,9 +106,6 @@
                         <Label Grid.Column="3" Margin="25,0"  HorizontalOptions="EndAndExpand" Text="{Binding DatabaseInfoViewModel.CharacterDatabaseInfo.Length, Converter={StaticResource FileInfoLenghtToSmartFileSizeConverter}}" FontSize="24"></Label>
                         <Label Grid.Column="4" HorizontalOptions="EndAndExpand" Text="{Binding DatabaseInfoViewModel.CharacterDatabaseInfo.LastWriteTime, StringFormat='{0:dd.MM.yyyy HH:mm}'}" FontSize="24"></Label>
                     </Grid>
-                    <Button HorizontalOptions="Start" Margin="20,10" Text="Wichtige Benutzungshinweise &#8599;" FontSize="20" 
-                            Padding="7,3" Background="limegreen" 
-                            Command="{Binding OpenImportantNotesCommand}"/>
                     <Frame BackgroundColor="{StaticResource AntiUmbra3}" BorderColor="Transparent">
                         <Label FontSize="18" Margin="20"
                                TextColor="{StaticResource RotesUmbra}" FontAttributes="Bold"
