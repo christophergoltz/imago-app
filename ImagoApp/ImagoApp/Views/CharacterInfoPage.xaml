@@ -53,7 +53,7 @@
                         <ColumnDefinition Width="100" />
                     </Grid.ColumnDefinitions>
                     <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding AttributeModel.Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
-                    <Label BackgroundColor="{StaticResource GruenesUmbra1}" Padding="5,2" TextColor="White" FontSize="18" Grid.Column="1" VerticalOptions="Center" Text="{Binding AttributeModel.ExperienceBySkillGroup}"/>
+                    <Label Padding="5,2" FontSize="18" Grid.Column="1" VerticalOptions="Center" Text="{Binding AttributeModel.ExperienceBySkillGroup}"/>
                     <Entry TextColor="White" BackgroundColor="{StaticResource GruenesUmbra1}" FontSize="18" Grid.Column="2" Keyboard="Numeric" VerticalOptions="Center" Text="{Binding TotalExperienceValue}"/>
                     <Entry FontSize="18" Grid.Column="3" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="{StaticResource GruenesUmbra1}" 
                            Text="{Binding NaturalValue}"/>

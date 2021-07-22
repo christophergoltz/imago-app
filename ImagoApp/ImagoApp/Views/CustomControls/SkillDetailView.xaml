@@ -133,12 +133,11 @@
         </ResourceDictionary>
     </ContentView.Resources>
 
-    <Grid BackgroundColor="White">
+    <Grid BackgroundColor="White" RowSpacing="0" ColumnSpacing="0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="1"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="500"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -146,53 +145,51 @@
         </Grid.RowDefinitions>
 
         <!-- header -->
-        <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Padding="15" Margin="0,0,0,-6" Style="{StaticResource EvenGradiantStyle}">
+        <Grid Grid.Column="0" Grid.Row="0" Padding="15" Style="{StaticResource EvenGradiantStyle}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="35*"/>
-                <ColumnDefinition Width="15*"/>
-                <ColumnDefinition Width="30*"/>
-                <ColumnDefinition Width="15*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="1"/>
             </Grid.RowDefinitions>
 
-            <StackLayout VerticalOptions="Center"  Grid.Column="0" Grid.Row="0" Orientation="Horizontal">
-                <Label Text="{Binding SkillDetailViewModel.SkillModel.Type, Converter={StaticResource EnumToDisplayTextConverter}}"
-                            Margin="5,5,0,0" FontAttributes="Bold" FontSize="28"/>
+            <Label Text="{Binding SkillDetailViewModel.SkillModel.Type, Converter={StaticResource EnumToDisplayTextConverter}}"
+                   Margin="5,5,0,0" FontAttributes="Bold" FontSize="28" Grid.Column="0" Grid.Row="0"/>
+
+            <StackLayout  Margin="15,0,0,0" Grid.Column="0" Grid.Row="1" VerticalOptions="Center"   Orientation="Horizontal">
+                <Label VerticalOptions="Center" FontSize="20">
+                    <Label.Text>
+                        <MultiBinding StringFormat="{}({0})">
+                            <Binding Path="SkillDetailViewModel.SourceFormula"/>
+                        </MultiBinding>
+                    </Label.Text>
+                </Label>
                 <Button Margin="20,8,0,0" VerticalOptions="Center" Text="Wiki &#8599;" FontSize="20" 
                             Padding="7,3" Background="limegreen" 
                             Command="{Binding SkillDetailViewModel.OpenWikiCommand}"/>
             </StackLayout>
 
-            <Label VerticalOptions="Center" Margin="15,0,0,0" Grid.Column="0" Grid.Row="1" FontSize="20">
-                <Label.Text>
-                    <MultiBinding StringFormat="{}({0})">
-                        <Binding Path="SkillDetailViewModel.SourceFormula"/>
-                    </MultiBinding>
-                </Label.Text>
-            </Label>
-
-            <StackLayout Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
+            <StackLayout Margin="25,5" Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
                 <Label FontSize="20" VerticalOptions="Center"  Text="GW: " FontAttributes="Bold"/>
                 <Label FontSize="20" VerticalOptions="Center"  Text="{Binding SkillDetailViewModel.SkillModel.BaseValue}"/>
             </StackLayout>
 
-            <StackLayout Grid.Column="2" Grid.Row="0" Orientation="Horizontal">
+            <StackLayout  Margin="25,5"  Grid.Column="2" Grid.Row="0" Orientation="Horizontal">
                 <Label FontSize="20" VerticalOptions="Center" Text="Mod: " FontAttributes="Bold"/>
                 <Entry FontSize="18" VerticalOptions="Center" Keyboard="Numeric"
                        Text="{Binding SkillDetailViewModel.SelectedSkillModification, TargetNullValue=0, FallbackValue=0}"/>
             </StackLayout>
 
-            <StackLayout Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
+            <StackLayout Margin="25,5" Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
                 <Label FontSize="20"  VerticalOptions="Center" Text="SW: " FontAttributes="Bold"/>
                 <Label FontSize="20" VerticalOptions="Center"  Text="{Binding SkillDetailViewModel.SkillModel.IncreaseValue}"/>
             </StackLayout>
 
-            <StackLayout Grid.Column="2" Grid.Row="1" Orientation="Horizontal" VerticalOptions="Center">
+            <StackLayout Margin="25,5" Grid.Column="2" Grid.Row="1" Orientation="Horizontal" VerticalOptions="Center">
                 <Label FontSize="20"  VerticalOptions="Center"  Text="EP: " FontAttributes="Bold"></Label>
                 <Label FontSize="20"  VerticalOptions="Center" >
                     <Label.Text>
@@ -231,13 +228,12 @@
                 </Button>
             </StackLayout>
 
-            <StackLayout Grid.Column="3" Grid.RowSpan="2"  Grid.Row="0" Orientation="Horizontal">
+            <StackLayout Grid.Column="3" Margin="25,5" Grid.Row="1" Orientation="Horizontal">
                 <Label FontSize="28"  VerticalOptions="Center" Text="FW: " FontAttributes="Bold"/>
                 <Label FontSize="28" VerticalOptions="Center" Text="{Binding SkillDetailViewModel.SkillModel.FinalValue}"/>
             </StackLayout>
 
-
-            <Button Grid.Column="4" Grid.Row="0" Grid.RowSpan="3"  Text="X" Padding="0,-4,0,0" WidthRequest="35" 
+            <Button Grid.Column="3" Grid.Row="0"  Text="X" Padding="0,-4,0,0" WidthRequest="35" 
                         HeightRequest="35"  FontSize="22"  VerticalOptions="Start" HorizontalOptions="End" TextColor="Red" BackgroundColor="LightGray" 
                         Command="{Binding SkillDetailViewModel.CloseCommand}"/>
         </Grid>
@@ -245,10 +241,10 @@
         <WebView Grid.Row="1" Grid.Column="0" Navigating="WebView_OnNavigating"
                              Source="{Binding SkillDetailViewModel.QuickWikiView}"></WebView>
 
-        <BoxView Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Color="Black"/>
+        <BoxView Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" BackgroundColor="{StaticResource AntiUmbra}"></BoxView>
 
         <!-- probe -->
-        <Grid Grid.Column="3" Grid.Row="0" Grid.RowSpan="2" WidthRequest="500">
+        <Grid Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
@@ -267,7 +263,7 @@
                 </StackLayout>
             </Grid>
 
-            <!-- probe -->
+            <!-- talent and mastery list -->
             <ScrollView Grid.Row="0">
                 <StackLayout>
                     <Label TextColor="white" FontSize="14" FontAttributes="Bold" Text="Behinderung" 

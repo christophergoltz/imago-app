@@ -15,13 +15,13 @@ namespace ImagoApp.ViewModels
 {
     public class AppShellViewModel : BindableBase
     {
+        private readonly CharacterViewModel _characterViewModel;
         public readonly CharacterInfoPageViewModel CharacterInfoPageViewModel;
         private readonly SkillPageViewModel _skillPageViewModel;
         private readonly StatusPageViewModel _statusPageViewModel;
         private readonly InventoryViewModel _inventoryViewModel;
         private readonly WikiPageViewModel _wikiPageViewModel;
         public ICommand GoToMainMenuCommand { get; }
-        private bool _editMode;
         private List<FlyoutPageItem> _menuItems;
 
         public event EventHandler WikiPageOpenRequested;
@@ -62,12 +62,14 @@ namespace ImagoApp.ViewModels
             return newDetail;
         }
 
-        public AppShellViewModel(CharacterInfoPageViewModel characterInfoPageViewModel,
+        public AppShellViewModel(CharacterViewModel characterViewModel,
+            CharacterInfoPageViewModel characterInfoPageViewModel,
             SkillPageViewModel skillPageViewModel, 
             StatusPageViewModel statusPageViewModel,
             InventoryViewModel inventoryViewModel, 
             WikiPageViewModel wikiPageViewModel)
         {
+            _characterViewModel = characterViewModel;
             CharacterInfoPageViewModel = characterInfoPageViewModel;
             _skillPageViewModel = skillPageViewModel;
             _statusPageViewModel = statusPageViewModel;
@@ -138,12 +140,48 @@ namespace ImagoApp.ViewModels
 
         public bool EditMode
         {
-            get => _editMode;
+            get => _characterViewModel.EditMode;
             set
             {
-                SetProperty(ref _editMode, value);
-                App.CurrentCharacterViewModel.EditMode = value;
+                //check if value is not set by user
+                if (value && _characterViewModel.EditMode)
+                    return;
+
+                if (!value)
+                {
+                    //disable
+                    App.CurrentCharacterViewModel.EditMode = false;
+                    OnPropertyChanged(nameof(EditMode));
+                }
+                else
+                {
+                    //display warning
+                    Task.Run(async () =>
+                    {
+                        var result =
+                            await UserDialogs.Instance.ConfirmAsync(
+                                $"{Environment.NewLine}Soll der Bearbeitungs-Modus für den Charakter wirklich aktiviert werden?" +
+                                $"{Environment.NewLine}{Environment.NewLine}In diesem Modus kann ggf. durch entsprechende Veränderung des Charakters eine korrekte Berechnung der App nicht mehr gewährleistet werden",
+                                "Bearbeitungs-Modus für den Charakter aktvieren", "Ja", "Abbrechen");
+                        if (result)
+                        {
+                            //user confirmed
+                            App.CurrentCharacterViewModel.EditMode = true;
+                            OnPropertyChanged(nameof(EditMode));
+                        }
+                        else
+                        {
+                            //user cancelled
+                            OnPropertyChanged(nameof(EditMode));
+                        }
+                    });
+                }
             }
+        }
+
+        public void RaiseEditModeChanged()
+        {
+            OnPropertyChanged(nameof(EditMode));
         }
     }
 }

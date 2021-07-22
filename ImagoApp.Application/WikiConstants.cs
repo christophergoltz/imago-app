@@ -19,6 +19,7 @@ namespace ImagoApp.Application
         public const string AmmunitionUrl = "http://imago-rp.de/index.php/Munition";
 
         public const string ChangelogUrl = "https://github.com/christophergoltz/imago-app/blob/develop/CHANGELOG.md";
+        public const string RoadmapUrl = "https://github.com/christophergoltz/imago-app/blob/develop/ROADMAP.md";
         public const string ImportantNotesUrl = "https://github.com/christophergoltz/imago-app/wiki/Wichtige-Hinweise";
 
         public static readonly Dictionary<SkillGroupModelType, string> SkillGroupTypeLookUp = new Dictionary<SkillGroupModelType, string>()

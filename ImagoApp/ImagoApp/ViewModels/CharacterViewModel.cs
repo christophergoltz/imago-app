@@ -78,7 +78,9 @@ namespace ImagoApp.ViewModels
             .ToList();
 
         public List<DerivedAttributeModel> AdventureDerivedAttributes => DerivedAttributes
-            .Where(_ => _.Type == DerivedAttributeType.SprungreichweiteAbenteuer ||
+            .Where(_ => _.Type == DerivedAttributeType.SprungreichweiteKampf ||
+                        _.Type == DerivedAttributeType.SprunghoeheKampf ||
+                        _.Type == DerivedAttributeType.SprungreichweiteAbenteuer ||
                         _.Type == DerivedAttributeType.SprunghoeheAbenteuer ||
                         _.Type == DerivedAttributeType.SprungreichweiteGesamt ||
                         _.Type == DerivedAttributeType.SprunghoeheGesamt)

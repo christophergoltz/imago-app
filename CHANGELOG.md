@@ -1,5 +1,20 @@
 Die Roadmap kann [hier](https://github.com/christophergoltz/imago-app/blob/develop/ROADMAP.md) gefunden werden
 
+# Version 0.1.2 - [tba]
+## Hinzugefügt
+- Auf der Startseite wurde ein direkter Link zur Roadmap hinzugefügt
+- Die Sprungreichweite und Sprunghöhe für den Kampf wird nun im Inventar unterhalb der Behinderung angezeigt
+- Beim aktivieren des Charakterbearbeitungsmodus außerhalb der Charakterschaffung wird nun eine Warnung angezeigt
+- Durch das erste Starten einer neuen Version wird eine Hinweismeldung mit link zum Changelog angezeigt
+
+##Verbessert
+- Die App wird nun im Vollbildschirm gestartet (Bei älteren Windows 10 Versionen kann es sein, dass das nicht sofort beim ersten Start funktioniert)
+- Im Bearbeitungsmodus werden die EP aus Fertigkeitskategorien nicht mehr Grün hervorgehoben
+- Die Detailansicht einer Fertigkeit wurde angepasst, sodass auch lange Fertigkeiten wie "Körperbeherrschung" richtig dargestellt werden
+
+## Behoben
+- Die Navigation innerhalb der Fertigkeitsseite bei der Charaktererschaffung mit [Tab] wird nun in der richtigen Reihenfolge (Oben nach unten, links nach rechts) durchgeführt
+
 # Version 0.1.1 - 20.07.2021
 ## Hinzugefügt
 - Wiki
