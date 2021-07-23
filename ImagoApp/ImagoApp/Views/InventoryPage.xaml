@@ -38,14 +38,14 @@
                                 </Grid.RowDefinitions>
                                 <StackLayout Grid.Row="0" VerticalOptions="Center" Grid.Column="0" Orientation="Horizontal">
                                     <Label VerticalOptions="Center" Text="Gegenstand" FontAttributes="Bold"/>
-                                    <Button Text="+" Padding="0,-6,0,0" WidthRequest="30" HeightRequest="30"  FontSize="22"
+                                    <Button Text="+" Padding="0,-6,0,0" WidthRequest="30" HeightRequest="30"  FontSize="{DynamicResource FontSizeHeader}"
                                             VerticalOptions="Center" HorizontalOptions="End" TextColor="Green" BackgroundColor="LightGray" 
                                             Command="{Binding AddItemCommand, Source={RelativeSource AncestorType={x:Type viewModels:InventoryViewModel}}}"/>
 
-                                    <Button VerticalOptions="Center" Text="Alltagsgüter &#8599;" FontSize="20" 
+                                    <Button VerticalOptions="Center" Text="Alltagsgüter &#8599;" FontSize="{DynamicResource FontSizeBigContent}" 
                                             Padding="7,3" Background="limegreen" 
                                             Command="{Binding OpenDailyGoodsWikiCommand}"/>
-                                    <Button VerticalOptions="Center" Text="Munition &#8599;" FontSize="20" 
+                                    <Button VerticalOptions="Center" Text="Munition &#8599;" FontSize="{DynamicResource FontSizeBigContent}" 
                                             Padding="7,3" Background="limegreen" 
                                             Command="{Binding OpenAmmunitionCommand}"/>
                                 </StackLayout>
@@ -67,11 +67,11 @@
                                             <ColumnDefinition Width="50" />
                                             <ColumnDefinition Width="50" />
                                         </Grid.ColumnDefinitions>
-                                        <Entry FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding EquipableItemModel.Name}"/>
-                                        <Entry Keyboard="Numeric" FontSize="18" Grid.Column="1" VerticalOptions="Center" Text="{Binding LoadValue}"/>
+                                        <Entry FontSize="{DynamicResource FontSizeContent}" Grid.Column="0" VerticalOptions="Center" Text="{Binding EquipableItemModel.Name}"/>
+                                        <Entry Keyboard="Numeric" FontSize="{DynamicResource FontSizeContent}" Grid.Column="1" VerticalOptions="Center" Text="{Binding LoadValue}"/>
                                         <CheckBox Grid.Column="2" Margin="25,0,0,0" HorizontalOptions="Center" VerticalOptions="Center" IsChecked="{Binding Fight}"/>
                                         <CheckBox Grid.Column="3" Margin="25,0,0,0" HorizontalOptions="Center" VerticalOptions="Center" IsChecked="{Binding Adventure}"/>
-                                        <Button Grid.Column="4" Text="🗑" Padding="0,-4,0,0" WidthRequest="35" HeightRequest="35"  FontSize="22"  VerticalOptions="Start" 
+                                        <Button Grid.Column="4" Text="🗑" Padding="0,-4,0,0" WidthRequest="35" HeightRequest="35"  FontSize="{DynamicResource FontSizeHeader}"  VerticalOptions="Start" 
                                                 HorizontalOptions="End" TextColor="Red" BackgroundColor="LightGray" CommandParameter="{Binding .}"
                                                 Command="{Binding RemoveItemCommand, Source={RelativeSource AncestorType={x:Type viewModels:InventoryViewModel}}}"/>
                                     </Grid>
@@ -111,8 +111,8 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="100" />
                                         </Grid.ColumnDefinitions>
-                                        <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
-                                        <Label FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding FinalValue}"/>
+                                        <Label FontSize="{DynamicResource FontSizeContent}" Grid.Column="0" VerticalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
+                                        <Label FontSize="{DynamicResource FontSizeContent}" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding FinalValue}"/>
                                     </Grid>
                                 </ViewCell>
                             </DataTemplate>
@@ -152,9 +152,9 @@
                                             <ColumnDefinition Width="200" />
                                             <ColumnDefinition Width="100" />
                                         </Grid.ColumnDefinitions>
-                                        <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
-                                        <Label FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToFormulaConverter}}"/>
-                                        <Label FontSize="18" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding FinalValue}"/>
+                                        <Label FontSize="{DynamicResource FontSizeContent}" Grid.Column="0" VerticalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
+                                        <Label FontSize="{DynamicResource FontSizeContent}" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToFormulaConverter}}"/>
+                                        <Label FontSize="{DynamicResource FontSizeContent}" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding FinalValue}"/>
                                     </Grid>
                                 </ViewCell>
                             </DataTemplate>

@@ -7,7 +7,7 @@
     <ContentView.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="ListViewHeaderTemplate">
-                <Label HorizontalOptions="Center" FontSize="22" Margin="10" Text="{Binding .}"/>
+                <Label HorizontalOptions="Center" FontSize="{DynamicResource FontSizeHeader}" Margin="10" Text="{Binding .}"/>
                     <!-- use the object in Header as the binding source -->
             </DataTemplate>
             <DataTemplate x:Key="ListViewItemDoneTemplate" x:DataType="viewModels:OpenAttributeExperienceViewModel">
@@ -15,7 +15,7 @@
                 <Frame Margin="10" VerticalOptions="Center" >
                         <Grid BackgroundColor="Green">
                             <Label Text="{Binding SourceType, Converter={StaticResource EnumToDisplayTextConverter}}" 
-                                   FontSize="22" Margin="5"></Label>
+                                   FontSize="{DynamicResource FontSizeHeader}" Margin="5"></Label>
                     </Grid>
                     </Frame>
                 </ViewCell>
@@ -42,14 +42,14 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
-            <Label  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="7" FontSize="20" Margin="0,0,50,30" Text="Offene Erfahrungspunkt(e) auf Attribute verteilen:"/>
+            <Label  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="7" FontSize="{DynamicResource FontSizeBigContent}" Margin="0,0,50,30" Text="Offene Erfahrungspunkt(e) auf Attribute verteilen:"/>
 
             <StackLayout Orientation="Horizontal" Grid.Row="0" Grid.Column="6" HorizontalOptions="End">
-                <Button  Text="✓" Padding="0,-4,0,0" WidthRequest="35" HeightRequest="35"  FontSize="22"  VerticalOptions="Start" 
+                <Button  Text="✓" Padding="0,-4,0,0" WidthRequest="35" HeightRequest="35"  FontSize="{DynamicResource FontSizeHeader}"  VerticalOptions="Start" 
                         HorizontalOptions="End" TextColor="Green" BackgroundColor="LightGray"
                         Command="{Binding SaveCommand, Source={x:Reference AttributeExperienceDialogViewControl}}"/>
 
-                <Button Text="X" Padding="0,-4,0,0" WidthRequest="35" HeightRequest="35"  FontSize="22"  VerticalOptions="Start" 
+                <Button Text="X" Padding="0,-4,0,0" WidthRequest="35" HeightRequest="35"  FontSize="{DynamicResource FontSizeHeader}"  VerticalOptions="Start" 
                         HorizontalOptions="End" TextColor="Red" BackgroundColor="LightGray" 
                         Command="{Binding CloseCommand, Source={x:Reference AttributeExperienceDialogViewControl}}"/>
             </StackLayout>
@@ -66,7 +66,7 @@
                                     </Frame.GestureRecognizers>
                                     <Grid BackgroundColor="Red">
                                         <Label Text="{Binding SourceType, Converter={StaticResource EnumToDisplayTextConverter}}" 
-                                           FontSize="22" Margin="7,5"></Label>
+                                           FontSize="{DynamicResource FontSizeHeader}" Margin="7,5"></Label>
                                     </Grid>
                                 </Frame>
                             </DataTemplate>
