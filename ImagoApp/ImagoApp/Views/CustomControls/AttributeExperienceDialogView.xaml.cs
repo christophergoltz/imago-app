@@ -108,10 +108,7 @@ namespace ImagoApp.Views.CustomControls
 
         private void SetDropGestureRecognizerAllow(AttributeExperienceItem view, bool allowValue)
         {
-            Debug.WriteLine(view.GestureRecognizers.Count);
-
-            var rec = ((DropGestureRecognizer)view.GestureRecognizers.First(_ =>
-                _.GetType() == typeof(DropGestureRecognizer)));
+            var rec = (DropGestureRecognizer)view.GestureRecognizers.First(_ => _.GetType() == typeof(DropGestureRecognizer));
             rec.AllowDrop = allowValue;
 
             if (allowValue)
