@@ -148,34 +148,39 @@
                 <!-- attributes -->
                 <Frame Grid.Column="1" Grid.Row="0">
                     <Grid Style="{StaticResource SingleGradiantStyle}">
-                        <StackLayout >
-                            <StackLayout Orientation="Horizontal" Padding="10,5"
-                                         BackgroundColor="{StaticResource GruenesUmbra1}" IsVisible="{Binding CharacterViewModel.EditMode}">
-                                <Label FontSize="{DynamicResource FontSizeSmallCaption}" VerticalOptions="Center" FontAttributes="Bold" Text="Attribute" ></Label>
+                        <StackLayout>
+                            <!-- creation header -->
+                            <StackLayout IsVisible="{Binding CharacterViewModel.EditMode}">
+                                <StackLayout Orientation="Horizontal" Padding="10,3"
+                                             BackgroundColor="{StaticResource GruenesUmbra1}">
+                                    <Label FontSize="{DynamicResource FontSizeSmallCaption}" VerticalOptions="Center" FontAttributes="Bold" Text="Attribute" ></Label>
 
-                                <Label FontSize="{DynamicResource FontSizeHeader}" Margin="50,0,0,0" VerticalOptions="Center" Text="Erfahrungspunkte" ></Label>
-                                <Entry FontSize="{DynamicResource FontSizeHeader}" VerticalOptions="Center" Keyboard="Numeric" WidthRequest="100"
+                                    <Label FontSize="{DynamicResource FontSizeHeader}" Margin="50,0,0,0" VerticalOptions="Center" Text="Erfahrungspunkte" ></Label>
+                                    <Entry FontSize="{DynamicResource FontSizeHeader}" VerticalOptions="Center" Keyboard="Numeric" WidthRequest="100"
                            Text="{Binding TotalAttributeExperience}"></Entry>
-                                <Label FontSize="{DynamicResource FontSizeHeader}" VerticalOptions="Center" Margin="50,0,0,0" Text="Bilanz"></Label>
-                                <Label FontSize="{DynamicResource FontSizeHeader}" VerticalOptions="Center" FontAttributes="Bold"
+                                    <Label FontSize="{DynamicResource FontSizeHeader}" VerticalOptions="Center" Margin="50,0,0,0" Text="Bilanz"></Label>
+                                    <Label FontSize="{DynamicResource FontSizeHeader}" VerticalOptions="Center" FontAttributes="Bold"
                            Text="{Binding AttributeExperienceBalance}">
-                                    <Label.Style>
-                                        <Style TargetType="Label">
-                                            <Style.Triggers>
-                                                <DataTrigger TargetType="Label" 
+                                        <Label.Style>
+                                            <Style TargetType="Label">
+                                                <Style.Triggers>
+                                                    <DataTrigger TargetType="Label" 
                                                  Binding="{Binding AttributeExperienceBalance, Converter={StaticResource PositiveIntegerToBoolConverter}}"
                                                  Value="True">
-                                                    <Setter Property="TextColor" Value="{StaticResource GruenesUmbra2}"></Setter>
-                                                </DataTrigger>
-                                                <DataTrigger TargetType="Label" 
+                                                        <Setter Property="TextColor" Value="{StaticResource GruenesUmbra2}"></Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Label" 
                                                  Binding="{Binding AttributeExperienceBalance, Converter={StaticResource PositiveIntegerToBoolConverter}}"
                                                  Value="False">
-                                                    <Setter Property="TextColor" Value="Crimson"></Setter>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Label.Style>
-                                </Label>
+                                                        <Setter Property="TextColor" Value="Crimson"></Setter>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Label.Style>
+                                    </Label>
+                                </StackLayout>
+
+                                <customControls:AttributeExperienceTable Margin="0,-5,0,0" Padding="0,5"></customControls:AttributeExperienceTable>
                             </StackLayout>
 
                             <Grid Margin="10,5,10,0">

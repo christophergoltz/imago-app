@@ -1,4 +1,7 @@
-Die Roadmap kann [hier](https://github.com/christophergoltz/imago-app/blob/develop/ROADMAP.md) gefunden werden
+## [Roadmap](https://github.com/christophergoltz/imago-app/blob/develop/ROADMAP.md)
+## [Bekannte Fehler](https://github.com/christophergoltz/imago-app/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
+
+<br/>
 
 # Version 0.1.2 - [tba]
 ## Hinzugefügt
@@ -13,9 +16,13 @@ Die Roadmap kann [hier](https://github.com/christophergoltz/imago-app/blob/devel
 - Die App wird nun im Vollbildschirm gestartet (Bei älteren Windows 10 Versionen kann es sein, dass das nicht sofort beim ersten Start funktioniert)
 - Im Bearbeitungsmodus werden die EP aus Fertigkeitskategorien nicht mehr Grün hervorgehoben
 - Die Detailansicht einer Fertigkeit wurde angepasst, sodass auch lange Fertigkeiten wie "Körperbeherrschung" richtig dargestellt werden
+- Die Ansicht innerhalb der Fertigkeitensseite wurde angepasst
 
 ## Behoben
 - Die Navigation innerhalb der Fertigkeitsseite bei der Charaktererschaffung mit [Tab] wird nun in der richtigen Reihenfolge (Oben nach unten, links nach rechts) durchgeführt
+
+## Entfernt
+- Das Imago-Logo wurde aus dem Charakterbogen entfernt
 
 # Version 0.1.1 - 20.07.2021
 ## Hinzugefügt

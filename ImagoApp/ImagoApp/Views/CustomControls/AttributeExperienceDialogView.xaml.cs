@@ -153,7 +153,6 @@ namespace ImagoApp.Views.CustomControls
 
         private void DragGestureRecognizer_OnDropCompleted(object sender, DropCompletedEventArgs e)
         {
-            return;
             //drop has been cancelled
             ResetDropHighlight();
         }
