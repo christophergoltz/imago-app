@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Acr.UserDialogs;
 using ImagoApp.Application;
+using ImagoApp.Application.Constants;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Services;
 using ImagoApp.Converter;
@@ -25,7 +26,6 @@ namespace ImagoApp.ViewModels
         private readonly CharacterViewModel _characterViewModel;
         private readonly IWikiService _wikiService;
         private readonly IWikiDataService _wikiDataService;
-        private readonly IRuleService _ruleService;
 
         public event EventHandler CloseRequested;
         public SkillModel SkillModel { get; }
@@ -152,13 +152,12 @@ namespace ImagoApp.ViewModels
         }
 
         public SkillDetailViewModel(SkillModel skillModel, SkillGroupModel parent, CharacterViewModel characterViewModel,
-            IWikiService wikiService, IWikiDataService wikiDataService, IRuleService ruleService)
+            IWikiService wikiService, IWikiDataService wikiDataService)
         {
             _parent = parent;
             _characterViewModel = characterViewModel;
             _wikiService = wikiService;
             _wikiDataService = wikiDataService;
-            _ruleService = ruleService;
             SkillModel = skillModel;
 
             SourceFormula = _converter.Convert(parent.Type, null, null, CultureInfo.InvariantCulture).ToString();
@@ -296,7 +295,7 @@ namespace ImagoApp.ViewModels
 
             //handicap
             var handicaps = new List<HandicapListViewItemViewModel>();
-            if (_ruleService.GetSkillGroupSources(_parent.Type).Contains(AttributeType.Geschicklichkeit))
+            if (RuleConstants.GetSkillGroupSources(_parent.Type).Contains(AttributeType.Geschicklichkeit))
             {
                 //only add handicap for attributessource with Geschicklichkeit
                 foreach (var tuple in HandicapDefinition)

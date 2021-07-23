@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Acr.UserDialogs;
 using ImagoApp.Application;
+using ImagoApp.Application.Constants;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Services;
 using ImagoApp.Shared.Enums;
@@ -15,7 +16,6 @@ namespace ImagoApp.ViewModels
     public class CharacterViewModel : BindableBase
     {
         public CharacterModel CharacterModel { get; }
-        private readonly IRuleService _ruleService;
         private bool _editMode;
 
         public bool EditMode
@@ -24,10 +24,17 @@ namespace ImagoApp.ViewModels
             set => SetProperty(ref _editMode, value);
         }
 
-        public CharacterViewModel(CharacterModel characterModel, IRuleService ruleService)
+        public AttributeModel CharismaAttribute => CharacterModel.Attributes.First(model => model.Type == AttributeType.Charisma);
+        public AttributeModel GeschicklichkeitAttribute => CharacterModel.Attributes.First(model => model.Type == AttributeType.Geschicklichkeit);
+        public AttributeModel IntelligenzAttribute => CharacterModel.Attributes.First(model => model.Type == AttributeType.Intelligenz);
+        public AttributeModel KonstitutionAttribute => CharacterModel.Attributes.First(model => model.Type == AttributeType.Konstitution);
+        public AttributeModel StaerkeAttribute => CharacterModel.Attributes.First(model => model.Type == AttributeType.Staerke);
+        public AttributeModel WahrnehmungAttribute => CharacterModel.Attributes.First(model => model.Type == AttributeType.Wahrnehmung);
+        public AttributeModel WillenskraftAttribute => CharacterModel.Attributes.First(model => model.Type == AttributeType.Willenskraft);
+        
+        public CharacterViewModel(CharacterModel characterModel)
         {
             CharacterModel = characterModel;
-            _ruleService = ruleService;
 
             //todo move to character service
             var derivedAttributeTypes = new List<DerivedAttributeType>()
@@ -59,16 +66,6 @@ namespace ImagoApp.ViewModels
 
         public List<SpecialAttributeModel> SpecialAttributes { get; set; }
         public List<DerivedAttributeModel> DerivedAttributes { get; set; }
-
-        public List<DerivedAttributeModel> CreationDerivedAttributes => DerivedAttributes
-            .Where(_ => _.Type == DerivedAttributeType.Egoregenration ||
-                        _.Type == DerivedAttributeType.Schadensmod ||
-                        _.Type == DerivedAttributeType.Traglast ||
-                        _.Type == DerivedAttributeType.TaktischeBewegung ||
-                        _.Type == DerivedAttributeType.Sprintreichweite ||
-                        _.Type == DerivedAttributeType.SprungreichweiteGesamt ||
-                        _.Type == DerivedAttributeType.SprunghoeheGesamt)
-            .ToList();
 
         public List<DerivedAttributeModel> FightDerivedAttributes => DerivedAttributes
             .Where(_ => _.Type == DerivedAttributeType.SprungreichweiteKampf ||
@@ -256,14 +253,14 @@ namespace ImagoApp.ViewModels
         public void UpdateNewFinalValueOfAttribute(AttributeModel changedAttributeModel)
         {
             //updating all dependent skillgroups
-            var affectedSkillGroupTypes = _ruleService.GetSkillGroupsByAttribute(changedAttributeModel.Type);
+            var affectedSkillGroupTypes = RuleConstants.GetSkillGroupsByAttribute(changedAttributeModel.Type);
             var skillGroups = CharacterModel.SkillGroups
                 .Where(model => affectedSkillGroupTypes
                     .Contains(model.Type));
 
             foreach (var affectedSkillGroup in skillGroups)
             {
-                var attributeTypesForCalculation = _ruleService.GetSkillGroupSources(affectedSkillGroup.Type);
+                var attributeTypesForCalculation = RuleConstants.GetSkillGroupSources(affectedSkillGroup.Type);
 
                 double tmp = 0;
                 foreach (var attributeType in attributeTypesForCalculation)

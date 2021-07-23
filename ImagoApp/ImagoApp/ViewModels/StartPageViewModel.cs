@@ -29,7 +29,6 @@ namespace ImagoApp.ViewModels
         private readonly ICharacterService _characterService;
         private readonly IWikiParseService _wikiParseService;
         private readonly IWikiDataService _wikiDataService;
-        private readonly IRuleService _ruleService;
         private readonly ICharacterCreationService _characterCreationService;
         private readonly string _appdataFolder;
         private readonly IFileService _fileService;
@@ -49,7 +48,6 @@ namespace ImagoApp.ViewModels
             ICharacterService characterService,
             IWikiParseService wikiParseService,
             IWikiDataService wikiDataService,
-            IRuleService ruleService,
             ICharacterCreationService characterCreationService,
             string appdataFolder, IFileService fileService)
         {
@@ -62,7 +60,6 @@ namespace ImagoApp.ViewModels
             _characterService = characterService;
             _wikiParseService = wikiParseService;
             _wikiDataService = wikiDataService;
-            _ruleService = ruleService;
             _characterCreationService = characterCreationService;
             _appdataFolder = appdataFolder;
             _fileService = fileService;
@@ -305,7 +302,7 @@ namespace ImagoApp.ViewModels
         
         public async Task OpenCharacter(CharacterModel characterModel, bool editMode)
         {
-            var characterViewModel = new CharacterViewModel(characterModel, _ruleService)
+            var characterViewModel = new CharacterViewModel(characterModel)
             {
                 EditMode = editMode
             };
@@ -315,9 +312,9 @@ namespace ImagoApp.ViewModels
             try
             {
                 //create all required dependencies
-                var characterInfoPageViewModel = new CharacterInfoPageViewModel(characterViewModel, _serviceLocator.RuleService());
+                var characterInfoPageViewModel = new CharacterInfoPageViewModel(characterViewModel);
                 var wikiPageViewModel = new WikiPageViewModel(characterViewModel);
-                var skillPageViewModel = new SkillPageViewModel(characterViewModel, _serviceLocator.WikiService(), _serviceLocator.WikiDataService(), _serviceLocator.RuleService());
+                var skillPageViewModel = new SkillPageViewModel(characterViewModel, _serviceLocator.WikiService(), _serviceLocator.WikiDataService());
                 var statusPageViewModel = new StatusPageViewModel(characterViewModel, _serviceLocator.WikiDataService());
                 var inventoryViewModel = new InventoryViewModel(characterViewModel);
                 var appShellViewModel = new AppShellViewModel(characterViewModel, characterInfoPageViewModel, skillPageViewModel,

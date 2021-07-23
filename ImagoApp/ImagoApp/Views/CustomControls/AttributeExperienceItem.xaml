@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application"
+             x:Class="ImagoApp.Views.CustomControls.AttributeExperienceItem" 
+             x:DataType="models:AttributeModel"
+             x:Name="AttributeExperienceItemControl">
+    <ContentView.Content>
+        <Frame>
+            <StackLayout>
+                <Label Margin="10" 
+                       Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}" 
+                       FontSize="{DynamicResource FontSizeTitle}" VerticalOptions="Center" 
+                       HorizontalOptions="Center" FontAttributes="Bold"></Label>
+
+                <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center" >
+                    <Label  FontSize="{DynamicResource FontSizeContent}"  Text="SW: "></Label>
+                    <Label  FontSize="{DynamicResource FontSizeContent}"  Text="{Binding IncreaseValue}"></Label>
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,0,0,20">
+                    <Label  FontSize="{DynamicResource FontSizeContent}"  Text="EP: "></Label>
+                    <Label  FontSize="{DynamicResource FontSizeContent}"  Text="{Binding ExperienceValue}"></Label>
+                    <Label  FontSize="{DynamicResource FontSizeContent}"  Text="/"></Label>
+                    <Label  FontSize="{DynamicResource FontSizeContent}"  Text="{Binding ExperienceForNextIncreasedRequired}"></Label>
+                </StackLayout>
+            </StackLayout>
+        </Frame>
+    </ContentView.Content>
+</ContentView>

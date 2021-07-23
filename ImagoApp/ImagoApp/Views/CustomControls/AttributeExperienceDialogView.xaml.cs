@@ -1,8 +1,12 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
+using ImagoApp.Application.Constants;
+using ImagoApp.Application.Models;
 using ImagoApp.Shared.Enums;
+using ImagoApp.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -14,17 +18,18 @@ namespace ImagoApp.Views.CustomControls
         public AttributeExperienceDialogView()
         {
             InitializeComponent();
+            ResetDropHighlight();
         }
 
-        public static readonly BindableProperty AttributeExperienceDialogViewModelProperty = BindableProperty.Create(
-            "AttributeExperienceDialogViewModel", // the name of the bindable property
-            typeof(ViewModels.AttributeExperienceDialogViewModel), // the bindable property type
+        public static readonly BindableProperty CharacterViewModelProperty = BindableProperty.Create(
+            "CharacterViewModel", // the name of the bindable property
+            typeof(CharacterViewModel), // the bindable property type
             typeof(AttributeExperienceDialogView));
 
-        public ViewModels.AttributeExperienceDialogViewModel AttributeExperienceDialogViewModel
+        public CharacterViewModel CharacterViewModel
         {
-            get => (ViewModels.AttributeExperienceDialogViewModel) GetValue(AttributeExperienceDialogViewModelProperty);
-            set => SetValue(AttributeExperienceDialogViewModelProperty, value);
+            get => (CharacterViewModel) GetValue(CharacterViewModelProperty);
+            set => SetValue(CharacterViewModelProperty, value);
         }
 
         public static readonly BindableProperty CloseCommandProperty = BindableProperty.Create(
@@ -35,68 +40,54 @@ namespace ImagoApp.Views.CustomControls
 
         public ICommand CloseCommand
         {
-            get { return (ICommand)GetValue(CloseCommandProperty); }
+            get { return (ICommand) GetValue(CloseCommandProperty); }
             set { SetValue(CloseCommandProperty, value); }
         }
 
-        public static readonly BindableProperty SaveCommandProperty = BindableProperty.Create(
-            "SaveCommand",
-            typeof(ICommand),
-            typeof(AttributeExperienceDialogView),
-            null);
 
-        public ICommand SaveCommand
+        private List<AttributeModel> GetDropTargets(SkillGroupModelType source)
         {
-            get { return (ICommand)GetValue(SaveCommandProperty); }
-            set { SetValue(SaveCommandProperty, value); }
-        }
+            var affectedAttributeTypes = RuleConstants.GetSkillGroupSources(source).Distinct().ToList();
+            var affectedAttributes = CharacterViewModel.CharacterModel.Attributes
+                .Where(attribute => affectedAttributeTypes.Contains(attribute.Type))
+                .ToList();
 
+            return affectedAttributes;
+        }
 
         private void OnDragStarting(object sender, DragStartingEventArgs e)
         {
             if (sender is Element element)
             {
-                if (element.BindingContext is ViewModels.OpenAttributeExperienceViewModel viewModel)
+                if (element.BindingContext is SkillGroupModelType skillGroupModelType)
                 {
-                    ResetDropHighlight(true);
+                    ResetDropHighlight();
+                    e.Data.Properties.Add(nameof(SkillGroupModelType), skillGroupModelType);
 
-                    e.Data.Properties.Add(nameof(ViewModels.OpenAttributeExperienceViewModel), viewModel);
-                    
-                    var greenColor = (Color)Xamarin.Forms.Application.Current.Resources["HellGruenesUmbra2"];
-
-                    foreach (var attribute in viewModel.PossibleTargets)
+                    foreach (var attribute in GetDropTargets(skillGroupModelType))
                     {
                         switch (attribute.Type)
                         {
-                            case AttributeType.Unknown:
-                                break;
                             case AttributeType.Staerke:
-                                Staerke.BackgroundColor = greenColor;
-                                ((DropGestureRecognizer)Staerke.GestureRecognizers.First(_ => _.GetType() == typeof(DropGestureRecognizer))).AllowDrop = true;
+                                SetDropGestureRecognizerAllow(Staerke, true);
                                 break;
                             case AttributeType.Geschicklichkeit:
-                                Geschicklichkeit.BackgroundColor = greenColor;
-                                ((DropGestureRecognizer)Geschicklichkeit.GestureRecognizers.First(_ => _.GetType() == typeof(DropGestureRecognizer))).AllowDrop = true;
+                                SetDropGestureRecognizerAllow(Geschicklichkeit, true);
                                 break;
                             case AttributeType.Konstitution:
-                                Konstitution.BackgroundColor = greenColor;
-                                ((DropGestureRecognizer)Konstitution.GestureRecognizers.First(_ => _.GetType() == typeof(DropGestureRecognizer))).AllowDrop = true;
+                                SetDropGestureRecognizerAllow(Konstitution, true);
                                 break;
                             case AttributeType.Intelligenz:
-                                Intelligenz.BackgroundColor = greenColor;
-                                ((DropGestureRecognizer)Intelligenz.GestureRecognizers.First(_ => _.GetType() == typeof(DropGestureRecognizer))).AllowDrop = true;
+                                SetDropGestureRecognizerAllow(Intelligenz, true);
                                 break;
                             case AttributeType.Willenskraft:
-                                Willenskraft.BackgroundColor = greenColor;
-                                ((DropGestureRecognizer)Willenskraft.GestureRecognizers.First(_ => _.GetType() == typeof(DropGestureRecognizer))).AllowDrop = true;
+                                SetDropGestureRecognizerAllow(Willenskraft, true);
                                 break;
                             case AttributeType.Charisma:
-                                Charisma.BackgroundColor = greenColor;
-                                ((DropGestureRecognizer)Charisma.GestureRecognizers.First(_ => _.GetType() == typeof(DropGestureRecognizer))).AllowDrop = true;
+                                SetDropGestureRecognizerAllow(Charisma, true);
                                 break;
                             case AttributeType.Wahrnehmung:
-                                Wahrnehmung.BackgroundColor = greenColor;
-                                ((DropGestureRecognizer)Wahrnehmung.GestureRecognizers.First(_ => _.GetType() == typeof(DropGestureRecognizer))).AllowDrop = true;
+                                SetDropGestureRecognizerAllow(Wahrnehmung, true);
                                 break;
                         }
                     }
@@ -104,74 +95,70 @@ namespace ImagoApp.Views.CustomControls
             }
         }
 
-        private void ResetDropHighlight(bool gestures)
+        private void ResetDropHighlight()
         {
-            var color = (Color)Xamarin.Forms.Application.Current.Resources["AntiUmbra3"];
-
-            Charisma.BackgroundColor = color;
-            Staerke.BackgroundColor = color;
-            Wahrnehmung.BackgroundColor = color;
-            Willenskraft.BackgroundColor = color;
-            Konstitution.BackgroundColor = color;
-            Intelligenz.BackgroundColor = color;
-            Geschicklichkeit.BackgroundColor = color;
-
-            if (gestures)
-            {
-                ((DropGestureRecognizer)Charisma.GestureRecognizers.First(_ => _.GetType() == typeof(DropGestureRecognizer))).AllowDrop = false;
-                ((DropGestureRecognizer)Wahrnehmung.GestureRecognizers.First(_ => _.GetType() == typeof(DropGestureRecognizer))).AllowDrop = false;
-                ((DropGestureRecognizer)Staerke.GestureRecognizers.First(_ => _.GetType() == typeof(DropGestureRecognizer))).AllowDrop = false;
-                ((DropGestureRecognizer)Willenskraft.GestureRecognizers.First(_ => _.GetType() == typeof(DropGestureRecognizer))).AllowDrop = false;
-                ((DropGestureRecognizer)Konstitution.GestureRecognizers.First(_ => _.GetType() == typeof(DropGestureRecognizer))).AllowDrop = false;
-                ((DropGestureRecognizer)Intelligenz.GestureRecognizers.First(_ => _.GetType() == typeof(DropGestureRecognizer))).AllowDrop = false;
-                ((DropGestureRecognizer)Geschicklichkeit.GestureRecognizers.First(_ => _.GetType() == typeof(DropGestureRecognizer))).AllowDrop = false;
-            }
+            SetDropGestureRecognizerAllow(Charisma, false);
+            SetDropGestureRecognizerAllow(Wahrnehmung, false);
+            SetDropGestureRecognizerAllow(Staerke, false);
+            SetDropGestureRecognizerAllow(Willenskraft, false);
+            SetDropGestureRecognizerAllow(Konstitution, false);
+            SetDropGestureRecognizerAllow(Intelligenz, false);
+            SetDropGestureRecognizerAllow(Geschicklichkeit, false);
         }
 
-        private void RemoveFromAll(ViewModels.OpenAttributeExperienceViewModel viewModel)
+        private void SetDropGestureRecognizerAllow(AttributeExperienceItem view, bool allowValue)
         {
-            AttributeExperienceDialogViewModel.OpenAttributeExperience.Remove(viewModel);
-            AttributeExperienceDialogViewModel.Charisma.Remove(viewModel);
-            AttributeExperienceDialogViewModel.Staerke.Remove(viewModel);
+            Debug.WriteLine(view.GestureRecognizers.Count);
+
+            var rec = ((DropGestureRecognizer)view.GestureRecognizers.First(_ =>
+                _.GetType() == typeof(DropGestureRecognizer)));
+            rec.AllowDrop = allowValue;
+
+            if (allowValue)
+            {
+                view.BackgroundColor = (Color) Xamarin.Forms.Application.Current.Resources["HellGruenesUmbra2"];
+            }
+            else
+            {
+                view.BackgroundColor = (Color)Xamarin.Forms.Application.Current.Resources["AntiUmbra3"];
+            }
         }
 
         private void DropGestureRecognizer_OnDrop(object sender, DropEventArgs e)
         {
-            if (sender is Element element)
+            try
             {
-                var collection = GetItemSource(element.Parent);
-                var data =
-                    e.Data.Properties[nameof(ViewModels.OpenAttributeExperienceViewModel)] as ViewModels.OpenAttributeExperienceViewModel;
+                var dropGestureRecognizer = (DropGestureRecognizer)sender;
+                var target = (AttributeExperienceItem) dropGestureRecognizer.Parent;
+                var skillGroupModelType = (SkillGroupModelType) e.Data.Properties[nameof(SkillGroupModelType)];
+                var targetAttributeModel = (AttributeModel) target.BindingContext;
+                
+                CharacterViewModel.CharacterModel.OpenAttributeIncreases.Remove(skillGroupModelType);
 
-                RemoveFromAll(data);
-                collection.Add(data);
-                ResetDropHighlight(false);
+                targetAttributeModel.ExperienceBySkillGroup += 1;
+
+                //force recalc
+                targetAttributeModel.TotalExperience = targetAttributeModel.TotalExperience;
+                
+                ResetDropHighlight();
+
+                //check if all are done
+                if (!CharacterViewModel.CharacterModel.OpenAttributeIncreases.Any())
+                {
+                    CloseCommand?.Execute(null);
+                }
             }
-        }
-
-        private ObservableCollection<ViewModels.OpenAttributeExperienceViewModel> GetItemSource(Element element)
-        {
-            if (element == Staerke)
-                return AttributeExperienceDialogViewModel.Staerke;
-            if (element == Charisma)
-                return AttributeExperienceDialogViewModel.Charisma;
-            if (element == Intelligenz)
-                return AttributeExperienceDialogViewModel.Intelligenz;
-            if (element == Geschicklichkeit)
-                return AttributeExperienceDialogViewModel.Geschicklichkeit;
-            if (element == Konstitution)
-                return AttributeExperienceDialogViewModel.Konstitution;
-            if (element == Wahrnehmung)
-                return AttributeExperienceDialogViewModel.Wahrnehmung;
-            if (element == Willenskraft)
-                return AttributeExperienceDialogViewModel.Willenskraft;
-            
-            throw new InvalidOperationException("Unkown ItemSource of <OpenAttributeExperienceViewModel> for " + element);
+            catch (Exception exception)
+            {
+                App.ErrorManager.TrackException(exception, CharacterViewModel.CharacterModel.Name);
+            }
         }
 
         private void DragGestureRecognizer_OnDropCompleted(object sender, DropCompletedEventArgs e)
         {
-            ResetDropHighlight(true);
+            return;
+            //drop has been cancelled
+            ResetDropHighlight();
         }
     }
 }

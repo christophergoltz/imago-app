@@ -15,7 +15,6 @@ namespace ImagoApp.ViewModels
     {
         private readonly IWikiService _wikiService;
         private readonly IWikiDataService _wikiDataService;
-        private readonly IRuleService _ruleService;
         public CharacterViewModel CharacterViewModel { get; }
         private SkillGroupDetailViewModel _skillGroupDetailViewModel;
         private SkillDetailViewModel _skillDetailViewModel;
@@ -34,7 +33,7 @@ namespace ImagoApp.ViewModels
         {
             try
             {
-                var vm = new SkillDetailViewModel(parameter.Skill, parameter.SkillGroup, CharacterViewModel, _wikiService, _wikiDataService, _ruleService);
+                var vm = new SkillDetailViewModel(parameter.Skill, parameter.SkillGroup, CharacterViewModel, _wikiService, _wikiDataService);
                 vm.CloseRequested += (sender, args) => { SkillDetailViewModel = null; };
                 vm.OpenWikiPageRequested += (sender, s) => { OpenWikiPageRequested?.Invoke(this, s); };
 
@@ -96,11 +95,10 @@ namespace ImagoApp.ViewModels
         }
         public int SkillExperienceBalance => TotalSkillExperience - CharacterViewModel.CharacterModel.SkillGroups.SelectMany(model => model.Skills).Sum(model => model.TotalExperience);
         
-        public SkillPageViewModel(CharacterViewModel characterViewModel, IWikiService wikiService, IWikiDataService wikiDataService, IRuleService ruleService)
+        public SkillPageViewModel(CharacterViewModel characterViewModel, IWikiService wikiService, IWikiDataService wikiDataService)
         {
             _wikiService = wikiService;
             _wikiDataService = wikiDataService;
-            _ruleService = ruleService;
             CharacterViewModel = characterViewModel;
             TotalSkillExperience = 1350;
 

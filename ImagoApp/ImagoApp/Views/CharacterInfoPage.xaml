@@ -374,17 +374,19 @@
                         </ListView>
                     </Grid>
                 </Frame>
-
-               
             </Grid>
 
             <!-- dialog -->
-            <Grid IsVisible="{Binding AttributeExperienceDialogViewModel, Converter={StaticResource ObjectNotNullToBoolConverter}}">
-                <ContentView BackgroundColor="black" Opacity="0.6"/>
-                <customControls:AttributeExperienceDialogView 
-                    AttributeExperienceDialogViewModel="{Binding AttributeExperienceDialogViewModel}"
-                    CloseCommand="{Binding CancelOpenAttributeExperienceCommand}"
-                    SaveCommand="{Binding SaveOpenAttributeExperienceCommand}"/>
+            <Grid IsVisible="{Binding IsAttributeExperienceDialogOpen}">
+                <ContentView BackgroundColor="black" Opacity="0.6">
+                    <ContentView.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding CancelOpenAttributeExperienceCommand}"/>
+                    </ContentView.GestureRecognizers>
+                </ContentView>
+                <customControls:AttributeExperienceDialogView WidthRequest="1500" HeightRequest="800" 
+                                                              HorizontalOptions="Center" VerticalOptions="Center"
+                                                              CharacterViewModel="{Binding CharacterViewModel}"
+                                                              CloseCommand="{Binding CancelOpenAttributeExperienceCommand}"/>
             </Grid>
         </Grid>
     </ContentPage.Content>

@@ -12,7 +12,6 @@ namespace ImagoApp.Util
 {
     public sealed class ServiceLocator
     {
-        private readonly Lazy<IRuleService> _ruleService;
         private readonly Lazy<IWikiService> _wikiService;
         private readonly Lazy<IWikiParseService> _wikiParseService;
         private readonly Lazy<IWikiDataService> _wikiDataService;
@@ -52,8 +51,7 @@ namespace ImagoApp.Util
             IWeaponTemplateRepository weaponTemplateRepository = new WeaponTemplateRepository(wikidataDatabaseFile);
             ITalentRepository talentRepository = new TalentRepository(wikidataDatabaseFile);
             IMasteryRepository masteryRepository = new MasteryRepository(wikidataDatabaseFile);
-
-            _ruleService = new Lazy<IRuleService>(() => new RuleService());
+            
             _wikiDataService = new Lazy<IWikiDataService>(() => new WikiDataService(_mapper, armorTemplateRepository, 
                 weaponTemplateRepository, talentRepository, masteryRepository));
             _wikiService = new Lazy<IWikiService>(() => new WikiService());
@@ -67,12 +65,7 @@ namespace ImagoApp.Util
         {
             return _mapper;
         }
-
-        public IRuleService RuleService()
-        {
-            return _ruleService.Value;
-        }
-
+        
         public IWikiDataService WikiDataService()
         {
             return _wikiDataService.Value;

@@ -2,35 +2,19 @@
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
+             xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp"
+             xmlns:enums="clr-namespace:ImagoApp.Shared.Enums;assembly=ImagoApp.Shared"
              x:Class="ImagoApp.Views.CustomControls.AttributeExperienceDialogView" 
               x:Name="AttributeExperienceDialogViewControl">
-    <ContentView.Resources>
-        <ResourceDictionary>
-            <DataTemplate x:Key="ListViewHeaderTemplate">
-                <Label HorizontalOptions="Center" FontSize="{DynamicResource FontSizeHeader}" Margin="10" Text="{Binding .}"/>
-                    <!-- use the object in Header as the binding source -->
-            </DataTemplate>
-            <DataTemplate x:Key="ListViewItemDoneTemplate" x:DataType="viewModels:OpenAttributeExperienceViewModel">
-                <ViewCell>
-                <Frame Margin="10" VerticalOptions="Center" >
-                        <Grid BackgroundColor="Green">
-                            <Label Text="{Binding SourceType, Converter={StaticResource EnumToDisplayTextConverter}}" 
-                                   FontSize="{DynamicResource FontSizeHeader}" Margin="5"></Label>
-                    </Grid>
-                    </Frame>
-                </ViewCell>
-            </DataTemplate>
-        </ResourceDictionary>
-    </ContentView.Resources>
     <ContentView.Content>
-        <Grid BindingContext="{Binding AttributeExperienceDialogViewModel, Source={x:Reference AttributeExperienceDialogViewControl}}" 
-             WidthRequest="1300" HeightRequest="800" Style="{StaticResource BackgroundGridStyle}"
-              VerticalOptions="Center" HorizontalOptions="Center" Padding="20">
+        <Grid BindingContext="{Binding CharacterViewModel, Source={x:Reference AttributeExperienceDialogViewControl}}" 
+               Style="{StaticResource BackgroundGridStyle}"
+              Padding="20">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="300" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -42,30 +26,31 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
-            <Label  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="7" FontSize="{DynamicResource FontSizeBigContent}" Margin="0,0,50,30" Text="Offene Erfahrungspunkt(e) auf Attribute verteilen:"/>
+            <StackLayout Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="7">
+                <Label FontSize="{DynamicResource FontSizeSmallCaption}" FontAttributes="Bold"
+                       Text="{Binding CharacterModel.OpenAttributeIncreases.Count}" ></Label>
+                <Label FontSize="{DynamicResource FontSizeSmallCaption}" Margin="5,0,0,30" 
+                         Text="Offene Erfahrungspunkt(e) auf Attribute verteilen"/>
+            </StackLayout>
 
-            <StackLayout Orientation="Horizontal" Grid.Row="0" Grid.Column="6" HorizontalOptions="End">
-                <Button  Text="✓" Padding="0,-4,0,0" WidthRequest="35" HeightRequest="35"  FontSize="{DynamicResource FontSizeHeader}"  VerticalOptions="Start" 
-                        HorizontalOptions="End" TextColor="Green" BackgroundColor="LightGray"
-                        Command="{Binding SaveCommand, Source={x:Reference AttributeExperienceDialogViewControl}}"/>
-
-                <Button Text="X" Padding="0,-4,0,0" WidthRequest="35" HeightRequest="35"  FontSize="{DynamicResource FontSizeHeader}"  VerticalOptions="Start" 
+            <Button Text="X" Padding="0,-4,0,0" WidthRequest="35" HeightRequest="35" 
+                        Grid.Row="0" Grid.Column="6" 
+                        FontSize="{DynamicResource FontSizeHeader}"  VerticalOptions="Start" 
                         HorizontalOptions="End" TextColor="Red" BackgroundColor="LightGray" 
                         Command="{Binding CloseCommand, Source={x:Reference AttributeExperienceDialogViewControl}}"/>
-            </StackLayout>
 
             <Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="7" >
                 <ScrollView>
-                    <FlexLayout BackgroundColor="{StaticResource AntiUmbra3}" BindableLayout.ItemsSource="{Binding OpenAttributeExperience}"
+                    <FlexLayout BackgroundColor="{StaticResource AntiUmbra3}" BindableLayout.ItemsSource="{Binding CharacterModel.OpenAttributeIncreases}"
                              Direction="Row" Wrap="Wrap" AlignContent="Start" AlignItems="Start" >
                         <BindableLayout.ItemTemplate>
-                            <DataTemplate x:DataType="viewModels:OpenAttributeExperienceViewModel">
+                            <DataTemplate x:DataType="enums:SkillGroupModelType">
                                 <Frame Margin="10" VerticalOptions="Start" >
                                     <Frame.GestureRecognizers>
                                         <DragGestureRecognizer DragStarting="OnDragStarting" DropCompleted="DragGestureRecognizer_OnDropCompleted" />
                                     </Frame.GestureRecognizers>
                                     <Grid BackgroundColor="Red">
-                                        <Label Text="{Binding SourceType, Converter={StaticResource EnumToDisplayTextConverter}}" 
+                                        <Label Text="{Binding ., Converter={StaticResource EnumToDisplayTextConverter}}" 
                                            FontSize="{DynamicResource FontSizeHeader}" Margin="7,5"></Label>
                                     </Grid>
                                 </Frame>
@@ -75,82 +60,54 @@
                 </ScrollView>
             </Frame>
 
-            <Frame Grid.Row="2" Grid.Column="0" HeightRequest="300">
-                <ListView x:Name="Charisma" Header="Charisma" BackgroundColor="{StaticResource AntiUmbra3}"
-                          HeaderTemplate="{StaticResource ListViewHeaderTemplate}" 
-                          ItemTemplate="{StaticResource ListViewItemDoneTemplate}"
-                          ItemsSource="{Binding Charisma}">
-                    <ListView.GestureRecognizers>
-                        <DropGestureRecognizer AllowDrop="True"  Drop="DropGestureRecognizer_OnDrop" />
-                    </ListView.GestureRecognizers>
-                </ListView>
-            </Frame>
+            <customControls:AttributeExperienceItem x:Name="Charisma" Grid.Row="2" Grid.Column="0"
+                                                        BindingContext="{Binding CharismaAttribute}">
+                <customControls:AttributeExperienceItem.GestureRecognizers>
+                    <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_OnDrop" />
+                </customControls:AttributeExperienceItem.GestureRecognizers>
+            </customControls:AttributeExperienceItem>
 
-            <Frame Grid.Row="2" Grid.Column="1" HeightRequest="300">
-                <ListView x:Name="Geschicklichkeit" Header="Geschicklichkeit" BackgroundColor="{StaticResource AntiUmbra3}"
-                          HeaderTemplate="{StaticResource ListViewHeaderTemplate}" 
-                          ItemTemplate="{StaticResource ListViewItemDoneTemplate}"
-                          ItemsSource="{Binding Geschicklichkeit}">
-                    <ListView.GestureRecognizers>
-                        <DropGestureRecognizer AllowDrop="True"  Drop="DropGestureRecognizer_OnDrop" />
-                    </ListView.GestureRecognizers>
-                </ListView>
-            </Frame>
+            <customControls:AttributeExperienceItem x:Name="Geschicklichkeit" Grid.Row="2" Grid.Column="1"
+                                                    BindingContext="{Binding GeschicklichkeitAttribute}">
+                <customControls:AttributeExperienceItem.GestureRecognizers>
+                    <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_OnDrop" />
+                </customControls:AttributeExperienceItem.GestureRecognizers>
+            </customControls:AttributeExperienceItem>
 
-            <Frame Grid.Row="2" Grid.Column="2" HeightRequest="300">
-                <ListView x:Name="Intelligenz" Header="Intelligenz" BackgroundColor="{StaticResource AntiUmbra3}"
-                          HeaderTemplate="{StaticResource ListViewHeaderTemplate}" 
-                          ItemTemplate="{StaticResource ListViewItemDoneTemplate}"
-                          ItemsSource="{Binding Intelligenz}">
-                    <ListView.GestureRecognizers>
-                        <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_OnDrop" />
-                    </ListView.GestureRecognizers>
-                </ListView>
-            </Frame>
+            <customControls:AttributeExperienceItem x:Name="Intelligenz" Grid.Row="2" Grid.Column="2"
+                                                    BindingContext="{Binding IntelligenzAttribute}">
+                <customControls:AttributeExperienceItem.GestureRecognizers>
+                    <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_OnDrop" />
+                </customControls:AttributeExperienceItem.GestureRecognizers>
+            </customControls:AttributeExperienceItem>
 
-            <Frame Grid.Row="2" Grid.Column="3" HeightRequest="300">
-                <ListView x:Name="Konstitution" Header="Konstitution" BackgroundColor="{StaticResource AntiUmbra3}"
-                          HeaderTemplate="{StaticResource ListViewHeaderTemplate}" 
-                          ItemTemplate="{StaticResource ListViewItemDoneTemplate}"
-                          ItemsSource="{Binding Konstitution}">
-                    <ListView.GestureRecognizers>
-                        <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_OnDrop" />
-                    </ListView.GestureRecognizers>
-                </ListView>
-            </Frame>
+            <customControls:AttributeExperienceItem x:Name="Konstitution" Grid.Row="2" Grid.Column="3"
+                                                    BindingContext="{Binding KonstitutionAttribute}">
+                <customControls:AttributeExperienceItem.GestureRecognizers>
+                    <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_OnDrop" />
+                </customControls:AttributeExperienceItem.GestureRecognizers>
+            </customControls:AttributeExperienceItem>
 
-            <Frame Grid.Row="2" Grid.Column="4" HeightRequest="300">
-                <ListView x:Name="Staerke" Header="Stärke" BackgroundColor="{StaticResource AntiUmbra3}"
-                          HeaderTemplate="{StaticResource ListViewHeaderTemplate}" 
-                          ItemTemplate="{StaticResource ListViewItemDoneTemplate}"
-                          ItemsSource="{Binding Staerke}">
-                    <ListView.GestureRecognizers>
-                        <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_OnDrop" />
-                    </ListView.GestureRecognizers>
-                </ListView>
-            </Frame>
+            <customControls:AttributeExperienceItem x:Name="Staerke" Grid.Row="2" Grid.Column="4"
+                                                    BindingContext="{Binding StaerkeAttribute}">
+                <customControls:AttributeExperienceItem.GestureRecognizers>
+                    <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_OnDrop" />
+                </customControls:AttributeExperienceItem.GestureRecognizers>
+            </customControls:AttributeExperienceItem>
 
-            <Frame Grid.Row="2" Grid.Column="5" HeightRequest="300">
-                <ListView x:Name="Wahrnehmung" Header="Wahrnehmung" BackgroundColor="{StaticResource AntiUmbra3}"
-                          HeaderTemplate="{StaticResource ListViewHeaderTemplate}" 
-                          ItemTemplate="{StaticResource ListViewItemDoneTemplate}"
-                          ItemsSource="{Binding Wahrnehmung}">
-                    <ListView.GestureRecognizers>
-                        <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_OnDrop" />
-                    </ListView.GestureRecognizers>
-                </ListView>
-            </Frame>
+            <customControls:AttributeExperienceItem x:Name="Wahrnehmung" Grid.Row="2" Grid.Column="5"
+                                                    BindingContext="{Binding WahrnehmungAttribute}">
+                <customControls:AttributeExperienceItem.GestureRecognizers>
+                    <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_OnDrop" />
+                </customControls:AttributeExperienceItem.GestureRecognizers>
+            </customControls:AttributeExperienceItem>
 
-            <Frame Grid.Row="2" Grid.Column="6" HeightRequest="300">
-                <ListView x:Name="Willenskraft" Header="Willenskraft"     BackgroundColor="{StaticResource AntiUmbra3}"
-                          HeaderTemplate="{StaticResource ListViewHeaderTemplate}" 
-                          ItemTemplate="{StaticResource ListViewItemDoneTemplate}"
-                          ItemsSource="{Binding Willenskraft}">
-                    <ListView.GestureRecognizers>
-                        <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_OnDrop" />
-                    </ListView.GestureRecognizers>
-                </ListView>
-            </Frame>
+            <customControls:AttributeExperienceItem x:Name="Willenskraft" Grid.Row="2" Grid.Column="6"
+                                                    BindingContext="{Binding WillenskraftAttribute}">
+                <customControls:AttributeExperienceItem.GestureRecognizers>
+                    <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_OnDrop" />
+                </customControls:AttributeExperienceItem.GestureRecognizers>
+            </customControls:AttributeExperienceItem>
         </Grid>
     </ContentView.Content>
 </ContentView>

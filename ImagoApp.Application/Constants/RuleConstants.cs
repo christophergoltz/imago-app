@@ -1,15 +1,9 @@
 ﻿using System.Collections.Generic;
 using ImagoApp.Shared.Enums;
 
-namespace ImagoApp.Application.Services
+namespace ImagoApp.Application.Constants
 {
-    public interface IRuleService
-    {
-        IEnumerable<SkillGroupModelType> GetSkillGroupsByAttribute(AttributeType type);
-        List<AttributeType> GetSkillGroupSources(SkillGroupModelType modelType);
-    }
-
-    public class RuleService : IRuleService
+    public static class RuleConstants
     {
         private static readonly Dictionary<SkillGroupModelType, List<AttributeType>> SkillGroupAttributeLookUpDictionary =
             new Dictionary<SkillGroupModelType, List<AttributeType>>()
@@ -24,7 +18,7 @@ namespace ImagoApp.Application.Services
                 {SkillGroupModelType.Soziales, new List<AttributeType> { AttributeType.Willenskraft, AttributeType.Charisma, AttributeType.Charisma, AttributeType.Wahrnehmung }}
             };
 
-        public IEnumerable<SkillGroupModelType> GetSkillGroupsByAttribute(AttributeType type)
+        public static IEnumerable<SkillGroupModelType> GetSkillGroupsByAttribute(AttributeType type)
         {
             foreach (var kvp in SkillGroupAttributeLookUpDictionary)
             {
@@ -35,7 +29,7 @@ namespace ImagoApp.Application.Services
             }
         }
         
-        public List<AttributeType> GetSkillGroupSources(SkillGroupModelType modelType)
+        public static List<AttributeType> GetSkillGroupSources(SkillGroupModelType modelType)
         {
             return SkillGroupAttributeLookUpDictionary[modelType];
         }
