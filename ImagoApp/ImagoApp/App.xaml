@@ -8,16 +8,59 @@
         <ResourceDictionary>
             <!-- dynamic resources that will be changed at runtime needs to be at top level -->
             <x:Double x:Key="FontSizeCaption">34</x:Double>
+            <x:Double x:Key="FontSizeSmallCaption">28</x:Double>
             <x:Double x:Key="FontSizeTitle">24</x:Double>
             <x:Double x:Key="FontSizeHeader">22</x:Double>
             <x:Double x:Key="FontSizeBigContent">20</x:Double>
             <x:Double x:Key="FontSizeContent">18</x:Double>
+            <x:Double x:Key="FontSizeDetail">16</x:Double>
             <x:Double x:Key="FontSizeSmallContent">14</x:Double>
+            <x:Double x:Key="FontSizeDescription">12</x:Double>
+
+            <Color x:Key="Primary">#2196F3
+            </Color>
+
+            <!-- Colorset1 -->
+            <Color x:Key="Umbra1">#735e48</Color>
+            <Color x:Key="Umbra2">#9b856e</Color>
+            <Color x:Key="Umbra3">#e1d3c5</Color>
+            <Color x:Key="Umbra4">#fff8f1</Color>
+            <Color x:Key="Weiss">#ffffff</Color>
+
+            <Color x:Key="AntiUmbra">#202843</Color>
+            <Color x:Key="AntiUmbra1">#353b50</Color>
+            <Color x:Key="AntiUmbra2">#696e81</Color>
+            <Color x:Key="AntiUmbra3">#aeb0b7</Color>
+            <Color x:Key="AntiUmbra4">#e0e1e2</Color>
+
+            <Color x:Key="GruenesUmbra">#1e4a2a</Color>
+            <Color x:Key="GruenesUmbra1">#36593f</Color>
+            <Color x:Key="GruenesUmbra2">#6e9177</Color>
+            <Color x:Key="GruenesUmbra3">#98b19e</Color>
+
+            <Color x:Key="HellGruenesUmbra">#005c30</Color>
+            <Color x:Key="HellGruenesUmbra1">#0d7744</Color>
+            <Color x:Key="HellGruenesUmbra2">#1c945a</Color>
+            <Color x:Key="HellGruenesUmbra3">#5db98d</Color>
+
+            <Color x:Key="GelbesUmbra">#aa9013</Color>
+            <Color x:Key="GelbesUmbra1">#d5b728</Color>
+            <Color x:Key="GelbesUmbra2">#e6cd50</Color>
+            <Color x:Key="GelbesUmbra3">#ffe981</Color>
+
+            <!--<Color x:Key="RotesUmbra">#832200</Color>
+            <Color x:Key="RotesUmbra1">#aa3a13</Color>
+            <Color x:Key="RotesUmbra2">#d55428</Color>
+            <Color x:Key="RotesUmbra3">#e67750</Color>-->
+
+            <Color x:Key="RotesUmbra">#830000</Color>
+            <Color x:Key="RotesUmbra1">#aa1313</Color>
+            <Color x:Key="RotesUmbra2">#d52828</Color>
+            <Color x:Key="RotesUmbra3">#e65050</Color>
 
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/GlobalConverter.xaml" />
                 <ResourceDictionary Source="Styles/DefaultStyles.xaml" />
-                <ResourceDictionary Source="Styles/UmbraColorStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

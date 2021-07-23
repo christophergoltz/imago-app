@@ -19,8 +19,8 @@
                         <ColumnDefinition Width="50" />
                         <ColumnDefinition Width="50" />
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" FontSize="18" VerticalOptions="Center" Text="{Binding Skill.Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
-                    <Label Grid.Column="1" FontSize="18" VerticalOptions="Center" HorizontalOptions="Center">
+                    <Label Grid.Column="0" FontSize="{DynamicResource FontSizeContent}" VerticalOptions="Center" Text="{Binding Skill.Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
+                    <Label Grid.Column="1" FontSize="{DynamicResource FontSizeContent}" VerticalOptions="Center" HorizontalOptions="Center">
                         <Label.Text>
                             <MultiBinding StringFormat="{}{0}/{1}">
                                 <Binding Path="Skill.ExperienceValue"  Source="{RelativeSource AncestorType={x:Type viewModels:SkillViewModel}}"/>
@@ -28,9 +28,9 @@
                             </MultiBinding>
                         </Label.Text>
                     </Label>
-                    <Label Grid.Column="2" FontSize="18" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Skill.IncreaseValue}"/>
-                    <Label Grid.Column="3" FontSize="18" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Skill.ModificationValue}"/>
-                    <Label Grid.Column="4" FontSize="18" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Skill.FinalValue}"/>
+                    <Label Grid.Column="2" FontSize="{DynamicResource FontSizeContent}" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Skill.IncreaseValue}"/>
+                    <Label Grid.Column="3" FontSize="{DynamicResource FontSizeContent}" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Skill.ModificationValue}"/>
+                    <Label Grid.Column="4" FontSize="{DynamicResource FontSizeContent}" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Skill.FinalValue}"/>
                 </Grid>
             </DataTemplate>
             <DataTemplate x:DataType="viewModels:SkillViewModel" x:Key="SkillModelListEditItemTemplate">
@@ -43,12 +43,12 @@
                         <ColumnDefinition Width="50" />
                         <ColumnDefinition Width="50" />
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" FontSize="18" VerticalOptions="Center" 
+                    <Label Grid.Column="0" FontSize="{DynamicResource FontSizeContent}" VerticalOptions="Center" 
                            Text="{Binding Skill.Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
 
                     <Entry Grid.Column="1" Keyboard="Numeric" TextColor="White" BackgroundColor="{StaticResource GruenesUmbra1}" 
-                           FontSize="18" Text="{Binding TotalExperienceValue}"/>
-                    <Label Grid.Column="2" FontSize="18" VerticalOptions="Center" HorizontalOptions="Center">
+                           FontSize="{DynamicResource FontSizeContent}" Text="{Binding TotalExperienceValue}"/>
+                    <Label Grid.Column="2" FontSize="{DynamicResource FontSizeContent}" VerticalOptions="Center" HorizontalOptions="Center">
                         <Label.Text>
                             <MultiBinding StringFormat="{}{0}/{1}">
                                 <Binding Path="Skill.ExperienceValue"  Source="{RelativeSource AncestorType={x:Type viewModels:SkillViewModel}}"/>
@@ -56,9 +56,9 @@
                             </MultiBinding>
                         </Label.Text>
                     </Label>
-                    <Label Grid.Column="3" FontSize="18" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Skill.IncreaseValue}"/>
-                    <Label Grid.Column="4" FontSize="18" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Skill.ModificationValue}"/>
-                    <Label Grid.Column="5" FontSize="18" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Skill.FinalValue}"/>
+                    <Label Grid.Column="3" FontSize="{DynamicResource FontSizeContent}" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Skill.IncreaseValue}"/>
+                    <Label Grid.Column="4" FontSize="{DynamicResource FontSizeContent}" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Skill.ModificationValue}"/>
+                    <Label Grid.Column="5" FontSize="{DynamicResource FontSizeContent}" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Skill.FinalValue}"/>
                 </Grid>
             </DataTemplate>
         </ResourceDictionary>
@@ -87,16 +87,16 @@
                 </Grid.ColumnDefinitions>
 
                 <Label Grid.Column="0" VerticalOptions="Center"  Text="{Binding SkillGroup.Type}"
-                   Margin="10,0,0,0" FontAttributes="Bold" FontSize="22"/>
+                   Margin="10,0,0,0" FontAttributes="Bold" FontSize="{DynamicResource FontSizeHeader}"/>
 
                 <StackLayout Grid.Column="1" VerticalOptions="Center" Orientation="Horizontal">
-                    <Label FontSize="16" Text="GW: " FontAttributes="Bold"/>
-                    <Label FontSize="16"  Text="{Binding SkillGroup.BaseValue}"/>
+                    <Label FontSize="{DynamicResource FontSizeDetail}" Text="GW: " FontAttributes="Bold"/>
+                    <Label FontSize="{DynamicResource FontSizeDetail}"  Text="{Binding SkillGroup.BaseValue}"/>
                 </StackLayout>
 
                 <StackLayout Grid.Column="2"  VerticalOptions="Center"  Orientation="Horizontal">
-                    <Label  FontSize="16" Text="EP: " FontAttributes="Bold"></Label>
-                    <Label  FontSize="16" >
+                    <Label  FontSize="{DynamicResource FontSizeDetail}" Text="EP: " FontAttributes="Bold"></Label>
+                    <Label  FontSize="{DynamicResource FontSizeDetail}" >
                         <Label.Text>
                             <MultiBinding StringFormat="{}{0}/{1}">
                                 <Binding Path="SkillGroup.ExperienceValue" Source="{RelativeSource AncestorType={x:Type viewModels:SkillGroupViewModel}}"/>
@@ -107,20 +107,20 @@
                 </StackLayout>
 
                 <StackLayout Grid.Column="3"  VerticalOptions="Center"  Orientation="Horizontal">
-                    <Label  FontSize="16" Text="Mod: " FontAttributes="Bold"/>
-                    <Label  FontSize="16" Text="{Binding SkillGroup.ModificationValue}"/>
+                    <Label  FontSize="{DynamicResource FontSizeDetail}" Text="Mod: " FontAttributes="Bold"/>
+                    <Label  FontSize="{DynamicResource FontSizeDetail}" Text="{Binding SkillGroup.ModificationValue}"/>
                 </StackLayout>
 
 
                 <StackLayout Grid.Column="4" VerticalOptions="Center"  Orientation="Horizontal">
-                    <Label  FontSize="16" Text="SW: " FontAttributes="Bold"/>
-                    <Label FontSize="16"  Text="{Binding SkillGroup.IncreaseValue}"/>
+                    <Label  FontSize="{DynamicResource FontSizeDetail}" Text="SW: " FontAttributes="Bold"/>
+                    <Label FontSize="{DynamicResource FontSizeDetail}"  Text="{Binding SkillGroup.IncreaseValue}"/>
                 </StackLayout>
 
 
                 <StackLayout Grid.Column="5" VerticalOptions="Center"  Orientation="Horizontal">
-                    <Label  FontSize="16" Text="FW: " FontAttributes="Bold"/>
-                    <Label  FontSize="16" Text="{Binding SkillGroup.FinalValue}"/>
+                    <Label  FontSize="{DynamicResource FontSizeDetail}" Text="FW: " FontAttributes="Bold"/>
+                    <Label  FontSize="{DynamicResource FontSizeDetail}" Text="{Binding SkillGroup.FinalValue}"/>
                 </StackLayout>
 
                 
@@ -139,13 +139,13 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
-                <Label Grid.Column="0" Grid.Row="0" FontSize="14" FontAttributes="Bold"  Margin="5,0,0,0" 
+                <Label Grid.Column="0" Grid.Row="0" FontSize="{DynamicResource FontSizeSmallContent}" FontAttributes="Bold"  Margin="5,0,0,0" 
                        Text="{Binding SkillGroupViewModel.SkillGroup.Type, Source={x:Reference SkillGroupViewControl}, Converter={StaticResource SkillGroupTypeToAttributeSourceStringConverter}}"/>
-                <Label Grid.Row="0" Grid.Column="1" FontSize="14" FontAttributes="Bold" Text="Gesamt EP" IsVisible="{Binding CharacterViewModel.EditMode}"/>
-                <Label Grid.Row="0" Grid.Column="2" FontSize="14" FontAttributes="Bold" Text="EP"/>
-                <Label Grid.Row="0" Grid.Column="3" FontSize="14" FontAttributes="Bold" Text="SW" />
-                <Label Grid.Row="0" Grid.Column="4" FontSize="14" FontAttributes="Bold" Text="Mod" />
-                <Label Grid.Row="0" Grid.Column="5" FontSize="14" FontAttributes="Bold" Text="FW" />
+                <Label Grid.Row="0" Grid.Column="1" FontSize="{DynamicResource FontSizeSmallContent}" FontAttributes="Bold" Text="Gesamt EP" IsVisible="{Binding CharacterViewModel.EditMode}"/>
+                <Label Grid.Row="0" Grid.Column="2" FontSize="{DynamicResource FontSizeSmallContent}" FontAttributes="Bold" Text="EP"/>
+                <Label Grid.Row="0" Grid.Column="3" FontSize="{DynamicResource FontSizeSmallContent}" FontAttributes="Bold" Text="SW" />
+                <Label Grid.Row="0" Grid.Column="4" FontSize="{DynamicResource FontSizeSmallContent}" FontAttributes="Bold" Text="Mod" />
+                <Label Grid.Row="0" Grid.Column="5" FontSize="{DynamicResource FontSizeSmallContent}" FontAttributes="Bold" Text="FW" />
             </Grid>
 
             <!-- skills -->

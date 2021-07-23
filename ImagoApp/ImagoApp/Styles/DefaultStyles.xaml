@@ -20,6 +20,10 @@
         <Setter Property="BackgroundColor" Value="{DynamicResource AntiUmbra3}" />
     </Style>
 
+    <Style TargetType="Button" ApplyToDerivedTypes="True">
+        <Setter Property="FontSize" Value="{DynamicResource FontSizeContent}" />
+    </Style>
+
     <!-- global explicit styles -->
     <Style x:Key="BackgroundGridStyle" TargetType="Grid">
         <Setter Property="BackgroundColor" Value="{DynamicResource AntiUmbra2}" />

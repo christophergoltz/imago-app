@@ -28,7 +28,7 @@
                             <ColumnDefinition Width="50"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
 
-                        <Label Grid.Column="0" FontSize="18" VerticalOptions="Center" Text="{Binding Talent.Name}">
+                        <Label Grid.Column="0" FontSize="{DynamicResource FontSizeContent}" VerticalOptions="Center" Text="{Binding Talent.Name}">
                             <Label.Style>
                                 <Style TargetType="Label">
                                     <Style.Triggers>
@@ -45,7 +45,7 @@
                             </Label.Style>
                         </Label>
 
-                        <Label FontSize="16" TextColor="Gray" FontAttributes="Italic" VerticalOptions="Center" Grid.Column="1" Text="{Binding Talent.PhaseValueMod}" >
+                        <Label FontSize="{DynamicResource FontSizeDetail}" TextColor="Gray" FontAttributes="Italic" VerticalOptions="Center" Grid.Column="1" Text="{Binding Talent.PhaseValueMod}" >
                             <Label.Style>
                                 <Style TargetType="Label">
                                     <Style.Triggers>
@@ -61,7 +61,7 @@
                             </Label.Style>
                         </Label>
 
-                        <Label  FontSize="18"  VerticalOptions="Center"  Grid.Column="2" Text="{Binding Talent.Difficulty}" >
+                        <Label  FontSize="{DynamicResource FontSizeContent}"  VerticalOptions="Center"  Grid.Column="2" Text="{Binding Talent.Difficulty}" >
                             <Label.Style>
                                 <Style TargetType="Label">
                                     <Style.Triggers>
@@ -78,7 +78,7 @@
                             </Label.Style>
                         </Label>
 
-                        <Entry  FontSize="18"  VerticalOptions="Center" Keyboard="Numeric" Grid.Column="2" 
+                        <Entry  FontSize="{DynamicResource FontSizeContent}"  VerticalOptions="Center" Keyboard="Numeric" Grid.Column="2" 
                                 Text="{Binding DifficultyOverride}" >
                             <Entry.Style>
                                 <Style TargetType="Entry">
@@ -113,7 +113,7 @@
                             </CheckBox.Style>
                         </CheckBox>
                     </Grid>
-                    <Label FontSize="12"  Text="{Binding Talent.Description}" 
+                    <Label FontSize="{DynamicResource FontSizeDescription}" Text="{Binding Talent.Description}" 
                            Margin="10,0,0,0"  TextColor="DimGray" FontAttributes="Italic"/>
                 </StackLayout>
             </DataTemplate>
@@ -127,8 +127,8 @@
                         <ColumnDefinition Width="60"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Image Grid.Column="0" HorizontalOptions="Start" Source="{Binding ImageSource}" HeightRequest="25" WidthRequest="25" />
-                    <Label Grid.Column="1" FontSize="18" Text="{Binding Text}"></Label>
-                    <Label Grid.Column="2" FontSize="18" Text="{Binding HandiCapValue}"></Label>
+                    <Label Grid.Column="1" FontSize="{DynamicResource FontSizeContent}" Text="{Binding Text}"></Label>
+                    <Label Grid.Column="2" FontSize="{DynamicResource FontSizeContent}" Text="{Binding HandiCapValue}"></Label>
                     <RadioButton IsChecked="{Binding IsChecked}" Grid.Column="3" Value="{Binding Type}"/>
                 </Grid>
             </DataTemplate>
@@ -161,8 +161,8 @@
                     <Setter Property="IsVisible" Value="False"></Setter>
                 </Style>
             </StackLayout.Style>
-            <Label TextColor="White"  Margin="10" FontSize="18" Text="Bekannte Sprachen"></Label>
-            <Editor FontSize="18" VerticalOptions="FillAndExpand" WidthRequest="200" Text="{Binding  CharacterViewModel.CharacterModel.OwnedLanguages,
+            <Label TextColor="White"  Margin="10" FontSize="{DynamicResource FontSizeContent}" Text="Bekannte Sprachen"></Label>
+            <Editor FontSize="{DynamicResource FontSizeContent}" VerticalOptions="FillAndExpand" WidthRequest="200" Text="{Binding  CharacterViewModel.CharacterModel.OwnedLanguages,
                 Source={RelativeSource AncestorType={x:Type viewModels:SkillPageViewModel}}}"></Editor>
         </StackLayout>
         
@@ -180,40 +180,40 @@
             </Grid.RowDefinitions>
 
             <Label Text="{Binding SkillModel.Type, Converter={StaticResource EnumToDisplayTextConverter}}"
-                   Margin="5,5,0,0" FontAttributes="Bold" FontSize="28" Grid.Column="0" Grid.Row="0"/>
+                   Margin="5,5,0,0" FontAttributes="Bold" FontSize="{DynamicResource FontSizeSmallCaption}" Grid.Column="0" Grid.Row="0"/>
 
             <StackLayout  Margin="15,0,0,0" Grid.Column="0" Grid.Row="1" VerticalOptions="Center"   Orientation="Horizontal">
-                <Label VerticalOptions="Center" FontSize="20">
+                <Label VerticalOptions="Center" FontSize="{DynamicResource FontSizeBigContent}">
                     <Label.Text>
                         <MultiBinding StringFormat="{}({0})">
                             <Binding Path="SourceFormula"/>
                         </MultiBinding>
                     </Label.Text>
                 </Label>
-                <Button Margin="20,8,0,0" VerticalOptions="Center" Text="Wiki &#8599;" FontSize="20" 
+                <Button Margin="20,8,0,0" VerticalOptions="Center" Text="Wiki &#8599;" FontSize="{DynamicResource FontSizeBigContent}" 
                             Padding="7,3" Background="limegreen" 
                             Command="{Binding OpenWikiCommand}"/>
             </StackLayout>
 
             <StackLayout Margin="25,5" Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
-                <Label FontSize="20" VerticalOptions="Center"  Text="GW: " FontAttributes="Bold"/>
-                <Label FontSize="20" VerticalOptions="Center"  Text="{Binding SkillModel.BaseValue}"/>
+                <Label FontSize="{DynamicResource FontSizeBigContent}" VerticalOptions="Center"  Text="GW: " FontAttributes="Bold"/>
+                <Label FontSize="{DynamicResource FontSizeBigContent}" VerticalOptions="Center"  Text="{Binding SkillModel.BaseValue}"/>
             </StackLayout>
 
             <StackLayout  Margin="25,5"  Grid.Column="2" Grid.Row="0" Orientation="Horizontal">
-                <Label FontSize="20" VerticalOptions="Center" Text="Mod: " FontAttributes="Bold"/>
-                <Entry FontSize="18" VerticalOptions="Center" Keyboard="Numeric"
+                <Label FontSize="{DynamicResource FontSizeBigContent}" VerticalOptions="Center" Text="Mod: " FontAttributes="Bold"/>
+                <Entry FontSize="{DynamicResource FontSizeContent}" VerticalOptions="Center" Keyboard="Numeric"
                        Text="{Binding SelectedSkillModification, TargetNullValue=0, FallbackValue=0}"/>
             </StackLayout>
 
             <StackLayout Margin="25,5" Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
-                <Label FontSize="20"  VerticalOptions="Center" Text="SW: " FontAttributes="Bold"/>
-                <Label FontSize="20" VerticalOptions="Center"  Text="{Binding SkillModel.IncreaseValue}"/>
+                <Label FontSize="{DynamicResource FontSizeBigContent}"  VerticalOptions="Center" Text="SW: " FontAttributes="Bold"/>
+                <Label FontSize="{DynamicResource FontSizeBigContent}" VerticalOptions="Center"  Text="{Binding SkillModel.IncreaseValue}"/>
             </StackLayout>
 
             <StackLayout Margin="25,5" Grid.Column="2" Grid.Row="1" Orientation="Horizontal" VerticalOptions="Center">
-                <Label FontSize="20"  VerticalOptions="Center"  Text="EP: " FontAttributes="Bold"></Label>
-                <Label FontSize="20"  VerticalOptions="Center" >
+                <Label FontSize="{DynamicResource FontSizeBigContent}"  VerticalOptions="Center"  Text="EP: " FontAttributes="Bold"></Label>
+                <Label FontSize="{DynamicResource FontSizeBigContent}"  VerticalOptions="Center" >
                     <Label.Text>
                         <MultiBinding StringFormat="{}{0}/{1}">
                             <Binding Path="SkillModel.ExperienceValue"/>
@@ -241,7 +241,7 @@
                         <system:Int32>1</system:Int32>
                     </Button.CommandParameter>
                 </Button>
-                <Button FontSize="22"
+                <Button FontSize="{DynamicResource FontSizeHeader}"
                         Padding="0,-4,0,0" WidthRequest="35" HeightRequest="35" FontAttributes="Bold" 
                         Text="+5" Command="{Binding IncreaseExperienceCommand}">
                     <Button.CommandParameter>
@@ -251,12 +251,12 @@
             </StackLayout>
 
             <StackLayout Grid.Column="3" Margin="25,5" Grid.Row="1" Orientation="Horizontal">
-                <Label FontSize="28"  VerticalOptions="Center" Text="FW: " FontAttributes="Bold"/>
-                <Label FontSize="28" VerticalOptions="Center" Text="{Binding SkillModel.FinalValue}"/>
+                <Label FontSize="{DynamicResource FontSizeSmallCaption}"  VerticalOptions="Center" Text="FW: " FontAttributes="Bold"/>
+                <Label FontSize="{DynamicResource FontSizeSmallCaption}" VerticalOptions="Center" Text="{Binding SkillModel.FinalValue}"/>
             </StackLayout>
 
             <Button Grid.Column="3" Grid.Row="0"  Text="X" Padding="0,-4,0,0" WidthRequest="35" 
-                        HeightRequest="35"  FontSize="22"  VerticalOptions="Start" HorizontalOptions="End" TextColor="Red" BackgroundColor="LightGray" 
+                        HeightRequest="35"  FontSize="{DynamicResource FontSizeHeader}"  VerticalOptions="Start" HorizontalOptions="End" TextColor="Red" BackgroundColor="LightGray" 
                         Command="{Binding CloseCommand}"/>
         </Grid>
 
@@ -280,8 +280,8 @@
                 </Grid.RowDefinitions>
                 <BoxView Grid.Row="0" Color="Black"/>
                 <StackLayout Grid.Row="1" Orientation="Horizontal" HorizontalOptions="Center" Margin="0,0,0,5">
-                    <Label VerticalOptions="Center" FontSize="22" Text="Probenwurf gegen"></Label>
-                    <Label Margin="10,0,0,0" VerticalOptions="Center" FontAttributes="Bold" FontSize="32" 
+                    <Label VerticalOptions="Center" FontSize="{DynamicResource FontSizeHeader}" Text="Probenwurf gegen"></Label>
+                    <Label Margin="10,0,0,0" VerticalOptions="Center" FontAttributes="Bold" FontSize="{DynamicResource FontSizeTitle}" 
                            Text="{Binding FinalTestValue}"></Label>
                 </StackLayout>
             </Grid>
@@ -289,7 +289,7 @@
             <!-- talent and mastery list -->
             <ScrollView Grid.Row="0">
                 <StackLayout>
-                    <Label TextColor="white" FontSize="14" FontAttributes="Bold" Text="Behinderung" 
+                    <Label TextColor="white" FontSize="{DynamicResource FontSizeSmallContent}" FontAttributes="Bold" Text="Behinderung" 
                            Padding="10,5,10,5" BackgroundColor="{StaticResource AntiUmbra2}">
                         <Label.Style>
                             <Style TargetType="Label">
@@ -308,7 +308,7 @@
                                  BindableLayout.ItemTemplate="{StaticResource HandicapItemTemplate}"
                                  BindableLayout.ItemsSource="{Binding Handicaps}"/>
 
-                    <Label TextColor="white" FontSize="14" FontAttributes="Bold" Text="Meisterschaften" 
+                    <Label TextColor="white" FontSize="{DynamicResource FontSizeSmallContent}" FontAttributes="Bold" Text="Meisterschaften" 
                            Padding="10,5,10,5" BackgroundColor="{StaticResource AntiUmbra2}">
                         <Label.Style>
                             <Style TargetType="Label">
@@ -326,7 +326,7 @@
                     <StackLayout BindableLayout.ItemsSource="{Binding Masteries}"
                                  BindableLayout.ItemTemplate="{StaticResource TalentBaseDetailTemplate}"/>
 
-                    <Label TextColor="white" FontSize="14" FontAttributes="Bold" Text="Künste" 
+                    <Label TextColor="white" FontSize="{DynamicResource FontSizeSmallContent}" FontAttributes="Bold" Text="Künste" 
                            Padding="10,5,10,5" BackgroundColor="{StaticResource AntiUmbra2}">
                         <Label.Style>
                             <Style TargetType="Label">

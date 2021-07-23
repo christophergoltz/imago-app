@@ -26,17 +26,25 @@ namespace ImagoApp.Manager
 
             foreach (var dictionary in Xamarin.Forms.Application.Current.Resources.MergedDictionaries)
             {
-                foreach (var VARIABLE in dictionary)
-                {
-                    
-                }
-
                 if (dictionary.ContainsKey(key))
                 {
                     dictionary[key] = value;
                     return;
                 }
             }
+        }
+
+        public static void ChangeGlobalFontSize(int mod)
+        {
+            SetValue("FontSizeCaption", TryGetValue<double>("FontSizeCaption") + mod);
+            SetValue("FontSizeSmallCaption", TryGetValue<double>("FontSizeSmallCaption") + mod);
+            SetValue("FontSizeTitle", TryGetValue<double>("FontSizeTitle") + mod);
+            SetValue("FontSizeHeader", TryGetValue<double>("FontSizeHeader") + mod);
+            SetValue("FontSizeBigContent", TryGetValue<double>("FontSizeBigContent") + mod);
+            SetValue("FontSizeContent", TryGetValue<double>("FontSizeContent") + mod);
+            SetValue("FontSizeDetail", TryGetValue<double>("FontSizeDetail") + mod);
+            SetValue("FontSizeSmallContent", TryGetValue<double>("FontSizeSmallContent") + mod);
+            SetValue("FontSizeDescription", TryGetValue<double>("FontSizeDescription") + mod);
         }
     }
 }

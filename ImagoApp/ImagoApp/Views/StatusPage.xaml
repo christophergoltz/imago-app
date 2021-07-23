@@ -15,11 +15,11 @@
                         <ColumnDefinition Width="40"></ColumnDefinition>
                         <ColumnDefinition Width="80"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Row="0" Grid.Column="0" FontSize="16" Style="{StaticResource LightTextLabel}"
+                    <Label Grid.Row="0" Grid.Column="0" FontSize="{DynamicResource FontSizeDetail}" Style="{StaticResource LightTextLabel}"
                                Text="{Binding Type}" />
-                    <Label Margin="0,0,10,0" Grid.Row="0" Grid.Column="1" FontSize="16"  Style="{StaticResource LightTextLabel}"
+                    <Label Margin="0,0,10,0" Grid.Row="0" Grid.Column="1" FontSize="{DynamicResource FontSizeDetail}"  Style="{StaticResource LightTextLabel}"
                              Text="{Binding PhaseValue}" />
-                    <Label Grid.Row="0" Grid.Column="2" FontSize="16" Style="{StaticResource LightTextLabel}"
+                    <Label Grid.Row="0" Grid.Column="2" FontSize="{DynamicResource FontSizeDetail}" Style="{StaticResource LightTextLabel}"
                                Text="{Binding DamageFormula}" />
                 </Grid>
             </DataTemplate>
@@ -40,7 +40,7 @@
                             <RowDefinition Height="Auto"></RowDefinition>
                         </Grid.RowDefinitions>
 
-                        <Label Margin="10,10,0,0" Grid.Row="0" Grid.Column="0" FontSize="18" FontAttributes="Bold" Text="{Binding Name}" />
+                        <Label Margin="10,10,0,0" Grid.Row="0" Grid.Column="0" FontSize="{DynamicResource FontSizeContent}" FontAttributes="Bold" Text="{Binding Name}" />
 
                         <StackLayout VerticalOptions="Center" Grid.Row="0" Grid.Column="1" Orientation="Horizontal" >
                             <Image HeightRequest="25" WidthRequest="25" Margin="10" VerticalOptions="Center" Source="Images/swords.png"
@@ -109,31 +109,31 @@
                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <Label Grid.Row="0" Grid.Column="0" VerticalOptions="Center" FontSize="18" Text="Waffen"
+                                <Label Grid.Row="0" Grid.Column="0" VerticalOptions="Center" FontSize="{DynamicResource FontSizeContent}" Text="Waffen"
                                    FontAttributes="Bold"/>
 
                                 <Button Grid.Row="0" Grid.Column="2" Text="+" Padding="0,-6,0,0" WidthRequest="25" 
-                                        HeightRequest="25" FontSize="22" 
+                                        HeightRequest="25" FontSize="{DynamicResource FontSizeHeader}" 
                                         VerticalOptions="Center" HorizontalOptions="Center" TextColor="Green" BackgroundColor="LightGray" 
                                         Command="{Binding WeaponListViewModel.AddWeaponCommand}"/>
 
                                 <StackLayout Grid.ColumnSpan="3" Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-                                    <Button VerticalOptions="Center" Text="Nahkampfwaffen &#8599;" FontSize="20" 
+                                    <Button VerticalOptions="Center" Text="Nahkampfwaffen &#8599;" FontSize="{DynamicResource FontSizeBigContent}" 
                                             Padding="7,3" Background="limegreen" 
                                             Command="{Binding WeaponListViewModel.OpenMeleeWeaponWikiCommand}"/>
-                                    <Button VerticalOptions="Center" Text="Schilde &#8599;" FontSize="20" 
+                                    <Button VerticalOptions="Center" Text="Schilde &#8599;" FontSize="{DynamicResource FontSizeBigContent}" 
                                             Padding="7,3" Background="limegreen" HorizontalOptions="FillAndExpand"
                                             Command="{Binding WeaponListViewModel.OpenShieldWikiCommand}"/>
                                 </StackLayout>
 
                                 <StackLayout  Grid.ColumnSpan="3"  Grid.Row="2" Grid.Column="0">
-                                    <Button VerticalOptions="Center" Text="Fernkampfwaffen &#8599;" FontSize="20" 
+                                    <Button VerticalOptions="Center" Text="Fernkampfwaffen &#8599;" FontSize="{DynamicResource FontSizeBigContent}" 
                                              Padding="7,3" Background="limegreen" 
                                         Command="{Binding WeaponListViewModel.OpenRangedWeaponWikiCommand}"/>
                                 </StackLayout>
 
                                 <StackLayout  Grid.ColumnSpan="3"  Grid.Row="3" Grid.Column="0">
-                                    <Button VerticalOptions="Center" Text="Spezialwaffen &#8599;" FontSize="20" 
+                                    <Button VerticalOptions="Center" Text="Spezialwaffen &#8599;" FontSize="{DynamicResource FontSizeBigContent}" 
                                             Padding="7,3" Background="limegreen" 
                                             Command="{Binding WeaponListViewModel.OpenSpecialWeaponWikiCommand}"/>
                                 </StackLayout>
@@ -177,8 +177,8 @@
                                                 <ColumnDefinition Width="*" />
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
-                                            <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
-                                            <Label FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding FinalValue}"/>
+                                            <Label FontSize="{DynamicResource FontSizeContent}" Grid.Column="0" VerticalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
+                                            <Label FontSize="{DynamicResource FontSizeContent}" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding FinalValue}"/>
                                         </Grid>
                                     </ViewCell>
                                 </DataTemplate>
@@ -190,7 +190,7 @@
                 <!-- healing -->
                 <Frame Grid.Row="1" Grid.Column="1">
                     <StackLayout Margin="20">
-                        <Button VerticalOptions="Center" Text="Heilung &#8599;" FontSize="20" 
+                        <Button VerticalOptions="Center" Text="Heilung &#8599;" FontSize="{DynamicResource FontSizeBigContent}" 
                                 Padding="7,3" Background="limegreen" HorizontalOptions="Start"
                                 Command="{Binding OpenHealingWikiCommand}"/>
                     </StackLayout>
@@ -227,9 +227,9 @@
                                                 <ColumnDefinition Width="200" />
                                                 <ColumnDefinition Width="100" />
                                             </Grid.ColumnDefinitions>
-                                            <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
-                                            <Label FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToFormulaConverter}}"/>
-                                            <Label FontSize="18" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding FinalValue}"/>
+                                            <Label FontSize="{DynamicResource FontSizeContent}" Grid.Column="0" VerticalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
+                                            <Label FontSize="{DynamicResource FontSizeContent}" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToFormulaConverter}}"/>
+                                            <Label FontSize="{DynamicResource FontSizeContent}" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding FinalValue}"/>
                                         </Grid>
                                     </ViewCell>
                                 </DataTemplate>

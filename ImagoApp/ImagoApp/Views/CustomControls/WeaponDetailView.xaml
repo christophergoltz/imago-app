@@ -14,11 +14,11 @@
                     <ColumnDefinition Width="100" />
                     <ColumnDefinition Width="150" />
                 </Grid.ColumnDefinitions>
-                <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Type}"/>
-                <Entry FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Text="{Binding PhaseValue}"/>
-                <Entry FontSize="18" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Text="{Binding DamageFormula}"/>
-                <Entry Placeholder="-" Keyboard="Numeric" FontSize="18" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Text="{Binding ParryModifier}"/>
-                <Entry FontSize="18" Grid.Column="4" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Text="{Binding Range}"/>
+                <Label FontSize="{DynamicResource FontSizeContent}" Grid.Column="0" VerticalOptions="Center" Text="{Binding Type}"/>
+                <Entry FontSize="{DynamicResource FontSizeContent}" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Text="{Binding PhaseValue}"/>
+                <Entry FontSize="{DynamicResource FontSizeContent}" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Text="{Binding DamageFormula}"/>
+                <Entry Placeholder="-" Keyboard="Numeric" FontSize="{DynamicResource FontSizeContent}" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Text="{Binding ParryModifier}"/>
+                <Entry FontSize="{DynamicResource FontSizeContent}" Grid.Column="4" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Text="{Binding Range}"/>
             </Grid>
         </DataTemplate>
     </ContentView.Resources>
@@ -39,25 +39,25 @@
             </Grid.RowDefinitions>
 
             <Button Grid.Column="1" Grid.Row="0" Text="X" Padding="0,-4,0,0" WidthRequest="35" 
-                    HeightRequest="35"  FontSize="22"  VerticalOptions="Start" HorizontalOptions="End" TextColor="Red" BackgroundColor="LightGray" 
+                    HeightRequest="35"  FontSize="{DynamicResource FontSizeHeader}"  VerticalOptions="Start" HorizontalOptions="End" TextColor="Red" BackgroundColor="LightGray" 
                     Command="{Binding WeaponDetailViewModel.CloseCommand, Source={x:Reference WeaponViewControl}}"/>
 
             <StackLayout Orientation="Horizontal" Grid.Row="0" Grid.Column="0" >
-                <Entry WidthRequest="600"  FontSize="26" FontAttributes="Bold" Text="{Binding WeaponModel.Name}" />
+                <Entry WidthRequest="600" FontSize="{DynamicResource FontSizeTitle}" FontAttributes="Bold" Text="{Binding WeaponModel.Name}" />
 
                 <Button Text="🗑" Padding="0,-4,0,0" WidthRequest="45" 
-                        HeightRequest="45"  FontSize="22"  VerticalOptions="Center" TextColor="Red" BackgroundColor="LightGray" 
+                        HeightRequest="45"  FontSize="{DynamicResource FontSizeHeader}"  VerticalOptions="Center" TextColor="Red" BackgroundColor="LightGray" 
                         Command="{Binding WeaponDetailViewModel.RemoveWeaponCommand, Source={x:Reference WeaponViewControl}}"/>
             </StackLayout>
            
             <StackLayout Margin="10,25,10,10" VerticalOptions="Center" Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-                <Label VerticalOptions="Center" FontSize="18" FontAttributes="Bold" Text="Last"></Label>
-                <Entry Margin="10,0" VerticalOptions="Center" Keyboard="Numeric" WidthRequest="100" FontSize="18"  Text="{Binding LoadValue}"></Entry>
+                <Label VerticalOptions="Center" FontSize="{DynamicResource FontSizeContent}" FontAttributes="Bold" Text="Last"></Label>
+                <Entry Margin="10,0" VerticalOptions="Center" Keyboard="Numeric" WidthRequest="100" FontSize="{DynamicResource FontSizeContent}"  Text="{Binding LoadValue}"></Entry>
             </StackLayout>
 
             <StackLayout Margin="10" VerticalOptions="Center"  Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
-                <Label VerticalOptions="Center" FontSize="18" FontAttributes="Bold" Text="Haltbarkeit"></Label>
-                <Entry Margin="10,0"  VerticalOptions="Center"  Keyboard="Numeric" WidthRequest="100"  FontSize="18"  Text="{Binding WeaponModel.DurabilityValue}"></Entry>
+                <Label VerticalOptions="Center" FontSize="{DynamicResource FontSizeContent}" FontAttributes="Bold" Text="Haltbarkeit"></Label>
+                <Entry Margin="10,0"  VerticalOptions="Center"  Keyboard="Numeric" WidthRequest="100"  FontSize="{DynamicResource FontSizeContent}"  Text="{Binding WeaponModel.DurabilityValue}"></Entry>
             </StackLayout>
 
             <StackLayout Margin="10" VerticalOptions="Center"  Grid.Column="0" Grid.Row="3" Orientation="Horizontal">
@@ -81,7 +81,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="1" />
                 </Grid.RowDefinitions>
-                <Label Grid.Row="0" FontSize="18" VerticalTextAlignment="Center" Grid.Column="0" Text="Haltungen" FontAttributes="Bold"/>
+                <Label Grid.Row="0" FontSize="{DynamicResource FontSizeContent}" VerticalTextAlignment="Center" Grid.Column="0" Text="Haltungen" FontAttributes="Bold"/>
                 <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="1" Text="Phasen" FontAttributes="Bold"/>
                 <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="2" Text="Schaden"  FontAttributes="Bold"/>
                 <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="3" Text="Parademodi" FontAttributes="Bold"/>
