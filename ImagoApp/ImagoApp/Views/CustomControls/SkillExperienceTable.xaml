@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             BackgroundColor="{StaticResource GruenesUmbra2}"
+             x:Class="ImagoApp.Views.CustomControls.SkillExperienceTable">
+    <ContentView.Content>
+        <Grid >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="1"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="1"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="1"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="1"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="1"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="1"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="1"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="1"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="1"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="1"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="1"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="1"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="1"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="1"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="1"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="1"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="1"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Label VerticalOptions="Center" FontSize="{DynamicResource FontSizeContent}" Margin="10,5" Text="SW" Grid.Row="0" Grid.Column="0"></Label>
+            <BoxView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="33" BackgroundColor="{StaticResource AntiUmbra2}" ></BoxView>
+            <Label  VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Margin="10,5" Text="Notwendig EP Gesamt" Grid.Row="2" Grid.Column="0"></Label>
+
+            <BoxView Grid.Row="0" Grid.RowSpan="3" Grid.Column="1" BackgroundColor="{StaticResource AntiUmbra2}" ></BoxView>
+
+            <Label VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Margin="5"  Text="5" Grid.Row="0" Grid.Column="2"></Label>
+            <Label VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Margin="5"  Text="10" Grid.Row="2" Grid.Column="2"></Label>
+
+            <BoxView Grid.Row="0" Grid.RowSpan="3" Grid.Column="3" BackgroundColor="{StaticResource AntiUmbra2}" ></BoxView>
+
+            <Label VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Margin="5"   Text="10" Grid.Row="0" Grid.Column="4"></Label>
+            <Label VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Margin="5"   Text="20" Grid.Row="2" Grid.Column="4"></Label>
+            <BoxView Grid.Row="0" Grid.RowSpan="3" Grid.Column="5" BackgroundColor="{StaticResource AntiUmbra2}" ></BoxView>
+
+            <Label VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Margin="5"   Text="15" Grid.Row="0" Grid.Column="6"></Label>
+            <Label VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Margin="5"   Text="30" Grid.Row="2" Grid.Column="6"></Label>
+            <BoxView Grid.Row="0" Grid.RowSpan="3" Grid.Column="7" BackgroundColor="{StaticResource AntiUmbra2}" ></BoxView>
+
+            <Label VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Margin="5"   Text="20" Grid.Row="0" Grid.Column="8"></Label>
+            <Label VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Margin="5"   Text="45" Grid.Row="2" Grid.Column="8"></Label>
+            <BoxView Grid.Row="0" Grid.RowSpan="3" Grid.Column="9" BackgroundColor="{StaticResource AntiUmbra2}" ></BoxView>
+
+            <Label VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Margin="5"   Text="25" Grid.Row="0" Grid.Column="10"></Label>
+            <Label VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Margin="5"   Text="60" Grid.Row="2" Grid.Column="10"></Label>
+            <BoxView Grid.Row="0" Grid.RowSpan="3" Grid.Column="11" BackgroundColor="{StaticResource AntiUmbra2}" ></BoxView>
+
+            <Label VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Margin="5"   Text="30" Grid.Row="0" Grid.Column="12"></Label>
+            <Label VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Margin="5"   Text="75" Grid.Row="2" Grid.Column="12"></Label>
+
+            <BoxView Grid.Row="0" Grid.RowSpan="3" Grid.Column="13" BackgroundColor="{StaticResource AntiUmbra2}" ></BoxView>
+
+            <Label VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Margin="5"   Text="35" Grid.Row="0" Grid.Column="14"></Label>
+            <Label VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Margin="5"   Text="90" Grid.Row="2" Grid.Column="14"></Label>
+
+            <BoxView Grid.Row="0" Grid.RowSpan="3" Grid.Column="15" BackgroundColor="{StaticResource AntiUmbra2}" ></BoxView>
+
+            <Label VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Margin="5"   Text="40" Grid.Row="0" Grid.Column="16"></Label>
+            <Label  VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Margin="5"  Text="125" Grid.Row="2" Grid.Column="16"></Label>
+
+            <BoxView Grid.Row="0" Grid.RowSpan="3" Grid.Column="17" BackgroundColor="{StaticResource AntiUmbra2}" ></BoxView>
+
+            <Label  VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Margin="5"  Text="45" Grid.Row="0" Grid.Column="18"></Label>
+            <Label VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Margin="5"   Text="150" Grid.Row="2" Grid.Column="18"></Label>
+
+            <BoxView Grid.Row="0" Grid.RowSpan="3" Grid.Column="19" BackgroundColor="{StaticResource AntiUmbra2}" ></BoxView>
+
+            <Label VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Margin="5"   Text="50" Grid.Row="0" Grid.Column="20"></Label>
+            <Label VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Margin="5"   Text="190" Grid.Row="2" Grid.Column="20"></Label>
+
+
+            <BoxView Grid.Row="0" Grid.RowSpan="3" Grid.Column="21" BackgroundColor="{StaticResource AntiUmbra2}" ></BoxView>
+
+            <Label VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Margin="5"   Text="55" Grid.Row="0" Grid.Column="22"></Label>
+            <Label VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Margin="5"   Text="230" Grid.Row="2" Grid.Column="22"></Label>
+
+
+            <BoxView Grid.Row="0" Grid.RowSpan="3" Grid.Column="23" BackgroundColor="{StaticResource AntiUmbra2}" ></BoxView>
+
+            <Label VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Margin="5"   Text="60" Grid.Row="0" Grid.Column="24"></Label>
+            <Label VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Margin="5"   Text="270" Grid.Row="2" Grid.Column="24"></Label>
+
+
+            <BoxView Grid.Row="0" Grid.RowSpan="3" Grid.Column="25" BackgroundColor="{StaticResource AntiUmbra2}" ></BoxView>
+
+            <Label VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Margin="5"   Text="65" Grid.Row="0" Grid.Column="26"></Label>
+            <Label VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Margin="5"   Text="330" Grid.Row="2" Grid.Column="26"></Label>
+
+
+            <BoxView Grid.Row="0" Grid.RowSpan="3" Grid.Column="27" BackgroundColor="{StaticResource AntiUmbra2}" ></BoxView>
+
+            <Label VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Margin="5"   Text="70" Grid.Row="0" Grid.Column="28"></Label>
+            <Label VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Margin="5"   Text="390" Grid.Row="2" Grid.Column="28"></Label>
+
+            <BoxView Grid.Row="0" Grid.RowSpan="3" Grid.Column="29" BackgroundColor="{StaticResource AntiUmbra2}" ></BoxView>
+
+            <Label VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Margin="5"   Text="80" Grid.Row="0" Grid.Column="30"></Label>
+            <Label VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Margin="5"   Text="535" Grid.Row="2" Grid.Column="30"></Label>
+
+            <BoxView Grid.Row="0" Grid.RowSpan="3" Grid.Column="31" BackgroundColor="{StaticResource AntiUmbra2}" ></BoxView>
+
+            <Label VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Margin="5"   Text="90" Grid.Row="0" Grid.Column="32"></Label>
+            <Label VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Margin="5"   Text="705" Grid.Row="2" Grid.Column="32"></Label>
+
+
+        </Grid>
+
+    </ContentView.Content>
+</ContentView>
