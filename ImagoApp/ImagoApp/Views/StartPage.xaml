@@ -9,7 +9,7 @@
              x:Class="ImagoApp.Views.StartPage" 
              x:DataType="viewModels:StartPageViewModel">
     <ContentPage.Content>
-        <Grid Style="{StaticResource BackgroundGridStyle}">
+        <Grid Style="{DynamicResource BackgroundGridStyle}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -30,7 +30,7 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
 
-                    <Label Grid.Row="0" Grid.Column="0" Text="ImagoApp" Margin="10" FontSize="34"></Label>
+                    <Label Grid.Row="0" Grid.Column="0" Text="ImagoApp" Margin="10" FontSize="{DynamicResource FontSizeCaption}"></Label>
 
                     <StackLayout Grid.Row="1" Orientation="Horizontal" VerticalOptions="FillAndExpand" >
                         <Label VerticalOptions="Center" Margin="20,0,0,0" FontSize="22" Text="Version:"></Label>
@@ -106,9 +106,9 @@
                         <Label Grid.Column="3" Margin="25,0"  HorizontalOptions="EndAndExpand" Text="{Binding DatabaseInfoViewModel.CharacterDatabaseInfo.Length, Converter={StaticResource FileInfoLenghtToSmartFileSizeConverter}}" FontSize="24"></Label>
                         <Label Grid.Column="4" HorizontalOptions="EndAndExpand" Text="{Binding DatabaseInfoViewModel.CharacterDatabaseInfo.LastWriteTime, StringFormat='{0:dd.MM.yyyy HH:mm}'}" FontSize="24"></Label>
                     </Grid>
-                    <Frame BackgroundColor="{StaticResource AntiUmbra3}" BorderColor="Transparent">
+                    <Frame BackgroundColor="{DynamicResource AntiUmbra3}" BorderColor="Transparent">
                         <Label FontSize="18" Margin="20"
-                               TextColor="{StaticResource RotesUmbra}" FontAttributes="Bold"
+                               TextColor="{DynamicResource RotesUmbra}" FontAttributes="Bold"
                                Text="Achtung: Die Charakterdatenbank wird unwiederruflich durch Windows bei einer Deinstallation gelöscht!"></Label>
                     </Frame>
                   
@@ -117,7 +117,7 @@
 
             <!-- Characters -->
             <Frame Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" Margin="10">
-                <Grid Style="{StaticResource SingleGradiantStyle}">
+                <Grid Style="{DynamicResource SingleGradiantStyle}">
                     <ListView SelectionMode="Single" ItemsSource="{Binding Characters}"
                               ItemSelected="CharacterListView_OnItemSelected">
                         <ListView.Header>
