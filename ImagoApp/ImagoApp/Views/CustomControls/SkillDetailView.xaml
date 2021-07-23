@@ -4,7 +4,9 @@
              xmlns:system="clr-namespace:System;assembly=netstandard"
              xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp"
              xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
-             x:Class="ImagoApp.Views.CustomControls.SkillDetailView" x:DataType="customControls:SkillDetailView">
+             xmlns:enums="clr-namespace:ImagoApp.Shared.Enums;assembly=ImagoApp.Shared"
+             x:Class="ImagoApp.Views.CustomControls.SkillDetailView" 
+             x:Name="SkillDetailViewControl">
     <ContentView.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="TalentBaseDetailTemplate" x:DataType="viewModels:TalentListItemViewModel">
@@ -133,8 +135,10 @@
         </ResourceDictionary>
     </ContentView.Resources>
 
-    <Grid BackgroundColor="White" RowSpacing="0" ColumnSpacing="0">
+    <Grid BackgroundColor="White" RowSpacing="0" ColumnSpacing="0" x:DataType="viewModels:SkillDetailViewModel" 
+          BindingContext="{Binding SkillDetailViewModel, Source={x:Reference SkillDetailViewControl}}">
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="1"/>
             <ColumnDefinition Width="500"/>
@@ -144,8 +148,26 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <!-- owned language editor -->
+        <StackLayout Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" VerticalOptions="FillAndExpand" BackgroundColor="{StaticResource AntiUmbra2}" >
+            <StackLayout.Style>
+                <Style TargetType="StackLayout">
+                    <Style.Triggers>
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding SkillModel.Type}"
+                                     Value="{x:Static enums:SkillModelType.Sprache}">
+                            <Setter Property="IsVisible" Value="True"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                    <Setter Property="IsVisible" Value="False"></Setter>
+                </Style>
+            </StackLayout.Style>
+            <Label TextColor="White"  Margin="10" FontSize="18" Text="Bekannte Sprachen"></Label>
+            <Editor FontSize="18" VerticalOptions="FillAndExpand" WidthRequest="200" Text="{Binding  CharacterViewModel.CharacterModel.OwnedLanguages,
+                Source={RelativeSource AncestorType={x:Type viewModels:SkillPageViewModel}}}"></Editor>
+        </StackLayout>
+        
         <!-- header -->
-        <Grid Grid.Column="0" Grid.Row="0" Padding="15" Style="{StaticResource EvenGradiantStyle}">
+        <Grid Grid.Column="1" Grid.Row="0" Padding="15" Style="{StaticResource EvenGradiantStyle}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -157,36 +179,36 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Label Text="{Binding SkillDetailViewModel.SkillModel.Type, Converter={StaticResource EnumToDisplayTextConverter}}"
+            <Label Text="{Binding SkillModel.Type, Converter={StaticResource EnumToDisplayTextConverter}}"
                    Margin="5,5,0,0" FontAttributes="Bold" FontSize="28" Grid.Column="0" Grid.Row="0"/>
 
             <StackLayout  Margin="15,0,0,0" Grid.Column="0" Grid.Row="1" VerticalOptions="Center"   Orientation="Horizontal">
                 <Label VerticalOptions="Center" FontSize="20">
                     <Label.Text>
                         <MultiBinding StringFormat="{}({0})">
-                            <Binding Path="SkillDetailViewModel.SourceFormula"/>
+                            <Binding Path="SourceFormula"/>
                         </MultiBinding>
                     </Label.Text>
                 </Label>
                 <Button Margin="20,8,0,0" VerticalOptions="Center" Text="Wiki &#8599;" FontSize="20" 
                             Padding="7,3" Background="limegreen" 
-                            Command="{Binding SkillDetailViewModel.OpenWikiCommand}"/>
+                            Command="{Binding OpenWikiCommand}"/>
             </StackLayout>
 
             <StackLayout Margin="25,5" Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
                 <Label FontSize="20" VerticalOptions="Center"  Text="GW: " FontAttributes="Bold"/>
-                <Label FontSize="20" VerticalOptions="Center"  Text="{Binding SkillDetailViewModel.SkillModel.BaseValue}"/>
+                <Label FontSize="20" VerticalOptions="Center"  Text="{Binding SkillModel.BaseValue}"/>
             </StackLayout>
 
             <StackLayout  Margin="25,5"  Grid.Column="2" Grid.Row="0" Orientation="Horizontal">
                 <Label FontSize="20" VerticalOptions="Center" Text="Mod: " FontAttributes="Bold"/>
                 <Entry FontSize="18" VerticalOptions="Center" Keyboard="Numeric"
-                       Text="{Binding SkillDetailViewModel.SelectedSkillModification, TargetNullValue=0, FallbackValue=0}"/>
+                       Text="{Binding SelectedSkillModification, TargetNullValue=0, FallbackValue=0}"/>
             </StackLayout>
 
             <StackLayout Margin="25,5" Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
                 <Label FontSize="20"  VerticalOptions="Center" Text="SW: " FontAttributes="Bold"/>
-                <Label FontSize="20" VerticalOptions="Center"  Text="{Binding SkillDetailViewModel.SkillModel.IncreaseValue}"/>
+                <Label FontSize="20" VerticalOptions="Center"  Text="{Binding SkillModel.IncreaseValue}"/>
             </StackLayout>
 
             <StackLayout Margin="25,5" Grid.Column="2" Grid.Row="1" Orientation="Horizontal" VerticalOptions="Center">
@@ -194,18 +216,18 @@
                 <Label FontSize="20"  VerticalOptions="Center" >
                     <Label.Text>
                         <MultiBinding StringFormat="{}{0}/{1}">
-                            <Binding Path="SkillDetailViewModel.SkillModel.ExperienceValue"/>
-                            <Binding Path="SkillDetailViewModel.SkillModel.ExperienceForNextIncreasedRequired"/>
+                            <Binding Path="SkillModel.ExperienceValue"/>
+                            <Binding Path="SkillModel.ExperienceForNextIncreasedRequired"/>
                         </MultiBinding>
                     </Label.Text>
                 </Label>
 
                 <Button Margin="3,0,0,0" FontSize="30" Padding="0,-9,0,0" WidthRequest="35" HeightRequest="35"
-                        FontAttributes="Bold" Text="-" Command="{Binding SkillDetailViewModel.DecreaseExperienceCommand}">
+                        FontAttributes="Bold" Text="-" Command="{Binding DecreaseExperienceCommand}">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Style.Triggers>
-                                <DataTrigger TargetType="Button" Binding="{Binding SkillDetailViewModel.SkillModel.ExperienceValue}" Value="0" >
+                                <DataTrigger TargetType="Button" Binding="{Binding SkillModel.ExperienceValue}" Value="0" >
                                     <Setter Property="IsEnabled" Value="False"/>
                                 </DataTrigger>
                             </Style.Triggers>
@@ -214,14 +236,14 @@
                 </Button>
                 <Button FontSize="30"
                         Padding="0,-8,0,0" WidthRequest="35" HeightRequest="35" FontAttributes="Bold" 
-                        Text="+" Command="{Binding SkillDetailViewModel.IncreaseExperienceCommand}">
+                        Text="+" Command="{Binding IncreaseExperienceCommand}">
                     <Button.CommandParameter>
                         <system:Int32>1</system:Int32>
                     </Button.CommandParameter>
                 </Button>
                 <Button FontSize="22"
                         Padding="0,-4,0,0" WidthRequest="35" HeightRequest="35" FontAttributes="Bold" 
-                        Text="+5" Command="{Binding SkillDetailViewModel.IncreaseExperienceCommand}">
+                        Text="+5" Command="{Binding IncreaseExperienceCommand}">
                     <Button.CommandParameter>
                         <system:Int32>5</system:Int32>
                     </Button.CommandParameter>
@@ -230,21 +252,21 @@
 
             <StackLayout Grid.Column="3" Margin="25,5" Grid.Row="1" Orientation="Horizontal">
                 <Label FontSize="28"  VerticalOptions="Center" Text="FW: " FontAttributes="Bold"/>
-                <Label FontSize="28" VerticalOptions="Center" Text="{Binding SkillDetailViewModel.SkillModel.FinalValue}"/>
+                <Label FontSize="28" VerticalOptions="Center" Text="{Binding SkillModel.FinalValue}"/>
             </StackLayout>
 
             <Button Grid.Column="3" Grid.Row="0"  Text="X" Padding="0,-4,0,0" WidthRequest="35" 
                         HeightRequest="35"  FontSize="22"  VerticalOptions="Start" HorizontalOptions="End" TextColor="Red" BackgroundColor="LightGray" 
-                        Command="{Binding SkillDetailViewModel.CloseCommand}"/>
+                        Command="{Binding CloseCommand}"/>
         </Grid>
 
-        <WebView Grid.Row="1" Grid.Column="0" Navigating="WebView_OnNavigating"
-                             Source="{Binding SkillDetailViewModel.QuickWikiView}"></WebView>
+        <WebView Grid.Row="1" Grid.Column="1" Navigating="WebView_OnNavigating"
+                             Source="{Binding QuickWikiView}"></WebView>
 
-        <BoxView Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" BackgroundColor="{StaticResource AntiUmbra}"></BoxView>
+        <BoxView Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" BackgroundColor="{StaticResource AntiUmbra}"></BoxView>
 
         <!-- probe -->
-        <Grid Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" >
+        <Grid Grid.Column="3" Grid.Row="0" Grid.RowSpan="2" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
@@ -259,7 +281,8 @@
                 <BoxView Grid.Row="0" Color="Black"/>
                 <StackLayout Grid.Row="1" Orientation="Horizontal" HorizontalOptions="Center" Margin="0,0,0,5">
                     <Label VerticalOptions="Center" FontSize="22" Text="Probenwurf gegen"></Label>
-                    <Label Margin="10,0,0,0" VerticalOptions="Center" FontAttributes="Bold" FontSize="32" Text="{Binding SkillDetailViewModel.FinalTestValue}"></Label>
+                    <Label Margin="10,0,0,0" VerticalOptions="Center" FontAttributes="Bold" FontSize="32" 
+                           Text="{Binding FinalTestValue}"></Label>
                 </StackLayout>
             </Grid>
 
@@ -272,7 +295,7 @@
                             <Style TargetType="Label">
                                 <Style.Triggers>
                                     <DataTrigger TargetType="Label" 
-                                                 Binding="{Binding SkillDetailViewModel.Handicaps.Count}"
+                                                 Binding="{Binding Handicaps.Count}"
                                                  Value="0">
                                         <Setter Property="IsVisible" Value="False"></Setter>
                                     </DataTrigger>
@@ -283,7 +306,7 @@
                     </Label>
                     <StackLayout RadioButtonGroup.GroupName="Handicap" 
                                  BindableLayout.ItemTemplate="{StaticResource HandicapItemTemplate}"
-                                 BindableLayout.ItemsSource="{Binding SkillDetailViewModel.Handicaps}"/>
+                                 BindableLayout.ItemsSource="{Binding Handicaps}"/>
 
                     <Label TextColor="white" FontSize="14" FontAttributes="Bold" Text="Meisterschaften" 
                            Padding="10,5,10,5" BackgroundColor="{StaticResource AntiUmbra2}">
@@ -291,7 +314,7 @@
                             <Style TargetType="Label">
                                 <Style.Triggers>
                                     <DataTrigger TargetType="Label" 
-                                                 Binding="{Binding SkillDetailViewModel.Masteries.Count}"
+                                                 Binding="{Binding Masteries.Count}"
                                                  Value="0">
                                         <Setter Property="IsVisible" Value="False"></Setter>
                                     </DataTrigger>
@@ -300,7 +323,7 @@
                             </Style>
                         </Label.Style>
                     </Label>
-                    <StackLayout BindableLayout.ItemsSource="{Binding SkillDetailViewModel.Masteries}"
+                    <StackLayout BindableLayout.ItemsSource="{Binding Masteries}"
                                  BindableLayout.ItemTemplate="{StaticResource TalentBaseDetailTemplate}"/>
 
                     <Label TextColor="white" FontSize="14" FontAttributes="Bold" Text="Künste" 
@@ -309,7 +332,7 @@
                             <Style TargetType="Label">
                                 <Style.Triggers>
                                     <DataTrigger TargetType="Label" 
-                                                 Binding="{Binding SkillDetailViewModel.Talents.Count}"
+                                                 Binding="{Binding Talents.Count}"
                                                  Value="0">
                                         <Setter Property="IsVisible" Value="False"></Setter>
                                     </DataTrigger>
@@ -318,7 +341,7 @@
                             </Style>
                         </Label.Style>
                     </Label>
-                    <StackLayout BindableLayout.ItemsSource="{Binding SkillDetailViewModel.Talents}"
+                    <StackLayout BindableLayout.ItemsSource="{Binding Talents}"
                                  BindableLayout.ItemTemplate="{StaticResource TalentBaseDetailTemplate}">
                     </StackLayout>
                 </StackLayout>

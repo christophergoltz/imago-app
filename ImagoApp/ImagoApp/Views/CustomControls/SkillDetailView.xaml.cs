@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using ImagoApp.ViewModels;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace ImagoApp.Views.CustomControls
@@ -9,17 +10,16 @@ namespace ImagoApp.Views.CustomControls
         public SkillDetailView()
         {
             InitializeComponent();
-            BindingContext = this;
         }
         
         public static readonly BindableProperty SkillDetailViewModelProperty = BindableProperty.Create(
             "SkillDetailViewModel", // the name of the bindable property
-            typeof(ViewModels.SkillDetailViewModel), // the bindable property type
+            typeof(SkillDetailViewModel), // the bindable property type
             typeof(SkillDetailView));
 
-        public ViewModels.SkillDetailViewModel SkillDetailViewModel
+        public SkillDetailViewModel SkillDetailViewModel
         {
-            get => (ViewModels.SkillDetailViewModel)GetValue(SkillDetailViewModelProperty);
+            get => (SkillDetailViewModel)GetValue(SkillDetailViewModelProperty);
             set => SetValue(SkillDetailViewModelProperty, value);
         }
 

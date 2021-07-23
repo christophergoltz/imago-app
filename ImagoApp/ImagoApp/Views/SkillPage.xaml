@@ -151,8 +151,9 @@
                         <TapGestureRecognizer Command="{Binding SkillDetailViewModel.CloseCommand}"/>
                     </ContentView.GestureRecognizers>
                 </ContentView>
-                <Frame WidthRequest="1400" HeightRequest="900" VerticalOptions="Center" HorizontalOptions="Center">
-                    <customControls:SkillDetailView  VerticalOptions="Fill" HorizontalOptions="Fill" SkillDetailViewModel="{Binding SkillDetailViewModel, Source={RelativeSource AncestorType={x:Type viewModels:SkillPageViewModel}}}"/>
+                <Frame WidthRequest="1600" HeightRequest="900" VerticalOptions="Center" HorizontalOptions="Center">
+                    <customControls:SkillDetailView  VerticalOptions="Fill" HorizontalOptions="Fill" 
+                                                     SkillDetailViewModel="{Binding SkillDetailViewModel}"/>
                 </Frame>
             </Grid>
 
@@ -164,7 +165,8 @@
                     </ContentView.GestureRecognizers>
                 </ContentView>
                 <Frame WidthRequest="1200" HeightRequest="850" VerticalOptions="Center" HorizontalOptions="Center">
-                    <customControls:SkillGroupDetailView  VerticalOptions="Fill" HorizontalOptions="Fill" SkillGroupDetailViewModel="{Binding SkillGroupDetailViewModel, Source={RelativeSource AncestorType={x:Type viewModels:SkillPageViewModel}}}"/>
+                    <customControls:SkillGroupDetailView  VerticalOptions="Fill" HorizontalOptions="Fill" 
+                                                          SkillGroupDetailViewModel="{Binding SkillGroupDetailViewModel, Source={RelativeSource AncestorType={x:Type viewModels:SkillPageViewModel}}}"/>
                 </Frame>
             </Grid>
         </Grid>

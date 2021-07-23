@@ -40,5 +40,7 @@ namespace ImagoApp.Application.Models
         public ObservableCollection<BloodCarrierModel> BloodCarrier { get; set; }
         
         public ObservableCollection<WikiTabModel> WikiPages { get; set; }
+
+        public string OwnedLanguages { get; set; }
     }
 }

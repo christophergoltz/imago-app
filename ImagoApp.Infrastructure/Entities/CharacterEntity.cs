@@ -34,5 +34,7 @@ namespace ImagoApp.Infrastructure.Entities
         public List<EquipableItemEntity> EquippedItems { get; set; }
         public List<BloodCarrierEntity> BloodCarrier { get; set; }
         public List<WikiTabEntity> WikiPages { get; set; }
+
+        public string OwnedLanguages { get; set; }
     }
 }
