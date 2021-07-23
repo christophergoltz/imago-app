@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using HtmlAgilityPack;
 using ImagoApp.Shared.Enums;
 
 namespace ImagoApp.Application.Services
@@ -16,10 +19,10 @@ namespace ImagoApp.Application.Services
         public string GetTalentHtml(SkillModelType skillModelType)
         {
             var url = WikiConstants.SkillTypeLookUp[skillModelType];
-            return GetHtml(url);
+            return GetFilteredHtml(url, true);
         }
 
-        private string GetHtml(string url)
+        private string GetFilteredHtml(string url, bool removeDescriptions)
         {
             var document = WikiHelper.LoadDocumentFromUrl(url, null);
             if (document == null)
@@ -47,15 +50,56 @@ namespace ImagoApp.Application.Services
 
                 parent.InnerHtml = parent.InnerHtml.Replace("<a", "<span").Replace("</a", "</span");
             }
-            
+
+            var htmlNodesToRemove = new List<HtmlNode>();
+
+            //reduced left margin created by side menu
             document.GetElementbyId("content")?.SetAttributeValue("style", "margin-left: 0px;");
+
+            if (removeDescriptions)
+            {
+                var headLines = document.DocumentNode.SelectNodes("//span[@class='mw-headline']");
+                if (headLines != null)
+                {
+                    foreach (var headLine in headLines)
+                    {
+                        var header = CleanUpString(headLine.InnerText);
+
+                        if (!DescriptionToRemoveFilter.Contains(header))
+                            continue;
+
+                        var parent = headLine.ParentNode;
+                        htmlNodesToRemove.Add(parent);
+
+                        var next = parent?.NextSibling;
+                        if (next == null)
+                            continue;
+
+                        //remove all following until next h2
+                        while (!next.Name.Equals("h2"))
+                        {
+                            Debug.WriteLine(next.InnerText);
+                            htmlNodesToRemove.Add(next);
+                            next = next.NextSibling;
+                            if (next == null)
+                                break;
+                        }
+                    }
+
+                    foreach (var htmlNode in htmlNodesToRemove)
+                    {
+                        htmlNode.Remove();
+                    }
+                }
+            }
+
             return document.DocumentNode.OuterHtml;
         }
         
         public string GetMasteryHtml(SkillGroupModelType skillGroupModelType)
         {
             var url = WikiConstants.SkillGroupTypeLookUp[skillGroupModelType];
-            return GetHtml(url);
+            return GetFilteredHtml(url, true);
         }
 
         public string GetWikiUrl(SkillModelType skillModelType)
@@ -72,6 +116,19 @@ namespace ImagoApp.Application.Services
                 return WikiConstants.SkillGroupTypeLookUp[skillGroupModelType];
 
             return string.Empty;
+        }
+
+
+        private static readonly List<string> DescriptionToRemoveFilter = new List<string>()
+        {
+            "Künste",
+            "Variationen",
+            "Beinamen"
+        };
+
+        private string CleanUpString(string value)
+        {
+            return value.Replace("\n", "").Replace("\r", "").Trim();
         }
     }
 }
