@@ -18,6 +18,9 @@ Die Roadmap kann [hier](https://github.com/christophergoltz/imago-app/blob/devel
 ## Behoben
 - Die Navigation innerhalb der Fertigkeitsseite bei der Charaktererschaffung mit [Tab] wird nun in der richtigen Reihenfolge (Oben nach unten, links nach rechts) durchgeführt
 
+## Entfernt
+- Das Imago-Logo wurde aus dem Charakterbogen entfernt
+
 # Version 0.1.1 - 20.07.2021
 ## Hinzugefügt
 - Wiki
