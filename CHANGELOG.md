@@ -1,4 +1,7 @@
-Die Roadmap kann [hier](https://github.com/christophergoltz/imago-app/blob/develop/ROADMAP.md) gefunden werden
+## [Roadmap](https://github.com/christophergoltz/imago-app/blob/develop/ROADMAP.md)
+## [Bekannte Fehler](https://github.com/christophergoltz/imago-app/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
+
+<br/>
 
 # Version 0.1.2 - [tba]
 ## Hinzugefügt
