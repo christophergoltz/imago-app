@@ -4,9 +4,9 @@
              x:Class="ImagoApp.Views.PerksPage">
     <ContentPage.Content>
         <StackLayout VerticalOptions="Center">
-            <Label Text="Vor- und Nachteile" FontSize="24" FontAttributes="Bold"
+            <Label Text="Vor- und Nachteile" FontSize="{DynamicResource FontSizeTitle}" FontAttributes="Bold"
                    HorizontalOptions="CenterAndExpand" />
-            <Label Text="Hier gibt es nocht nichts zu sehen" FontSize="22"
+            <Label Text="Hier gibt es nocht nichts zu sehen" FontSize="{DynamicResource FontSizeHeader}"
                    HorizontalOptions="CenterAndExpand" />
         </StackLayout>
     </ContentPage.Content>

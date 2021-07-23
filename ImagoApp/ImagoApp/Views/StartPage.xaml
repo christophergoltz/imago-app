@@ -9,12 +9,13 @@
              x:Class="ImagoApp.Views.StartPage" 
              x:DataType="viewModels:StartPageViewModel">
     <ContentPage.Content>
-        <Grid Style="{StaticResource BackgroundGridStyle}">
+        <Grid Style="{DynamicResource BackgroundGridStyle}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
@@ -30,26 +31,44 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
 
-                    <Label Grid.Row="0" Grid.Column="0" Text="ImagoApp" Margin="10" FontSize="34"></Label>
+                    <Label Grid.Row="0" Grid.Column="0" Text="ImagoApp" Margin="10" FontSize="{DynamicResource FontSizeCaption}"></Label>
 
                     <StackLayout Grid.Row="1" Orientation="Horizontal" VerticalOptions="FillAndExpand" >
-                        <Label VerticalOptions="Center" Margin="20,0,0,0" FontSize="22" Text="Version:"></Label>
-                        <Label VerticalOptions="Center" FontSize="22" Text="{Binding Version}"></Label>
-                        <Label VerticalOptions="Center" HorizontalOptions="EndAndExpand" Margin="20,5"  FontSize="22"  Text="Regel-Version: 7 (Zeta)"></Label>
+                        <Label VerticalOptions="Center" Margin="20,0,0,0" FontSize="{DynamicResource FontSizeHeader}" Text="Version:"></Label>
+                        <Label VerticalOptions="Center" FontSize="{DynamicResource FontSizeHeader}" Text="{Binding Version}"></Label>
+                        <Label VerticalOptions="Center" HorizontalOptions="EndAndExpand" Margin="20,5"  FontSize="{DynamicResource FontSizeHeader}"  Text="Regel-Version: 7 (Zeta)"></Label>
                     </StackLayout>
 
                     <StackLayout Orientation="Horizontal" Grid.Row="2" Margin="20,0,0,0">
-                        <Button FontSize="20"  VerticalOptions="Center"  Margin="10,5" Text="Changelog ↗" Command="{Binding OpenChangeLogCommand}"></Button>
-                        <Button FontSize="20"  VerticalOptions="Center"  Margin="10,5" Text="Roadmap ↗" Command="{Binding OpenRoadmapCommand}"></Button>
-                        <Button VerticalOptions="Center"  HorizontalOptions="EndAndExpand" Margin="20,10" Text="Wichtige Benutzungshinweise &#8599;" FontSize="20" 
+                        <Button VerticalOptions="Center"  Margin="10,5" Text="Changelog ↗" Command="{Binding OpenChangeLogCommand}"></Button>
+                        <Button VerticalOptions="Center"  Margin="10,5" Text="Roadmap ↗" Command="{Binding OpenRoadmapCommand}"></Button>
+                        <Button VerticalOptions="Center"  HorizontalOptions="EndAndExpand" Margin="20,10" Text="Wichtige Benutzungshinweise &#8599;" FontSize="{DynamicResource FontSizeBigContent}" 
                                 Padding="7,3" Background="limegreen" 
                                 Command="{Binding OpenImportantNotesCommand}"/>
                     </StackLayout>
                 </Grid>
             </Frame>
 
-            <!-- wiki database -->
+            <!-- display options -->
             <Frame Grid.Column="0" Grid.Row="1" Margin="10">
+                <StackLayout  Padding="5,0,0,20">
+                    <Label Text="Anzeige" Margin="10" FontSize="{DynamicResource FontSizeTitle}"></Label>
+             
+                    <StackLayout Orientation="Horizontal">
+                        <Label VerticalOptions="Center" Margin="20,0,0,0"  FontSize="{DynamicResource FontSizeHeader}"  Text="Schriftgröße (Experimentell): "></Label>
+                        <Label VerticalOptions="Center" FontSize="{DynamicResource FontSizeHeader}"  
+                               Text="{Binding FontScale}"/>
+                        <Button Text="+" VerticalOptions="Center" Margin="5"
+                                Command="{Binding IncreaseFontSizeCommand}"></Button>
+                        <Button Text="-" VerticalOptions="Center" Margin="5"
+                                Command="{Binding DecreaseFontSizeCommand}"></Button>
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+
+
+            <!-- wiki database -->
+            <Frame Grid.Column="0" Grid.Row="2" Margin="10">
                 <StackLayout  Padding="5,0,0,20">
                     <Grid Margin="10">
                         <Grid.ColumnDefinitions>
@@ -59,39 +78,39 @@
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Text="Wiki Datenbank" FontSize="24"></Label>
+                        <Label Grid.Column="0" Text="Wiki Datenbank" FontSize="{DynamicResource FontSizeTitle}"></Label>
                        
                         <Button Grid.Column="1" Text="Daten aus Wiki laden" VerticalOptions="Center" Margin="5"
                                 Command="{Binding ParseWikiCommand,Source={RelativeSource AncestorType={x:Type viewModels:StartPageViewModel}}}"></Button>
 
-                        <Label Grid.Column="3" Margin="25,0" HorizontalOptions="EndAndExpand" Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.Length, Converter={StaticResource FileInfoLenghtToSmartFileSizeConverter}}" FontSize="24"></Label>
-                        <Label Grid.Column="4" Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.LastWriteTime, StringFormat='{0:dd.MM.yyyy HH:mm}'}" HorizontalOptions="EndAndExpand" FontSize="24"></Label>
+                        <Label Grid.Column="3" Margin="25,0" HorizontalOptions="EndAndExpand" Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.Length, Converter={StaticResource FileInfoLenghtToSmartFileSizeConverter}}" FontSize="{DynamicResource FontSizeTitle}"></Label>
+                        <Label Grid.Column="4" Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.LastWriteTime, StringFormat='{0:dd.MM.yyyy HH:mm}'}" HorizontalOptions="EndAndExpand" FontSize="{DynamicResource FontSizeTitle}"></Label>
                     </Grid>
 
                     <StackLayout Orientation="Horizontal">
-                        <Label Margin="20,0,0,0"  FontSize="22"  Text="Rüstungen: "></Label>
-                        <Label FontSize="22"  Text="{Binding DatabaseInfoViewModel.ArmorTemplateCount}"/>
+                        <Label Margin="20,0,0,0"  FontSize="{DynamicResource FontSizeHeader}"  Text="Rüstungen: "></Label>
+                        <Label FontSize="{DynamicResource FontSizeHeader}"  Text="{Binding DatabaseInfoViewModel.ArmorTemplateCount}"/>
                     </StackLayout>
 
                     <StackLayout Orientation="Horizontal">
-                        <Label Margin="20,0,0,0"  FontSize="22" Text="Waffen: "></Label>
-                        <Label FontSize="22" Text="{Binding DatabaseInfoViewModel.WeaponTemplateCount}"/>
+                        <Label Margin="20,0,0,0"  FontSize="{DynamicResource FontSizeHeader}" Text="Waffen: "></Label>
+                        <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding DatabaseInfoViewModel.WeaponTemplateCount}"/>
                     </StackLayout>
 
                     <StackLayout Orientation="Horizontal">
-                        <Label Margin="20,0,0,0"  FontSize="22" Text="Talente: "></Label>
-                        <Label FontSize="22" Text="{Binding DatabaseInfoViewModel.TalentTemplateCount}"/>
+                        <Label Margin="20,0,0,0"  FontSize="{DynamicResource FontSizeHeader}" Text="Talente: "></Label>
+                        <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding DatabaseInfoViewModel.TalentTemplateCount}"/>
                     </StackLayout>
 
                     <StackLayout Orientation="Horizontal">
-                        <Label Margin="20,0,0,0"  FontSize="22" Text="Meisterschaften: "></Label>
-                        <Label FontSize="22" Text="{Binding DatabaseInfoViewModel.MasteryTemplateCount}"/>
+                        <Label Margin="20,0,0,0"  FontSize="{DynamicResource FontSizeHeader}" Text="Meisterschaften: "></Label>
+                        <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding DatabaseInfoViewModel.MasteryTemplateCount}"/>
                     </StackLayout>
                 </StackLayout>
             </Frame>
 
             <!-- character database -->
-            <Frame Grid.Column="0" Grid.Row="2" Margin="10">
+            <Frame Grid.Column="0" Grid.Row="3" Margin="10">
                 <StackLayout>
                     <Grid  Margin="10">
                         <Grid.ColumnDefinitions>
@@ -101,14 +120,14 @@
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Text="Charakter Datenbank" FontSize="24"></Label>
+                        <Label Grid.Column="0" Text="Charakter Datenbank" FontSize="{DynamicResource FontSizeTitle}"></Label>
                         <Button Grid.Column="1" Text="Appdata Ordner öffnen" Command="{Binding OpenAppDataFolderCommand}"></Button>
-                        <Label Grid.Column="3" Margin="25,0"  HorizontalOptions="EndAndExpand" Text="{Binding DatabaseInfoViewModel.CharacterDatabaseInfo.Length, Converter={StaticResource FileInfoLenghtToSmartFileSizeConverter}}" FontSize="24"></Label>
-                        <Label Grid.Column="4" HorizontalOptions="EndAndExpand" Text="{Binding DatabaseInfoViewModel.CharacterDatabaseInfo.LastWriteTime, StringFormat='{0:dd.MM.yyyy HH:mm}'}" FontSize="24"></Label>
+                        <Label Grid.Column="3" Margin="25,0"  HorizontalOptions="EndAndExpand" Text="{Binding DatabaseInfoViewModel.CharacterDatabaseInfo.Length, Converter={StaticResource FileInfoLenghtToSmartFileSizeConverter}}" FontSize="{DynamicResource FontSizeTitle}"></Label>
+                        <Label Grid.Column="4" HorizontalOptions="EndAndExpand" Text="{Binding DatabaseInfoViewModel.CharacterDatabaseInfo.LastWriteTime, StringFormat='{0:dd.MM.yyyy HH:mm}'}" FontSize="{DynamicResource FontSizeTitle}"></Label>
                     </Grid>
-                    <Frame BackgroundColor="{StaticResource AntiUmbra3}" BorderColor="Transparent">
-                        <Label FontSize="18" Margin="20"
-                               TextColor="{StaticResource RotesUmbra}" FontAttributes="Bold"
+                    <Frame BackgroundColor="{DynamicResource AntiUmbra3}" BorderColor="Transparent">
+                        <Label FontSize="{DynamicResource FontSizeContent}" Margin="20"
+                               TextColor="{DynamicResource RotesUmbra}" FontAttributes="Bold"
                                Text="Achtung: Die Charakterdatenbank wird unwiederruflich durch Windows bei einer Deinstallation gelöscht!"></Label>
                     </Frame>
                   
@@ -116,8 +135,8 @@
             </Frame>
 
             <!-- Characters -->
-            <Frame Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" Margin="10">
-                <Grid Style="{StaticResource SingleGradiantStyle}">
+            <Frame Grid.Column="1" Grid.Row="0" Grid.RowSpan="5" Margin="10">
+                <Grid Style="{DynamicResource SingleGradiantStyle}">
                     <ListView SelectionMode="Single" ItemsSource="{Binding Characters}"
                               ItemSelected="CharacterListView_OnItemSelected">
                         <ListView.Header>
@@ -131,9 +150,9 @@
                                     <RowDefinition Height="Auto"></RowDefinition>
                                     <RowDefinition Height="1"></RowDefinition>
                                 </Grid.RowDefinitions>
-                                <Label Margin="20,0"  VerticalOptions="Center" FontSize="28" FontAttributes="Bold" Text="Charaktere" Grid.Column="0" Grid.Row="0"></Label>
-                                <Button Grid.Column="1" FontSize="18" Grid.Row="0" Text="Neuer Charakter erstellen" Margin="20" Command="{Binding CreateNewCharacterCommand}"/>
-                                <Button Grid.Column="2" FontSize="18" Grid.Row="0" Command="{Binding GenerateTestCharacterCommand}" Text="Testspieler generieren" Margin="20"/>
+                                <Label Margin="20,0"  VerticalOptions="Center" FontSize="{DynamicResource FontSizeSmallCaption}" FontAttributes="Bold" Text="Charaktere" Grid.Column="0" Grid.Row="0"></Label>
+                                <Button Grid.Column="1" FontSize="{DynamicResource FontSizeContent}" Grid.Row="0" Text="Neuer Charakter erstellen" Margin="20" Command="{Binding CreateNewCharacterCommand}"/>
+                                <Button Grid.Column="2" FontSize="{DynamicResource FontSizeContent}" Grid.Row="0" Command="{Binding GenerateTestCharacterCommand}" Text="Testspieler generieren" Margin="20"/>
                                 <BoxView Grid.Row="1"  Grid.ColumnSpan="3" Grid.Column="0" Color="Black"/>
                             </Grid>
                         </ListView.Header>
@@ -146,9 +165,9 @@
                                             <ColumnDefinition Width="125"></ColumnDefinition>
                                             <ColumnDefinition Width="250"></ColumnDefinition>
                                         </Grid.ColumnDefinitions>
-                                        <Label Grid.Column="0" FontSize="24" Text="{Binding Name}"></Label>
-                                        <Label Grid.Column="1" FontSize="24" Text="{Binding Version}"></Label>
-                                        <Label Grid.Column="2" FontSize="24" Text="{Binding LastEdit, StringFormat='{0:dd.MM.yyyy HH:mm}'}"></Label>
+                                        <Label Grid.Column="0" FontSize="{DynamicResource FontSizeTitle}" Text="{Binding Name}"></Label>
+                                        <Label Grid.Column="1" FontSize="{DynamicResource FontSizeTitle}" Text="{Binding Version}"></Label>
+                                        <Label Grid.Column="2" FontSize="{DynamicResource FontSizeTitle}" Text="{Binding LastEdit, StringFormat='{0:dd.MM.yyyy HH:mm}'}"></Label>
                                     </Grid>
                                 </ViewCell>
                             </DataTemplate>

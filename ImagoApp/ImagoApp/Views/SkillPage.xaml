@@ -15,13 +15,13 @@
                     <StackLayout Orientation="Horizontal" Padding="10,5"
                                          BackgroundColor="{StaticResource GruenesUmbra1}"
                                          IsVisible="{Binding CharacterViewModel.EditMode}">
-                        <Label FontSize="28" VerticalOptions="Center" FontAttributes="Bold" Text="Fertigkeiten" ></Label>
+                        <Label FontSize="{DynamicResource FontSizeSmallCaption}" VerticalOptions="Center" FontAttributes="Bold" Text="Fertigkeiten" ></Label>
 
-                        <Label FontSize="22" Margin="50,0,0,0" VerticalOptions="Center" Text="Erfahrungspunkte" ></Label>
-                        <Entry FontSize="22" VerticalOptions="Center" Keyboard="Numeric" WidthRequest="100"
+                        <Label FontSize="{DynamicResource FontSizeHeader}" Margin="50,0,0,0" VerticalOptions="Center" Text="Erfahrungspunkte" ></Label>
+                        <Entry FontSize="{DynamicResource FontSizeHeader}" VerticalOptions="Center" Keyboard="Numeric" WidthRequest="100"
                            Text="{Binding TotalSkillExperience}"></Entry>
-                        <Label FontSize="22" VerticalOptions="Center" Margin="50,0,0,0" Text="Bilanz"></Label>
-                        <Label FontSize="22" VerticalOptions="Center" FontAttributes="Bold"
+                        <Label FontSize="{DynamicResource FontSizeHeader}" VerticalOptions="Center" Margin="50,0,0,0" Text="Bilanz"></Label>
+                        <Label FontSize="{DynamicResource FontSizeHeader}" VerticalOptions="Center" FontAttributes="Bold"
                            Text="{Binding SkillExperienceBalance}">
                             <Label.Style>
                                 <Style TargetType="Label">
@@ -62,8 +62,8 @@
                             <Frame Grid.Row="1" >
                                 <StackLayout >
                                     <StackLayout Margin="10" VerticalOptions="Center" Orientation="Horizontal">
-                                        <Label VerticalOptions="Center" Text="Freie Ep: " FontSize="18"  FontAttributes="Bold"/>
-                                        <Entry Keyboard="Numeric" WidthRequest="100" VerticalOptions="Center"  FontSize="18" Text="{Binding CharacterViewModel.CharacterModel.FreeSkillExperience}"/>
+                                        <Label VerticalOptions="Center" Text="Freie Ep: " FontSize="{DynamicResource FontSizeContent}"  FontAttributes="Bold"/>
+                                        <Entry Keyboard="Numeric" WidthRequest="100" VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Text="{Binding CharacterViewModel.CharacterModel.FreeSkillExperience}"/>
                                     </StackLayout>
                                 </StackLayout>
                             </Frame>
@@ -95,8 +95,8 @@
                                                             <ColumnDefinition Width="*" />
                                                             <ColumnDefinition Width="150" />
                                                         </Grid.ColumnDefinitions>
-                                                        <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
-                                                        <Label FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding FinalValue}"/>
+                                                        <Label FontSize="{DynamicResource FontSizeContent}" Grid.Column="0" VerticalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
+                                                        <Label FontSize="{DynamicResource FontSizeContent}" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding FinalValue}"/>
                                                     </Grid>
                                                 </ViewCell>
                                             </DataTemplate>

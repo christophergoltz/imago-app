@@ -16,12 +16,12 @@
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="1"></RowDefinition>
             </Grid.RowDefinitions>
-            <Label Grid.Column="0" Grid.Row="0" FontSize="14" FontAttributes="Bold"  Margin="5,0,0,0" 
+            <Label Grid.Column="0" Grid.Row="0" FontSize="{DynamicResource FontSizeSmallContent}" FontAttributes="Bold"  Margin="5,0,0,0" 
                  Text="{Binding Type, Converter={StaticResource SkillGroupTypeToAttributeSourceStringConverter}}"/>
-            <Label Grid.Row="0" Grid.Column="1" FontSize="14" FontAttributes="Bold" Text="EP"/>
-            <Label Grid.Row="0" Grid.Column="2" FontSize="14" FontAttributes="Bold" Text="SW" />
-            <Label Grid.Row="0" Grid.Column="3" FontSize="14" FontAttributes="Bold" Text="EP"/>
-            <Label Grid.Row="0" Grid.Column="4" FontSize="14" FontAttributes="Bold" Text="FW" />
+            <Label Grid.Row="0" Grid.Column="1" FontSize="{DynamicResource FontSizeSmallContent}" FontAttributes="Bold" Text="EP"/>
+            <Label Grid.Row="0" Grid.Column="2" FontSize="{DynamicResource FontSizeSmallContent}" FontAttributes="Bold" Text="SW" />
+            <Label Grid.Row="0" Grid.Column="3" FontSize="{DynamicResource FontSizeSmallContent}" FontAttributes="Bold" Text="EP"/>
+            <Label Grid.Row="0" Grid.Column="4" FontSize="{DynamicResource FontSizeSmallContent}" FontAttributes="Bold" Text="FW" />
         </Grid>
     </ContentView.Content>
 </ContentView>

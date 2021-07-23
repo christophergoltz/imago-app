@@ -21,10 +21,10 @@
                         <ColumnDefinition Width="100" />
                         <ColumnDefinition Width="100" />
                     </Grid.ColumnDefinitions>
-                    <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding AttributeModel.Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
-                    <Label FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding AttributeModel.NaturalValue}"/>
-                    <Label FontSize="18" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding AttributeModel.IncreaseValue}"/>
-                    <Label FontSize="18" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center">
+                    <Label FontSize="{DynamicResource FontSizeContent}" Grid.Column="0" VerticalOptions="Center" Text="{Binding AttributeModel.Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
+                    <Label FontSize="{DynamicResource FontSizeContent}" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding AttributeModel.NaturalValue}"/>
+                    <Label FontSize="{DynamicResource FontSizeContent}" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding AttributeModel.IncreaseValue}"/>
+                    <Label FontSize="{DynamicResource FontSizeContent}" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center">
                         <Label.Text>
                             <MultiBinding StringFormat="{}{0}/{1}">
                                 <Binding Path="AttributeModel.ExperienceValue" 
@@ -34,9 +34,9 @@
                             </MultiBinding>
                         </Label.Text>
                     </Label>
-                    <Entry FontSize="16" Grid.Column="4" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Corrosion}"/>
-                    <Entry FontSize="16" Grid.Column="5" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Modification}"/>
-                    <Label FontSize="18" Grid.Column="6" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding AttributeModel.FinalValue}"/>
+                    <Entry FontSize="{DynamicResource FontSizeDetail}" Grid.Column="4" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Corrosion}"/>
+                    <Entry FontSize="{DynamicResource FontSizeDetail}" Grid.Column="5" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Modification}"/>
+                    <Label FontSize="{DynamicResource FontSizeContent}" Grid.Column="6" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding AttributeModel.FinalValue}"/>
                 </Grid>
             </DataTemplate>
             <DataTemplate x:DataType="viewModels:AttributeViewModel" x:Key="AttributeViewModelListItemEditTemplate">
@@ -52,13 +52,13 @@
                         <ColumnDefinition Width="100" />
                         <ColumnDefinition Width="100" />
                     </Grid.ColumnDefinitions>
-                    <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding AttributeModel.Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
-                    <Label Padding="5,2" FontSize="18" Grid.Column="1" VerticalOptions="Center" Text="{Binding AttributeModel.ExperienceBySkillGroup}"/>
-                    <Entry TextColor="White" BackgroundColor="{StaticResource GruenesUmbra1}" FontSize="18" Grid.Column="2" Keyboard="Numeric" VerticalOptions="Center" Text="{Binding TotalExperienceValue}"/>
-                    <Entry FontSize="18" Grid.Column="3" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="{StaticResource GruenesUmbra1}" 
+                    <Label FontSize="{DynamicResource FontSizeContent}" Grid.Column="0" VerticalOptions="Center" Text="{Binding AttributeModel.Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
+                    <Label Padding="5,2" FontSize="{DynamicResource FontSizeContent}" Grid.Column="1" VerticalOptions="Center" Text="{Binding AttributeModel.ExperienceBySkillGroup}"/>
+                    <Entry TextColor="White" BackgroundColor="{StaticResource GruenesUmbra1}" FontSize="{DynamicResource FontSizeContent}" Grid.Column="2" Keyboard="Numeric" VerticalOptions="Center" Text="{Binding TotalExperienceValue}"/>
+                    <Entry FontSize="{DynamicResource FontSizeContent}" Grid.Column="3" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="{StaticResource GruenesUmbra1}" 
                            Text="{Binding NaturalValue}"/>
-                    <Label FontSize="18" Grid.Column="4" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding AttributeModel.IncreaseValue}"/>
-                    <Label FontSize="18" Grid.Column="5" VerticalOptions="Center" HorizontalOptions="Center">
+                    <Label FontSize="{DynamicResource FontSizeContent}" Grid.Column="4" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding AttributeModel.IncreaseValue}"/>
+                    <Label FontSize="{DynamicResource FontSizeContent}" Grid.Column="5" VerticalOptions="Center" HorizontalOptions="Center">
                         <Label.Text>
                             <MultiBinding StringFormat="{}{0}/{1}">
                                 <Binding Path="AttributeModel.ExperienceValue" 
@@ -68,9 +68,9 @@
                             </MultiBinding>
                         </Label.Text>
                     </Label>
-                    <Entry FontSize="16" Grid.Column="6" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Corrosion}"/>
-                    <Entry FontSize="16" Grid.Column="7" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Modification}"/>
-                    <Label FontSize="18" Grid.Column="8" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding AttributeModel.FinalValue}"/>
+                    <Entry FontSize="{DynamicResource FontSizeDetail}" Grid.Column="6" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Corrosion}"/>
+                    <Entry FontSize="{DynamicResource FontSizeDetail}" Grid.Column="7" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Modification}"/>
+                    <Label FontSize="{DynamicResource FontSizeContent}" Grid.Column="8" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding AttributeModel.FinalValue}"/>
                 </Grid>
             </DataTemplate>
         </ResourceDictionary>
@@ -97,52 +97,52 @@
                     </Grid.RowDefinitions>
                     <StackLayout Grid.Column="0" Margin="10">
                         <StackLayout Margin="10" VerticalOptions="Center" Orientation="Horizontal">
-                            <Label VerticalOptions="Center" Text="Name: " FontSize="18"  FontAttributes="Bold"/>
-                            <Entry  WidthRequest="275" VerticalOptions="Center"  FontSize="18" Text="{Binding CharacterViewModel.CharacterModel.Name}"/>
+                            <Label VerticalOptions="Center" Text="Name: " FontSize="{DynamicResource FontSizeContent}"  FontAttributes="Bold"/>
+                            <Entry  WidthRequest="275" VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Text="{Binding CharacterViewModel.CharacterModel.Name}"/>
                         </StackLayout>
 
                         <StackLayout Margin="10" VerticalOptions="Center" Orientation="Horizontal">
-                            <Label VerticalOptions="Center"  Text="Rasse: " FontSize="18"  FontAttributes="Bold"/>
-                            <Label VerticalOptions="Center"  FontSize="18" Text="-"/>
+                            <Label VerticalOptions="Center"  Text="Rasse: " FontSize="{DynamicResource FontSizeContent}"  FontAttributes="Bold"/>
+                            <Label VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Text="-"/>
                         </StackLayout>
 
                         <StackLayout Margin="10" VerticalOptions="Center" Orientation="Horizontal">
-                            <Label  VerticalOptions="Center" Text="Größe: " FontSize="18"  FontAttributes="Bold"/>
-                            <Entry WidthRequest="125" VerticalOptions="Center"  FontSize="18" Text="{Binding CharacterViewModel.CharacterModel.Height}"/>
+                            <Label  VerticalOptions="Center" Text="Größe: " FontSize="{DynamicResource FontSizeContent}"  FontAttributes="Bold"/>
+                            <Entry WidthRequest="125" VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Text="{Binding CharacterViewModel.CharacterModel.Height}"/>
                         </StackLayout>
 
                         <StackLayout Margin="10" VerticalOptions="Center" Orientation="Horizontal">
-                            <Label VerticalOptions="Center"  Text="Gewicht: " FontSize="18"  FontAttributes="Bold"/>
-                            <Entry WidthRequest="100" VerticalOptions="Center" FontSize="18" Text="{Binding CharacterViewModel.CharacterModel.Weight}"/>
+                            <Label VerticalOptions="Center"  Text="Gewicht: " FontSize="{DynamicResource FontSizeContent}"  FontAttributes="Bold"/>
+                            <Entry WidthRequest="100" VerticalOptions="Center" FontSize="{DynamicResource FontSizeContent}" Text="{Binding CharacterViewModel.CharacterModel.Weight}"/>
                         </StackLayout>
 
                         <StackLayout Margin="10" VerticalOptions="Center" Orientation="Horizontal">
-                            <Label  VerticalOptions="Center" Text="Göttliche Seele: " FontSize="18"  FontAttributes="Bold"/>
-                            <Entry WidthRequest="75"  VerticalOptions="Center"  FontSize="18" Text="{Binding CharacterViewModel.CharacterModel.DivineSoul}"/>
+                            <Label  VerticalOptions="Center" Text="Göttliche Seele: " FontSize="{DynamicResource FontSizeContent}"  FontAttributes="Bold"/>
+                            <Entry WidthRequest="75"  VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Text="{Binding CharacterViewModel.CharacterModel.DivineSoul}"/>
                         </StackLayout>
                    
                         <StackLayout Margin="10" VerticalOptions="Center" Orientation="Horizontal">
-                            <Label VerticalOptions="Center"  Text="Augenfarbe: " FontSize="18"  FontAttributes="Bold"/>
-                            <Entry WidthRequest="150" VerticalOptions="Center"  FontSize="18" Text="{Binding CharacterViewModel.CharacterModel.EyeColor}"/>
+                            <Label VerticalOptions="Center"  Text="Augenfarbe: " FontSize="{DynamicResource FontSizeContent}"  FontAttributes="Bold"/>
+                            <Entry WidthRequest="150" VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Text="{Binding CharacterViewModel.CharacterModel.EyeColor}"/>
                         </StackLayout>
 
                         <StackLayout Margin="10" VerticalOptions="Center" Orientation="Horizontal">
-                            <Label  VerticalOptions="Center" Text="Haarfarbe: " FontSize="18"  FontAttributes="Bold"/>
-                            <Entry WidthRequest="150"  VerticalOptions="Center"  FontSize="18" Text="{Binding CharacterViewModel.CharacterModel.HairColor}"/>
+                            <Label  VerticalOptions="Center" Text="Haarfarbe: " FontSize="{DynamicResource FontSizeContent}"  FontAttributes="Bold"/>
+                            <Entry WidthRequest="150"  VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Text="{Binding CharacterViewModel.CharacterModel.HairColor}"/>
                         </StackLayout>
 
                         <StackLayout Margin="10" VerticalOptions="Center" Orientation="Horizontal">
-                            <Label VerticalOptions="Center"  Text="Hautfarbe / Schuppenfarbe: " FontSize="18"  FontAttributes="Bold"/>
-                            <Entry  WidthRequest="250" VerticalOptions="Center"  FontSize="18" Text="{Binding CharacterViewModel.CharacterModel.SkinColor}"/>
+                            <Label VerticalOptions="Center"  Text="Hautfarbe / Schuppenfarbe: " FontSize="{DynamicResource FontSizeContent}"  FontAttributes="Bold"/>
+                            <Entry  WidthRequest="250" VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Text="{Binding CharacterViewModel.CharacterModel.SkinColor}"/>
                         </StackLayout>
 
                         <StackLayout Margin="10" VerticalOptions="Center" Orientation="Horizontal">
-                            <Label VerticalOptions="Center"  Text="Alter: " FontSize="18"  FontAttributes="Bold"/>
-                            <Entry WidthRequest="75"  VerticalOptions="Center"  FontSize="18" Text="{Binding CharacterViewModel.CharacterModel.Age}"/>
+                            <Label VerticalOptions="Center"  Text="Alter: " FontSize="{DynamicResource FontSizeContent}"  FontAttributes="Bold"/>
+                            <Entry WidthRequest="75"  VerticalOptions="Center"  FontSize="{DynamicResource FontSizeContent}" Text="{Binding CharacterViewModel.CharacterModel.Age}"/>
                         </StackLayout>
                     </StackLayout>
 
-                    <Editor FontSize="18" Grid.Row="1" Margin="5,5,0,5" Text="{Binding CharacterViewModel.CharacterModel.Note}"></Editor>
+                    <Editor FontSize="{DynamicResource FontSizeContent}" Grid.Row="1" Margin="5,5,0,5" Text="{Binding CharacterViewModel.CharacterModel.Note}"></Editor>
                 </Grid>
 
                 <!-- attributes -->
@@ -151,13 +151,13 @@
                         <StackLayout >
                             <StackLayout Orientation="Horizontal" Padding="10,5"
                                          BackgroundColor="{StaticResource GruenesUmbra1}" IsVisible="{Binding CharacterViewModel.EditMode}">
-                                <Label FontSize="28" VerticalOptions="Center" FontAttributes="Bold" Text="Attribute" ></Label>
+                                <Label FontSize="{DynamicResource FontSizeSmallCaption}" VerticalOptions="Center" FontAttributes="Bold" Text="Attribute" ></Label>
 
-                                <Label FontSize="22" Margin="50,0,0,0" VerticalOptions="Center" Text="Erfahrungspunkte" ></Label>
-                                <Entry FontSize="22" VerticalOptions="Center" Keyboard="Numeric" WidthRequest="100"
+                                <Label FontSize="{DynamicResource FontSizeHeader}" Margin="50,0,0,0" VerticalOptions="Center" Text="Erfahrungspunkte" ></Label>
+                                <Entry FontSize="{DynamicResource FontSizeHeader}" VerticalOptions="Center" Keyboard="Numeric" WidthRequest="100"
                            Text="{Binding TotalAttributeExperience}"></Entry>
-                                <Label FontSize="22" VerticalOptions="Center" Margin="50,0,0,0" Text="Bilanz"></Label>
-                                <Label FontSize="22" VerticalOptions="Center" FontAttributes="Bold"
+                                <Label FontSize="{DynamicResource FontSizeHeader}" VerticalOptions="Center" Margin="50,0,0,0" Text="Bilanz"></Label>
+                                <Label FontSize="{DynamicResource FontSizeHeader}" VerticalOptions="Center" FontAttributes="Bold"
                            Text="{Binding AttributeExperienceBalance}">
                                     <Label.Style>
                                         <Style TargetType="Label">
@@ -261,9 +261,9 @@
                                                 <ColumnDefinition Width="200" />
                                                 <ColumnDefinition Width="100" />
                                             </Grid.ColumnDefinitions>
-                                            <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
-                                            <Label FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToFormulaConverter}}"/>
-                                            <Label FontSize="18" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding FinalValue}"/>
+                                            <Label FontSize="{DynamicResource FontSizeContent}" Grid.Column="0" VerticalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
+                                            <Label FontSize="{DynamicResource FontSizeContent}" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Type, Converter={StaticResource EnumToFormulaConverter}}"/>
+                                            <Label FontSize="{DynamicResource FontSizeContent}" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding FinalValue}"/>
                                         </Grid>
                                     </ViewCell>
                                 </DataTemplate>
@@ -307,10 +307,10 @@
                                                 <ColumnDefinition Width="100" />
                                                 <ColumnDefinition Width="100" />
                                             </Grid.ColumnDefinitions>
-                                            <Label FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding SpecialAttributeModel.Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
-                                            <Label FontSize="18" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding SpecialAttributeModel.Type, Converter={StaticResource EnumToFormulaConverter}}"/>
-                                            <Entry FontSize="16" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Modification}"/>
-                                            <Label FontSize="16" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding SpecialAttributeModel.FinalValue}"/>
+                                            <Label FontSize="{DynamicResource FontSizeContent}" Grid.Column="0" VerticalOptions="Center" Text="{Binding SpecialAttributeModel.Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
+                                            <Label FontSize="{DynamicResource FontSizeContent}" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding SpecialAttributeModel.Type, Converter={StaticResource EnumToFormulaConverter}}"/>
+                                            <Entry FontSize="{DynamicResource FontSizeDetail}" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Modification}"/>
+                                            <Label FontSize="{DynamicResource FontSizeDetail}" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding SpecialAttributeModel.FinalValue}"/>
                                         </Grid>
                                     </ViewCell>
                                 </DataTemplate>
@@ -342,7 +342,7 @@
                                     <Label Grid.Row="0" Grid.Column="2" Text="Maximale Kap." FontAttributes="Bold"/>
                                     <Label Grid.Row="0" Grid.Column="3" Text="Reg." FontAttributes="Bold"/>
                                     <Button Text="+" Grid.Column="4" Grid.Row="0" Padding="0,-6,0,0" WidthRequest="25" HeightRequest="25"  
-                                            FontSize="22" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Green" 
+                                            FontSize="{DynamicResource FontSizeHeader}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Green" 
                                             BackgroundColor="LightGray" 
                                             Command="{Binding AddNewBloodCarrierCommand, Source={RelativeSource AncestorType={x:Type viewModels:CharacterInfoPageViewModel}}}"/>
                                     <BoxView Grid.Column="0" HeightRequest="1" Grid.Row="1" Grid.ColumnSpan="5" Color="Black"/>
@@ -359,11 +359,11 @@
                                                 <ColumnDefinition Width="80" />
                                                 <ColumnDefinition Width="50" />
                                             </Grid.ColumnDefinitions>
-                                            <Entry FontSize="18" Grid.Column="0" VerticalOptions="Center" Text="{Binding Name}"/>
-                                            <Entry Keyboard="Numeric" FontSize="18" Grid.Column="1" VerticalOptions="Center" Text="{Binding CurrentCapacity}"/>
-                                            <Entry Keyboard="Numeric" FontSize="18" Grid.Column="2" VerticalOptions="Center" Text="{Binding MaximumCapacity}"/>
-                                            <Entry Keyboard="Numeric" FontSize="16" Grid.Column="3" VerticalOptions="Center" Text="{Binding Regeneration}"/>
-                                            <Button Grid.Column="4" Text="🗑" WidthRequest="35" HeightRequest="35" FontSize="16" VerticalOptions="Start" 
+                                            <Entry FontSize="{DynamicResource FontSizeContent}" Grid.Column="0" VerticalOptions="Center" Text="{Binding Name}"/>
+                                            <Entry Keyboard="Numeric" FontSize="{DynamicResource FontSizeContent}" Grid.Column="1" VerticalOptions="Center" Text="{Binding CurrentCapacity}"/>
+                                            <Entry Keyboard="Numeric" FontSize="{DynamicResource FontSizeContent}" Grid.Column="2" VerticalOptions="Center" Text="{Binding MaximumCapacity}"/>
+                                            <Entry Keyboard="Numeric" FontSize="{DynamicResource FontSizeDetail}" Grid.Column="3" VerticalOptions="Center" Text="{Binding Regeneration}"/>
+                                            <Button Grid.Column="4" Text="🗑" WidthRequest="35" HeightRequest="35" FontSize="{DynamicResource FontSizeDetail}" VerticalOptions="Start" 
                                                     HorizontalOptions="End" TextColor="Red" BackgroundColor="LightGray" CommandParameter="{Binding .}"
                                                     Command="{Binding RemoveBloodCarrierCommand, Source={RelativeSource AncestorType={x:Type viewModels:CharacterInfoPageViewModel}}}"/>
 

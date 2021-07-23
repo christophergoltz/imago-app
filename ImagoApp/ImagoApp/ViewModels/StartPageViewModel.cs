@@ -10,6 +10,7 @@ using Acr.UserDialogs;
 using ImagoApp.Application;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Services;
+using ImagoApp.Manager;
 using ImagoApp.Util;
 using ImagoApp.Views;
 using Microsoft.AppCenter.Analytics;
@@ -66,6 +67,8 @@ namespace ImagoApp.ViewModels
             _appdataFolder = appdataFolder;
             _fileService = fileService;
 
+            EnsurePreferences();
+
             Task.Run(() =>
             {
                 RefreshData(false);
@@ -74,6 +77,23 @@ namespace ImagoApp.ViewModels
                 if(VersionTracking.IsFirstLaunchForCurrentBuild || VersionTracking.IsFirstLaunchForCurrentVersion)
                     AlertNewVersion();
             });
+        }
+
+        private const string FontSizePreferenceKey = "FonzScale";
+        private void EnsurePreferences()
+        {
+            bool hasKey = Preferences.ContainsKey(FontSizePreferenceKey);
+            if (!hasKey)
+            {
+                Preferences.Set(FontSizePreferenceKey, 100);
+            }
+            else
+            {
+                //apply setting
+                var diff =  Preferences.Get(FontSizePreferenceKey, 100) - 100;
+                var t = diff / 10;
+                StyleResourceManager.ChangeGlobalFontSize(t);
+            }
         }
 
         private void AlertNewVersion()
@@ -96,6 +116,26 @@ namespace ImagoApp.ViewModels
                 }
             });
         }
+
+        public string FontScale => $"{Preferences.Get(FontSizePreferenceKey, 100)}%";
+
+        private ICommand _increaseFontSizeCommand;
+        public ICommand IncreaseFontSizeCommand => _increaseFontSizeCommand ?? (_increaseFontSizeCommand = new Command(() =>
+        {
+            var value =Preferences.Get(FontSizePreferenceKey, 100);
+            Preferences.Set(FontSizePreferenceKey, value + 10);
+            StyleResourceManager.ChangeGlobalFontSize(1);
+            OnPropertyChanged(nameof(FontScale));
+        }));
+
+        private ICommand _decreaseFontSizeCommand;
+        public ICommand DecreaseFontSizeCommand => _decreaseFontSizeCommand ?? (_decreaseFontSizeCommand = new Command(() =>
+        {
+            var value = Preferences.Get(FontSizePreferenceKey, 100);
+            Preferences.Set(FontSizePreferenceKey, value - 10);
+            StyleResourceManager.ChangeGlobalFontSize(-1);
+            OnPropertyChanged(nameof(FontScale));
+        }));
 
         private ICommand _openImportantNotesCommand;
         public ICommand OpenImportantNotesCommand => _openImportantNotesCommand ?? (_openImportantNotesCommand = new Command(() =>
