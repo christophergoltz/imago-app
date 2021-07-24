@@ -1,6 +1,7 @@
 ﻿using System.Windows.Input;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Models.Base;
+using ImagoApp.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -16,12 +17,12 @@ namespace ImagoApp.Views.CustomControls
        
         public static readonly BindableProperty SkillGroupViewModelProperty = BindableProperty.Create(
             "SkillGroupViewModel",        // the name of the bindable property
-            typeof(ViewModels.SkillGroupViewModel),     // the bindable property type
+            typeof(SkillGroupViewModel),     // the bindable property type
             typeof(SkillGroupView));
 
-        public ViewModels.SkillGroupViewModel SkillGroupViewModel
+        public SkillGroupViewModel SkillGroupViewModel
         {
-            get => (ViewModels.SkillGroupViewModel)GetValue(SkillGroupViewModelProperty);
+            get => (SkillGroupViewModel)GetValue(SkillGroupViewModelProperty);
             set => SetValue(SkillGroupViewModelProperty, value);
         }
         
@@ -69,8 +70,20 @@ namespace ImagoApp.Views.CustomControls
 
                 if (OpenSkillCommand.CanExecute((skill, SkillGroupViewModel.SkillGroup)))
                     OpenSkillCommand.Execute((skill, SkillGroupViewModel.SkillGroup));
-                
             }
         });
+        
+        private void ListView_OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            if (e.SelectedItem == null )
+                return;
+            var selectedSkill = (SkillViewModel)e.SelectedItem;
+
+            //reset listview selection
+            var listView = (ListView)sender;
+            listView.SelectedItem = null;
+
+            SkillBaseTapCommand?.Execute(selectedSkill.Skill);
+        }
     }
 }
