@@ -20,6 +20,7 @@
 
 ## Behoben
 - Die Navigation innerhalb der Fertigkeitsseite bei der Charaktererschaffung mit [Tab] wird nun in der richtigen Reihenfolge (Oben nach unten, links nach rechts) durchgeführt
+- Die Aktuellen Lebenspunkte verändern sich passend zu dem Max-Hp
 
 ## Entfernt
 - Das Imago-Logo wurde aus dem Charakterbogen entfernt

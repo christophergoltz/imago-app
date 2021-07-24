@@ -57,12 +57,12 @@ namespace ImagoApp.Application.Services
         {
             return new List<BodyPartModel>
             {
-                new BodyPartModel(BodyPartType.Kopf, 7, new ObservableCollection<ArmorPartModelModel>()),
-                new BodyPartModel(BodyPartType.Torso, 12, new ObservableCollection<ArmorPartModelModel>()),
-                new BodyPartModel(BodyPartType.ArmLinks, 1, new ObservableCollection<ArmorPartModelModel>()),
-                new BodyPartModel(BodyPartType.ArmRechts, 8, new ObservableCollection<ArmorPartModelModel>()),
-                new BodyPartModel(BodyPartType.BeinLinks, 6, new ObservableCollection<ArmorPartModelModel>()),
-                new BodyPartModel(BodyPartType.BeinRechts, 3, new ObservableCollection<ArmorPartModelModel>())
+                new BodyPartModel(BodyPartType.Kopf, new ObservableCollection<ArmorPartModelModel>()),
+                new BodyPartModel(BodyPartType.Torso, new ObservableCollection<ArmorPartModelModel>()),
+                new BodyPartModel(BodyPartType.ArmLinks, new ObservableCollection<ArmorPartModelModel>()),
+                new BodyPartModel(BodyPartType.ArmRechts, new ObservableCollection<ArmorPartModelModel>()),
+                new BodyPartModel(BodyPartType.BeinLinks, new ObservableCollection<ArmorPartModelModel>()),
+                new BodyPartModel(BodyPartType.BeinRechts, new ObservableCollection<ArmorPartModelModel>())
             };
         }
 
