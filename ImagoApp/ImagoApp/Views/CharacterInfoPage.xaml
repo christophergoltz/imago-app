@@ -68,7 +68,7 @@
                             </MultiBinding>
                         </Label.Text>
                     </Label>
-                    <Entry FontSize="{DynamicResource FontSizeDetail}" Grid.Column="6" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Corrosion}"/>
+                    <Entry FontSize="{DynamicResource FontSizeDetail}" Grid.Column="6" VerticalOptions="Center" BackgroundColor="{StaticResource GruenesUmbra1}" TextColor="White" HorizontalOptions="Center" Text="{Binding SpecialExperience}"/>
                     <Entry FontSize="{DynamicResource FontSizeDetail}" Grid.Column="7" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Modification}"/>
                     <Label FontSize="{DynamicResource FontSizeContent}" Grid.Column="8" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding AttributeModel.FinalValue}"/>
                 </Grid>
@@ -205,7 +205,8 @@
                                 <Label Grid.Column="3" Text="NA/NW" FontAttributes="Bold"/>
                                 <Label Grid.Column="4" Text="SW" FontAttributes="Bold"/>
                                 <Label Grid.Column="5" Text="EP" FontAttributes="Bold"/>
-                                <Label Grid.Column="6" Text="Korr" FontAttributes="Bold"/>
+                                <Label Grid.Column="6" Text="Korr" FontAttributes="Bold"  IsVisible="{Binding CharacterViewModel.EditMode, Converter={StaticResource InverseBoolConverter}}" />
+                                <Label Grid.Column="6" Text="Spezial EP" FontAttributes="Bold" IsVisible="{Binding CharacterViewModel.EditMode}" />
                                 <Label Grid.Column="7" Text="Mod" FontAttributes="Bold"/>
                                 <Label Grid.Column="8" Text="FW" FontAttributes="Bold"/>
                             </Grid>

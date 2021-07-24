@@ -34,6 +34,15 @@ namespace ImagoApp.ViewModels
             }
         }
 
+        public int SpecialExperience
+        {
+            get => AttributeModel.SpecialExperience;
+            set
+            {
+                CharacterViewModel.SetSpecialExperienceToAttribute(AttributeModel, value);
+                OnPropertyChanged(nameof(SpecialExperience));
+            }
+        }
 
         public int TotalExperienceValue
         {
