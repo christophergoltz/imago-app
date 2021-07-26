@@ -152,7 +152,7 @@
                                 </Grid.RowDefinitions>
                                 <Label Margin="20,0"  VerticalOptions="Center" FontSize="{DynamicResource FontSizeSmallCaption}" FontAttributes="Bold" Text="Charaktere" Grid.Column="0" Grid.Row="0"></Label>
                                 <Button Grid.Column="1" FontSize="{DynamicResource FontSizeContent}" Grid.Row="0" Text="Neuer Charakter erstellen" Margin="20" Command="{Binding CreateNewCharacterCommand}"/>
-                                <Button Grid.Column="2" FontSize="{DynamicResource FontSizeContent}" Grid.Row="0" Command="{Binding GenerateTestCharacterCommand}" Text="Testspieler generieren" Margin="20"/>
+                               
                                 <BoxView Grid.Row="1"  Grid.ColumnSpan="3" Grid.Column="0" Color="Black"/>
                             </Grid>
                         </ListView.Header>

@@ -82,17 +82,17 @@ namespace ImagoApp.ViewModels
             get => _skillGroupDetailViewModel;
             set => SetProperty(ref _skillGroupDetailViewModel, value);
         }
-
-        private int _totalSkillExperience;
+        
         public int TotalSkillExperience
         {
-            get => _totalSkillExperience;
+            get => CharacterViewModel.CharacterModel.CharacterCreationSkillPoints;
             set
             {
-                SetProperty(ref _totalSkillExperience, value);
+                CharacterViewModel.CharacterModel.CharacterCreationSkillPoints = value;
                 OnPropertyChanged(nameof(SkillExperienceBalance));
             }
         }
+
         public int SkillExperienceBalance => TotalSkillExperience - CharacterViewModel.CharacterModel.SkillGroups.SelectMany(model => model.Skills).Sum(model => model.TotalExperience);
         
         public SkillPageViewModel(CharacterViewModel characterViewModel, IWikiService wikiService, IWikiDataService wikiDataService)
@@ -100,7 +100,6 @@ namespace ImagoApp.ViewModels
             _wikiService = wikiService;
             _wikiDataService = wikiDataService;
             CharacterViewModel = characterViewModel;
-            TotalSkillExperience = 1350;
 
             foreach (var skill in characterViewModel.CharacterModel.SkillGroups.SelectMany(model => model.Skills))
             {

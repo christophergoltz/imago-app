@@ -42,5 +42,8 @@ namespace ImagoApp.Application.Models
         public ObservableCollection<WikiTabModel> WikiPages { get; set; }
 
         public string OwnedLanguages { get; set; }
+
+        public int CharacterCreationAttributePoints { get; set; }
+        public int CharacterCreationSkillPoints { get; set; }
     }
 }

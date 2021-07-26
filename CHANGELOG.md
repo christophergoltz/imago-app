@@ -12,6 +12,8 @@
 - Bekannte Sprachen können nun in der Detailansicht der Fertigkeit "Sprachen" gepflegt werden
 - Schriftgröße kann auf der Startseite angepasst werden
 - SpezialEP für Attribute (Kann im Bearbeitungsmodus angepasst werden)
+- Bei der Erschaffung wird erstmalig ein zufälliger Name vorgeschlagen
+- Vor der Erschaffung wird nach den Erfahrungspunkten für Attribute und Fertigkeiten gefrage
 
 ##Verbessert
 - Die App wird nun im Vollbildschirm gestartet (Bei älteren Windows 10 Versionen kann es sein, dass das nicht sofort beim ersten Start funktioniert)

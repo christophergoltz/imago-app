@@ -36,5 +36,8 @@ namespace ImagoApp.Infrastructure.Entities
         public List<WikiTabEntity> WikiPages { get; set; }
 
         public string OwnedLanguages { get; set; }
+
+        public int CharacterCreationAttributePoints { get; set; }
+        public int CharacterCreationSkillPoints { get; set; }
     }
 }

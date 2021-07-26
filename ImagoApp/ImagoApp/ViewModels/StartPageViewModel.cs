@@ -362,12 +362,54 @@ namespace ImagoApp.ViewModels
                 {
                     try
                     {
+                        int? attributePoints = null;
+                        int? skillPoints = null;
+                        
+                        await Device.InvokeOnMainThreadAsync(async () =>
+                        {
+                            var attributePromptResult = await UserDialogs.Instance.PromptAsync(new PromptConfig
+                            {
+                                Title = "Charaktererschaffung - Erfahrungspunkte für Attribute",
+                                Text = "940",
+                                Message = "(Dieser Wert kann später noch geändert werden)",
+                                OkText = "OK",
+                                CancelText = "Abbrechen",
+                                InputType = InputType.Number
+                            });
+
+                            if (!attributePromptResult.Ok || string.IsNullOrWhiteSpace(attributePromptResult.Value))
+                                return;
+
+                            attributePoints = int.Parse(attributePromptResult.Value);
+                         
+                            var skillPromptResult = await UserDialogs.Instance.PromptAsync(new PromptConfig
+                            {
+                                Title = "Charaktererschaffung - Erfahrungspunkte für Fertigkeiten und Vor-/Nachteile",
+                                Text = "1350",
+                                Message = "(Dieser Wert kann später noch geändert werden)",
+                                OkText = "OK",
+                                CancelText = "Abbrechen",
+                                InputType = InputType.Number
+                            });
+                            
+                            if (!skillPromptResult.Ok || string.IsNullOrWhiteSpace(skillPromptResult.Value))
+                                return;
+
+                            skillPoints = int.Parse(skillPromptResult.Value);
+
+                        });
+
+                        if(attributePoints == null || skillPoints == null)
+                            return;
+                        
                         using (UserDialogs.Instance.Loading("Neuer Charakter wird erstellt.."))
                         {
                             await Task.Delay(250);
                             var newChar = _characterCreationService.CreateNewCharacter();
-                            newChar.Name = "";
+                            newChar.Name = _characterCreationService.GetRandomName();
                             newChar.Version = Version;
+                            newChar.CharacterCreationAttributePoints = attributePoints.Value;
+                            newChar.CharacterCreationSkillPoints = skillPoints.Value;
 
                             _characterService.AddCharacter(newChar);
                             RefreshData(true);
@@ -382,39 +424,9 @@ namespace ImagoApp.ViewModels
                     }
                 });
             }));
-
-        private ICommand _generateTestCharacterCommand;
+        
         private string _version;
-        
-        public ICommand GenerateTestCharacterCommand => _generateTestCharacterCommand ?? (_generateTestCharacterCommand = new Command(() =>
-            {
-                Task.Run(async () =>
-                {
-                    try
-                    {
-                        using (UserDialogs.Instance.Loading("Testcharacter wird geladen.."))
-                        {
-                            await Task.Delay(250);
-                            var newChar = _characterCreationService.CreateExampleCharacter();
-                            newChar.Name = "Testspieler";
-                            newChar.CreatedBy = "System";
-                            newChar.Owner = "Testuser";
-                            newChar.Version = Version;
-
-                            _characterService.AddCharacter(newChar);
-                            RefreshData(true);
-
-                            await OpenCharacter(newChar, false);
-                            await Task.Delay(250);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        App.ErrorManager.TrackException(e);
-                    }
-                });
-            }));
-        
+   
         public void RefreshData(bool resetCurrentCharacter)
         {
             if (resetCurrentCharacter)
