@@ -1,186 +1,247 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
-             xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application"
-             xmlns:enum="clr-namespace:ImagoApp.Shared.Enums;assembly=ImagoApp.Shared"
-             xmlns:util="clr-namespace:ImagoApp.Util;assembly=ImagoApp"
-             xmlns:shared="clr-namespace:ImagoApp.Shared;assembly=ImagoApp.Shared"
-             Title="Startseite"
-             x:Class="ImagoApp.Views.StartPage" 
-             x:Name="StartPageViewModelControl"
-             x:DataType="viewModels:StartPageViewModel">
+<ContentPage x:Class="ImagoApp.Views.StartPage" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+   xmlns:enum="clr-namespace:ImagoApp.Shared.Enums;assembly=ImagoApp.Shared" xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application" xmlns:shared="clr-namespace:ImagoApp.Shared;assembly=ImagoApp.Shared"
+   xmlns:util="clr-namespace:ImagoApp.Util;assembly=ImagoApp" xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp" x:Name="StartPageViewModelControl"
+   Title="Startseite" x:DataType="viewModels:StartPageViewModel">
     <ContentPage.Content>
         <Grid Style="{DynamicResource BackgroundGridStyle}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <!-- app info -->
-            <Frame Grid.Column="0" Grid.Row="0" Margin="10">
+            <!--  app info  -->
+            <Frame Grid.Row="0" Grid.Column="0" Margin="10">
                 <Grid Padding="5,0,0,20">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <Label Grid.Row="0" Grid.Column="0" Text="ImagoApp" Margin="10" FontSize="{DynamicResource FontSizeCaption}"></Label>
+                    <Label Grid.Row="0" Grid.Column="0" Margin="10"
+                       FontSize="{DynamicResource FontSizeCaption}"
+                       Text="ImagoApp" />
 
-                    <StackLayout Grid.Row="1" Orientation="Horizontal" VerticalOptions="FillAndExpand" >
-                        <Label VerticalOptions="Center" Margin="20,0,0,0" FontSize="{DynamicResource FontSizeHeader}" Text="Version:"></Label>
-                        <Label VerticalOptions="Center" FontSize="{DynamicResource FontSizeHeader}" Text="{Binding Version}"></Label>
-                        <Label VerticalOptions="Center" HorizontalOptions="EndAndExpand" Margin="20,5"  FontSize="{DynamicResource FontSizeHeader}"  Text="Regel-Version: 7 (Zeta)"></Label>
+                    <StackLayout Grid.Row="1" Orientation="Horizontal" VerticalOptions="FillAndExpand">
+                        <Label Margin="20,0,0,0"
+                           FontSize="{DynamicResource FontSizeHeader}"
+                           Text="Version:" VerticalOptions="Center" />
+                        <Label FontSize="{DynamicResource FontSizeHeader}"
+                           Text="{Binding Version}"
+                           VerticalOptions="Center" />
+                        <Label Margin="20,5"
+                           FontSize="{DynamicResource FontSizeHeader}"
+                           HorizontalOptions="EndAndExpand" Text="Regel-Version: 7 (Zeta)" VerticalOptions="Center" />
                     </StackLayout>
 
-                    <StackLayout Orientation="Horizontal" Grid.Row="2" Margin="20,0,0,0">
-                        <Button VerticalOptions="Center"  Margin="10,5" Text="Changelog ↗" Command="{Binding OpenChangeLogCommand}"></Button>
-                        <Button VerticalOptions="Center"  Margin="10,5" Text="Roadmap ↗" Command="{Binding OpenRoadmapCommand}"></Button>
-                        <Button VerticalOptions="Center"  HorizontalOptions="EndAndExpand" Margin="20,10" Text="Wichtige Benutzungshinweise &#8599;" FontSize="{DynamicResource FontSizeBigContent}" 
-                                Padding="7,3" Background="limegreen" 
-                                Command="{Binding OpenImportantNotesCommand}"/>
+                    <StackLayout Grid.Row="2" Margin="20,0,0,0" Orientation="Horizontal">
+                        <Button Margin="10,5"
+                           Command="{Binding OpenChangeLogCommand}"
+                           Text="Changelog ↗" VerticalOptions="Center" />
+                        <Button Margin="10,5"
+                           Command="{Binding OpenRoadmapCommand}"
+                           Text="Roadmap ↗" VerticalOptions="Center" />
+                        <Button Margin="20,10" Padding="7,3" Background="limegreen"
+                           Command="{Binding OpenImportantNotesCommand}"
+                           FontSize="{DynamicResource FontSizeBigContent}"
+                           HorizontalOptions="EndAndExpand" Text="Wichtige Benutzungshinweise &#8599;" VerticalOptions="Center" />
                     </StackLayout>
                 </Grid>
             </Frame>
 
-            <!-- display options -->
-            <Frame Grid.Column="0" Grid.Row="1" Margin="10">
-                <StackLayout  Padding="5,0,0,20">
-                    <Label Text="Anzeige" Margin="10" FontSize="{DynamicResource FontSizeTitle}"></Label>
-             
+            <!--  display options  -->
+            <Frame Grid.Row="1" Grid.Column="0" Margin="10">
+                <StackLayout Padding="5,0,0,20">
+                    <Label Margin="10"
+                       FontSize="{DynamicResource FontSizeTitle}"
+                       Text="Anzeige" />
+
                     <StackLayout Orientation="Horizontal">
-                        <Label VerticalOptions="Center" Margin="20,0,0,0"  FontSize="{DynamicResource FontSizeHeader}"  Text="Schriftgröße (Experimentell): "></Label>
-                        <Label VerticalOptions="Center" FontSize="{DynamicResource FontSizeHeader}"  
-                               Text="{Binding FontScale}"/>
-                        <Button Text="+" VerticalOptions="Center" Margin="5"
-                                Command="{Binding IncreaseFontSizeCommand}"></Button>
-                        <Button Text="-" VerticalOptions="Center" Margin="5"
-                                Command="{Binding DecreaseFontSizeCommand}"></Button>
+                        <Label Margin="20,0,0,0"
+                           FontSize="{DynamicResource FontSizeHeader}"
+                           Text="Schriftgröße (Experimentell): " VerticalOptions="Center" />
+                        <Label FontSize="{DynamicResource FontSizeHeader}"
+                           Text="{Binding FontScale}"
+                           VerticalOptions="Center" />
+                        <Button Margin="5"
+                           Command="{Binding IncreaseFontSizeCommand}"
+                           Text="+" VerticalOptions="Center" />
+                        <Button Margin="5"
+                           Command="{Binding DecreaseFontSizeCommand}"
+                           Text="-" VerticalOptions="Center" />
                     </StackLayout>
                 </StackLayout>
             </Frame>
 
 
-            <!-- wiki database -->
-            <Frame Grid.Column="0" Grid.Row="2" Margin="10">
-                <StackLayout  Padding="5,0,0,20">
+            <!--  wiki database  -->
+            <Frame Grid.Row="2" Grid.Column="0" Margin="10">
+                <StackLayout Padding="5,0,0,20">
                     <Grid Margin="10">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Text="Wiki Datenbank" FontSize="{DynamicResource FontSizeTitle}"></Label>
-                       
-                        <Button Grid.Column="1" Text="Daten aus Wiki laden" VerticalOptions="Center" Margin="5"
-                                Command="{Binding ParseWikiCommand,Source={RelativeSource AncestorType={x:Type viewModels:StartPageViewModel}}}"></Button>
+                        <Label Grid.Column="0"
+                           FontSize="{DynamicResource FontSizeTitle}"
+                           Text="Wiki Datenbank" />
 
-                        <Label Grid.Column="3" Margin="25,0" HorizontalOptions="EndAndExpand" Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.Length, Converter={StaticResource FileInfoLenghtToSmartFileSizeConverter}}" FontSize="{DynamicResource FontSizeTitle}"></Label>
-                        <Label Grid.Column="4" Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.LastWriteTime, StringFormat='{0:dd.MM.yyyy HH:mm}'}" HorizontalOptions="EndAndExpand" FontSize="{DynamicResource FontSizeTitle}"></Label>
+                        <Button Grid.Column="1" Margin="5"
+                           Command="{Binding ParseWikiCommand, Source={RelativeSource AncestorType={x:Type viewModels:StartPageViewModel}}}"
+                           Text="Daten aus Wiki laden" VerticalOptions="Center" />
+
+                        <Label Grid.Column="3" Margin="25,0"
+                           FontSize="{DynamicResource FontSizeTitle}"
+                           HorizontalOptions="EndAndExpand"
+                           Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.Length, Converter={StaticResource FileInfoLenghtToSmartFileSizeConverter}}" />
+                        <Label Grid.Column="4"
+                           FontSize="{DynamicResource FontSizeTitle}"
+                           HorizontalOptions="EndAndExpand"
+                           Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.LastWriteTime, StringFormat='{0:dd.MM.yyyy HH:mm}'}" />
                     </Grid>
 
                     <StackLayout Orientation="Horizontal">
-                        <Label Margin="20,0,0,0"  FontSize="{DynamicResource FontSizeHeader}"  Text="Rüstungen: "></Label>
-                        <Label FontSize="{DynamicResource FontSizeHeader}"  Text="{Binding DatabaseInfoViewModel.ArmorTemplateCount}"/>
+                        <Label Margin="20,0,0,0"
+                           FontSize="{DynamicResource FontSizeHeader}"
+                           Text="Rüstungen: " />
+                        <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding DatabaseInfoViewModel.ArmorTemplateCount}" />
                     </StackLayout>
 
                     <StackLayout Orientation="Horizontal">
-                        <Label Margin="20,0,0,0"  FontSize="{DynamicResource FontSizeHeader}" Text="Waffen: "></Label>
-                        <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding DatabaseInfoViewModel.WeaponTemplateCount}"/>
+                        <Label Margin="20,0,0,0"
+                           FontSize="{DynamicResource FontSizeHeader}"
+                           Text="Waffen: " />
+                        <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding DatabaseInfoViewModel.WeaponTemplateCount}" />
                     </StackLayout>
 
                     <StackLayout Orientation="Horizontal">
-                        <Label Margin="20,0,0,0"  FontSize="{DynamicResource FontSizeHeader}" Text="Talente: "></Label>
-                        <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding DatabaseInfoViewModel.TalentTemplateCount}"/>
+                        <Label Margin="20,0,0,0"
+                           FontSize="{DynamicResource FontSizeHeader}"
+                           Text="Talente: " />
+                        <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding DatabaseInfoViewModel.TalentTemplateCount}" />
                     </StackLayout>
 
                     <StackLayout Orientation="Horizontal">
-                        <Label Margin="20,0,0,0"  FontSize="{DynamicResource FontSizeHeader}" Text="Meisterschaften: "></Label>
-                        <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding DatabaseInfoViewModel.MasteryTemplateCount}"/>
+                        <Label Margin="20,0,0,0"
+                           FontSize="{DynamicResource FontSizeHeader}"
+                           Text="Meisterschaften: " />
+                        <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding DatabaseInfoViewModel.MasteryTemplateCount}" />
                     </StackLayout>
                 </StackLayout>
             </Frame>
 
-            <!-- character database -->
-            <Frame Grid.Column="0" Grid.Row="3" Margin="10">
+            <!--  character database  -->
+            <Frame Grid.Row="3" Grid.Column="0" Margin="10">
                 <StackLayout>
-                    <Grid  Margin="10">
+                    <Grid Margin="10">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Text="Charakter Datenbank" FontSize="{DynamicResource FontSizeTitle}"></Label>
-                        <Button Grid.Column="1" Text="Appdata Ordner öffnen" Command="{Binding OpenAppDataFolderCommand}"></Button>
-                        <Label Grid.Column="3" Margin="25,0"  HorizontalOptions="EndAndExpand" Text="{Binding DatabaseInfoViewModel.CharacterDatabaseInfo.Length, Converter={StaticResource FileInfoLenghtToSmartFileSizeConverter}}" FontSize="{DynamicResource FontSizeTitle}"></Label>
-                        <Label Grid.Column="4" HorizontalOptions="EndAndExpand" Text="{Binding DatabaseInfoViewModel.CharacterDatabaseInfo.LastWriteTime, StringFormat='{0:dd.MM.yyyy HH:mm}'}" FontSize="{DynamicResource FontSizeTitle}"></Label>
+                        <Label Grid.Column="0"
+                           FontSize="{DynamicResource FontSizeTitle}"
+                           Text="Charakter Datenbank" />
+                        <Button Grid.Column="1"
+                           Command="{Binding OpenAppDataFolderCommand}"
+                           Text="Appdata Ordner öffnen" />
+                        <Label Grid.Column="3" Margin="25,0"
+                           FontSize="{DynamicResource FontSizeTitle}"
+                           HorizontalOptions="EndAndExpand"
+                           Text="{Binding DatabaseInfoViewModel.CharacterDatabaseInfo.Length, Converter={StaticResource FileInfoLenghtToSmartFileSizeConverter}}" />
+                        <Label Grid.Column="4"
+                           FontSize="{DynamicResource FontSizeTitle}"
+                           HorizontalOptions="EndAndExpand"
+                           Text="{Binding DatabaseInfoViewModel.CharacterDatabaseInfo.LastWriteTime, StringFormat='{0:dd.MM.yyyy HH:mm}'}" />
                     </Grid>
                     <Frame BackgroundColor="{DynamicResource AntiUmbra3}" BorderColor="Transparent">
-                        <Label FontSize="{DynamicResource FontSizeContent}" Margin="20"
-                               TextColor="{DynamicResource RotesUmbra}" FontAttributes="Bold"
-                               Text="Achtung: Die Charakterdatenbank wird unwiederruflich durch Windows bei einer Deinstallation gelöscht!"></Label>
+                        <Label Margin="20" FontAttributes="Bold"
+                           FontSize="{DynamicResource FontSizeContent}"
+                           Text="Achtung: Die Charakterdatenbank wird unwiederruflich durch Windows bei einer Deinstallation gelöscht!"
+                           TextColor="{DynamicResource RotesUmbra}" />
                     </Frame>
-                  
+
                 </StackLayout>
             </Frame>
 
-            <!-- Characters -->
-            <Frame Grid.Column="1" Grid.Row="0" Grid.RowSpan="5" Margin="10">
+            <!--  Characters  -->
+            <Frame Grid.Row="0" Grid.RowSpan="5" Grid.Column="1"
+               Margin="10">
                 <Grid Style="{DynamicResource SingleGradiantStyle}">
-                    <ListView SelectionMode="Single" ItemsSource="{Binding Characters}"
-                              ItemSelected="CharacterListView_OnItemSelected">
+                    <ListView ItemSelected="CharacterListView_OnItemSelected"
+                       ItemsSource="{Binding Characters}"
+                       SelectionMode="Single">
                         <ListView.Header>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"></RowDefinition>
-                                    <RowDefinition Height="1"></RowDefinition>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="1" />
                                 </Grid.RowDefinitions>
-                                <StackLayout Grid.Column="0"  Grid.Row="0" >
-                                    <Label Margin="20,10,20,0"  FontSize="{DynamicResource FontSizeSmallCaption}" FontAttributes="Bold" Text="Charaktere"></Label>
-                                    <Label Text="(Per Rechtsklick kann ein Charakter zb. gelöscht werden)" LineBreakMode="WordWrap" Margin="20,5" TextColor="{StaticResource AntiUmbra1}" FontSize="{DynamicResource FontSizeDetail}"></Label>
+                                <StackLayout Grid.Row="0" Grid.Column="0">
+                                    <Label Margin="20,10,20,0" FontAttributes="Bold"
+                                       FontSize="{DynamicResource FontSizeSmallCaption}"
+                                       Text="Charaktere" />
+                                    <Label Margin="20,5"
+                                       FontSize="{DynamicResource FontSizeDetail}"
+                                       LineBreakMode="WordWrap" Text="(Per Rechtsklick kann ein Charakter zb. gelöscht werden)"
+                                       TextColor="{StaticResource AntiUmbra1}" />
                                 </StackLayout>
-                                <Button Grid.Column="1" FontSize="{DynamicResource FontSizeContent}" Grid.Row="0" Text="Neuer Charakter" Margin="20" Command="{Binding CreateNewCharacterCommand}"/>
-                                <Button Grid.Row="0" Grid.Column="2" Text="Charakter importieren" Command="{Binding ImportCharacterCommand}" FontSize="{DynamicResource FontSizeContent}" Margin="20"></Button>
-                                <BoxView Grid.Row="1"  Grid.ColumnSpan="3" Grid.Column="0" Color="{StaticResource AntiUmbra1}"/>
+                                <Button Grid.Row="0" Grid.Column="1" Margin="20"
+                                   Command="{Binding CreateNewCharacterCommand}"
+                                   FontSize="{DynamicResource FontSizeContent}"
+                                   Text="Neuer Charakter" />
+                                <Button Grid.Row="0" Grid.Column="2" Margin="20"
+                                   Command="{Binding ImportCharacterCommand}"
+                                   FontSize="{DynamicResource FontSizeContent}"
+                                   Text="Charakter importieren" />
+                                <BoxView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+                                   Color="{StaticResource AntiUmbra1}" />
                             </Grid>
                         </ListView.Header>
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="shared:CharacterItem">
                                 <ViewCell>
                                     <ViewCell.ContextActions>
-                                        <MenuItem Text="Exportieren" 
-                                                  Command="{Binding StartPageViewModel.ExportCharacterCommand, Source={x:Reference StartPageViewModelControl}}" 
-                                                  CommandParameter="{Binding .}"/>
-                                        <MenuItem Text="Charakter löschen" 
-                                                  Command="{Binding StartPageViewModel.DeleteCharacterCommand, Source={x:Reference StartPageViewModelControl}}" 
-                                                  CommandParameter="{Binding .}"/>
+                                        <MenuItem Command="{Binding StartPageViewModel.ExportCharacterCommand, Source={x:Reference StartPageViewModelControl}}"
+                                           CommandParameter="{Binding .}"
+                                           Text="Exportieren" />
+                                        <MenuItem Command="{Binding StartPageViewModel.DeleteCharacterCommand, Source={x:Reference StartPageViewModelControl}}"
+                                           CommandParameter="{Binding .}"
+                                           Text="Charakter löschen" />
                                     </ViewCell.ContextActions>
                                     <Grid Margin="20,10">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"></ColumnDefinition>
-                                            <ColumnDefinition Width="125"></ColumnDefinition>
-                                            <ColumnDefinition Width="250"></ColumnDefinition>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="125" />
+                                            <ColumnDefinition Width="250" />
                                         </Grid.ColumnDefinitions>
-                                        <Label Grid.Column="0" FontSize="{DynamicResource FontSizeTitle}" Text="{Binding Name}"></Label>
-                                        <Label Grid.Column="1" FontSize="{DynamicResource FontSizeTitle}" Text="{Binding Version}"></Label>
-                                        <Label Grid.Column="2" FontSize="{DynamicResource FontSizeTitle}" Text="{Binding LastEdit, StringFormat='{0:dd.MM.yyyy HH:mm}'}"></Label>
+                                        <Label Grid.Column="0"
+                                           FontSize="{DynamicResource FontSizeTitle}"
+                                           Text="{Binding Name}" />
+                                        <Label Grid.Column="1"
+                                           FontSize="{DynamicResource FontSizeTitle}"
+                                           Text="{Binding Version}" />
+                                        <Label Grid.Column="2"
+                                           FontSize="{DynamicResource FontSizeTitle}"
+                                           Text="{Binding LastEdit, StringFormat='{0:dd.MM.yyyy HH:mm}'}" />
                                     </Grid>
                                 </ViewCell>
                             </DataTemplate>

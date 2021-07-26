@@ -1,27 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
-             xmlns:application="clr-namespace:ImagoApp.Application;assembly=ImagoApp.Application"
-             Background="white"
-             Title="{Binding WikiTabModel.Title, Source={x:Reference WikiTabViewControl}}" 
-             x:Name="WikiTabViewControl"
-             x:Class="ImagoApp.Views.CustomControls.WikiTabView">
+<ContentPage x:Class="ImagoApp.Views.CustomControls.WikiTabView" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+   xmlns:application="clr-namespace:ImagoApp.Application;assembly=ImagoApp.Application" xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp" x:Name="WikiTabViewControl"
+   Title="{Binding WikiTabModel.Title, Source={x:Reference WikiTabViewControl}}"
+   Background="white">
     <ContentPage.Content>
-        <Grid Margin="0,10,0,0" 
-              BindingContext="{Binding WikiTabModel, Source={x:Reference WikiTabViewControl}}">
+        <Grid Margin="0,10,0,0" BindingContext="{Binding WikiTabModel, Source={x:Reference WikiTabViewControl}}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            
-            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                <Button Text="Schließen" Command="{Binding CloseTabWrapCommand, Source={x:Reference WikiTabViewControl}}"/>
-                <Entry IsReadOnly="True" Text="{Binding Url}" HorizontalOptions="FillAndExpand"></Entry>
+
+            <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+                <Button Command="{Binding CloseTabWrapCommand, Source={x:Reference WikiTabViewControl}}" Text="Schließen" />
+                <Entry HorizontalOptions="FillAndExpand" IsReadOnly="True"
+                   Text="{Binding Url}" />
             </StackLayout>
 
             <Frame Grid.Row="1">
-                <WebView Navigating="WebView_OnNavigating" Navigated="WebView_OnNavigated" Source="{Binding Url}" />
+                <WebView Navigated="WebView_OnNavigated" Navigating="WebView_OnNavigating"
+                   Source="{Binding Url}" />
             </Frame>
         </Grid>
     </ContentPage.Content>

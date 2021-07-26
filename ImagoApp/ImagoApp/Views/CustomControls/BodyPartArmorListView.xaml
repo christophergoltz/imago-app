@@ -1,17 +1,13 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
-             xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application"
-             x:Class="ImagoApp.Views.CustomControls.BodyPartArmorListView"
-             x:Name="BodyPartArmorListViewControl">
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView x:Class="ImagoApp.Views.CustomControls.BodyPartArmorListView" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+   xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application" xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp" x:Name="BodyPartArmorListViewControl">
     <ContentView.Content>
-        <Frame Grid.Column="0" Grid.Row="0">
-            <Grid BindingContext="{Binding BodyPartArmorListViewModel,
-                Source={x:Reference BodyPartArmorListViewControl}}"  Style="{StaticResource SingleGradiantStyle}">
-               <ListView SelectionMode="None" VerticalOptions="FillAndExpand" HasUnevenRows="True" VerticalScrollBarVisibility="Default"
-                              ItemsSource="{Binding BodyPartModel.Armor}">
-                   <ListView.Header>
+        <Frame Grid.Row="0" Grid.Column="0">
+            <Grid BindingContext="{Binding BodyPartArmorListViewModel, Source={x:Reference BodyPartArmorListViewControl}}" Style="{StaticResource SingleGradiantStyle}">
+                <ListView HasUnevenRows="True"
+                   ItemsSource="{Binding BodyPartModel.Armor}"
+                   SelectionMode="None" VerticalOptions="FillAndExpand" VerticalScrollBarVisibility="Default">
+                    <ListView.Header>
                         <Grid Padding="5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -29,29 +25,47 @@
                             </Grid.RowDefinitions>
 
                             <ProgressBar Grid.ColumnSpan="8" Margin="-5" BackgroundColor="Transparent"
-                                    ProgressColor="{Binding BodyPartModel, Converter={StaticResource BodyPartToCurrentHitpointsColor}}"  
-                                    Progress="{Binding BodyPartModel, Converter={StaticResource BodyPartToCurrentHitpointsPercentage}}" 
-                                    HorizontalOptions="FillAndExpand"/>
+                               HorizontalOptions="FillAndExpand"
+                               Progress="{Binding BodyPartModel, Converter={StaticResource BodyPartToCurrentHitpointsPercentage}}"
+                               ProgressColor="{Binding BodyPartModel, Converter={StaticResource BodyPartToCurrentHitpointsColor}}" />
 
-                            <StackLayout Grid.Row="0" VerticalOptions="Center" Grid.Column="0" Orientation="Horizontal">
-                                <Label Margin="10,0,0,0" VerticalOptions="Center" FontAttributes="Bold" FontSize="{DynamicResource FontSizeContent}"
-                                       Text="{Binding BodyPartModel.Type, Converter={StaticResource EnumToDisplayTextConverter}}" />
-                                <Entry HorizontalTextAlignment="End" VerticalOptions="Center" FontAttributes="Bold" Text="{Binding BodyPartModel.CurrentHitpoints}"/>
-                                <Label VerticalOptions="Center" FontAttributes="Bold" Text="/"/>
-                                <Label VerticalOptions="Center" FontAttributes="Bold" Text="{Binding BodyPartModel.MaxHitpoints}"/>
+                            <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Horizontal"
+                               VerticalOptions="Center">
+                                <Label Margin="10,0,0,0" FontAttributes="Bold"
+                                   FontSize="{DynamicResource FontSizeContent}"
+                                   Text="{Binding BodyPartModel.Type, Converter={StaticResource EnumToDisplayTextConverter}}"
+                                   VerticalOptions="Center" />
+                                <Entry FontAttributes="Bold" HorizontalTextAlignment="End"
+                                   Text="{Binding BodyPartModel.CurrentHitpoints}"
+                                   VerticalOptions="Center" />
+                                <Label FontAttributes="Bold" Text="/" VerticalOptions="Center" />
+                                <Label FontAttributes="Bold"
+                                   Text="{Binding BodyPartModel.MaxHitpoints}"
+                                   VerticalOptions="Center" />
                             </StackLayout>
 
-                            <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="1" Text="Physisch" Margin="5,0,10,0" FontAttributes="Bold"/>
-                            <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="2" Text="Energie" Margin="5,0,15,0" FontAttributes="Bold"/>
-                            <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="3" Text="Last" Margin="5,0,25,0" FontAttributes="Bold"/>
-                            <Label Grid.Row="0" VerticalTextAlignment="Center" Grid.Column="4" Text="Zustand" FontAttributes="Bold"/>
-                            <Image HeightRequest="15" WidthRequest="15" VerticalOptions="Center" Grid.Row="0" Grid.Column="5" Margin="5,5,10,5" Source="Images/swords.png"></Image>
-                            <Image HeightRequest="15" WidthRequest="15" VerticalOptions="Center"  Grid.Row="0" Grid.Column="6"  Margin="5" Source="Images/inventar.png"></Image>
-                            <Button Text="+" Grid.Column="7" Grid.Row="0" Padding="0,-6,0,0" WidthRequest="25" HeightRequest="25"  
-                                    FontSize="{DynamicResource FontSizeHeader}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Green" 
-                                    BackgroundColor="LightGray" 
-                                        Command="{Binding AddArmorCommand, Source={RelativeSource AncestorType={x:Type viewModels:BodyPartArmorListViewModel}}}"/>
-                            <BoxView Grid.Column="0" HeightRequest="1" Grid.Row="1" Grid.ColumnSpan="8" Color="Black"/>
+                            <Label Grid.Row="0" Grid.Column="1" Margin="5,0,10,0"
+                               FontAttributes="Bold" Text="Physisch" VerticalTextAlignment="Center" />
+                            <Label Grid.Row="0" Grid.Column="2" Margin="5,0,15,0"
+                               FontAttributes="Bold" Text="Energie" VerticalTextAlignment="Center" />
+                            <Label Grid.Row="0" Grid.Column="3" Margin="5,0,25,0"
+                               FontAttributes="Bold" Text="Last" VerticalTextAlignment="Center" />
+                            <Label Grid.Row="0" Grid.Column="4" FontAttributes="Bold"
+                               Text="Zustand" VerticalTextAlignment="Center" />
+                            <Image Grid.Row="0" Grid.Column="5" Margin="5,5,10,5"
+                               HeightRequest="15" Source="Images/swords.png" VerticalOptions="Center"
+                               WidthRequest="15" />
+                            <Image Grid.Row="0" Grid.Column="6" Margin="5"
+                               HeightRequest="15" Source="Images/inventar.png" VerticalOptions="Center"
+                               WidthRequest="15" />
+                            <Button Grid.Row="0" Grid.Column="7" Padding="0,-6,0,0"
+                               BackgroundColor="LightGray"
+                               Command="{Binding AddArmorCommand, Source={RelativeSource AncestorType={x:Type viewModels:BodyPartArmorListViewModel}}}"
+                               FontSize="{DynamicResource FontSizeHeader}"
+                               HeightRequest="25" HorizontalOptions="Center" Text="+"
+                               TextColor="Green" VerticalOptions="Center" WidthRequest="25" />
+                            <BoxView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="8"
+                               HeightRequest="1" Color="Black" />
                         </Grid>
                     </ListView.Header>
                     <ListView.ItemTemplate>
@@ -68,16 +82,42 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <Label FontSize="{DynamicResource FontSizeContent}" Grid.Column="0" VerticalOptions="Center" Text="{Binding Name}"/>
-                                    <Entry FontSize="{DynamicResource FontSizeContent}" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding PhysicalDefense}"/>
-                                    <Entry FontSize="{DynamicResource FontSizeContent}" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding EnergyDefense}"/>
-                                    <Entry FontSize="{DynamicResource FontSizeContent}" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding LoadValue}"/>
-                                    <Entry FontSize="{DynamicResource FontSizeContent}" Grid.Column="4" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding DurabilityValue}"/>
-                                    <CheckBox Grid.Column="5" HorizontalOptions="Center" VerticalOptions="Center" IsChecked="{Binding Fight}"/>
-                                    <CheckBox Grid.Column="6" HorizontalOptions="Center" VerticalOptions="Center" IsChecked="{Binding Adventure}"/>
-                                    <Button Grid.Column="7" Text="🗑" WidthRequest="35" HeightRequest="35" FontSize="{DynamicResource FontSizeDetail}" VerticalOptions="Start" 
-                                            HorizontalOptions="End" TextColor="Red" BackgroundColor="LightGray" CommandParameter="{Binding .}"
-                                            Command="{Binding RemoveArmorCommand, Source={RelativeSource AncestorType={x:Type viewModels:BodyPartArmorListViewModel}}}"/>
+                                    <Label Grid.Column="0"
+                                       FontSize="{DynamicResource FontSizeContent}"
+                                       Text="{Binding Name}"
+                                       VerticalOptions="Center" />
+                                    <Entry Grid.Column="1"
+                                       FontSize="{DynamicResource FontSizeContent}"
+                                       HorizontalOptions="Center"
+                                       Text="{Binding PhysicalDefense}"
+                                       VerticalOptions="Center" />
+                                    <Entry Grid.Column="2"
+                                       FontSize="{DynamicResource FontSizeContent}"
+                                       HorizontalOptions="Center"
+                                       Text="{Binding EnergyDefense}"
+                                       VerticalOptions="Center" />
+                                    <Entry Grid.Column="3"
+                                       FontSize="{DynamicResource FontSizeContent}"
+                                       HorizontalOptions="Center"
+                                       Text="{Binding LoadValue}"
+                                       VerticalOptions="Center" />
+                                    <Entry Grid.Column="4"
+                                       FontSize="{DynamicResource FontSizeContent}"
+                                       HorizontalOptions="Center"
+                                       Text="{Binding DurabilityValue}"
+                                       VerticalOptions="Center" />
+                                    <CheckBox Grid.Column="5" HorizontalOptions="Center"
+                                       IsChecked="{Binding Fight}"
+                                       VerticalOptions="Center" />
+                                    <CheckBox Grid.Column="6" HorizontalOptions="Center"
+                                       IsChecked="{Binding Adventure}"
+                                       VerticalOptions="Center" />
+                                    <Button Grid.Column="7" BackgroundColor="LightGray"
+                                       Command="{Binding RemoveArmorCommand, Source={RelativeSource AncestorType={x:Type viewModels:BodyPartArmorListViewModel}}}"
+                                       CommandParameter="{Binding .}"
+                                       FontSize="{DynamicResource FontSizeDetail}"
+                                       HeightRequest="35" HorizontalOptions="End" Text="🗑"
+                                       TextColor="Red" VerticalOptions="Start" WidthRequest="35" />
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>

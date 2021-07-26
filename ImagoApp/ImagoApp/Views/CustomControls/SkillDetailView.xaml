@@ -1,349 +1,422 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:system="clr-namespace:System;assembly=netstandard"
-             xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp"
-             xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
-             xmlns:enums="clr-namespace:ImagoApp.Shared.Enums;assembly=ImagoApp.Shared"
-             x:Class="ImagoApp.Views.CustomControls.SkillDetailView" 
-             x:Name="SkillDetailViewControl">
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView x:Class="ImagoApp.Views.CustomControls.SkillDetailView" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+   xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp" xmlns:enums="clr-namespace:ImagoApp.Shared.Enums;assembly=ImagoApp.Shared" xmlns:system="clr-namespace:System;assembly=netstandard"
+   xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp" x:Name="SkillDetailViewControl">
     <ContentView.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="TalentBaseDetailTemplate" x:DataType="viewModels:TalentListItemViewModel">
-                <StackLayout  Margin="10,5" x:Name="TalentDetailExpanderControl">
+                <StackLayout x:Name="TalentDetailExpanderControl" Margin="10,5">
                     <Grid>
                         <Grid.Style>
                             <Style TargetType="Grid">
                                 <Style.Triggers>
-                                    <DataTrigger TargetType="Grid" Binding="{Binding Available}" Value="false">
-                                        <Setter Property="BackgroundColor" Value="{DynamicResource AntiUmbra3}"></Setter>
+                                    <DataTrigger Binding="{Binding Available}"
+                                       TargetType="Grid" Value="false">
+                                        <Setter Property="BackgroundColor" Value="{DynamicResource AntiUmbra3}" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </Grid.Style>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="150"></ColumnDefinition>
-                            <ColumnDefinition Width="80"></ColumnDefinition>
-                            <ColumnDefinition Width="50"></ColumnDefinition>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="50" />
                         </Grid.ColumnDefinitions>
 
-                        <Label Grid.Column="0" FontSize="{DynamicResource FontSizeContent}" VerticalOptions="Center" Text="{Binding Talent.Name}">
+                        <Label Grid.Column="0"
+                           FontSize="{DynamicResource FontSizeContent}"
+                           Text="{Binding Talent.Name}"
+                           VerticalOptions="Center">
                             <Label.Style>
                                 <Style TargetType="Label">
                                     <Style.Triggers>
-                                        <DataTrigger TargetType="Label" Binding="{Binding Available}" Value="False">
-                                            <Setter Property="TextDecorations" Value="Strikethrough"></Setter>
-                                            <Setter Property="FontAttributes" Value="Italic"></Setter>
-                                            <Setter Property="TextColor" Value="white"></Setter>
+                                        <DataTrigger Binding="{Binding Available}"
+                                           TargetType="Label" Value="False">
+                                            <Setter Property="TextDecorations" Value="Strikethrough" />
+                                            <Setter Property="FontAttributes" Value="Italic" />
+                                            <Setter Property="TextColor" Value="white" />
                                         </DataTrigger>
                                     </Style.Triggers>
-                                    <Setter Property="TextDecorations" Value="None"></Setter>
-                                    <Setter Property="FontAttributes" Value="None"></Setter>
-                                    <Setter Property="TextColor" Value="Black"></Setter>
+                                    <Setter Property="TextDecorations" Value="None" />
+                                    <Setter Property="FontAttributes" Value="None" />
+                                    <Setter Property="TextColor" Value="Black" />
                                 </Style>
                             </Label.Style>
                         </Label>
 
-                        <Label FontSize="{DynamicResource FontSizeDetail}" TextColor="Gray" FontAttributes="Italic" VerticalOptions="Center" Grid.Column="1" Text="{Binding Talent.PhaseValueMod}" >
+                        <Label Grid.Column="1" FontAttributes="Italic"
+                           FontSize="{DynamicResource FontSizeDetail}"
+                           Text="{Binding Talent.PhaseValueMod}"
+                           TextColor="Gray" VerticalOptions="Center">
                             <Label.Style>
                                 <Style TargetType="Label">
                                     <Style.Triggers>
                                         <MultiTrigger TargetType="Label">
                                             <MultiTrigger.Conditions>
-                                                <BindingCondition Binding="{Binding Available}" Value="True"></BindingCondition>
+                                                <BindingCondition Binding="{Binding Available}" Value="True" />
                                             </MultiTrigger.Conditions>
-                                            <Setter Property="IsVisible" Value="True"></Setter>
+                                            <Setter Property="IsVisible" Value="True" />
                                         </MultiTrigger>
                                     </Style.Triggers>
-                                    <Setter Property="IsVisible" Value="False"></Setter>
+                                    <Setter Property="IsVisible" Value="False" />
                                 </Style>
                             </Label.Style>
                         </Label>
 
-                        <Label  FontSize="{DynamicResource FontSizeContent}"  VerticalOptions="Center"  Grid.Column="2" Text="{Binding Talent.Difficulty}" >
+                        <Label Grid.Column="2"
+                           FontSize="{DynamicResource FontSizeContent}"
+                           Text="{Binding Talent.Difficulty}"
+                           VerticalOptions="Center">
                             <Label.Style>
                                 <Style TargetType="Label">
                                     <Style.Triggers>
                                         <MultiTrigger TargetType="Label">
                                             <MultiTrigger.Conditions>
-                                                <BindingCondition Binding="{Binding Talent.Difficulty, Converter={StaticResource ObjectNotNullToBoolConverter}}" Value="True"></BindingCondition>
-                                                <BindingCondition Binding="{Binding Available}" Value="True"></BindingCondition>
+                                                <BindingCondition Binding="{Binding Talent.Difficulty, Converter={StaticResource ObjectNotNullToBoolConverter}}" Value="True" />
+                                                <BindingCondition Binding="{Binding Available}" Value="True" />
                                             </MultiTrigger.Conditions>
-                                            <Setter Property="IsVisible" Value="True"></Setter>
+                                            <Setter Property="IsVisible" Value="True" />
                                         </MultiTrigger>
                                     </Style.Triggers>
-                                    <Setter Property="IsVisible" Value="False"></Setter>
+                                    <Setter Property="IsVisible" Value="False" />
                                 </Style>
                             </Label.Style>
                         </Label>
 
-                        <Entry  FontSize="{DynamicResource FontSizeContent}"  VerticalOptions="Center" Keyboard="Numeric" Grid.Column="2" 
-                                Text="{Binding DifficultyOverride}" >
+                        <Entry Grid.Column="2"
+                           FontSize="{DynamicResource FontSizeContent}"
+                           Keyboard="Numeric"
+                           Text="{Binding DifficultyOverride}"
+                           VerticalOptions="Center">
                             <Entry.Style>
                                 <Style TargetType="Entry">
                                     <Style.Triggers>
                                         <MultiTrigger TargetType="Entry">
                                             <MultiTrigger.Conditions>
-                                                <BindingCondition Binding="{Binding Talent.Difficulty}" Value="{x:Null}"></BindingCondition>
-                                                <BindingCondition Binding="{Binding Available}" Value="True"></BindingCondition>
+                                                <BindingCondition Binding="{Binding Talent.Difficulty}" Value="{x:Null}" />
+                                                <BindingCondition Binding="{Binding Available}" Value="True" />
                                             </MultiTrigger.Conditions>
-                                            <Setter Property="IsVisible" Value="true"></Setter>
+                                            <Setter Property="IsVisible" Value="true" />
                                         </MultiTrigger>
                                     </Style.Triggers>
-                                    <Setter Property="IsVisible" Value="False"></Setter>
+                                    <Setter Property="IsVisible" Value="False" />
                                 </Style>
                             </Entry.Style>
                         </Entry>
 
-                        <CheckBox  VerticalOptions="Center" IsChecked="{Binding InUse}" Grid.Column="3">
+                        <CheckBox Grid.Column="3"
+                           IsChecked="{Binding InUse}"
+                           VerticalOptions="Center">
                             <CheckBox.Style>
                                 <Style TargetType="CheckBox">
                                     <Style.Triggers>
                                         <MultiTrigger TargetType="CheckBox">
                                             <MultiTrigger.Conditions>
-                                                <BindingCondition Binding="{Binding Talent.ActiveUse}" Value="True"></BindingCondition>
-                                                <BindingCondition Binding="{Binding Available}" Value="True"></BindingCondition>
+                                                <BindingCondition Binding="{Binding Talent.ActiveUse}" Value="True" />
+                                                <BindingCondition Binding="{Binding Available}" Value="True" />
                                             </MultiTrigger.Conditions>
-                                            <Setter Property="IsVisible" Value="true"></Setter>
+                                            <Setter Property="IsVisible" Value="true" />
                                         </MultiTrigger>
                                     </Style.Triggers>
-                                    <Setter Property="IsVisible" Value="False"></Setter>
+                                    <Setter Property="IsVisible" Value="False" />
                                 </Style>
                             </CheckBox.Style>
                         </CheckBox>
                     </Grid>
-                    <Label FontSize="{DynamicResource FontSizeDescription}" Text="{Binding Talent.Description}" 
-                           Margin="10,0,0,0"  TextColor="DimGray" FontAttributes="Italic"/>
+                    <Label Margin="10,0,0,0" FontAttributes="Italic"
+                       FontSize="{DynamicResource FontSizeDescription}"
+                       Text="{Binding Talent.Description}"
+                       TextColor="DimGray" />
                 </StackLayout>
             </DataTemplate>
 
             <DataTemplate x:Key="HandicapItemTemplate" x:DataType="viewModels:HandicapListViewItemViewModel">
                 <Grid Margin="10,0,0,0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="80"></ColumnDefinition>
-                        <ColumnDefinition Width="60"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="60" />
                     </Grid.ColumnDefinitions>
-                    <Image Grid.Column="0" HorizontalOptions="Start" Source="{Binding ImageSource}" HeightRequest="25" WidthRequest="25" />
-                    <Label Grid.Column="1" FontSize="{DynamicResource FontSizeContent}" Text="{Binding Text}"></Label>
-                    <Label Grid.Column="2" FontSize="{DynamicResource FontSizeContent}" Text="{Binding HandiCapValue}"></Label>
-                    <RadioButton IsChecked="{Binding IsChecked}" Grid.Column="3" Value="{Binding Type}"/>
+                    <Image Grid.Column="0" HeightRequest="25" HorizontalOptions="Start"
+                       Source="{Binding ImageSource}"
+                       WidthRequest="25" />
+                    <Label Grid.Column="1"
+                       FontSize="{DynamicResource FontSizeContent}"
+                       Text="{Binding Text}" />
+                    <Label Grid.Column="2"
+                       FontSize="{DynamicResource FontSizeContent}"
+                       Text="{Binding HandiCapValue}" />
+                    <RadioButton Grid.Column="3"
+                       IsChecked="{Binding IsChecked}"
+                       Value="{Binding Type}" />
                 </Grid>
             </DataTemplate>
         </ResourceDictionary>
     </ContentView.Resources>
 
-    <Grid BackgroundColor="White" RowSpacing="0" ColumnSpacing="0" x:DataType="viewModels:SkillDetailViewModel" 
-          BindingContext="{Binding SkillDetailViewModel, Source={x:Reference SkillDetailViewControl}}">
+    <Grid x:DataType="viewModels:SkillDetailViewModel" BackgroundColor="White"
+       BindingContext="{Binding SkillDetailViewModel, Source={x:Reference SkillDetailViewControl}}"
+       ColumnSpacing="0" RowSpacing="0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="1"/>
-            <ColumnDefinition Width="500"/>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="1" />
+            <ColumnDefinition Width="500" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <!-- owned language editor -->
-        <StackLayout Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" VerticalOptions="FillAndExpand" BackgroundColor="{StaticResource AntiUmbra2}" >
+        <!--  owned language editor  -->
+        <StackLayout Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
+           BackgroundColor="{StaticResource AntiUmbra2}"
+           VerticalOptions="FillAndExpand">
             <StackLayout.Style>
                 <Style TargetType="StackLayout">
                     <Style.Triggers>
-                        <DataTrigger TargetType="StackLayout" Binding="{Binding SkillModel.Type}"
-                                     Value="{x:Static enums:SkillModelType.Sprache}">
-                            <Setter Property="IsVisible" Value="True"/>
+                        <DataTrigger Binding="{Binding SkillModel.Type}"
+                           TargetType="StackLayout"
+                           Value="{x:Static enums:SkillModelType.Sprache}">
+                            <Setter Property="IsVisible" Value="True" />
                         </DataTrigger>
                     </Style.Triggers>
-                    <Setter Property="IsVisible" Value="False"></Setter>
+                    <Setter Property="IsVisible" Value="False" />
                 </Style>
             </StackLayout.Style>
-            <Label TextColor="White"  Margin="10" FontSize="{DynamicResource FontSizeContent}" Text="Bekannte Sprachen"></Label>
-            <Editor FontSize="{DynamicResource FontSizeContent}" VerticalOptions="FillAndExpand" WidthRequest="200" Text="{Binding  CharacterViewModel.CharacterModel.OwnedLanguages,
-                Source={RelativeSource AncestorType={x:Type viewModels:SkillPageViewModel}}}"></Editor>
+            <Label Margin="10"
+               FontSize="{DynamicResource FontSizeContent}"
+               Text="Bekannte Sprachen" TextColor="White" />
+            <Editor FontSize="{DynamicResource FontSizeContent}"
+               Text="{Binding CharacterViewModel.CharacterModel.OwnedLanguages, Source={RelativeSource AncestorType={x:Type viewModels:SkillPageViewModel}}}"
+               VerticalOptions="FillAndExpand" WidthRequest="200" />
         </StackLayout>
-        
-        <!-- header -->
-        <Grid Grid.Column="1" Grid.Row="0" Padding="15" Style="{StaticResource EvenGradiantStyle}">
+
+        <!--  header  -->
+        <Grid Grid.Row="0" Grid.Column="1" Padding="15"
+           Style="{StaticResource EvenGradiantStyle}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <Label Text="{Binding SkillModel.Type, Converter={StaticResource EnumToDisplayTextConverter}}"
-                   Margin="5,5,0,0" FontAttributes="Bold" FontSize="{DynamicResource FontSizeSmallCaption}" Grid.Column="0" Grid.Row="0"/>
+            <Label Grid.Row="0" Grid.Column="0" Margin="5,5,0,0"
+               FontAttributes="Bold"
+               FontSize="{DynamicResource FontSizeSmallCaption}"
+               Text="{Binding SkillModel.Type, Converter={StaticResource EnumToDisplayTextConverter}}" />
 
-            <StackLayout  Margin="15,0,0,0" Grid.Column="0" Grid.Row="1" VerticalOptions="Center"   Orientation="Horizontal">
-                <Label VerticalOptions="Center" FontSize="{DynamicResource FontSizeBigContent}">
+            <StackLayout Grid.Row="1" Grid.Column="0" Margin="15,0,0,0"
+               Orientation="Horizontal" VerticalOptions="Center">
+                <Label FontSize="{DynamicResource FontSizeBigContent}" VerticalOptions="Center">
                     <Label.Text>
                         <MultiBinding StringFormat="{}({0})">
-                            <Binding Path="SourceFormula"/>
+                            <Binding Path="SourceFormula" />
                         </MultiBinding>
                     </Label.Text>
                 </Label>
-                <Button Margin="20,8,0,0" VerticalOptions="Center" Text="Wiki &#8599;" FontSize="{DynamicResource FontSizeBigContent}" 
-                            Padding="7,3" Background="limegreen" 
-                            Command="{Binding OpenWikiCommand}"/>
+                <Button Margin="20,8,0,0" Padding="7,3" Background="limegreen"
+                   Command="{Binding OpenWikiCommand}"
+                   FontSize="{DynamicResource FontSizeBigContent}"
+                   Text="Wiki &#8599;" VerticalOptions="Center" />
             </StackLayout>
 
-            <StackLayout Margin="25,5" Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
-                <Label FontSize="{DynamicResource FontSizeBigContent}" VerticalOptions="Center"  Text="GW: " FontAttributes="Bold"/>
-                <Label FontSize="{DynamicResource FontSizeBigContent}" VerticalOptions="Center"  Text="{Binding SkillModel.BaseValue}"/>
+            <StackLayout Grid.Row="0" Grid.Column="1" Margin="25,5"
+               Orientation="Horizontal">
+                <Label FontAttributes="Bold"
+                   FontSize="{DynamicResource FontSizeBigContent}"
+                   Text="GW: " VerticalOptions="Center" />
+                <Label FontSize="{DynamicResource FontSizeBigContent}"
+                   Text="{Binding SkillModel.BaseValue}"
+                   VerticalOptions="Center" />
             </StackLayout>
 
-            <StackLayout  Margin="25,5"  Grid.Column="2" Grid.Row="0" Orientation="Horizontal">
-                <Label FontSize="{DynamicResource FontSizeBigContent}" VerticalOptions="Center" Text="Mod: " FontAttributes="Bold"/>
-                <Entry FontSize="{DynamicResource FontSizeContent}" VerticalOptions="Center" Keyboard="Numeric"
-                       Text="{Binding SelectedSkillModification, TargetNullValue=0, FallbackValue=0}"/>
+            <StackLayout Grid.Row="0" Grid.Column="2" Margin="25,5"
+               Orientation="Horizontal">
+                <Label FontAttributes="Bold"
+                   FontSize="{DynamicResource FontSizeBigContent}"
+                   Text="Mod: " VerticalOptions="Center" />
+                <Entry FontSize="{DynamicResource FontSizeContent}"
+                   Keyboard="Numeric"
+                   Text="{Binding SelectedSkillModification, TargetNullValue=0, FallbackValue=0}"
+                   VerticalOptions="Center" />
             </StackLayout>
 
-            <StackLayout Margin="25,5" Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
-                <Label FontSize="{DynamicResource FontSizeBigContent}"  VerticalOptions="Center" Text="SW: " FontAttributes="Bold"/>
-                <Label FontSize="{DynamicResource FontSizeBigContent}" VerticalOptions="Center"  Text="{Binding SkillModel.IncreaseValue}"/>
+            <StackLayout Grid.Row="1" Grid.Column="1" Margin="25,5"
+               Orientation="Horizontal">
+                <Label FontAttributes="Bold"
+                   FontSize="{DynamicResource FontSizeBigContent}"
+                   Text="SW: " VerticalOptions="Center" />
+                <Label FontSize="{DynamicResource FontSizeBigContent}"
+                   Text="{Binding SkillModel.IncreaseValue}"
+                   VerticalOptions="Center" />
             </StackLayout>
 
-            <StackLayout Margin="25,5" Grid.Column="2" Grid.Row="1" Orientation="Horizontal" VerticalOptions="Center">
-                <Label FontSize="{DynamicResource FontSizeBigContent}"  VerticalOptions="Center"  Text="EP: " FontAttributes="Bold"></Label>
-                <Label FontSize="{DynamicResource FontSizeBigContent}"  VerticalOptions="Center" >
+            <StackLayout Grid.Row="1" Grid.Column="2" Margin="25,5"
+               Orientation="Horizontal" VerticalOptions="Center">
+                <Label FontAttributes="Bold"
+                   FontSize="{DynamicResource FontSizeBigContent}"
+                   Text="EP: " VerticalOptions="Center" />
+                <Label FontSize="{DynamicResource FontSizeBigContent}" VerticalOptions="Center">
                     <Label.Text>
                         <MultiBinding StringFormat="{}{0}/{1}">
-                            <Binding Path="SkillModel.ExperienceValue"/>
-                            <Binding Path="SkillModel.ExperienceForNextIncreasedRequired"/>
+                            <Binding Path="SkillModel.ExperienceValue" />
+                            <Binding Path="SkillModel.ExperienceForNextIncreasedRequired" />
                         </MultiBinding>
                     </Label.Text>
                 </Label>
 
-                <Button Margin="3,0,0,0" FontSize="30" Padding="0,-9,0,0" WidthRequest="35" HeightRequest="35"
-                        FontAttributes="Bold" Text="-" Command="{Binding DecreaseExperienceCommand}">
+                <Button Margin="3,0,0,0" Padding="0,-9,0,0"
+                   Command="{Binding DecreaseExperienceCommand}"
+                   FontAttributes="Bold" FontSize="30" HeightRequest="35"
+                   Text="-" WidthRequest="35">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Style.Triggers>
-                                <DataTrigger TargetType="Button" Binding="{Binding SkillModel.ExperienceValue}" Value="0" >
-                                    <Setter Property="IsEnabled" Value="False"/>
+                                <DataTrigger Binding="{Binding SkillModel.ExperienceValue}"
+                                   TargetType="Button" Value="0">
+                                    <Setter Property="IsEnabled" Value="False" />
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </Button.Style>
                 </Button>
-                <Button FontSize="30"
-                        Padding="0,-8,0,0" WidthRequest="35" HeightRequest="35" FontAttributes="Bold" 
-                        Text="+" Command="{Binding IncreaseExperienceCommand}">
+                <Button Padding="0,-8,0,0"
+                   Command="{Binding IncreaseExperienceCommand}"
+                   FontAttributes="Bold" FontSize="30" HeightRequest="35"
+                   Text="+" WidthRequest="35">
                     <Button.CommandParameter>
                         <system:Int32>1</system:Int32>
                     </Button.CommandParameter>
                 </Button>
-                <Button FontSize="{DynamicResource FontSizeHeader}"
-                        Padding="0,-4,0,0" WidthRequest="35" HeightRequest="35" FontAttributes="Bold" 
-                        Text="+5" Command="{Binding IncreaseExperienceCommand}">
+                <Button Padding="0,-4,0,0"
+                   Command="{Binding IncreaseExperienceCommand}"
+                   FontAttributes="Bold"
+                   FontSize="{DynamicResource FontSizeHeader}"
+                   HeightRequest="35" Text="+5" WidthRequest="35">
                     <Button.CommandParameter>
                         <system:Int32>5</system:Int32>
                     </Button.CommandParameter>
                 </Button>
             </StackLayout>
 
-            <StackLayout Grid.Column="3" Margin="25,5" Grid.Row="1" Orientation="Horizontal">
-                <Label FontSize="{DynamicResource FontSizeSmallCaption}"  VerticalOptions="Center" Text="FW: " FontAttributes="Bold"/>
-                <Label FontSize="{DynamicResource FontSizeSmallCaption}" VerticalOptions="Center" Text="{Binding SkillModel.FinalValue}"/>
+            <StackLayout Grid.Row="1" Grid.Column="3" Margin="25,5"
+               Orientation="Horizontal">
+                <Label FontAttributes="Bold"
+                   FontSize="{DynamicResource FontSizeSmallCaption}"
+                   Text="FW: " VerticalOptions="Center" />
+                <Label FontSize="{DynamicResource FontSizeSmallCaption}"
+                   Text="{Binding SkillModel.FinalValue}"
+                   VerticalOptions="Center" />
             </StackLayout>
 
-            <Button Grid.Column="3" Grid.Row="0"  Text="X" Padding="0,-4,0,0" WidthRequest="35" 
-                        HeightRequest="35"  FontSize="{DynamicResource FontSizeHeader}"  VerticalOptions="Start" HorizontalOptions="End" TextColor="Red" BackgroundColor="LightGray" 
-                        Command="{Binding CloseCommand}"/>
+            <Button Grid.Row="0" Grid.Column="3" Padding="0,-4,0,0"
+               BackgroundColor="LightGray"
+               Command="{Binding CloseCommand}"
+               FontSize="{DynamicResource FontSizeHeader}"
+               HeightRequest="35" HorizontalOptions="End" Text="X"
+               TextColor="Red" VerticalOptions="Start" WidthRequest="35" />
         </Grid>
 
         <WebView Grid.Row="1" Grid.Column="1" Navigating="WebView_OnNavigating"
-                             Source="{Binding QuickWikiView}"></WebView>
+           Source="{Binding QuickWikiView}" />
 
-        <BoxView Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" BackgroundColor="{StaticResource AntiUmbra}"></BoxView>
+        <BoxView Grid.Row="0" Grid.RowSpan="2" Grid.Column="2"
+           BackgroundColor="{StaticResource AntiUmbra}" />
 
-        <!-- probe -->
-        <Grid Grid.Column="3" Grid.Row="0" Grid.RowSpan="2" >
+        <!--  probe  -->
+        <Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="3">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <!-- footer -->
+            <!--  footer  -->
             <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="1"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="1" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <BoxView Grid.Row="0" Color="Black"/>
-                <StackLayout Grid.Row="1" Orientation="Horizontal" HorizontalOptions="Center" Margin="0,0,0,5">
-                    <Label VerticalOptions="Center" FontSize="{DynamicResource FontSizeHeader}" Text="Probenwurf gegen"></Label>
-                    <Label Margin="10,0,0,0" VerticalOptions="Center" FontAttributes="Bold" FontSize="{DynamicResource FontSizeTitle}" 
-                           Text="{Binding FinalTestValue}"></Label>
+                <BoxView Grid.Row="0" Color="Black" />
+                <StackLayout Grid.Row="1" Margin="0,0,0,5" HorizontalOptions="Center"
+                   Orientation="Horizontal">
+                    <Label FontSize="{DynamicResource FontSizeHeader}"
+                       Text="Probenwurf gegen" VerticalOptions="Center" />
+                    <Label Margin="10,0,0,0" FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeTitle}"
+                       Text="{Binding FinalTestValue}"
+                       VerticalOptions="Center" />
                 </StackLayout>
             </Grid>
 
-            <!-- talent and mastery list -->
+            <!--  talent and mastery list  -->
             <ScrollView Grid.Row="0">
                 <StackLayout>
-                    <Label TextColor="white" FontSize="{DynamicResource FontSizeSmallContent}" FontAttributes="Bold" Text="Behinderung" 
-                           Padding="10,5,10,5" BackgroundColor="{StaticResource AntiUmbra2}">
+                    <Label Padding="10,5,10,5"
+                       BackgroundColor="{StaticResource AntiUmbra2}"
+                       FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeSmallContent}"
+                       Text="Behinderung" TextColor="white">
                         <Label.Style>
                             <Style TargetType="Label">
                                 <Style.Triggers>
-                                    <DataTrigger TargetType="Label" 
-                                                 Binding="{Binding Handicaps.Count}"
-                                                 Value="0">
-                                        <Setter Property="IsVisible" Value="False"></Setter>
+                                    <DataTrigger Binding="{Binding Handicaps.Count}"
+                                       TargetType="Label" Value="0">
+                                        <Setter Property="IsVisible" Value="False" />
                                     </DataTrigger>
                                 </Style.Triggers>
-                                <Setter Property="IsVisible" Value="True"></Setter>
+                                <Setter Property="IsVisible" Value="True" />
                             </Style>
                         </Label.Style>
                     </Label>
-                    <StackLayout RadioButtonGroup.GroupName="Handicap" 
-                                 BindableLayout.ItemTemplate="{StaticResource HandicapItemTemplate}"
-                                 BindableLayout.ItemsSource="{Binding Handicaps}"/>
+                    <StackLayout BindableLayout.ItemTemplate="{StaticResource HandicapItemTemplate}"
+                       BindableLayout.ItemsSource="{Binding Handicaps}"
+                       RadioButtonGroup.GroupName="Handicap" />
 
-                    <Label TextColor="white" FontSize="{DynamicResource FontSizeSmallContent}" FontAttributes="Bold" Text="Meisterschaften" 
-                           Padding="10,5,10,5" BackgroundColor="{StaticResource AntiUmbra2}">
+                    <Label Padding="10,5,10,5"
+                       BackgroundColor="{StaticResource AntiUmbra2}"
+                       FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeSmallContent}"
+                       Text="Meisterschaften" TextColor="white">
                         <Label.Style>
                             <Style TargetType="Label">
                                 <Style.Triggers>
-                                    <DataTrigger TargetType="Label" 
-                                                 Binding="{Binding Masteries.Count}"
-                                                 Value="0">
-                                        <Setter Property="IsVisible" Value="False"></Setter>
+                                    <DataTrigger Binding="{Binding Masteries.Count}"
+                                       TargetType="Label" Value="0">
+                                        <Setter Property="IsVisible" Value="False" />
                                     </DataTrigger>
                                 </Style.Triggers>
-                                <Setter Property="IsVisible" Value="True"></Setter>
+                                <Setter Property="IsVisible" Value="True" />
                             </Style>
                         </Label.Style>
                     </Label>
-                    <StackLayout BindableLayout.ItemsSource="{Binding Masteries}"
-                                 BindableLayout.ItemTemplate="{StaticResource TalentBaseDetailTemplate}"/>
+                    <StackLayout BindableLayout.ItemTemplate="{StaticResource TalentBaseDetailTemplate}" BindableLayout.ItemsSource="{Binding Masteries}" />
 
-                    <Label TextColor="white" FontSize="{DynamicResource FontSizeSmallContent}" FontAttributes="Bold" Text="Künste" 
-                           Padding="10,5,10,5" BackgroundColor="{StaticResource AntiUmbra2}">
+                    <Label Padding="10,5,10,5"
+                       BackgroundColor="{StaticResource AntiUmbra2}"
+                       FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeSmallContent}"
+                       Text="Künste" TextColor="white">
                         <Label.Style>
                             <Style TargetType="Label">
                                 <Style.Triggers>
-                                    <DataTrigger TargetType="Label" 
-                                                 Binding="{Binding Talents.Count}"
-                                                 Value="0">
-                                        <Setter Property="IsVisible" Value="False"></Setter>
+                                    <DataTrigger Binding="{Binding Talents.Count}"
+                                       TargetType="Label" Value="0">
+                                        <Setter Property="IsVisible" Value="False" />
                                     </DataTrigger>
                                 </Style.Triggers>
-                                <Setter Property="IsVisible" Value="True"></Setter>
+                                <Setter Property="IsVisible" Value="True" />
                             </Style>
                         </Label.Style>
                     </Label>
-                    <StackLayout BindableLayout.ItemsSource="{Binding Talents}"
-                                 BindableLayout.ItemTemplate="{StaticResource TalentBaseDetailTemplate}">
-                    </StackLayout>
+                    <StackLayout BindableLayout.ItemTemplate="{StaticResource TalentBaseDetailTemplate}" BindableLayout.ItemsSource="{Binding Talents}" />
                 </StackLayout>
             </ScrollView>
         </Grid>
