@@ -20,6 +20,7 @@
 - Im Bearbeitungsmodus werden die EP aus Fertigkeitskategorien nicht mehr Grün hervorgehoben
 - Die Detailansicht einer Fertigkeit wurde angepasst, sodass auch lange Fertigkeiten wie "Körperbeherrschung" richtig dargestellt werden
 - Die Ansicht innerhalb der Fertigkeitensseite wurde angepasst
+- Die Ladezeit der Charaktere beim Starten wurde verbessert
 
 ## Behoben
 - Die Navigation innerhalb der Fertigkeitsseite bei der Charaktererschaffung mit [Tab] wird nun in der richtigen Reihenfolge (Oben nach unten, links nach rechts) durchgeführt

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
 using ImagoApp.Application.Models;
+using ImagoApp.Shared;
 using ImagoApp.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -24,7 +25,7 @@ namespace ImagoApp.Views
         {
             if (e.SelectedItem == null)
                 return;
-            var character = (CharacterModel) e.SelectedItem;
+            var character = (CharacterItem) e.SelectedItem;
 
             //reset listview selection
             var listView = (ListView) sender;
@@ -37,7 +38,8 @@ namespace ImagoApp.Views
                     using (UserDialogs.Instance.Loading("Character wird geladen.."))
                     {
                         await Task.Delay(250);
-                        await StartPageViewModel.OpenCharacter(character, false);
+                        var characterModel = StartPageViewModel.GetCharacter(character);
+                        await StartPageViewModel.OpenCharacter(characterModel, false);
                         await Task.Delay(250);
                     }
                 }

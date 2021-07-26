@@ -5,6 +5,7 @@
              xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application"
              xmlns:enum="clr-namespace:ImagoApp.Shared.Enums;assembly=ImagoApp.Shared"
              xmlns:util="clr-namespace:ImagoApp.Util;assembly=ImagoApp"
+             xmlns:shared="clr-namespace:ImagoApp.Shared;assembly=ImagoApp.Shared"
              Title="Startseite" Shell.FlyoutBehavior="Disabled"
              x:Class="ImagoApp.Views.StartPage" 
              x:DataType="viewModels:StartPageViewModel">
@@ -157,7 +158,7 @@
                             </Grid>
                         </ListView.Header>
                         <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="models:CharacterModel">
+                            <DataTemplate x:DataType="shared:CharacterItem">
                                 <ViewCell>
                                     <Grid Margin="20,10">
                                         <Grid.ColumnDefinitions>

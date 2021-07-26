@@ -11,6 +11,7 @@ using ImagoApp.Application;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Services;
 using ImagoApp.Manager;
+using ImagoApp.Shared;
 using ImagoApp.Util;
 using ImagoApp.Views;
 using Microsoft.AppCenter.Analytics;
@@ -34,7 +35,7 @@ namespace ImagoApp.ViewModels
         private readonly IFileService _fileService;
         private readonly string _logFileName = "wiki_parse.log";
 
-        public ObservableCollection<CharacterModel> Characters { get; private set; }
+        public ObservableCollection<CharacterItem> Characters { get; private set; }
 
         public string Version
         {
@@ -54,7 +55,7 @@ namespace ImagoApp.ViewModels
             VersionTracking.Track();
             Version = new Version(VersionTracking.CurrentVersion).ToString(3);
             DatabaseInfoViewModel = new DatabaseInfoViewModel();
-            Characters = new ObservableCollection<CharacterModel>();
+            Characters = new ObservableCollection<CharacterItem>();
 
             _serviceLocator = serviceLocator;
             _characterService = characterService;
@@ -299,7 +300,12 @@ namespace ImagoApp.ViewModels
                 App.ErrorManager.TrackException(exception);
             }
         }));
-        
+
+        public CharacterModel GetCharacter(CharacterItem characterItem)
+        {
+            return _characterService.GetItem(characterItem.Guid);
+        }
+
         public async Task OpenCharacter(CharacterModel characterModel, bool editMode)
         {
             var characterViewModel = new CharacterViewModel(characterModel)
@@ -432,7 +438,7 @@ namespace ImagoApp.ViewModels
             if (resetCurrentCharacter)
                 App.CurrentCharacterViewModel = null;
 
-            var characters = _characterService.GetAll();
+            var characters = _characterService.GetAllQuick();
 
             Device.BeginInvokeOnMainThread(() =>
             {

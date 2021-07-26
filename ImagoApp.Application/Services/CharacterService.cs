@@ -8,6 +8,7 @@ using AutoMapper;
 using ImagoApp.Application.Models;
 using ImagoApp.Infrastructure.Entities;
 using ImagoApp.Infrastructure.Repositories;
+using ImagoApp.Shared;
 
 namespace ImagoApp.Application.Services
 {
@@ -17,6 +18,8 @@ namespace ImagoApp.Application.Services
         bool SaveCharacter(CharacterModel characterModel);
         bool AddCharacter(CharacterModel characterModel);
         FileInfo GetDatabaseInfo();
+        List<CharacterItem> GetAllQuick();
+        CharacterModel GetItem(Guid id);
     }
 
     public class CharacterService : ICharacterService
@@ -34,6 +37,17 @@ namespace ImagoApp.Application.Services
         {
             var entities = _characterRepository.GetAllItems();
             return _mapper.Map<List<CharacterModel>>(entities);
+        }
+
+        public CharacterModel GetItem(Guid id)
+        {
+            var characterEntity = _characterRepository.GetItem(id);
+            return _mapper.Map<CharacterModel>(characterEntity);
+        }
+
+        public List<CharacterItem> GetAllQuick()
+        {
+            return _characterRepository.GetAllItemsQuick();
         }
 
         public bool SaveCharacter(CharacterModel characterModel)
