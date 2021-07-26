@@ -11,7 +11,7 @@
                     <Grid Padding="10,3,10,5" Margin="0,3">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="75" />
                             <ColumnDefinition Width="50" />
                             <ColumnDefinition Width="50" />
                             <ColumnDefinition Width="50" />
@@ -36,8 +36,8 @@
                     <Grid Padding="10,0,10,3" Margin="0,2">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="100" />
                             <ColumnDefinition Width="75" />
-                            <ColumnDefinition Width="50" />
                             <ColumnDefinition Width="50" />
                             <ColumnDefinition Width="50" />
                             <ColumnDefinition Width="50" />
@@ -132,8 +132,8 @@
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="55" />
+                            <ColumnDefinition Width="110" />
+                            <ColumnDefinition Width="60" />
                             <ColumnDefinition Width="50" />
                             <ColumnDefinition Width="50" />
                             <ColumnDefinition Width="50" />
