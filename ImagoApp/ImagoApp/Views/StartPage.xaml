@@ -6,8 +6,9 @@
              xmlns:enum="clr-namespace:ImagoApp.Shared.Enums;assembly=ImagoApp.Shared"
              xmlns:util="clr-namespace:ImagoApp.Util;assembly=ImagoApp"
              xmlns:shared="clr-namespace:ImagoApp.Shared;assembly=ImagoApp.Shared"
-             Title="Startseite" Shell.FlyoutBehavior="Disabled"
+             Title="Startseite"
              x:Class="ImagoApp.Views.StartPage" 
+             x:Name="StartPageViewModelControl"
              x:DataType="viewModels:StartPageViewModel">
     <ContentPage.Content>
         <Grid Style="{DynamicResource BackgroundGridStyle}">
@@ -151,15 +152,26 @@
                                     <RowDefinition Height="Auto"></RowDefinition>
                                     <RowDefinition Height="1"></RowDefinition>
                                 </Grid.RowDefinitions>
-                                <Label Margin="20,0"  VerticalOptions="Center" FontSize="{DynamicResource FontSizeSmallCaption}" FontAttributes="Bold" Text="Charaktere" Grid.Column="0" Grid.Row="0"></Label>
-                                <Button Grid.Column="1" FontSize="{DynamicResource FontSizeContent}" Grid.Row="0" Text="Neuer Charakter erstellen" Margin="20" Command="{Binding CreateNewCharacterCommand}"/>
-                               
-                                <BoxView Grid.Row="1"  Grid.ColumnSpan="3" Grid.Column="0" Color="Black"/>
+                                <StackLayout Grid.Column="0"  Grid.Row="0" >
+                                    <Label Margin="20,10,20,0"  FontSize="{DynamicResource FontSizeSmallCaption}" FontAttributes="Bold" Text="Charaktere"></Label>
+                                    <Label Text="(Per Rechtsklick kann ein Charakter zb. gelöscht werden)" LineBreakMode="WordWrap" Margin="20,5" TextColor="{StaticResource AntiUmbra1}" FontSize="{DynamicResource FontSizeDetail}"></Label>
+                                </StackLayout>
+                                <Button Grid.Column="1" FontSize="{DynamicResource FontSizeContent}" Grid.Row="0" Text="Neuer Charakter" Margin="20" Command="{Binding CreateNewCharacterCommand}"/>
+                                <Button Grid.Row="0" Grid.Column="2" Text="Charakter importieren" Command="{Binding ImportCharacterCommand}" FontSize="{DynamicResource FontSizeContent}" Margin="20"></Button>
+                                <BoxView Grid.Row="1"  Grid.ColumnSpan="3" Grid.Column="0" Color="{StaticResource AntiUmbra1}"/>
                             </Grid>
                         </ListView.Header>
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="shared:CharacterItem">
                                 <ViewCell>
+                                    <ViewCell.ContextActions>
+                                        <MenuItem Text="Exportieren" 
+                                                  Command="{Binding StartPageViewModel.ExportCharacterCommand, Source={x:Reference StartPageViewModelControl}}" 
+                                                  CommandParameter="{Binding .}"/>
+                                        <MenuItem Text="Charakter löschen" 
+                                                  Command="{Binding StartPageViewModel.DeleteCharacterCommand, Source={x:Reference StartPageViewModelControl}}" 
+                                                  CommandParameter="{Binding .}"/>
+                                    </ViewCell.ContextActions>
                                     <Grid Margin="20,10">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"></ColumnDefinition>

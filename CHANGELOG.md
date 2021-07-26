@@ -13,9 +13,10 @@
 - Schriftgröße kann auf der Startseite angepasst werden
 - SpezialEP für Attribute (Kann im Bearbeitungsmodus angepasst werden)
 - Bei der Erschaffung wird erstmalig ein zufälliger Name vorgeschlagen
-- Vor der Erschaffung wird nach den Erfahrungspunkten für Attribute und Fertigkeiten gefrage
+- Vor der Erschaffung wird nach den Erfahrungspunkten für Attribute und Fertigkeiten gefragt
+- Charaktere können nun auf der Startseite exportiert, importiert und gelöscht werden
 
-##Verbessert
+## Verbessert
 - Die App wird nun im Vollbildschirm gestartet (Bei älteren Windows 10 Versionen kann es sein, dass das nicht sofort beim ersten Start funktioniert)
 - Im Bearbeitungsmodus werden die EP aus Fertigkeitskategorien nicht mehr Grün hervorgehoben
 - Die Detailansicht einer Fertigkeit wurde angepasst, sodass auch lange Fertigkeiten wie "Körperbeherrschung" richtig dargestellt werden
