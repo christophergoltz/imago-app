@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using ImagoApp.Infrastructure.Entities;
 using ImagoApp.Shared;
 using LiteDB;
+using Newtonsoft.Json;
 
 namespace ImagoApp.Infrastructure.Repositories
 {
@@ -19,6 +20,7 @@ namespace ImagoApp.Infrastructure.Repositories
         List<CharacterEntity> GetAllItems();
         FileInfo GetDatabaseInfo();
         List<CharacterItem> GetAllItemsQuick();
+        string GetCharacterJson(Guid guid);
     }
 
     public class CharacterRepository : ICharacterRepository
@@ -47,6 +49,16 @@ namespace ImagoApp.Infrastructure.Repositories
                 collection.Insert(item);
 
                 return true;
+            }
+        }
+
+        public string GetCharacterJson(Guid guid)
+        {
+            using (var db = new LiteDatabase(_connectionString))
+            {
+                var collection = db.GetCollection<CharacterEntity>(CollectionName);
+                var item = collection.FindById(guid);
+                return JsonConvert.SerializeObject(item);
             }
         }
 

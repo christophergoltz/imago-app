@@ -10,12 +10,14 @@ using Acr.UserDialogs;
 using ImagoApp.Application;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Services;
+using ImagoApp.Infrastructure.Entities;
 using ImagoApp.Manager;
 using ImagoApp.Shared;
 using ImagoApp.Util;
 using ImagoApp.Views;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using Newtonsoft.Json;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
@@ -69,7 +71,7 @@ namespace ImagoApp.ViewModels
 
             Task.Run(() =>
             {
-                RefreshData(false);
+                RefreshData(true, true,false);
                 CheckWikiData();
 
                 if(VersionTracking.IsFirstLaunchForCurrentBuild || VersionTracking.IsFirstLaunchForCurrentVersion)
@@ -293,7 +295,7 @@ namespace ImagoApp.ViewModels
                     }
                 }
 
-                RefreshData(false);
+                RefreshData(true, false,false);
             }
             catch (Exception exception)
             {
@@ -359,6 +361,59 @@ namespace ImagoApp.ViewModels
             }
         }
 
+
+        private ICommand _importCharacterCommand;
+
+        public ICommand ImportCharacterCommand => _importCharacterCommand ?? (_importCharacterCommand = new Command(
+            () =>
+            {
+                Task.Run(async () =>
+                {
+                    try
+                    {
+                        await Device.InvokeOnMainThreadAsync(async () =>
+                        {
+                            var result = await UserDialogs.Instance.PromptAsync(new PromptConfig()
+                            {
+                                CancelText = "Abbrechen",
+                                OkText = "Importieren",
+                                Title = "Charakter importieren (JSON)",
+                                Placeholder = "Json (Type = Character-Entity)",
+                                InputType = InputType.Name
+                            });
+
+                            if (!result.Ok)
+                                return;
+
+                            var json = result.Text;
+                            CharacterEntity entity;
+                            try
+                            {
+                                entity = JsonConvert.DeserializeObject<CharacterEntity>(json);
+                            }
+                            catch (Exception e)
+                            {
+                                UserDialogs.Instance.Alert(
+                                    $"Der eingegebene JSON-Wert stimmt nicht mit dem vorgegeben format überein{Environment.NewLine}{Environment.NewLine}Fehler: {e}",
+                                    "Charakter importieren", "OK");
+                                return;
+                            }
+
+                            var importResult = _characterService.ImportCharacter(entity);
+                            if (importResult)
+                                RefreshData(false, true, false);
+                            else
+                                UserDialogs.Instance.Alert($"Der eingegebene Charakter konnte nicht importiert werden",
+                                    "OK");
+                        });
+                    }
+                    catch (Exception e)
+                    {
+                        App.ErrorManager.TrackException(e);
+                    }
+                });
+            }));
+
         private ICommand _createNewCharacterCommand;
 
         public ICommand CreateNewCharacterCommand => _createNewCharacterCommand ?? (_createNewCharacterCommand =
@@ -418,7 +473,7 @@ namespace ImagoApp.ViewModels
                             newChar.CharacterCreationSkillPoints = skillPoints.Value;
 
                             _characterService.AddCharacter(newChar);
-                            RefreshData(true);
+                            RefreshData(false, true, false);
 
                             await OpenCharacter(newChar, true);
                             await Task.Delay(250);
@@ -432,29 +487,116 @@ namespace ImagoApp.ViewModels
             }));
         
         private string _version;
-   
-        public void RefreshData(bool resetCurrentCharacter)
+
+
+        private ICommand _exportCharacterCommand;
+
+        public ICommand ExportCharacterCommand => _exportCharacterCommand ?? (_exportCharacterCommand = new Command<CharacterItem>(item=>
+        {
+            Task.Run(async () =>
+            {
+                try
+                {
+                    var json = _characterService.GetCharacterJson(item.Guid);
+
+                    await Device.InvokeOnMainThreadAsync(async () =>
+                    {
+                        await Clipboard.SetTextAsync(json);
+                    });
+
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        UserDialogs.Instance.Prompt(new PromptConfig
+                        {
+                            IsCancellable = false,
+                            OkText = "OK",
+                            Title = "Charakter exportieren",
+                            Message =
+                                $"Der Charakter wurde im JSON-Format in die Zwischenablage kopiert{Environment.NewLine}",
+                            InputType = InputType.Name,
+                            Text = json
+                        });
+                    });
+                }
+                catch (Exception e)
+                {
+                    App.ErrorManager.TrackException(e, item.Name);
+                }
+            });
+        }));
+
+        private ICommand _deleteCharacterCommand;
+
+        public ICommand DeleteCharacterCommand => _deleteCharacterCommand ?? (_deleteCharacterCommand = new Command<CharacterItem>(item =>
+        {
+            Task.Run(async () =>
+            {
+                try
+                {
+                    await Device.InvokeOnMainThreadAsync(async () =>
+                    {
+                        var result = await UserDialogs.Instance.PromptAsync(new PromptConfig()
+                        {
+                            CancelText = "Abbrechen",
+                            OkText = "Endgültig löschen",
+                            Title = "Charakter löschen",
+                            Message =
+                                $"Das löschen ist endgültig und kann nicht wieder rückgängig gemacht werden{Environment.NewLine}{Environment.NewLine}" +
+                                $"Zum löschen Trage bitte unten den Namen des Charakter \"{item.Name}\" nochmal ein",
+                            InputType = InputType.Name
+                        });
+
+                        if (result.Ok)
+                        {
+                            if (item.Name?.Equals(result.Text) ?? false)
+                            {
+                                _characterService.Delete(item.Guid);
+                                RefreshData(false, true, false);
+                            }
+                            else
+                            {
+                                UserDialogs.Instance.Alert(
+                                    $"Der eingegebene Name stimmt nicht mit \"{item.Name}\" überein",
+                                    "Charakter löschen", "OK");
+                            }
+                        }
+                    });
+                }
+                catch (Exception e)
+                {
+                    App.ErrorManager.TrackException(e, item.Name);
+                }
+            });
+        }));
+        
+        public void RefreshData(bool refreshWikiData, bool refreshCharacterList, bool resetCurrentCharacter)
         {
             if (resetCurrentCharacter)
                 App.CurrentCharacterViewModel = null;
 
-            var characters = _characterService.GetAllQuick();
-
-            Device.BeginInvokeOnMainThread(() =>
+            if (refreshCharacterList)
             {
-                Characters.Clear();
-                foreach (var character in characters.OrderByDescending(entity => entity.LastEdit))
-                {
-                    Characters.Add(character);
-                }
-            });
+                var characters = _characterService.GetAllQuick();
 
-            DatabaseInfoViewModel.ArmorTemplateCount = _wikiDataService.GetArmorWikiDataItemCount();
-            DatabaseInfoViewModel.WeaponTemplateCount = _wikiDataService.GetWeaponWikiDataItemCount();
-            DatabaseInfoViewModel.TalentTemplateCount = _wikiDataService.GetTalentWikiDataItemCount();
-            DatabaseInfoViewModel.MasteryTemplateCount = _wikiDataService.GetMasteryWikiDataItemCount();
-            DatabaseInfoViewModel.WikiDatabaseInfo = _wikiDataService.GetDatabaseInfo();
-            DatabaseInfoViewModel.CharacterDatabaseInfo = _characterService.GetDatabaseInfo();
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    Characters.Clear();
+                    foreach (var character in characters.OrderByDescending(entity => entity.LastEdit))
+                    {
+                        Characters.Add(character);
+                    }
+                });
+            }
+
+            if (refreshWikiData)
+            {
+                DatabaseInfoViewModel.ArmorTemplateCount = _wikiDataService.GetArmorWikiDataItemCount();
+                DatabaseInfoViewModel.WeaponTemplateCount = _wikiDataService.GetWeaponWikiDataItemCount();
+                DatabaseInfoViewModel.TalentTemplateCount = _wikiDataService.GetTalentWikiDataItemCount();
+                DatabaseInfoViewModel.MasteryTemplateCount = _wikiDataService.GetMasteryWikiDataItemCount();
+                DatabaseInfoViewModel.WikiDatabaseInfo = _wikiDataService.GetDatabaseInfo();
+                DatabaseInfoViewModel.CharacterDatabaseInfo = _characterService.GetDatabaseInfo();
+            }
         }
     }
 }

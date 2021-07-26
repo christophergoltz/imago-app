@@ -100,7 +100,7 @@ namespace ImagoApp.ViewModels
                                 Xamarin.Forms.Application.Current.MainPage = App.StartPage;
 
                                 //clean up last ressources
-                                App.StartPage.StartPageViewModel.RefreshData(true);
+                                App.StartPage.StartPageViewModel.RefreshData(false, true, true);
                             });
                         }
                         else
@@ -123,7 +123,7 @@ namespace ImagoApp.ViewModels
                                             Xamarin.Forms.Application.Current.MainPage = App.StartPage;
 
                                             //clean up last ressources
-                                            App.StartPage.StartPageViewModel.RefreshData(true);
+                                            App.StartPage.StartPageViewModel.RefreshData(false, true, true);
                                         });
                                     }
                                 }
