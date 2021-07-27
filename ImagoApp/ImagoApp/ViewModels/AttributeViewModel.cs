@@ -19,8 +19,11 @@ namespace ImagoApp.ViewModels
             get => AttributeModel.Corrosion;
             set
             {
-                CharacterViewModel.SetCorrosion(AttributeModel, value);
-                OnPropertyChanged(nameof(Corrosion));
+                if (AttributeModel.Corrosion != value)
+                {
+                    CharacterViewModel.SetCorrosion(AttributeModel, value);
+                    OnPropertyChanged(nameof(Corrosion));
+                }
             }
         }
 
@@ -29,8 +32,11 @@ namespace ImagoApp.ViewModels
             get => AttributeModel.ModificationValue;
             set
             {
-                CharacterViewModel.SetModification(AttributeModel, value);
-                OnPropertyChanged(nameof(Modification));
+                if (AttributeModel.ModificationValue != value)
+                {
+                    CharacterViewModel.SetModification(AttributeModel, value);
+                    OnPropertyChanged(nameof(Modification));
+                }
             }
         }
 
@@ -39,8 +45,11 @@ namespace ImagoApp.ViewModels
             get => AttributeModel.ExperienceValue;
             set
             {
-                CharacterViewModel.SetExperienceToAttribute(AttributeModel, value);
-                OnPropertyChanged(nameof(SpecialExperience));
+                if (AttributeModel.ExperienceValue != value)
+                {
+                    CharacterViewModel.SetExperienceToAttribute(AttributeModel, value);
+                    OnPropertyChanged(nameof(SpecialExperience));
+                }
             }
         }
 
@@ -49,8 +58,11 @@ namespace ImagoApp.ViewModels
             get => AttributeModel.CreationExperience;
             set
             {
-                CharacterViewModel.SetCreationExperienceToAttribute(AttributeModel, value);
-                OnPropertyChanged(nameof(CreationExperience));
+                if (AttributeModel.CreationExperience != value)
+                {
+                    CharacterViewModel.SetCreationExperienceToAttribute(AttributeModel, value);
+                    OnPropertyChanged(nameof(CreationExperience));
+                }
             }
         }
 
@@ -59,8 +71,11 @@ namespace ImagoApp.ViewModels
             get => AttributeModel.BaseValue;
             set
             {
-                CharacterViewModel.SetBaseValue(AttributeModel, value);
-                OnPropertyChanged(nameof(BaseValue));
+                if (AttributeModel.BaseValue != value)
+                {
+                    CharacterViewModel.SetBaseValue(AttributeModel, value);
+                    OnPropertyChanged(nameof(BaseValue));
+                }
             }
         }
     }

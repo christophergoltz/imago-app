@@ -319,6 +319,8 @@ namespace ImagoApp.ViewModels
 
             try
             {
+                var a = _serviceLocator.AttributeCalculationService();
+
                 //create all required dependencies
                 var characterInfoPageViewModel = new CharacterInfoPageViewModel(characterViewModel);
                 var wikiPageViewModel = new WikiPageViewModel(characterViewModel);
@@ -345,7 +347,14 @@ namespace ImagoApp.ViewModels
                     appShellViewModel.RaiseWikiPageOpenRequested();
                     wikiPageViewModel.OpenWikiPage(url);
                 }
-                
+
+                //todo recalc
+                var s = Stopwatch.StartNew();
+                a.RecalculateAllAttributes(characterModel);
+                characterViewModel.CalculateInitialValues();
+                s.Stop();
+                Debug.WriteLine($"Init Char calc: {s.ElapsedMilliseconds}ms");
+
                 var appShell = new AppShell(appShellViewModel);
 
                 await Device.InvokeOnMainThreadAsync(() =>

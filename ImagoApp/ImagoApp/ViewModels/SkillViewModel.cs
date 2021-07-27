@@ -27,8 +27,11 @@ namespace ImagoApp.ViewModels
             get => Skill.CreationExperience;
             set
             {
-                _characterViewModel.SetCreationExperience(Skill, _skillGroup, value);
-                OnPropertyChanged(nameof(CreationExperience));
+                if (value != Skill.CreationExperience)
+                {
+                    _characterViewModel.SetCreationExperience(Skill, _skillGroup, value);
+                    OnPropertyChanged(nameof(CreationExperience));
+                }
             }
         }
     }

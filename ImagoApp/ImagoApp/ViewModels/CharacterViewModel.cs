@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Acr.UserDialogs;
 using ImagoApp.Application;
@@ -13,7 +14,7 @@ using Microsoft.AppCenter.Crashes;
 
 namespace ImagoApp.ViewModels
 {
-    public class CharacterViewModel : BindableBase
+    public class CharacterViewModel : BindableBase, IInitialCalculationViewModel
     {
         private readonly IAttributeCalculationService _attributeCalculationService;
         public CharacterModel CharacterModel { get; }
@@ -79,8 +80,8 @@ namespace ImagoApp.ViewModels
             };
         }
 
-        public List<SpecialAttributeModel> SpecialAttributes { get; set; }
-        public List<DerivedAttributeModel> DerivedAttributes { get; set; }
+        public List<SpecialAttributeModel> SpecialAttributes { get; }
+        public List<DerivedAttributeModel> DerivedAttributes { get; }
 
         public List<DerivedAttributeModel> FightDerivedAttributes => DerivedAttributes
             .Where(_ => _.Type == DerivedAttributeType.SprungreichweiteKampf ||
@@ -112,6 +113,8 @@ namespace ImagoApp.ViewModels
 
         public void SetModification(SkillModel target, int modification)
         {
+            Debug.WriteLine($"Set Modification for {target.Type} to {modification}");
+
             var finalValueChanged = _attributeCalculationService.SetModification(CharacterModel, target, modification);
             if (!finalValueChanged)
                 return;
@@ -119,6 +122,8 @@ namespace ImagoApp.ViewModels
         
         public void SetBaseValue(AttributeModel target, int baseValue)
         {
+            Debug.WriteLine($"Set BaseValue for {target.Type} to {baseValue}");
+            
             var finalValueChanged = _attributeCalculationService.SetBaseValue(CharacterModel, target, baseValue);
             if (!finalValueChanged)
                 return;
@@ -128,14 +133,17 @@ namespace ImagoApp.ViewModels
 
         public void SetModification(SkillGroupModel target, int modification)
         {
+            Debug.WriteLine($"Set Modification for {target.Type} to {modification}");
+            
             var finalValueChanged = _attributeCalculationService.SetModification(CharacterModel, target, modification);
             if (!finalValueChanged)
                 return;
         }
-
-        [Obsolete("Still required?")]
+        
         public void SetModificationValue(SpecialAttributeModel specialAttributeModel, int modificationValue)
         {
+            Debug.WriteLine($"Set Modification for {specialAttributeModel.Type} to {modificationValue}");
+            
             specialAttributeModel.ModificationValue = modificationValue;
             RecalculateSpecialAttributes(specialAttributeModel);
         }
@@ -171,6 +179,8 @@ namespace ImagoApp.ViewModels
 
         public void SetCreationExperience(SkillModel target, SkillGroupModel parent, int experience)
         {
+            Debug.WriteLine($"Set CreationExperience for {target.Type} to {experience}");
+            
             var skillChange = _attributeCalculationService.SetCreationExperience(CharacterModel, target, experience);
             if (skillChange.IncreaseValueChange != 0)
             {
@@ -183,6 +193,8 @@ namespace ImagoApp.ViewModels
 
         public void AddExperienceToSkill(SkillModel target, SkillGroupModel parent, int experience)
         {
+            Debug.WriteLine($"Add Experience for {target.Type} by {experience}");
+            
             var skillChange = _attributeCalculationService.AddExperience(CharacterModel, target, experience);
             if (skillChange.IncreaseValueChange != 0)
             {
@@ -195,6 +207,8 @@ namespace ImagoApp.ViewModels
 
         private void AddExperienceToSkillGroup(SkillGroupModel skillGroup, int experienceChange)
         {
+            Debug.WriteLine($"Add Experience for {skillGroup.Type} by {experienceChange}");
+            
             if (experienceChange > 0)
             {
                 //add
@@ -233,6 +247,8 @@ namespace ImagoApp.ViewModels
 
         public void SetCreationExperienceToAttribute(AttributeModel target, int creationExperience)
         {
+            Debug.WriteLine($"Set CreationEp for {target.Type} to {creationExperience}");
+
             var finalValueChanged = _attributeCalculationService.SetCreationExperience(CharacterModel, target, creationExperience);
             if (!finalValueChanged)
                 return;
@@ -242,6 +258,8 @@ namespace ImagoApp.ViewModels
 
         public void AddSkillGroupExperienceToAttribute(AttributeModel target, int skillGroupExperienceChange)
         {
+            Debug.WriteLine($"Add SkillGroupExperience for {target.Type} by {skillGroupExperienceChange}");
+            
             var finalValueChanged = _attributeCalculationService.AddSkillGroupExperience(CharacterModel, target, skillGroupExperienceChange);
             if (!finalValueChanged)
                 return;
@@ -251,6 +269,8 @@ namespace ImagoApp.ViewModels
 
         public void SetCorrosion(AttributeModel target, int corrosion)
         {
+            Debug.WriteLine($"Set Corrosion for {target.Type} to {corrosion}");
+            
             var finalValueChanged = _attributeCalculationService.SetCorrosion(CharacterModel, target, corrosion);
             if (!finalValueChanged)
                 return;
@@ -260,6 +280,8 @@ namespace ImagoApp.ViewModels
 
         public void SetModification(AttributeModel target, int modification)
         {
+            Debug.WriteLine($"Set Modification for {target.Type} to {modification}");
+            
             var finalValueChanged = _attributeCalculationService.SetModification(CharacterModel, target, modification);
             if (!finalValueChanged)
                 return;
@@ -269,15 +291,20 @@ namespace ImagoApp.ViewModels
 
         public void SetExperienceToAttribute(AttributeModel target, int experience)
         {
+            Debug.WriteLine($"Set Experience for {target.Type} to {experience}");
+
             var finalValueChanged = _attributeCalculationService.SetExperience(CharacterModel, target, experience);
             if (!finalValueChanged)
                 return;
 
             ApplyNewFinalValueOfAttribute(target);
         }
-
-        private void ApplyNewFinalValueOfAttribute(AttributeModel changedAttribute)
+        
+        private void ApplyNewFinalValueOfAttribute(AttributeModel changedAttribute = null)
         {
+            if(changedAttribute != null)
+                Debug.WriteLine($"ApplyNewFinalValueOfAttribute {changedAttribute.Type}");
+
             //todo only recalc what is affected -> changedAttribute
 
             var constFinalValue = GetAttributeSum(AttributeType.Konstitution);
@@ -306,37 +333,31 @@ namespace ImagoApp.ViewModels
                 {
                     case DerivedAttributeType.Egoregenration:
                         {
-                            var tmp = GetAttributeSum(AttributeType.Willenskraft);
-                            var baseValue = tmp / 5;
+                            var baseValue = willenskraftFinalValue / 5;
                             derivedAttribute.FinalValue = (int)Math.Round(baseValue, MidpointRounding.AwayFromZero);
                             break;
                         }
                     case DerivedAttributeType.Schadensmod:
                         {
-                            var tmp = GetAttributeSum(AttributeType.Staerke);
-                            var baseValue = (tmp / 10) - 5;
+                            var baseValue = (staerkeFinalValue / 10) - 5;
                             derivedAttribute.FinalValue = (int)Math.Round(baseValue, MidpointRounding.AwayFromZero);
                             break;
                         }
                     case DerivedAttributeType.Traglast:
                         {
-                            var tmp = GetAttributeSum(AttributeType.Konstitution, AttributeType.Konstitution,
-                                AttributeType.Staerke);
-                            var baseValue = tmp / 10;
+                            var baseValue = (konstitutionFinalValue + konstitutionFinalValue + staerkeFinalValue) / 10;
                             derivedAttribute.FinalValue = (int)Math.Round(baseValue, MidpointRounding.AwayFromZero);
                             break;
                         }
                     case DerivedAttributeType.TaktischeBewegung:
                         {
-                            var tmp = GetAttributeSum(AttributeType.Geschicklichkeit);
-                            var baseValue = tmp / 10;
+                            var baseValue = geschicklichkeitFinalValue / 10;
                             derivedAttribute.FinalValue = (int)Math.Round(baseValue, MidpointRounding.AwayFromZero);
                             break;
                         }
                     case DerivedAttributeType.Sprintreichweite:
                         {
-                            var tmp = GetAttributeSum(AttributeType.Geschicklichkeit);
-                            var baseValue = tmp / 5;
+                            var baseValue = geschicklichkeitFinalValue / 5;
                             derivedAttribute.FinalValue = (int)Math.Round(baseValue, MidpointRounding.AwayFromZero);
                             break;
                         }
@@ -517,6 +538,12 @@ namespace ImagoApp.ViewModels
         private double GetDerivedAttributeSum(params DerivedAttributeType[] attributes)
         {
             return attributes.Sum(attributeType => DerivedAttributes.First(_ => _.Type == attributeType).FinalValue);
+        }
+
+        public void CalculateInitialValues()
+        {
+            _attributeCalculationService.RecalculateAllAttributes(CharacterModel);
+            ApplyNewFinalValueOfAttribute();
         }
     }
 }

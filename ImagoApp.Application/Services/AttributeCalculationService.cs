@@ -51,6 +51,7 @@ namespace ImagoApp.Application.Services
         bool SetModification(CharacterModel characterModel, SkillGroupModel target, int modification);
         (bool FinalValueChanged, int IncreaseValueChange) AddExperience(CharacterModel characterModel, SkillGroupModel target, int experience);
         (bool FinalValueChanged, int IncreaseValueChange) SetCreationExperience(CharacterModel characterModel, SkillModel target, int creationExperience);
+        void RecalculateAllAttributes(CharacterModel characterModel);
     }
 
     public class AttributeCalculationService : IAttributeCalculationService
@@ -190,6 +191,24 @@ namespace ImagoApp.Application.Services
             return info.IncreaseLevel - oldIncreaseValue;
         }
 
+        public void RecalculateAllAttributes(CharacterModel characterModel)
+        {
+            foreach (var skillGroup in characterModel.SkillGroups)
+            {
+                RecalculateIncreaseInfo(skillGroup);
+
+                foreach (var skill in skillGroup.Skills)
+                {
+                    RecalculateIncreaseInfo(skill);
+                }
+            }
+
+            foreach (var attribute in characterModel.Attributes)
+            {
+                RecalculateIncreaseInfo(attribute);
+                RecalculateFinalValue(characterModel, attribute);
+            }
+        }
 
         private bool RecalculateFinalValue(SkillModel skillModel)
         {
