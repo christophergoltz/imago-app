@@ -5,44 +5,36 @@ namespace ImagoApp.Application.Models.Base
 {
     public abstract class IncreasableBaseModel : ModifiableBaseModel
     {
-        private int _totalExperience;
+        private int _experienceValue;
+        private int _increaseValue;
+        private int _experienceForNextIncreasedRequired;
+        private int _leftoverExperience;
 
-        public int TotalExperience
+        public int ExperienceValue
         {
-            get => _totalExperience;
-            set
-            {
-                SetProperty(ref _totalExperience, value);
-                (int IncreaseLevel, int LeftoverExperience, int ExperienceForNextIncrease) increaseInfo = (0,0,0);
-
-                if (this is AttributeModel attribute)
-                    increaseInfo = IncreaseConstants.GetIncreaseInfo(IncreaseConstants.IncreaseType.Attribute, value + attribute.ExperienceBySkillGroup + attribute.SpecialExperience);
-                if (this is SkillGroupModel)
-                    increaseInfo = IncreaseConstants.GetIncreaseInfo(IncreaseConstants.IncreaseType.SkillGroup, value);
-                if (this is SkillModel) 
-                    increaseInfo = IncreaseConstants.GetIncreaseInfo(IncreaseConstants.IncreaseType.Skill, value);
-
-                ExperienceValue = increaseInfo.LeftoverExperience;
-                IncreaseValue = increaseInfo.IncreaseLevel;
-                ExperienceForNextIncreasedRequired = increaseInfo.ExperienceForNextIncrease;
-
-                OnPropertyChanged(nameof(IncreaseValue));
-                OnPropertyChanged(nameof(ExperienceValue));
-                OnPropertyChanged(nameof(ExperienceForNextIncreasedRequired));
-
-                if (this is AttributeModel attribute2)
-                    attribute2.RecalculateFinalValue();
-                if (this is SkillGroupModel skillGroup)
-                    skillGroup.RecalculateFinalValue();
-                if (this is SkillModel skill)
-                    skill.RecalculateFinalValue();
-
-                OnPropertyChanged(nameof(FinalValue));
-            }
+            get => _experienceValue;
+            set => SetProperty(ref _experienceValue, value);
         }
-        
-        public int ExperienceValue { get; private set; }
-        public int IncreaseValue { get; private set; }
-        public int ExperienceForNextIncreasedRequired { get; private set; }
+
+        //todo rename to cache
+        public int IncreaseValue
+        {
+            get => _increaseValue;
+            set => SetProperty(ref _increaseValue, value);
+        }
+
+        //todo rename to cache
+        public int ExperienceForNextIncreasedRequired
+        {
+            get => _experienceForNextIncreasedRequired;
+            set => SetProperty(ref _experienceForNextIncreasedRequired , value);
+        }
+
+        //todo rename to cache
+        public int LeftoverExperience
+        {
+            get => _leftoverExperience;
+            set => SetProperty(ref _leftoverExperience , value);
+        }
     }
 }

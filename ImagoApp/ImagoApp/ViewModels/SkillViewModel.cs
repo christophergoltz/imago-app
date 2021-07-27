@@ -22,13 +22,13 @@ namespace ImagoApp.ViewModels
             Skill = skill;
         }
 
-        public int TotalExperienceValue
+        public int CreationExperience
         {
-            get => Skill.TotalExperience;
+            get => Skill.CreationExperience;
             set
             {
-                _characterViewModel.SetExperienceToSkill(Skill, _skillGroup, value);
-                OnPropertyChanged(nameof(TotalExperienceValue));
+                _characterViewModel.SetCreationExperience(Skill, _skillGroup, value);
+                OnPropertyChanged(nameof(CreationExperience));
             }
         }
     }

@@ -65,7 +65,7 @@
                            BackgroundColor="{StaticResource GruenesUmbra1}"
                            FontSize="{DynamicResource FontSizeBigContent}"
                            Keyboard="Numeric"
-                           Text="{Binding TotalExperienceValue}"
+                           Text="{Binding CreationExperience}"
                            TextColor="White" />
                         <Label Grid.Column="2"
                            FontSize="{DynamicResource FontSizeBigContent}"

@@ -32,6 +32,11 @@ namespace ImagoApp.Application
 
             changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public void RaiseOnPropertyChanged(string propertyName)
+        {
+            OnPropertyChanged(propertyName);
+        }
         #endregion
     }
 }

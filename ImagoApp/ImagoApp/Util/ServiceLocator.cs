@@ -18,6 +18,7 @@ namespace ImagoApp.Util
         private readonly Lazy<ICharacterService> _characterService;
         private readonly Lazy<ICharacterCreationService> _characterCreationService;
         private readonly Lazy<IErrorService> _errorService;
+        private readonly Lazy<IAttributeCalculationService> _attributeCalculationService;
         private readonly IMapper _mapper;
        
         public ServiceLocator(string imagoFolder)
@@ -59,6 +60,7 @@ namespace ImagoApp.Util
             _characterService = new Lazy<ICharacterService>(() => new CharacterService(characterRepository, _mapper));
             _characterCreationService = new Lazy<ICharacterCreationService>(() => new CharacterCreationService());
             _errorService = new Lazy<IErrorService>(() => new ErrorService(characterDatabaseFile));
+            _attributeCalculationService = new Lazy<IAttributeCalculationService>(() => new AttributeCalculationService());
         }
 
         public IMapper Mapper()
@@ -75,14 +77,17 @@ namespace ImagoApp.Util
         {
             return _wikiService.Value;
         }
+
         public IWikiParseService WikiParseService()
         {
             return _wikiParseService.Value;
         }
+
         public ICharacterService CharacterService()
         {
             return _characterService.Value;
         }
+
         public ICharacterCreationService CharacterCreationService()
         {
             return _characterCreationService.Value;
@@ -91,6 +96,11 @@ namespace ImagoApp.Util
         public IErrorService ErrorService()
         {
             return _errorService.Value;
+        }
+
+        public IAttributeCalculationService AttributeCalculationService()
+        {
+            return _attributeCalculationService.Value;
         }
     }
 }

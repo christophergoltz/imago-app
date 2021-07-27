@@ -31,13 +31,16 @@ namespace ImagoApp.Application.MappingProfiles
                 .IncludeAllDerived()
                 .ForMember(e => e.ExperienceForNextIncreasedRequired, opt => opt.Ignore())
                 .ForMember(e => e.IncreaseValue, opt => opt.Ignore())
-                .ForMember(e => e.ExperienceValue, opt => opt.Ignore());
+                .ForMember(e => e.LeftoverExperience, opt => opt.Ignore());
+
             CreateMap<CalculableBaseEntity, CalculableBaseModel>()
                 .IncludeAllDerived()
                 .ForMember(e => e.FinalValue, opt => opt.Ignore());
             CreateMap<DependentBaseEntity, DependentBaseModel>()
                 .IncludeAllDerived()
                 .ForMember(e => e.BaseValue, opt => opt.Ignore());
+            CreateMap<CreationExperienceBaseEntity, CreationExperienceBaseModel>()
+                .IncludeAllDerived();
 
             CreateMap<SkillRequirementEntity, SkillRequirementModel>();
             CreateMap<SkillGroupRequirementEntity, SkillGroupRequirementModel>();
@@ -68,6 +71,7 @@ namespace ImagoApp.Application.MappingProfiles
             CreateMap<IncreasableBaseModel, IncreasableBaseEntity>();
             CreateMap<CalculableBaseModel, CalculableBaseEntity>();
             CreateMap<DependentBaseModel, DependentBaseEntity>();
+            CreateMap<CreationExperienceBaseModel, CreationExperienceBaseEntity>();
 
             CreateMap<SkillRequirementModel, SkillRequirementEntity>();
             CreateMap<SkillGroupRequirementModel, SkillGroupRequirementEntity>();

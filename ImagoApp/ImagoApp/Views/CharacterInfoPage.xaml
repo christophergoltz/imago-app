@@ -24,7 +24,7 @@
                     <Label Grid.Column="1"
                        FontSize="{DynamicResource FontSizeContent}"
                        HorizontalOptions="Center"
-                       Text="{Binding AttributeModel.NaturalValue}"
+                       Text="{Binding AttributeModel.BaseValue}"
                        VerticalOptions="Center" />
                     <Label Grid.Column="2"
                        FontSize="{DynamicResource FontSizeContent}"
@@ -62,9 +62,9 @@
                 <Grid Padding="10,4">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="75" />
-                        <ColumnDefinition Width="75" />
                         <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="90" />
+                        <ColumnDefinition Width="90" />
                         <ColumnDefinition Width="100" />
                         <ColumnDefinition Width="80" />
                         <ColumnDefinition Width="100" />
@@ -83,13 +83,13 @@
                        BackgroundColor="{StaticResource GruenesUmbra1}"
                        FontSize="{DynamicResource FontSizeContent}"
                        Keyboard="Numeric"
-                       Text="{Binding TotalExperienceValue}"
+                       Text="{Binding CreationExperience}"
                        TextColor="White" VerticalOptions="Center" />
                     <Entry Grid.Column="3"
                        BackgroundColor="{StaticResource GruenesUmbra1}"
                        FontSize="{DynamicResource FontSizeContent}"
                        HorizontalOptions="Center"
-                       Text="{Binding NaturalValue}"
+                       Text="{Binding BaseValue}"
                        TextColor="White" VerticalOptions="Center" />
                     <Label Grid.Column="4"
                        FontSize="{DynamicResource FontSizeContent}"
@@ -283,8 +283,8 @@
                             <Grid Margin="10,5,10,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="100" />
-                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="120" />
+                                    <ColumnDefinition Width="130" />
                                     <ColumnDefinition Width="100" />
                                     <ColumnDefinition Width="100" />
                                     <ColumnDefinition Width="80" />
@@ -296,10 +296,10 @@
                                    Text="Attribut" />
                                 <Label Grid.Column="1" FontAttributes="Bold"
                                    IsVisible="{Binding CharacterViewModel.EditMode}"
-                                   Text="EP aus Kategorie" />
+                                   Text="Kategorie-EP" />
                                 <Label Grid.Column="2" FontAttributes="Bold"
                                    IsVisible="{Binding CharacterViewModel.EditMode}"
-                                   Text="Gesamt EP" />
+                                   Text="Erschaffungs-EP" />
                                 <Label Grid.Column="3" FontAttributes="Bold" Text="NA/NW" />
                                 <Label Grid.Column="4" FontAttributes="Bold" Text="SW" />
                                 <Label Grid.Column="5" FontAttributes="Bold" Text="EP" />

@@ -310,7 +310,7 @@ namespace ImagoApp.ViewModels
 
         public async Task OpenCharacter(CharacterModel characterModel, bool editMode)
         {
-            var characterViewModel = new CharacterViewModel(characterModel)
+            var characterViewModel = new CharacterViewModel(characterModel, _serviceLocator.AttributeCalculationService())
             {
                 EditMode = editMode
             };

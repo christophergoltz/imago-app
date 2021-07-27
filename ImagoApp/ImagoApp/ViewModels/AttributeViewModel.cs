@@ -19,7 +19,7 @@ namespace ImagoApp.ViewModels
             get => AttributeModel.Corrosion;
             set
             {
-                CharacterViewModel.SetCorrosionValue(AttributeModel, value);
+                CharacterViewModel.SetCorrosion(AttributeModel, value);
                 OnPropertyChanged(nameof(Corrosion));
             }
         }
@@ -29,38 +29,38 @@ namespace ImagoApp.ViewModels
             get => AttributeModel.ModificationValue;
             set
             {
-                CharacterViewModel.SetModificationValue(AttributeModel, value);
+                CharacterViewModel.SetModification(AttributeModel, value);
                 OnPropertyChanged(nameof(Modification));
             }
         }
 
         public int SpecialExperience
         {
-            get => AttributeModel.SpecialExperience;
+            get => AttributeModel.ExperienceValue;
             set
             {
-                CharacterViewModel.SetSpecialExperienceToAttribute(AttributeModel, value);
+                CharacterViewModel.SetExperienceToAttribute(AttributeModel, value);
                 OnPropertyChanged(nameof(SpecialExperience));
             }
         }
 
-        public int TotalExperienceValue
+        public int CreationExperience
         {
-            get => AttributeModel.TotalExperience;
+            get => AttributeModel.CreationExperience;
             set
             {
-                CharacterViewModel.SetExperienceToAttribute(AttributeModel, value);
-                OnPropertyChanged(nameof(TotalExperienceValue));
+                CharacterViewModel.SetCreationExperienceToAttribute(AttributeModel, value);
+                OnPropertyChanged(nameof(CreationExperience));
             }
         }
 
-        public int NaturalValue
+        public int BaseValue
         {
-            get => AttributeModel.NaturalValue;
+            get => AttributeModel.BaseValue;
             set
             {
-                CharacterViewModel.SetNaturalValue(AttributeModel, value);
-                OnPropertyChanged(nameof(NaturalValue));
+                CharacterViewModel.SetBaseValue(AttributeModel, value);
+                OnPropertyChanged(nameof(BaseValue));
             }
         }
     }
