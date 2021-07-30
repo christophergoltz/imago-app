@@ -1,240 +1,108 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using ImagoApp.Application.Constants;
 using ImagoApp.Application.Models;
-using ImagoApp.Application.Models.Base;
-using ImagoApp.Shared.Enums;
 
 namespace ImagoApp.Application.Services
 {
     public interface IAttributeCalculationService
     {
-        //attributes
-        /// <summary>
-        /// Apply the given creation experience value to the attribute
-        /// </summary>
-        /// <param name="characterModel"></param>
-        /// <param name="target"></param>
-        /// <param name="creationExperience"></param>
-        /// <returns>Returns if the attribute final value has changed</returns>
-        bool SetCreationExperience(CharacterModel characterModel, AttributeModel target, int creationExperience);
-
-        /// <summary>
-        /// Apply the given experience value to the attribute
-        /// </summary>
-        /// <param name="characterModel"></param>
-        /// <param name="target"></param>
-        /// <param name="experience"></param>
-        /// <returns>Returns if the attribute final value has changed</returns>
-        bool SetExperience(CharacterModel characterModel, AttributeModel target, int experience);
-
-        /// <summary>
-        /// Changes the given skillgroup experience value to the attribute
-        /// </summary>
-        /// <param name="characterModel"></param>
-        /// <param name="target"></param>
-        /// <param name="skillGroupExperienceChange"></param>
-        /// <returns>Returns if the attribute final value has changed</returns>
-        bool AddSkillGroupExperience(CharacterModel characterModel, AttributeModel target, int skillGroupExperienceChange);
-
-        bool SetCorrosion(CharacterModel characterModel, AttributeModel target, int corrosion);
-        bool SetModification(CharacterModel characterModel, AttributeModel target, int modification);
-        bool SetBaseValue(CharacterModel characterModel, AttributeModel target, int baseValue);
-
-        //skill
-        bool SetModification(CharacterModel characterModel, SkillModel target, int modification);
-        (bool FinalValueChanged, int IncreaseValueChange) AddExperience(CharacterModel characterModel, SkillModel target, int experience);
-
-        //skillgroup
-        bool SetModification(CharacterModel characterModel, SkillGroupModel target, int modification);
-        (bool FinalValueChanged, int IncreaseValueChange) AddExperience(CharacterModel characterModel, SkillGroupModel target, int experience);
-        (bool FinalValueChanged, int IncreaseValueChange) SetCreationExperience(CharacterModel characterModel, SkillModel target, int creationExperience);
-        void RecalculateAllAttributes(CharacterModel characterModel);
+        bool SetCreationExperience(AttributeModel target, int creationExperience, List<AttributeModel> attributes, List<SkillGroupModel> skillGroups);
+        bool SetCorrosion(AttributeModel target, int corrosion, List<AttributeModel> attributes, List<SkillGroupModel> skillGroups);
+        bool SetBaseValue(AttributeModel target, int baseValue, List<AttributeModel> attributes, List<SkillGroupModel> skillGroups);
+        bool SetModification(AttributeModel target, int modification, List<AttributeModel> attributes, List<SkillGroupModel> skillGroups);
+        bool SetExperience(AttributeModel target, int experience, List<AttributeModel> attributes, List<SkillGroupModel> skillGroups);
+        bool AddSkillGroupExperience(AttributeModel target, int skillGroupExperienceChange, List<AttributeModel> attributes, List<SkillGroupModel> skillGroups);
+        void RecalculateAllAttributes(List<AttributeModel> attributes, List<SkillGroupModel> skillGroups);
     }
 
     public class AttributeCalculationService : IAttributeCalculationService
     {
-        public bool SetCreationExperience(CharacterModel characterModel, AttributeModel target, int creationExperience)
+        private readonly IIncreaseCalculationService _increaseCalculationService;
+        private readonly ISkillGroupCalculationService _skillGroupCalculationService;
+
+        public AttributeCalculationService(IIncreaseCalculationService increaseCalculationService, ISkillGroupCalculationService skillGroupCalculationService)
+        {
+            _increaseCalculationService = increaseCalculationService;
+            _skillGroupCalculationService = skillGroupCalculationService;
+        }
+
+        public bool SetCreationExperience(AttributeModel target, int creationExperience, List<AttributeModel> attributes, List<SkillGroupModel> skillGroups)
         {
             target.CreationExperience = creationExperience;
 
             //recalculate increase info
-            var increaseValueChanged = RecalculateIncreaseInfo(target);
+            var increaseValueChanged = _increaseCalculationService.RecalculateIncreaseInfo(target);
             if (increaseValueChanged == 0)
                 return false;
 
-            return RecalculateFinalValue(characterModel, target);
+            return RecalculateFinalValue(target, attributes, skillGroups);
         }
 
-        public bool SetCorrosion(CharacterModel characterModel, AttributeModel target, int corrosion)
+        public bool SetCorrosion(AttributeModel target, int corrosion, List<AttributeModel> attributes, List<SkillGroupModel> skillGroups)
         {
             target.Corrosion = corrosion;
-            return RecalculateFinalValue(characterModel, target);
+            return RecalculateFinalValue(target, attributes, skillGroups);
         }
 
-        public bool SetBaseValue(CharacterModel characterModel, AttributeModel target, int baseValue)
+        public bool SetBaseValue(AttributeModel target, int baseValue, List<AttributeModel> attributes, List<SkillGroupModel> skillGroups)
         {
             target.BaseValue = baseValue;
-            return RecalculateFinalValue(characterModel, target);
+            return RecalculateFinalValue(target, attributes, skillGroups);
         }
 
-        public (bool FinalValueChanged, int IncreaseValueChange) SetCreationExperience(CharacterModel characterModel, SkillModel target, int creationExperience)
-        {
-            target.CreationExperience = creationExperience;
-
-            //recalculate increase info
-            var increaseValueChanged = RecalculateIncreaseInfo(target);
-            if (increaseValueChanged == 0)
-                return (false, 0);
-
-            //recalculate final value
-            var finalValueChanged = RecalculateFinalValue(target);
-            return (finalValueChanged, increaseValueChanged);
-        }
-
-        public (bool FinalValueChanged, int IncreaseValueChange) AddExperience(CharacterModel characterModel, SkillModel target, int experience)
-        {
-            target.ExperienceValue += experience;
-
-            //recalculate increase info
-            var increaseValueChanged = RecalculateIncreaseInfo(target);
-            if (increaseValueChanged == 0)
-                return (false, 0);
-
-            //recalculate final value
-            var finalValueChanged = RecalculateFinalValue(target);
-            return (finalValueChanged, increaseValueChanged);
-        }
-
-        public bool SetModification(CharacterModel characterModel, SkillModel target, int modification)
+        public bool SetModification(AttributeModel target, int modification, List<AttributeModel> attributes, List<SkillGroupModel> skillGroups)
         {
             target.ModificationValue = modification;
-            var finalValueChanged = RecalculateFinalValue(target);
-            return finalValueChanged;
+            return RecalculateFinalValue(target, attributes, skillGroups);
         }
-
-        public bool SetModification(CharacterModel characterModel, SkillGroupModel target, int modification)
-        {
-            target.ModificationValue = modification;
-            var finalValueChanged = RecalculateFinalValue(characterModel, target);
-            return finalValueChanged;
-        }
-
-        public bool SetModification(CharacterModel characterModel, AttributeModel target, int modification)
-        {
-            target.ModificationValue = modification;
-            return RecalculateFinalValue(characterModel, target);
-        }
-
-        public (bool FinalValueChanged, int IncreaseValueChange) AddExperience(CharacterModel characterModel, SkillGroupModel target, int experience)
-        {
-            target.ExperienceValue += experience;
-
-            //recalculate increase info
-            var increaseValueChanged = RecalculateIncreaseInfo(target);
-            if (increaseValueChanged == 0)
-                return (false, 0);
-
-            var finalValueChanged = RecalculateFinalValue(characterModel, target);
-            
-            return (finalValueChanged, increaseValueChanged);
-        }
-
-        public bool SetExperience(CharacterModel characterModel, AttributeModel target, int experience)
+    
+        public bool SetExperience(AttributeModel target, int experience, List<AttributeModel> attributes, List<SkillGroupModel> skillGroups)
         {
             target.ExperienceValue = experience;
 
             //recalculate increase info
-            var increaseValueChanged = RecalculateIncreaseInfo(target);
+            var increaseValueChanged = _increaseCalculationService.RecalculateIncreaseInfo(target);
             if (increaseValueChanged == 0)
                 return false;
             
-            return RecalculateFinalValue(characterModel, target);
+            return RecalculateFinalValue(target, attributes, skillGroups);
         }
         
-        public bool AddSkillGroupExperience(CharacterModel characterModel, AttributeModel target, int skillGroupExperienceChange)
+        public bool AddSkillGroupExperience(AttributeModel target, int skillGroupExperienceChange, List<AttributeModel> attributes, List<SkillGroupModel> skillGroups)
         {
             target.ExperienceBySkillGroup += skillGroupExperienceChange;
 
             //recalculate increase info
-            var increaseValueChanged = RecalculateIncreaseInfo(target);
+            var increaseValueChanged = _increaseCalculationService.RecalculateIncreaseInfo(target);
             if (increaseValueChanged == 0)
                 return false;
 
             //recalculate final value
-            return RecalculateFinalValue(characterModel, target);
+            return RecalculateFinalValue(target, attributes, skillGroups);
         }
-        
-        /// <summary>
-        /// Recalculates the increase infos
-        /// </summary>
-        /// <param name="increasableBase"></param>
-        /// <returns>Returns the increase value change</returns>
-        private int RecalculateIncreaseInfo(IncreasableBaseModel increasableBase)
+       
+        public void RecalculateAllAttributes(List<AttributeModel> attributes, List<SkillGroupModel> skillGroups)
         {
-            var totalExperience = increasableBase.ExperienceValue;
-
-            if (increasableBase is AttributeModel attributeModel)
-                totalExperience += attributeModel.CreationExperience + attributeModel.ExperienceBySkillGroup;
-            if (increasableBase is SkillModel skillModel)
-                totalExperience += skillModel.CreationExperience;
-            
-            var info = IncreaseConstants.GetIncreaseInfo(IncreaseConstants.IncreaseType.Attribute, totalExperience);
-
-            var oldIncreaseValue = increasableBase.IncreaseValue;
-            increasableBase.IncreaseValue = info.IncreaseLevel;
-            increasableBase.ExperienceForNextIncreasedRequired = info.ExperienceForNextIncrease;
-            increasableBase.LeftoverExperience = info.LeftoverExperience;
-            
-            return info.IncreaseLevel - oldIncreaseValue;
-        }
-
-        public void RecalculateAllAttributes(CharacterModel characterModel)
-        {
-            foreach (var skillGroup in characterModel.SkillGroups)
+            foreach (var skillGroup in skillGroups)
             {
-                RecalculateIncreaseInfo(skillGroup);
+                _increaseCalculationService.RecalculateIncreaseInfo(skillGroup);
 
                 foreach (var skill in skillGroup.Skills)
                 {
-                    RecalculateIncreaseInfo(skill);
+                    _increaseCalculationService.RecalculateIncreaseInfo(skill);
                 }
             }
 
-            foreach (var attribute in characterModel.Attributes)
+            foreach (var attribute in attributes)
             {
-                RecalculateIncreaseInfo(attribute);
-                RecalculateFinalValue(characterModel, attribute);
+                _increaseCalculationService.RecalculateIncreaseInfo(attribute);
+                RecalculateFinalValue(attribute, attributes, skillGroups);
             }
         }
-
-        private bool RecalculateFinalValue(SkillModel skillModel)
-        {
-            var oldFinalValue = skillModel.FinalValue;
-            skillModel.FinalValue = skillModel.BaseValue + skillModel.IncreaseValue + skillModel.ModificationValue;
-
-            return oldFinalValue != skillModel.FinalValue;
-
-            //todo update masteries and talents
-        }
-
-        private bool RecalculateFinalValue(CharacterModel characterModel, SkillGroupModel skillgroup)
-        {
-            var oldFinalValue = skillgroup.FinalValue;
-            skillgroup.FinalValue = skillgroup.BaseValue + skillgroup.IncreaseValue + skillgroup.ModificationValue;
-           
-            var finalValueChanged = oldFinalValue != skillgroup.FinalValue;
-            if(finalValueChanged)
-            {
-                //update dependent items
-                ApplyNewFinalValueOfSkillgroup(characterModel, skillgroup);
-            }
-            return finalValueChanged;
-        }
-
-        private bool RecalculateFinalValue(CharacterModel characterModel, AttributeModel target)
+        
+        private bool RecalculateFinalValue(AttributeModel target, List<AttributeModel> attributes, List<SkillGroupModel> skillGroups)
         {
             var oldFinalValue = target.FinalValue;
             target.FinalValue = target.BaseValue + target.IncreaseValue + target.ModificationValue - target.Corrosion;
@@ -243,54 +111,28 @@ namespace ImagoApp.Application.Services
             if (finalValueChanged)
             {
                 //update dependent items
-                ApplyNewFinalValueOfAttribute(characterModel, target);
+                ApplyNewFinalValueOfAttribute(target, attributes, skillGroups);
             }
 
             return finalValueChanged;
         }
 
-        private void UpdateNewBaseValueToSkillsOfGroup(SkillGroupModel skillgroup)
-        {
-            foreach (var skill in skillgroup.Skills)
-            {
-                skill.BaseValue = (int)skillgroup.FinalValue;
-                RecalculateFinalValue(skill);
-            }
-        }
-
-        private void ApplyNewFinalValueOfSkillgroup(CharacterModel characterModel, SkillGroupModel skillgroup)
-        {
-            foreach (var skill in skillgroup.Skills)
-            {
-                skill.BaseValue = (int) skillgroup.FinalValue;
-                RecalculateFinalValue(skill);
-            }
-        }
-
-        private void ApplyNewFinalValueOfAttribute(CharacterModel characterModel, AttributeModel changedAttribute)
+        private void ApplyNewFinalValueOfAttribute(AttributeModel changedAttribute, List<AttributeModel> attributes, List<SkillGroupModel> skillGroups)
         {
             //updating all dependent skillgroups
             var affectedSkillGroupTypes = RuleConstants.GetSkillGroupsByAttribute(changedAttribute.Type);
-            var skillGroups = characterModel.SkillGroups
-                .Where(model => affectedSkillGroupTypes
-                    .Contains(model.Type));
 
-            foreach (var affectedSkillGroup in skillGroups)
+            foreach (var affectedSkillGroup in skillGroups.Where(model => affectedSkillGroupTypes.Contains(model.Type)))
             {
                 var attributeTypesForCalculation = RuleConstants.GetSkillGroupSources(affectedSkillGroup.Type);
 
-                double tmp = 0;
-                foreach (var attributeType in attributeTypesForCalculation)
-                {
-                    tmp += characterModel.Attributes.First(attribute => attribute.Type == attributeType).FinalValue;
-                }
+                double attributeSum = attributeTypesForCalculation.Sum(attributeType => attributes.First(attribute => attribute.Type == attributeType).FinalValue);
 
-                var newBaseValue = (int)Math.Round((tmp / 6), MidpointRounding.AwayFromZero);
+                var newBaseValue = (int)Math.Round(attributeSum / 6, MidpointRounding.AwayFromZero);
 
                 affectedSkillGroup.BaseValue = newBaseValue;
-                RecalculateFinalValue(characterModel, affectedSkillGroup);
-
-                UpdateNewBaseValueToSkillsOfGroup(affectedSkillGroup);
+                _skillGroupCalculationService.RecalculateFinalValue(affectedSkillGroup);
+                _skillGroupCalculationService.UpdateNewBaseValueToSkillsOfGroup(affectedSkillGroup);
             }
         }
     }

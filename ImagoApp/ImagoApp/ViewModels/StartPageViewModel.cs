@@ -310,7 +310,10 @@ namespace ImagoApp.ViewModels
 
         public async Task OpenCharacter(CharacterModel characterModel, bool editMode)
         {
-            var characterViewModel = new CharacterViewModel(characterModel, _serviceLocator.AttributeCalculationService())
+            var characterViewModel = new CharacterViewModel(characterModel, 
+                _serviceLocator.AttributeCalculationService(),
+                _serviceLocator.SkillGroupCalculationService(),
+                _serviceLocator.SkillCalculationService())
             {
                 EditMode = editMode
             };
@@ -319,7 +322,7 @@ namespace ImagoApp.ViewModels
 
             try
             {
-                var a = _serviceLocator.AttributeCalculationService();
+                var attributeCalculationService = _serviceLocator.AttributeCalculationService();
 
                 //create all required dependencies
                 var characterInfoPageViewModel = new CharacterInfoPageViewModel(characterViewModel);
@@ -350,7 +353,7 @@ namespace ImagoApp.ViewModels
 
                 //todo recalc
                 var s = Stopwatch.StartNew();
-                a.RecalculateAllAttributes(characterModel);
+                attributeCalculationService.RecalculateAllAttributes(characterModel.Attributes, characterModel.SkillGroups);
                 characterViewModel.CalculateInitialValues();
                 s.Stop();
                 Debug.WriteLine($"Init Char calc: {s.ElapsedMilliseconds}ms");

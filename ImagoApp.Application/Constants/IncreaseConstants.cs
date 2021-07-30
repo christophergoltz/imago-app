@@ -4,6 +4,7 @@ using System.Text;
 
 namespace ImagoApp.Application.Constants
 {
+    [Obsolete("move to IncreaseCalculationService")]
     public class IncreaseConstants
     {
         public enum IncreaseType
