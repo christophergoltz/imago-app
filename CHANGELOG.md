@@ -2,6 +2,7 @@
 ## [Bekannte Fehler](https://github.com/christophergoltz/imago-app/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
 
 <br/>
+<br/>
 
 # Version 0.1.2 - [tba]
 ## Hinzugefügt
@@ -16,6 +17,8 @@
 - Vor der Erschaffung wird nach den Erfahrungspunkten für Attribute und Fertigkeiten gefragt
 - Charaktere können nun auf der Startseite exportiert, importiert und gelöscht werden
 
+<br/>
+
 ## Verbessert
 - Die App wird nun im Vollbildschirm gestartet (Bei älteren Windows 10 Versionen kann es sein, dass das nicht sofort beim ersten Start funktioniert)
 - Im Bearbeitungsmodus werden die EP aus Fertigkeitskategorien nicht mehr Grün hervorgehoben
@@ -23,12 +26,19 @@
 - Die Ansicht innerhalb der Fertigkeitensseite wurde angepasst
 - Die Ladezeit der Charaktere beim Starten wurde verbessert
 
+<br/>
+
 ## Behoben
 - Die Navigation innerhalb der Fertigkeitsseite bei der Charaktererschaffung mit [Tab] wird nun in der richtigen Reihenfolge (Oben nach unten, links nach rechts) durchgeführt
 - Die Aktuellen Lebenspunkte verändern sich passend zu dem Max-Hp
 
+<br/>
+
 ## Entfernt
 - Das Imago-Logo wurde aus dem Charakterbogen entfernt
+
+<br/>
+<br/>
 
 # Version 0.1.1 - 20.07.2021
 ## Hinzugefügt
@@ -36,13 +46,20 @@
     - Geöffnete Seiten werden gespeichert und beim öffnen des Charakters wieder geladen
 - Fehlerbericht senden
 
+<br/>
+
 ## Verbessert
 - Das Laden der Wiki-Daten wird automatisch gestartet wenn keine vorhanden sind oder die bestehenden älter als 30 Tage sind
 - Neue Imago-Logos und Icons
 - Die Navigations-Leiste im Charakterbildschirm wurde verbesser, Navigation lädt nun schneller
 
+<br/>
+
 ## Behoben
 - Die Charakterliste wird nach dem verlassen eine Charakterbogens nun richtig aktualisiert
+
+<br/>
+<br/>
 
 # Version 0.1.0 - 12.07.2021
 ## Hinzugefügt
