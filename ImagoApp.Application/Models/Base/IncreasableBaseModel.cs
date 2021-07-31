@@ -16,7 +16,7 @@ namespace ImagoApp.Application.Models.Base
                 (int IncreaseLevel, int LeftoverExperience, int ExperienceForNextIncrease) increaseInfo = (0,0,0);
 
                 if (this is AttributeModel attribute)
-                    increaseInfo = IncreaseConstants.GetIncreaseInfo(IncreaseConstants.IncreaseType.Attribute, value + attribute.ExperienceBySkillGroup);
+                    increaseInfo = IncreaseConstants.GetIncreaseInfo(IncreaseConstants.IncreaseType.Attribute, value + attribute.ExperienceBySkillGroup + attribute.SpecialExperience);
                 if (this is SkillGroupModel)
                     increaseInfo = IncreaseConstants.GetIncreaseInfo(IncreaseConstants.IncreaseType.SkillGroup, value);
                 if (this is SkillModel) 

@@ -182,6 +182,16 @@ namespace ImagoApp.ViewModels
             UpdateNewFinalValueOfAttribute(attributeModel);
         }
 
+        public void SetSpecialExperienceToAttribute(AttributeModel attributeModel, int specialExperience)
+        {
+            attributeModel.SpecialExperience = specialExperience;
+
+            //force recalc
+            attributeModel.TotalExperience = attributeModel.TotalExperience;
+
+            UpdateNewFinalValueOfAttribute(attributeModel);
+        }
+
 
         public void SetExperienceToAttribute(AttributeModel attributeModel, int experience)
         {

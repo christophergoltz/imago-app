@@ -1,46 +1,58 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
-             Title="egs"
-             x:Class="ImagoApp.Views.ErrorPage" x:DataType="viewModels:ErrorPageViewModel">
+<ContentPage x:Class="ImagoApp.Views.ErrorPage" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+   xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp" Title="egs" x:DataType="viewModels:ErrorPageViewModel">
     <ContentPage.Content>
         <Grid Margin="20">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" ></RowDefinition>
-                <RowDefinition Height="Auto" ></RowDefinition>
-                <RowDefinition Height="Auto" ></RowDefinition>
-                <RowDefinition Height="Auto" ></RowDefinition>
-                <RowDefinition Height="Auto" ></RowDefinition>
-                <RowDefinition Height="*" ></RowDefinition>
-                <RowDefinition Height="Auto" ></RowDefinition>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Label FontAttributes="Bold" FontSize="34" Grid.Row="0" Margin="20" Text="Ups, die App hat wohl zu viel mit Protoraum experimentiert"></Label>
-            <Label FontSize="{DynamicResource FontSizeSmallCaption}" Grid.Row="1" Margin="40,0,0,0" Text="Ein unerwarter Fehler ist aufgetreten"></Label>
+            <Label Grid.Row="0" Margin="20" FontAttributes="Bold"
+               FontSize="34" Text="Ups, die App hat wohl zu viel mit Protoraum experimentiert" />
+            <Label Grid.Row="1" Margin="40,0,0,0"
+               FontSize="{DynamicResource FontSizeSmallCaption}"
+               Text="Ein unerwarter Fehler ist aufgetreten" />
 
-            <StackLayout Margin="40,50,0,0" Orientation="Horizontal" Grid.Row="2">
-                <Label FontSize="{DynamicResource FontSizeHeader}" Text="Charakter-Information senden"></Label>
-                <CheckBox Margin="20,0,0,0" 
-                          IsChecked="{Binding IncludeDatabase}"></CheckBox>
-                <Label FontSize="{DynamicResource FontSizeContent}" VerticalOptions="Center" TextColor="Black" FontAttributes="Italic" Text="[Dies kann bei der Fehlerbehebung helfen, wenn es sich dabei um einen Fehler basierend auf den Charakterdaten handelt]"></Label>
+            <StackLayout Grid.Row="2" Margin="40,50,0,0" Orientation="Horizontal">
+                <Label FontSize="{DynamicResource FontSizeHeader}" Text="Charakter-Information senden" />
+                <CheckBox Margin="20,0,0,0" IsChecked="{Binding IncludeDatabase}" />
+                <Label FontAttributes="Italic"
+                   FontSize="{DynamicResource FontSizeContent}"
+                   Text="[Dies kann bei der Fehlerbehebung helfen, wenn es sich dabei um einen Fehler basierend auf den Charakterdaten handelt]" TextColor="Black" VerticalOptions="Center" />
             </StackLayout>
 
-            <StackLayout Margin="80,10,0,0" Orientation="Horizontal" Grid.Row="3">
-                <Label VerticalOptions="Center" FontSize="{DynamicResource FontSizeHeader}" Text="Betroffener Charakter"></Label>
-                <Entry Margin="10,0,0,0" VerticalOptions="Center" FontSize="{DynamicResource FontSizeHeader}" 
-                       Text="{Binding AffectedCharacter}" IsEnabled="{Binding IncludeDatabase}" WidthRequest="300"></Entry>
+            <StackLayout Grid.Row="3" Margin="80,10,0,0" Orientation="Horizontal">
+                <Label FontSize="{DynamicResource FontSizeHeader}"
+                   Text="Betroffener Charakter" VerticalOptions="Center" />
+                <Entry Margin="10,0,0,0"
+                   FontSize="{DynamicResource FontSizeHeader}"
+                   IsEnabled="{Binding IncludeDatabase}"
+                   Text="{Binding AffectedCharacter}"
+                   VerticalOptions="Center" WidthRequest="300" />
             </StackLayout>
 
-            <Label Margin="40,60,0,20" FontSize="{DynamicResource FontSizeHeader}" Grid.Row="4" Text="Beschreibung"></Label>
-            <Editor Margin="40,10,0,20" MaxLength="125" FontSize="{DynamicResource FontSizeContent}" Grid.Row="5" 
-                    Placeholder="Beschreibe kurz den Fehler ;)" 
-                    Text="{Binding Description}"></Editor>
+            <Label Grid.Row="4" Margin="40,60,0,20"
+               FontSize="{DynamicResource FontSizeHeader}"
+               Text="Beschreibung" />
+            <Editor Grid.Row="5" Margin="40,10,0,20"
+               FontSize="{DynamicResource FontSizeContent}"
+               MaxLength="125" Placeholder="Beschreibe kurz den Fehler ;)"
+               Text="{Binding Description}" />
 
-            <Button FontSize="{DynamicResource FontSizeHeader}" Grid.Row="6" Text="Abbrechen" HorizontalOptions="Start"
-                    Command="{Binding CancelCommand}"></Button>
-            <Button FontSize="{DynamicResource FontSizeHeader}" Grid.Row="6" Text="Fehlerbericht senden" BackgroundColor="DodgerBlue" HorizontalOptions="EndAndExpand"
-                    Command="{Binding SendCommand}"></Button>
+            <Button Grid.Row="6"
+               Command="{Binding CancelCommand}"
+               FontSize="{DynamicResource FontSizeHeader}"
+               HorizontalOptions="Start" Text="Abbrechen" />
+            <Button Grid.Row="6" BackgroundColor="DodgerBlue"
+               Command="{Binding SendCommand}"
+               FontSize="{DynamicResource FontSizeHeader}"
+               HorizontalOptions="EndAndExpand" Text="Fehlerbericht senden" />
         </Grid>
     </ContentPage.Content>
 </ContentPage>

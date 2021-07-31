@@ -1,172 +1,228 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
-             x:Class="ImagoApp.Views.CustomControls.SkillGroupView" 
-             x:Name="SkillGroupViewControl">
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView x:Class="ImagoApp.Views.CustomControls.SkillGroupView" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+   xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp" x:Name="SkillGroupViewControl">
     <ContentView.Resources>
         <ResourceDictionary>
-            <DataTemplate x:DataType="viewModels:SkillViewModel" x:Key="SkillModelListItemTemplate">
-                <Grid Padding="10,0,10,3">
-                    <Grid.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding SkillBaseTapCommand, Source={x:Reference SkillGroupViewControl}}" 
-                                              CommandParameter="{Binding Skill}"/>
-                    </Grid.GestureRecognizers>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="50" />
-                        <ColumnDefinition Width="50" />
-                        <ColumnDefinition Width="50" />
-                        <ColumnDefinition Width="50" />
-                    </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" FontSize="{DynamicResource FontSizeContent}" VerticalOptions="Center" Text="{Binding Skill.Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
-                    <Label Grid.Column="1" FontSize="{DynamicResource FontSizeContent}" VerticalOptions="Center" HorizontalOptions="Center">
-                        <Label.Text>
-                            <MultiBinding StringFormat="{}{0}/{1}">
-                                <Binding Path="Skill.ExperienceValue"  Source="{RelativeSource AncestorType={x:Type viewModels:SkillViewModel}}"/>
-                                <Binding Path="Skill.ExperienceForNextIncreasedRequired" Source="{RelativeSource AncestorType={x:Type viewModels:SkillViewModel}}"/>
-                            </MultiBinding>
-                        </Label.Text>
-                    </Label>
-                    <Label Grid.Column="2" FontSize="{DynamicResource FontSizeContent}" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Skill.IncreaseValue}"/>
-                    <Label Grid.Column="3" FontSize="{DynamicResource FontSizeContent}" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Skill.ModificationValue}"/>
-                    <Label Grid.Column="4" FontSize="{DynamicResource FontSizeContent}" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Skill.FinalValue}"/>
-                </Grid>
+            <DataTemplate x:Key="SkillModelListItemTemplate" x:DataType="viewModels:SkillViewModel">
+                <ViewCell>
+                    <Grid Margin="0,3" Padding="10,3,10,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="75" />
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="50" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0"
+                           FontSize="{DynamicResource FontSizeBigContent}"
+                           Text="{Binding Skill.Type, Converter={StaticResource EnumToDisplayTextConverter}}"
+                           VerticalOptions="Center" />
+                        <Label Grid.Column="1"
+                           FontSize="{DynamicResource FontSizeBigContent}"
+                           HorizontalOptions="Center" VerticalOptions="Center">
+                            <Label.Text>
+                                <MultiBinding StringFormat="{}{0}/{1}">
+                                    <Binding Path="Skill.ExperienceValue" Source="{RelativeSource AncestorType={x:Type viewModels:SkillViewModel}}" />
+                                    <Binding Path="Skill.ExperienceForNextIncreasedRequired" Source="{RelativeSource AncestorType={x:Type viewModels:SkillViewModel}}" />
+                                </MultiBinding>
+                            </Label.Text>
+                        </Label>
+                        <Label Grid.Column="2"
+                           FontSize="{DynamicResource FontSizeBigContent}"
+                           HorizontalOptions="Center"
+                           Text="{Binding Skill.IncreaseValue}"
+                           VerticalOptions="Center" />
+                        <Label Grid.Column="3"
+                           FontSize="{DynamicResource FontSizeBigContent}"
+                           HorizontalOptions="Center"
+                           Text="{Binding Skill.ModificationValue}"
+                           VerticalOptions="Center" />
+                        <Label Grid.Column="4"
+                           FontSize="{DynamicResource FontSizeBigContent}"
+                           HorizontalOptions="Center"
+                           Text="{Binding Skill.FinalValue}"
+                           VerticalOptions="Center" />
+                    </Grid>
+                </ViewCell>
             </DataTemplate>
-            <DataTemplate x:DataType="viewModels:SkillViewModel" x:Key="SkillModelListEditItemTemplate">
-                <Grid Padding="10,0,10,3">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="75" />
-                        <ColumnDefinition Width="50" />
-                        <ColumnDefinition Width="50" />
-                        <ColumnDefinition Width="50" />
-                        <ColumnDefinition Width="50" />
-                    </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" FontSize="{DynamicResource FontSizeContent}" VerticalOptions="Center" 
-                           Text="{Binding Skill.Type, Converter={StaticResource EnumToDisplayTextConverter}}"/>
+            <DataTemplate x:Key="SkillModelListEditItemTemplate" x:DataType="viewModels:SkillViewModel">
+                <ViewCell>
+                    <Grid Margin="0,2" Padding="10,0,10,3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="75" />
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="50" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0"
+                           FontSize="{DynamicResource FontSizeBigContent}"
+                           Text="{Binding Skill.Type, Converter={StaticResource EnumToDisplayTextConverter}}"
+                           VerticalOptions="Center" />
 
-                    <Entry Grid.Column="1" Keyboard="Numeric" TextColor="White" BackgroundColor="{StaticResource GruenesUmbra1}" 
-                           FontSize="{DynamicResource FontSizeContent}" Text="{Binding TotalExperienceValue}"/>
-                    <Label Grid.Column="2" FontSize="{DynamicResource FontSizeContent}" VerticalOptions="Center" HorizontalOptions="Center">
-                        <Label.Text>
-                            <MultiBinding StringFormat="{}{0}/{1}">
-                                <Binding Path="Skill.ExperienceValue"  Source="{RelativeSource AncestorType={x:Type viewModels:SkillViewModel}}"/>
-                                <Binding Path="Skill.ExperienceForNextIncreasedRequired" Source="{RelativeSource AncestorType={x:Type viewModels:SkillViewModel}}"/>
-                            </MultiBinding>
-                        </Label.Text>
-                    </Label>
-                    <Label Grid.Column="3" FontSize="{DynamicResource FontSizeContent}" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Skill.IncreaseValue}"/>
-                    <Label Grid.Column="4" FontSize="{DynamicResource FontSizeContent}" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Skill.ModificationValue}"/>
-                    <Label Grid.Column="5" FontSize="{DynamicResource FontSizeContent}" VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Skill.FinalValue}"/>
-                </Grid>
+                        <Entry Grid.Column="1"
+                           BackgroundColor="{StaticResource GruenesUmbra1}"
+                           FontSize="{DynamicResource FontSizeBigContent}"
+                           Keyboard="Numeric"
+                           Text="{Binding TotalExperienceValue}"
+                           TextColor="White" />
+                        <Label Grid.Column="2"
+                           FontSize="{DynamicResource FontSizeBigContent}"
+                           HorizontalOptions="Center" VerticalOptions="Center">
+                            <Label.Text>
+                                <MultiBinding StringFormat="{}{0}/{1}">
+                                    <Binding Path="Skill.ExperienceValue" Source="{RelativeSource AncestorType={x:Type viewModels:SkillViewModel}}" />
+                                    <Binding Path="Skill.ExperienceForNextIncreasedRequired" Source="{RelativeSource AncestorType={x:Type viewModels:SkillViewModel}}" />
+                                </MultiBinding>
+                            </Label.Text>
+                        </Label>
+                        <Label Grid.Column="3"
+                           FontSize="{DynamicResource FontSizeBigContent}"
+                           HorizontalOptions="Center"
+                           Text="{Binding Skill.IncreaseValue}"
+                           VerticalOptions="Center" />
+                        <Label Grid.Column="4"
+                           FontSize="{DynamicResource FontSizeBigContent}"
+                           HorizontalOptions="Center"
+                           Text="{Binding Skill.ModificationValue}"
+                           VerticalOptions="Center" />
+                        <Label Grid.Column="5"
+                           FontSize="{DynamicResource FontSizeBigContent}"
+                           HorizontalOptions="Center"
+                           Text="{Binding Skill.FinalValue}"
+                           VerticalOptions="Center" />
+                    </Grid>
+                </ViewCell>
             </DataTemplate>
         </ResourceDictionary>
     </ContentView.Resources>
     <Frame BindingContext="{Binding SkillGroupViewModel, Source={x:Reference SkillGroupViewControl}}">
         <Grid Padding="0" Style="{StaticResource SingleGradiantStyle}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <!-- header -->
-            <Grid Grid.Column="0" Grid.Row="0" Margin="0,5">
+            <!--  header  -->
+            <Grid Grid.Row="0" Grid.Column="0" Margin="0,5">
                 <Grid.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding SkillBaseTapCommand, Source={x:Reference SkillGroupViewControl}}" 
-                                          CommandParameter="{Binding SkillGroup}"/>
+                    <TapGestureRecognizer Command="{Binding SkillBaseTapCommand, Source={x:Reference SkillGroupViewControl}}" CommandParameter="{Binding SkillGroup}" />
                 </Grid.GestureRecognizers>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="70*"/>
-                    <ColumnDefinition Width="30*"/>
-                    <ColumnDefinition Width="35*"/>
-                    <ColumnDefinition Width="30*"/>
-                    <ColumnDefinition Width="30*"/>
-                    <ColumnDefinition Width="30*"/>
+                    <ColumnDefinition Width="70*" />
+                    <ColumnDefinition Width="30*" />
+                    <ColumnDefinition Width="35*" />
+                    <ColumnDefinition Width="30*" />
+                    <ColumnDefinition Width="30*" />
+                    <ColumnDefinition Width="30*" />
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Column="0" VerticalOptions="Center"  Text="{Binding SkillGroup.Type}"
-                   Margin="10,0,0,0" FontAttributes="Bold" FontSize="{DynamicResource FontSizeHeader}"/>
+                <Label Grid.Column="0" Margin="10,0,0,0" FontAttributes="Bold"
+                   FontSize="{DynamicResource FontSizeHeader}"
+                   Text="{Binding SkillGroup.Type}"
+                   VerticalOptions="Center" />
 
-                <StackLayout Grid.Column="1" VerticalOptions="Center" Orientation="Horizontal">
-                    <Label FontSize="{DynamicResource FontSizeDetail}" Text="GW: " FontAttributes="Bold"/>
-                    <Label FontSize="{DynamicResource FontSizeDetail}"  Text="{Binding SkillGroup.BaseValue}"/>
+                <StackLayout Grid.Column="1" Orientation="Horizontal" VerticalOptions="Center">
+                    <Label FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeDetail}"
+                       Text="GW: " />
+                    <Label FontSize="{DynamicResource FontSizeDetail}" Text="{Binding SkillGroup.BaseValue}" />
                 </StackLayout>
 
-                <StackLayout Grid.Column="2"  VerticalOptions="Center"  Orientation="Horizontal">
-                    <Label  FontSize="{DynamicResource FontSizeDetail}" Text="EP: " FontAttributes="Bold"></Label>
-                    <Label  FontSize="{DynamicResource FontSizeDetail}" >
+                <StackLayout Grid.Column="2" Orientation="Horizontal" VerticalOptions="Center">
+                    <Label FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeDetail}"
+                       Text="EP: " />
+                    <Label FontSize="{DynamicResource FontSizeDetail}">
                         <Label.Text>
                             <MultiBinding StringFormat="{}{0}/{1}">
-                                <Binding Path="SkillGroup.ExperienceValue" Source="{RelativeSource AncestorType={x:Type viewModels:SkillGroupViewModel}}"/>
-                                <Binding Path="SkillGroup.ExperienceForNextIncreasedRequired" Source="{RelativeSource AncestorType={x:Type viewModels:SkillGroupViewModel}}"/>
+                                <Binding Path="SkillGroup.ExperienceValue" Source="{RelativeSource AncestorType={x:Type viewModels:SkillGroupViewModel}}" />
+                                <Binding Path="SkillGroup.ExperienceForNextIncreasedRequired" Source="{RelativeSource AncestorType={x:Type viewModels:SkillGroupViewModel}}" />
                             </MultiBinding>
                         </Label.Text>
                     </Label>
                 </StackLayout>
 
-                <StackLayout Grid.Column="3"  VerticalOptions="Center"  Orientation="Horizontal">
-                    <Label  FontSize="{DynamicResource FontSizeDetail}" Text="Mod: " FontAttributes="Bold"/>
-                    <Label  FontSize="{DynamicResource FontSizeDetail}" Text="{Binding SkillGroup.ModificationValue}"/>
+                <StackLayout Grid.Column="3" Orientation="Horizontal" VerticalOptions="Center">
+                    <Label FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeDetail}"
+                       Text="Mod: " />
+                    <Label FontSize="{DynamicResource FontSizeDetail}" Text="{Binding SkillGroup.ModificationValue}" />
                 </StackLayout>
 
 
-                <StackLayout Grid.Column="4" VerticalOptions="Center"  Orientation="Horizontal">
-                    <Label  FontSize="{DynamicResource FontSizeDetail}" Text="SW: " FontAttributes="Bold"/>
-                    <Label FontSize="{DynamicResource FontSizeDetail}"  Text="{Binding SkillGroup.IncreaseValue}"/>
+                <StackLayout Grid.Column="4" Orientation="Horizontal" VerticalOptions="Center">
+                    <Label FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeDetail}"
+                       Text="SW: " />
+                    <Label FontSize="{DynamicResource FontSizeDetail}" Text="{Binding SkillGroup.IncreaseValue}" />
                 </StackLayout>
 
 
-                <StackLayout Grid.Column="5" VerticalOptions="Center"  Orientation="Horizontal">
-                    <Label  FontSize="{DynamicResource FontSizeDetail}" Text="FW: " FontAttributes="Bold"/>
-                    <Label  FontSize="{DynamicResource FontSizeDetail}" Text="{Binding SkillGroup.FinalValue}"/>
+                <StackLayout Grid.Column="5" Orientation="Horizontal" VerticalOptions="Center">
+                    <Label FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeDetail}"
+                       Text="FW: " />
+                    <Label FontSize="{DynamicResource FontSizeDetail}" Text="{Binding SkillGroup.FinalValue}" />
                 </StackLayout>
-
-                
             </Grid>
 
-            <!-- skills header -->
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="100" />
-                    <ColumnDefinition Width="55" />
-                    <ColumnDefinition Width="50" />
-                    <ColumnDefinition Width="50" />
-                    <ColumnDefinition Width="50" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                </Grid.RowDefinitions>
-                <Label Grid.Column="0" Grid.Row="0" FontSize="{DynamicResource FontSizeSmallContent}" FontAttributes="Bold"  Margin="5,0,0,0" 
-                       Text="{Binding SkillGroupViewModel.SkillGroup.Type, Source={x:Reference SkillGroupViewControl}, Converter={StaticResource SkillGroupTypeToAttributeSourceStringConverter}}"/>
-                <Label Grid.Row="0" Grid.Column="1" FontSize="{DynamicResource FontSizeSmallContent}" FontAttributes="Bold" Text="Gesamt EP" IsVisible="{Binding CharacterViewModel.EditMode}"/>
-                <Label Grid.Row="0" Grid.Column="2" FontSize="{DynamicResource FontSizeSmallContent}" FontAttributes="Bold" Text="EP"/>
-                <Label Grid.Row="0" Grid.Column="3" FontSize="{DynamicResource FontSizeSmallContent}" FontAttributes="Bold" Text="SW" />
-                <Label Grid.Row="0" Grid.Column="4" FontSize="{DynamicResource FontSizeSmallContent}" FontAttributes="Bold" Text="Mod" />
-                <Label Grid.Row="0" Grid.Column="5" FontSize="{DynamicResource FontSizeSmallContent}" FontAttributes="Bold" Text="FW" />
-            </Grid>
-
-            <!-- skills -->
-            <StackLayout Grid.Row="2" BindableLayout.ItemsSource="{Binding Skills}" Margin="10,0,10,10">
-                <StackLayout.Style>
-                    <Style TargetType="StackLayout">
+            <!--  skills  -->
+            <ListView Grid.Row="1" Margin="10,0,10,10" HeightRequest="400"
+               ItemSelected="ListView_OnItemSelected"
+               ItemsSource="{Binding Skills}"
+               SelectionMode="Single" VerticalOptions="Start">
+                <ListView.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="110" />
+                            <ColumnDefinition Width="60" />
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="50" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0" Margin="5,0,0,0"
+                           FontAttributes="Bold"
+                           FontSize="{DynamicResource FontSizeSmallContent}"
+                           Text="{Binding SkillGroupViewModel.SkillGroup.Type, Source={x:Reference SkillGroupViewControl}, Converter={StaticResource SkillGroupTypeToAttributeSourceStringConverter}}" />
+                        <Label Grid.Row="0" Grid.Column="1" FontAttributes="Bold"
+                           FontSize="{DynamicResource FontSizeSmallContent}"
+                           IsVisible="{Binding CharacterViewModel.EditMode}"
+                           Text="Gesamt EP" />
+                        <Label Grid.Row="0" Grid.Column="2" FontAttributes="Bold"
+                           FontSize="{DynamicResource FontSizeSmallContent}"
+                           Text="EP" />
+                        <Label Grid.Row="0" Grid.Column="3" FontAttributes="Bold"
+                           FontSize="{DynamicResource FontSizeSmallContent}"
+                           Text="SW" />
+                        <Label Grid.Row="0" Grid.Column="4" FontAttributes="Bold"
+                           FontSize="{DynamicResource FontSizeSmallContent}"
+                           Text="Mod" />
+                        <Label Grid.Row="0" Grid.Column="5" FontAttributes="Bold"
+                           FontSize="{DynamicResource FontSizeSmallContent}"
+                           Text="FW" />
+                    </Grid>
+                </ListView.Header>
+                <ListView.Style>
+                    <Style TargetType="ListView">
                         <Style.Triggers>
-                            <DataTrigger TargetType="StackLayout" 
-                                         Binding="{Binding CharacterViewModel.EditMode}" 
-                                         Value="False">
-                                <Setter Property="BindableLayout.ItemTemplate" Value="{StaticResource SkillModelListItemTemplate}"/>
+                            <DataTrigger Binding="{Binding CharacterViewModel.EditMode}"
+                               TargetType="ListView" Value="False">
+                                <Setter Property="ItemTemplate" Value="{StaticResource SkillModelListItemTemplate}" />
                             </DataTrigger>
-                            <DataTrigger TargetType="StackLayout" 
-                                         Binding="{Binding CharacterViewModel.EditMode}" 
-                                         Value="True">
-                                <Setter Property="BindableLayout.ItemTemplate" Value="{StaticResource SkillModelListEditItemTemplate}"/>
+                            <DataTrigger Binding="{Binding CharacterViewModel.EditMode}"
+                               TargetType="ListView" Value="True">
+                                <Setter Property="ItemTemplate" Value="{StaticResource SkillModelListEditItemTemplate}" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
-                </StackLayout.Style>
-            </StackLayout>
+                </ListView.Style>
+            </ListView>
         </Grid>
     </Frame>
 </ContentView>

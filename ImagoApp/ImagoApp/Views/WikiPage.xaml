@@ -1,24 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
-            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-            xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
-            xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp"
-            xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application"
-            x:Class="ImagoApp.Views.WikiPage"
-            Title="Imago Wiki" 
-            x:DataType="viewModels:WikiPageViewModel"
-            ItemsSource="{Binding CharacterViewModel.CharacterModel.WikiPages}"
-            SelectedItem="{Binding SelectedWikiTab}"
-            BarBackgroundColor="LightGray"
-            BarTextColor="Black"
-            x:Name="WikiPageControl">
+<TabbedPage x:Class="ImagoApp.Views.WikiPage" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+   xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp" xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application" xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
+   x:Name="WikiPageControl" Title="Imago Wiki" x:DataType="viewModels:WikiPageViewModel"
+   BarBackgroundColor="LightGray" BarTextColor="Black"
+   ItemsSource="{Binding CharacterViewModel.CharacterModel.WikiPages}"
+   SelectedItem="{Binding SelectedWikiTab}">
     <TabbedPage.ItemTemplate>
         <DataTemplate x:DataType="models:WikiTabModel">
-            <customControls:WikiTabView 
-                WikiTabModel="{Binding .}" 
-                OpenPageCommand="{Binding WikiPageViewModel.OpenWikiPageCommand, Source={x:Reference WikiPageControl}}"
-                CloseTabCommand="{Binding WikiPageViewModel.CloseWikiTabCommand, Source={x:Reference WikiPageControl}}"
-                GoBackToMainpageCommand="{Binding WikiPageViewModel.GoBackToWikiMainpageCommand, Source={x:Reference WikiPageControl}}"/>
+            <customControls:WikiTabView CloseTabCommand="{Binding WikiPageViewModel.CloseWikiTabCommand, Source={x:Reference WikiPageControl}}"
+               GoBackToMainpageCommand="{Binding WikiPageViewModel.GoBackToWikiMainpageCommand, Source={x:Reference WikiPageControl}}"
+               OpenPageCommand="{Binding WikiPageViewModel.OpenWikiPageCommand, Source={x:Reference WikiPageControl}}"
+               WikiTabModel="{Binding .}" />
         </DataTemplate>
     </TabbedPage.ItemTemplate>
 </TabbedPage>

@@ -1,15 +1,11 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
-             xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp"
-             xmlns:enums="clr-namespace:ImagoApp.Shared.Enums;assembly=ImagoApp.Shared"
-             x:Class="ImagoApp.Views.CustomControls.AttributeExperienceDialogView" 
-              x:Name="AttributeExperienceDialogViewControl">
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView x:Class="ImagoApp.Views.CustomControls.AttributeExperienceDialogView" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+   xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp" xmlns:enums="clr-namespace:ImagoApp.Shared.Enums;assembly=ImagoApp.Shared" xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
+   x:Name="AttributeExperienceDialogViewControl">
     <ContentView.Content>
-        <Grid BindingContext="{Binding CharacterViewModel, Source={x:Reference AttributeExperienceDialogViewControl}}" 
-               Style="{StaticResource BackgroundGridStyle}"
-              Padding="20">
+        <Grid Padding="20"
+           BindingContext="{Binding CharacterViewModel, Source={x:Reference AttributeExperienceDialogViewControl}}"
+           Style="{StaticResource BackgroundGridStyle}">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -17,41 +13,48 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <StackLayout Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="7">
-                <Label FontSize="{DynamicResource FontSizeSmallCaption}" FontAttributes="Bold"
-                       Text="{Binding CharacterModel.OpenAttributeIncreases.Count}" ></Label>
-                <Label FontSize="{DynamicResource FontSizeSmallCaption}" Margin="5,0,0,30" 
-                         Text="Offene Erfahrungspunkt(e) auf Attribute verteilen"/>
+            <StackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="7"
+               Orientation="Horizontal">
+                <Label FontAttributes="Bold"
+                   FontSize="{DynamicResource FontSizeSmallCaption}"
+                   Text="{Binding CharacterModel.OpenAttributeIncreases.Count}" />
+                <Label Margin="5,0,0,30"
+                   FontSize="{DynamicResource FontSizeSmallCaption}"
+                   Text="Offene Erfahrungspunkt(e) auf Attribute verteilen" />
             </StackLayout>
 
-            <Button Text="X" Padding="0,-4,0,0" WidthRequest="35" HeightRequest="35" 
-                        Grid.Row="0" Grid.Column="6" 
-                        FontSize="{DynamicResource FontSizeHeader}"  VerticalOptions="Start" 
-                        HorizontalOptions="End" TextColor="Red" BackgroundColor="LightGray" 
-                        Command="{Binding CloseCommand, Source={x:Reference AttributeExperienceDialogViewControl}}"/>
+            <Button Grid.Row="0" Grid.Column="6" Padding="0,-4,0,0"
+               BackgroundColor="LightGray"
+               Command="{Binding CloseCommand, Source={x:Reference AttributeExperienceDialogViewControl}}"
+               FontSize="{DynamicResource FontSizeHeader}"
+               HeightRequest="35" HorizontalOptions="End" Text="X"
+               TextColor="Red" VerticalOptions="Start" WidthRequest="35" />
 
-            <Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="7" >
+            <Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="7">
                 <ScrollView>
-                    <FlexLayout BackgroundColor="{StaticResource AntiUmbra3}" BindableLayout.ItemsSource="{Binding CharacterModel.OpenAttributeIncreases}"
-                             Direction="Row" Wrap="Wrap" AlignContent="Start" AlignItems="Start" >
+                    <FlexLayout AlignContent="Start" AlignItems="Start"
+                       BackgroundColor="{StaticResource AntiUmbra3}"
+                       BindableLayout.ItemsSource="{Binding CharacterModel.OpenAttributeIncreases}"
+                       Direction="Row" Wrap="Wrap">
                         <BindableLayout.ItemTemplate>
                             <DataTemplate x:DataType="enums:SkillGroupModelType">
-                                <Frame Margin="10" VerticalOptions="Start" >
+                                <Frame Margin="10" VerticalOptions="Start">
                                     <Frame.GestureRecognizers>
                                         <DragGestureRecognizer DragStarting="OnDragStarting" DropCompleted="DragGestureRecognizer_OnDropCompleted" />
                                     </Frame.GestureRecognizers>
                                     <Grid BackgroundColor="Red">
-                                        <Label Text="{Binding ., Converter={StaticResource EnumToDisplayTextConverter}}" 
-                                           FontSize="{DynamicResource FontSizeHeader}" Margin="7,5"></Label>
+                                        <Label Margin="7,5"
+                                           FontSize="{DynamicResource FontSizeHeader}"
+                                           Text="{Binding ., Converter={StaticResource EnumToDisplayTextConverter}}" />
                                     </Grid>
                                 </Frame>
                             </DataTemplate>
@@ -61,49 +64,49 @@
             </Frame>
 
             <customControls:AttributeExperienceItem x:Name="Charisma" Grid.Row="2" Grid.Column="0"
-                                                        BindingContext="{Binding CharismaAttribute}">
+               BindingContext="{Binding CharismaAttribute}">
                 <customControls:AttributeExperienceItem.GestureRecognizers>
                     <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_OnDrop" />
                 </customControls:AttributeExperienceItem.GestureRecognizers>
             </customControls:AttributeExperienceItem>
 
             <customControls:AttributeExperienceItem x:Name="Geschicklichkeit" Grid.Row="2" Grid.Column="1"
-                                                    BindingContext="{Binding GeschicklichkeitAttribute}">
+               BindingContext="{Binding GeschicklichkeitAttribute}">
                 <customControls:AttributeExperienceItem.GestureRecognizers>
                     <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_OnDrop" />
                 </customControls:AttributeExperienceItem.GestureRecognizers>
             </customControls:AttributeExperienceItem>
 
             <customControls:AttributeExperienceItem x:Name="Intelligenz" Grid.Row="2" Grid.Column="2"
-                                                    BindingContext="{Binding IntelligenzAttribute}">
+               BindingContext="{Binding IntelligenzAttribute}">
                 <customControls:AttributeExperienceItem.GestureRecognizers>
                     <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_OnDrop" />
                 </customControls:AttributeExperienceItem.GestureRecognizers>
             </customControls:AttributeExperienceItem>
 
             <customControls:AttributeExperienceItem x:Name="Konstitution" Grid.Row="2" Grid.Column="3"
-                                                    BindingContext="{Binding KonstitutionAttribute}">
+               BindingContext="{Binding KonstitutionAttribute}">
                 <customControls:AttributeExperienceItem.GestureRecognizers>
                     <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_OnDrop" />
                 </customControls:AttributeExperienceItem.GestureRecognizers>
             </customControls:AttributeExperienceItem>
 
             <customControls:AttributeExperienceItem x:Name="Staerke" Grid.Row="2" Grid.Column="4"
-                                                    BindingContext="{Binding StaerkeAttribute}">
+               BindingContext="{Binding StaerkeAttribute}">
                 <customControls:AttributeExperienceItem.GestureRecognizers>
                     <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_OnDrop" />
                 </customControls:AttributeExperienceItem.GestureRecognizers>
             </customControls:AttributeExperienceItem>
 
             <customControls:AttributeExperienceItem x:Name="Wahrnehmung" Grid.Row="2" Grid.Column="5"
-                                                    BindingContext="{Binding WahrnehmungAttribute}">
+               BindingContext="{Binding WahrnehmungAttribute}">
                 <customControls:AttributeExperienceItem.GestureRecognizers>
                     <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_OnDrop" />
                 </customControls:AttributeExperienceItem.GestureRecognizers>
             </customControls:AttributeExperienceItem>
 
             <customControls:AttributeExperienceItem x:Name="Willenskraft" Grid.Row="2" Grid.Column="6"
-                                                    BindingContext="{Binding WillenskraftAttribute}">
+               BindingContext="{Binding WillenskraftAttribute}">
                 <customControls:AttributeExperienceItem.GestureRecognizers>
                     <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_OnDrop" />
                 </customControls:AttributeExperienceItem.GestureRecognizers>

@@ -18,7 +18,7 @@ namespace ImagoApp.Views.CustomControls
         public AttributeExperienceDialogView()
         {
             InitializeComponent();
-            ResetDropHighlight();
+            ResetDropHighlight(true);
         }
 
         public static readonly BindableProperty CharacterViewModelProperty = BindableProperty.Create(
@@ -95,30 +95,33 @@ namespace ImagoApp.Views.CustomControls
             }
         }
 
-        private void ResetDropHighlight()
+        private void ResetDropHighlight(bool? visibleOverride = null)
         {
-            SetDropGestureRecognizerAllow(Charisma, false);
-            SetDropGestureRecognizerAllow(Wahrnehmung, false);
-            SetDropGestureRecognizerAllow(Staerke, false);
-            SetDropGestureRecognizerAllow(Willenskraft, false);
-            SetDropGestureRecognizerAllow(Konstitution, false);
-            SetDropGestureRecognizerAllow(Intelligenz, false);
-            SetDropGestureRecognizerAllow(Geschicklichkeit, false);
+            SetDropGestureRecognizerAllow(Charisma, false, visibleOverride);
+            SetDropGestureRecognizerAllow(Wahrnehmung, false, visibleOverride);
+            SetDropGestureRecognizerAllow(Staerke, false, visibleOverride);
+            SetDropGestureRecognizerAllow(Willenskraft, false, visibleOverride);
+            SetDropGestureRecognizerAllow(Konstitution, false, visibleOverride);
+            SetDropGestureRecognizerAllow(Intelligenz, false, visibleOverride);
+            SetDropGestureRecognizerAllow(Geschicklichkeit, false, visibleOverride);
         }
 
-        private void SetDropGestureRecognizerAllow(AttributeExperienceItem view, bool allowValue)
+        private void SetDropGestureRecognizerAllow(AttributeExperienceItem view, bool allowValue, bool? visibleOverride = null)
         {
-            var rec = (DropGestureRecognizer)view.GestureRecognizers.First(_ => _.GetType() == typeof(DropGestureRecognizer));
-            rec.AllowDrop = allowValue;
-
-            if (allowValue)
+            if (visibleOverride == null)
             {
-                view.BackgroundColor = (Color) Xamarin.Forms.Application.Current.Resources["HellGruenesUmbra2"];
+                //apply normal value
+                view.IsVisible = allowValue;
             }
             else
             {
-                view.BackgroundColor = (Color)Xamarin.Forms.Application.Current.Resources["AntiUmbra3"];
+                view.IsVisible = visibleOverride.Value;
             }
+
+            if (allowValue)
+                view.BackgroundColor = (Color)Xamarin.Forms.Application.Current.Resources["HellGruenesUmbra2"];
+            else
+                view.BackgroundColor = (Color)Xamarin.Forms.Application.Current.Resources["AntiUmbra3"];
         }
 
         private void DropGestureRecognizer_OnDrop(object sender, DropEventArgs e)
@@ -137,7 +140,7 @@ namespace ImagoApp.Views.CustomControls
                 //force recalc
                 targetAttributeModel.TotalExperience = targetAttributeModel.TotalExperience;
                 
-                ResetDropHighlight();
+                ResetDropHighlight(true);
 
                 //check if all are done
                 if (!CharacterViewModel.CharacterModel.OpenAttributeIncreases.Any())
@@ -153,9 +156,8 @@ namespace ImagoApp.Views.CustomControls
 
         private void DragGestureRecognizer_OnDropCompleted(object sender, DropCompletedEventArgs e)
         {
-            return;
             //drop has been cancelled
-            ResetDropHighlight();
+            ResetDropHighlight(true);
         }
     }
 }

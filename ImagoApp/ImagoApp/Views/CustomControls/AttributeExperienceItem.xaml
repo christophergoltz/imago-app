@@ -1,28 +1,26 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application"
-             x:Class="ImagoApp.Views.CustomControls.AttributeExperienceItem" 
-             x:DataType="models:AttributeModel"
-             x:Name="AttributeExperienceItemControl">
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView x:Class="ImagoApp.Views.CustomControls.AttributeExperienceItem" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+   xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application" x:Name="AttributeExperienceItemControl" x:DataType="models:AttributeModel">
     <ContentView.Content>
         <Frame>
             <StackLayout>
-                <Label Margin="10" 
-                       Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}" 
-                       FontSize="{DynamicResource FontSizeTitle}" VerticalOptions="Center" 
-                       HorizontalOptions="Center" FontAttributes="Bold"></Label>
+                <Label Margin="10" FontAttributes="Bold"
+                   FontSize="{DynamicResource FontSizeTitle}"
+                   HorizontalOptions="Center"
+                   Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"
+                   VerticalOptions="Center" />
 
-                <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center" >
-                    <Label  FontSize="{DynamicResource FontSizeContent}"  Text="SW: "></Label>
-                    <Label  FontSize="{DynamicResource FontSizeContent}"  Text="{Binding IncreaseValue}"></Label>
+                <StackLayout HorizontalOptions="Center" Orientation="Horizontal" VerticalOptions="Center">
+                    <Label FontSize="{DynamicResource FontSizeContent}" Text="SW: " />
+                    <Label FontSize="{DynamicResource FontSizeContent}" Text="{Binding IncreaseValue}" />
                 </StackLayout>
 
-                <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,0,0,20">
-                    <Label  FontSize="{DynamicResource FontSizeContent}"  Text="EP: "></Label>
-                    <Label  FontSize="{DynamicResource FontSizeContent}"  Text="{Binding ExperienceValue}"></Label>
-                    <Label  FontSize="{DynamicResource FontSizeContent}"  Text="/"></Label>
-                    <Label  FontSize="{DynamicResource FontSizeContent}"  Text="{Binding ExperienceForNextIncreasedRequired}"></Label>
+                <StackLayout Margin="0,0,0,20" HorizontalOptions="Center" Orientation="Horizontal"
+                   VerticalOptions="Center">
+                    <Label FontSize="{DynamicResource FontSizeContent}" Text="EP: " />
+                    <Label FontSize="{DynamicResource FontSizeContent}" Text="{Binding ExperienceValue}" />
+                    <Label FontSize="{DynamicResource FontSizeContent}" Text="/" />
+                    <Label FontSize="{DynamicResource FontSizeContent}" Text="{Binding ExperienceForNextIncreasedRequired}" />
                 </StackLayout>
             </StackLayout>
         </Frame>

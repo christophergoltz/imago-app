@@ -5,7 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ImagoApp.Infrastructure.Entities;
+using ImagoApp.Shared;
 using LiteDB;
+using Newtonsoft.Json;
 
 namespace ImagoApp.Infrastructure.Repositories
 {
@@ -17,6 +19,8 @@ namespace ImagoApp.Infrastructure.Repositories
         CharacterEntity GetItem(Guid id);
         List<CharacterEntity> GetAllItems();
         FileInfo GetDatabaseInfo();
+        List<CharacterItem> GetAllItemsQuick();
+        string GetCharacterJson(Guid guid);
     }
 
     public class CharacterRepository : ICharacterRepository
@@ -45,6 +49,16 @@ namespace ImagoApp.Infrastructure.Repositories
                 collection.Insert(item);
 
                 return true;
+            }
+        }
+
+        public string GetCharacterJson(Guid guid)
+        {
+            using (var db = new LiteDatabase(_connectionString))
+            {
+                var collection = db.GetCollection<CharacterEntity>(CollectionName);
+                var item = collection.FindById(guid);
+                return JsonConvert.SerializeObject(item);
             }
         }
 
@@ -83,6 +97,22 @@ namespace ImagoApp.Infrastructure.Repositories
             {
                 var collection = db.GetCollection<CharacterEntity>(CollectionName);
                 return collection.FindAll().ToList();
+            }
+        }
+
+        public List<CharacterItem> GetAllItemsQuick()
+        {
+            using (var db = new LiteDatabase(_connectionString))
+            {
+                var collection = db.GetCollection<CharacterEntity>(CollectionName);
+                var res = collection.FindAll().Select(entity => new CharacterItem()
+                {
+                    Guid = entity.Guid,
+                    Name = entity.Name,
+                    LastEdit = entity.LastEdit,
+                    Version = entity.Version
+                }).ToList();
+                return res;
             }
         }
 

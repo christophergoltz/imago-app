@@ -1,9 +1,8 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ImagoApp.Views.CustomControls.SkillListHeaderView" x:Name="SkillListHeaderViewControl">
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView x:Class="ImagoApp.Views.CustomControls.SkillListHeaderView" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+   x:Name="SkillListHeaderViewControl">
     <ContentView.Content>
-        <Grid  BindingContext="{Binding SkillGroup, Source={x:Reference SkillListHeaderViewControl}}">
+        <Grid BindingContext="{Binding SkillGroup, Source={x:Reference SkillListHeaderViewControl}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="300" />
                 <ColumnDefinition Width="300" />
@@ -13,15 +12,25 @@
                 <ColumnDefinition Width="50" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="1"></RowDefinition>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="1" />
             </Grid.RowDefinitions>
-            <Label Grid.Column="0" Grid.Row="0" FontSize="{DynamicResource FontSizeSmallContent}" FontAttributes="Bold"  Margin="5,0,0,0" 
-                 Text="{Binding Type, Converter={StaticResource SkillGroupTypeToAttributeSourceStringConverter}}"/>
-            <Label Grid.Row="0" Grid.Column="1" FontSize="{DynamicResource FontSizeSmallContent}" FontAttributes="Bold" Text="EP"/>
-            <Label Grid.Row="0" Grid.Column="2" FontSize="{DynamicResource FontSizeSmallContent}" FontAttributes="Bold" Text="SW" />
-            <Label Grid.Row="0" Grid.Column="3" FontSize="{DynamicResource FontSizeSmallContent}" FontAttributes="Bold" Text="EP"/>
-            <Label Grid.Row="0" Grid.Column="4" FontSize="{DynamicResource FontSizeSmallContent}" FontAttributes="Bold" Text="FW" />
+            <Label Grid.Row="0" Grid.Column="0" Margin="5,0,0,0"
+               FontAttributes="Bold"
+               FontSize="{DynamicResource FontSizeSmallContent}"
+               Text="{Binding Type, Converter={StaticResource SkillGroupTypeToAttributeSourceStringConverter}}" />
+            <Label Grid.Row="0" Grid.Column="1" FontAttributes="Bold"
+               FontSize="{DynamicResource FontSizeSmallContent}"
+               Text="EP" />
+            <Label Grid.Row="0" Grid.Column="2" FontAttributes="Bold"
+               FontSize="{DynamicResource FontSizeSmallContent}"
+               Text="SW" />
+            <Label Grid.Row="0" Grid.Column="3" FontAttributes="Bold"
+               FontSize="{DynamicResource FontSizeSmallContent}"
+               Text="EP" />
+            <Label Grid.Row="0" Grid.Column="4" FontAttributes="Bold"
+               FontSize="{DynamicResource FontSizeSmallContent}"
+               Text="FW" />
         </Grid>
     </ContentView.Content>
 </ContentView>

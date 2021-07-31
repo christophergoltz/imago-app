@@ -54,15 +54,13 @@ namespace ImagoApp.ViewModels
             }
         }));
         
-        private int _totalAttributeExperience;
         private bool _isAttributeExperienceDialogOpen;
-
         public int TotalAttributeExperience
         {
-            get => _totalAttributeExperience;
+            get => CharacterViewModel.CharacterModel.CharacterCreationAttributePoints;
             set
             {
-                SetProperty(ref _totalAttributeExperience, value);
+                CharacterViewModel.CharacterModel.CharacterCreationAttributePoints = value;
                 OnPropertyChanged(nameof(AttributeExperienceBalance));
             }
         }
@@ -71,7 +69,6 @@ namespace ImagoApp.ViewModels
 
         public CharacterInfoPageViewModel(CharacterViewModel characterViewModel)
         {
-             TotalAttributeExperience = 940;
             Title = characterViewModel.CharacterModel.Name;
             CharacterViewModel = characterViewModel;
 

@@ -8,6 +8,7 @@ using AutoMapper;
 using ImagoApp.Application.Models;
 using ImagoApp.Infrastructure.Entities;
 using ImagoApp.Infrastructure.Repositories;
+using ImagoApp.Shared;
 
 namespace ImagoApp.Application.Services
 {
@@ -17,6 +18,11 @@ namespace ImagoApp.Application.Services
         bool SaveCharacter(CharacterModel characterModel);
         bool AddCharacter(CharacterModel characterModel);
         FileInfo GetDatabaseInfo();
+        List<CharacterItem> GetAllQuick();
+        CharacterModel GetItem(Guid id);
+        bool Delete(Guid guid);
+        string GetCharacterJson(Guid id);
+        bool ImportCharacter(CharacterEntity characterEntity);
     }
 
     public class CharacterService : ICharacterService
@@ -30,10 +36,31 @@ namespace ImagoApp.Application.Services
             _mapper = mapper;
         }
 
+        public bool Delete(Guid guid)
+        {
+            return _characterRepository.DeleteItem(guid);
+        }
+
         public List<CharacterModel> GetAll()
         {
             var entities = _characterRepository.GetAllItems();
             return _mapper.Map<List<CharacterModel>>(entities);
+        }
+
+        public CharacterModel GetItem(Guid id)
+        {
+            var characterEntity = _characterRepository.GetItem(id);
+            return _mapper.Map<CharacterModel>(characterEntity);
+        }
+
+        public string GetCharacterJson(Guid id)
+        {
+            return _characterRepository.GetCharacterJson(id);
+        }
+
+        public List<CharacterItem> GetAllQuick()
+        {
+            return _characterRepository.GetAllItemsQuick();
         }
 
         public bool SaveCharacter(CharacterModel characterModel)
@@ -45,22 +72,17 @@ namespace ImagoApp.Application.Services
             return result;
         }
 
-        public bool AddCharacter(CharacterModel characterModel)
+        public bool ImportCharacter(CharacterEntity characterEntity)
         {
-            try
-            {
-                var entity = _mapper.Map<CharacterEntity>(characterModel);
-                var result = _characterRepository.InsertItem(entity);
-                return result;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-
-            return false;
+           return _characterRepository.InsertItem(characterEntity);
         }
 
+        public bool AddCharacter(CharacterModel characterModel)
+        {
+            var entity = _mapper.Map<CharacterEntity>(characterModel);
+            var result = _characterRepository.InsertItem(entity);
+            return result;
+        }
         public FileInfo GetDatabaseInfo()
         {
             return _characterRepository.GetDatabaseInfo();

@@ -1,4 +1,7 @@
-Die Roadmap kann [hier](https://github.com/christophergoltz/imago-app/blob/develop/ROADMAP.md) gefunden werden
+## [Roadmap](https://github.com/christophergoltz/imago-app/blob/develop/ROADMAP.md)
+## [Bekannte Fehler](https://github.com/christophergoltz/imago-app/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
+
+<br/>
 
 # Version 0.1.2 - [tba]
 ## Hinzugefügt
@@ -8,14 +11,24 @@ Die Roadmap kann [hier](https://github.com/christophergoltz/imago-app/blob/devel
 - Durch das erste Starten einer neuen Version wird eine Hinweismeldung mit link zum Changelog angezeigt
 - Bekannte Sprachen können nun in der Detailansicht der Fertigkeit "Sprachen" gepflegt werden
 - Schriftgröße kann auf der Startseite angepasst werden
+- SpezialEP für Attribute (Kann im Bearbeitungsmodus angepasst werden)
+- Bei der Erschaffung wird erstmalig ein zufälliger Name vorgeschlagen
+- Vor der Erschaffung wird nach den Erfahrungspunkten für Attribute und Fertigkeiten gefragt
+- Charaktere können nun auf der Startseite exportiert, importiert und gelöscht werden
 
-##Verbessert
+## Verbessert
 - Die App wird nun im Vollbildschirm gestartet (Bei älteren Windows 10 Versionen kann es sein, dass das nicht sofort beim ersten Start funktioniert)
 - Im Bearbeitungsmodus werden die EP aus Fertigkeitskategorien nicht mehr Grün hervorgehoben
 - Die Detailansicht einer Fertigkeit wurde angepasst, sodass auch lange Fertigkeiten wie "Körperbeherrschung" richtig dargestellt werden
+- Die Ansicht innerhalb der Fertigkeitensseite wurde angepasst
+- Die Ladezeit der Charaktere beim Starten wurde verbessert
 
 ## Behoben
 - Die Navigation innerhalb der Fertigkeitsseite bei der Charaktererschaffung mit [Tab] wird nun in der richtigen Reihenfolge (Oben nach unten, links nach rechts) durchgeführt
+- Die Aktuellen Lebenspunkte verändern sich passend zu dem Max-Hp
+
+## Entfernt
+- Das Imago-Logo wurde aus dem Charakterbogen entfernt
 
 # Version 0.1.1 - 20.07.2021
 ## Hinzugefügt

@@ -13,25 +13,43 @@ namespace ImagoApp.Application.Models
         private ObservableCollection<ArmorPartModelModel> _armor;
         private BodyPartType _type;
 
-        public BodyPartModel(BodyPartType type, int currentHitpoints, ObservableCollection<ArmorPartModelModel> armor)
+        public BodyPartModel(BodyPartType type, ObservableCollection<ArmorPartModelModel> armor)
         {
             Type = type;
-            CurrentHitpoints = currentHitpoints;
             Armor = armor;
         }
 
         public int MaxHitpoints
         {
             get => _maxHitpoints;
-            set => SetProperty(ref _maxHitpoints, value);
+            set
+            {
+                var diff = value - _maxHitpoints;
+                SetProperty(ref _maxHitpoints, value);
+                if (diff != 0)
+                {
+                    CurrentHitpoints += diff;
+                }
+            }
         }
 
         public int CurrentHitpoints
         {
             get => _currentHitpoints;
-            set => SetProperty(ref _currentHitpoints, value);
+            set
+            {
+                if (value > MaxHitpoints)
+                {
+                    //set to cap
+                    SetProperty(ref _currentHitpoints, _maxHitpoints);
+                }
+                else
+                {
+                    SetProperty(ref _currentHitpoints, value);
+                }
+            }
         }
-        
+
         public ObservableCollection<ArmorPartModelModel> Armor
         {
             get => _armor;
