@@ -324,7 +324,7 @@ namespace ImagoApp.ViewModels
 
         private void LoadWikiPage()
         {
-            var html = _wikiService.GetTalentHtml(SkillModel.Type);
+            var html = _wikiService.GetTalentHtml(SkillModel.Type, _parent.Type);
             var url = _wikiService.GetWikiUrl(SkillModel.Type);
             QuickWikiView = new HtmlWebViewSource()
             {
