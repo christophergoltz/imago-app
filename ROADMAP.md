@@ -10,11 +10,15 @@
 - Einfachste Webkünste
 - Rassenunterstützung
 
+<br/>
+
 # Version 0.3
 - Heilung
 - Webkünste von Formen
 
-# Version X
+<br/>
+
+# Zukunftsmusik
 - Webformen inkl. Künste
 - Vor- und Nachteile
 - Waffenformen
