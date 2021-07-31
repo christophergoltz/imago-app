@@ -1,5 +1,4 @@
-### [Roadmap](https://github.com/christophergoltz/imago-app/blob/develop/ROADMAP.md)
-### [Bekannte Fehler](https://github.com/christophergoltz/imago-app/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
+### [Roadmap](https://github.com/christophergoltz/imago-app/blob/develop/ROADMAP.md) | [Bekannte Fehler](https://github.com/christophergoltz/imago-app/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
 
 ---
 ## 0.1.2 (tba)
