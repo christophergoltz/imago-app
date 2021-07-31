@@ -20,14 +20,15 @@ namespace ImagoApp.Application.Services
     public class IncreaseCalculationService : IIncreaseCalculationService
     {
         private static readonly int[] ExperienceLookup = { 2, 3, 5, 8, 12, 17, 23, 30, 38, 47 };
-       
+
         public enum IncreaseType
         {
+            Unknown = 0,
             Attribute,
             SkillGroup,
             Skill
         }
-        
+
         /// <summary>
         /// Recalculates the increase infos
         /// </summary>
@@ -36,13 +37,24 @@ namespace ImagoApp.Application.Services
         public int RecalculateIncreaseInfo(IncreasableBaseModel increasableBase)
         {
             var totalExperience = increasableBase.ExperienceValue;
+            var increaseType = IncreaseType.Unknown;
 
             if (increasableBase is AttributeModel attributeModel)
+            {
                 totalExperience += attributeModel.CreationExperience + attributeModel.ExperienceBySkillGroup;
+                increaseType = IncreaseType.Attribute;
+            }
             if (increasableBase is SkillModel skillModel)
+            {
                 totalExperience += skillModel.CreationExperience;
+                increaseType = IncreaseType.Skill;
+            }
+            if (increasableBase is SkillGroupModel)
+            {
+                increaseType = IncreaseType.SkillGroup;
+            }
 
-            var info = GetIncreaseInfo(IncreaseType.Attribute, totalExperience);
+            var info = GetIncreaseInfo(increaseType, totalExperience);
 
             var oldIncreaseValue = increasableBase.IncreaseValue;
             increasableBase.IncreaseValue = info.IncreaseLevel;
@@ -51,7 +63,7 @@ namespace ImagoApp.Application.Services
 
             return info.IncreaseLevel - oldIncreaseValue;
         }
-        
+
         private static int GetExperienceRequiredForNextIncrease(IncreaseType increaseType, int increaseValue)
         {
             var index = 0;
@@ -76,6 +88,8 @@ namespace ImagoApp.Application.Services
                         index = (int)Math.Floor(indexPart);
                         break;
                     }
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(increaseType));
             }
 
             if (index < 0)
