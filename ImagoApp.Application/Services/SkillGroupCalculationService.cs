@@ -45,7 +45,7 @@ namespace ImagoApp.Application.Services
         public bool RecalculateFinalValue(SkillGroupModel skillgroup)
         {
             var oldFinalValue = skillgroup.FinalValue;
-            skillgroup.FinalValue = skillgroup.BaseValue + skillgroup.IncreaseValue + skillgroup.ModificationValue;
+            skillgroup.FinalValue = skillgroup.BaseValue + skillgroup.IncreaseValueCache + skillgroup.ModificationValue;
 
             var finalValueChanged = oldFinalValue != skillgroup.FinalValue;
             if (finalValueChanged)

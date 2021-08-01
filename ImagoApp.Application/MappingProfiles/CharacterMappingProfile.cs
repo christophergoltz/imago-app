@@ -29,9 +29,9 @@ namespace ImagoApp.Application.MappingProfiles
 
             CreateMap<IncreasableBaseEntity, IncreasableBaseModel>()
                 .IncludeAllDerived()
-                .ForMember(e => e.ExperienceForNextIncreasedRequired, opt => opt.Ignore())
-                .ForMember(e => e.IncreaseValue, opt => opt.Ignore())
-                .ForMember(e => e.LeftoverExperience, opt => opt.Ignore());
+                .ForMember(e => e.ExperienceForNextIncreasedRequiredCache, opt => opt.Ignore())
+                .ForMember(e => e.IncreaseValueCache, opt => opt.Ignore())
+                .ForMember(e => e.LeftoverExperienceCache, opt => opt.Ignore());
 
             CreateMap<CalculableBaseEntity, CalculableBaseModel>()
                 .IncludeAllDerived()

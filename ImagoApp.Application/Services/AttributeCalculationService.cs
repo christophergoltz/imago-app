@@ -105,7 +105,7 @@ namespace ImagoApp.Application.Services
         private bool RecalculateFinalValue(AttributeModel target, List<AttributeModel> attributes, List<SkillGroupModel> skillGroups)
         {
             var oldFinalValue = target.FinalValue;
-            target.FinalValue = target.BaseValue + target.IncreaseValue + target.ModificationValue - target.Corrosion;
+            target.FinalValue = target.BaseValue + target.IncreaseValueCache + target.ModificationValue - target.Corrosion;
 
             var finalValueChanged = oldFinalValue != target.FinalValue;
             if (finalValueChanged)

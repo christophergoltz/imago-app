@@ -255,7 +255,7 @@
                    FontSize="{DynamicResource FontSizeBigContent}"
                    Text="SW: " VerticalOptions="Center" />
                 <Label FontSize="{DynamicResource FontSizeBigContent}"
-                   Text="{Binding SkillModel.IncreaseValue}"
+                   Text="{Binding SkillModel.IncreaseValueCache}"
                    VerticalOptions="Center" />
             </StackLayout>
 
@@ -267,8 +267,8 @@
                 <Label FontSize="{DynamicResource FontSizeBigContent}" VerticalOptions="Center">
                     <Label.Text>
                         <MultiBinding StringFormat="{}{0}/{1}">
-                            <Binding Path="SkillModel.ExperienceValue" />
-                            <Binding Path="SkillModel.ExperienceForNextIncreasedRequired" />
+                            <Binding Path="SkillModel.LeftoverExperienceCache" />
+                            <Binding Path="SkillModel.ExperienceForNextIncreasedRequiredCache" />
                         </MultiBinding>
                     </Label.Text>
                 </Label>

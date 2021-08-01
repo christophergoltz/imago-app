@@ -21,7 +21,7 @@
 
             <StackLayout Grid.Column="2" Orientation="Horizontal">
                 <Label FontAttributes="Bold" Text="SW: " />
-                <Label Text="{Binding IncreaseValue}" />
+                <Label Text="{Binding IncreaseValueCache}" />
             </StackLayout>
 
             <StackLayout Grid.Column="3" Orientation="Horizontal">
@@ -29,8 +29,8 @@
                 <Label>
                     <Label.Text>
                         <MultiBinding StringFormat="{}{0}/{1}">
-                            <Binding Path="ExperienceValue" Source="{RelativeSource AncestorType={x:Type models:SkillGroupModel}}" />
-                            <Binding Path="ExperienceForNextIncreasedRequired" Source="{RelativeSource AncestorType={x:Type models:SkillGroupModel}}" />
+                            <Binding Path="LeftoverExperienceCache" Source="{RelativeSource AncestorType={x:Type models:SkillGroupModel}}" />
+                            <Binding Path="ExperienceForNextIncreasedRequiredCache" Source="{RelativeSource AncestorType={x:Type models:SkillGroupModel}}" />
                         </MultiBinding>
                     </Label.Text>
                 </Label>

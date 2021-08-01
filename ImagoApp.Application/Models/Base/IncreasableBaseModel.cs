@@ -6,35 +6,32 @@ namespace ImagoApp.Application.Models.Base
     public abstract class IncreasableBaseModel : ModifiableBaseModel
     {
         private int _experienceValue;
-        private int _increaseValue;
-        private int _experienceForNextIncreasedRequired;
-        private int _leftoverExperience;
+        private int _increaseValueCache;
+        private int _experienceForNextIncreasedRequiredCache;
+        private int _leftoverExperienceCache;
 
         public int ExperienceValue
         {
             get => _experienceValue;
             set => SetProperty(ref _experienceValue, value);
         }
-
-        //todo rename to cache
-        public int IncreaseValue
+        
+        public int IncreaseValueCache
         {
-            get => _increaseValue;
-            set => SetProperty(ref _increaseValue, value);
+            get => _increaseValueCache;
+            set => SetProperty(ref _increaseValueCache, value);
         }
-
-        //todo rename to cache
-        public int ExperienceForNextIncreasedRequired
+        
+        public int ExperienceForNextIncreasedRequiredCache
         {
-            get => _experienceForNextIncreasedRequired;
-            set => SetProperty(ref _experienceForNextIncreasedRequired , value);
+            get => _experienceForNextIncreasedRequiredCache;
+            set => SetProperty(ref _experienceForNextIncreasedRequiredCache , value);
         }
-
-        //todo rename to cache
-        public int LeftoverExperience
+        
+        public int LeftoverExperienceCache
         {
-            get => _leftoverExperience;
-            set => SetProperty(ref _leftoverExperience , value);
+            get => _leftoverExperienceCache;
+            set => SetProperty(ref _leftoverExperienceCache , value);
         }
     }
 }

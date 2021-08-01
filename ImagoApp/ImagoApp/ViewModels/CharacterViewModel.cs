@@ -161,7 +161,7 @@ namespace ImagoApp.ViewModels
             {
                 var skill = CharacterModel.SkillGroups.SelectMany(pair => pair.Skills)
                     .First(_ => _.Type == requirement.Type);
-                if (skill.IncreaseValue < requirement.Value)
+                if (skill.IncreaseValueCache < requirement.Value)
                 {
                     return false;
                 }
@@ -175,7 +175,7 @@ namespace ImagoApp.ViewModels
             foreach (var requirement in requirements)
             {
                 var skillGroup = CharacterModel.SkillGroups.First(_ => _.Type == requirement.Type);
-                if (skillGroup.IncreaseValue < requirement.Value)
+                if (skillGroup.IncreaseValueCache < requirement.Value)
                 {
                     return false;
                 }
@@ -191,10 +191,7 @@ namespace ImagoApp.ViewModels
             var skillChange = _skillCalculationService.SetCreationExperience(target, experience);
             if (skillChange.IncreaseValueChange != 0)
             {
-                //add exp to skillgroup
-                var skillGroupChange = _skillGroupCalculationService.AddExperience(parent, skillChange.IncreaseValueChange);
-
-                AddExperienceToSkillGroup(parent, skillGroupChange.IncreaseValueChange);
+                AddExperienceToSkillGroup(parent, skillChange.IncreaseValueChange);
             }
         }
 

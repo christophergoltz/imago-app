@@ -38,8 +38,8 @@ namespace ImagoApp.Tests.Services
             };
             
             _skillGroupCalculationService.AddExperience(skillGroup, experienceToAdd);
-            Assert.Equal(expectedIncreaseValue, skillGroup.IncreaseValue);
-            Assert.Equal(expectedExperienceLeftover, skillGroup.LeftoverExperience);
+            Assert.Equal(expectedIncreaseValue, skillGroup.IncreaseValueCache);
+            Assert.Equal(expectedExperienceLeftover, skillGroup.LeftoverExperienceCache);
         }
     }
 }

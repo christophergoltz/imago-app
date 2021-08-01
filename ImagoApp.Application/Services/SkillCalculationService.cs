@@ -25,7 +25,7 @@ namespace ImagoApp.Application.Services
         public bool RecalculateFinalValue(SkillModel skillModel)
         {
             var oldFinalValue = skillModel.FinalValue;
-            skillModel.FinalValue = skillModel.BaseValue + skillModel.IncreaseValue + skillModel.ModificationValue;
+            skillModel.FinalValue = skillModel.BaseValue + skillModel.IncreaseValueCache + skillModel.ModificationValue;
 
             return oldFinalValue != skillModel.FinalValue;
 

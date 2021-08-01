@@ -56,10 +56,10 @@ namespace ImagoApp.Application.Services
 
             var info = GetIncreaseInfo(increaseType, totalExperience);
 
-            var oldIncreaseValue = increasableBase.IncreaseValue;
-            increasableBase.IncreaseValue = info.IncreaseLevel;
-            increasableBase.ExperienceForNextIncreasedRequired = info.ExperienceForNextIncrease;
-            increasableBase.LeftoverExperience = info.LeftoverExperience;
+            var oldIncreaseValue = increasableBase.IncreaseValueCache;
+            increasableBase.IncreaseValueCache = info.IncreaseLevel;
+            increasableBase.ExperienceForNextIncreasedRequiredCache = info.ExperienceForNextIncrease;
+            increasableBase.LeftoverExperienceCache = info.LeftoverExperience;
 
             return info.IncreaseLevel - oldIncreaseValue;
         }

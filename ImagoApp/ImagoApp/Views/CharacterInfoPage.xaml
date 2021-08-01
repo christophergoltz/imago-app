@@ -29,15 +29,15 @@
                     <Label Grid.Column="2"
                        FontSize="{DynamicResource FontSizeContent}"
                        HorizontalOptions="Center"
-                       Text="{Binding AttributeModel.IncreaseValue}"
+                       Text="{Binding AttributeModel.IncreaseValueCache}"
                        VerticalOptions="Center" />
                     <Label Grid.Column="3"
                        FontSize="{DynamicResource FontSizeContent}"
                        HorizontalOptions="Center" VerticalOptions="Center">
                         <Label.Text>
                             <MultiBinding StringFormat="{}{0}/{1}">
-                                <Binding Path="AttributeModel.LeftoverExperience" Source="{RelativeSource AncestorType={x:Type viewModels:AttributeViewModel}}" />
-                                <Binding Path="AttributeModel.ExperienceForNextIncreasedRequired" Source="{RelativeSource AncestorType={x:Type viewModels:AttributeViewModel}}" />
+                                <Binding Path="AttributeModel.LeftoverExperienceCache" Source="{RelativeSource AncestorType={x:Type viewModels:AttributeViewModel}}" />
+                                <Binding Path="AttributeModel.ExperienceForNextIncreasedRequiredCache" Source="{RelativeSource AncestorType={x:Type viewModels:AttributeViewModel}}" />
                             </MultiBinding>
                         </Label.Text>
                     </Label>
@@ -96,15 +96,15 @@
                     <Label Grid.Column="4"
                        FontSize="{DynamicResource FontSizeContent}"
                        HorizontalOptions="Center"
-                       Text="{Binding AttributeModel.IncreaseValue}"
+                       Text="{Binding AttributeModel.IncreaseValueCache}"
                        VerticalOptions="Center" />
                     <Label Grid.Column="5"
                        FontSize="{DynamicResource FontSizeContent}"
                        HorizontalOptions="Center" VerticalOptions="Center">
                         <Label.Text>
                             <MultiBinding StringFormat="{}{0}/{1}">
-                                <Binding Path="AttributeModel.LeftoverExperience" Source="{RelativeSource AncestorType={x:Type viewModels:AttributeViewModel}}" />
-                                <Binding Path="AttributeModel.ExperienceForNextIncreasedRequired" Source="{RelativeSource AncestorType={x:Type viewModels:AttributeViewModel}}" />
+                                <Binding Path="AttributeModel.LeftoverExperienceCache" Source="{RelativeSource AncestorType={x:Type viewModels:AttributeViewModel}}" />
+                                <Binding Path="AttributeModel.ExperienceForNextIncreasedRequiredCache" Source="{RelativeSource AncestorType={x:Type viewModels:AttributeViewModel}}" />
                             </MultiBinding>
                         </Label.Text>
                     </Label>

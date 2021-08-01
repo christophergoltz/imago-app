@@ -52,8 +52,8 @@ namespace ImagoApp.Tests.Services
             var skillGroups = new List<SkillGroupModel>() {skillGroup};
 
             _attributeCalculationService.AddSkillGroupExperience(attribute, experienceToAdd, attributes, skillGroups);
-            Assert.Equal(expectedIncreaseValue, attribute.IncreaseValue);
-            Assert.Equal(expectedExperienceLeftover, attribute.LeftoverExperience);
+            Assert.Equal(expectedIncreaseValue, attribute.IncreaseValueCache);
+            Assert.Equal(expectedExperienceLeftover, attribute.LeftoverExperienceCache);
         }
     }
 }
