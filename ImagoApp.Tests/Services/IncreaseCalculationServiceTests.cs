@@ -15,7 +15,6 @@ namespace ImagoApp.Tests.Services
         {
             _characterCreationService = characterCreationService;
         }
-
-       
+        
     }
 }
