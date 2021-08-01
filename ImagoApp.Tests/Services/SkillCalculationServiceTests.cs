@@ -33,7 +33,7 @@ namespace ImagoApp.Tests.Services
         [InlineData(432, 18, 75, 0)]
         [InlineData(432, 22, 75, 4)]
         [InlineData(432, 38, 76, 3)]
-        public void AddExperienceToSkill_IncreaseSuccessfull(int creationEp, int experienceToAdd, int expectedIncreaseValue, int expectedExperienceLeftover)
+        public void AddExperienceToSkill_IncreaseSuccessful(int creationEp, int experienceToAdd, int expectedIncreaseValue, int expectedExperienceLeftover)
         {
             var skill = new SkillModel(SkillModelType.Anatomie)
             {
