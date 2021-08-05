@@ -24,7 +24,7 @@ namespace ImagoApp
             BindingContext = AppShellViewModel = appShellViewModel;
             InitializeComponent();
         }
-        
+
         private void AppShell_OnAppearing(object sender, EventArgs e)
         {
             Device.BeginInvokeOnMainThread(() =>
@@ -57,7 +57,7 @@ namespace ImagoApp
                             if (!saveResult)
                             {
                                 UserDialogs.Instance.Alert($"{Environment.NewLine}Der Charakter konnte aus einem unbekannten Grund nicht gespeichert werden." +
-                                                           $"{Environment.NewLine}{Environment.NewLine}Möglicherweise kann ein neustarten der App das Problem lösen.", 
+                                                           $"{Environment.NewLine}{Environment.NewLine}Möglicherweise kann ein neustarten der App das Problem lösen.",
                                     "Fehler, der Charakter konnte nicht gespeichert werden",
                                     "OK");
                             }
@@ -81,6 +81,11 @@ namespace ImagoApp
                                 oldItem.IsSelected = false;
                             }
                         });
+
+                        if (flyoutPageItem.NavigationPage.CurrentPage is WeaveTalentPage weaveTalentPage)
+                        {
+                            await weaveTalentPage.ViewModel.InitializeWeaveTalentList();
+                        }
                     });
                 }
             }

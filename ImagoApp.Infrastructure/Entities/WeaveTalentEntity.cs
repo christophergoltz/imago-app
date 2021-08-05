@@ -5,7 +5,7 @@ using ImagoApp.Shared.Enums;
 
 namespace ImagoApp.Infrastructure.Entities
 {
-    public class WeaveTalentEntity
+    public class WeaveTalentEntity : TalentBaseEntity
     {
         public SkillModelType TargetSkillModel { get; set; }
         

@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="ImagoApp.Views.WeaveTalentPage" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+   xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application" xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp" x:DataType="viewModels:WeaveTalentPageViewModel">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Frame Grid.Column="0">
+                <Grid Style="{StaticResource SingleGradiantStyle}">
+                    <ListView IsGroupingEnabled="true"
+                       ItemsSource="{Binding WeaveTalents}"
+                       SelectionMode="None">
+                        <ListView.GroupHeaderTemplate>
+                            <DataTemplate x:DataType="viewModels:WeaveTalentList">
+                                <ViewCell>
+                                    <Grid Margin="20">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" FontAttributes="Bold"
+                                           FontSize="{DynamicResource FontSizeHeader}"
+                                           Text="{Binding Skill}" />
+                                        <Label Grid.Column="1" FontAttributes="Bold"
+                                           FontSize="{DynamicResource FontSizeHeader}"
+                                           Text="FW: " />
+                                        <Label Grid.Column="2" FontAttributes="Bold"
+                                           FontSize="{DynamicResource FontSizeHeader}"
+                                           Text="{Binding Skill.FinalValue}" />
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.GroupHeaderTemplate>
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="models:WeaveTalentModel">
+                                <ViewCell>
+                                    <Grid Margin="10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="40*" />
+                                            <ColumnDefinition Width="60*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0"
+                                           FontSize="{DynamicResource FontSizeBigContent}"
+                                           Text="{Binding Name}" />
+                                        <Label Grid.Column="1"
+                                           FontSize="{DynamicResource FontSizeBigContent}"
+                                           Text="{Binding ShortDescription}"
+                                           TextColor="{StaticResource AntiUmbra1}" />
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </Frame>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

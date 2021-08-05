@@ -253,17 +253,17 @@ namespace ImagoApp.ViewModels
                         await Task.Delay(50);
 
                         var weaponCount = _wikiParseService.RefreshWeaponsFromWiki(logger);
-                        progressDialog.Title = parseDialogTitlePrefix + "Talente werden geladen";
+                        progressDialog.Title = parseDialogTitlePrefix + "Künste werden geladen";
                         progressDialog.PercentComplete = 40;
-                        await Task.Delay(50);
-
-                        var talentCount = _wikiParseService.RefreshTalentsFromWiki(logger);
-                        progressDialog.Title = parseDialogTitlePrefix + "Meisterschaften werden geladen";
-                        progressDialog.PercentComplete = 60;
                         await Task.Delay(50);
 
                         var weaveTalentCount = _wikiParseService.RefreshWeaveTalentsFromWiki(logger);
                         progressDialog.Title = parseDialogTitlePrefix + "Webkünste werden geladen";
+                        progressDialog.PercentComplete = 60;
+                        await Task.Delay(50);
+
+                        var talentCount = _wikiParseService.RefreshTalentsFromWiki(logger);
+                        progressDialog.Title = parseDialogTitlePrefix + "Meisterschaften werden geladen";
                         progressDialog.PercentComplete = 80;
                         await Task.Delay(50);
 
@@ -281,7 +281,7 @@ namespace ImagoApp.ViewModels
                                   $"{Environment.NewLine}      Rüstungen: {armorCount?.ToString()}" +
                                   $"{Environment.NewLine}      Waffen: {weaponCount?.ToString()}" +
                                   $"{Environment.NewLine}      Künste: {talentCount?.ToString()}" +
-                                  $"{Environment.NewLine}      Webkünste: {masteryCount?.ToString()}" +
+                                  $"{Environment.NewLine}      Webkünste: {weaveTalentCount?.ToString()}" +
                                   $"{Environment.NewLine}      Meisterschaften: {masteryCount?.ToString()}";
 
                         UserDialogs.Instance.Confirm(new ConfirmConfig
@@ -338,8 +338,9 @@ namespace ImagoApp.ViewModels
                 var skillPageViewModel = new SkillPageViewModel(characterViewModel, _serviceLocator.WikiService(), _serviceLocator.WikiDataService());
                 var statusPageViewModel = new StatusPageViewModel(characterViewModel, _serviceLocator.WikiDataService());
                 var inventoryViewModel = new InventoryViewModel(characterViewModel);
+                var weaveTalentPageViewModel = new WeaveTalentPageViewModel(characterViewModel, _serviceLocator.WikiDataService());
                 var appShellViewModel = new AppShellViewModel(characterViewModel, characterInfoPageViewModel, skillPageViewModel,
-                    statusPageViewModel, inventoryViewModel, wikiPageViewModel);
+                    statusPageViewModel, inventoryViewModel, wikiPageViewModel, weaveTalentPageViewModel);
 
                 //notify the main menu that editmode may have changed
                 appShellViewModel.RaiseEditModeChanged();
