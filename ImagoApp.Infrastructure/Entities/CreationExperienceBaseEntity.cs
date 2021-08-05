@@ -4,8 +4,8 @@ using System.Text;
 
 namespace ImagoApp.Infrastructure.Entities
 {
-    public class IncreasableBaseEntity : ModifiableBaseEntity
+    public class CreationExperienceBaseEntity : DependentBaseEntity
     {
-        public int ExperienceValue { get; set; }
+        public int CreationExperience { get; set; }
     }
 }

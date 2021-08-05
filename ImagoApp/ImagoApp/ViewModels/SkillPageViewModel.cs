@@ -93,7 +93,9 @@ namespace ImagoApp.ViewModels
             }
         }
 
-        public int SkillExperienceBalance => TotalSkillExperience - CharacterViewModel.CharacterModel.SkillGroups.SelectMany(model => model.Skills).Sum(model => model.TotalExperience);
+        public int SkillExperienceBalance => TotalSkillExperience - CharacterViewModel.CharacterModel.SkillGroups
+                                                 .SelectMany(model => model.Skills)
+                                                 .Sum(model => model.CreationExperience);
         
         public SkillPageViewModel(CharacterViewModel characterViewModel, IWikiService wikiService, IWikiDataService wikiDataService)
         {
@@ -105,7 +107,7 @@ namespace ImagoApp.ViewModels
             {
                 skill.PropertyChanged += (sender, args) =>
                 {
-                    if (args.PropertyName.Equals(nameof(SkillModel.TotalExperience)))
+                    if (args.PropertyName.Equals(nameof(SkillModel.CreationExperience)))
                     {
                         OnPropertyChanged(nameof(SkillExperienceBalance));
                     }

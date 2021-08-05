@@ -135,11 +135,8 @@ namespace ImagoApp.Views.CustomControls
                 
                 CharacterViewModel.CharacterModel.OpenAttributeIncreases.Remove(skillGroupModelType);
 
-                targetAttributeModel.ExperienceBySkillGroup += 1;
+                CharacterViewModel.AddSkillGroupExperienceToAttribute(targetAttributeModel, +1);
 
-                //force recalc
-                targetAttributeModel.TotalExperience = targetAttributeModel.TotalExperience;
-                
                 ResetDropHighlight(true);
 
                 //check if all are done

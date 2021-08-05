@@ -12,15 +12,15 @@
 
                 <StackLayout HorizontalOptions="Center" Orientation="Horizontal" VerticalOptions="Center">
                     <Label FontSize="{DynamicResource FontSizeContent}" Text="SW: " />
-                    <Label FontSize="{DynamicResource FontSizeContent}" Text="{Binding IncreaseValue}" />
+                    <Label FontSize="{DynamicResource FontSizeContent}" Text="{Binding IncreaseValueCache}" />
                 </StackLayout>
 
                 <StackLayout Margin="0,0,0,20" HorizontalOptions="Center" Orientation="Horizontal"
                    VerticalOptions="Center">
                     <Label FontSize="{DynamicResource FontSizeContent}" Text="EP: " />
-                    <Label FontSize="{DynamicResource FontSizeContent}" Text="{Binding ExperienceValue}" />
+                    <Label FontSize="{DynamicResource FontSizeContent}" Text="{Binding LeftoverExperienceCache}" />
                     <Label FontSize="{DynamicResource FontSizeContent}" Text="/" />
-                    <Label FontSize="{DynamicResource FontSizeContent}" Text="{Binding ExperienceForNextIncreasedRequired}" />
+                    <Label FontSize="{DynamicResource FontSizeContent}" Text="{Binding ExperienceForNextIncreasedRequiredCache}" />
                 </StackLayout>
             </StackLayout>
         </Frame>

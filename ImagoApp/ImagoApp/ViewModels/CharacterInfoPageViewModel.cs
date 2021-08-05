@@ -65,7 +65,7 @@ namespace ImagoApp.ViewModels
             }
         }
 
-        public int AttributeExperienceBalance => TotalAttributeExperience - AttributeViewModels?.Sum(model => model.TotalExperienceValue) ?? 0;
+        public int AttributeExperienceBalance => TotalAttributeExperience - AttributeViewModels?.Sum(model => model.CreationExperience) ?? 0;
 
         public CharacterInfoPageViewModel(CharacterViewModel characterViewModel)
         {
@@ -77,7 +77,7 @@ namespace ImagoApp.ViewModels
             {
                 vm.PropertyChanged += (sender, args) =>
                 {
-                    if (args.PropertyName.Equals(nameof(AttributeViewModel.TotalExperienceValue)))
+                    if (args.PropertyName.Equals(nameof(AttributeViewModel.CreationExperience)))
                     {
                         OnPropertyChanged(nameof(AttributeExperienceBalance));
                     }

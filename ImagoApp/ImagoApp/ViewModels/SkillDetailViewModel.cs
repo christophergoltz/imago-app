@@ -38,8 +38,7 @@ namespace ImagoApp.ViewModels
         {
             try
             {
-                var newExp = SkillModel.TotalExperience + experienceValue;
-                _characterViewModel.SetExperienceToSkill(SkillModel, _parent, newExp);
+                _characterViewModel.AddExperienceToSkill(SkillModel, _parent, experienceValue);
                 UpdateTalentRequirements();
                 RecalcTestValue();
             }
@@ -56,9 +55,9 @@ namespace ImagoApp.ViewModels
         public ICommand DecreaseExperienceCommand => _decreaseExperienceCommand ?? (_decreaseExperienceCommand = new Command(() =>
         {
             try
-            {
-                //todo parameter; _characterViewModel.SetExperienceToSkill
-                _characterViewModel.RemoveOneExperienceFromSkill(SkillModel);
+            {   
+                //todo -1 by parameter; 
+                _characterViewModel.AddExperienceToSkill(SkillModel, _parent, -1);
             }
             catch (Exception exception)
             {
@@ -128,7 +127,7 @@ namespace ImagoApp.ViewModels
             get => SkillModel?.ModificationValue ?? 0;
             set
             {
-                _characterViewModel.SetModificationValue(SkillModel, value);
+                _characterViewModel.SetModification(SkillModel, value);
                 OnPropertyChanged(nameof(SelectedSkillModification));
             }
         }
@@ -171,7 +170,7 @@ namespace ImagoApp.ViewModels
             get => _finalTestValue;
             set => SetProperty(ref _finalTestValue, value);
         }
-
+        
         private void RecalcTestValue()
         {
             var result = (int) SkillModel.FinalValue;
@@ -214,7 +213,7 @@ namespace ImagoApp.ViewModels
 
             FinalTestValue = result;
         }
-
+        
         public void UpdateTalentRequirements()
         {
             if (Masteries != null)

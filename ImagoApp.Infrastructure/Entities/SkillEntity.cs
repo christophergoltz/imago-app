@@ -5,7 +5,7 @@ using ImagoApp.Shared.Enums;
 
 namespace ImagoApp.Infrastructure.Entities
 {
-    public class SkillEntity : DependentBaseEntity
+    public class SkillEntity : CreationExperienceBaseEntity
     {
         public SkillModelType Type { get; set; }
     }

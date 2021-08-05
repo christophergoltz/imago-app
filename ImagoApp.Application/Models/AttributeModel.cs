@@ -3,7 +3,7 @@ using ImagoApp.Shared.Enums;
 
 namespace ImagoApp.Application.Models
 {
-    public class AttributeModel : IncreasableBaseModel
+    public class AttributeModel : CreationExperienceBaseModel
     {
         //required for deserialization
         public AttributeModel()
@@ -19,9 +19,7 @@ namespace ImagoApp.Application.Models
         public AttributeType Type { get; set; } 
 
         private int _corrosion;
-        private int _naturalValue;
         private int _experienceBySkillGroup;
-        private int _specialExperience;
 
         public int Corrosion
         {
@@ -33,23 +31,11 @@ namespace ImagoApp.Application.Models
         {
             return Type.ToString();
         }
-
-        public int NaturalValue
-        {
-            get => _naturalValue;
-            set => SetProperty(ref _naturalValue ,value);
-        }
-
+        
         public int ExperienceBySkillGroup
         {
             get => _experienceBySkillGroup;
             set => SetProperty(ref _experienceBySkillGroup, value);
-        }
-        
-        public int SpecialExperience
-        {
-            get => _specialExperience;
-            set => SetProperty(ref _specialExperience ,value);
         }
     }
 }

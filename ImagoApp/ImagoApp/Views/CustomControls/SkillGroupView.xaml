@@ -22,15 +22,15 @@
                            HorizontalOptions="Center" VerticalOptions="Center">
                             <Label.Text>
                                 <MultiBinding StringFormat="{}{0}/{1}">
-                                    <Binding Path="Skill.ExperienceValue" Source="{RelativeSource AncestorType={x:Type viewModels:SkillViewModel}}" />
-                                    <Binding Path="Skill.ExperienceForNextIncreasedRequired" Source="{RelativeSource AncestorType={x:Type viewModels:SkillViewModel}}" />
+                                    <Binding Path="Skill.LeftoverExperienceCache" Source="{RelativeSource AncestorType={x:Type viewModels:SkillViewModel}}" />
+                                    <Binding Path="Skill.ExperienceForNextIncreasedRequiredCache" Source="{RelativeSource AncestorType={x:Type viewModels:SkillViewModel}}" />
                                 </MultiBinding>
                             </Label.Text>
                         </Label>
                         <Label Grid.Column="2"
                            FontSize="{DynamicResource FontSizeBigContent}"
                            HorizontalOptions="Center"
-                           Text="{Binding Skill.IncreaseValue}"
+                           Text="{Binding Skill.IncreaseValueCache}"
                            VerticalOptions="Center" />
                         <Label Grid.Column="3"
                            FontSize="{DynamicResource FontSizeBigContent}"
@@ -65,22 +65,22 @@
                            BackgroundColor="{StaticResource GruenesUmbra1}"
                            FontSize="{DynamicResource FontSizeBigContent}"
                            Keyboard="Numeric"
-                           Text="{Binding TotalExperienceValue}"
+                           Text="{Binding CreationExperience}"
                            TextColor="White" />
                         <Label Grid.Column="2"
                            FontSize="{DynamicResource FontSizeBigContent}"
                            HorizontalOptions="Center" VerticalOptions="Center">
                             <Label.Text>
                                 <MultiBinding StringFormat="{}{0}/{1}">
-                                    <Binding Path="Skill.ExperienceValue" Source="{RelativeSource AncestorType={x:Type viewModels:SkillViewModel}}" />
-                                    <Binding Path="Skill.ExperienceForNextIncreasedRequired" Source="{RelativeSource AncestorType={x:Type viewModels:SkillViewModel}}" />
+                                    <Binding Path="Skill.LeftoverExperienceCache" Source="{RelativeSource AncestorType={x:Type viewModels:SkillViewModel}}" />
+                                    <Binding Path="Skill.ExperienceForNextIncreasedRequiredCache" Source="{RelativeSource AncestorType={x:Type viewModels:SkillViewModel}}" />
                                 </MultiBinding>
                             </Label.Text>
                         </Label>
                         <Label Grid.Column="3"
                            FontSize="{DynamicResource FontSizeBigContent}"
                            HorizontalOptions="Center"
-                           Text="{Binding Skill.IncreaseValue}"
+                           Text="{Binding Skill.IncreaseValueCache}"
                            VerticalOptions="Center" />
                         <Label Grid.Column="4"
                            FontSize="{DynamicResource FontSizeBigContent}"
@@ -137,8 +137,8 @@
                     <Label FontSize="{DynamicResource FontSizeDetail}">
                         <Label.Text>
                             <MultiBinding StringFormat="{}{0}/{1}">
-                                <Binding Path="SkillGroup.ExperienceValue" Source="{RelativeSource AncestorType={x:Type viewModels:SkillGroupViewModel}}" />
-                                <Binding Path="SkillGroup.ExperienceForNextIncreasedRequired" Source="{RelativeSource AncestorType={x:Type viewModels:SkillGroupViewModel}}" />
+                                <Binding Path="SkillGroup.LeftoverExperienceCache" Source="{RelativeSource AncestorType={x:Type viewModels:SkillGroupViewModel}}" />
+                                <Binding Path="SkillGroup.ExperienceForNextIncreasedRequiredCache" Source="{RelativeSource AncestorType={x:Type viewModels:SkillGroupViewModel}}" />
                             </MultiBinding>
                         </Label.Text>
                     </Label>
@@ -156,7 +156,7 @@
                     <Label FontAttributes="Bold"
                        FontSize="{DynamicResource FontSizeDetail}"
                        Text="SW: " />
-                    <Label FontSize="{DynamicResource FontSizeDetail}" Text="{Binding SkillGroup.IncreaseValue}" />
+                    <Label FontSize="{DynamicResource FontSizeDetail}" Text="{Binding SkillGroup.IncreaseValueCache}" />
                 </StackLayout>
 
 

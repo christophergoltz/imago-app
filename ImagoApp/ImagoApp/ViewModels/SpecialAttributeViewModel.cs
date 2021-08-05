@@ -13,16 +13,18 @@ namespace ImagoApp.ViewModels
             SpecialAttributeModel = specialAttributeModel;
         }
 
-        public SpecialAttributeModel SpecialAttributeModel { get; set; }
-        public CharacterModel CharacterModel { get; set; }
-        
+        public SpecialAttributeModel SpecialAttributeModel { get; }
+
         public int Modification
         {
             get => SpecialAttributeModel.ModificationValue;
             set
             {
-                _characterViewModel.SetModificationValue(SpecialAttributeModel, value);
-                OnPropertyChanged(nameof(Modification));
+                if (SpecialAttributeModel.ModificationValue != value)
+                {
+                    _characterViewModel.SetModificationValue(SpecialAttributeModel, value);
+                    OnPropertyChanged(nameof(Modification));
+                }
             }
         }
     }
