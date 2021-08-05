@@ -152,7 +152,12 @@ namespace ImagoApp.ViewModels
             Debug.WriteLine($"Set Modification for {specialAttributeModel.Type} to {modificationValue}");
 
             specialAttributeModel.ModificationValue = modificationValue;
-            RecalculateSpecialAttributes(specialAttributeModel);
+            
+            var willenskraftFinalValue = GetAttributeSum(AttributeType.Willenskraft);
+            var geschicklichkeitFinalValue = GetAttributeSum(AttributeType.Geschicklichkeit);
+            var wahrnehmungFinalValue = GetAttributeSum(AttributeType.Wahrnehmung);
+
+            RecalculateSpecialAttributes(geschicklichkeitFinalValue, wahrnehmungFinalValue, willenskraftFinalValue);
         }
 
         public bool CheckTalentRequirement(List<SkillRequirementModel> requirements)
@@ -307,22 +312,33 @@ namespace ImagoApp.ViewModels
         {
             if (changedAttribute != null)
                 Debug.WriteLine($"ApplyNewFinalValueOfAttribute {changedAttribute.Type}");
-
-            //todo only recalc what is affected -> changedAttribute
-
+            
             var constFinalValue = GetAttributeSum(AttributeType.Konstitution);
-            var staerkeFinalValue = GetAttributeSum(AttributeType.Staerke);
             var willenskraftFinalValue = GetAttributeSum(AttributeType.Willenskraft);
             var geschicklichkeitFinalValue = GetAttributeSum(AttributeType.Geschicklichkeit);
+           
+            if (changedAttribute != null && changedAttribute.Type.In(AttributeType.Willenskraft, AttributeType.Staerke, AttributeType.Konstitution, AttributeType.Geschicklichkeit))
+            {
+                var staerkeFinalValue = GetAttributeSum(AttributeType.Staerke);
 
-            //update derived attributes
-            RecalculateDerivedAttributes(willenskraftFinalValue, staerkeFinalValue, constFinalValue, geschicklichkeitFinalValue);
+                //update derived attributes
+                RecalculateDerivedAttributes(willenskraftFinalValue, staerkeFinalValue, constFinalValue,
+                    geschicklichkeitFinalValue);
+            }
 
-            //update special attributes
-            RecalculateSpecialAttributes(SpecialAttributes.ToArray());
+            if (changedAttribute != null && changedAttribute.Type.In(AttributeType.Willenskraft, AttributeType.Wahrnehmung, AttributeType.Geschicklichkeit))
+            {
+                var wahrnehmungFinalValue = GetAttributeSum(AttributeType.Wahrnehmung);
 
-            //update bodyparts
-            RecalculateBodyParts(constFinalValue);
+                //update special attributes
+                RecalculateSpecialAttributes(geschicklichkeitFinalValue, wahrnehmungFinalValue, willenskraftFinalValue);
+            }
+
+            if (changedAttribute != null && changedAttribute.Type.In(AttributeType.Konstitution))
+            {
+                //update bodyparts
+                RecalculateBodyParts(constFinalValue);
+            }
 
             //update handicap
             RecalculateHandicapAttributes();
@@ -406,20 +422,16 @@ namespace ImagoApp.ViewModels
             }
         }
 
-        private void RecalculateSpecialAttributes(params SpecialAttributeModel[] attributes)
+        private void RecalculateSpecialAttributes(double geschicklichkeitFinalValue, double wahrnehmungFinalValue, double willenskraftFinalValue)
         {
-            foreach (var specialAttribute in attributes)
+            foreach (var specialAttribute in SpecialAttributes)
             {
                 switch (specialAttribute.Type)
                 {
                     case SpecialAttributeType.Initiative:
                         {
-                            var tmp = GetAttributeSum(AttributeType.Geschicklichkeit, AttributeType.Geschicklichkeit,
-                                AttributeType.Wahrnehmung, AttributeType.Willenskraft);
-
-                            var newValue = tmp / 4;
-                            specialAttribute.FinalValue = ((int)Math.Round(newValue, MidpointRounding.AwayFromZero)) +
-                                                          specialAttribute.ModificationValue;
+                            var newValue = (geschicklichkeitFinalValue + geschicklichkeitFinalValue + wahrnehmungFinalValue + willenskraftFinalValue) / 4;
+                            specialAttribute.FinalValue = (int)Math.Round(newValue, MidpointRounding.AwayFromZero) + specialAttribute.ModificationValue;
                             break;
                         }
                     default:

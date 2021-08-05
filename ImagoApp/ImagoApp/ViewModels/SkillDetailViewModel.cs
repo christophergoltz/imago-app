@@ -170,8 +170,7 @@ namespace ImagoApp.ViewModels
             get => _finalTestValue;
             set => SetProperty(ref _finalTestValue, value);
         }
-
-        [Obsolete("recalc talents in characterviewmodel")]
+        
         private void RecalcTestValue()
         {
             var result = (int) SkillModel.FinalValue;
@@ -214,8 +213,7 @@ namespace ImagoApp.ViewModels
 
             FinalTestValue = result;
         }
-
-        [Obsolete("recalc talents in characterviewmodel")]
+        
         public void UpdateTalentRequirements()
         {
             if (Masteries != null)
