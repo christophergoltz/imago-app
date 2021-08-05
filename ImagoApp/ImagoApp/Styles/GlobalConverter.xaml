@@ -1,16 +1,14 @@
-﻿<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                    xmlns:converter="clr-namespace:ImagoApp.Converter;assembly=ImagoApp">
-    <converter:SkillGroupTypeToAttributeSourceStringConverter x:Key="SkillGroupTypeToAttributeSourceStringConverter"/>
-    <converter:InverseBoolConverter x:Key="InverseBoolConverter"/>
-    <converter:EnumToDisplayTextConverter x:Key="EnumToDisplayTextConverter"/>
-    <converter:EnumToAbbreviationTextConverter x:Key="EnumToAbbreviationTextConverter"/>
-    <converter:ObjectNullToBoolConverter x:Key="ObjectNullToBoolConverter"/>
-    <converter:ObjectNotNullToBoolConverter x:Key="ObjectNotNullToBoolConverter"/>
-    <converter:DicionaryToBodyPartConverter x:Key="DicionaryToBodyPartConverter"/>
-    <converter:EnumToFormulaConverter x:Key="EnumToFormulaConverter"/>
-    <converter:PositiveIntegerToBoolConverter x:Key="PositiveIntegerToBoolConverter"/>
-    <converter:FileInfoLenghtToSmartFileSizeConverter x:Key="FileInfoLenghtToSmartFileSizeConverter"/>
-    <converter:BodyPartToCurrentHitpointsColor x:Key="BodyPartToCurrentHitpointsColor"/>
-    <converter:BodyPartToCurrentHitpointsPercentage x:Key="BodyPartToCurrentHitpointsPercentage"/>
+﻿<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:converter="clr-namespace:ImagoApp.Converter;assembly=ImagoApp">
+    <converter:SkillGroupTypeToAttributeSourceStringConverter x:Key="SkillGroupTypeToAttributeSourceStringConverter" />
+    <converter:InverseBoolConverter x:Key="InverseBoolConverter" />
+    <converter:EnumToDisplayTextConverter x:Key="EnumToDisplayTextConverter" />
+    <converter:EnumToAbbreviationTextConverter x:Key="EnumToAbbreviationTextConverter" />
+    <converter:ObjectNullToBoolConverter x:Key="ObjectNullToBoolConverter" />
+    <converter:ObjectNotNullToBoolConverter x:Key="ObjectNotNullToBoolConverter" />
+    <converter:DicionaryToBodyPartConverter x:Key="DicionaryToBodyPartConverter" />
+    <converter:EnumToFormulaConverter x:Key="EnumToFormulaConverter" />
+    <converter:PositiveIntegerToBoolConverter x:Key="PositiveIntegerToBoolConverter" />
+    <converter:FileInfoLenghtToSmartFileSizeConverter x:Key="FileInfoLenghtToSmartFileSizeConverter" />
+    <converter:BodyPartToCurrentHitpointsColor x:Key="BodyPartToCurrentHitpointsColor" />
+    <converter:BodyPartToCurrentHitpointsPercentage x:Key="BodyPartToCurrentHitpointsPercentage" />
 </ResourceDictionary>

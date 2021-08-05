@@ -10,7 +10,7 @@
 
             <Frame Grid.Column="0">
                 <Grid Style="{StaticResource SingleGradiantStyle}">
-                    <ListView IsGroupingEnabled="true"
+                    <ListView IsGroupingEnabled="true" ItemSelected="ListView_OnItemSelected"
                        ItemsSource="{Binding WeaveTalents}"
                        SelectionMode="None">
                         <ListView.GroupHeaderTemplate>

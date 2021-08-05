@@ -20,8 +20,15 @@ namespace ImagoApp.ViewModels
 
     public class WeaveTalentPageViewModel : BindableBase
     {
+        public WeaveTalentDetailViewModel WeaveTalentDetailViewModel
+        {
+            get => _weaveTalentDetailViewModel;
+            set => SetProperty(ref _weaveTalentDetailViewModel, value);
+        }
+
         private readonly CharacterViewModel _characterViewModel;
         private readonly IWikiDataService _wikiDataService;
+        private WeaveTalentDetailViewModel _weaveTalentDetailViewModel;
         public ObservableCollection<WeaveTalentList> WeaveTalents { get; set; }
 
         public WeaveTalentPageViewModel(CharacterViewModel characterViewModel, IWikiDataService wikiDataService)
@@ -31,6 +38,12 @@ namespace ImagoApp.ViewModels
             WeaveTalents = new ObservableCollection<WeaveTalentList>();
 
             InitializeWeaveTalentList().Wait();
+        }
+
+        public void CreateDetailView(WeaveTalentModel weaveTalent)
+        {
+            var weaveTalentList = WeaveTalents.First(list => list.Skill.Type == weaveTalent.TargetSkillModel);
+            WeaveTalentDetailViewModel = new WeaveTalentDetailViewModel(weaveTalent, weaveTalentList.Skill);
         }
 
         public async Task InitializeWeaveTalentList()
