@@ -95,6 +95,19 @@ namespace ImagoApp.Application
             {SkillModelType.Zweihaender, "http://imago-rp.de/index.php/Zweih%C3%A4nder_(Fertigkeit)"}
         };
 
+
+        public static readonly Dictionary<SkillModelType, string> ParsableWeaveTalentLookUp = new Dictionary<SkillModelType, string>()
+        {
+            {SkillModelType.Chaos, "http://imago-rp.de/index.php/Chaos"},
+            {SkillModelType.Struktur, "http://imago-rp.de/index.php/Struktur"},
+            {SkillModelType.Leere, "http://imago-rp.de/index.php/Leere"},
+            {SkillModelType.Materie, "http://imago-rp.de/index.php/Materie"},
+            {SkillModelType.Einfalt, "http://imago-rp.de/index.php/Einfalt"},
+            {SkillModelType.Bewusstsein, "http://imago-rp.de/index.php/Bewusstsein"},
+            {SkillModelType.Kontrolle, "http://imago-rp.de/index.php/Kontrolle"},
+            {SkillModelType.Ekstase, "http://imago-rp.de/index.php/Ekstase"},
+        };
+
         public static readonly Dictionary<SkillModelType, string> ParsableSkillTypeLookUp = new Dictionary<SkillModelType, string>()
         {
             {SkillModelType.Armbrueste, "http://imago-rp.de/index.php/Armbr%C3%BCste_(Fertigkeit)"},

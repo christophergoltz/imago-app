@@ -31,6 +31,10 @@ namespace ImagoApp.Application.Services
         int GetTalentWikiDataItemCount();
         int GetMasteryWikiDataItemCount();
         FileInfo GetDatabaseInfo();
+        void AddWeaveTalents(List<WeaveTalentModel> items);
+        List<WeaveTalentModel> GetAllWeaveTalents();
+        void DeleteAllWeaveTalents();
+        int GetWeaveTalentWikiDataItemCount();
     }
 
     public class WikiDataService : IWikiDataService
@@ -39,18 +43,21 @@ namespace ImagoApp.Application.Services
         private readonly IWeaponTemplateRepository _weaponTemplateRepository;
         private readonly ITalentRepository _talentRepository;
         private readonly IMasteryRepository _masteryRepository;
+        private readonly IWeaveTalentRepository _weaveTalentRepository;
         private readonly IMapper _mapper;
 
         public WikiDataService(IMapper mapper, 
             IArmorTemplateRepository armorTemplateRepository,
             IWeaponTemplateRepository weaponTemplateRepository,
             ITalentRepository talentRepository,
-            IMasteryRepository masteryRepository)
+            IMasteryRepository masteryRepository,
+            IWeaveTalentRepository weaveTalentRepository)
         {
             _armorTemplateRepository = armorTemplateRepository;
             _weaponTemplateRepository = weaponTemplateRepository;
             _talentRepository = talentRepository;
             _masteryRepository = masteryRepository;
+            _weaveTalentRepository = weaveTalentRepository;
             _mapper = mapper;
         }
 
@@ -67,6 +74,11 @@ namespace ImagoApp.Application.Services
         public int GetTalentWikiDataItemCount()
         {
             return _talentRepository.GetItemCount();
+        }
+
+        public int GetWeaveTalentWikiDataItemCount()
+        {
+            return _weaveTalentRepository.GetItemCount();
         }
 
         public int GetMasteryWikiDataItemCount()
@@ -166,13 +178,35 @@ namespace ImagoApp.Application.Services
         public List<TalentModel> GetAllTalents()
         {
             var entities = _talentRepository.GetAllItems();
-            var weapons = _mapper.Map<List<TalentModel>>(entities);
-            return weapons;
+            var talents = _mapper.Map<List<TalentModel>>(entities);
+            return talents;
         }
 
         public void DeleteAllTalents()
         {
             _talentRepository.DeleteAll();
+        }
+
+        #endregion
+
+        #region WeaveTalents
+
+        public void AddWeaveTalents(List<WeaveTalentModel> items)
+        {
+            var entities = _mapper.Map<List<WeaveTalentEntity>>(items);
+            _weaveTalentRepository.InsertBulk(entities);
+        }
+
+        public List<WeaveTalentModel> GetAllWeaveTalents()
+        {
+            var entities = _weaveTalentRepository.GetAllItems();
+            var weaveTalents = _mapper.Map<List<WeaveTalentModel>>(entities);
+            return weaveTalents;
+        }
+
+        public void DeleteAllWeaveTalents()
+        {
+            _weaveTalentRepository.DeleteAll();
         }
 
         #endregion

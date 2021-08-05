@@ -34,6 +34,12 @@ namespace ImagoApp.ViewModels
             set => SetProperty(ref _talentTemplateCount, value);
         }
 
+        public int WeaveTalentTemplateCount
+        {
+            get => _talentTemplateCount;
+            set => SetProperty(ref _talentTemplateCount, value);
+        }
+
         public int MasteryTemplateCount
         {
             get => _masteryTemplateCount;

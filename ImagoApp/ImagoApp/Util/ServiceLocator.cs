@@ -21,7 +21,6 @@ namespace ImagoApp.Util
         private readonly Lazy<IAttributeCalculationService> _attributeCalculationService;
         private readonly Lazy<ISkillGroupCalculationService> _skillGroupCalculationService;
         private readonly Lazy<ISkillCalculationService> _skillCalculationService;
-        private readonly Lazy<IIncreaseCalculationService> _increaseCalculationService;
         private readonly IMapper _mapper;
        
         public ServiceLocator(string imagoFolder)
@@ -55,18 +54,19 @@ namespace ImagoApp.Util
             IWeaponTemplateRepository weaponTemplateRepository = new WeaponTemplateRepository(wikidataDatabaseFile);
             ITalentRepository talentRepository = new TalentRepository(wikidataDatabaseFile);
             IMasteryRepository masteryRepository = new MasteryRepository(wikidataDatabaseFile);
+            IWeaveTalentRepository weaveTalentRepository  = new WeaveTalentRepository(wikidataDatabaseFile);
             
             _wikiDataService = new Lazy<IWikiDataService>(() => new WikiDataService(_mapper, armorTemplateRepository, 
-                weaponTemplateRepository, talentRepository, masteryRepository));
+                weaponTemplateRepository, talentRepository, masteryRepository, weaveTalentRepository));
             _wikiService = new Lazy<IWikiService>(() => new WikiService());
             _wikiParseService = new Lazy<IWikiParseService>(() => new WikiParseService(_wikiDataService.Value));
             _characterService = new Lazy<ICharacterService>(() => new CharacterService(characterRepository, _mapper));
             _characterCreationService = new Lazy<ICharacterCreationService>(() => new CharacterCreationService());
             _errorService = new Lazy<IErrorService>(() => new ErrorService(characterDatabaseFile));
-            _increaseCalculationService = new Lazy<IIncreaseCalculationService>(() => new IncreaseCalculationService());
-            _skillCalculationService = new Lazy<ISkillCalculationService>(() => new SkillCalculationService(_increaseCalculationService.Value));
-            _skillGroupCalculationService = new Lazy<ISkillGroupCalculationService>(() => new SkillGroupCalculationService(_skillCalculationService.Value, _increaseCalculationService.Value));
-            _attributeCalculationService = new Lazy<IAttributeCalculationService>(() => new AttributeCalculationService(_increaseCalculationService.Value, _skillGroupCalculationService.Value));
+            var increaseCalculationService = new Lazy<IIncreaseCalculationService>(() => new IncreaseCalculationService());
+            _skillCalculationService = new Lazy<ISkillCalculationService>(() => new SkillCalculationService(increaseCalculationService.Value));
+            _skillGroupCalculationService = new Lazy<ISkillGroupCalculationService>(() => new SkillGroupCalculationService(_skillCalculationService.Value, increaseCalculationService.Value));
+            _attributeCalculationService = new Lazy<IAttributeCalculationService>(() => new AttributeCalculationService(increaseCalculationService.Value, _skillGroupCalculationService.Value));
         }
 
         public IMapper Mapper()

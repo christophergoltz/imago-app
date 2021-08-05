@@ -15,6 +15,7 @@ namespace ImagoApp.Application.Services
         int? RefreshWeaponsFromWiki(Logger logger);
         int? RefreshTalentsFromWiki(Logger logger);
         int? RefreshMasteriesFromWiki(Logger logger);
+        int? RefreshWeaveTalentsFromWiki(Logger logger);
     }
 
     public class WikiParseService : IWikiParseService
@@ -64,7 +65,15 @@ namespace ImagoApp.Application.Services
             _wikiDataService.AddMasteries(masteries);
             return masteries.Count;
         }
-        
+
+        public int? RefreshWeaveTalentsFromWiki(Logger logger)
+        {
+            var weaveTalents = ParseWeaveTalentsFromUrls(WikiConstants.ParsableWeaveTalentLookUp, logger);
+            _wikiDataService.DeleteAllWeaveTalents();
+            _wikiDataService.AddWeaveTalents(weaveTalents);
+            return weaveTalents.Count;
+        }
+
         private List<ArmorPartTemplateModel> ParseArmorFromUrl(string url, Logger logger )
         {
             var result = new List<ArmorPartTemplateModel>();
@@ -525,6 +534,116 @@ namespace ImagoApp.Application.Services
 
             logger.Information($"Meisterschaft für Fertigkeit \"{modelType}\" hinzugefügt [{string.Join(", ", talents.Select(model => model.Name))}]");
             return talents;
+        }
+
+        private List<WeaveTalentModel> ParseWeaveTalentsFromUrls(Dictionary<SkillModelType, string> urls, Logger logger)
+        {
+            var talents = new List<WeaveTalentModel>();
+            foreach (var item in urls)
+            {
+                talents.AddRange(ParseWeaveTalentFromUrl(item.Key, item.Value, logger));
+            }
+
+            return talents;
+        }
+
+        private List<WeaveTalentModel> ParseWeaveTalentFromUrl(SkillModelType modelType, string url, Logger logger)
+        {
+            var weaveTalents = new List<WeaveTalentModel>();
+
+            var doc = WikiHelper.LoadDocumentFromUrl(url, logger);
+            if (doc == null)
+                return weaveTalents;
+
+            var descriptions = GetTalentDescriptions(doc);
+            
+            var table = doc.DocumentNode.SelectSingleNode("//table[@class='wikitable']");
+            if (table == null)
+            {
+                logger.Warning($"Keine Tabelle mit Werten auf \"{url}\" gefunden");
+                return weaveTalents;
+            }
+
+            var rows = table.SelectNodes("tr");
+
+            //parse each row
+            foreach (var talentDataRow in rows.Skip(1))
+            {
+                var name = string.Empty;
+
+                try
+                {
+                    var dataCells = talentDataRow.SelectNodes("td");
+                    name = CleanUpString(dataCells[0].InnerText);
+                    var requirementsRawValue = CleanUpString(dataCells[1].InnerText);
+
+                    var requirements = new List<SkillRequirementModel>();
+
+                    foreach (var requirement in requirementsRawValue.Split(',').Select(s => s.Trim()))
+                    {
+                        var strings = requirement.Split(' ');
+                        var skill = MappingStringToSkillType(strings[0], logger);
+                        if (skill == SkillModelType.Unbekannt)
+                        {
+                            logger.Error($"Vorraussetztung \"{requirement}\" für Webkunst \"{name}\" kann nicht gelesen werden .. wird ignoriert");
+                            continue;
+                        }
+
+                        var value = int.Parse(strings[1]);
+
+                        requirements.Add(new SkillRequirementModel(skill, value));
+                    }
+
+                    var difficultyValue = CleanUpString(dataCells[2].InnerText);
+                    var difficulty = ParseStringToDifficultyForTalent(difficultyValue, name, url, logger);
+                    var activeUse = MapToActiveUse(CleanUpString(dataCells[3].InnerText), logger);
+                    
+                    //todo test formulas
+                    //formulas
+                    var range = CleanUpString(dataCells[4].InnerText);
+                    var duration = CleanUpString(dataCells[5].InnerText);
+                    var corrosion = CleanUpString(dataCells[6].InnerText);
+                    
+                    var shortDescription = string.Empty;
+
+                    if (dataCells.Count > 7)
+                        shortDescription = CleanUpString(dataCells[7].InnerText);
+                    else
+                        logger.Warning($"Webkunst \"{name}\" hat keine Kurzbeschreibung");
+
+                    var desc = string.Empty;
+                    if (!descriptions.ContainsKey(name))
+                    {
+                        logger.Warning($"Keine Beschreibung zu \"{name}\" gefunden {url}");
+                    }
+                    else
+                    {
+                        desc = descriptions[name];
+                        if (string.IsNullOrWhiteSpace(desc))
+                        {
+                            logger.Warning($"Nur eine leere Beschreibung zu \"{name}\" gefunden {url}");
+                        }
+                    }
+
+                    if (difficulty.HasValue && difficulty.Value > 0 && !activeUse)
+                    {
+                        var message =
+                            $"Bei der Webkunst {name} der Kategorie {modelType} ist eine Schwierigkeit von {difficulty.Value} angegeben, diese muss allerdings bei einer passiven Meisterschaft immer 0 entsprechen";
+                        logger.Error(new WikiParseException(message), message);
+                        difficulty = 0;
+                    }
+
+                    weaveTalents.Add(new WeaveTalentModel(modelType, requirements, name, shortDescription, desc,
+                        activeUse, difficulty, range, corrosion, duration));
+                }
+                catch (Exception exception)
+                {
+                    logger.Error(exception, $"Webkunst \"{name}\" kann nicht von \"{url}\" gelesen werden");
+                }
+            }
+
+            logger.Information($"Webkünste für Fertigkeit \"{modelType}\" hinzugefügt [{string.Join(", ", weaveTalents.Select(model => model.Name))}]");
+            return weaveTalents;
         }
 
     }
