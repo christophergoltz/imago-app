@@ -112,7 +112,7 @@ namespace ImagoApp.ViewModels
 
         private string _sourceFormula;
         private List<TalentListItemViewModel> _talents;
-        private List<TalentListItemViewModel> _masteries;
+        private List<MasteryListItemViewModel> _masteries;
         private int _finalTestValue;
         private List<HandicapListViewItemViewModel> _handicaps;
 
@@ -138,7 +138,7 @@ namespace ImagoApp.ViewModels
             set => SetProperty(ref _talents, value);
         }
 
-        public List<TalentListItemViewModel> Masteries
+        public List<MasteryListItemViewModel> Masteries
         {
             get => _masteries;
             set => SetProperty(ref _masteries, value);
@@ -193,8 +193,8 @@ namespace ImagoApp.ViewModels
                     if (!mastery.Available)
                         continue;
 
-                    if (mastery.Talent.ActiveUse == false || mastery.Talent.ActiveUse && mastery.InUse)
-                        result -= mastery.Talent.Difficulty ?? mastery.DifficultyOverride ?? 0;
+                    if (mastery.Mastery.ActiveUse == false || mastery.Mastery.ActiveUse && mastery.InUse)
+                        result -= mastery.Mastery.Difficulty ?? mastery.DifficultyOverride ?? 0;
                 }
             }
 
@@ -220,7 +220,7 @@ namespace ImagoApp.ViewModels
             {
                 foreach (var mastery in Masteries)
                 {
-                    if (mastery.Talent is MasteryModel model)
+                    if (mastery.Mastery is MasteryModel model)
                     {
                         var avaiable = _characterViewModel.CheckMasteryRequirement(model.Requirements);
                         mastery.Available = avaiable;
@@ -253,7 +253,7 @@ namespace ImagoApp.ViewModels
         private void InitializeTestView()
         {
             //masteries
-            var masteries = new List<TalentListItemViewModel>();
+            var masteries = new List<MasteryListItemViewModel>();
             var allMasteries = _wikiDataService.GetAllMasteries();
             foreach (var mastery in allMasteries)
             {
@@ -262,7 +262,7 @@ namespace ImagoApp.ViewModels
 
                 var avaiable = _characterViewModel.CheckMasteryRequirement(mastery.Requirements);
 
-                var vm = new TalentListItemViewModel(mastery)
+                var vm = new MasteryListItemViewModel(mastery)
                 {
                     Available = avaiable
                 };

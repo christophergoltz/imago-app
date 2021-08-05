@@ -1,21 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using ImagoApp.Application;
 using ImagoApp.Application.Models;
-using ImagoApp.Application.Models.Base;
 
 namespace ImagoApp.ViewModels
 {
-    public class TalentListItemViewModel : BindableBase
+    public class MasteryListItemViewModel : BindableBase
     {
         private bool _inUse;
         private int? _difficultyOverride;
         public event EventHandler TalentValueChanged;
 
-        public TalentModel Talent { get; }
+        public MasteryModel Mastery { get; }
 
-        public TalentListItemViewModel(TalentModel talent)
+        public MasteryListItemViewModel(MasteryModel mastery)
         {
-            Talent = talent;
+            Mastery = mastery;
         }
 
         public bool Available
