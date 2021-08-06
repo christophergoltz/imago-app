@@ -25,7 +25,8 @@
 <!-- -->
 
 - **Behoben**: Die Navigation innerhalb der Fertigkeitsseite bei der Charaktererschaffung mit [Tab] wird nun in der richtigen Reihenfolge (Oben nach unten, links nach rechts) durchgeführt
-- **Behoben**: Die Aktuellen Lebenspunkte verändern sich passend zu dem Max-Hp
+- **Behoben**: Die aktuellen Lebenspunkte verändern sich passend zu dem Max-Hp
+- **Behoben**: Die aktuellen Lebenspunkte werden nun prozentual abgespeichert, wodurch Modifikatoren auf Konstitution nicht mehr zum ungewollten ausfall einer Trefferzone sorgen
 
 <!-- -->
 

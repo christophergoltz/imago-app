@@ -9,7 +9,7 @@ namespace ImagoApp.Infrastructure.Entities
     public class BodyPartEntity
     {
         public int MaxHitpoints { get; set; }
-        public int CurrentHitpoints { get; set; }
+        public double CurrentHitpointsPercentage { get; set; }
         public List<ArmorPartEntity> Armor { get; set; }
         public BodyPartType Type { get; set; }
     }
