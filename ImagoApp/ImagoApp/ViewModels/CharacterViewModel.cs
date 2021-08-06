@@ -308,7 +308,29 @@ namespace ImagoApp.ViewModels
             ApplyNewFinalValueOfAttribute(target);
         }
 
-        private void ApplyNewFinalValueOfAttribute(AttributeModel changedAttribute = null)
+        private void RecalculateAllAttributes()
+        {
+            var constFinalValue = GetAttributeSum(AttributeType.Konstitution);
+            var willenskraftFinalValue = GetAttributeSum(AttributeType.Willenskraft);
+            var geschicklichkeitFinalValue = GetAttributeSum(AttributeType.Geschicklichkeit);
+            var wahrnehmungFinalValue = GetAttributeSum(AttributeType.Wahrnehmung);
+            var staerkeFinalValue = GetAttributeSum(AttributeType.Staerke);
+
+            //update derived attributes
+            RecalculateDerivedAttributes(willenskraftFinalValue, staerkeFinalValue, constFinalValue,
+                geschicklichkeitFinalValue);
+
+            //update special attributes
+            RecalculateSpecialAttributes(geschicklichkeitFinalValue, wahrnehmungFinalValue, willenskraftFinalValue);
+
+            //update bodyparts
+            RecalculateBodyParts(constFinalValue);
+
+            //update handicap
+            RecalculateHandicapAttributes();
+        }
+
+        private void ApplyNewFinalValueOfAttribute(AttributeModel changedAttribute)
         {
             if (changedAttribute != null)
                 Debug.WriteLine($"ApplyNewFinalValueOfAttribute {changedAttribute.Type}");
@@ -557,7 +579,7 @@ namespace ImagoApp.ViewModels
         public void CalculateInitialValues()
         {
             _attributeCalculationService.RecalculateAllAttributes(CharacterModel.Attributes, CharacterModel.SkillGroups);
-            ApplyNewFinalValueOfAttribute();
+            RecalculateAllAttributes();
         }
     }
 }

@@ -35,6 +35,21 @@ namespace ImagoApp.ViewModels
             }
         }));
 
+        public int CurrentHitpoints
+        {
+            get
+            {
+                var currentHitpointsFloat = BodyPartModel.MaxHitpoints * BodyPartModel.CurrentHitpointsPercentage;
+                var currentHitpoints = (int)Math.Round(currentHitpointsFloat, MidpointRounding.AwayFromZero);
+                return currentHitpoints;
+            }
+            set
+            {
+                var newPercentage = value / (double)BodyPartModel.MaxHitpoints;
+                BodyPartModel.CurrentHitpointsPercentage = newPercentage;
+            }
+        }
+
 
         private ICommand _addArmorCommand;
         public ICommand AddArmorCommand => _addArmorCommand ?? (_addArmorCommand = new Command(() =>
@@ -102,9 +117,10 @@ namespace ImagoApp.ViewModels
             BodyPartModel = bodyPartModel;
             BodyPartModel.PropertyChanged += (sender, args) =>
             {
-                if (args.PropertyName.Equals(nameof(BodyPartModel.CurrentHitpoints)) || args.PropertyName.Equals(nameof(BodyPartModel.MaxHitpoints)))
+                if (args.PropertyName.Equals(nameof(BodyPartModel.CurrentHitpointsPercentage)) || args.PropertyName.Equals(nameof(BodyPartModel.MaxHitpoints)))
                 {
                     OnPropertyChanged(nameof(BodyPartModel));
+                    OnPropertyChanged(nameof(CurrentHitpoints));
                 }
             };
             

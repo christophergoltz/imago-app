@@ -13,7 +13,7 @@ namespace ImagoApp.Converter
         {
             if (value is BodyPartModel bodyPart)
             {
-                var currentHitpointsPercentage = (int)((double)bodyPart.CurrentHitpoints / bodyPart.MaxHitpoints * 100);
+                var currentHitpointsPercentage = bodyPart.CurrentHitpointsPercentage * 100;
                 if (currentHitpointsPercentage > 100)
                     currentHitpointsPercentage = 100;
 
@@ -23,7 +23,7 @@ namespace ImagoApp.Converter
                 return GetBlendedColor((int) currentHitpointsPercentage);
             }
 
-            throw new InvalidOperationException(nameof(BodyPartToCurrentHitpointsPercentage));
+            throw new InvalidOperationException(nameof(BodyPartToCurrentHitpointsColor));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

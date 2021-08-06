@@ -9,7 +9,7 @@ namespace ImagoApp.Application.Models
     public class BodyPartModel : BindableBase
     {
         private int _maxHitpoints;
-        private int _currentHitpoints;
+        private double _currentHitpointspercentage;
         private ObservableCollection<ArmorPartModelModel> _armor;
         private BodyPartType _type;
 
@@ -22,32 +22,13 @@ namespace ImagoApp.Application.Models
         public int MaxHitpoints
         {
             get => _maxHitpoints;
-            set
-            {
-                var diff = value - _maxHitpoints;
-                SetProperty(ref _maxHitpoints, value);
-                if (diff != 0)
-                {
-                    CurrentHitpoints += diff;
-                }
-            }
+            set => SetProperty(ref _maxHitpoints, value);
         }
 
-        public int CurrentHitpoints
+        public double CurrentHitpointsPercentage
         {
-            get => _currentHitpoints;
-            set
-            {
-                if (value > MaxHitpoints)
-                {
-                    //set to cap
-                    SetProperty(ref _currentHitpoints, _maxHitpoints);
-                }
-                else
-                {
-                    SetProperty(ref _currentHitpoints, value);
-                }
-            }
+            get => _currentHitpointspercentage;
+            set => SetProperty(ref _currentHitpointspercentage, value);
         }
 
         public ObservableCollection<ArmorPartModelModel> Armor

@@ -18,7 +18,7 @@ namespace ImagoApp.Application.Services
     public class CharacterCreationService : ICharacterCreationService
     {
         private readonly Random _randome = new Random();
-        private readonly  List<string> _names = new List<string>()
+        private readonly List<string> _names = new List<string>()
         {
             "Abraham",
             "Adalbert",
@@ -517,27 +517,27 @@ namespace ImagoApp.Application.Services
 
             //add skillgroups
             character.SkillGroups.Add(CreateSkillGroups(SkillGroupModelType.Nahkampf));
-            character.SkillGroups.Add( CreateSkillGroups(SkillGroupModelType.Heimlichkeit));
-            character.SkillGroups.Add( CreateSkillGroups(SkillGroupModelType.Fernkampf));
+            character.SkillGroups.Add(CreateSkillGroups(SkillGroupModelType.Heimlichkeit));
+            character.SkillGroups.Add(CreateSkillGroups(SkillGroupModelType.Fernkampf));
             character.SkillGroups.Add(CreateSkillGroups(SkillGroupModelType.Bewegung));
             character.SkillGroups.Add(CreateSkillGroups(SkillGroupModelType.Handwerk));
             character.SkillGroups.Add(CreateSkillGroups(SkillGroupModelType.Soziales));
             character.SkillGroups.Add(CreateSkillGroups(SkillGroupModelType.Webkunst));
-            character.SkillGroups.Add( CreateSkillGroups(SkillGroupModelType.Wissenschaft));
+            character.SkillGroups.Add(CreateSkillGroups(SkillGroupModelType.Wissenschaft));
 
             return character;
         }
-        
+
         private List<BodyPartModel> CreateBodyParts()
         {
             return new List<BodyPartModel>
             {
-                new BodyPartModel(BodyPartType.Kopf, new ObservableCollection<ArmorPartModelModel>()),
-                new BodyPartModel(BodyPartType.Torso, new ObservableCollection<ArmorPartModelModel>()),
-                new BodyPartModel(BodyPartType.ArmLinks, new ObservableCollection<ArmorPartModelModel>()),
-                new BodyPartModel(BodyPartType.ArmRechts, new ObservableCollection<ArmorPartModelModel>()),
-                new BodyPartModel(BodyPartType.BeinLinks, new ObservableCollection<ArmorPartModelModel>()),
-                new BodyPartModel(BodyPartType.BeinRechts, new ObservableCollection<ArmorPartModelModel>())
+                new BodyPartModel(BodyPartType.Kopf, new ObservableCollection<ArmorPartModelModel>()) { CurrentHitpointsPercentage = 1},
+                new BodyPartModel(BodyPartType.Torso, new ObservableCollection<ArmorPartModelModel>()){ CurrentHitpointsPercentage = 1},
+                new BodyPartModel(BodyPartType.ArmLinks, new ObservableCollection<ArmorPartModelModel>()){ CurrentHitpointsPercentage = 1},
+                new BodyPartModel(BodyPartType.ArmRechts, new ObservableCollection<ArmorPartModelModel>()){ CurrentHitpointsPercentage = 1},
+                new BodyPartModel(BodyPartType.BeinLinks, new ObservableCollection<ArmorPartModelModel>()){ CurrentHitpointsPercentage = 1},
+                new BodyPartModel(BodyPartType.BeinRechts, new ObservableCollection<ArmorPartModelModel>()){ CurrentHitpointsPercentage = 1}
             };
         }
 
