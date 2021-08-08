@@ -21,7 +21,7 @@ namespace ImagoApp.Application.Services
     public class WikiParseService : IWikiParseService
     {
         private readonly IWikiDataService _wikiDataService;
-        
+
         public WikiParseService(IWikiDataService wikiDataService)
         {
             _wikiDataService = wikiDataService;
@@ -29,7 +29,7 @@ namespace ImagoApp.Application.Services
 
         public int? RefreshArmorFromWiki(Logger logger)
         {
-            var armor = ParseArmorFromUrl(WikiConstants.ArmorUrl, logger );
+            var armor = ParseArmorFromUrl(WikiConstants.ArmorUrl, logger);
             _wikiDataService.DeleteAllArmor();
             _wikiDataService.AddArmor(armor);
             return armor.Count;
@@ -68,13 +68,13 @@ namespace ImagoApp.Application.Services
 
         public int? RefreshWeaveTalentsFromWiki(Logger logger)
         {
-            var weaveTalents = ParseWeaveTalentsFromUrls(WikiConstants.ParsableWeaveTalentLookUp, logger);
+            var weaveTalents = ParseWeaveTalentsFromUrl(WikiConstants.WeaveTalentUrl, logger);
             _wikiDataService.DeleteAllWeaveTalents();
             _wikiDataService.AddWeaveTalents(weaveTalents);
             return weaveTalents.Count;
         }
 
-        private List<ArmorPartTemplateModel> ParseArmorFromUrl(string url, Logger logger )
+        private List<ArmorPartTemplateModel> ParseArmorFromUrl(string url, Logger logger)
         {
             var result = new List<ArmorPartTemplateModel>();
 
@@ -139,10 +139,10 @@ namespace ImagoApp.Application.Services
             if (name.Equals("Bein"))
                 return ArmorPartType.Bein;
 
-            logger.Error( $"Zuordnung von Rüstungsteil konnte aus Wert \"{name}\" nicht gelesen werden");
+            logger.Error($"Zuordnung von Rüstungsteil konnte aus Wert \"{name}\" nicht gelesen werden");
             return ArmorPartType.Unknown;
         }
-        
+
         private List<WeaponTemplateModel> ParseWeaponsFromUrl(string url, Logger logger)
         {
             var result = new List<WeaponTemplateModel>();
@@ -184,7 +184,7 @@ namespace ImagoApp.Application.Services
                         var damage = CleanUpString(dataCells[2].InnerText);
                         var parry = CleanUpString(dataCells[3].InnerText);
                         var range = CleanUpString(dataCells[4].InnerText);
-                        
+
                         weaponStances.Add(new WeaponStanceModel(weaponStanceType, phase, damage, parry, range));
                     }
 
@@ -198,14 +198,15 @@ namespace ImagoApp.Application.Services
                 }
                 catch (Exception e)
                 {
-                    logger.Error(e, $"Werte für die Waffe \"{weaponName}\" konnten nicht von \"{url}\" gelesen werden.{Environment.NewLine}Fehler:{e}");
+                    logger.Error(e,
+                        $"Werte für die Waffe \"{weaponName}\" konnten nicht von \"{url}\" gelesen werden.{Environment.NewLine}Fehler:{e}");
                 }
             }
 
-            logger.Information( $"Waffen hinzugefügt [{string.Join(", ", result.Select(weapon => weapon.Name))}]");
+            logger.Information($"Waffen hinzugefügt [{string.Join(", ", result.Select(weapon => weapon.Name))}]");
             return result;
         }
-        
+
         private string CleanUpString(string value)
         {
             return value.Replace("\n", "").Replace("\r", "").Trim();
@@ -273,7 +274,7 @@ namespace ImagoApp.Application.Services
             if (doc == null)
                 return talents;
 
-            var descriptions =  GetTalentDescriptions(doc);
+            var descriptions = GetTalentDescriptions(doc);
 
             var table = doc.DocumentNode.SelectSingleNode("//table[@class='wikitable']");
             if (table == null)
@@ -303,7 +304,8 @@ namespace ImagoApp.Application.Services
                         var skill = MappingStringToSkillType(strings[0], logger);
                         if (skill == SkillModelType.Unbekannt)
                         {
-                            logger.Error($"Vorraussetztung \"{requirement}\" für Kunst \"{name}\" kann nicht gelesen werden .. wird ignoriert");
+                            logger.Error(
+                                $"Vorraussetztung \"{requirement}\" für Kunst \"{name}\" kann nicht gelesen werden .. wird ignoriert");
                             continue;
                         }
 
@@ -316,7 +318,7 @@ namespace ImagoApp.Application.Services
                     var difficulty = ParseStringToDifficultyForTalent(difficultyValue, name, url, logger);
                     var activeUse = MapToActiveUse(CleanUpString(dataCells[3].InnerText), logger);
                     var phaseValueMod = CleanUpString(dataCells[4].InnerText);
-                    
+
                     var shortDescription = string.Empty;
 
                     if (dataCells.Count > 5)
@@ -331,42 +333,47 @@ namespace ImagoApp.Application.Services
                     var desc = string.Empty;
                     if (!descriptions.ContainsKey(name))
                     {
-                        logger.Warning( $"Keine Beschreibung zu \"{name}\" gefunden {url}");
+                        logger.Warning($"Keine Beschreibung zu \"{name}\" gefunden {url}");
                     }
                     else
                     {
                         desc = descriptions[name];
                         if (string.IsNullOrWhiteSpace(desc))
                         {
-                            logger.Warning( $"Nur eine leere Beschreibung zu \"{name}\" gefunden {url}");
+                            logger.Warning($"Nur eine leere Beschreibung zu \"{name}\" gefunden {url}");
                         }
                     }
 
                     if (difficulty.HasValue && difficulty.Value > 0 && !activeUse)
                     {
-                        var message = $"Bei der Kunst {name} der Fertigkeit {modelType} ist eine Schwierigkeit von {difficulty.Value} angegeben, diese muss allerdings bei einer passiven Kunst immer 0 sein;";
+                        var message =
+                            $"Bei der Kunst {name} der Fertigkeit {modelType} ist eine Schwierigkeit von {difficulty.Value} angegeben, diese muss allerdings bei einer passiven Kunst immer 0 sein;";
                         logger.Error(new WikiParseException(message), message);
                         difficulty = 0;
                     }
 
-                    talents.Add(new TalentModel(modelType, name, shortDescription, desc, requirements, difficulty, activeUse,
+                    talents.Add(new TalentModel(modelType, name, shortDescription, desc, requirements, difficulty,
+                        activeUse,
                         phaseValueMod));
                 }
                 catch (Exception exception)
                 {
-                    logger.Error(exception,   $"Kunst \"{name}\" kann nicht von \"{url}\" gelesen werden.{Environment.NewLine}Fehler:{exception}");
+                    logger.Error(exception,
+                        $"Kunst \"{name}\" kann nicht von \"{url}\" gelesen werden.{Environment.NewLine}Fehler:{exception}");
                 }
             }
 
-            logger.Information($"Künste für Fertigkeit \"{modelType}\" hinzugefügt [{string.Join(", ", talents.Select(model => model.Name))}]");
+            logger.Information(
+                $"Künste für Fertigkeit \"{modelType}\" hinzugefügt [{string.Join(", ", talents.Select(model => model.Name))}]");
             return talents;
         }
 
-        private int? ParseStringToDifficultyForTalent(string value, string talentName,string url, Logger logger)
+        private int? ParseStringToDifficultyForTalent(string value, string talentName, string url, Logger logger)
         {
             if (string.IsNullOrWhiteSpace(value))
             {
-                logger.Error($"Schwierigkeit \"{value}\" kann von {talentName} \"{url}\" nicht gelesen werden. Die Schwierigkeit wird als konfigurierbar hinterlegt.");
+                logger.Error(
+                    $"Schwierigkeit \"{value}\" kann von {talentName} \"{url}\" nicht gelesen werden. Die Schwierigkeit wird als konfigurierbar hinterlegt.");
                 return null;
             }
 
@@ -377,7 +384,8 @@ namespace ImagoApp.Application.Services
             var parsed = int.TryParse(value, out int parsedValue);
             if (!parsed)
             {
-                logger.Error( $"Schwierigkeit \"{value}\" kann von {talentName} \"{url}\" nicht in eine Zahl konvertiert werden. Die Schwierigkeit wird als konfigurierbar hinterlegt.");
+                logger.Error(
+                    $"Schwierigkeit \"{value}\" kann von {talentName} \"{url}\" nicht in eine Zahl konvertiert werden. Die Schwierigkeit wird als konfigurierbar hinterlegt.");
                 return null;
             }
 
@@ -404,7 +412,7 @@ namespace ImagoApp.Application.Services
             if (value.Equals("Zweihänder"))
                 return SkillModelType.Zweihaender;
 
-            logger.Error( $"Keine Fertigkeit für den Wert \"{value}\" hinterlegt");
+            logger.Error($"Keine Fertigkeit für den Wert \"{value}\" hinterlegt");
             return SkillModelType.Unbekannt;
         }
 
@@ -416,7 +424,7 @@ namespace ImagoApp.Application.Services
             if (value.Equals("Weben"))
                 return SkillGroupModelType.Webkunst;
 
-            logger.Error( $"Keine Fertigkeitskategorie für den Wert \"{value}\" hinterlegt");
+            logger.Error($"Keine Fertigkeitskategorie für den Wert \"{value}\" hinterlegt");
             return SkillGroupModelType.Unbekannt;
         }
 
@@ -430,7 +438,7 @@ namespace ImagoApp.Application.Services
             logger.Error($"Keinen Einsatz für den Wert \"{value}\" hinterlegt");
             return false;
         }
-        
+
         private List<MasteryModel> ParseMasteriesFromUrls(Dictionary<SkillGroupModelType, string> urls, Logger logger)
         {
             var talents = new List<MasteryModel>();
@@ -459,7 +467,7 @@ namespace ImagoApp.Application.Services
                 logger.Warning($"Keine Tabelle mit Werten auf \"{url}\" gefunden");
                 return talents;
             }
-            
+
             var rows = table.SelectNodes("tr");
 
             //parse each row
@@ -481,7 +489,8 @@ namespace ImagoApp.Application.Services
                         var skill = MappingStringToSkillGroupType(strings[0], logger);
                         if (skill == SkillGroupModelType.Unbekannt)
                         {
-                            logger.Error($"Vorraussetztung \"{requirement}\" für Meisterschaft \"{name}\" kann nicht gelesen werden .. wird ignoriert");
+                            logger.Error(
+                                $"Vorraussetztung \"{requirement}\" für Meisterschaft \"{name}\" kann nicht gelesen werden .. wird ignoriert");
                             continue;
                         }
 
@@ -505,115 +514,6 @@ namespace ImagoApp.Application.Services
                     var desc = string.Empty;
                     if (!descriptions.ContainsKey(name))
                     {
-                        logger.Warning( $"Keine Beschreibung zu \"{name}\" gefunden {url}");
-                    }
-                    else
-                    {
-                        desc = descriptions[name];
-                        if (string.IsNullOrWhiteSpace(desc))
-                        {
-                            logger.Warning( $"Nur eine leere Beschreibung zu \"{name}\" gefunden {url}");
-                        }
-                    }
-
-                    if (difficulty.HasValue && difficulty.Value > 0 && !activeUse)
-                    {
-                        var message =
-                            $"Bei der Meisterschaft {name} der Kategorie {modelType} ist eine Schwierigkeit von {difficulty.Value} angegeben, diese muss allerdings bei einer passiven Meisterschaft immer 0 entsprechen";
-                        logger.Error(new WikiParseException(message), message);
-                        difficulty = 0;
-                    }
-
-                    talents.Add(new MasteryModel(modelType, name, shortDescription, desc, requirements, difficulty, activeUse, phaseValueMod));
-                }
-                catch (Exception exception)
-                {
-                    logger.Error(exception, $"Meisterschaft \"{name}\" kann nicht von \"{url}\" gelesen werden");
-                }
-            }
-
-            logger.Information($"Meisterschaft für Fertigkeit \"{modelType}\" hinzugefügt [{string.Join(", ", talents.Select(model => model.Name))}]");
-            return talents;
-        }
-
-        private List<WeaveTalentModel> ParseWeaveTalentsFromUrls(Dictionary<SkillModelType, string> urls, Logger logger)
-        {
-            var talents = new List<WeaveTalentModel>();
-            foreach (var item in urls)
-            {
-                talents.AddRange(ParseWeaveTalentFromUrl(item.Key, item.Value, logger));
-            }
-
-            return talents;
-        }
-
-        private List<WeaveTalentModel> ParseWeaveTalentFromUrl(SkillModelType modelType, string url, Logger logger)
-        {
-            var weaveTalents = new List<WeaveTalentModel>();
-
-            var doc = WikiHelper.LoadDocumentFromUrl(url, logger);
-            if (doc == null)
-                return weaveTalents;
-
-            var descriptions = GetTalentDescriptions(doc);
-            
-            var table = doc.DocumentNode.SelectSingleNode("//table[@class='wikitable']");
-            if (table == null)
-            {
-                logger.Warning($"Keine Tabelle mit Werten auf \"{url}\" gefunden");
-                return weaveTalents;
-            }
-
-            var rows = table.SelectNodes("tr");
-
-            //parse each row
-            foreach (var talentDataRow in rows.Skip(1))
-            {
-                var name = string.Empty;
-
-                try
-                {
-                    var dataCells = talentDataRow.SelectNodes("td");
-                    name = CleanUpString(dataCells[0].InnerText);
-                    var requirementsRawValue = CleanUpString(dataCells[1].InnerText);
-
-                    var requirements = new List<SkillRequirementModel>();
-
-                    foreach (var requirement in requirementsRawValue.Split(',').Select(s => s.Trim()))
-                    {
-                        var strings = requirement.Split(' ');
-                        var skill = MappingStringToSkillType(strings[0], logger);
-                        if (skill == SkillModelType.Unbekannt)
-                        {
-                            logger.Error($"Vorraussetztung \"{requirement}\" für Webkunst \"{name}\" kann nicht gelesen werden .. wird ignoriert");
-                            continue;
-                        }
-
-                        var value = int.Parse(strings[1]);
-
-                        requirements.Add(new SkillRequirementModel(skill, value));
-                    }
-
-                    var difficultyValue = CleanUpString(dataCells[2].InnerText);
-                    var difficulty = ParseStringToDifficultyForTalent(difficultyValue, name, url, logger);
-                    var activeUse = MapToActiveUse(CleanUpString(dataCells[3].InnerText), logger);
-                    
-                    //todo test formulas
-                    //formulas
-                    var range = CleanUpString(dataCells[4].InnerText);
-                    var duration = CleanUpString(dataCells[5].InnerText);
-                    var corrosion = CleanUpString(dataCells[6].InnerText);
-                    
-                    var shortDescription = string.Empty;
-
-                    if (dataCells.Count > 7)
-                        shortDescription = CleanUpString(dataCells[7].InnerText);
-                    else
-                        logger.Warning($"Webkunst \"{name}\" hat keine Kurzbeschreibung");
-
-                    var desc = string.Empty;
-                    if (!descriptions.ContainsKey(name))
-                    {
                         logger.Warning($"Keine Beschreibung zu \"{name}\" gefunden {url}");
                     }
                     else
@@ -628,23 +528,122 @@ namespace ImagoApp.Application.Services
                     if (difficulty.HasValue && difficulty.Value > 0 && !activeUse)
                     {
                         var message =
-                            $"Bei der Webkunst {name} der Kategorie {modelType} ist eine Schwierigkeit von {difficulty.Value} angegeben, diese muss allerdings bei einer passiven Meisterschaft immer 0 entsprechen";
+                            $"Bei der Meisterschaft {name} der Kategorie {modelType} ist eine Schwierigkeit von {difficulty.Value} angegeben, diese muss allerdings bei einer passiven Meisterschaft immer 0 entsprechen";
                         logger.Error(new WikiParseException(message), message);
                         difficulty = 0;
                     }
 
-                    weaveTalents.Add(new WeaveTalentModel(modelType, requirements, name, shortDescription, desc,
-                        activeUse, difficulty, range, corrosion, duration));
+                    talents.Add(new MasteryModel(modelType, name, shortDescription, desc, requirements, difficulty,
+                        activeUse, phaseValueMod));
                 }
                 catch (Exception exception)
                 {
-                    logger.Error(exception, $"Webkunst \"{name}\" kann nicht von \"{url}\" gelesen werden");
+                    logger.Error(exception, $"Meisterschaft \"{name}\" kann nicht von \"{url}\" gelesen werden");
                 }
             }
 
-            logger.Information($"Webkünste für Fertigkeit \"{modelType}\" hinzugefügt [{string.Join(", ", weaveTalents.Select(model => model.Name))}]");
-            return weaveTalents;
+            logger.Information(
+                $"Meisterschaft für Fertigkeit \"{modelType}\" hinzugefügt [{string.Join(", ", talents.Select(model => model.Name))}]");
+            return talents;
         }
 
+        private List<WeaveTalentModel> ParseWeaveTalentsFromUrl(string url, Logger logger)
+        {
+            var weaveTalents = new List<WeaveTalentModel>();
+
+            var doc = WikiHelper.LoadDocumentFromUrl(url, logger);
+            if (doc == null)
+                return weaveTalents;
+
+            //parse complete table
+            foreach (var table in doc.DocumentNode.SelectNodes("//table[@class='wikitable']"))
+            {
+                var weaveSource = string.Empty;
+
+                var rows = table.SelectNodes("tr");
+                var header = rows[0];
+                var headerData = header.SelectNodes("th");
+
+                weaveSource = CleanUpString(headerData[0].InnerText);
+
+                //todo map weaveSource to skilltype
+                //get lookup
+                var descriptions = GetTalentDescriptions(doc);
+
+                //parse each row
+                foreach (var weaveTalent in rows.Skip(1))
+                {
+                    string name = string.Empty;
+                    try
+                    {
+
+                        var dataCells = weaveTalent.SelectNodes("td");
+                        name = CleanUpString(dataCells[0].InnerText);
+
+                        var requirementsRawValue = CleanUpString(dataCells[1].InnerText);
+
+                        var requirements = new List<SkillRequirementModel>();
+
+                        foreach (var requirement in requirementsRawValue.Split(',').Select(s => s.Trim()))
+                        {
+                            var strings = requirement.Split(' ');
+                            var skill = MappingStringToSkillType(strings[0], logger);
+                            if (skill == SkillModelType.Unbekannt)
+                            {
+                                logger.Error(
+                                    $"Vorraussetztung \"{requirement}\" für Webkunst \"{name}\" kann nicht gelesen werden .. wird ignoriert");
+                                continue;
+                            }
+
+                            var value = int.Parse(strings[1]);
+
+                            requirements.Add(new SkillRequirementModel(skill, value));
+                        }
+
+                        var activeUse = MapToActiveUse(CleanUpString(dataCells[3].InnerText), logger);
+
+                        //todo test formulas
+                        //formulas
+                        var difficultyFormula = CleanUpString(dataCells[2].InnerText);
+                        var range = CleanUpString(dataCells[4].InnerText);
+                        var duration = CleanUpString(dataCells[5].InnerText);
+                        var corrosion = CleanUpString(dataCells[6].InnerText);
+                        var strengthOfTalentDescription = CleanUpString(dataCells[7].InnerText);
+
+                        var shortDescription = string.Empty;
+
+                        if (dataCells.Count > 8)
+                            shortDescription = CleanUpString(dataCells[8].InnerText);
+                        else
+                            logger.Warning($"Webkunst \"{name}\" hat keine Kurzbeschreibung");
+
+                        var description = string.Empty;
+                        if (!descriptions.ContainsKey(name))
+                        {
+                            logger.Warning($"Keine Beschreibung zu \"{name}\" gefunden {url}");
+                        }
+                        else
+                        {
+                            description = descriptions[name];
+                            if (string.IsNullOrWhiteSpace(description))
+                            {
+                                logger.Warning($"Nur eine leere Beschreibung zu \"{name}\" gefunden {url}");
+                            }
+                        }
+
+                        weaveTalents.Add(new WeaveTalentModel(weaveSource, requirements, name, shortDescription,
+                            description,
+                            activeUse, difficultyFormula, range, corrosion, duration, strengthOfTalentDescription));
+                    }
+                    catch (Exception e)
+                    {
+                        logger.Error(e,
+                            $"Webkunst \"{name}\" \"{weaveSource}\" konnten nicht von \"{url}\" gelesen werden.{Environment.NewLine}Fehler:{e}");
+                    }
+                }
+            }
+
+            return weaveTalents;
+        }
     }
 }

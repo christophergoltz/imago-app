@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView x:Class="ImagoApp.Views.CustomControls.WeaveTalentDetailView" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+   xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application" xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp" x:Name="WeaveTalentDetailViewControl">
+    <Grid BindingContext="{Binding WeaveTalentDetailViewModel, Source={x:Reference WeaveTalentDetailViewControl}}" Style="{StaticResource SingleGradiantStyle}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="1" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!--  weave talent  -->
+        <StackLayout Grid.Column="0">
+            <Label Margin="30,30,30,20" FontAttributes="Bold"
+               FontSize="{DynamicResource FontSizeSmallCaption}"
+               Text="{Binding WeaveTalent.Name}" />
+
+            <Label Margin="40,10,10,0"
+               FontSize="{DynamicResource FontSizeContent}"
+               Text="{Binding WeaveTalent.ShortDescription}"
+               TextColor="{StaticResource AntiUmbra1}" />
+
+            <Label Margin="40,10,10,0"
+               FontSize="{DynamicResource FontSizeContent}"
+               Text="Stärke der Kunst:"
+               TextColor="{StaticResource AntiUmbra1}" />
+
+            <Label Margin="40,10,10,0"
+               FontSize="{DynamicResource FontSizeContent}"
+               Text="{Binding WeaveTalent.StrengthOfTalentDescription}"
+               TextColor="{StaticResource AntiUmbra1}" />
+
+            <Frame Margin="30">
+                <ListView HeightRequest="150"
+                   ItemsSource="{Binding Skills}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="models:SkillModel">
+                            <ViewCell>
+                                <StackLayout Margin="10" Orientation="Horizontal">
+                                    <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}" />
+                                    <Label FontSize="{DynamicResource FontSizeHeader}" Text="FW: " />
+                                    <Label FontAttributes="Bold"
+                                       FontSize="{DynamicResource FontSizeHeader}"
+                                       Text="{Binding FinalValue}" />
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Frame>
+
+            <Editor Margin="5,5,0,5"
+               FontSize="{DynamicResource FontSizeContent}"
+               Text="{Binding WeaveTalent.Description}"
+               VerticalOptions="FillAndExpand" />
+        </StackLayout>
+
+        <BoxView Grid.Column="1" Color="{StaticResource AntiUmbra}" />
+
+        <StackLayout Grid.Column="2">
+
+            <!--  difficulty  -->
+            <StackLayout Margin="20" BackgroundColor="DodgerBlue">
+                <StackLayout Orientation="Horizontal">
+                    <Label FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeHeader}"
+                       Text="Schwierigkeit:" />
+
+                    <Label FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeHeader}"
+                       Text="{Binding WeaveTalent.DifficultyFormula}" />
+
+                </StackLayout>
+            </StackLayout>
+
+            <!--  range  -->
+            <StackLayout Margin="20" BackgroundColor="Brown">
+                <StackLayout Orientation="Horizontal">
+                    <Label FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeHeader}"
+                       Text="Reichweite:" />
+
+                    <Label FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeHeader}"
+                       Text="{Binding RangeValue}" />
+
+                    <Label FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeHeader}"
+                       Text="{Binding RangeDescription}" />
+
+                    <Label Margin="30,0"
+                       FontSize="{DynamicResource FontSizeHeader}"
+                       Text="{Binding WeaveTalent.RangeFormula}"
+                       TextColor="{StaticResource AntiUmbra1}" />
+                </StackLayout>
+
+                <StackLayout Margin="40,10"
+                   IsVisible="{Binding IsRangeConfigurable}"
+                   Orientation="Horizontal">
+                    <Label FontSize="{DynamicResource FontSizeBigContent}"
+                       Text="{Binding RangeQuantity}"
+                       VerticalOptions="Center" WidthRequest="50" />
+
+                    <Slider Margin="20,0,50,0" HorizontalOptions="FillAndExpand" Maximum="100"
+                       MaximumTrackColor="{StaticResource AntiUmbra2}"
+                       Minimum="1" VerticalOptions="Center"
+                       Value="{Binding RangeQuantity}" />
+
+                </StackLayout>
+            </StackLayout>
+
+            <!--  duration  -->
+            <StackLayout Margin="20">
+                <StackLayout Orientation="Horizontal">
+                    <Label FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeHeader}"
+                       Text="Dauer:" />
+
+                    <Label FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeHeader}"
+                       IsVisible="{Binding IsDurationConfigurable}"
+                       Text="{Binding TimeValue}" />
+
+                    <Label FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeHeader}"
+                       Text="{Binding TimeDescription}" />
+
+                    <Label Margin="30,0"
+                       FontSize="{DynamicResource FontSizeHeader}"
+                       Text="{Binding WeaveTalent.DurationFormula}"
+                       TextColor="{StaticResource AntiUmbra1}" />
+                </StackLayout>
+
+                <StackLayout Margin="40,10" Background="yellow" HeightRequest="50"
+                   IsVisible="{Binding IsDurationConfigurable}"
+                   Orientation="Horizontal">
+                    <Label FontSize="{DynamicResource FontSizeBigContent}"
+                       Text="{Binding TimeQuantity}"
+                       VerticalOptions="Center" WidthRequest="50" />
+
+                    <Slider Margin="20,0,50,0" HorizontalOptions="FillAndExpand" Maximum="40"
+                       MaximumTrackColor="{StaticResource AntiUmbra2}"
+                       Minimum="1" VerticalOptions="Center"
+                       Value="{Binding TimeQuantity}" />
+                </StackLayout>
+            </StackLayout>
+
+            <!--  corrosion  -->
+            <StackLayout Margin="20">
+                <StackLayout Orientation="Horizontal">
+                    <Label FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeHeader}"
+                       Text="Korrosion:" />
+
+                    <Label FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeHeader}"
+                       Text="{Binding CorrosionCost}" />
+
+                    <Label Margin="30,0"
+                       FontSize="{DynamicResource FontSizeHeader}"
+                       Text="{Binding WeaveTalent.CorrosionFormula}"
+                       TextColor="{StaticResource AntiUmbra1}" />
+                </StackLayout>
+
+                <StackLayout Margin="40,10" Background="orange" HeightRequest="50"
+                   IsVisible="{Binding IsTalentLevelConfigurable}"
+                   Orientation="Horizontal">
+                    <Label FontSize="{DynamicResource FontSizeBigContent}"
+                       Text="Stärke der Kunst:" VerticalOptions="Center" />
+
+                    <Label FontSize="{DynamicResource FontSizeBigContent}"
+                       Text="{Binding TalentLevel}"
+                       VerticalOptions="Center" WidthRequest="50" />
+
+                    <Slider Margin="20,0,50,0" HorizontalOptions="FillAndExpand" Maximum="40"
+                       MaximumTrackColor="{StaticResource AntiUmbra2}"
+                       Minimum="1" VerticalOptions="Center"
+                       Value="{Binding TalentLevel}" />
+                </StackLayout>
+            </StackLayout>
+        </StackLayout>
+
+        <StackLayout Grid.Column="3">
+            <Button Margin="10" Padding="0,-4,0,0" BackgroundColor="LightGray"
+               Command="{Binding WeaveTalentDetailViewModel.CloseCommand, Source={x:Reference WeaveTalentDetailViewControl}}"
+               FontSize="{DynamicResource FontSizeHeader}"
+               HeightRequest="35" HorizontalOptions="End" Text="X"
+               TextColor="Red" VerticalOptions="Start" WidthRequest="35" />
+            <!--  meisterschaften  -->
+        </StackLayout>
+
+    </Grid>
+</ContentView>

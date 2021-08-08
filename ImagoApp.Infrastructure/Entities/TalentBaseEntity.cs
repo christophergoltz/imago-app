@@ -10,6 +10,5 @@ namespace ImagoApp.Infrastructure.Entities
         public string ShortDescription { get; set; }
         public string Description { get; set; }
         public bool ActiveUse { get; set; }
-        public int? Difficulty { get; set; }
     }
 }

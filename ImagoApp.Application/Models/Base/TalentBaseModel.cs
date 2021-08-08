@@ -6,7 +6,6 @@ namespace ImagoApp.Application.Models.Base
     {
         private string _name;
         private bool _activeUse;
-        private int? _difficulty;
         private string _shortDescription;
         private string _description;
 
@@ -15,13 +14,12 @@ namespace ImagoApp.Application.Models.Base
 
         }
 
-        protected TalentBaseModel(string name, string shortDescription, string description, bool activeUse, int? difficulty)
+        protected TalentBaseModel(string name, string shortDescription, string description, bool activeUse)
         {
             Name = name;
             ShortDescription = shortDescription;
             Description = description;
             ActiveUse = activeUse;
-            Difficulty = difficulty;
         }
         
         public string Name
@@ -44,12 +42,6 @@ namespace ImagoApp.Application.Models.Base
         {
             get => _activeUse;
             set => SetProperty(ref _activeUse, value);
-        }
-
-        public int? Difficulty
-        {
-            get => _difficulty;
-            set => SetProperty(ref _difficulty, value);
         }
     }
 }

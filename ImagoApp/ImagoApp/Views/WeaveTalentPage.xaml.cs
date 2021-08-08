@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ImagoApp.Application.Models;
 using ImagoApp.ViewModels;
+using ImagoApp.Views.CustomControls;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -13,7 +14,7 @@ namespace ImagoApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class WeaveTalentPage : ContentPage
     {
-        public WeaveTalentPageViewModel ViewModel { get; set; }
+        public WeaveTalentPageViewModel ViewModel { get; }
         public WeaveTalentPage(WeaveTalentPageViewModel weaveTalentPageViewModel)
         {
             BindingContext = ViewModel = weaveTalentPageViewModel;
@@ -25,8 +26,16 @@ namespace ImagoApp.Views
             if (e.SelectedItem == null)
                 return;
 
-            var w = (WeaveTalentModel) e.SelectedItem;
-            ViewModel.CreateDetailView(w);
+            var selectedItem = (WeaveTalentModel)e.SelectedItem;
+            
+            //reset selection
+            ((ListView)sender).SelectedItem = null;
+
+            //reset listview selection
+            var listView = (ListView)sender;
+            listView.SelectedItem = null;
+
+            ViewModel.OpenWeaveTalentCommand?.Execute(selectedItem);
         }
     }
 }

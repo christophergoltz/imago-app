@@ -9,5 +9,6 @@ namespace ImagoApp.Infrastructure.Entities
 
         public List<SkillGroupRequirementEntity> Requirements { get; set; }
         public string PhaseValueMod { get; set; }
+        public int? Difficulty{ get; set; }
     }
 }

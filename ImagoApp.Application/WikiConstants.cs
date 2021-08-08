@@ -13,6 +13,7 @@ namespace ImagoApp.Application
         public const string RangedWeaponUrl = "http://imago-rp.de/index.php/Fernkampfwaffen";
         public const string SpecialWeaponUrl = "http://imago-rp.de/index.php/Spezialwaffen";
         public const string ShieldsUrl = "http://imago-rp.de/index.php/Schilde";
+        public const string WeaveTalentUrl = "http://imago-rp.de/index.php/Webk%C3%BCnste_(App-Tabelle)";
 
         public const string HealingUrl = "http://imago-rp.de/index.php/Heilung";
         public const string DailyGoodsUrl = "http://imago-rp.de/index.php/Alltagsg%C3%BCter";

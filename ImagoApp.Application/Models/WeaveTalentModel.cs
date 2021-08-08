@@ -9,32 +9,35 @@ namespace ImagoApp.Application.Models
     public class WeaveTalentModel : TalentBaseModel
     {
         private List<SkillRequirementModel> _requirements;
-        private SkillModelType _targetSkillModel;
         private string _rangeFormula;
         private string _corrosionFormula;
         private string _durationFormula;
+        private string _weaveSource;
+        private string _difficultyFormula;
+        private string _strengthOfTalentDescription;
 
         public WeaveTalentModel() : base()
         {
             
         }
 
-        public WeaveTalentModel(SkillModelType targetSkillModel, List<SkillRequirementModel> requirements, string name, string shortDescription, string description,
-          bool activeUse, int? difficulty, string rangeFormula, string corrosionFormula, string durationFormula  ) : base(name, shortDescription, description,  activeUse,difficulty )
+        public WeaveTalentModel(string weaveSource, List<SkillRequirementModel> requirements, string name, string shortDescription, string description,
+          bool activeUse, string difficultyFormula, string rangeFormula, string corrosionFormula, string durationFormula, string strengthOfTalentDescription) : base(name, shortDescription, description,  activeUse)
         {
-            TargetSkillModel = targetSkillModel;
+            WeaveSource = weaveSource;
             Requirements = requirements;
             RangeFormula = rangeFormula;
             CorrosionFormula = corrosionFormula;
             DurationFormula = durationFormula;
+            StrengthOfTalentDescription = strengthOfTalentDescription;
         }
 
-        public SkillModelType TargetSkillModel
+        public string WeaveSource
         {
-            get => _targetSkillModel;
-            set => SetProperty(ref _targetSkillModel, value);
+            get => _weaveSource;
+            set => SetProperty(ref _weaveSource, value);
         }
-        
+
         public List<SkillRequirementModel> Requirements
         {
             get => _requirements;
@@ -47,6 +50,12 @@ namespace ImagoApp.Application.Models
             set => SetProperty(ref _rangeFormula, value);
         }
 
+        public string DifficultyFormula
+        {
+            get => _difficultyFormula;
+            set => SetProperty(ref _difficultyFormula, value);
+        }
+
         public string CorrosionFormula
         {
             get => _corrosionFormula;
@@ -57,6 +66,12 @@ namespace ImagoApp.Application.Models
         {
             get => _durationFormula;
             set => SetProperty(ref _durationFormula , value);
+        }
+
+        public string StrengthOfTalentDescription
+        {
+            get => _strengthOfTalentDescription;
+            set => SetProperty(ref _strengthOfTalentDescription, value);
         }
     }
 }

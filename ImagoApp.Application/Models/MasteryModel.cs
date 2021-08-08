@@ -10,18 +10,20 @@ namespace ImagoApp.Application.Models
         private List<SkillGroupRequirementModel> _requirements;
         private SkillGroupModelType _targetSkill;
         private string _phaseValueMod;
-        
+        private int? _difficulty;
+
         public MasteryModel() : base()
         {
 
         }
 
         public MasteryModel(SkillGroupModelType targetSkill , string name, string shortDescription,string description, List<SkillGroupRequirementModel> requirements,
-            int? difficulty, bool activeUse, string phaseValueMod) : base(name, shortDescription, description, activeUse, difficulty)
+            int? difficulty, bool activeUse, string phaseValueMod) : base(name, shortDescription, description, activeUse)
         {
             TargetSkill = targetSkill;
             Requirements = requirements;
             PhaseValueMod = phaseValueMod;
+            Difficulty = difficulty;
         }
 
         public SkillGroupModelType TargetSkill
@@ -40,6 +42,13 @@ namespace ImagoApp.Application.Models
         {
             get => _phaseValueMod;
             set => SetProperty(ref _phaseValueMod, value);
+        }
+
+
+        public int? Difficulty
+        {
+            get => _difficulty;
+            set => SetProperty(ref _difficulty, value);
         }
 
     }

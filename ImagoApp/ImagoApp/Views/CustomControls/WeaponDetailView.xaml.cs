@@ -1,5 +1,7 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 using ImagoApp.Application.Models;
+using ImagoApp.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,12 +17,12 @@ namespace ImagoApp.Views.CustomControls
 
         public static readonly BindableProperty WeaponDetailViewModelProperty = BindableProperty.Create(
             "WeaponDetailViewModel", // the name of the bindable property
-            typeof(ViewModels.WeaponDetailViewModel), // the bindable property type
+            typeof(WeaponDetailViewModel), // the bindable property type
             typeof(WeaponDetailView));
 
-        public ViewModels.WeaponDetailViewModel WeaponDetailViewModel
+        public WeaponDetailViewModel WeaponDetailViewModel
         {
-            get => (ViewModels.WeaponDetailViewModel)GetValue(WeaponDetailViewModelProperty);
+            get => (WeaponDetailViewModel)GetValue(WeaponDetailViewModelProperty);
             set => SetValue(WeaponDetailViewModelProperty, value);
         }
 
@@ -33,6 +35,7 @@ namespace ImagoApp.Views.CustomControls
             set { SetValue(CommandProperty, value); }
         }
         
+        [Obsolete("?")]
         public ICommand RemoveWeaponCommand => new Command<WeaponModel>(weapon =>
         {
             if (Command.CanExecute(weapon))

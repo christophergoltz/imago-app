@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using ImagoApp.Application;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Services;
@@ -15,7 +16,8 @@ namespace ImagoApp.ViewModels
     public class WeaveTalentList : ObservableCollection<WeaveTalentModel>
     {
         public ObservableCollection<WeaveTalentModel> Talents => this;
-        public SkillModel Skill { get; set; }
+        public string WeaveSourceGroup { get; set; }
+        public List<SkillModel> Skills { get; set; }
     }
 
     public class WeaveTalentPageViewModel : BindableBase
@@ -31,6 +33,26 @@ namespace ImagoApp.ViewModels
         private WeaveTalentDetailViewModel _weaveTalentDetailViewModel;
         public ObservableCollection<WeaveTalentList> WeaveTalents { get; set; }
 
+        private ICommand _openWeaponCommand;
+        public ICommand OpenWeaveTalentCommand => _openWeaponCommand ?? (_openWeaponCommand = new Command<WeaveTalentModel>(weaveTalent =>
+        {
+            try
+            {
+                var weaveTalentList = WeaveTalents.First(list => list.WeaveSourceGroup == weaveTalent.WeaveSource);
+                var detailViewModel = new WeaveTalentDetailViewModel(weaveTalent, weaveTalentList.Skills);
+                detailViewModel.CloseRequested += (sender, args) =>
+                {
+                    WeaveTalentDetailViewModel = null;
+                };
+
+                WeaveTalentDetailViewModel = detailViewModel;
+            }
+            catch (Exception exception)
+            {
+                App.ErrorManager.TrackException(exception, _characterViewModel.CharacterModel.Name);
+            }
+        }));
+
         public WeaveTalentPageViewModel(CharacterViewModel characterViewModel, IWikiDataService wikiDataService)
         {
             _characterViewModel = characterViewModel;
@@ -40,10 +62,20 @@ namespace ImagoApp.ViewModels
             InitializeWeaveTalentList().Wait();
         }
 
-        public void CreateDetailView(WeaveTalentModel weaveTalent)
+        private List<SkillModel> GetSkillsFromRequirements(List<SkillRequirementModel> requirements)
         {
-            var weaveTalentList = WeaveTalents.First(list => list.Skill.Type == weaveTalent.TargetSkillModel);
-            WeaveTalentDetailViewModel = new WeaveTalentDetailViewModel(weaveTalent, weaveTalentList.Skill);
+            var result = new List<SkillModel>();
+            foreach (var requirementModel in requirements)
+            {
+                if(requirementModel.Type == SkillModelType.Philosophie)
+                    continue;
+
+                var item = _characterViewModel.CharacterModel.SkillGroups.SelectMany(model => model.Skills)
+                    .First(model => model.Type == requirementModel.Type);
+                result.Add(item); 
+            }
+
+            return result;
         }
 
         public async Task InitializeWeaveTalentList()
@@ -55,21 +87,16 @@ namespace ImagoApp.ViewModels
                 if (available)
                 {
                     //add
-                    if (WeaveTalents.Select(list => list.Skill.Type).Contains(weaveTalent.TargetSkillModel))
+                    var list = WeaveTalents.FirstOrDefault(talentList =>
+                        talentList.WeaveSourceGroup == weaveTalent.WeaveSource);
+
+                    if (list == null)
                     {
-                        var weaveTalentList = WeaveTalents.First(list => list.Skill.Type == weaveTalent.TargetSkillModel);
-                        await Device.InvokeOnMainThreadAsync(() =>
-                        {
-                            weaveTalentList.Add(weaveTalent);
-                        });
-                    }
-                    else
-                    {
+                        //add new
                         var talentList = new WeaveTalentList
                         {
-                            Skill = _characterViewModel.CharacterModel.SkillGroups
-                                .SelectMany(model => model.Skills)
-                                .First(model => model.Type == weaveTalent.TargetSkillModel)
+                            WeaveSourceGroup = weaveTalent.WeaveSource,
+                            Skills = GetSkillsFromRequirements(weaveTalent.Requirements)
                         };
                         talentList.Talents.Add(weaveTalent);
 
@@ -77,6 +104,14 @@ namespace ImagoApp.ViewModels
                         {
                             WeaveTalents.Add(talentList);
                         });
+                    }
+                    else
+                    {
+                        //extend existing, if required
+                        if (!list.Contains(weaveTalent))
+                        {
+                            await Device.InvokeOnMainThreadAsync(() => { list.Add(weaveTalent); });
+                        }
                     }
                 }
                 else
