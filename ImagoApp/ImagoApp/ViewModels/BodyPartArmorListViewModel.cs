@@ -40,7 +40,7 @@ namespace ImagoApp.ViewModels
             get
             {
                 var currentHitpointsFloat = BodyPartModel.MaxHitpoints * BodyPartModel.CurrentHitpointsPercentage;
-                var currentHitpoints = (int)Math.Round(currentHitpointsFloat, MidpointRounding.AwayFromZero);
+                var currentHitpoints = currentHitpointsFloat.GetRoundedValue();
                 return currentHitpoints;
             }
             set

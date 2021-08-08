@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
+using ImagoApp.Application;
 using ImagoApp.Application.Models;
 using Xamarin.Forms;
 
@@ -20,7 +21,7 @@ namespace ImagoApp.Converter
                 if (currentHitpointsPercentage < 0)
                     currentHitpointsPercentage = 0;
 
-                return GetBlendedColor((int) currentHitpointsPercentage);
+                return GetBlendedColor(currentHitpointsPercentage.GetRoundedValue());
             }
 
             throw new InvalidOperationException(nameof(BodyPartToCurrentHitpointsColor));

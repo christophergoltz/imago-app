@@ -28,7 +28,7 @@ namespace ImagoApp.Application.Services
         {
             foreach (var skill in skillGroup.Skills)
             {
-                skill.BaseValue = (int)skillGroup.FinalValue;
+                skill.BaseValue = skillGroup.FinalValue.GetRoundedValue();
                 _skillCalculationService.RecalculateFinalValue(skill);
             }
         }
@@ -37,7 +37,7 @@ namespace ImagoApp.Application.Services
         {
             foreach (var skill in skillGroups.Skills)
             {
-                skill.BaseValue = (int)skillGroups.FinalValue;
+                skill.BaseValue = skillGroups.FinalValue.GetRoundedValue();
                 _skillCalculationService.RecalculateFinalValue(skill);
             }
         }

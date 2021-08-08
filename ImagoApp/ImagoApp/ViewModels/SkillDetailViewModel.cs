@@ -173,7 +173,7 @@ namespace ImagoApp.ViewModels
         
         private void RecalcTestValue()
         {
-            var result = (int) SkillModel.FinalValue;
+            var result = SkillModel.FinalValue.GetRoundedValue();
 
             //handicap
             if (Handicaps != null)
@@ -301,7 +301,7 @@ namespace ImagoApp.ViewModels
                 {
                     var handicapValue = tuple.Type == DerivedAttributeType.Unknown
                         ? (int?) null
-                        : (int)_characterViewModel.DerivedAttributes.First(attribute => attribute.Type == tuple.Type).FinalValue;
+                        : _characterViewModel.DerivedAttributes.First(attribute => attribute.Type == tuple.Type).FinalValue.GetRoundedValue();
 
                     //todo converter
                     var vm = new HandicapListViewItemViewModel(tuple.Type, false, handicapValue, tuple.IconSource,

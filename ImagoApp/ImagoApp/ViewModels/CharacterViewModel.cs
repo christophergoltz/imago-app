@@ -152,7 +152,7 @@ namespace ImagoApp.ViewModels
             Debug.WriteLine($"Set Modification for {specialAttributeModel.Type} to {modificationValue}");
 
             specialAttributeModel.ModificationValue = modificationValue;
-            
+
             var willenskraftFinalValue = GetAttributeSum(AttributeType.Willenskraft);
             var geschicklichkeitFinalValue = GetAttributeSum(AttributeType.Geschicklichkeit);
             var wahrnehmungFinalValue = GetAttributeSum(AttributeType.Wahrnehmung);
@@ -334,11 +334,11 @@ namespace ImagoApp.ViewModels
         {
             if (changedAttribute != null)
                 Debug.WriteLine($"ApplyNewFinalValueOfAttribute {changedAttribute.Type}");
-            
+
             var constFinalValue = GetAttributeSum(AttributeType.Konstitution);
             var willenskraftFinalValue = GetAttributeSum(AttributeType.Willenskraft);
             var geschicklichkeitFinalValue = GetAttributeSum(AttributeType.Geschicklichkeit);
-           
+
             if (changedAttribute != null && changedAttribute.Type.In(AttributeType.Willenskraft, AttributeType.Staerke, AttributeType.Konstitution, AttributeType.Geschicklichkeit))
             {
                 var staerkeFinalValue = GetAttributeSum(AttributeType.Staerke);
@@ -370,39 +370,27 @@ namespace ImagoApp.ViewModels
         {
             foreach (var derivedAttribute in DerivedAttributes)
             {
+                double baseValue = 0;
                 switch (derivedAttribute.Type)
                 {
                     case DerivedAttributeType.Egoregenration:
-                        {
-                            var baseValue = willenskraftFinalValue / 5;
-                            derivedAttribute.FinalValue = (int)Math.Round(baseValue, MidpointRounding.AwayFromZero);
-                            break;
-                        }
+                        baseValue = willenskraftFinalValue / 5;
+                        break;
                     case DerivedAttributeType.Schadensmod:
-                        {
-                            var baseValue = (staerkeFinalValue / 10) - 5;
-                            derivedAttribute.FinalValue = (int)Math.Round(baseValue, MidpointRounding.AwayFromZero);
-                            break;
-                        }
+                        baseValue = (staerkeFinalValue / 10) - 5;
+                        break;
                     case DerivedAttributeType.Traglast:
-                        {
-                            var baseValue = (konstitutionFinalValue + konstitutionFinalValue + staerkeFinalValue) / 10;
-                            derivedAttribute.FinalValue = (int)Math.Round(baseValue, MidpointRounding.AwayFromZero);
-                            break;
-                        }
+                        baseValue = (konstitutionFinalValue + konstitutionFinalValue + staerkeFinalValue) / 10;
+                        break;
                     case DerivedAttributeType.TaktischeBewegung:
-                        {
-                            var baseValue = geschicklichkeitFinalValue / 10;
-                            derivedAttribute.FinalValue = (int)Math.Round(baseValue, MidpointRounding.AwayFromZero);
-                            break;
-                        }
+                        baseValue = geschicklichkeitFinalValue / 10;
+                        break;
                     case DerivedAttributeType.Sprintreichweite:
-                        {
-                            var baseValue = geschicklichkeitFinalValue / 5;
-                            derivedAttribute.FinalValue = (int)Math.Round(baseValue, MidpointRounding.AwayFromZero);
-                            break;
-                        }
+                        baseValue = geschicklichkeitFinalValue / 5;
+                        break;
                 }
+
+                derivedAttribute.FinalValue = baseValue.GetRoundedValue();
             }
         }
 
@@ -410,37 +398,28 @@ namespace ImagoApp.ViewModels
         {
             foreach (var bodyPart in CharacterModel.BodyParts)
             {
+                double newHitpoints;
                 switch (bodyPart.Type)
                 {
                     case BodyPartType.Kopf:
-                        {
-                            var newValue = (constFinalValue / 15) + 3;
-                            bodyPart.MaxHitpoints = (int)Math.Round(newValue, MidpointRounding.AwayFromZero);
-                            break;
-                        }
+                        newHitpoints = (constFinalValue / 15) + 3;
+                        break;
                     case BodyPartType.Torso:
-                        {
-                            var newValue = (constFinalValue / 6) + 2;
-                            bodyPart.MaxHitpoints = (int)Math.Round(newValue, MidpointRounding.AwayFromZero);
-                            break;
-                        }
+                        newHitpoints = (constFinalValue / 6) + 2;
+                        break;
                     case BodyPartType.ArmLinks:
                     case BodyPartType.ArmRechts:
-                        {
-                            var newValue = (constFinalValue / 10) + 1;
-                            bodyPart.MaxHitpoints = (int)Math.Round(newValue, MidpointRounding.AwayFromZero);
-                            break;
-                        }
+                        newHitpoints = (constFinalValue / 10) + 1;
+                        break;
                     case BodyPartType.BeinLinks:
                     case BodyPartType.BeinRechts:
-                        {
-                            var newValue = (constFinalValue / 7) + 2;
-                            bodyPart.MaxHitpoints = (int)Math.Round(newValue, MidpointRounding.AwayFromZero);
-                            break;
-                        }
+                        newHitpoints = (constFinalValue / 7) + 2;
+                        break;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(BodyPartType));
                 }
+
+                bodyPart.MaxHitpoints = newHitpoints.GetRoundedValue();
             }
         }
 
@@ -453,7 +432,7 @@ namespace ImagoApp.ViewModels
                     case SpecialAttributeType.Initiative:
                         {
                             var newValue = (geschicklichkeitFinalValue + geschicklichkeitFinalValue + wahrnehmungFinalValue + willenskraftFinalValue) / 4;
-                            specialAttribute.FinalValue = (int)Math.Round(newValue, MidpointRounding.AwayFromZero) + specialAttribute.ModificationValue;
+                            specialAttribute.FinalValue = newValue.GetRoundedValue() + specialAttribute.ModificationValue;
                             break;
                         }
                     default:
@@ -490,8 +469,7 @@ namespace ImagoApp.ViewModels
                             if (handicapAttribute.Type == DerivedAttributeType.BehinderungGesamt)
                                 load = GetCompleteLoad();
 
-                            handicapAttribute.FinalValue =
-                                (int)Math.Round(load / loadLimit, MidpointRounding.AwayFromZero);
+                            handicapAttribute.FinalValue = (load / loadLimit).GetRoundedValue();
                             break;
                         }
                 }
