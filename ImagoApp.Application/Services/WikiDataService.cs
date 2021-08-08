@@ -7,6 +7,7 @@ using ImagoApp.Application.Models.Template;
 using ImagoApp.Infrastructure.Entities;
 using ImagoApp.Infrastructure.Entities.Template;
 using ImagoApp.Infrastructure.Repositories;
+using ImagoApp.Shared.Enums;
 
 namespace ImagoApp.Application.Services
 {
@@ -35,6 +36,7 @@ namespace ImagoApp.Application.Services
         List<WeaveTalentModel> GetAllWeaveTalents();
         void DeleteAllWeaveTalents();
         int GetWeaveTalentWikiDataItemCount();
+        List<MasteryModel> GetAllMasteries(SkillGroupModelType groupModelType);
     }
 
     public class WikiDataService : IWikiDataService
@@ -156,6 +158,13 @@ namespace ImagoApp.Application.Services
         public List<MasteryModel> GetAllMasteries()
         {
             var entites = _masteryRepository.GetAllItems();
+            var weapons = _mapper.Map<List<MasteryModel>>(entites);
+            return weapons;
+        }
+
+        public List<MasteryModel> GetAllMasteries(SkillGroupModelType groupModelType)
+        {
+            var entites = _masteryRepository.GetAllMasteries(groupModelType);
             var weapons = _mapper.Map<List<MasteryModel>>(entites);
             return weapons;
         }

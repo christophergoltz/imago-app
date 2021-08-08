@@ -1,11 +1,14 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <ContentView x:Class="ImagoApp.Views.CustomControls.WeaveTalentDetailView" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
    xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application" xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp" x:Name="WeaveTalentDetailViewControl">
-    <Grid BindingContext="{Binding WeaveTalentDetailViewModel, Source={x:Reference WeaveTalentDetailViewControl}}" Style="{StaticResource SingleGradiantStyle}">
+    <Grid BindingContext="{Binding WeaveTalentDetailViewModel, Source={x:Reference WeaveTalentDetailViewControl}}"
+       ColumnSpacing="0" RowSpacing="0"
+       Style="{StaticResource SingleGradiantStyle}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="1" />
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="1" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
@@ -32,7 +35,8 @@
 
             <Frame Margin="30">
                 <ListView HeightRequest="150"
-                   ItemsSource="{Binding Skills}">
+                   ItemsSource="{Binding Skills}"
+                   SelectedItem="{Binding SelectedSkillModel}">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="models:SkillModel">
                             <ViewCell>
@@ -49,18 +53,24 @@
                 </ListView>
             </Frame>
 
-            <Editor Margin="5,5,0,5"
-               FontSize="{DynamicResource FontSizeContent}"
+            <Editor FontSize="{DynamicResource FontSizeContent}"
                Text="{Binding WeaveTalent.Description}"
                VerticalOptions="FillAndExpand" />
         </StackLayout>
 
         <BoxView Grid.Column="1" Color="{StaticResource AntiUmbra}" />
 
-        <StackLayout Grid.Column="2">
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
 
             <!--  difficulty  -->
-            <StackLayout Margin="20" BackgroundColor="DodgerBlue">
+            <StackLayout Grid.Row="0" Margin="20" BackgroundColor="DodgerBlue">
                 <StackLayout Orientation="Horizontal">
                     <Label FontAttributes="Bold"
                        FontSize="{DynamicResource FontSizeHeader}"
@@ -73,8 +83,15 @@
                 </StackLayout>
             </StackLayout>
 
+            <Button Grid.Row="0" Margin="10" Padding="0,-4,0,0"
+               BackgroundColor="LightGray"
+               Command="{Binding WeaveTalentDetailViewModel.CloseCommand, Source={x:Reference WeaveTalentDetailViewControl}}"
+               FontSize="{DynamicResource FontSizeHeader}"
+               HeightRequest="35" HorizontalOptions="End" Text="X"
+               TextColor="Red" VerticalOptions="Start" WidthRequest="35" />
+
             <!--  range  -->
-            <StackLayout Margin="20" BackgroundColor="Brown">
+            <StackLayout Grid.Row="1" Margin="20" BackgroundColor="Brown">
                 <StackLayout Orientation="Horizontal">
                     <Label FontAttributes="Bold"
                        FontSize="{DynamicResource FontSizeHeader}"
@@ -110,7 +127,7 @@
             </StackLayout>
 
             <!--  duration  -->
-            <StackLayout Margin="20">
+            <StackLayout Grid.Row="2" Margin="20" BackgroundColor="Cyan">
                 <StackLayout Orientation="Horizontal">
                     <Label FontAttributes="Bold"
                        FontSize="{DynamicResource FontSizeHeader}"
@@ -146,7 +163,7 @@
             </StackLayout>
 
             <!--  corrosion  -->
-            <StackLayout Margin="20">
+            <StackLayout Grid.Row="3" Margin="20" Background="yellow">
                 <StackLayout Orientation="Horizontal">
                     <Label FontAttributes="Bold"
                        FontSize="{DynamicResource FontSizeHeader}"
@@ -178,16 +195,82 @@
                        Value="{Binding TalentLevel}" />
                 </StackLayout>
             </StackLayout>
-        </StackLayout>
+        </Grid>
 
-        <StackLayout Grid.Column="3">
-            <Button Margin="10" Padding="0,-4,0,0" BackgroundColor="LightGray"
-               Command="{Binding WeaveTalentDetailViewModel.CloseCommand, Source={x:Reference WeaveTalentDetailViewControl}}"
-               FontSize="{DynamicResource FontSizeHeader}"
-               HeightRequest="35" HorizontalOptions="End" Text="X"
-               TextColor="Red" VerticalOptions="Start" WidthRequest="35" />
-            <!--  meisterschaften  -->
-        </StackLayout>
+        <BoxView Grid.Column="3" Color="{StaticResource AntiUmbra}" />
+
+
+        <!--  probe  -->
+        <Grid Grid.Column="4" Background="white" VerticalOptions="FillAndExpand">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!--  footer  -->
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <BoxView Grid.Row="0" Color="Black" />
+                <StackLayout Grid.Row="1" Margin="0,0,0,5" HorizontalOptions="Center"
+                   Orientation="Horizontal">
+                    <Label FontSize="{DynamicResource FontSizeHeader}"
+                       Text="Probenwurf gegen" VerticalOptions="Center" />
+                    <Label Margin="10,0,0,0" FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeTitle}"
+                       Text="{Binding SelectedSkillModel.FinalValue}"
+                       VerticalOptions="Center" />
+                </StackLayout>
+            </Grid>
+
+            <!--  talent and mastery list  -->
+            <ScrollView Grid.Row="0">
+                <StackLayout>
+                    <Label Padding="10,5,10,5"
+                       BackgroundColor="{StaticResource AntiUmbra2}"
+                       FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeSmallContent}"
+                       Text="Konzentration" TextColor="white" />
+
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Bonus pro Konzenrationsakion:" />
+                        <Entry />
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Anzahl Konzenrationsakionen:" />
+                        <Entry />
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Bonus durch Konzentration:" />
+                        <Label Text="12" />
+                    </StackLayout>
+
+                    <Label Padding="10,5,10,5"
+                       BackgroundColor="{StaticResource AntiUmbra2}"
+                       FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeSmallContent}"
+                       Text="Meisterschaften" TextColor="white">
+                        <Label.Style>
+                            <Style TargetType="Label">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Masteries.Count}"
+                                       TargetType="Label" Value="0">
+                                        <Setter Property="IsVisible" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                                <Setter Property="IsVisible" Value="True" />
+                            </Style>
+                        </Label.Style>
+                    </Label>
+                    <StackLayout BindableLayout.ItemTemplate="{StaticResource MasteryBaseDetailTemplate}" BindableLayout.ItemsSource="{Binding Masteries}" />
+
+                </StackLayout>
+            </ScrollView>
+        </Grid>
 
     </Grid>
 </ContentView>

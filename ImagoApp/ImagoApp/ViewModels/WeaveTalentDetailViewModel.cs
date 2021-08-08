@@ -2,16 +2,22 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using ImagoApp.Application;
 using ImagoApp.Application.Models;
+using ImagoApp.Application.Services;
+using ImagoApp.Shared.Enums;
 using Xamarin.Forms;
 
 namespace ImagoApp.ViewModels
 {
     public class WeaveTalentDetailViewModel : BindableBase
     {
+        private readonly CharacterViewModel _characterViewModel;
+        private readonly IWikiDataService _wikiDataService;
         private WeaveTalentModel _weaveTalent;
         private List<SkillModel> _skills;
         private int _timeQuantity;
@@ -27,13 +33,16 @@ namespace ImagoApp.ViewModels
         private int _volumeQuantity;
         private int _volumeSteps;
         private int _volumeDescription;
-
+        private List<MasteryListItemViewModel> _masteries;
+        private SkillModel _selectedSkillModel;
         public ICommand CloseCommand { get; set; }
 
         public event EventHandler CloseRequested;
 
-        public WeaveTalentDetailViewModel(WeaveTalentModel weaveTalent, List<SkillModel> skills)
+        public WeaveTalentDetailViewModel(WeaveTalentModel weaveTalent, List<SkillModel> skills, CharacterViewModel characterViewModel, IWikiDataService wikiDataService)
         {
+            _characterViewModel = characterViewModel;
+            _wikiDataService = wikiDataService;
             WeaveTalent = weaveTalent;
             Skills = skills;
 
@@ -42,11 +51,89 @@ namespace ImagoApp.ViewModels
                 CloseRequested?.Invoke(this, EventArgs.Empty);
             });
 
+            SelectedSkillModel = Skills.First();
+
+            Task.Run(InitializeTestView);
+
             ParseDurationFormula(weaveTalent.DurationFormula);
             ParseRangeFormula(weaveTalent.RangeFormula);
             ParseCorrosionFormula(weaveTalent.CorrosionFormula);
             ParseDifficultyFormula(weaveTalent.DifficultyFormula);
             RecalculateCorrosion();
+        }
+
+        public SkillModel SelectedSkillModel {
+            get => _selectedSkillModel;
+            set => SetProperty(ref _selectedSkillModel, value);
+        }
+
+        private void InitializeTestView()
+        {
+            //masteries
+            var masteries = new List<MasteryListItemViewModel>();
+            var allMasteries = _wikiDataService.GetAllMasteries(SkillGroupModelType.Webkunst);
+            foreach (var mastery in allMasteries)
+            {
+                var avaiable = _characterViewModel.CheckMasteryRequirement(mastery.Requirements);
+
+                var vm = new MasteryListItemViewModel(mastery)
+                {
+                    Available = avaiable
+                };
+                vm.TalentValueChanged += (sender, args) => RecalcDifficultyValue();
+                masteries.Add(vm);
+            }
+
+            Masteries = masteries;
+        }
+
+        private void RecalcDifficultyValue()
+        {
+            var result = SelectedSkillModel.FinalValue.GetRoundedValue();
+
+            ////handicap
+            //if (Handicaps != null)
+            //{
+            //    foreach (var handicap in Handicaps)
+            //    {
+            //        if (handicap.IsChecked)
+            //            result -= handicap.HandiCapValue ?? 0;
+            //    }
+            //}
+
+            ////masteries
+            //if (Masteries != null)
+            //{
+            //    foreach (var mastery in Masteries)
+            //    {
+            //        if (!mastery.Available)
+            //            continue;
+
+            //        if (mastery.Mastery.ActiveUse == false || mastery.Mastery.ActiveUse && mastery.InUse)
+            //            result -= mastery.Mastery.Difficulty ?? mastery.DifficultyOverride ?? 0;
+            //    }
+            //}
+
+            ////talents
+            //if (Talents != null)
+            //{
+            //    foreach (var talent in Talents)
+            //    {
+            //        if (!talent.Available)
+            //            continue;
+
+            //        if (talent.Talent.ActiveUse == false || talent.Talent.ActiveUse && talent.InUse)
+            //            result -= talent.Talent.Difficulty ?? talent.DifficultyOverride ?? 0;
+            //    }
+            //}
+
+            //FinalTestValue = result;
+        }
+
+        public List<MasteryListItemViewModel> Masteries
+        {
+            get => _masteries;
+            set => SetProperty(ref _masteries, value);
         }
 
         public bool IsDurationConfigurable

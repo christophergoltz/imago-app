@@ -39,7 +39,7 @@ namespace ImagoApp.ViewModels
             try
             {
                 var weaveTalentList = WeaveTalents.First(list => list.WeaveSourceGroup == weaveTalent.WeaveSource);
-                var detailViewModel = new WeaveTalentDetailViewModel(weaveTalent, weaveTalentList.Skills);
+                var detailViewModel = new WeaveTalentDetailViewModel(weaveTalent, weaveTalentList.Skills, _characterViewModel, _wikiDataService);
                 detailViewModel.CloseRequested += (sender, args) =>
                 {
                     WeaveTalentDetailViewModel = null;
