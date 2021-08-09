@@ -1,0 +1,335 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView x:Class="ImagoApp.Views.CustomControls.WeaveTalentDetailView" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+   xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application" xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp" x:Name="WeaveTalentDetailViewControl">
+    <Grid BindingContext="{Binding WeaveTalentDetailViewModel, Source={x:Reference WeaveTalentDetailViewControl}}"
+       ColumnSpacing="0" RowSpacing="0"
+       Style="{StaticResource SingleGradiantStyle}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="1" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="1" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!--  weave talent  -->
+        <StackLayout Grid.Column="0">
+            <Label Margin="30,30,30,20" FontAttributes="Bold"
+               FontSize="{DynamicResource FontSizeSmallCaption}"
+               Text="{Binding WeaveTalent.Name}" />
+
+            <Label Margin="40,10,10,0"
+               FontSize="{DynamicResource FontSizeBigContent}"
+               Text="{Binding WeaveTalent.ShortDescription}"
+               TextColor="{StaticResource AntiUmbra1}" />
+
+            <!--  skills  -->
+            <Frame Margin="30">
+                <CollectionView HeightRequest="150"
+                   ItemsSource="{Binding Skills}"
+                   SelectedItem="{Binding SelectedSkillModel}"
+                   SelectionMode="Single">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:SkillModel">
+                            <StackLayout Margin="10,0" Padding="15,10" Orientation="Horizontal"
+                               VerticalOptions="Center">
+                                <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}" />
+                                <Label FontSize="{DynamicResource FontSizeHeader}" Text="FW: " />
+                                <Label FontAttributes="Bold"
+                                   FontSize="{DynamicResource FontSizeHeader}"
+                                   Text="{Binding FinalValue}" />
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Frame>
+
+            <Editor FontSize="{DynamicResource FontSizeContent}"
+               IsReadOnly="True"
+               Text="{Binding WeaveTalent.Description}"
+               VerticalOptions="FillAndExpand" />
+        </StackLayout>
+
+        <BoxView Grid.Column="1" Color="{StaticResource AntiUmbra}" />
+
+        <ScrollView Grid.Column="2">
+            <StackLayout>
+                <Label Margin="20,20,20,5" FontAttributes="Bold"
+                   FontSize="{DynamicResource FontSizeHeader}"
+                   Text="Einstellungen">
+                    <Label.Style>
+                        <Style TargetType="Label">
+                            <Setter Property="IsVisible" Value="True" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding WeaveTalentSettings.Count, TargetNullValue=0, FallbackValue=0}"
+                                   TargetType="Label" Value="0">
+                                    <Setter Property="IsVisible" Value="False" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Label.Style>
+                </Label>
+
+                <!--  settings  -->
+                <StackLayout BindableLayout.ItemsSource="{Binding WeaveTalentSettings}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:WeaveTalentSettingModel">
+                            <Frame Margin="20,10,20,0">
+                                <StackLayout Padding="10">
+                                    <!--  (Name) (FinalValue) (Abbreviation)  -->
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label FontSize="{DynamicResource FontSizeHeader}"
+                                           Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"
+                                           VerticalOptions="Center" />
+                                        <Label FontSize="{DynamicResource FontSizeHeader}"
+                                           Text=":" VerticalOptions="Center" />
+
+                                        <Label FontAttributes="Bold"
+                                           FontSize="{DynamicResource FontSizeHeader}"
+                                           Text="{Binding FinalValue}"
+                                           VerticalOptions="Center">
+                                            <Label.Style>
+                                                <Style TargetType="Label">
+                                                    <Setter Property="IsVisible" Value="True" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding StepValue}"
+                                                           TargetType="Label" Value="1">
+                                                            <Setter Property="IsVisible" Value="False" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Label.Style>
+                                        </Label>
+
+                                        <Entry FontAttributes="Bold"
+                                           FontSize="{DynamicResource FontSizeContent}"
+                                           Text="{Binding Quantity}"
+                                           VerticalOptions="Center" WidthRequest="80">
+                                            <Entry.Style>
+                                                <Style TargetType="Entry">
+                                                    <Setter Property="IsVisible" Value="False" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding StepValue}"
+                                                           TargetType="Entry" Value="1">
+                                                            <Setter Property="IsVisible" Value="True" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Entry.Style>
+                                        </Entry>
+
+                                        <Label FontAttributes="Bold"
+                                           FontSize="{DynamicResource FontSizeHeader}"
+                                           Text="{Binding Unit}"
+                                           VerticalOptions="Center" />
+                                        <Label Margin="0,0,5,0" FontAttributes="Bold"
+                                           FontSize="{DynamicResource FontSizeBigContent}"
+                                           HorizontalOptions="EndAndExpand"
+                                           Text="{Binding Abbreviation}"
+                                           TextColor="{StaticResource AntiUmbra1}"
+                                           VerticalOptions="Center" />
+                                    </StackLayout>
+
+                                    <!--  (quantity) * (step)  -->
+                                    <StackLayout Margin="20,0,0,0" Orientation="Horizontal" VerticalOptions="Center">
+                                        <StackLayout.Style>
+                                            <Style TargetType="StackLayout">
+                                                <Setter Property="IsVisible" Value="True" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding StepValue}"
+                                                       TargetType="StackLayout" Value="1">
+                                                        <Setter Property="IsVisible" Value="False" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </StackLayout.Style>
+
+                                        <Entry FontSize="{DynamicResource FontSizeContent}"
+                                           Text="{Binding Quantity}"
+                                           VerticalOptions="Center" WidthRequest="80" />
+                                        <Label FontSize="{DynamicResource FontSizeContent}"
+                                           Text="*" VerticalOptions="Center" />
+                                        <Label FontSize="{DynamicResource FontSizeContent}"
+                                           Text="{Binding StepValue}"
+                                           VerticalOptions="Center" />
+                                    </StackLayout>
+
+                                    <Label Margin="20,5"
+                                       FontSize="{DynamicResource FontSizeContent}"
+                                       Text="{Binding WeaveTalentDetailViewModel.WeaveTalent.StrengthOfTalentDescription, Source={x:Reference WeaveTalentDetailViewControl}}"
+                                       TextColor="{StaticResource AntiUmbra1}">
+                                        <Label.Style>
+                                            <Style TargetType="Label">
+                                                <Setter Property="IsVisible" Value="False" />
+
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Type}"
+                                                       TargetType="Label" Value="StrengthOfTalent">
+                                                        <Setter Property="IsVisible" Value="True" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Label.Style>
+                                    </Label>
+                                </StackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+
+                <Label Margin="20,20,20,5" FontAttributes="Bold"
+                   FontSize="{DynamicResource FontSizeHeader}"
+                   Text="Werte" />
+
+                <!--  results  -->
+                <StackLayout BindableLayout.ItemsSource="{Binding WeaveTalentResults}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:WeaveTalentResultModel">
+                            <Frame Margin="20,10,20,0">
+                                <StackLayout Padding="10">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}" />
+                                        <Label FontSize="{DynamicResource FontSizeHeader}" Text=":" />
+                                        <Label FontAttributes="Bold"
+                                           FontSize="{DynamicResource FontSizeHeader}"
+                                           Text="{Binding FinalValue}" />
+                                        <Label Margin="0,0,5,0"
+                                           FontSize="{DynamicResource FontSizeBigContent}"
+                                           HorizontalOptions="EndAndExpand"
+                                           TextColor="{StaticResource AntiUmbra1}"
+                                           VerticalOptions="Center">
+                                            <Label.Text>
+                                                <MultiBinding x:DataType="models:WeaveTalentResultModel" StringFormat="{}({0})">
+                                                    <Binding Path="Formula" />
+                                                </MultiBinding>
+                                            </Label.Text>
+                                        </Label>
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+
+        <Button Grid.Column="2" Margin="20" Padding="0,-4,0,0"
+           BackgroundColor="LightGray"
+           Command="{Binding WeaveTalentDetailViewModel.CloseCommand, Source={x:Reference WeaveTalentDetailViewControl}}"
+           FontSize="{DynamicResource FontSizeHeader}"
+           HeightRequest="35" HorizontalOptions="End" Text="X"
+           TextColor="Red" VerticalOptions="Start" WidthRequest="35" />
+
+        <BoxView Grid.Column="3" Color="{StaticResource AntiUmbra}" />
+
+        <!--  probe  -->
+        <Grid Grid.Column="4" Background="white" VerticalOptions="FillAndExpand">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!--  footer  -->
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <BoxView Grid.Row="0" Color="Black" />
+                <StackLayout Grid.Row="1" Margin="0,0,0,5" HorizontalOptions="Center"
+                   Orientation="Horizontal">
+                    <Label FontSize="{DynamicResource FontSizeHeader}"
+                       Text="Probenwurf gegen" VerticalOptions="Center" />
+                    <Label Margin="10,0,0,0" FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeTitle}"
+                       Text="{Binding FinalValue}"
+                       VerticalOptions="Center" />
+                </StackLayout>
+            </Grid>
+
+            <!--  test and mastery list  -->
+            <ScrollView Grid.Row="0">
+                <StackLayout>
+                    <Label Padding="10,5,10,5"
+                       BackgroundColor="{StaticResource AntiUmbra2}"
+                       FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeSmallContent}"
+                       Text="Schwierigkeit" TextColor="white" />
+
+                    <Label Margin="20,5"
+                       FontSize="{DynamicResource FontSizeContent}"
+                       Text="{Binding Difficulty}"
+                       VerticalOptions="Center" />
+
+                    <Label Padding="10,5,10,5"
+                       BackgroundColor="{StaticResource AntiUmbra2}"
+                       FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeSmallContent}"
+                       Text="Konzentration" TextColor="white" />
+
+                    <StackLayout Margin="20,5" Orientation="Horizontal">
+                        <Label FontSize="{DynamicResource FontSizeContent}"
+                           Text="Bonus:" VerticalOptions="Center" />
+                        <Entry Margin="10,0,0,0"
+                           FontSize="{DynamicResource FontSizeContent}"
+                           Text="{Binding ConcentrationPerAction}"
+                           VerticalOptions="Center" WidthRequest="70" />
+
+                        <Label Margin="35,0,0,0"
+                           FontSize="{DynamicResource FontSizeContent}"
+                           Text="Anzahl:" VerticalOptions="Center" />
+                        <Entry Margin="10,0,0,0"
+                           FontSize="{DynamicResource FontSizeContent}"
+                           Text="{Binding ConcentrationQuantity}"
+                           VerticalOptions="Center" WidthRequest="70" />
+
+                        <Label FontSize="{DynamicResource FontSizeHeader}"
+                           HorizontalOptions="EndAndExpand" VerticalOptions="Center">
+                            <Label.Text>
+                                <MultiBinding x:DataType="viewModels:WeaveTalentDetailViewModel" StringFormat="{}= {0}">
+                                    <Binding Path="ConcentrationFinalValue" />
+                                </MultiBinding>
+                            </Label.Text>
+                        </Label>
+                    </StackLayout>
+
+                    <Label Padding="10,5,10,5"
+                       BackgroundColor="{StaticResource AntiUmbra2}"
+                       FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeSmallContent}"
+                       Text="Modifikator" TextColor="white" />
+
+                    <StackLayout Margin="20,5" Orientation="Horizontal">
+                        <Label FontSize="{DynamicResource FontSizeContent}"
+                           Text="Zusätzliche Erschwernis:" VerticalOptions="Center" />
+                        <Entry Margin="10,0,0,0"
+                           FontSize="{DynamicResource FontSizeContent}"
+                           Text="{Binding Modification}"
+                           VerticalOptions="Center" WidthRequest="90" />
+                    </StackLayout>
+
+                    <Label Padding="10,5,10,5"
+                       BackgroundColor="{StaticResource AntiUmbra2}"
+                       FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeSmallContent}"
+                       Text="Meisterschaften" TextColor="white">
+                        <Label.Style>
+                            <Style TargetType="Label">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Masteries.Count}"
+                                       TargetType="Label" Value="0">
+                                        <Setter Property="IsVisible" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                                <Setter Property="IsVisible" Value="True" />
+                            </Style>
+                        </Label.Style>
+                    </Label>
+                    <StackLayout BindableLayout.ItemTemplate="{StaticResource MasteryBaseDetailTemplate}" BindableLayout.ItemsSource="{Binding Masteries}" />
+
+                </StackLayout>
+            </ScrollView>
+        </Grid>
+
+    </Grid>
+</ContentView>

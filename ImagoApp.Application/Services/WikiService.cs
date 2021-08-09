@@ -99,7 +99,6 @@ namespace ImagoApp.Application.Services
                         //remove all following until next h2
                         while (!next.Name.Equals("h2"))
                         {
-                            Debug.WriteLine(next.InnerText);
                             htmlNodesToRemove.Add(next);
                             next = next.NextSibling;
                             if (next == null)

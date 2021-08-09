@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace ImagoApp.Application.Models.Base
+﻿namespace ImagoApp.Application.Models.Base
 {
     public abstract class DependentBaseModel : IncreasableBaseModel
     {

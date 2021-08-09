@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="ImagoApp.Views.WeaveTalentPage" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+   xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp" xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application" xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
+   x:DataType="viewModels:WeaveTalentPageViewModel">
+    <ContentPage.Content>
+        <Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Frame Grid.Column="0">
+                    <Grid Style="{StaticResource SingleGradiantStyle}">
+                        <ListView IsGroupingEnabled="true" ItemSelected="ListView_OnItemSelected"
+                           ItemsSource="{Binding WeaveTalents}"
+                           SelectionMode="Single">
+                            <ListView.GroupHeaderTemplate>
+                                <DataTemplate x:DataType="viewModels:WeaveTalentList">
+                                    <ViewCell>
+                                        <Grid Margin="20">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Grid.Column="0" FontAttributes="Bold"
+                                               FontSize="{DynamicResource FontSizeHeader}"
+                                               Text="{Binding WeaveSourceGroup}" />
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.GroupHeaderTemplate>
+
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="models:WeaveTalentModel">
+                                    <ViewCell>
+                                        <Grid Margin="30,5,5,5">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="40*" />
+                                                <ColumnDefinition Width="60*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Grid.Column="0"
+                                               FontSize="{DynamicResource FontSizeBigContent}"
+                                               Text="{Binding Name}" />
+                                            <Label Grid.Column="1"
+                                               FontSize="{DynamicResource FontSizeBigContent}"
+                                               Text="{Binding ShortDescription}"
+                                               TextColor="{StaticResource AntiUmbra1}" />
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </Frame>
+            </Grid>
+
+            <!--  dialog  -->
+            <Grid IsVisible="{Binding WeaveTalentDetailViewModel, Converter={StaticResource ObjectNotNullToBoolConverter}}">
+                <ContentView BackgroundColor="black" Opacity="0.6">
+                    <ContentView.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding WeaveTalentDetailViewModel.CloseCommand}" />
+                    </ContentView.GestureRecognizers>
+                </ContentView>
+                <Frame HeightRequest="800" HorizontalOptions="Center" VerticalOptions="Center"
+                   WidthRequest="1500">
+                    <customControls:WeaveTalentDetailView HorizontalOptions="Fill" VerticalOptions="Fill"
+                       WeaveTalentDetailViewModel="{Binding WeaveTalentDetailViewModel, Source={RelativeSource AncestorType={x:Type viewModels:WeaveTalentPageViewModel}}}" />
+                </Frame>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

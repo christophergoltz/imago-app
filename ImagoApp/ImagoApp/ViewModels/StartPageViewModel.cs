@@ -242,26 +242,33 @@ namespace ImagoApp.ViewModels
                 {
                     using (var progressDialog = UserDialogs.Instance.Progress(""))
                     {
-                        progressDialog.Title = "Rüstungen werden geladen";
+                        var parseDialogTitlePrefix = "Daten werden aus dem Wiki geladen.." + Environment.NewLine + Environment.NewLine;
+
+                        progressDialog.Title = parseDialogTitlePrefix+ "Rüstungen werden geladen";
                         await Task.Delay(500);
 
                         var armorCount = _wikiParseService.RefreshArmorFromWiki(logger);
-                        progressDialog.Title = "Waffen werden geladen";
-                        progressDialog.PercentComplete = 25;
+                        progressDialog.Title = parseDialogTitlePrefix + "Waffen werden geladen";
+                        progressDialog.PercentComplete = 20;
                         await Task.Delay(50);
 
                         var weaponCount = _wikiParseService.RefreshWeaponsFromWiki(logger);
-                        progressDialog.Title = "Talente werden geladen";
-                        progressDialog.PercentComplete = 50;
+                        progressDialog.Title = parseDialogTitlePrefix + "Künste werden geladen";
+                        progressDialog.PercentComplete = 40;
+                        await Task.Delay(50);
+
+                        var weaveTalentCount = _wikiParseService.RefreshWeaveTalentsFromWiki(logger);
+                        progressDialog.Title = parseDialogTitlePrefix + "Webkünste werden geladen";
+                        progressDialog.PercentComplete = 60;
                         await Task.Delay(50);
 
                         var talentCount = _wikiParseService.RefreshTalentsFromWiki(logger);
-                        progressDialog.Title = "Meisterschaften werden geladen";
-                        progressDialog.PercentComplete = 75;
+                        progressDialog.Title = parseDialogTitlePrefix + "Meisterschaften werden geladen";
+                        progressDialog.PercentComplete = 80;
                         await Task.Delay(50);
 
                         var masteryCount = _wikiParseService.RefreshMasteriesFromWiki(logger);
-                        progressDialog.Title = "Wird abgeschlossen";
+                        progressDialog.Title = parseDialogTitlePrefix + "Wird abgeschlossen";
                         progressDialog.PercentComplete = 100;
 
                         var msg = $"{Environment.NewLine}Status:" +
@@ -273,7 +280,8 @@ namespace ImagoApp.ViewModels
                                   $"Gefundene Daten:" +
                                   $"{Environment.NewLine}      Rüstungen: {armorCount?.ToString()}" +
                                   $"{Environment.NewLine}      Waffen: {weaponCount?.ToString()}" +
-                                  $"{Environment.NewLine}      Talente: {talentCount?.ToString()}" +
+                                  $"{Environment.NewLine}      Künste: {talentCount?.ToString()}" +
+                                  $"{Environment.NewLine}      Webkünste: {weaveTalentCount?.ToString()}" +
                                   $"{Environment.NewLine}      Meisterschaften: {masteryCount?.ToString()}";
 
                         UserDialogs.Instance.Confirm(new ConfirmConfig
@@ -330,8 +338,9 @@ namespace ImagoApp.ViewModels
                 var skillPageViewModel = new SkillPageViewModel(characterViewModel, _serviceLocator.WikiService(), _serviceLocator.WikiDataService());
                 var statusPageViewModel = new StatusPageViewModel(characterViewModel, _serviceLocator.WikiDataService());
                 var inventoryViewModel = new InventoryViewModel(characterViewModel);
+                var weaveTalentPageViewModel = new WeaveTalentPageViewModel(characterViewModel, _serviceLocator.WikiDataService());
                 var appShellViewModel = new AppShellViewModel(characterViewModel, characterInfoPageViewModel, skillPageViewModel,
-                    statusPageViewModel, inventoryViewModel, wikiPageViewModel);
+                    statusPageViewModel, inventoryViewModel, wikiPageViewModel, weaveTalentPageViewModel);
 
                 //notify the main menu that editmode may have changed
                 appShellViewModel.RaiseEditModeChanged();
@@ -605,6 +614,7 @@ namespace ImagoApp.ViewModels
                 DatabaseInfoViewModel.ArmorTemplateCount = _wikiDataService.GetArmorWikiDataItemCount();
                 DatabaseInfoViewModel.WeaponTemplateCount = _wikiDataService.GetWeaponWikiDataItemCount();
                 DatabaseInfoViewModel.TalentTemplateCount = _wikiDataService.GetTalentWikiDataItemCount();
+                DatabaseInfoViewModel.WeaveTalentTemplateCount = _wikiDataService.GetWeaveTalentWikiDataItemCount();
                 DatabaseInfoViewModel.MasteryTemplateCount = _wikiDataService.GetMasteryWikiDataItemCount();
                 DatabaseInfoViewModel.WikiDatabaseInfo = _wikiDataService.GetDatabaseInfo();
                 DatabaseInfoViewModel.CharacterDatabaseInfo = _characterService.GetDatabaseInfo();

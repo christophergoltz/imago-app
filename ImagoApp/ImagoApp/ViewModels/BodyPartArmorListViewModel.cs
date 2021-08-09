@@ -10,7 +10,6 @@ using ImagoApp.Application.Models;
 using ImagoApp.Application.Models.Template;
 using ImagoApp.Application.Services;
 using ImagoApp.Shared.Enums;
-using ImagoApp.Util;
 using Xamarin.Forms;
 
 namespace ImagoApp.ViewModels
@@ -40,7 +39,7 @@ namespace ImagoApp.ViewModels
             get
             {
                 var currentHitpointsFloat = BodyPartModel.MaxHitpoints * BodyPartModel.CurrentHitpointsPercentage;
-                var currentHitpoints = (int)Math.Round(currentHitpointsFloat, MidpointRounding.AwayFromZero);
+                var currentHitpoints = currentHitpointsFloat.GetRoundedValue();
                 return currentHitpoints;
             }
             set

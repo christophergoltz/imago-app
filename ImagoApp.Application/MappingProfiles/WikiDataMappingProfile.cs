@@ -23,13 +23,16 @@ namespace ImagoApp.Application.MappingProfiles
                 .IncludeAllDerived();
             CreateMap<TalentEntity, TalentModel>()
                 .IncludeAllDerived();
-            
+            CreateMap<WeaveTalentEntity, WeaveTalentModel>()
+                .IncludeAllDerived();
+
             //model to entity
             CreateMap<WeaponTemplateModel, WeaponTemplateEntity>();
             CreateMap<ArmorPartTemplateModel, ArmorPartTemplateEntity>();
            
             CreateMap<MasteryModel, MasteryEntity>();
             CreateMap<TalentModel, TalentEntity>();
+            CreateMap<WeaveTalentModel, WeaveTalentEntity>();
         }
     }
 }

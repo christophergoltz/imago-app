@@ -1,5 +1,4 @@
-﻿using System;
-using ImagoApp.Application.Models.Base;
+﻿using ImagoApp.Application.Models.Base;
 using ImagoApp.Shared.Enums;
 
 namespace ImagoApp.Application.Models

@@ -128,8 +128,15 @@
                     <StackLayout Orientation="Horizontal">
                         <Label Margin="20,0,0,0"
                            FontSize="{DynamicResource FontSizeHeader}"
-                           Text="Talente: " />
+                           Text="Künste: " />
                         <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding DatabaseInfoViewModel.TalentTemplateCount}" />
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal">
+                        <Label Margin="20,0,0,0"
+                           FontSize="{DynamicResource FontSizeHeader}"
+                           Text="Webkünste: " />
+                        <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding DatabaseInfoViewModel.WeaveTalentTemplateCount}" />
                     </StackLayout>
 
                     <StackLayout Orientation="Horizontal">

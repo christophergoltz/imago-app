@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 using ImagoApp.Application;
-using ImagoApp.Util;
 
 namespace ImagoApp.ViewModels
 {
@@ -29,6 +25,12 @@ namespace ImagoApp.ViewModels
         }
 
         public int TalentTemplateCount
+        {
+            get => _talentTemplateCount;
+            set => SetProperty(ref _talentTemplateCount, value);
+        }
+
+        public int WeaveTalentTemplateCount
         {
             get => _talentTemplateCount;
             set => SetProperty(ref _talentTemplateCount, value);

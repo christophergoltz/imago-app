@@ -1,7 +1,4 @@
-﻿using ImagoApp.Application.Constants;
-using Newtonsoft.Json;
-
-namespace ImagoApp.Application.Models.Base
+﻿namespace ImagoApp.Application.Models.Base
 {
     public abstract class IncreasableBaseModel : ModifiableBaseModel
     {

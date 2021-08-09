@@ -8,5 +8,9 @@ namespace ImagoApp.Infrastructure.Entities
         public SkillModelType TargetSkillModel { get; set; }
 
         public List<SkillRequirementEntity> Requirements { get; set; }
+
+        public string PhaseValueMod { get; set; }
+
+        public int? Difficulty { get; set; }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,7 +11,6 @@ using ImagoApp.Application.Models;
 using ImagoApp.Application.Services;
 using ImagoApp.Converter;
 using ImagoApp.Shared.Enums;
-using ImagoApp.Util;
 using Xamarin.Forms;
 
 namespace ImagoApp.ViewModels
@@ -112,7 +110,7 @@ namespace ImagoApp.ViewModels
 
         private string _sourceFormula;
         private List<TalentListItemViewModel> _talents;
-        private List<TalentListItemViewModel> _masteries;
+        private List<MasteryListItemViewModel> _masteries;
         private int _finalTestValue;
         private List<HandicapListViewItemViewModel> _handicaps;
 
@@ -138,7 +136,7 @@ namespace ImagoApp.ViewModels
             set => SetProperty(ref _talents, value);
         }
 
-        public List<TalentListItemViewModel> Masteries
+        public List<MasteryListItemViewModel> Masteries
         {
             get => _masteries;
             set => SetProperty(ref _masteries, value);
@@ -173,7 +171,7 @@ namespace ImagoApp.ViewModels
         
         private void RecalcTestValue()
         {
-            var result = (int) SkillModel.FinalValue;
+            var result = SkillModel.FinalValue.GetRoundedValue();
 
             //handicap
             if (Handicaps != null)
@@ -193,8 +191,8 @@ namespace ImagoApp.ViewModels
                     if (!mastery.Available)
                         continue;
 
-                    if (mastery.Talent.ActiveUse == false || mastery.Talent.ActiveUse && mastery.InUse)
-                        result -= mastery.Talent.Difficulty ?? mastery.DifficultyOverride ?? 0;
+                    if (mastery.Mastery.ActiveUse == false || mastery.Mastery.ActiveUse && mastery.InUse)
+                        result -= mastery.Mastery.Difficulty ?? mastery.DifficultyOverride ?? 0;
                 }
             }
 
@@ -220,7 +218,7 @@ namespace ImagoApp.ViewModels
             {
                 foreach (var mastery in Masteries)
                 {
-                    if (mastery.Talent is MasteryModel model)
+                    if (mastery.Mastery is MasteryModel model)
                     {
                         var avaiable = _characterViewModel.CheckMasteryRequirement(model.Requirements);
                         mastery.Available = avaiable;
@@ -253,7 +251,7 @@ namespace ImagoApp.ViewModels
         private void InitializeTestView()
         {
             //masteries
-            var masteries = new List<TalentListItemViewModel>();
+            var masteries = new List<MasteryListItemViewModel>();
             var allMasteries = _wikiDataService.GetAllMasteries();
             foreach (var mastery in allMasteries)
             {
@@ -262,7 +260,7 @@ namespace ImagoApp.ViewModels
 
                 var avaiable = _characterViewModel.CheckMasteryRequirement(mastery.Requirements);
 
-                var vm = new TalentListItemViewModel(mastery)
+                var vm = new MasteryListItemViewModel(mastery)
                 {
                     Available = avaiable
                 };
@@ -301,7 +299,7 @@ namespace ImagoApp.ViewModels
                 {
                     var handicapValue = tuple.Type == DerivedAttributeType.Unknown
                         ? (int?) null
-                        : (int)_characterViewModel.DerivedAttributes.First(attribute => attribute.Type == tuple.Type).FinalValue;
+                        : _characterViewModel.DerivedAttributes.First(attribute => attribute.Type == tuple.Type).FinalValue.GetRoundedValue();
 
                     //todo converter
                     var vm = new HandicapListViewItemViewModel(tuple.Type, false, handicapValue, tuple.IconSource,

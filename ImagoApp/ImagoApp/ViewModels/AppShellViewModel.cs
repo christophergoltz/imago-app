@@ -4,11 +4,8 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Acr.UserDialogs;
 using ImagoApp.Application;
-using ImagoApp.Application.Services;
-using ImagoApp.Util;
 using ImagoApp.Views;
 using ImagoApp.Views.CustomControls;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace ImagoApp.ViewModels
@@ -21,6 +18,7 @@ namespace ImagoApp.ViewModels
         private readonly StatusPageViewModel _statusPageViewModel;
         private readonly InventoryViewModel _inventoryViewModel;
         private readonly WikiPageViewModel _wikiPageViewModel;
+        private readonly WeaveTalentPageViewModel _weaveTalentPageViewModel;
         public ICommand GoToMainMenuCommand { get; }
         private List<FlyoutPageItem> _menuItems;
 
@@ -43,10 +41,11 @@ namespace ImagoApp.ViewModels
             {
                 new FlyoutPageItem("Images/charakter_weiss.png", typeof(CharacterInfoPage),CreateNavigationPageForContent(new CharacterInfoPage(CharacterInfoPageViewModel))),
                 new FlyoutPageItem("Images/vor_und_nachteile_weiss.png", typeof(PerksPage),CreateNavigationPageForContent(new PerksPage())),
-                new FlyoutPageItem("Images/weben_weiss.png", typeof(SkillPage),CreateNavigationPageForContent(new SkillPage(_skillPageViewModel))),
+                new FlyoutPageItem("Images/fertigkeit_weiss.png", typeof(SkillPage),CreateNavigationPageForContent(new SkillPage(_skillPageViewModel))),
                 new FlyoutPageItem("Images/nahkampf_weiss.png", typeof(StatusPage),CreateNavigationPageForContent(new StatusPage(_statusPageViewModel))),
                 new FlyoutPageItem("Images/inventar_weiss.png", typeof(InventoryPage),CreateNavigationPageForContent(new InventoryPage(_inventoryViewModel))),
-                new FlyoutPageItem("Images/wiki_weiss.png", typeof(WikiPage),CreateNavigationPageForContent(new WikiPage(_wikiPageViewModel)))
+                new FlyoutPageItem("Images/wiki_weiss.png", typeof(WikiPage),CreateNavigationPageForContent(new WikiPage(_wikiPageViewModel))),
+                new FlyoutPageItem("Images/weben_weiss.png", typeof(WeaveTalentPage),CreateNavigationPageForContent(new WeaveTalentPage(_weaveTalentPageViewModel)))
             };
 
             return result;
@@ -67,7 +66,8 @@ namespace ImagoApp.ViewModels
             SkillPageViewModel skillPageViewModel, 
             StatusPageViewModel statusPageViewModel,
             InventoryViewModel inventoryViewModel, 
-            WikiPageViewModel wikiPageViewModel)
+            WikiPageViewModel wikiPageViewModel,
+            WeaveTalentPageViewModel weaveTalentPageViewModel)
         {
             _characterViewModel = characterViewModel;
             CharacterInfoPageViewModel = characterInfoPageViewModel;
@@ -75,6 +75,7 @@ namespace ImagoApp.ViewModels
             _statusPageViewModel = statusPageViewModel;
             _inventoryViewModel = inventoryViewModel;
             _wikiPageViewModel = wikiPageViewModel;
+            _weaveTalentPageViewModel = weaveTalentPageViewModel;
 
             Device.BeginInvokeOnMainThread(() => { MenuItems = CreateMainMenu(); });
 

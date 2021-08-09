@@ -1,30 +1,29 @@
-﻿<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+﻿<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <!-- default style -->
+    <!--  default style  -->
     <Style TargetType="Frame">
         <Setter Property="BorderColor" Value="{DynamicResource AntiUmbra1}" />
         <Setter Property="CornerRadius" Value="0" />
         <Setter Property="Padding" Value="1" />
     </Style>
 
-    <Style TargetType="ContentPage" ApplyToDerivedTypes="True">
+    <Style ApplyToDerivedTypes="True" TargetType="ContentPage">
         <Setter Property="BackgroundColor" Value="{DynamicResource AntiUmbra2}" />
     </Style>
 
-    <Style TargetType="Entry" ApplyToDerivedTypes="True">
+    <Style ApplyToDerivedTypes="True" TargetType="Entry">
         <Setter Property="BackgroundColor" Value="{DynamicResource AntiUmbra3}" />
     </Style>
 
-    <Style TargetType="Editor" ApplyToDerivedTypes="True">
+    <Style ApplyToDerivedTypes="True" TargetType="Editor">
         <Setter Property="BackgroundColor" Value="{DynamicResource AntiUmbra3}" />
     </Style>
 
-    <Style TargetType="Button" ApplyToDerivedTypes="True">
+    <Style ApplyToDerivedTypes="True" TargetType="Button">
         <Setter Property="FontSize" Value="{DynamicResource FontSizeContent}" />
     </Style>
 
-    <!-- global explicit styles -->
+    <!--  global explicit styles  -->
     <Style x:Key="BackgroundGridStyle" TargetType="Grid">
         <Setter Property="BackgroundColor" Value="{DynamicResource AntiUmbra2}" />
     </Style>
@@ -35,22 +34,22 @@
 
     <Style x:Key="EvenGradiantStyle" TargetType="Grid">
         <Setter Property="Background">
-            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Color="{DynamicResource Weiss}" Offset="1"/>
-                <GradientStop Color="{DynamicResource Umbra4}" Offset="0.9"/>
-                <GradientStop Color="{DynamicResource Umbra3}" Offset="0.7"/>
-                <GradientStop Color="{DynamicResource Umbra2}" Offset="0.4"/>
-                <GradientStop Color="{DynamicResource Umbra1}" Offset="0.1"/>
+            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                <GradientStop Offset="1" Color="{DynamicResource Weiss}" />
+                <GradientStop Offset="0.9" Color="{DynamicResource Umbra4}" />
+                <GradientStop Offset="0.7" Color="{DynamicResource Umbra3}" />
+                <GradientStop Offset="0.4" Color="{DynamicResource Umbra2}" />
+                <GradientStop Offset="0.1" Color="{DynamicResource Umbra1}" />
             </LinearGradientBrush>
         </Setter>
     </Style>
 
     <Style x:Key="SingleGradiantStyle" TargetType="Grid">
         <Setter Property="Background">
-            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Color="{DynamicResource Umbra4}" Offset="1"/>
-                <GradientStop Color="{DynamicResource Umbra2}" Offset="0.16"/>
-                <GradientStop Color="{DynamicResource Umbra1}" Offset="0.0"/>
+            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                <GradientStop Offset="1" Color="{DynamicResource Umbra4}" />
+                <GradientStop Offset="0.16" Color="{DynamicResource Umbra2}" />
+                <GradientStop Offset="0.0" Color="{DynamicResource Umbra1}" />
             </LinearGradientBrush>
         </Setter>
     </Style>

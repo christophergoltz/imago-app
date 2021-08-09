@@ -1,18 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<FlyoutPage xmlns="http://xamarin.com/schemas/2014/forms" 
-       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-       xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
-       xmlns:views="clr-namespace:ImagoApp.Views;assembly=ImagoApp"
-       xmlns:local="clr-namespace:ImagoApp;assembly=ImagoApp"
-       xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp"
-       Appearing="AppShell_OnAppearing"
-       Title="Imago"    
-       x:DataType="viewModels:AppShellViewModel"  
-       x:Class="ImagoApp.AppShell">
+<?xml version="1.0" encoding="UTF-8" ?>
+<FlyoutPage x:Class="ImagoApp.AppShell" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+   xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp" xmlns:local="clr-namespace:ImagoApp;assembly=ImagoApp" xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
+   xmlns:views="clr-namespace:ImagoApp.Views;assembly=ImagoApp" Title="Imago" x:DataType="viewModels:AppShellViewModel"
+   Appearing="AppShell_OnAppearing">
     <FlyoutPage.Detail>
         <NavigationPage Title="Imago" HasNavigationBar="False">
             <x:Arguments>
-                <ContentPage Title="Imago"/>
+                <ContentPage Title="Imago" />
             </x:Arguments>
         </NavigationPage>
     </FlyoutPage.Detail>
@@ -20,27 +14,29 @@
         <ContentPage Title="Menü" BackgroundColor="{StaticResource AntiUmbra}">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="1"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="1"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="1" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="1" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
 
-                 <!--menu items-->
-                <CollectionView Grid.Row="0" SelectionMode="Single" SelectionChanged="SelectableItemsView_OnSelectionChanged" x:Name="MainMenuCollectionView"
-                                ItemsSource="{Binding MenuItems}">
+                <!--  menu items  -->
+                <CollectionView x:Name="MainMenuCollectionView" Grid.Row="0"
+                   ItemsSource="{Binding MenuItems}"
+                   SelectionChanged="SelectableItemsView_OnSelectionChanged" SelectionMode="Single">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="customControls:FlyoutPageItem">
                             <Grid BackgroundColor="{StaticResource AntiUmbra}">
-                                <Grid Padding="20" Margin="10">
+                                <Grid Margin="10" Padding="20">
                                     <Grid.Style>
                                         <Style TargetType="Grid">
                                             <Style.Triggers>
-                                                <DataTrigger TargetType="Grid" Binding="{Binding IsSelected}" Value="True">
-                                                    <Setter Property="BackgroundColor" Value="{StaticResource AntiUmbra2}"/>
+                                                <DataTrigger Binding="{Binding IsSelected}"
+                                                   TargetType="Grid" Value="True">
+                                                    <Setter Property="BackgroundColor" Value="{StaticResource AntiUmbra2}" />
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
@@ -52,31 +48,36 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
 
-                <BoxView Grid.Row="2" Color="{StaticResource AntiUmbra2}"/>
+                <BoxView Grid.Row="2" Color="{StaticResource AntiUmbra2}" />
 
-                <Grid Grid.Row="3" Padding="0" Margin="15">
-                    <ImageButton Source="Images/hauptmenue_weiss.png" HeightRequest="70" Command="{Binding GoToMainMenuCommand}"/>
+                <Grid Grid.Row="3" Margin="15" Padding="0">
+                    <ImageButton Command="{Binding GoToMainMenuCommand}"
+                       HeightRequest="70" Source="Images/hauptmenue_weiss.png" />
                 </Grid>
 
-                 <!--footer-->
-                <BoxView Grid.Row="4" Color="{StaticResource AntiUmbra2}"/>
+                <!--  footer  -->
+                <BoxView Grid.Row="4" Color="{StaticResource AntiUmbra2}" />
 
                 <StackLayout Grid.Row="5" Margin="10,10,10,5" Padding="10,20,10,10">
                     <StackLayout.Style>
                         <Style TargetType="StackLayout">
                             <Style.Triggers>
-                                <DataTrigger TargetType="StackLayout" Binding="{Binding EditMode}" Value="True">
-                                    <Setter Property="BackgroundColor" Value="{StaticResource GruenesUmbra1}"></Setter>
+                                <DataTrigger Binding="{Binding EditMode}"
+                                   TargetType="StackLayout" Value="True">
+                                    <Setter Property="BackgroundColor" Value="{StaticResource GruenesUmbra1}" />
                                 </DataTrigger>
-                                <DataTrigger TargetType="StackLayout" Binding="{Binding EditMode}" Value="False">
-                                    <Setter Property="BackgroundColor" Value="{StaticResource AntiUmbra2}"></Setter>
+                                <DataTrigger Binding="{Binding EditMode}"
+                                   TargetType="StackLayout" Value="False">
+                                    <Setter Property="BackgroundColor" Value="{StaticResource AntiUmbra2}" />
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </StackLayout.Style>
-                    <Image Source="Images/erschaffung_weiss.png" WidthRequest="35"></Image>
-                    <Switch Margin="0,5,0,0" ThumbColor="White" OnColor="{StaticResource GruenesUmbra2}" 
-                            IsToggled="{Binding EditMode}"></Switch>
+                    <Image Source="Images/erschaffung_weiss.png" WidthRequest="35" />
+                    <Switch Margin="0,5,0,0"
+                       IsToggled="{Binding EditMode}"
+                       OnColor="{StaticResource GruenesUmbra2}"
+                       ThumbColor="White" />
                 </StackLayout>
             </Grid>
         </ContentPage>

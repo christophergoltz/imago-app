@@ -5,7 +5,7 @@
     <ContentView.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="TalentBaseDetailTemplate" x:DataType="viewModels:TalentListItemViewModel">
-                <StackLayout x:Name="TalentDetailExpanderControl" Margin="10,5">
+                <StackLayout Margin="10,5">
                     <Grid>
                         <Grid.Style>
                             <Style TargetType="Grid">
@@ -397,7 +397,7 @@
                             </Style>
                         </Label.Style>
                     </Label>
-                    <StackLayout BindableLayout.ItemTemplate="{StaticResource TalentBaseDetailTemplate}" BindableLayout.ItemsSource="{Binding Masteries}" />
+                    <StackLayout BindableLayout.ItemTemplate="{StaticResource MasteryBaseDetailTemplate}" BindableLayout.ItemsSource="{Binding Masteries}" />
 
                     <Label Padding="10,5,10,5"
                        BackgroundColor="{StaticResource AntiUmbra2}"

@@ -144,6 +144,8 @@
     <Content Include="Images\erschaffung_weiss.png" />
     <Content Include="Images\fernkampf.png" />
     <Content Include="Images\fernkampf_weiss.png" />
+    <Content Include="Images\fertigkeit.png" />
+    <Content Include="Images\fertigkeit_weiss.png" />
     <Content Include="Images\handwerk.png" />
     <Content Include="Images\handwerk_weiss.png" />
     <Content Include="Images\hauptmenue.png" />

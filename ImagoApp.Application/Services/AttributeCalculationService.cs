@@ -126,11 +126,10 @@ namespace ImagoApp.Application.Services
             {
                 var attributeTypesForCalculation = RuleConstants.GetSkillGroupSources(affectedSkillGroup.Type);
 
-                double attributeSum = attributeTypesForCalculation.Sum(attributeType => attributes.First(attribute => attribute.Type == attributeType).FinalValue);
+                var attributeSum = attributeTypesForCalculation.Sum(attributeType => attributes.First(attribute => attribute.Type == attributeType).FinalValue);
+                var newBaseValue = attributeSum / 6;
 
-                var newBaseValue = (int)Math.Round(attributeSum / 6, MidpointRounding.AwayFromZero);
-
-                affectedSkillGroup.BaseValue = newBaseValue;
+                affectedSkillGroup.BaseValue = newBaseValue.GetRoundedValue();
                 _skillGroupCalculationService.RecalculateFinalValue(affectedSkillGroup);
                 _skillGroupCalculationService.UpdateNewBaseValueToSkillsOfGroup(affectedSkillGroup);
             }
