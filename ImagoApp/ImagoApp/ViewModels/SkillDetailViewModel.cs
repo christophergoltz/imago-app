@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,7 +11,6 @@ using ImagoApp.Application.Models;
 using ImagoApp.Application.Services;
 using ImagoApp.Converter;
 using ImagoApp.Shared.Enums;
-using ImagoApp.Util;
 using Xamarin.Forms;
 
 namespace ImagoApp.ViewModels

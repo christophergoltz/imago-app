@@ -8,6 +8,7 @@ namespace ImagoApp.Infrastructure.Entities
 {
     public class WeaveTalentEntity : TalentBaseEntity
     {
+        public string FormulaSettings { get; set; }
         public string DifficultyFormula { get; set; }
         public string WeaveSource { get; set; }
         

@@ -5,6 +5,7 @@ using HtmlAgilityPack;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Models.Template;
 using ImagoApp.Shared.Enums;
+using Serilog;
 using Serilog.Core;
 
 namespace ImagoApp.Application.Services
@@ -547,6 +548,76 @@ namespace ImagoApp.Application.Services
             return talents;
         }
 
+        private List<(string weaveTalentName, List<SkillRequirementModel> requirement, string shortDescription, string description)> GetWeaveTalentData(string url, Logger logger)
+        {
+            var result =
+                new List<(string weaveTalentName, List<SkillRequirementModel> requirement, string shortDescription,
+                    string description)>();
+
+            var doc = WikiHelper.LoadDocumentFromUrl(url, logger);
+            if (doc == null)
+            {
+                //todo log error
+                return null;
+            }
+
+            var descriptions = GetTalentDescriptions(doc);
+
+            var table = doc.DocumentNode.SelectSingleNode("//table[@class='wikitable']");
+
+            var rows = table.SelectNodes("tr");
+            foreach (var row in rows.Skip(1))
+            {
+                var dataCells = row.SelectNodes("td");
+
+                var name = CleanUpString(dataCells[0].InnerText);
+                var requirementsRawValue = CleanUpString(dataCells[1].InnerText);
+                var requirements = new List<SkillRequirementModel>();
+
+                foreach (var requirement in requirementsRawValue.Split(',').Select(s => s.Trim()))
+                {
+                    var strings = requirement.Split(' ');
+                    var skill = MappingStringToSkillType(strings[0], logger);
+                    if (skill == SkillModelType.Unbekannt)
+                    {
+                        logger.Error(
+                            $"Vorraussetztung \"{requirement}\" für Webkunst \"{name}\" kann nicht gelesen werden .. wird ignoriert");
+                        continue;
+                    }
+
+                    var value = int.Parse(strings[1]);
+
+                    requirements.Add(new SkillRequirementModel(skill, value));
+                }
+
+                var shortDescription = string.Empty;
+
+                if (dataCells.Count > 7)
+                    shortDescription = CleanUpString(dataCells[7].InnerText);
+                else
+                    logger.Warning($"Webkunst \"{name}\" hat keine Kurzbeschreibung");
+
+                var description = string.Empty;
+                if (!descriptions.ContainsKey(name))
+                {
+                    logger.Warning($"Keine Beschreibung zu \"{name}\" gefunden {url}");
+                }
+                else
+                {
+                    description = descriptions[name];
+                    if (string.IsNullOrWhiteSpace(description))
+                    {
+                        logger.Warning($"Nur eine leere Beschreibung zu \"{name}\" gefunden {url}");
+                    }
+                }
+
+                result.Add((name, requirements, shortDescription, description));
+                
+            }
+
+            return result;
+        }
+
         private List<WeaveTalentModel> ParseWeaveTalentsFromUrl(string url, Logger logger)
         {
             var weaveTalents = new List<WeaveTalentModel>();
@@ -558,87 +629,45 @@ namespace ImagoApp.Application.Services
             //parse complete table
             foreach (var table in doc.DocumentNode.SelectNodes("//table[@class='wikitable']"))
             {
-                var weaveSource = string.Empty;
-
                 var rows = table.SelectNodes("tr");
                 var header = rows[0];
                 var headerData = header.SelectNodes("th");
 
-                weaveSource = CleanUpString(headerData[0].InnerText);
+                var sourceTalentUrl = CleanUpString(headerData[7].InnerText);
+                var talentName = CleanUpString(headerData[0].InnerText);
 
-                //todo map weaveSource to skilltype
-                //get lookup
-                var descriptions = GetTalentDescriptions(doc);
-
+                //todo get Voraussetzung, Kurzbeschreibung, beschreib
+                var refData = GetWeaveTalentData(sourceTalentUrl, logger);
+             
                 //parse each row
                 foreach (var weaveTalent in rows.Skip(1))
                 {
-                    string name = string.Empty;
+                    var name = string.Empty;
                     try
                     {
-
                         var dataCells = weaveTalent.SelectNodes("td");
                         name = CleanUpString(dataCells[0].InnerText);
-
-                        var requirementsRawValue = CleanUpString(dataCells[1].InnerText);
-
-                        var requirements = new List<SkillRequirementModel>();
-
-                        foreach (var requirement in requirementsRawValue.Split(',').Select(s => s.Trim()))
-                        {
-                            var strings = requirement.Split(' ');
-                            var skill = MappingStringToSkillType(strings[0], logger);
-                            if (skill == SkillModelType.Unbekannt)
-                            {
-                                logger.Error(
-                                    $"Vorraussetztung \"{requirement}\" für Webkunst \"{name}\" kann nicht gelesen werden .. wird ignoriert");
-                                continue;
-                            }
-
-                            var value = int.Parse(strings[1]);
-
-                            requirements.Add(new SkillRequirementModel(skill, value));
-                        }
-
-                        var activeUse = MapToActiveUse(CleanUpString(dataCells[3].InnerText), logger);
+                        
+                        var activeUse = MapToActiveUse(CleanUpString(dataCells[2].InnerText), logger);
 
                         //todo test formulas
                         //formulas
-                        var difficultyFormula = CleanUpString(dataCells[2].InnerText);
-                        var range = CleanUpString(dataCells[4].InnerText);
-                        var duration = CleanUpString(dataCells[5].InnerText);
-                        var corrosion = CleanUpString(dataCells[6].InnerText);
-                        var strengthOfTalentDescription = CleanUpString(dataCells[7].InnerText);
+                        var difficultyFormula = CleanUpString(dataCells[1].InnerText);
+                        var range = CleanUpString(dataCells[3].InnerText);
+                        var duration = CleanUpString(dataCells[4].InnerText);
+                        var corrosion = CleanUpString(dataCells[5].InnerText);
+                        var strengthOfTalentDescription = CleanUpString(dataCells[6].InnerText);
+                        var formulaSettings = CleanUpString(dataCells[7].InnerText);
 
-                        var shortDescription = string.Empty;
+                        var additionalDataTable = refData.First(tuple => tuple.weaveTalentName == name);
 
-                        if (dataCells.Count > 8)
-                            shortDescription = CleanUpString(dataCells[8].InnerText);
-                        else
-                            logger.Warning($"Webkunst \"{name}\" hat keine Kurzbeschreibung");
-
-                        var description = string.Empty;
-                        if (!descriptions.ContainsKey(name))
-                        {
-                            logger.Warning($"Keine Beschreibung zu \"{name}\" gefunden {url}");
-                        }
-                        else
-                        {
-                            description = descriptions[name];
-                            if (string.IsNullOrWhiteSpace(description))
-                            {
-                                logger.Warning($"Nur eine leere Beschreibung zu \"{name}\" gefunden {url}");
-                            }
-                        }
-
-                        weaveTalents.Add(new WeaveTalentModel(weaveSource, requirements, name, shortDescription,
-                            description,
-                            activeUse, difficultyFormula, range, corrosion, duration, strengthOfTalentDescription));
+                        weaveTalents.Add(new WeaveTalentModel(talentName, additionalDataTable.requirement, name, additionalDataTable.shortDescription, additionalDataTable.description,
+                            activeUse, difficultyFormula, range, corrosion, duration, strengthOfTalentDescription, formulaSettings));
                     }
                     catch (Exception e)
                     {
                         logger.Error(e,
-                            $"Webkunst \"{name}\" \"{weaveSource}\" konnten nicht von \"{url}\" gelesen werden.{Environment.NewLine}Fehler:{e}");
+                            $"Webkunst \"{name}\" \"{talentName}\" konnten nicht von \"{url}\" gelesen werden.{Environment.NewLine}Fehler:{e}");
                     }
                 }
             }

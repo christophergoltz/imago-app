@@ -1,7 +1,6 @@
 ﻿using System;
 using ImagoApp.Application;
 using ImagoApp.Application.Models;
-using ImagoApp.Application.Models.Base;
 
 namespace ImagoApp.ViewModels
 {

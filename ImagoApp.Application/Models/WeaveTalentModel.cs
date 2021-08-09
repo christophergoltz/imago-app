@@ -15,6 +15,7 @@ namespace ImagoApp.Application.Models
         private string _weaveSource;
         private string _difficultyFormula;
         private string _strengthOfTalentDescription;
+        private string _formulaSettings;
 
         public WeaveTalentModel() : base()
         {
@@ -22,7 +23,7 @@ namespace ImagoApp.Application.Models
         }
 
         public WeaveTalentModel(string weaveSource, List<SkillRequirementModel> requirements, string name, string shortDescription, string description,
-          bool activeUse, string difficultyFormula, string rangeFormula, string corrosionFormula, string durationFormula, string strengthOfTalentDescription) : base(name, shortDescription, description,  activeUse)
+          bool activeUse, string difficultyFormula, string rangeFormula, string corrosionFormula, string durationFormula, string strengthOfTalentDescription, string formulaSettings) : base(name, shortDescription, description,  activeUse)
         {
             WeaveSource = weaveSource;
             Requirements = requirements;
@@ -30,6 +31,14 @@ namespace ImagoApp.Application.Models
             CorrosionFormula = corrosionFormula;
             DurationFormula = durationFormula;
             StrengthOfTalentDescription = strengthOfTalentDescription;
+            DifficultyFormula = difficultyFormula;
+            FormulaSettings = formulaSettings;
+        }
+
+        public string FormulaSettings
+        {
+            get => _formulaSettings;
+            set => SetProperty(ref _formulaSettings , value);
         }
 
         public string WeaveSource

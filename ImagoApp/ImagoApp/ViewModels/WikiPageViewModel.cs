@@ -5,7 +5,6 @@ using System.Linq;
 using System.Windows.Input;
 using ImagoApp.Application;
 using ImagoApp.Application.Models;
-using ImagoApp.Util;
 using Xamarin.Forms;
 
 namespace ImagoApp.ViewModels

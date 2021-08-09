@@ -4,7 +4,6 @@ using System.Windows.Input;
 using ImagoApp.Application;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Services;
-using ImagoApp.Infrastructure.Repositories;
 using ImagoApp.Shared.Enums;
 using Xamarin.Forms;
 

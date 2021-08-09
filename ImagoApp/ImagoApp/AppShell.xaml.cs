@@ -56,8 +56,9 @@ namespace ImagoApp
 
                             if (!saveResult)
                             {
-                                UserDialogs.Instance.Alert($"{Environment.NewLine}Der Charakter konnte aus einem unbekannten Grund nicht gespeichert werden." +
-                                                           $"{Environment.NewLine}{Environment.NewLine}Möglicherweise kann ein neustarten der App das Problem lösen.",
+                                UserDialogs.Instance.Alert(
+                                    $"{Environment.NewLine}Der Charakter konnte aus einem unbekannten Grund nicht gespeichert werden." +
+                                    $"{Environment.NewLine}{Environment.NewLine}Möglicherweise kann ein neustarten der App das Problem lösen.",
                                     "Fehler, der Charakter konnte nicht gespeichert werden",
                                     "OK");
                             }

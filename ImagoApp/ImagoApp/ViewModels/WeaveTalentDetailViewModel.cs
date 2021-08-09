@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using ImagoApp.Application;
 using ImagoApp.Application.Models;
@@ -20,24 +18,32 @@ namespace ImagoApp.ViewModels
         private readonly IWikiDataService _wikiDataService;
         private WeaveTalentModel _weaveTalent;
         private List<SkillModel> _skills;
-        private int _timeQuantity;
-        private int _timeSteps;
-        private int _rangeQuantity;
-        private double _rangeSteps;
-        private bool _isDurationConfigurable;
-        private bool _isRangeConfigurable;
-        private bool _isTalentLevelConfigurable;
-        private int _talentLevel;
-        private int _corrosionCost;
-        private bool _isVolumeConfigurable;
-        private int _volumeQuantity;
-        private int _volumeSteps;
-        private int _volumeDescription;
         private List<MasteryListItemViewModel> _masteries;
         private SkillModel _selectedSkillModel;
+        private int _concentrationPerAction;
+        private int _concentrationQuantity;
+        private int _modification;
+        private int _finalValue;
+        private List<WeaveTalentSettingModel> _weaveTalentSettings;
+        private List<WeaveTalentResultModel> _weaveTalentResults;
         public ICommand CloseCommand { get; set; }
 
         public event EventHandler CloseRequested;
+
+        public int Difficulty
+        {
+            get
+            {
+                var rawValue = WeaveTalentResults.FirstOrDefault(model => model.Type == WeaveTalentResultType.Difficulty)?.FinalValue ?? "0";
+
+                if (int.TryParse(rawValue, out var difficulty))
+                {
+                    return difficulty;
+                }
+
+                return 0;
+            }
+        }
 
         public WeaveTalentDetailViewModel(WeaveTalentModel weaveTalent, List<SkillModel> skills, CharacterViewModel characterViewModel, IWikiDataService wikiDataService)
         {
@@ -45,6 +51,7 @@ namespace ImagoApp.ViewModels
             _wikiDataService = wikiDataService;
             WeaveTalent = weaveTalent;
             Skills = skills;
+            ConcentrationPerAction = 15;
 
             CloseCommand = new Command(() =>
             {
@@ -53,19 +60,216 @@ namespace ImagoApp.ViewModels
 
             SelectedSkillModel = Skills.First();
 
-            Task.Run(InitializeTestView);
-
-            ParseDurationFormula(weaveTalent.DurationFormula);
-            ParseRangeFormula(weaveTalent.RangeFormula);
-            ParseCorrosionFormula(weaveTalent.CorrosionFormula);
-            ParseDifficultyFormula(weaveTalent.DifficultyFormula);
-            RecalculateCorrosion();
+            InitializeTestView();
+            CreateWeaveTalentSettings(weaveTalent.FormulaSettings);
+            CreateWeaveTalentResults();
+            RecalculateFinalValue();
         }
 
-        public SkillModel SelectedSkillModel {
+        private void CreateWeaveTalentResults()
+        {
+            var diff = new WeaveTalentResultModel(WeaveTalentResultType.Difficulty, WeaveTalent.DifficultyFormula);
+            diff.PropertyChanged += (sender, args) =>
+            {
+                if (args.PropertyName == nameof(WeaveTalentResultModel.FinalValue))
+                {
+                    OnPropertyChanged(nameof(Difficulty));
+                    RecalculateFinalValue();
+                }
+            };
+
+            var result = new List<WeaveTalentResultModel>()
+            {
+                diff,
+                new WeaveTalentResultModel(WeaveTalentResultType.Range, WeaveTalent.RangeFormula),
+                new WeaveTalentResultModel(WeaveTalentResultType.Duration, WeaveTalent.DurationFormula),
+                new WeaveTalentResultModel(WeaveTalentResultType.Corrosion, WeaveTalent.CorrosionFormula)
+            };
+
+            WeaveTalentResults = result;
+        }
+
+        public List<WeaveTalentSettingModel> WeaveTalentSettings
+        {
+            get => _weaveTalentSettings;
+            set => SetProperty(ref _weaveTalentSettings, value);
+        }
+
+        public List<WeaveTalentResultModel> WeaveTalentResults
+        {
+            get => _weaveTalentResults;
+            set => SetProperty(ref _weaveTalentResults, value);
+        }
+
+        private void CreateWeaveTalentSettings(string formulaSettings)
+        {
+            if (string.IsNullOrWhiteSpace(formulaSettings))
+                return;
+
+            formulaSettings = formulaSettings.Replace(" ", string.Empty);
+
+            var splitSettings = formulaSettings.Split(';');
+            var settings = splitSettings.Select(GetSettingFromString).ToList();
+
+            foreach (var setting in settings)
+            {
+                setting.PropertyChanged += (sender, args) =>
+                {
+                    if (args.PropertyName != nameof(WeaveTalentSettingModel.FinalValue))
+                        return;
+
+                    var dic = WeaveTalentSettings.ToDictionary(
+                        _ => _.Abbreviation,
+                        _ => _.FinalValue.ToString(CultureInfo.InvariantCulture));
+
+                    //recalc all results
+                    foreach (var item in WeaveTalentResults)
+                    {
+                        item.RecalculateFinalValue(dic);
+                    }
+                };
+            }
+
+            WeaveTalentSettings = settings;
+        }
+
+        private WeaveTalentSettingModel GetSettingFromString(string setting)
+        {
+            //settings without units
+            switch (setting)
+            {
+                case "S":
+                    return new WeaveTalentSettingModel()
+                    {
+                        Abbreviation = setting,
+                        Type = WeaveTalentSettingModelType.StrengthOfTalent,
+                        Quantity = 1,
+                        StepValue = 1
+                    };
+                case "Sw":
+                    return new WeaveTalentSettingModel()
+                    {
+                        Abbreviation = setting,
+                        Type = WeaveTalentSettingModelType.StrengthOfWorld,
+                        Quantity = 1,
+                        StepValue = 1
+                    };
+            }
+
+            if (!setting.Contains('['))
+                throw new InvalidOperationException($"Setting-formula couldn't be read: \"{setting}\"");
+
+            var parts = setting.Split('[');
+
+            //unit parsing
+            var abbreviation = parts.First();
+
+            WeaveTalentSettingModelType type;
+
+            switch (abbreviation)
+            {
+                case "R":
+                    type = WeaveTalentSettingModelType.RadiusRange;
+                    break;
+                case "D":
+                    type = WeaveTalentSettingModelType.DiameterRange;
+                    break;
+                case "t":
+                    type = WeaveTalentSettingModelType.Duration;
+                    break;
+                case "Vo":
+                    type = WeaveTalentSettingModelType.ObjectVolume;
+                    break;
+                case "Vp":
+                    type = WeaveTalentSettingModelType.ProductVolume;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("Unknown abbreviation: " + abbreviation);
+            }
+
+            var unitRawValue = parts.Last().TrimEnd(']');
+
+            double step = 1;
+
+            //parse step from substring
+            var stepValueMatch = Regex.Match(unitRawValue, "(([0-9]*[,])?[0-9]+)");
+            if (stepValueMatch.Success)
+            {
+                step = double.Parse(stepValueMatch.Value);
+            }
+
+            //parse unit from substring
+            var unit = Regex.Match(unitRawValue, "(h|m|d|w|y|M|P|L)").Value;
+
+            switch (unit)
+            {
+                case "h":
+                    unit = "Stunden";
+                    break;
+                case "m":
+                    unit = "Minuten";
+                    break;
+                case "d":
+                    unit = "Tage";
+                    break;
+                case "w":
+                    unit = "Wochen";
+                    break;
+                case "y":
+                    unit = "Jahre";
+                    break;
+                case "M":
+                    unit = "Meter";
+                    break;
+                case "P":
+                    unit = "Phasen";
+                    break;
+                case "L":
+                    unit = "Liter";
+                    break;
+            }
+
+
+
+            return new WeaveTalentSettingModel
+            {
+                Type = type,
+                Abbreviation = abbreviation,
+                StepValue = step,
+                Unit = unit,
+                Quantity = 1
+            };
+        }
+
+        public SkillModel SelectedSkillModel
+        {
             get => _selectedSkillModel;
             set => SetProperty(ref _selectedSkillModel, value);
         }
+
+        public int ConcentrationPerAction
+        {
+            get => _concentrationPerAction;
+            set
+            {
+                SetProperty(ref _concentrationPerAction, value);
+                OnPropertyChanged(nameof(ConcentrationFinalValue));
+                RecalculateFinalValue();
+            }
+        }
+
+        public int ConcentrationQuantity
+        {
+            get => _concentrationQuantity;
+            set
+            {
+                SetProperty(ref _concentrationQuantity, value);
+                OnPropertyChanged(nameof(ConcentrationFinalValue));
+                RecalculateFinalValue();
+            }
+        }
+
+        public int ConcentrationFinalValue => ConcentrationPerAction * ConcentrationQuantity;
 
         private void InitializeTestView()
         {
@@ -80,16 +284,41 @@ namespace ImagoApp.ViewModels
                 {
                     Available = avaiable
                 };
-                vm.TalentValueChanged += (sender, args) => RecalcDifficultyValue();
+                vm.TalentValueChanged += (sender, args) => RecalculateFinalValue();
                 masteries.Add(vm);
             }
 
             Masteries = masteries;
         }
 
-        private void RecalcDifficultyValue()
+        public int Modification
         {
+            get => _modification;
+            set
+            {
+                SetProperty(ref _modification, value); 
+                RecalculateFinalValue();
+            }
+        }
+
+        public int FinalValue
+        {
+            get => _finalValue;
+            set => SetProperty(ref _finalValue, value);
+        }
+
+        private void RecalculateFinalValue()
+        {
+            if (SelectedSkillModel == null)
+                return;
+
             var result = SelectedSkillModel.FinalValue.GetRoundedValue();
+
+            result += ConcentrationFinalValue;
+            result -= Modification;
+            result -= Difficulty;
+            FinalValue = result;
+
 
             ////handicap
             //if (Handicaps != null)
@@ -136,109 +365,6 @@ namespace ImagoApp.ViewModels
             set => SetProperty(ref _masteries, value);
         }
 
-        public bool IsDurationConfigurable
-        {
-            get => _isDurationConfigurable;
-            set => SetProperty(ref _isDurationConfigurable, value);
-        }
-
-        public bool IsRangeConfigurable
-        {
-            get => _isRangeConfigurable;
-            set => SetProperty(ref _isRangeConfigurable, value);
-        }
-
-        public int TimeQuantity
-        {
-            get => _timeQuantity;
-            set
-            {
-                SetProperty(ref _timeQuantity, value);
-                OnPropertyChanged(nameof(TimeValue));
-                RecalculateCorrosion();
-            }
-        }
-
-        public int TimeSteps
-        {
-            get => _timeSteps;
-            set
-            {
-                SetProperty(ref _timeSteps, value);
-                OnPropertyChanged(nameof(TimeValue));
-            }
-        }
-
-        public int TimeValue => TimeQuantity * TimeSteps;
-
-        public string TimeDescription { get; set; }
-
-
-        public int RangeQuantity
-        {
-            get => _rangeQuantity;
-            set
-            {
-                SetProperty(ref _rangeQuantity, value);
-                OnPropertyChanged(nameof(RangeValue));
-                RecalculateCorrosion();
-            }
-        }
-
-        public double RangeSteps
-        {
-            get => _rangeSteps;
-            set
-            {
-                SetProperty(ref _rangeSteps, value);
-                OnPropertyChanged(nameof(RangeValue));
-            }
-        }
-
-        public string RangeDescription { get; set; }
-
-        public double RangeValue => RangeQuantity * RangeSteps;
-
-        public bool IsTalentLevelConfigurable
-        {
-            get => _isTalentLevelConfigurable;
-            set => SetProperty(ref _isTalentLevelConfigurable, value);
-        }
-
-        public int TalentLevel
-        {
-            get => _talentLevel;
-            set
-            {
-                SetProperty(ref _talentLevel, value);
-                RecalculateCorrosion();
-            }
-        }
-
-        public int VolumeQuantity
-        {
-            get => _volumeQuantity;
-            set => SetProperty(ref _volumeQuantity, value);
-        }
-
-        public int VolumeSteps
-        {
-            get => _volumeSteps;
-            set => SetProperty(ref _volumeSteps, value);
-        }
-
-        public int VolumeDescription
-        {
-            get => _volumeDescription;
-            set => SetProperty(ref _volumeDescription, value);
-        }
-
-        public bool IsVolumeConfigurable
-        {
-            get => _isVolumeConfigurable;
-            set => SetProperty(ref _isVolumeConfigurable, value);
-        }
-
         public List<SkillModel> Skills
         {
             get => _skills;
@@ -249,160 +375,6 @@ namespace ImagoApp.ViewModels
         {
             get => _weaveTalent;
             private set => _weaveTalent = value;
-        }
-
-        private void ParseDurationFormula(string formula)
-        {
-            if (formula.Equals("Permanent", StringComparison.OrdinalIgnoreCase))
-            {
-                IsDurationConfigurable = false;
-                TimeDescription = "Permanent";
-                return;
-            }
-
-            if (formula.Equals("Instantan", StringComparison.OrdinalIgnoreCase))
-            {
-                IsDurationConfigurable = false;
-                TimeDescription = "Instantan";
-                return;
-            }
-
-            if (formula.Equals("speziell", StringComparison.OrdinalIgnoreCase))
-            {
-                IsDurationConfigurable = false;
-                TimeDescription = "Speziell";
-                return;
-            }
-
-            if (formula.StartsWith("t"))
-            {
-                IsDurationConfigurable = true;
-
-                var rawTimeValue = Regex.Match(formula, @"([[])([0-9]?)( *)(min|h|d|Phasen|phasen)([\]])").Value;
-                var timeValue = rawTimeValue.Trim('[', ']').Replace(" ", string.Empty);
-
-                var timeQuantity = Regex.Match(timeValue, "([0-9])");
-                if (timeQuantity.Success)
-                {
-                    TimeSteps = int.Parse(timeQuantity.Value);
-                }
-                else
-                {
-                    TimeSteps = 1;
-                }
-
-                TimeQuantity = TimeSteps;
-
-                var timeUnit = Regex.Match(timeValue, "(min|h|d|Phasen|phasen)").Value;
-                TimeDescription = timeUnit;
-                return;
-            }
-
-            throw new InvalidOperationException($"Unknown Durationformula: \"{formula}\"");
-        }
-
-        private void ParseRangeFormula(string formula)
-        {
-            if (formula.Contains("B;"))
-            {
-                formula = formula.Replace("B;", string.Empty);
-            }
-
-            if (formula.Equals("B, 0"))
-            {
-                IsRangeConfigurable = false;
-                RangeDescription = "Berührungsreichweite bzw. 0";
-                return;
-            }
-
-
-            if (formula.Equals("0"))
-            {
-                IsRangeConfigurable = false;
-                RangeDescription = string.Empty;
-                return;
-            }
-
-            if (formula.Equals("B"))
-            {
-                IsRangeConfigurable = false;
-                RangeDescription = "Berührungsreichweite";
-                return;
-            }
-
-
-            var radiusFormula = formula.Contains("r");
-            var diameterFormula = formula.Contains("d");
-            if (radiusFormula || diameterFormula)
-            {
-                //if (radiusFormula)
-                //    RangeType = WeaveTalentRangeType.Radius;
-                //if (diameterFormula)
-                //    RangeType = WeaveTalentRangeType.Diameter;
-
-                IsRangeConfigurable = true;
-
-                var rawRangeValue = Regex.Match(formula, @"([[])(([0-9]*[,])?[0-9]?)( *)(m|M|Meter|meter)([\]])").Value;
-                var rangeValue = rawRangeValue.Trim('[', ']').Replace(" ", string.Empty);
-
-                var rangeQuantity = Regex.Match(rangeValue, "(([0-9]*[,])?[0-9]+)");
-                if (rangeQuantity.Success)
-                {
-                    RangeSteps = double.Parse(rangeQuantity.Value);
-                }
-                else
-                {
-                    RangeSteps = 1;
-                }
-
-                var rangeUnit = Regex.Match(rangeValue, "(m|M|Meter|meter)").Value;
-                RangeDescription = rangeUnit;
-                return;
-            }
-
-            throw new InvalidOperationException($"Unknown Rangeformula: \"{formula}\"");
-        }
-
-        private void ParseDifficultyFormula(string formula)
-        {
-
-        }
-
-        private void ParseCorrosionFormula(string formula)
-        {
-            if (formula.Contains("S"))
-            {
-                IsTalentLevelConfigurable = true;
-                TalentLevel = 1;
-            }
-        }
-
-        public int CorrosionCost
-        {
-            get => _corrosionCost;
-            set => SetProperty(ref _corrosionCost, value);
-        }
-
-        private void RecalculateCorrosion()
-        {
-            var formula = WeaveTalent.CorrosionFormula;
-            var calculation = formula
-                .Replace("S", TalentLevel.ToString())
-                .Replace("t", TimeQuantity.ToString())
-                .Replace("d", RangeQuantity.ToString())
-                .Replace("r", RangeQuantity.ToString());
-
-            Debug.WriteLine($"Korrosion, Alt: \"{formula}\", Neu: \"{calculation}\"");
-
-            try
-            {
-                var result = new DataTable().Compute(calculation, null).ToString();
-                CorrosionCost = int.Parse(result);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e);
-            }
         }
     }
 }

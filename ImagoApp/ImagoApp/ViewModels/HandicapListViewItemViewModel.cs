@@ -1,7 +1,6 @@
 ﻿using System;
 using ImagoApp.Application;
 using ImagoApp.Shared.Enums;
-using ImagoApp.Util;
 
 namespace ImagoApp.ViewModels
 {

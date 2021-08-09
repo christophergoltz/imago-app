@@ -10,7 +10,6 @@ using ImagoApp.Application.Models;
 using ImagoApp.Application.Models.Template;
 using ImagoApp.Application.Services;
 using ImagoApp.Shared.Enums;
-using ImagoApp.Util;
 using Xamarin.Forms;
 
 namespace ImagoApp.ViewModels

@@ -4,12 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using Acr.UserDialogs;
 using ImagoApp.Application;
-using ImagoApp.Application.Constants;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Services;
 using ImagoApp.Shared.Enums;
-using ImagoApp.Util;
-using Microsoft.AppCenter;
 using Microsoft.AppCenter.Crashes;
 
 namespace ImagoApp.ViewModels

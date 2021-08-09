@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 using ImagoApp.Application;
-using ImagoApp.Util;
 
 namespace ImagoApp.ViewModels
 {
