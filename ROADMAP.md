@@ -1,22 +1,25 @@
 ### [Changelog](https://github.com/christophergoltz/imago-app/blob/develop/CHANGELOG.md) | [Bekannte Fehler](https://github.com/christophergoltz/imago-app/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
 
-
----
-## 0.2
-- Charakter Im-/Export (Json)
-- Charakter löschen
-- Charakterdatenbank manuell speichern/wiederherstellen
-- Einfachste Webkünste
-- Rassenunterstützung
-
 ---
 ## 0.3
+- Charakterdatenbank manuell speichern/wiederherstellen
 - Heilung
-- Webkünste von Formen
+- Zerstörte und ausgefallene Trefferzonen
+
+---
+## 0.4
+- Rassenunterstützung
+- Vor- und Nachteile
+
+---
+## 0.5
+- Restliche Webkünste von Formen
+- Wahltalente
 
 ---
 ## Zukunftsmusik
-- Webformen inkl. Künste
-- Vor- und Nachteile
+- Neuverteilung der Attribus-Erfahrungen aus Fertigkeitskategorien
+- Automatischer Bluttäger bei SW >= 20
+- Mächte und Gewalten (Weben)
 - Waffenformen
 - Weltenkarten inkl. Portale
