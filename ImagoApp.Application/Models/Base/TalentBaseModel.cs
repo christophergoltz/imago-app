@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace ImagoApp.Application.Models.Base
+﻿namespace ImagoApp.Application.Models.Base
 {
     public abstract class TalentBaseModel : BindableBase
     {

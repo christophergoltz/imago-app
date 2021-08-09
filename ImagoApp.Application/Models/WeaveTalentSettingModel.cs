@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ImagoApp.Shared.Attributes;
+﻿using ImagoApp.Shared.Attributes;
 
 namespace ImagoApp.Application.Models
 {

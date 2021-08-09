@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Drawing;
+﻿using System.Collections.ObjectModel;
 using ImagoApp.Shared.Enums;
-using Newtonsoft.Json;
 
 namespace ImagoApp.Application.Models
 {

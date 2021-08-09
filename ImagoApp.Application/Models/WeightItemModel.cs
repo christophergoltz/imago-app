@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ImagoApp.Application.Models
+﻿namespace ImagoApp.Application.Models
 {
     public class WeightItemModel : ItemBaseModel
     {

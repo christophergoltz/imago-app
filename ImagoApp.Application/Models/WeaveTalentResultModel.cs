@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
-using System.Text;
+using System.Linq;
+using System.Text.RegularExpressions;
 using ImagoApp.Shared.Attributes;
 
 namespace ImagoApp.Application.Models
@@ -40,7 +40,7 @@ namespace ImagoApp.Application.Models
         public string Formula
         {
             get => _formula;
-            set => SetProperty(ref _formula ,value);
+            set => SetProperty(ref _formula, value);
         }
 
         public string FinalValue
@@ -51,36 +51,31 @@ namespace ImagoApp.Application.Models
 
         public void RecalculateFinalValue(Dictionary<string, string> settingValues)
         {
-            var isNumeric = int.TryParse(Formula, out _);
-            if (isNumeric)
+            settingValues.Add("B", "Berührungsreichweite");
+
+            if (int.TryParse(Formula, out _))
             {
                 FinalValue = Formula;
                 return;
             }
 
-            if (Formula.Equals("B"))
+            //replace all abbreviations with final values
+            var calculationFormula = settingValues.Aggregate(Formula, (current, setting) => current.Replace(setting.Key, setting.Value));
+
+            if (Regex.Matches(calculationFormula, @"[a-zA-Z]").Count > 0)
             {
-                FinalValue = "Berührungsreichweite";
+                //calculation cant be done with letters , display remaining
+                FinalValue = calculationFormula;
+                return;
             }
-
-            var calculationFormula = Formula;
-
-            foreach (var setting in settingValues)
-            {
-                calculationFormula = calculationFormula.Replace(setting.Key, setting.Value);
-            }
-
-            Debug.WriteLine($"Berechnung.. Alt: \"{Formula}\", Neu: \"{calculationFormula}\"");
 
             try
             {
-                var calculation = new DataTable().Compute(calculationFormula, null).ToString();
-                FinalValue = calculation;
+                FinalValue = new DataTable().Compute(calculationFormula, null).ToString();
             }
             catch (Exception)
             {
-                //calculation failed, display remaining
-                FinalValue = calculationFormula;
+                FinalValue = "[Fehler]";
             }
         }
     }

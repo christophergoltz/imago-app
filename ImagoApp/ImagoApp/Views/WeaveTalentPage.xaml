@@ -63,8 +63,8 @@
                         <TapGestureRecognizer Command="{Binding WeaveTalentDetailViewModel.CloseCommand}" />
                     </ContentView.GestureRecognizers>
                 </ContentView>
-                <Frame HeightRequest="700" HorizontalOptions="Center" VerticalOptions="Center"
-                   WidthRequest="1400">
+                <Frame HeightRequest="800" HorizontalOptions="Center" VerticalOptions="Center"
+                   WidthRequest="1500">
                     <customControls:WeaveTalentDetailView HorizontalOptions="Fill" VerticalOptions="Fill"
                        WeaveTalentDetailViewModel="{Binding WeaveTalentDetailViewModel, Source={RelativeSource AncestorType={x:Type viewModels:WeaveTalentPageViewModel}}}" />
                 </Frame>

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ImagoApp.Application.Models.Base;
 using ImagoApp.Shared.Enums;
 

@@ -34,14 +34,11 @@ namespace ImagoApp.ViewModels
         {
             get
             {
+                if (WeaveTalentResults == null)
+                    return 0;
+
                 var rawValue = WeaveTalentResults.FirstOrDefault(model => model.Type == WeaveTalentResultType.Difficulty)?.FinalValue ?? "0";
-
-                if (int.TryParse(rawValue, out var difficulty))
-                {
-                    return difficulty;
-                }
-
-                return 0;
+                return int.TryParse(rawValue, out var difficulty) ? difficulty : 0;
             }
         }
 
@@ -61,8 +58,8 @@ namespace ImagoApp.ViewModels
             SelectedSkillModel = Skills.First();
 
             InitializeTestView();
-            CreateWeaveTalentSettings(weaveTalent.FormulaSettings);
             CreateWeaveTalentResults();
+            CreateWeaveTalentSettings(weaveTalent.FormulaSettings);
             RecalculateFinalValue();
         }
 
@@ -85,6 +82,11 @@ namespace ImagoApp.ViewModels
                 new WeaveTalentResultModel(WeaveTalentResultType.Duration, WeaveTalent.DurationFormula),
                 new WeaveTalentResultModel(WeaveTalentResultType.Corrosion, WeaveTalent.CorrosionFormula)
             };
+
+            foreach (var model in result)
+            {
+                model.RecalculateFinalValue(new Dictionary<string, string>());
+            }
 
             WeaveTalentResults = result;
         }
@@ -244,7 +246,11 @@ namespace ImagoApp.ViewModels
         public SkillModel SelectedSkillModel
         {
             get => _selectedSkillModel;
-            set => SetProperty(ref _selectedSkillModel, value);
+            set
+            {
+                SetProperty(ref _selectedSkillModel, value);
+                RecalculateFinalValue();
+            }
         }
 
         public int ConcentrationPerAction

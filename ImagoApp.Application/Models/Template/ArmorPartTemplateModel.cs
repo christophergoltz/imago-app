@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ImagoApp.Shared.Enums;
+﻿using ImagoApp.Shared.Enums;
 
 namespace ImagoApp.Application.Models.Template
 {

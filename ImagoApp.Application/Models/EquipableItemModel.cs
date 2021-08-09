@@ -1,6 +1,4 @@
-﻿using AutoMapper.Configuration.Conventions;
-
-namespace ImagoApp.Application.Models
+﻿namespace ImagoApp.Application.Models
 {
     public class EquipableItemModel : WeightItemModel
     {

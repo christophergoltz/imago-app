@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ImagoApp.Application.Models.Base
+﻿namespace ImagoApp.Application.Models.Base
 {
     public class CreationExperienceBaseModel : DependentBaseModel
     {
