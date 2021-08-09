@@ -51,7 +51,8 @@ namespace ImagoApp.Application.Models
 
         public void RecalculateFinalValue(Dictionary<string, string> settingValues)
         {
-            settingValues.Add("B", "Berührungsreichweite");
+            if(!settingValues.ContainsKey("B"))
+                settingValues.Add("B", "Berührungsreichweite");
 
             if (int.TryParse(Formula, out _))
             {

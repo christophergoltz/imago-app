@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -57,8 +58,17 @@ namespace ImagoApp.ViewModels
             _characterViewModel = characterViewModel;
             _wikiDataService = wikiDataService;
             WeaveTalents = new ObservableCollection<WeaveTalentList>();
-
+            BindingBase.EnableCollectionSynchronization(WeaveTalents, null, ObservableCollectionCallback);
             InitializeWeaveTalentList().Wait();
+        }
+
+        void ObservableCollectionCallback(IEnumerable collection, object context, Action accessMethod, bool writeAccess)
+        {
+            // `lock` ensures that only one thread access the collection at a time
+            lock (collection)
+            {
+                accessMethod?.Invoke();
+            }
         }
 
         private List<SkillModel> GetSkillsFromRequirements(List<SkillRequirementModel> requirements)
@@ -107,7 +117,7 @@ namespace ImagoApp.ViewModels
                     else
                     {
                         //extend existing, if required
-                        if (!list.Contains(weaveTalent))
+                        if (list.All(model => model.Name != weaveTalent.Name))
                         {
                             await Device.InvokeOnMainThreadAsync(() => { list.Add(weaveTalent); });
                         }

@@ -1,8 +1,9 @@
 ### [Roadmap](https://github.com/christophergoltz/imago-app/blob/develop/ROADMAP.md) | [Bekannte Fehler](https://github.com/christophergoltz/imago-app/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
 
 ---
-## 0.1.2 (tba)
+## 0.2 (tba)
 
+- **Neu**: Webbogen (Letzter Menüeintrag im Charakterbogen)
 - **Neu**: Auf der Startseite wurde ein direkter Link zur Roadmap hinzugefügt
 - **Neu**: Die Sprungreichweite und Sprunghöhe für den Kampf wird nun im Inventar unterhalb der Behinderung angezeigt
 - **Neu**: Beim aktivieren des Charakterbearbeitungsmodus außerhalb der Charakterschaffung wird nun eine Warnung angezeigt
@@ -49,7 +50,7 @@
 - **Behoben**: Die Charakterliste wird nach dem verlassen eine Charakterbogens nun richtig aktualisiert
 
 --- 
-## Version 0.1.0 (12.07.2021)
+## Version 0.1 (12.07.2021)
 - **Neu**: Einfachste Charaktererschaffung
 - **Neu**: Daten aus dem Wiki abrufen
     - Rüstungen
