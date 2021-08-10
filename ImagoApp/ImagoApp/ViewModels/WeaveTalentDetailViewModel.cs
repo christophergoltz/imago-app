@@ -284,11 +284,11 @@ namespace ImagoApp.ViewModels
             var allMasteries = _wikiDataService.GetAllMasteries(SkillGroupModelType.Webkunst);
             foreach (var mastery in allMasteries)
             {
-                var avaiable = _characterViewModel.CheckMasteryRequirement(mastery.Requirements);
+                var available = _characterViewModel.CheckMasteryRequirement(mastery.Requirements);
 
                 var vm = new MasteryListItemViewModel(mastery)
                 {
-                    Available = avaiable
+                    Available = available
                 };
                 vm.TalentValueChanged += (sender, args) => RecalculateFinalValue();
                 masteries.Add(vm);
@@ -323,6 +323,21 @@ namespace ImagoApp.ViewModels
             result += ConcentrationFinalValue;
             result += Modification;
             result -= Difficulty;
+
+            //masteries
+            if (Masteries != null)
+            {
+                foreach (var mastery in Masteries)
+                {
+                    if (!mastery.Available)
+                        continue;
+
+                    if (mastery.Mastery.ActiveUse == false || mastery.Mastery.ActiveUse && mastery.InUse)
+                        result -= mastery.Mastery.Difficulty ?? mastery.DifficultyOverride ?? 0;
+                }
+            }
+
+
             FinalValue = result;
         }
 
