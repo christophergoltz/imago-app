@@ -13,7 +13,6 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
@@ -26,9 +25,14 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <Label Grid.Row="0" Grid.Column="0" Margin="10"
-                       FontSize="{DynamicResource FontSizeCaption}"
-                       Text="ImagoApp" />
+                    <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+                        <Label Margin="10" FontAttributes="Bold"
+                           FontSize="{DynamicResource FontSizeCaption}"
+                           Text="ImagoApp" VerticalOptions="Center" />
+                        <Button Margin="20,15"
+                           Command="{Binding OpenAppDataFolderCommand}"
+                           HorizontalOptions="EndAndExpand" Text="App-Ordner öffnen" VerticalOptions="Center" />
+                    </StackLayout>
 
                     <StackLayout Grid.Row="1" Orientation="Horizontal" VerticalOptions="FillAndExpand">
                         <Label Margin="20,0,0,0"
@@ -60,9 +64,9 @@
             <!--  display options  -->
             <Frame Grid.Row="1" Grid.Column="0" Margin="10">
                 <StackLayout Padding="5,0,0,20">
-                    <Label Margin="10"
+                    <Label Margin="10" FontAttributes="Bold"
                        FontSize="{DynamicResource FontSizeTitle}"
-                       Text="Anzeige" />
+                       Text="Anzeige" VerticalOptions="Center" />
 
                     <StackLayout Orientation="Horizontal">
                         <Label Margin="20,0,0,0"
@@ -71,16 +75,15 @@
                         <Label FontSize="{DynamicResource FontSizeHeader}"
                            Text="{Binding FontScale}"
                            VerticalOptions="Center" />
-                        <Button Margin="5"
+                        <Button Margin="5" Padding="10,-1,10,5"
                            Command="{Binding IncreaseFontSizeCommand}"
-                           Text="+" VerticalOptions="Center" />
-                        <Button Margin="5"
+                           FontSize="26" Text="+" VerticalOptions="Center" />
+                        <Button Margin="5" Padding="15,-1,15,5"
                            Command="{Binding DecreaseFontSizeCommand}"
-                           Text="-" VerticalOptions="Center" />
+                           FontSize="26" Text="-" VerticalOptions="Center" />
                     </StackLayout>
                 </StackLayout>
             </Frame>
-
 
             <!--  wiki database  -->
             <Frame Grid.Row="2" Grid.Column="0" Margin="10">
@@ -93,9 +96,9 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0"
+                        <Label Grid.Column="0" FontAttributes="Bold"
                            FontSize="{DynamicResource FontSizeTitle}"
-                           Text="Wiki Datenbank" />
+                           Text="Wiki Datenbank" VerticalOptions="Center" />
 
                         <Button Grid.Column="1" Margin="5"
                            Command="{Binding ParseWikiCommand, Source={RelativeSource AncestorType={x:Type viewModels:StartPageViewModel}}}"
@@ -104,11 +107,13 @@
                         <Label Grid.Column="3" Margin="25,0"
                            FontSize="{DynamicResource FontSizeTitle}"
                            HorizontalOptions="EndAndExpand"
-                           Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.Length, Converter={StaticResource FileInfoLenghtToSmartFileSizeConverter}}" />
+                           Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.Length, Converter={StaticResource FileInfoLenghtToSmartFileSizeConverter}}"
+                           VerticalOptions="Center" />
                         <Label Grid.Column="4"
                            FontSize="{DynamicResource FontSizeTitle}"
                            HorizontalOptions="EndAndExpand"
-                           Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.LastWriteTime, StringFormat='{0:dd.MM.yyyy HH:mm}'}" />
+                           Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.LastWriteTime, StringFormat='{0:dd.MM.yyyy HH:mm}'}"
+                           VerticalOptions="Center" />
                     </Grid>
 
                     <StackLayout Orientation="Horizontal">
@@ -148,47 +153,17 @@
                 </StackLayout>
             </Frame>
 
-            <!--  character database  -->
-            <Frame Grid.Row="3" Grid.Column="0" Margin="10">
-                <StackLayout>
-                    <Grid Margin="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0"
-                           FontSize="{DynamicResource FontSizeTitle}"
-                           Text="Charakter Datenbank" />
-                        <Button Grid.Column="1"
-                           Command="{Binding OpenAppDataFolderCommand}"
-                           Text="Appdata Ordner öffnen" />
-                        <Label Grid.Column="3" Margin="25,0"
-                           FontSize="{DynamicResource FontSizeTitle}"
-                           HorizontalOptions="EndAndExpand"
-                           Text="{Binding DatabaseInfoViewModel.CharacterDatabaseInfo.Length, Converter={StaticResource FileInfoLenghtToSmartFileSizeConverter}}" />
-                        <Label Grid.Column="4"
-                           FontSize="{DynamicResource FontSizeTitle}"
-                           HorizontalOptions="EndAndExpand"
-                           Text="{Binding DatabaseInfoViewModel.CharacterDatabaseInfo.LastWriteTime, StringFormat='{0:dd.MM.yyyy HH:mm}'}" />
-                    </Grid>
-                    <Frame BackgroundColor="{DynamicResource AntiUmbra3}" BorderColor="Transparent">
-                        <Label Margin="20" FontAttributes="Bold"
-                           FontSize="{DynamicResource FontSizeContent}"
-                           Text="Achtung: Die Charakterdatenbank wird unwiederruflich durch Windows bei einer Deinstallation gelöscht!"
-                           TextColor="{DynamicResource RotesUmbra}" />
-                    </Frame>
-
-                </StackLayout>
-            </Frame>
-
             <!--  Characters  -->
-            <Frame Grid.Row="0" Grid.RowSpan="5" Grid.Column="1"
+            <Frame Grid.Row="0" Grid.RowSpan="4" Grid.Column="1"
                Margin="10">
                 <Grid Style="{DynamicResource SingleGradiantStyle}">
-                    <ListView ItemSelected="CharacterListView_OnItemSelected"
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!--  char list  -->
+                    <ListView Grid.Row="0" ItemSelected="CharacterListView_OnItemSelected"
                        ItemsSource="{Binding Characters}"
                        SelectionMode="Single">
                         <ListView.Header>
@@ -226,6 +201,7 @@
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="shared:CharacterPreview">
                                 <ViewCell>
+                                    <!--  context menü  -->
                                     <ViewCell.ContextActions>
                                         <MenuItem Command="{Binding StartPageViewModel.ExportCharacterCommand, Source={x:Reference StartPageViewModelControl}}"
                                            CommandParameter="{Binding .}"
@@ -234,26 +210,47 @@
                                            CommandParameter="{Binding .}"
                                            Text="Charakter löschen" />
                                     </ViewCell.ContextActions>
-                                    <Grid Margin="20,10">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="125" />
-                                            <ColumnDefinition Width="250" />
-                                        </Grid.ColumnDefinitions>
-                                        <Label Grid.Column="0"
-                                           FontSize="{DynamicResource FontSizeTitle}"
-                                           Text="{Binding Name}" />
-                                        <Label Grid.Column="1"
-                                           FontSize="{DynamicResource FontSizeTitle}"
-                                           Text="{Binding Version}" />
-                                        <Label Grid.Column="2"
-                                           FontSize="{DynamicResource FontSizeTitle}"
-                                           Text="{Binding LastEdit, StringFormat='{0:dd.MM.yyyy HH:mm}'}" />
-                                    </Grid>
+                                    <StackLayout Margin="20,10">
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label FontSize="{DynamicResource FontSizeTitle}"
+                                               Text="{Binding Name}"
+                                               VerticalOptions="Center" />
+                                            <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal" VerticalOptions="Center">
+                                                <Label Margin="20,0"
+                                                   FontSize="{DynamicResource FontSizeTitle}"
+                                                   Text="{Binding FileSize, Converter={StaticResource FileInfoLenghtToSmartFileSizeConverter}}" />
+                                                <Label FontSize="{DynamicResource FontSizeTitle}" Text="{Binding LastEdit, StringFormat='{0:dd.MM.yyyy HH:mm}'}" />
+                                            </StackLayout>
+
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label FontSize="{DynamicResource FontSizeBigContent}"
+                                               Text="{Binding Guid}"
+                                               TextColor="{StaticResource AntiUmbra1}"
+                                               VerticalOptions="Center" />
+                                            <Label FontSize="{DynamicResource FontSizeBigContent}"
+                                               HorizontalOptions="EndAndExpand"
+                                               Text="{Binding Version}"
+                                               TextColor="{StaticResource AntiUmbra1}"
+                                               VerticalOptions="Center" />
+                                        </StackLayout>
+
+
+                                    </StackLayout>
                                 </ViewCell>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
+
+                    <!--  footer  -->
+                    <Frame Grid.Row="1"
+                       BackgroundColor="{DynamicResource AntiUmbra3}"
+                       BorderColor="Black">
+                        <Label Margin="20" FontAttributes="Bold"
+                           FontSize="{DynamicResource FontSizeContent}"
+                           Text="Achtung: Die Charakterdatenbank wird unwiederruflich durch Windows bei einer Deinstallation gelöscht!"
+                           TextColor="{DynamicResource RotesUmbra}" />
+                    </Frame>
                 </Grid>
             </Frame>
         </Grid>

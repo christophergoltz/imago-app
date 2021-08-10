@@ -22,6 +22,7 @@
 - **Verbessert**: Die Detailansicht einer Fertigkeit wurde angepasst, sodass auch lange Fertigkeiten wie "Körperbeherrschung" richtig dargestellt werden
 - **Verbessert**: Die Ansicht innerhalb der Fertigkeitensseite wurde angepasst
 - **Verbessert**: Die Ladezeit der Charaktere beim Starten wurde verbessert
+- **Verbessert**: Charaktere werden nun in unabhängigen Dateien gespeichert und so u.a. die Ladezeiten verbessert
 
 <!-- -->
 

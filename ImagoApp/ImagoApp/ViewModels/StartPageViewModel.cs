@@ -358,14 +358,10 @@ namespace ImagoApp.ViewModels
                     appShellViewModel.RaiseWikiPageOpenRequested();
                     wikiPageViewModel.OpenWikiPage(url);
                 }
-
-                //todo recalc
-                var s = Stopwatch.StartNew();
+                
                 _attributeCalculationService.RecalculateAllAttributes(characterModel.Attributes, characterModel.SkillGroups);
                 characterViewModel.CalculateInitialValues();
-                s.Stop();
-                Debug.WriteLine($"Init Char calc: {s.ElapsedMilliseconds}ms");
-
+              
                 var appShell = new AppShell(appShellViewModel);
 
                 await Device.InvokeOnMainThreadAsync(() =>
@@ -616,7 +612,6 @@ namespace ImagoApp.ViewModels
                 DatabaseInfoViewModel.WeaveTalentTemplateCount = _wikiDataService.GetWeaveTalentWikiDataItemCount();
                 DatabaseInfoViewModel.MasteryTemplateCount = _wikiDataService.GetMasteryWikiDataItemCount();
                 DatabaseInfoViewModel.WikiDatabaseInfo = _wikiDataService.GetDatabaseInfo();
-           //     DatabaseInfoViewModel.CharacterDatabaseInfo = _characterService.GetDatabaseInfo();
             }
         }
     }
