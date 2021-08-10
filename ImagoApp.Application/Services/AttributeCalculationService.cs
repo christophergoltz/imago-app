@@ -98,26 +98,26 @@ namespace ImagoApp.Application.Services
             foreach (var attribute in attributes)
             {
                 _increaseCalculationService.RecalculateIncreaseInfo(attribute);
-                RecalculateFinalValue(attribute, attributes, skillGroups);
+                RecalculateFinalValue(attribute, attributes, skillGroups, true);
             }
         }
         
-        private bool RecalculateFinalValue(AttributeModel target, List<AttributeModel> attributes, List<SkillGroupModel> skillGroups)
+        private bool RecalculateFinalValue(AttributeModel target, List<AttributeModel> attributes, List<SkillGroupModel> skillGroups, bool skipChange = false)
         {
             var oldFinalValue = target.FinalValue;
             target.FinalValue = target.BaseValue + target.IncreaseValueCache + target.ModificationValue - target.Corrosion;
 
             var finalValueChanged = oldFinalValue != target.FinalValue;
-            if (finalValueChanged)
+            if (finalValueChanged || skipChange)
             {
                 //update dependent items
-                ApplyNewFinalValueOfAttribute(target, attributes, skillGroups);
+                ApplyNewFinalValueOfAttribute(target, attributes, skillGroups, skipChange);
             }
 
             return finalValueChanged;
         }
 
-        private void ApplyNewFinalValueOfAttribute(AttributeModel changedAttribute, List<AttributeModel> attributes, List<SkillGroupModel> skillGroups)
+        private void ApplyNewFinalValueOfAttribute(AttributeModel changedAttribute, List<AttributeModel> attributes, List<SkillGroupModel> skillGroups, bool skipChange = false)
         {
             //updating all dependent skillgroups
             var affectedSkillGroupTypes = RuleConstants.GetSkillGroupsByAttribute(changedAttribute.Type);
@@ -130,7 +130,8 @@ namespace ImagoApp.Application.Services
                 var newBaseValue = attributeSum / 6;
 
                 affectedSkillGroup.BaseValue = newBaseValue.GetRoundedValue();
-                _skillGroupCalculationService.RecalculateFinalValue(affectedSkillGroup);
+                
+                _skillGroupCalculationService.RecalculateFinalValue(affectedSkillGroup, skipChange);
                 _skillGroupCalculationService.UpdateNewBaseValueToSkillsOfGroup(affectedSkillGroup);
             }
         }

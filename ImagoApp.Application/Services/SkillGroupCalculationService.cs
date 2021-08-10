@@ -10,7 +10,7 @@ namespace ImagoApp.Application.Services
         void UpdateNewBaseValueToSkillsOfGroup(SkillGroupModel skillGroup);
         bool SetModification(SkillGroupModel target, int modification);
         (bool FinalValueChanged, int IncreaseValueChange) AddExperience(SkillGroupModel target, int experience);
-        bool RecalculateFinalValue(SkillGroupModel skillgroup);
+        bool RecalculateFinalValue(SkillGroupModel skillgroup, bool skipChange = false);
     }
 
     public class SkillGroupCalculationService : ISkillGroupCalculationService
@@ -42,13 +42,13 @@ namespace ImagoApp.Application.Services
             }
         }
 
-        public bool RecalculateFinalValue(SkillGroupModel skillgroup)
+        public bool RecalculateFinalValue(SkillGroupModel skillgroup, bool skipChange = false)
         {
             var oldFinalValue = skillgroup.FinalValue;
             skillgroup.FinalValue = skillgroup.BaseValue + skillgroup.IncreaseValueCache + skillgroup.ModificationValue;
 
             var finalValueChanged = oldFinalValue != skillgroup.FinalValue;
-            if (finalValueChanged)
+            if (finalValueChanged || skipChange)
             {
                 //update dependent items
                 ApplyNewFinalValueOfSkillGroup(skillgroup);
