@@ -9,23 +9,14 @@ namespace ImagoApp.Application.Services
 {
     public interface IErrorService
     {
-        void TrackException(Exception exception, Dictionary<string, string> properties,
-            bool includeCharacterDatabase, string description, string stacktrace);
+        void TrackException(Exception exception, Dictionary<string, string> properties, string description, string stacktrace, params string[] attachedCharacterDatabaseFiles);
     }
 
     public class ErrorService : IErrorService
     {
-        private readonly string _characterDatabaseFile;
-
-        public ErrorService(string characterDatabaseFile)
+        public void TrackException(Exception exception, Dictionary<string, string> properties,string description, string stacktrace, params string[] attachedCharacterDatabaseFiles)
         {
-            _characterDatabaseFile = characterDatabaseFile;
-        }
-
-        public void TrackException(Exception exception, Dictionary<string, string> properties,
-            bool includeCharacterDatabase, string description, string stacktrace)
-        {
-            var attachments = CreateErrorAttachments(includeCharacterDatabase, description, stacktrace);
+            var attachments = CreateErrorAttachments(description, stacktrace, attachedCharacterDatabaseFiles);
             if (attachments.Any())
             {
                 Crashes.TrackError(exception, properties, attachments);
@@ -36,15 +27,19 @@ namespace ImagoApp.Application.Services
             }
         }
 
-        private ErrorAttachmentLog[] CreateErrorAttachments(bool includeCharacterDatabase, string description, string stacktrace)
+        private ErrorAttachmentLog[] CreateErrorAttachments(string description, string stacktrace, params string[] attachedCharacterDatabaseFiles)
         {
             var attachments = new List<ErrorAttachmentLog>();
 
-            if (includeCharacterDatabase)
+            if (attachedCharacterDatabaseFiles.Any())
             {
-                var databaseFileBytes = File.ReadAllBytes(_characterDatabaseFile);
-                attachments.Add(ErrorAttachmentLog.AttachmentWithBinary(databaseFileBytes, "ImagoApp_Character.db",
-                    "application/octet-stream"));
+                foreach (var characterDatabaseFile in attachedCharacterDatabaseFiles)
+                {
+                    var fileName = Path.GetFileName(characterDatabaseFile);
+                    var databaseFileBytes = File.ReadAllBytes(characterDatabaseFile);
+                    attachments.Add(ErrorAttachmentLog.AttachmentWithBinary(databaseFileBytes, fileName,
+                        "application/octet-stream"));
+                }
             }
 
             if (!string.IsNullOrWhiteSpace(description))

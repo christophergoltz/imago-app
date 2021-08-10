@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Acr.UserDialogs;
+using DryIoc;
 using ImagoApp.Application;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Services;
@@ -28,53 +29,60 @@ namespace ImagoApp.ViewModels
 {
     public class StartPageViewModel : BindableBase
     {
-        private readonly ServiceLocator _serviceLocator;
         private readonly ICharacterService _characterService;
         private readonly IWikiParseService _wikiParseService;
         private readonly IWikiDataService _wikiDataService;
         private readonly ICharacterCreationService _characterCreationService;
-        private readonly string _appdataFolder;
         private readonly IFileService _fileService;
+        private readonly ILocalFileService _localfileService;
+        private readonly ICharacterProvider _characterProvider;
+        private readonly IAttributeCalculationService _attributeCalculationService;
+        private readonly IWikiService _wikiService;
         private readonly string _logFileName = "wiki_parse.log";
 
-        public ObservableCollection<CharacterItem> Characters { get; private set; }
+        public ObservableCollection<CharacterPreview> Characters { get; private set; }
 
         public string Version
         {
             get => _version;
-            set => SetProperty(ref _version , value);
+            set => SetProperty(ref _version, value);
         }
 
         public DatabaseInfoViewModel DatabaseInfoViewModel { get; set; }
 
-        public StartPageViewModel(ServiceLocator serviceLocator, 
-            ICharacterService characterService,
+        public StartPageViewModel(ICharacterService characterService,
             IWikiParseService wikiParseService,
             IWikiDataService wikiDataService,
             ICharacterCreationService characterCreationService,
-            string appdataFolder, IFileService fileService)
+            IFileService fileService,
+            ILocalFileService localfileService,
+            ICharacterProvider characterProvider,
+            IAttributeCalculationService attributeCalculationService,
+            IWikiService wikiService)
         {
             VersionTracking.Track();
             Version = new Version(VersionTracking.CurrentVersion).ToString(3);
             DatabaseInfoViewModel = new DatabaseInfoViewModel();
-            Characters = new ObservableCollection<CharacterItem>();
+            Characters = new ObservableCollection<CharacterPreview>();
 
-            _serviceLocator = serviceLocator;
             _characterService = characterService;
             _wikiParseService = wikiParseService;
             _wikiDataService = wikiDataService;
             _characterCreationService = characterCreationService;
-            _appdataFolder = appdataFolder;
             _fileService = fileService;
+            _localfileService = localfileService;
+            _characterProvider = characterProvider;
+            _attributeCalculationService = attributeCalculationService;
+            _wikiService = wikiService;
 
             EnsurePreferences();
 
             Task.Run(() =>
             {
-                RefreshData(true, true,false);
+                RefreshData(true, true, false);
                 CheckWikiData();
 
-                if(VersionTracking.IsFirstLaunchForCurrentBuild || VersionTracking.IsFirstLaunchForCurrentVersion)
+                if (VersionTracking.IsFirstLaunchForCurrentBuild || VersionTracking.IsFirstLaunchForCurrentVersion)
                     AlertNewVersion();
             });
         }
@@ -90,7 +98,7 @@ namespace ImagoApp.ViewModels
             else
             {
                 //apply setting
-                var diff =  Preferences.Get(FontSizePreferenceKey, 100) - 100;
+                var diff = Preferences.Get(FontSizePreferenceKey, 100) - 100;
                 var t = diff / 10;
                 StyleResourceManager.ChangeGlobalFontSize(t);
             }
@@ -122,7 +130,7 @@ namespace ImagoApp.ViewModels
         private ICommand _increaseFontSizeCommand;
         public ICommand IncreaseFontSizeCommand => _increaseFontSizeCommand ?? (_increaseFontSizeCommand = new Command(() =>
         {
-            var value =Preferences.Get(FontSizePreferenceKey, 100);
+            var value = Preferences.Get(FontSizePreferenceKey, 100);
             Preferences.Set(FontSizePreferenceKey, value + 10);
             StyleResourceManager.ChangeGlobalFontSize(1);
             OnPropertyChanged(nameof(FontScale));
@@ -168,7 +176,7 @@ namespace ImagoApp.ViewModels
         {
             try
             {
-                _fileService.OpenFolder(_appdataFolder);
+                _localfileService.OpenFolder(_fileService.GetApplicationFolder());
             }
             catch (Exception exception)
             {
@@ -195,7 +203,7 @@ namespace ImagoApp.ViewModels
                 });
             }
         }
-        
+
         private class CollectionSink : ILogEventSink
         {
             public ICollection<LogEvent> Events { get; } = new List<LogEvent>();
@@ -204,7 +212,7 @@ namespace ImagoApp.ViewModels
             {
                 if (le.Level >= LogEventLevel.Error)
                     Crashes.TrackError(le.Exception);
-                
+
                 Events.Add(le);
             }
         }
@@ -229,7 +237,7 @@ namespace ImagoApp.ViewModels
         {
             try
             {
-                var logFile = Path.Combine(_appdataFolder, $"wiki_parse.log");
+                var logFile = Path.Combine(_fileService.GetApplicationFolder(), _logFileName);
                 if (File.Exists(logFile))
                     File.Delete(logFile);
 
@@ -244,7 +252,7 @@ namespace ImagoApp.ViewModels
                     {
                         var parseDialogTitlePrefix = "Daten werden aus dem Wiki geladen.." + Environment.NewLine + Environment.NewLine;
 
-                        progressDialog.Title = parseDialogTitlePrefix+ "Rüstungen werden geladen";
+                        progressDialog.Title = parseDialogTitlePrefix + "Rüstungen werden geladen";
                         await Task.Delay(500);
 
                         var armorCount = _wikiParseService.RefreshArmorFromWiki(logger);
@@ -294,8 +302,8 @@ namespace ImagoApp.ViewModels
                             {
                                 if (!result)
                                 {
-                                    var target = new ReadOnlyFile(Path.Combine(_appdataFolder, _logFileName));
-                                    var request = new OpenFileRequest {File = target};
+                                    var target = new ReadOnlyFile(Path.Combine(_fileService.GetApplicationFolder(), _logFileName));
+                                    var request = new OpenFileRequest { File = target };
                                     Launcher.OpenAsync(request);
                                 }
                             }
@@ -303,7 +311,7 @@ namespace ImagoApp.ViewModels
                     }
                 }
 
-                RefreshData(true, false,false);
+                RefreshData(true, false, false);
             }
             catch (Exception exception)
             {
@@ -311,36 +319,27 @@ namespace ImagoApp.ViewModels
             }
         }));
 
-        public CharacterModel GetCharacter(CharacterItem characterItem)
+        public CharacterModel GetCharacter(CharacterPreview characterPreview)
         {
-            return _characterService.GetItem(characterItem.Guid);
+            return _characterService.GetItem(characterPreview.Guid);
         }
 
         public async Task OpenCharacter(CharacterModel characterModel, bool editMode)
         {
-            var characterViewModel = new CharacterViewModel(characterModel, 
-                _serviceLocator.AttributeCalculationService(),
-                _serviceLocator.SkillGroupCalculationService(),
-                _serviceLocator.SkillCalculationService())
-            {
-                EditMode = editMode
-            };
-
-            App.CurrentCharacterViewModel = characterViewModel;
+            _characterProvider.SetCurrentCharacter(characterModel, editMode);
+            var characterViewModel = App.Container.Resolve<CharacterViewModel>();
 
             try
             {
-                var attributeCalculationService = _serviceLocator.AttributeCalculationService();
-
                 //create all required dependencies
                 var characterInfoPageViewModel = new CharacterInfoPageViewModel(characterViewModel);
                 var wikiPageViewModel = new WikiPageViewModel(characterViewModel);
-                var skillPageViewModel = new SkillPageViewModel(characterViewModel, _serviceLocator.WikiService(), _serviceLocator.WikiDataService());
-                var statusPageViewModel = new StatusPageViewModel(characterViewModel, _serviceLocator.WikiDataService());
+                var skillPageViewModel = new SkillPageViewModel(characterViewModel, _wikiService, _wikiDataService);
+                var statusPageViewModel = new StatusPageViewModel(characterViewModel, _wikiDataService);
                 var inventoryViewModel = new InventoryViewModel(characterViewModel);
-                var weaveTalentPageViewModel = new WeaveTalentPageViewModel(characterViewModel, _serviceLocator.WikiDataService());
+                var weaveTalentPageViewModel = new WeaveTalentPageViewModel(characterViewModel, _wikiDataService);
                 var appShellViewModel = new AppShellViewModel(characterViewModel, characterInfoPageViewModel, skillPageViewModel,
-                    statusPageViewModel, inventoryViewModel, wikiPageViewModel, weaveTalentPageViewModel);
+                    statusPageViewModel, inventoryViewModel, wikiPageViewModel, weaveTalentPageViewModel, _characterProvider);
 
                 //notify the main menu that editmode may have changed
                 appShellViewModel.RaiseEditModeChanged();
@@ -362,7 +361,7 @@ namespace ImagoApp.ViewModels
 
                 //todo recalc
                 var s = Stopwatch.StartNew();
-                attributeCalculationService.RecalculateAllAttributes(characterModel.Attributes, characterModel.SkillGroups);
+                _attributeCalculationService.RecalculateAllAttributes(characterModel.Attributes, characterModel.SkillGroups);
                 characterViewModel.CalculateInitialValues();
                 s.Stop();
                 Debug.WriteLine($"Init Char calc: {s.ElapsedMilliseconds}ms");
@@ -371,7 +370,7 @@ namespace ImagoApp.ViewModels
 
                 await Device.InvokeOnMainThreadAsync(() =>
                 {
-                    App.StartPage = (StartPage) Xamarin.Forms.Application.Current.MainPage;
+                    App.StartPage = (StartPage)Xamarin.Forms.Application.Current.MainPage;
                     Xamarin.Forms.Application.Current.MainPage = appShell;
                 });
             }
@@ -446,7 +445,7 @@ namespace ImagoApp.ViewModels
                     {
                         int? attributePoints = null;
                         int? skillPoints = null;
-                        
+
                         await Device.InvokeOnMainThreadAsync(async () =>
                         {
                             var attributePromptResult = await UserDialogs.Instance.PromptAsync(new PromptConfig
@@ -463,7 +462,7 @@ namespace ImagoApp.ViewModels
                                 return;
 
                             attributePoints = int.Parse(attributePromptResult.Value);
-                         
+
                             var skillPromptResult = await UserDialogs.Instance.PromptAsync(new PromptConfig
                             {
                                 Title = "Charaktererschaffung - Erfahrungspunkte für Fertigkeiten und Vor-/Nachteile",
@@ -473,7 +472,7 @@ namespace ImagoApp.ViewModels
                                 CancelText = "Abbrechen",
                                 InputType = InputType.Number
                             });
-                            
+
                             if (!skillPromptResult.Ok || string.IsNullOrWhiteSpace(skillPromptResult.Value))
                                 return;
 
@@ -481,9 +480,9 @@ namespace ImagoApp.ViewModels
 
                         });
 
-                        if(attributePoints == null || skillPoints == null)
+                        if (attributePoints == null || skillPoints == null)
                             return;
-                        
+
                         using (UserDialogs.Instance.Loading("Neuer Charakter wird erstellt.."))
                         {
                             await Task.Delay(250);
@@ -506,13 +505,13 @@ namespace ImagoApp.ViewModels
                     }
                 });
             }));
-        
+
         private string _version;
 
 
         private ICommand _exportCharacterCommand;
 
-        public ICommand ExportCharacterCommand => _exportCharacterCommand ?? (_exportCharacterCommand = new Command<CharacterItem>(item=>
+        public ICommand ExportCharacterCommand => _exportCharacterCommand ?? (_exportCharacterCommand = new Command<CharacterPreview>(item =>
         {
             Task.Run(async () =>
             {
@@ -548,7 +547,7 @@ namespace ImagoApp.ViewModels
 
         private ICommand _deleteCharacterCommand;
 
-        public ICommand DeleteCharacterCommand => _deleteCharacterCommand ?? (_deleteCharacterCommand = new Command<CharacterItem>(item =>
+        public ICommand DeleteCharacterCommand => _deleteCharacterCommand ?? (_deleteCharacterCommand = new Command<CharacterPreview>(item =>
         {
             Task.Run(async () =>
             {
@@ -589,11 +588,11 @@ namespace ImagoApp.ViewModels
                 }
             });
         }));
-        
+
         public void RefreshData(bool refreshWikiData, bool refreshCharacterList, bool resetCurrentCharacter)
         {
             if (resetCurrentCharacter)
-                App.CurrentCharacterViewModel = null;
+                _characterProvider.ClearCurrentCharacter();
 
             if (refreshCharacterList)
             {
@@ -617,7 +616,7 @@ namespace ImagoApp.ViewModels
                 DatabaseInfoViewModel.WeaveTalentTemplateCount = _wikiDataService.GetWeaveTalentWikiDataItemCount();
                 DatabaseInfoViewModel.MasteryTemplateCount = _wikiDataService.GetMasteryWikiDataItemCount();
                 DatabaseInfoViewModel.WikiDatabaseInfo = _wikiDataService.GetDatabaseInfo();
-                DatabaseInfoViewModel.CharacterDatabaseInfo = _characterService.GetDatabaseInfo();
+           //     DatabaseInfoViewModel.CharacterDatabaseInfo = _characterService.GetDatabaseInfo();
             }
         }
     }

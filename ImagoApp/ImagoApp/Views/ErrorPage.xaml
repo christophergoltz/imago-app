@@ -7,7 +7,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="300" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
@@ -20,29 +20,37 @@
                Text="Ein unerwarter Fehler ist aufgetreten" />
 
             <StackLayout Grid.Row="2" Margin="40,50,0,0" Orientation="Horizontal">
-                <Label FontSize="{DynamicResource FontSizeHeader}" Text="Charakter-Information senden" />
-                <CheckBox Margin="20,0,0,0" IsChecked="{Binding IncludeDatabase}" />
+                <Label FontAttributes="Bold"
+                   FontSize="{DynamicResource FontSizeHeader}"
+                   Text="Charakter-Information senden" />
                 <Label FontAttributes="Italic"
                    FontSize="{DynamicResource FontSizeContent}"
                    Text="[Dies kann bei der Fehlerbehebung helfen, wenn es sich dabei um einen Fehler basierend auf den Charakterdaten handelt]" TextColor="Black" VerticalOptions="Center" />
             </StackLayout>
 
-            <StackLayout Grid.Row="3" Margin="80,10,0,0" Orientation="Horizontal">
-                <Label FontSize="{DynamicResource FontSizeHeader}"
-                   Text="Betroffener Charakter" VerticalOptions="Center" />
-                <Entry Margin="10,0,0,0"
-                   FontSize="{DynamicResource FontSizeHeader}"
-                   IsEnabled="{Binding IncludeDatabase}"
-                   Text="{Binding AffectedCharacter}"
-                   VerticalOptions="Center" WidthRequest="300" />
-            </StackLayout>
+            <Frame Grid.Row="3" Margin="80,10,0,0" HorizontalOptions="Start">
+                <ListView ItemsSource="{Binding Attachments}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="viewModels:ErrorDatabase">
+                            <ViewCell>
+                                <StackLayout Margin="20,10" Orientation="Horizontal">
+                                    <CheckBox IsChecked="{Binding IsSelected}" VerticalOptions="Center" />
+                                    <Label FontSize="{DynamicResource FontSizeBigContent}"
+                                       Text="{Binding Name}"
+                                       VerticalOptions="Center" />
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Frame>
 
-            <Label Grid.Row="4" Margin="40,60,0,20"
-               FontSize="{DynamicResource FontSizeHeader}"
+            <Label Grid.Row="4" Margin="40,60,0,20" FontAttributes="Bold"
+               FontSize="{DynamicResource FontSizeTitle}"
                Text="Beschreibung" />
-            <Editor Grid.Row="5" Margin="40,10,0,20"
+            <Editor Grid.Row="5" Margin="40,0,0,20"
                FontSize="{DynamicResource FontSizeContent}"
-               MaxLength="125" Placeholder="Beschreibe kurz den Fehler ;)"
+               MaxLength="3000" Placeholder="Beschreibe kurz den Fehler ;)"
                Text="{Binding Description}" />
 
             <Button Grid.Row="6"

@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using ImagoApp.Application.Models;
+using ImagoApp.Infrastructure.Database;
 using ImagoApp.Infrastructure.Entities;
 using ImagoApp.Infrastructure.Repositories;
 using ImagoApp.Shared;
@@ -14,11 +15,9 @@ namespace ImagoApp.Application.Services
 {
     public interface ICharacterService
     {
-        List<CharacterModel> GetAll();
         bool SaveCharacter(CharacterModel characterModel);
         bool AddCharacter(CharacterModel characterModel);
-        FileInfo GetDatabaseInfo();
-        List<CharacterItem> GetAllQuick();
+        IEnumerable<CharacterPreview> GetAllQuick();
         CharacterModel GetItem(Guid id);
         bool Delete(Guid guid);
         string GetCharacterJson(Guid id);
@@ -29,27 +28,41 @@ namespace ImagoApp.Application.Services
     {
         private readonly ICharacterRepository _characterRepository;
         private readonly IMapper _mapper;
+        private readonly IFileService _fileService;
+        private readonly ICharacterDatabaseConnection _characterDatabaseConnection;
 
-        public CharacterService(ICharacterRepository characterRepository, IMapper mapper)
+        public CharacterService(ICharacterRepository characterRepository, IMapper mapper, IFileService fileService, ICharacterDatabaseConnection characterDatabaseConnection)
         {
             _characterRepository = characterRepository;
             _mapper = mapper;
+            _fileService = fileService;
+            _characterDatabaseConnection = characterDatabaseConnection;
         }
 
         public bool Delete(Guid guid)
         {
-            return _characterRepository.DeleteItem(guid);
-        }
+            var characterDatabaseFile = _characterDatabaseConnection.GetCharacterDatabaseFile(guid);
 
-        public List<CharacterModel> GetAll()
-        {
-            var entities = _characterRepository.GetAllItems();
-            return _mapper.Map<List<CharacterModel>>(entities);
-        }
+            try
+            {
+                if (File.Exists(characterDatabaseFile))
+                {
+                    File.Delete(characterDatabaseFile);
+                    return true;
+                }
 
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        
         public CharacterModel GetItem(Guid id)
         {
-            var characterEntity = _characterRepository.GetItem(id);
+            var characterDatabaseFile = _characterDatabaseConnection.GetCharacterDatabaseFile(id);
+            var characterEntity = _characterRepository.GetItem(id,characterDatabaseFile);
             return _mapper.Map<CharacterModel>(characterEntity);
         }
 
@@ -58,9 +71,14 @@ namespace ImagoApp.Application.Services
             return _characterRepository.GetCharacterJson(id);
         }
 
-        public List<CharacterItem> GetAllQuick()
+        public IEnumerable<CharacterPreview> GetAllQuick()
         {
-            return _characterRepository.GetAllItemsQuick();
+            var characterDatabaseFolder = _fileService.GetCharacterDatabaseFolder();
+            foreach (var characterDatabaseFile in Directory.GetFiles(characterDatabaseFolder))
+            {
+                var characterRepository = new CharacterRepository(() => characterDatabaseFile, _characterDatabaseConnection);
+                yield return characterRepository.GetItemAsPreview();
+            }
         }
 
         public bool SaveCharacter(CharacterModel characterModel)
@@ -74,18 +92,16 @@ namespace ImagoApp.Application.Services
 
         public bool ImportCharacter(CharacterEntity characterEntity)
         {
-           return _characterRepository.InsertItem(characterEntity);
+            var characterDatabaseFile = _characterDatabaseConnection.GetCharacterDatabaseFile(characterEntity.Guid);
+            return _characterRepository.InsertItem(characterEntity, characterDatabaseFile);
         }
 
         public bool AddCharacter(CharacterModel characterModel)
         {
             var entity = _mapper.Map<CharacterEntity>(characterModel);
-            var result = _characterRepository.InsertItem(entity);
+            var characterDatabaseFile = _characterDatabaseConnection.GetCharacterDatabaseFile(entity.Guid);
+            var result = _characterRepository.InsertItem(entity, characterDatabaseFile);
             return result;
-        }
-        public FileInfo GetDatabaseInfo()
-        {
-            return _characterRepository.GetDatabaseInfo();
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Acr.UserDialogs;
 using ImagoApp.Application;
+using ImagoApp.Manager;
 using ImagoApp.Views;
 using ImagoApp.Views.CustomControls;
 using Xamarin.Forms;
@@ -19,6 +20,7 @@ namespace ImagoApp.ViewModels
         private readonly InventoryViewModel _inventoryViewModel;
         private readonly WikiPageViewModel _wikiPageViewModel;
         private readonly WeaveTalentPageViewModel _weaveTalentPageViewModel;
+        private readonly ICharacterProvider _characterProvider;
         public ICommand GoToMainMenuCommand { get; }
         private List<FlyoutPageItem> _menuItems;
 
@@ -67,7 +69,7 @@ namespace ImagoApp.ViewModels
             StatusPageViewModel statusPageViewModel,
             InventoryViewModel inventoryViewModel, 
             WikiPageViewModel wikiPageViewModel,
-            WeaveTalentPageViewModel weaveTalentPageViewModel)
+            WeaveTalentPageViewModel weaveTalentPageViewModel, ICharacterProvider characterProvider)
         {
             _characterViewModel = characterViewModel;
             CharacterInfoPageViewModel = characterInfoPageViewModel;
@@ -76,6 +78,7 @@ namespace ImagoApp.ViewModels
             _inventoryViewModel = inventoryViewModel;
             _wikiPageViewModel = wikiPageViewModel;
             _weaveTalentPageViewModel = weaveTalentPageViewModel;
+            _characterProvider = characterProvider;
 
             Device.BeginInvokeOnMainThread(() => { MenuItems = CreateMainMenu(); });
 
@@ -144,6 +147,8 @@ namespace ImagoApp.ViewModels
             get => _characterViewModel.EditMode;
             set
             {
+                var characterViewModel = _characterProvider.CurrentCharacter;
+
                 //check if value is not set by user
                 if (value && _characterViewModel.EditMode)
                     return;
@@ -151,7 +156,7 @@ namespace ImagoApp.ViewModels
                 if (!value)
                 {
                     //disable
-                    App.CurrentCharacterViewModel.EditMode = false;
+                    characterViewModel.EditMode = false;
                     OnPropertyChanged(nameof(EditMode));
                 }
                 else
@@ -167,7 +172,7 @@ namespace ImagoApp.ViewModels
                         if (result)
                         {
                             //user confirmed
-                            App.CurrentCharacterViewModel.EditMode = true;
+                            characterViewModel.EditMode = true;
                             OnPropertyChanged(nameof(EditMode));
                         }
                         else

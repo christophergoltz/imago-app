@@ -10,7 +10,7 @@ using Microsoft.AppCenter.Crashes;
 
 namespace ImagoApp.UWP
 {
-    public class FileService : IFileService
+    public class LocalFileService : ILocalFileService
     {
         public async void OpenFolder(string path)
         {

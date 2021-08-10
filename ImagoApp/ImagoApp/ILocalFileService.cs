@@ -1,6 +1,6 @@
 ﻿namespace ImagoApp
 {
-    public interface IFileService
+    public interface ILocalFileService
     {
         void OpenFolder(string path);
     }

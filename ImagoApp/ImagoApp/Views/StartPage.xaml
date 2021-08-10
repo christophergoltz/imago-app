@@ -224,7 +224,7 @@
                             </Grid>
                         </ListView.Header>
                         <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="shared:CharacterItem">
+                            <DataTemplate x:DataType="shared:CharacterPreview">
                                 <ViewCell>
                                     <ViewCell.ContextActions>
                                         <MenuItem Command="{Binding StartPageViewModel.ExportCharacterCommand, Source={x:Reference StartPageViewModelControl}}"
