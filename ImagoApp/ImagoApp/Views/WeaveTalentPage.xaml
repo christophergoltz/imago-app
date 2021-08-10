@@ -64,7 +64,7 @@
                     </ContentView.GestureRecognizers>
                 </ContentView>
                 <Frame HeightRequest="800" HorizontalOptions="Center" VerticalOptions="Center"
-                   WidthRequest="1500">
+                   WidthRequest="1600">
                     <customControls:WeaveTalentDetailView HorizontalOptions="Fill" VerticalOptions="Fill"
                        WeaveTalentDetailViewModel="{Binding WeaveTalentDetailViewModel, Source={RelativeSource AncestorType={x:Type viewModels:WeaveTalentPageViewModel}}}" />
                 </Frame>

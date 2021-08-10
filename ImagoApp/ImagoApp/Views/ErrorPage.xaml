@@ -14,7 +14,7 @@
             </Grid.RowDefinitions>
 
             <Label Grid.Row="0" Margin="20" FontAttributes="Bold"
-               FontSize="34" Text="Ups, die App hat wohl zu viel mit Protoraum experimentiert" />
+               FontSize="34" Text="Ups, die App hat wohl zu viel mit dem Protoraum experimentiert" />
             <Label Grid.Row="1" Margin="40,0,0,0"
                FontSize="{DynamicResource FontSizeSmallCaption}"
                Text="Ein unerwarter Fehler ist aufgetreten" />

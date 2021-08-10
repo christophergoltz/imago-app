@@ -254,17 +254,6 @@
                        BackgroundColor="{StaticResource AntiUmbra2}"
                        FontAttributes="Bold"
                        FontSize="{DynamicResource FontSizeSmallContent}"
-                       Text="Schwierigkeit" TextColor="white" />
-
-                    <Label Margin="20,5"
-                       FontSize="{DynamicResource FontSizeContent}"
-                       Text="{Binding Difficulty}"
-                       VerticalOptions="Center" />
-
-                    <Label Padding="10,5,10,5"
-                       BackgroundColor="{StaticResource AntiUmbra2}"
-                       FontAttributes="Bold"
-                       FontSize="{DynamicResource FontSizeSmallContent}"
                        Text="Konzentration" TextColor="white" />
 
                     <StackLayout Margin="20,5" Orientation="Horizontal">
@@ -277,7 +266,7 @@
 
                         <Label Margin="35,0,0,0"
                            FontSize="{DynamicResource FontSizeContent}"
-                           Text="Anzahl:" VerticalOptions="Center" />
+                           Text="Phasen:" VerticalOptions="Center" />
                         <Entry Margin="10,0,0,0"
                            FontSize="{DynamicResource FontSizeContent}"
                            Text="{Binding ConcentrationQuantity}"
@@ -297,11 +286,11 @@
                        BackgroundColor="{StaticResource AntiUmbra2}"
                        FontAttributes="Bold"
                        FontSize="{DynamicResource FontSizeSmallContent}"
-                       Text="Modifikator" TextColor="white" />
+                       Text="Positiver oder negativer Modifikator" TextColor="white" />
 
                     <StackLayout Margin="20,5" Orientation="Horizontal">
                         <Label FontSize="{DynamicResource FontSizeContent}"
-                           Text="Zusätzliche Erschwernis:" VerticalOptions="Center" />
+                           Text="Modifikator:" VerticalOptions="Center" />
                         <Entry Margin="10,0,0,0"
                            FontSize="{DynamicResource FontSizeContent}"
                            Text="{Binding Modification}"

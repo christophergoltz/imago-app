@@ -52,7 +52,7 @@
 - **Behoben**: Die Charakterliste wird nach dem verlassen eine Charakterbogens nun richtig aktualisiert
 
 --- 
-## Version 0.1 (12.07.2021)
+## 0.1 (12.07.2021)
 - **Neu**: Einfachste Charaktererschaffung
 - **Neu**: Daten aus dem Wiki abrufen
     - Rüstungen

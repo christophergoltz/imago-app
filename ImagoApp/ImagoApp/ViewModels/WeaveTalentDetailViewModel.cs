@@ -321,48 +321,9 @@ namespace ImagoApp.ViewModels
             var result = SelectedSkillModel.FinalValue.GetRoundedValue();
 
             result += ConcentrationFinalValue;
-            result -= Modification;
+            result += Modification;
             result -= Difficulty;
             FinalValue = result;
-
-
-            ////handicap
-            //if (Handicaps != null)
-            //{
-            //    foreach (var handicap in Handicaps)
-            //    {
-            //        if (handicap.IsChecked)
-            //            result -= handicap.HandiCapValue ?? 0;
-            //    }
-            //}
-
-            ////masteries
-            //if (Masteries != null)
-            //{
-            //    foreach (var mastery in Masteries)
-            //    {
-            //        if (!mastery.Available)
-            //            continue;
-
-            //        if (mastery.Mastery.ActiveUse == false || mastery.Mastery.ActiveUse && mastery.InUse)
-            //            result -= mastery.Mastery.Difficulty ?? mastery.DifficultyOverride ?? 0;
-            //    }
-            //}
-
-            ////talents
-            //if (Talents != null)
-            //{
-            //    foreach (var talent in Talents)
-            //    {
-            //        if (!talent.Available)
-            //            continue;
-
-            //        if (talent.Talent.ActiveUse == false || talent.Talent.ActiveUse && talent.InUse)
-            //            result -= talent.Talent.Difficulty ?? talent.DifficultyOverride ?? 0;
-            //    }
-            //}
-
-            //FinalTestValue = result;
         }
 
         public List<MasteryListItemViewModel> Masteries
