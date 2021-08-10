@@ -11,6 +11,7 @@ using DryIoc;
 using ImagoApp.Application;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Services;
+using ImagoApp.Infrastructure.Database;
 using ImagoApp.Infrastructure.Entities;
 using ImagoApp.Manager;
 using ImagoApp.Shared;
@@ -38,6 +39,7 @@ namespace ImagoApp.ViewModels
         private readonly ICharacterProvider _characterProvider;
         private readonly IAttributeCalculationService _attributeCalculationService;
         private readonly IWikiService _wikiService;
+        private readonly ICharacterDatabaseConnection _characterDatabaseConnection;
         private readonly string _logFileName = "wiki_parse.log";
 
         public ObservableCollection<CharacterPreview> Characters { get; private set; }
@@ -58,7 +60,8 @@ namespace ImagoApp.ViewModels
             ILocalFileService localfileService,
             ICharacterProvider characterProvider,
             IAttributeCalculationService attributeCalculationService,
-            IWikiService wikiService)
+            IWikiService wikiService,
+            ICharacterDatabaseConnection characterDatabaseConnection)
         {
             VersionTracking.Track();
             Version = new Version(VersionTracking.CurrentVersion).ToString(3);
@@ -74,6 +77,7 @@ namespace ImagoApp.ViewModels
             _characterProvider = characterProvider;
             _attributeCalculationService = attributeCalculationService;
             _wikiService = wikiService;
+            _characterDatabaseConnection = characterDatabaseConnection;
 
             EnsurePreferences();
 
@@ -541,6 +545,26 @@ namespace ImagoApp.ViewModels
             });
         }));
 
+        private ICommand _createBackupCommand;
+        public ICommand CreateBackupCommand => _createBackupCommand ?? (_createBackupCommand = new Command<CharacterPreview>(item =>
+        {
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                try
+                {
+                    var dbFile = _characterDatabaseConnection.GetCharacterDatabaseFile(item.Guid);
+                    await _localfileService.SaveFile(dbFile);
+
+                    _characterService.UpdateLastBackup(item.Guid);
+                    RefreshData(false, true, false);
+                }
+                catch (Exception e)
+                {
+                    App.ErrorManager.TrackException(e, item.Name);
+                }
+            });
+        }));
+        
         private ICommand _deleteCharacterCommand;
 
         public ICommand DeleteCharacterCommand => _deleteCharacterCommand ?? (_deleteCharacterCommand = new Command<CharacterPreview>(item =>

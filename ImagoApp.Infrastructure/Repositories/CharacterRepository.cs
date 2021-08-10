@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,7 @@ namespace ImagoApp.Infrastructure.Repositories
         CharacterEntity GetItem(Guid id, string databaseFile);
         string GetCharacterJson(Guid guid);
         CharacterPreview GetItemAsPreview();
+        void UpdateLastBackup(string databaseFile);
     }
 
     public class CharacterRepository : ICharacterRepository
@@ -71,7 +73,17 @@ namespace ImagoApp.Infrastructure.Repositories
                 return collection.Update(item);
             }
         }
-        
+
+        public void UpdateLastBackup(string databaseFile)
+        {
+            using (var db = new LiteDatabase($"filename={databaseFile}"))
+            {
+                //https://www.litedb.org/api/update/
+                var command = $"UPDATE {CollectionName} SET LastBackup = NOW()";
+                db.Execute(command);
+            }
+        }
+
         public CharacterEntity GetItem(Guid id, string databaseFile)
         {
             using (var db = new LiteDatabase($"filename={databaseFile}"))
@@ -91,7 +103,7 @@ namespace ImagoApp.Infrastructure.Repositories
                 var filePath = _characterDatabaseConnection.GetCharacterDatabaseFile(res.Guid);
                 var fileInfo = new FileInfo(DatabaseFile);
 
-                return new CharacterPreview(res.Guid, res.Name, res.Version, res.LastEdit, filePath, fileInfo.Length);
+                return new CharacterPreview(res.Guid, res.Name, res.Version, res.LastEdit, filePath, fileInfo.Length, res.LastBackup);
             }
         }
     }

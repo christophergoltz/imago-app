@@ -14,7 +14,15 @@ namespace ImagoApp.Application.MappingProfiles
         {
             //entity to model
             CreateMap<CharacterEntity, CharacterModel>()
-                .IncludeAllDerived();
+                .IncludeAllDerived()
+                .ForMember(model => model.LastBackup, opt => opt.Ignore())
+                .AfterMap((entity, model) =>
+                {
+                    if (entity.LastBackup == DateTime.MinValue)
+                        model.LastBackup = null;
+                    else
+                        model.LastBackup = entity.LastBackup;
+                });
             CreateMap<AttributeEntity, AttributeModel>()
                 .IncludeAllDerived();
             CreateMap<SpecialAttributeEntity, SpecialAttributeModel>()
@@ -59,7 +67,15 @@ namespace ImagoApp.Application.MappingProfiles
 
             //model to entity
             CreateMap<WeaponModel, WeaponEntity>();
-            CreateMap<CharacterModel, CharacterEntity>();
+            CreateMap<CharacterModel, CharacterEntity>()
+                .ForMember(model => model.LastBackup, opt => opt.Ignore())
+                .AfterMap((entity, model) =>
+                {
+                    if (entity.LastBackup == null)
+                        model.LastBackup = DateTime.MinValue;
+                    else
+                        model.LastBackup = entity.LastBackup.Value;
+                });
             CreateMap<AttributeModel, AttributeEntity>();
             CreateMap<SpecialAttributeModel, SpecialAttributeEntity>();
 

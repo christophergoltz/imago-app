@@ -14,6 +14,7 @@
 - **Neu**: Bei der Erschaffung wird erstmalig ein zufälliger Name vorgeschlagen
 - **Neu**: Vor der Erschaffung wird nach den Erfahrungspunkten für Attribute und Fertigkeiten gefragt
 - **Neu**: Charaktere können nun auf der Startseite exportiert, importiert und gelöscht werden
+- **Neu**: Ein Backup eines Charakteres kann nun auf der Startseite per Rechtsklick erstellt werden
 
 <!-- -->
 

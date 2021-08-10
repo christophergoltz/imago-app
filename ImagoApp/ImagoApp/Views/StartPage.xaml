@@ -203,6 +203,9 @@
                                 <ViewCell>
                                     <!--  context menü  -->
                                     <ViewCell.ContextActions>
+                                        <MenuItem Command="{Binding StartPageViewModel.CreateBackupCommand, Source={x:Reference StartPageViewModelControl}}"
+                                           CommandParameter="{Binding .}"
+                                           Text="Backup erstellen" />
                                         <MenuItem Command="{Binding StartPageViewModel.ExportCharacterCommand, Source={x:Reference StartPageViewModelControl}}"
                                            CommandParameter="{Binding .}"
                                            Text="Exportieren" />
@@ -225,17 +228,30 @@
                                         </StackLayout>
                                         <StackLayout Orientation="Horizontal">
                                             <Label FontSize="{DynamicResource FontSizeBigContent}"
-                                               Text="{Binding Guid}"
-                                               TextColor="{StaticResource AntiUmbra1}"
-                                               VerticalOptions="Center" />
-                                            <Label FontSize="{DynamicResource FontSizeBigContent}"
-                                               HorizontalOptions="EndAndExpand"
                                                Text="{Binding Version}"
                                                TextColor="{StaticResource AntiUmbra1}"
                                                VerticalOptions="Center" />
+
+                                            <StackLayout IsVisible="{Binding LastBackup, Converter={StaticResource ObjectNotNullToBoolConverter}}" Orientation="Horizontal">
+
+                                                <Label Margin="20,0,0,0"
+                                                   FontSize="{DynamicResource FontSizeBigContent}"
+                                                   Text="Letztes Backup:"
+                                                   TextColor="{StaticResource GruenesUmbra}"
+                                                   VerticalOptions="Center" />
+                                                <Label FontSize="{DynamicResource FontSizeBigContent}"
+                                                   Text="{Binding LastBackup, TargetNullValue=''}"
+                                                   TextColor="{StaticResource GruenesUmbra}"
+                                                   VerticalOptions="Center" />
+                                            </StackLayout>
+
+                                            <Label FontSize="{DynamicResource FontSizeBigContent}"
+                                               HorizontalOptions="EndAndExpand"
+                                               Text="{Binding Guid}"
+                                               TextColor="{StaticResource AntiUmbra1}"
+                                               VerticalOptions="Center" />
+
                                         </StackLayout>
-
-
                                     </StackLayout>
                                 </ViewCell>
                             </DataTemplate>

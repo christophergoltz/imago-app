@@ -12,6 +12,7 @@ namespace ImagoApp.Infrastructure.Entities
         public DateTime CreatedAt { get; set; }
         public DateTime LastEdit { get; set; }
         public string Version { get; set; }
+        public DateTime LastBackup { get; set; }
 
         public string Name { get; set; }
         public string Height { get; set; }

@@ -22,6 +22,7 @@ namespace ImagoApp.Application.Services
         bool Delete(Guid guid);
         string GetCharacterJson(Guid id);
         bool ImportCharacter(CharacterEntity characterEntity);
+        void UpdateLastBackup(Guid guid);
     }
 
     public class CharacterService : ICharacterService
@@ -94,6 +95,13 @@ namespace ImagoApp.Application.Services
         {
             var characterDatabaseFile = _characterDatabaseConnection.GetCharacterDatabaseFile(characterEntity.Guid);
             return _characterRepository.InsertItem(characterEntity, characterDatabaseFile);
+        }
+
+        public void UpdateLastBackup(Guid guid)
+        {
+
+            var characterDatabaseFile = _characterDatabaseConnection.GetCharacterDatabaseFile(guid);
+            _characterRepository.UpdateLastBackup(characterDatabaseFile);
         }
 
         public bool AddCharacter(CharacterModel characterModel)
