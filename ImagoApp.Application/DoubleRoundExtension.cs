@@ -8,5 +8,10 @@ namespace ImagoApp.Application
         {
             return (int)Math.Round(value, MidpointRounding.AwayFromZero);
         }
+
+        public static int GetRoundedValue(this decimal value)
+        {
+            return (int)Math.Round(value, MidpointRounding.AwayFromZero);
+        }
     }
 }

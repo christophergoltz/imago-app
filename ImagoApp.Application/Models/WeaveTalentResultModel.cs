@@ -9,7 +9,7 @@ namespace ImagoApp.Application.Models
 {
     public enum WeaveTalentResultType
     {
-        [DisplayText("Korrosion")]
+        [DisplayText("Korrosion (Gerundet)")]
         Corrosion,
         [DisplayText("Dauer")]
         Duration,
@@ -51,7 +51,7 @@ namespace ImagoApp.Application.Models
 
         public void RecalculateFinalValue(Dictionary<string, string> settingValues)
         {
-            if(!settingValues.ContainsKey("B"))
+            if (!settingValues.ContainsKey("B"))
                 settingValues.Add("B", "Berührungsreichweite");
 
             if (int.TryParse(Formula, out _))
@@ -63,7 +63,7 @@ namespace ImagoApp.Application.Models
             //replace all abbreviations with final values
             var calculationFormula = settingValues.Aggregate(Formula, (current, setting) => current.Replace(setting.Key, setting.Value));
 
-            if (Regex.Matches(calculationFormula, @"[a-zA-Z]").Count > 0)
+            if (Regex.Matches(calculationFormula, @"[a-zA-Z;]").Count > 0)
             {
                 //calculation cant be done with letters , display remaining
                 FinalValue = calculationFormula;
@@ -72,7 +72,16 @@ namespace ImagoApp.Application.Models
 
             try
             {
-                FinalValue = new DataTable().Compute(calculationFormula, null).ToString();
+                var result = new DataTable().Compute(calculationFormula, null);
+
+                if (result is int intValue)
+                    FinalValue = intValue.ToString();
+                else if (result is double doubleValue)
+                    FinalValue = doubleValue.GetRoundedValue().ToString();
+                else if (result is decimal decimalValue)
+                    FinalValue = decimalValue.GetRoundedValue().ToString();
+                else
+                    FinalValue = result.ToString();
             }
             catch (Exception)
             {
