@@ -34,24 +34,24 @@ namespace ImagoApp.ViewModels
         public ObservableCollection<WeaveTalentList> WeaveTalents { get; set; }
 
         private ICommand _openWeaponCommand;
-        public ICommand OpenWeaveTalentCommand => _openWeaponCommand ?? (_openWeaponCommand = new Command<WeaveTalentModel>(weaveTalent =>
-        {
-            try
-            {
-                var weaveTalentList = WeaveTalents.First(list => list.WeaveSourceGroup == weaveTalent.WeaveSource);
-                var detailViewModel = new WeaveTalentDetailViewModel(weaveTalent, weaveTalentList.Skills, _characterViewModel, _wikiDataService);
-                detailViewModel.CloseRequested += (sender, args) =>
-                {
-                    WeaveTalentDetailViewModel = null;
-                };
 
-                WeaveTalentDetailViewModel = detailViewModel;
-            }
-            catch (Exception exception)
+        public ICommand OpenWeaveTalentCommand => _openWeaponCommand ?? (_openWeaponCommand =
+            new Command<WeaveTalentModel>(weaveTalent =>
             {
-                App.ErrorManager.TrackException(exception, _characterViewModel.CharacterModel.Name);
-            }
-        }));
+                try
+                {
+                    var weaveTalentList = WeaveTalents.First(list => list.WeaveSourceGroup == weaveTalent.WeaveSource);
+                    var detailViewModel = new WeaveTalentDetailViewModel(weaveTalent, weaveTalentList.Skills,
+                        _characterViewModel, _wikiDataService);
+                    detailViewModel.CloseRequested += (sender, args) => { WeaveTalentDetailViewModel = null; };
+
+                    WeaveTalentDetailViewModel = detailViewModel;
+                }
+                catch (Exception exception)
+                {
+                    App.ErrorManager.TrackException(exception, _characterViewModel.CharacterModel.Name);
+                }
+            }));
 
         public WeaveTalentPageViewModel(CharacterViewModel characterViewModel, IWikiDataService wikiDataService)
         {
@@ -76,12 +76,12 @@ namespace ImagoApp.ViewModels
             var result = new List<SkillModel>();
             foreach (var requirementModel in requirements)
             {
-                if(requirementModel.Type == SkillModelType.Philosophie)
+                if (requirementModel.Type == SkillModelType.Philosophie)
                     continue;
 
                 var item = _characterViewModel.CharacterModel.SkillGroups.SelectMany(model => model.Skills)
                     .First(model => model.Type == requirementModel.Type);
-                result.Add(item); 
+                result.Add(item);
             }
 
             return result;
@@ -109,10 +109,7 @@ namespace ImagoApp.ViewModels
                         };
                         talentList.Talents.Add(weaveTalent);
 
-                        await Device.InvokeOnMainThreadAsync(() =>
-                        {
-                            WeaveTalents.Add(talentList);
-                        });
+                        await Device.InvokeOnMainThreadAsync(() => { WeaveTalents.Add(talentList); });
                     }
                     else
                     {
@@ -126,20 +123,20 @@ namespace ImagoApp.ViewModels
                 else
                 {
                     //remove
-                    var weaveTalentList = WeaveTalents.FirstOrDefault(list => list.Talents.Contains(weaveTalent));
+                    var weaveTalentList =
+                        WeaveTalents.FirstOrDefault(list => list.WeaveSourceGroup == weaveTalent.WeaveSource);
                     if (weaveTalentList != null)
                     {
-                        await Device.InvokeOnMainThreadAsync(() =>
+                        var elementToRemove =
+                            weaveTalentList.FirstOrDefault(model => model.Name == weaveTalent.Name);
+                        if (elementToRemove != null)
                         {
-                            weaveTalentList.Remove(weaveTalent);
-                        });
+                            await Device.InvokeOnMainThreadAsync(() => { weaveTalentList.Remove(elementToRemove); });
+                        }
 
                         if (weaveTalentList.Talents.Count == 0)
                         {
-                            await Device.InvokeOnMainThreadAsync(() =>
-                            {
-                                WeaveTalents.Remove(weaveTalentList);
-                            });
+                            await Device.InvokeOnMainThreadAsync(() => { WeaveTalents.Remove(weaveTalentList); });
                         }
                     }
                 }
