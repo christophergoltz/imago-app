@@ -85,7 +85,7 @@ namespace ImagoApp
 
                         if (flyoutPageItem.NavigationPage.CurrentPage is WeaveTalentPage weaveTalentPage)
                         {
-                            await weaveTalentPage.ViewModel.InitializeWeaveTalentList();
+                            weaveTalentPage.ViewModel.InitializeWeaveTalentList();
                         }
                     });
                 }

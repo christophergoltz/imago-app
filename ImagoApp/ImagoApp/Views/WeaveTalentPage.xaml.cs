@@ -20,22 +20,19 @@ namespace ImagoApp.Views
             BindingContext = ViewModel = weaveTalentPageViewModel;
             InitializeComponent();
         }
-
-        private void ListView_OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+        
+        private void SelectableItemsView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.SelectedItem == null)
+            if (!e.CurrentSelection.Any())
                 return;
 
-            var selectedItem = (WeaveTalentModel)e.SelectedItem;
-            
-            //reset selection
-            ((ListView)sender).SelectedItem = null;
-
-            //reset listview selection
-            var listView = (ListView)sender;
-            listView.SelectedItem = null;
-
+            var selectedItem = (WeaveTalentModel)e.CurrentSelection.First();
             ViewModel.OpenWeaveTalentCommand?.Execute(selectedItem);
+        }
+
+        private void TapGestureRecognizer_OnTapped(object sender, EventArgs e)
+        {
+            WeaveTalentCollectionView.SelectedItem = null;
         }
     }
 }

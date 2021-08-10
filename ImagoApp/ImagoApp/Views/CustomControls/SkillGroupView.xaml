@@ -177,7 +177,7 @@
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="110" />
+                            <ColumnDefinition Width="125" />
                             <ColumnDefinition Width="60" />
                             <ColumnDefinition Width="50" />
                             <ColumnDefinition Width="50" />
@@ -193,7 +193,7 @@
                         <Label Grid.Row="0" Grid.Column="1" FontAttributes="Bold"
                            FontSize="{DynamicResource FontSizeSmallContent}"
                            IsVisible="{Binding CharacterViewModel.EditMode}"
-                           Text="Gesamt EP" />
+                           Text="Erschaffungs-EP" />
                         <Label Grid.Row="0" Grid.Column="2" FontAttributes="Bold"
                            FontSize="{DynamicResource FontSizeSmallContent}"
                            Text="EP" />

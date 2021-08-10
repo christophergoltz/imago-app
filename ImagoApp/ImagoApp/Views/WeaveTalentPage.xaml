@@ -12,46 +12,45 @@
 
                 <Frame Grid.Column="0">
                     <Grid Style="{StaticResource SingleGradiantStyle}">
-                        <ListView IsGroupingEnabled="true" ItemSelected="ListView_OnItemSelected"
+                        <CollectionView x:Name="WeaveTalentCollectionView" IsGrouped="true"
                            ItemsSource="{Binding WeaveTalents}"
-                           SelectionMode="Single">
-                            <ListView.GroupHeaderTemplate>
+                           SelectionChanged="SelectableItemsView_OnSelectionChanged" SelectionMode="Single">
+                            <CollectionView.GroupHeaderTemplate>
                                 <DataTemplate x:DataType="viewModels:WeaveTalentList">
-                                    <ViewCell>
-                                        <Grid Margin="20">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
-                                            <Label Grid.Column="0" FontAttributes="Bold"
-                                               FontSize="{DynamicResource FontSizeHeader}"
-                                               Text="{Binding WeaveSourceGroup}" />
-                                        </Grid>
-                                    </ViewCell>
+                                    <Grid Padding="20">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" FontAttributes="Bold"
+                                           FontSize="{DynamicResource FontSizeTitle}"
+                                           Text="{Binding WeaveSourceGroup}" />
+                                    </Grid>
                                 </DataTemplate>
-                            </ListView.GroupHeaderTemplate>
+                            </CollectionView.GroupHeaderTemplate>
 
-                            <ListView.ItemTemplate>
+                            <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="models:WeaveTalentModel">
-                                    <ViewCell>
-                                        <Grid Margin="30,5,5,5">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="40*" />
-                                                <ColumnDefinition Width="60*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Label Grid.Column="0"
-                                               FontSize="{DynamicResource FontSizeBigContent}"
-                                               Text="{Binding Name}" />
-                                            <Label Grid.Column="1"
-                                               FontSize="{DynamicResource FontSizeBigContent}"
-                                               Text="{Binding ShortDescription}"
-                                               TextColor="{StaticResource AntiUmbra1}" />
-                                        </Grid>
-                                    </ViewCell>
+                                    <Grid Padding="50,5,5,5">
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_OnTapped" />
+                                        </Grid.GestureRecognizers>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="40*" />
+                                            <ColumnDefinition Width="60*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0"
+                                           FontSize="{DynamicResource FontSizeBigContent}"
+                                           Text="{Binding Name}" />
+                                        <Label Grid.Column="1"
+                                           FontSize="{DynamicResource FontSizeBigContent}"
+                                           Text="{Binding ShortDescription}"
+                                           TextColor="{StaticResource AntiUmbra1}" />
+                                    </Grid>
                                 </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
                     </Grid>
                 </Frame>
             </Grid>

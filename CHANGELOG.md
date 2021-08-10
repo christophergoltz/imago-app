@@ -1,6 +1,13 @@
 ### [Roadmap](https://github.com/christophergoltz/imago-app/blob/develop/ROADMAP.md) | [Bekannte Fehler](https://github.com/christophergoltz/imago-app/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
 
 ---
+## 0.2.1 (10.08.2021)
+
+- **Behoben**: Ein Fehler wurde behoben wobei das zu schnelle öffnen und schließen eines Charakters zum Fehlerbildschirm geführt hat
+- **Behoben**: Bei der Charakterschaffung wurde die überschrift "Gesamt Ep" einer Fertigkeit ein "Erschaffungs-Ep" geändert
+- **Behoben**: Beim Laden eines Charakteres wird nun der NA eines Attributes wieder richtig angezeigt und verrechnet
+
+---
 ## 0.2 (10.08.2021)
 
 - **Neu**: Webbogen (Letzter Menüeintrag im Charakterbogen)

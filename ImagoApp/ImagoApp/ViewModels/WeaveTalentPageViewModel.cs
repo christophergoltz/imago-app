@@ -2,7 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using ImagoApp.Application;
@@ -18,6 +21,21 @@ namespace ImagoApp.ViewModels
         public ObservableCollection<WeaveTalentModel> Talents => this;
         public string WeaveSourceGroup { get; set; }
         public List<SkillModel> Skills { get; set; }
+
+        public new event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            var changed = PropertyChanged;
+            if (changed == null)
+                return;
+
+            changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void RaiseOnPropertyChanged(string propertyName)
+        {
+            OnPropertyChanged(propertyName);
+        }
     }
 
     public class WeaveTalentPageViewModel : BindableBase
@@ -58,19 +76,9 @@ namespace ImagoApp.ViewModels
             _characterViewModel = characterViewModel;
             _wikiDataService = wikiDataService;
             WeaveTalents = new ObservableCollection<WeaveTalentList>();
-            BindingBase.EnableCollectionSynchronization(WeaveTalents, null, ObservableCollectionCallback);
-            InitializeWeaveTalentList().Wait();
+            InitializeWeaveTalentList();
         }
-
-        void ObservableCollectionCallback(IEnumerable collection, object context, Action accessMethod, bool writeAccess)
-        {
-            // `lock` ensures that only one thread access the collection at a time
-            lock (collection)
-            {
-                accessMethod?.Invoke();
-            }
-        }
-
+        
         private List<SkillModel> GetSkillsFromRequirements(List<SkillRequirementModel> requirements)
         {
             var result = new List<SkillModel>();
@@ -86,58 +94,65 @@ namespace ImagoApp.ViewModels
 
             return result;
         }
-
-        public async Task InitializeWeaveTalentList()
+        
+        public void InitializeWeaveTalentList()
         {
-            var allWeaveTalents = _wikiDataService.GetAllWeaveTalents();
-            foreach (var weaveTalent in allWeaveTalents)
+            lock (WeaveTalents)
             {
-                var available = _characterViewModel.CheckTalentRequirement(weaveTalent.Requirements);
-                if (available)
+                var allWeaveTalents = _wikiDataService.GetAllWeaveTalents();
+                foreach (var weaveTalent in allWeaveTalents)
                 {
-                    //add
-                    var list = WeaveTalents.FirstOrDefault(talentList =>
-                        talentList.WeaveSourceGroup == weaveTalent.WeaveSource);
-
-                    if (list == null)
+                    var available = _characterViewModel.CheckTalentRequirement(weaveTalent.Requirements);
+                    if (available)
                     {
-                        //add new
-                        var talentList = new WeaveTalentList
-                        {
-                            WeaveSourceGroup = weaveTalent.WeaveSource,
-                            Skills = GetSkillsFromRequirements(weaveTalent.Requirements)
-                        };
-                        talentList.Talents.Add(weaveTalent);
+                        //add
+                        var list = WeaveTalents.FirstOrDefault(talentList =>
+                            talentList.WeaveSourceGroup == weaveTalent.WeaveSource);
 
-                        await Device.InvokeOnMainThreadAsync(() => { WeaveTalents.Add(talentList); });
+                        if (list == null)
+                        {
+                            //add new
+                            var talentList = new WeaveTalentList
+                            {
+                                WeaveSourceGroup = weaveTalent.WeaveSource,
+                                Skills = GetSkillsFromRequirements(weaveTalent.Requirements)
+                            };
+                            talentList.Talents.Add(weaveTalent);
+
+                            WeaveTalents.Add(talentList);
+                        }
+                        else
+                        {
+                            //extend existing, if required
+                            if (list.All(model => model.Name != weaveTalent.Name))
+                            {
+                                list.Add(weaveTalent);
+                            }
+                        }
                     }
                     else
                     {
-                        //extend existing, if required
-                        if (list.All(model => model.Name != weaveTalent.Name))
+                        //remove
+                        var weaveTalentList = WeaveTalents.FirstOrDefault(list => list.WeaveSourceGroup == weaveTalent.WeaveSource);
+                        if (weaveTalentList != null)
                         {
-                            await Device.InvokeOnMainThreadAsync(() => { list.Add(weaveTalent); });
+                            var elementToRemove = weaveTalentList.FirstOrDefault(model => model.Name == weaveTalent.Name);
+                            if (elementToRemove != null)
+                            {
+                                weaveTalentList.Remove(elementToRemove);
+                            }
+
+                            if (weaveTalentList.Talents.Count == 0)
+                            {
+                                WeaveTalents.Remove(weaveTalentList);
+                            }
                         }
                     }
-                }
-                else
-                {
-                    //remove
-                    var weaveTalentList =
-                        WeaveTalents.FirstOrDefault(list => list.WeaveSourceGroup == weaveTalent.WeaveSource);
-                    if (weaveTalentList != null)
-                    {
-                        var elementToRemove =
-                            weaveTalentList.FirstOrDefault(model => model.Name == weaveTalent.Name);
-                        if (elementToRemove != null)
-                        {
-                            await Device.InvokeOnMainThreadAsync(() => { weaveTalentList.Remove(elementToRemove); });
-                        }
 
-                        if (weaveTalentList.Talents.Count == 0)
-                        {
-                            await Device.InvokeOnMainThreadAsync(() => { WeaveTalents.Remove(weaveTalentList); });
-                        }
+                    OnPropertyChanged(nameof(WeaveTalents));
+                    foreach (var group in WeaveTalents)
+                    {
+                        group.RaiseOnPropertyChanged(nameof(WeaveTalentList.Talents));
                     }
                 }
             }
