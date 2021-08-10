@@ -73,7 +73,7 @@ namespace ImagoApp.ViewModels
 
                 if (string.IsNullOrWhiteSpace(url))
                 {
-                    App.ErrorManager.TrackExceptionSilent(new InvalidOperationException($"No url found for {SkillModel.Type}"), _characterViewModel.CharacterModel.Name);
+                    App.ErrorManager.TrackExceptionSilent(new InvalidOperationException($"No url found for {SkillModel.Type}"));
                     UserDialogs.Instance.Alert($"Uups, für {SkillModel.Type} ist wohl nichts hinterlegt..", "Fehlender Link", "OK");
                     return;
                 }

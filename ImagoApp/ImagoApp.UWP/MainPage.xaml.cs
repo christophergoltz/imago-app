@@ -13,7 +13,7 @@ namespace ImagoApp.UWP
             MaximizeWindowOnLoad2();
 
             InitializeComponent();
-            LoadApplication(new ImagoApp.App(new FileService()));
+            LoadApplication(new ImagoApp.App(new LocalFileService()));
         }
 
         private static void MaximizeWindowOnLoad()

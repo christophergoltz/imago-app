@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Acr.UserDialogs" Version="7.1.0.514" />
+    <PackageReference Include="DryIoc" Version="4.8.1" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.34" />
     <PackageReference Include="Microsoft.AppCenter" Version="4.3.0" />
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.3.0" />

@@ -25,7 +25,7 @@ namespace ImagoApp.Views
         {
             if (e.SelectedItem == null)
                 return;
-            var character = (CharacterItem) e.SelectedItem;
+            var character = (CharacterPreview) e.SelectedItem;
 
             //reset listview selection
             var listView = (ListView) sender;

@@ -10,7 +10,6 @@ namespace ImagoApp.ViewModels
         private int _talentTemplateCount;
         private int _masteryTemplateCount;
         private FileInfo _wikiDatabaseInfo;
-        private FileInfo _characterDatabaseInfo;
 
         public int ArmorTemplateCount
         {
@@ -46,12 +45,6 @@ namespace ImagoApp.ViewModels
         {
             get => _wikiDatabaseInfo;
             set => SetProperty(ref _wikiDatabaseInfo, value);
-        }
-
-        public FileInfo CharacterDatabaseInfo
-        {
-            get => _characterDatabaseInfo;
-            set => SetProperty(ref _characterDatabaseInfo, value);
         }
     }
 }

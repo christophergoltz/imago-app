@@ -51,6 +51,8 @@ namespace ImagoApp.ViewModels
             ISkillGroupCalculationService skillGroupCalculationService,
             ISkillCalculationService skillCalculationService)
         {
+            Debug.WriteLine("New CharacterViewModel: " + characterModel.Name);
+
             _attributeCalculationService = attributeCalculationService;
             _skillGroupCalculationService = skillGroupCalculationService;
             _skillCalculationService = skillCalculationService;

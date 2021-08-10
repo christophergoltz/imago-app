@@ -14,6 +14,7 @@
 - **Neu**: Bei der Erschaffung wird erstmalig ein zufälliger Name vorgeschlagen
 - **Neu**: Vor der Erschaffung wird nach den Erfahrungspunkten für Attribute und Fertigkeiten gefragt
 - **Neu**: Charaktere können nun auf der Startseite exportiert, importiert und gelöscht werden
+- **Neu**: Ein Backup eines Charakteres kann nun auf der Startseite per Rechtsklick erstellt werden
 
 <!-- -->
 
@@ -22,6 +23,7 @@
 - **Verbessert**: Die Detailansicht einer Fertigkeit wurde angepasst, sodass auch lange Fertigkeiten wie "Körperbeherrschung" richtig dargestellt werden
 - **Verbessert**: Die Ansicht innerhalb der Fertigkeitensseite wurde angepasst
 - **Verbessert**: Die Ladezeit der Charaktere beim Starten wurde verbessert
+- **Verbessert**: Charaktere werden nun in unabhängigen Dateien gespeichert und so u.a. die Ladezeiten verbessert
 
 <!-- -->
 

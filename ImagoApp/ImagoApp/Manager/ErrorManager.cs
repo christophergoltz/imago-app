@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using ImagoApp.Application.Services;
+using ImagoApp.Infrastructure.Database;
 using ImagoApp.ViewModels;
 using ImagoApp.Views;
 using Xamarin.Forms;
@@ -12,14 +14,19 @@ namespace ImagoApp.Manager
     public class ErrorManager
     {
         private readonly IErrorService _errorService;
+        private readonly ICharacterDatabaseConnection _characterDatabaseConnection;
+        private readonly ICharacterProvider _characterProvider;
+        private readonly ICharacterService _characterService;
 
-        public ErrorManager(IErrorService errorService)
+        public ErrorManager(IErrorService errorService, ICharacterDatabaseConnection characterDatabaseConnection, ICharacterProvider characterProvider, ICharacterService characterService)
         {
             _errorService = errorService;
+            _characterDatabaseConnection = characterDatabaseConnection;
+            _characterProvider = characterProvider;
+            _characterService = characterService;
         }
 
-        public void TrackExceptionSilent(Exception exception, string affectedCharacter = null, bool includeCharacterDatabase = false,
-            Dictionary<string, string> customProperites = null)
+        public void TrackExceptionSilent(Exception exception, Dictionary<string, string> customProperites = null)
         {
             Debug.WriteLine(exception);
 
@@ -30,10 +37,7 @@ namespace ImagoApp.Manager
             if (customProperites == null)
                 customProperites = new Dictionary<string, string>();
 
-            if (!string.IsNullOrWhiteSpace(affectedCharacter))
-                customProperites.Add("Affected Character",affectedCharacter);
-
-            _errorService.TrackException(exception, customProperites, includeCharacterDatabase, null, stackTrace);
+            _errorService.TrackException(exception, customProperites, null, stackTrace);
         }
 
         public void TrackException(Exception exception, string affectedCharacter = null, Dictionary<string, string> customProperites = null)
@@ -45,7 +49,7 @@ namespace ImagoApp.Manager
             var stackTrace = Environment.StackTrace;
 
             //show ui
-            var vm = new ErrorPageViewModel(affectedCharacter);
+            var vm = new ErrorPageViewModel(affectedCharacter, _characterService);
             vm.OnCancelled += (sender, args) =>
             {
                 Device.BeginInvokeOnMainThread(async () =>
@@ -57,11 +61,20 @@ namespace ImagoApp.Manager
             {
                 if (customProperites == null)
                     customProperites = new Dictionary<string, string>();
-
-                if (!string.IsNullOrWhiteSpace(args.AffectedCharacter))
-                    customProperites.Add("Affected Character", args.AffectedCharacter);
                 
-                _errorService.TrackException(exception, customProperites, args.IncludeDatabase, args.Description, stackTrace);
+                var selectedAttachments = args.Attachments
+                    .Where(database => database.IsSelected)
+                    .Select(database => database.FilePath)
+                    .ToList();
+
+                if (selectedAttachments.Any())
+                {
+                    _errorService.TrackException(exception, customProperites, args.Description, stackTrace, selectedAttachments.ToArray());
+                }
+                else
+                {
+                    _errorService.TrackException(exception, customProperites, args.Description, stackTrace);
+                }
 
                 Device.BeginInvokeOnMainThread(async () =>
                 {

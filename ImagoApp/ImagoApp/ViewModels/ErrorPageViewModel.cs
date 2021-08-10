@@ -1,10 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Input;
 using ImagoApp.Application;
+using ImagoApp.Application.Services;
 using Xamarin.Forms;
 
 namespace ImagoApp.ViewModels
 {
+    public class ErrorDatabase
+    {
+        public string Name { get; set; }
+        public string FilePath { get; set; }
+        public bool IsSelected { get; set; }
+    }
+
     public class ErrorPageViewModel : BindableBase
     {
         public event EventHandler OnCancelled;
@@ -17,26 +27,36 @@ namespace ImagoApp.ViewModels
         }));
 
         private ICommand _sendCommand;
-        private bool _includeDatabase;
+        private List<ErrorDatabase> _attachments;
 
         public ICommand SendCommand => _sendCommand ?? (_sendCommand = new Command(viewmodel =>
         {
             OnErrorReportSend?.Invoke(this, this);
         }));
 
-        public ErrorPageViewModel(string affectedCharacter)
+        public List<ErrorDatabase> Attachments
         {
-            AffectedCharacter = affectedCharacter;
-            IncludeDatabase = true;
+            get => _attachments;
+            set => SetProperty(ref _attachments, value);
         }
 
-        public bool IncludeDatabase
+        public ErrorPageViewModel(string affectedCharacter, ICharacterService characterService)
         {
-            get => _includeDatabase;
-            set => SetProperty(ref _includeDatabase, value);
+            Attachments = characterService.GetAllQuick().Select(characterPreview => new ErrorDatabase
+            {
+                FilePath = characterPreview.FilePath,
+                IsSelected = false,
+                Name = characterPreview.Name
+            }).ToList();
+
+            if (!string.IsNullOrWhiteSpace(affectedCharacter))
+            {
+                var selected = Attachments.FirstOrDefault(database => database.Name.Equals(affectedCharacter));
+                if (selected != null)
+                    selected.IsSelected = true;
+            }
         }
 
-        public string AffectedCharacter  { get; set; }
-        public string Description  { get; set; }
+        public string Description { get; set; }
     }
 }
