@@ -1,7 +1,7 @@
 ### [Roadmap](https://github.com/christophergoltz/imago-app/blob/develop/ROADMAP.md) | [Bekannte Fehler](https://github.com/christophergoltz/imago-app/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
 
 ---
-## 0.2 (tba)
+## 0.2 (10.08.2021)
 
 - **Neu**: Webbogen (Letzter Menüeintrag im Charakterbogen)
 - **Neu**: Auf der Startseite wurde ein direkter Link zur Roadmap hinzugefügt
