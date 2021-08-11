@@ -33,9 +33,6 @@
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="models:WeaveTalentModel">
                                     <Grid Padding="50,5,5,5">
-                                        <Grid.GestureRecognizers>
-                                            <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_OnTapped" />
-                                        </Grid.GestureRecognizers>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="40*" />
                                             <ColumnDefinition Width="60*" />

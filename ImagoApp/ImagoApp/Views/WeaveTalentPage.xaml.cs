@@ -28,11 +28,8 @@ namespace ImagoApp.Views
 
             var selectedItem = (WeaveTalentModel)e.CurrentSelection.First();
             ViewModel.OpenWeaveTalentCommand?.Execute(selectedItem);
-        }
 
-        private void TapGestureRecognizer_OnTapped(object sender, EventArgs e)
-        {
-            WeaveTalentCollectionView.SelectedItem = null;
+            Device.BeginInvokeOnMainThread(() => WeaveTalentCollectionView.SelectedItem = null);
         }
     }
 }
