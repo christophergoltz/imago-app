@@ -1,4 +1,10 @@
 ### [Roadmap](https://github.com/christophergoltz/imago-app/blob/develop/ROADMAP.md) | [Bekannte Fehler](https://github.com/christophergoltz/imago-app/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
+---
+
+## 0.2.2 (11.08.2021)
+
+- **Behoben**: Ein Fehler wurde innerhalb des Webbogens behoben bei dem die Detailansicht nicht mehr geöffnet werden konnte
+- **Behoben**: Code-Optimierung innerhalb der Datenbank um abstürzte zu vermeiden
 
 ---
 ## 0.2.1 (10.08.2021)
