@@ -24,15 +24,17 @@ namespace ImagoApp.Application.MappingProfiles
                         model.LastBackup = entity.LastBackup;
                 });
             CreateMap<AttributeEntity, AttributeModel>()
-                .IncludeAllDerived();
+                .IncludeAllDerived()
+                .AfterMap((entity, model) =>
+                {
+                    model.BaseValue = entity.BaseValue;
+                });
             CreateMap<SpecialAttributeEntity, SpecialAttributeModel>()
                 .IncludeAllDerived();
 
             CreateMap<SkillGroupEntity, SkillGroupModel>()
-                .ForMember(e => e.BaseValue, opt => opt.Ignore())
                 .IncludeAllDerived();
             CreateMap<SkillEntity, SkillModel>()
-                .ForMember(e => e.BaseValue, opt => opt.Ignore())
                 .IncludeAllDerived();
 
             CreateMap<BloodCarrierEntity, BloodCarrierModel>();
@@ -47,7 +49,9 @@ namespace ImagoApp.Application.MappingProfiles
                 .IncludeAllDerived()
                 .ForMember(e => e.FinalValue, opt => opt.Ignore());
             CreateMap<DependentBaseEntity, DependentBaseModel>()
-                .IncludeAllDerived();
+                .IncludeAllDerived()
+                .ForMember(e => e.BaseValue, opt => opt.Ignore());
+            
             CreateMap<CreationExperienceBaseEntity, CreationExperienceBaseModel>()
                 .IncludeAllDerived();
 

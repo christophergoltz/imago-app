@@ -10,5 +10,6 @@ namespace ImagoApp.Infrastructure.Entities
         public AttributeType Type { get; set; }
         public int Corrosion { get; set; }
         public int ExperienceBySkillGroup { get; set; }
+        public int BaseValue { get; set; }
     }
 }
