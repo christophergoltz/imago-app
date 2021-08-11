@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
-namespace ImagoApp.Application.Services
+namespace ImagoApp.Infrastructure.Repositories
 {
-    public interface IFileService
+    public interface IFileRepository
     {
         string GetApplicationFolder();
         string GetCharacterDatabaseFolder();
     }
 
-    public class FileService : IFileService
+    public class FileRepository : IFileRepository
     {
         private const string CharacterDatabaseFolderName = "Characters";
 

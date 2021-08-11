@@ -18,9 +18,9 @@ namespace ImagoApp.Application.Services
         bool SaveCharacter(CharacterModel characterModel);
         bool AddCharacter(CharacterModel characterModel);
         IEnumerable<CharacterPreview> GetAllQuick();
-        CharacterModel GetItem(Guid id);
+        CharacterModel GetItem(Guid guid);
         bool Delete(Guid guid);
-        string GetCharacterJson(Guid id);
+        string GetCharacterJson(Guid guid);
         bool ImportCharacter(CharacterEntity characterEntity);
         void UpdateLastBackup(Guid guid);
     }
@@ -29,14 +29,17 @@ namespace ImagoApp.Application.Services
     {
         private readonly ICharacterRepository _characterRepository;
         private readonly IMapper _mapper;
-        private readonly IFileService _fileService;
+        private readonly IFileRepository _fileRepository;
         private readonly ICharacterDatabaseConnection _characterDatabaseConnection;
 
-        public CharacterService(ICharacterRepository characterRepository, IMapper mapper, IFileService fileService, ICharacterDatabaseConnection characterDatabaseConnection)
+        public CharacterService(ICharacterRepository characterRepository,
+            IMapper mapper,
+            IFileRepository fileRepository,
+            ICharacterDatabaseConnection characterDatabaseConnection)
         {
             _characterRepository = characterRepository;
             _mapper = mapper;
-            _fileService = fileService;
+            _fileRepository = fileRepository;
             _characterDatabaseConnection = characterDatabaseConnection;
         }
 
@@ -60,25 +63,23 @@ namespace ImagoApp.Application.Services
             }
         }
         
-        public CharacterModel GetItem(Guid id)
+        public CharacterModel GetItem(Guid guid)
         {
-            var characterDatabaseFile = _characterDatabaseConnection.GetCharacterDatabaseFile(id);
-            var characterEntity = _characterRepository.GetItem(id,characterDatabaseFile);
+            var characterEntity = _characterRepository.GetItem(guid);
             return _mapper.Map<CharacterModel>(characterEntity);
         }
 
-        public string GetCharacterJson(Guid id)
+        public string GetCharacterJson(Guid guid)
         {
-            return _characterRepository.GetCharacterJson(id);
+            return _characterRepository.GetCharacterJson(guid);
         }
 
         public IEnumerable<CharacterPreview> GetAllQuick()
         {
-            var characterDatabaseFolder = _fileService.GetCharacterDatabaseFolder();
+            var characterDatabaseFolder = _fileRepository.GetCharacterDatabaseFolder();
             foreach (var characterDatabaseFile in Directory.GetFiles(characterDatabaseFolder))
             {
-                var characterRepository = new CharacterRepository(() => characterDatabaseFile, _characterDatabaseConnection);
-                yield return characterRepository.GetItemAsPreview();
+                yield return _characterRepository.GetItemAsPreview(characterDatabaseFile);
             }
         }
 
@@ -93,22 +94,18 @@ namespace ImagoApp.Application.Services
 
         public bool ImportCharacter(CharacterEntity characterEntity)
         {
-            var characterDatabaseFile = _characterDatabaseConnection.GetCharacterDatabaseFile(characterEntity.Guid);
-            return _characterRepository.InsertItem(characterEntity, characterDatabaseFile);
+            return _characterRepository.InsertItem(characterEntity);
         }
 
         public void UpdateLastBackup(Guid guid)
         {
-
-            var characterDatabaseFile = _characterDatabaseConnection.GetCharacterDatabaseFile(guid);
-            _characterRepository.UpdateLastBackup(characterDatabaseFile);
+            _characterRepository.UpdateLastBackup(guid);
         }
 
         public bool AddCharacter(CharacterModel characterModel)
         {
             var entity = _mapper.Map<CharacterEntity>(characterModel);
-            var characterDatabaseFile = _characterDatabaseConnection.GetCharacterDatabaseFile(entity.Guid);
-            var result = _characterRepository.InsertItem(entity, characterDatabaseFile);
+            var result = _characterRepository.InsertItem(entity);
             return result;
         }
     }

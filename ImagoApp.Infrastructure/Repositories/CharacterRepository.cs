@@ -15,26 +15,21 @@ namespace ImagoApp.Infrastructure.Repositories
 {
     public interface ICharacterRepository
     {
-        bool InsertItem(CharacterEntity item, string databaseFile);
+        bool InsertItem(CharacterEntity item);
         bool UpdateItem(CharacterEntity item);
-        CharacterEntity GetItem(Guid id, string databaseFile);
+        CharacterEntity GetItem(Guid guid);
         string GetCharacterJson(Guid guid);
-        CharacterPreview GetItemAsPreview();
-        void UpdateLastBackup(string databaseFile);
+        CharacterPreview GetItemAsPreview(string databaseFile);
+        void UpdateLastBackup(Guid guid);
     }
 
     public class CharacterRepository : ICharacterRepository
     {
-        private readonly Func<string> _getDatabaseFile;
         private readonly ICharacterDatabaseConnection _characterDatabaseConnection;
-        private string ConnectionString => $"filename={DatabaseFile}";
-        private string DatabaseFile => _getDatabaseFile.Invoke();
         private const string CollectionName = nameof(CharacterEntity);
 
-        public CharacterRepository(Func<string> getDatabaseFile, ICharacterDatabaseConnection characterDatabaseConnection)
+        public CharacterRepository(ICharacterDatabaseConnection characterDatabaseConnection)
         {
-            //https://github.com/mbdavid/LiteDB/wiki/Connection-String
-            _getDatabaseFile = getDatabaseFile;
             _characterDatabaseConnection = characterDatabaseConnection;
 
             var mapper = BsonMapper.Global;
@@ -42,9 +37,9 @@ namespace ImagoApp.Infrastructure.Repositories
             mapper.Entity<CharacterEntity>().Id(p => p.Guid);
         }
 
-        public bool InsertItem(CharacterEntity item, string databaseFile)
+        public bool InsertItem(CharacterEntity item)
         {
-            using (var db = new LiteDatabase($"filename={databaseFile}"))
+            using (var db = new LiteDatabase(_characterDatabaseConnection.GetDatabaseConnectionString(item.Guid)))
             {
                 item.LastEdit = DateTime.Now;
                 var collection = db.GetCollection<CharacterEntity>(CollectionName);
@@ -56,7 +51,7 @@ namespace ImagoApp.Infrastructure.Repositories
 
         public string GetCharacterJson(Guid guid)
         {
-            using (var db = new LiteDatabase(ConnectionString))
+            using (var db = new LiteDatabase(_characterDatabaseConnection.GetDatabaseConnectionString(guid)))
             {
                 var collection = db.GetCollection<CharacterEntity>(CollectionName);
                 var item = collection.FindById(guid);
@@ -66,7 +61,7 @@ namespace ImagoApp.Infrastructure.Repositories
 
         public bool UpdateItem(CharacterEntity item)
         {
-            using (var db = new LiteDatabase(ConnectionString))
+            using (var db = new LiteDatabase(_characterDatabaseConnection.GetDatabaseConnectionString(item.Guid)))
             {
                 item.LastEdit = DateTime.Now;
                 var collection = db.GetCollection<CharacterEntity>(CollectionName);
@@ -74,9 +69,9 @@ namespace ImagoApp.Infrastructure.Repositories
             }
         }
 
-        public void UpdateLastBackup(string databaseFile)
+        public void UpdateLastBackup(Guid guid)
         {
-            using (var db = new LiteDatabase($"filename={databaseFile}"))
+            using (var db = new LiteDatabase(_characterDatabaseConnection.GetDatabaseConnectionString(guid)))
             {
                 //https://www.litedb.org/api/update/
                 var command = $"UPDATE {CollectionName} SET LastBackup = NOW()";
@@ -84,26 +79,24 @@ namespace ImagoApp.Infrastructure.Repositories
             }
         }
 
-        public CharacterEntity GetItem(Guid id, string databaseFile)
+        public CharacterEntity GetItem(Guid guid)
+        {
+            using (var db = new LiteDatabase(_characterDatabaseConnection.GetDatabaseConnectionString(guid)))
+            {
+                var collection = db.GetCollection<CharacterEntity>(CollectionName);
+                return collection.FindById(guid);
+            }
+        }
+
+        public CharacterPreview GetItemAsPreview(string databaseFile)
         {
             using (var db = new LiteDatabase($"filename={databaseFile}"))
             {
                 var collection = db.GetCollection<CharacterEntity>(CollectionName);
-                return collection.FindById(id);
-            }
-        }
-
-        public CharacterPreview GetItemAsPreview()
-        {
-            using (var db = new LiteDatabase(ConnectionString))
-            {
-                var collection = db.GetCollection<CharacterEntity>(CollectionName);
                 var res = collection.Query().First();
+                var fileInfo = new FileInfo(databaseFile);
 
-                var filePath = _characterDatabaseConnection.GetCharacterDatabaseFile(res.Guid);
-                var fileInfo = new FileInfo(DatabaseFile);
-
-                return new CharacterPreview(res.Guid, res.Name, res.Version, res.LastEdit, filePath, fileInfo.Length, res.LastBackup);
+                return new CharacterPreview(res.Guid, res.Name, res.Version, res.LastEdit, databaseFile, fileInfo.Length, res.LastBackup);
             }
         }
     }

@@ -7,12 +7,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Acr.UserDialogs;
-using DryIoc;
+using Autofac;
 using ImagoApp.Application;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Services;
 using ImagoApp.Infrastructure.Database;
 using ImagoApp.Infrastructure.Entities;
+using ImagoApp.Infrastructure.Repositories;
 using ImagoApp.Manager;
 using ImagoApp.Shared;
 using ImagoApp.Util;
@@ -34,7 +35,7 @@ namespace ImagoApp.ViewModels
         private readonly IWikiParseService _wikiParseService;
         private readonly IWikiDataService _wikiDataService;
         private readonly ICharacterCreationService _characterCreationService;
-        private readonly IFileService _fileService;
+        private readonly IFileRepository _fileRepository;
         private readonly ILocalFileService _localfileService;
         private readonly ICharacterProvider _characterProvider;
         private readonly IAttributeCalculationService _attributeCalculationService;
@@ -56,7 +57,7 @@ namespace ImagoApp.ViewModels
             IWikiParseService wikiParseService,
             IWikiDataService wikiDataService,
             ICharacterCreationService characterCreationService,
-            IFileService fileService,
+            IFileRepository fileRepository,
             ILocalFileService localfileService,
             ICharacterProvider characterProvider,
             IAttributeCalculationService attributeCalculationService,
@@ -72,7 +73,7 @@ namespace ImagoApp.ViewModels
             _wikiParseService = wikiParseService;
             _wikiDataService = wikiDataService;
             _characterCreationService = characterCreationService;
-            _fileService = fileService;
+            _fileRepository = fileRepository;
             _localfileService = localfileService;
             _characterProvider = characterProvider;
             _attributeCalculationService = attributeCalculationService;
@@ -180,7 +181,7 @@ namespace ImagoApp.ViewModels
         {
             try
             {
-                _localfileService.OpenFolder(_fileService.GetApplicationFolder());
+                _localfileService.OpenFolder(_fileRepository.GetApplicationFolder());
             }
             catch (Exception exception)
             {
@@ -241,7 +242,7 @@ namespace ImagoApp.ViewModels
         {
             try
             {
-                var logFile = Path.Combine(_fileService.GetApplicationFolder(), _logFileName);
+                var logFile = Path.Combine(_fileRepository.GetApplicationFolder(), _logFileName);
                 if (File.Exists(logFile))
                     File.Delete(logFile);
 
@@ -306,7 +307,7 @@ namespace ImagoApp.ViewModels
                             {
                                 if (!result)
                                 {
-                                    var target = new ReadOnlyFile(Path.Combine(_fileService.GetApplicationFolder(), _logFileName));
+                                    var target = new ReadOnlyFile(Path.Combine(_fileRepository.GetApplicationFolder(), _logFileName));
                                     var request = new OpenFileRequest { File = target };
                                     Launcher.OpenAsync(request);
                                 }

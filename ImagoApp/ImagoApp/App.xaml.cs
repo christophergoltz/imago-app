@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using Autofac;
+using Autofac.Core;
 using AutoMapper;
-using DryIoc;
 using ImagoApp.Application.MappingProfiles;
 using ImagoApp.Application.Services;
 using ImagoApp.Infrastructure.Database;
@@ -23,7 +24,7 @@ namespace ImagoApp
         public static ErrorManager ErrorManager;
         public static StartPage StartPage;
 
-        public static Container Container;
+        public static IContainer Container;
 
         public App(ILocalFileService localFileService)
         {
@@ -41,21 +42,12 @@ namespace ImagoApp
             CreateContainer(localFileService);
 
             ErrorManager = Container.Resolve<ErrorManager>();
-            
+
             MainPage = new StartPage(Container.Resolve<StartPageViewModel>());
         }
 
-        private void CreateContainer(ILocalFileService localFileService)
+        private IMapper CreateMapper()
         {
-            var imagoFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            var wikidataDatabaseFile = Path.Combine(imagoFolder, "ImagoApp_Wikidata.db");
-
-            var container = new Container();
-
-            //localfileservice
-            container.RegisterInstance(localFileService);
-
-            //mapper
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile<WikiDataMappingProfile>();
@@ -73,55 +65,59 @@ namespace ImagoApp
             }
 #endif
 
-            var mapper = config.CreateMapper();
+            return config.CreateMapper();
+        }
 
-            container.RegisterInstance(mapper);
+        private void CreateContainer(ILocalFileService localFileService)
+        {
+            var applicationDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            var wikiDatabaseFile = Path.Combine(applicationDataFolder, "ImagoApp_Wikidata.db");
+
+            var builder = new ContainerBuilder();
+
+            //localfileservice
+            builder.RegisterInstance(localFileService);
+
+            //mapper
+            builder.RegisterInstance(CreateMapper());
 
             //repositories
-            container.RegisterInstance<IArmorTemplateRepository>(new ArmorTemplateRepository(wikidataDatabaseFile));
-            container.RegisterInstance<IWeaponTemplateRepository>(new WeaponTemplateRepository(wikidataDatabaseFile));
-            container.RegisterInstance<ITalentRepository>(new TalentRepository(wikidataDatabaseFile));
-            container.RegisterInstance<IMasteryRepository>(new MasteryRepository(wikidataDatabaseFile));
-            container.RegisterInstance<IWeaveTalentRepository>(new WeaveTalentRepository(wikidataDatabaseFile));
+            builder.RegisterInstance<IArmorTemplateRepository>(new ArmorTemplateRepository(wikiDatabaseFile));
+            builder.RegisterInstance<IWeaponTemplateRepository>(new WeaponTemplateRepository(wikiDatabaseFile));
+            builder.RegisterInstance<ITalentRepository>(new TalentRepository(wikiDatabaseFile));
+            builder.RegisterInstance<IMasteryRepository>(new MasteryRepository(wikiDatabaseFile));
+            builder.RegisterInstance<IWeaveTalentRepository>(new WeaveTalentRepository(wikiDatabaseFile));
 
             //services
-            container.Register<IFileService, FileService>();
-            container.Register<IWikiDataService, WikiDataService>();
-            container.Register<IWikiService, WikiService>();
-            container.Register<IWikiParseService, WikiParseService>();
-            container.Register<ICharacterCreationService, CharacterCreationService>();
-            container.Register<IIncreaseCalculationService, IncreaseCalculationService>();
-            container.Register<ISkillCalculationService, SkillCalculationService>();
-            container.Register<ISkillGroupCalculationService, SkillGroupCalculationService>();
-            container.Register<IAttributeCalculationService, AttributeCalculationService>();
+            builder.RegisterType<FileRepository>().As<IFileRepository>();
+            builder.RegisterType<WikiDataService>().As<IWikiDataService>();
+            builder.RegisterType<WikiService>().As<IWikiService>();
+            builder.RegisterType<WikiParseService>().As<IWikiParseService>();
+            builder.RegisterType<CharacterCreationService>().As<ICharacterCreationService>();
+            builder.RegisterType<IncreaseCalculationService>().As<IIncreaseCalculationService>();
+            builder.RegisterType<SkillCalculationService>().As<ISkillCalculationService>();
+            builder.RegisterType<SkillGroupCalculationService>().As<ISkillGroupCalculationService>();
+            builder.RegisterType<AttributeCalculationService>().As<IAttributeCalculationService>();
 
             //character
-            container.Register<ICharacterProvider, CharacterProvider>(Reuse.Singleton);
-
-            var databaseFolder = container.Resolve<IFileService>().GetCharacterDatabaseFolder();
-            Debug.WriteLine($"DatabaseFolder: {databaseFolder}");
-
-            container.RegisterInstance<ICharacterDatabaseConnection>(new CharacterDatabaseConnection(databaseFolder));
-
-            string DatabaseFile()
-            {
-                var characterModelGuid = container.Resolve<ICharacterProvider>().CurrentCharacter.CharacterModel.Guid;
-                return container.Resolve<ICharacterDatabaseConnection>().GetCharacterDatabaseFile(characterModelGuid);
-            }
-
-            container.RegisterInstance<ICharacterRepository>(new CharacterRepository(DatabaseFile,
-                container.Resolve<ICharacterDatabaseConnection>()));
-            container.Register<ICharacterService, CharacterService>();
-            container.RegisterDelegate(() => container.Resolve<ICharacterProvider>().CurrentCharacter);
+            builder.RegisterType<CharacterProvider>().As<ICharacterProvider>().SingleInstance();
+            builder.RegisterType<CharacterDatabaseConnection>().As<ICharacterDatabaseConnection>().SingleInstance();
+            builder.RegisterType<CharacterRepository>().As<ICharacterRepository>().SingleInstance();
+            builder.RegisterType<CharacterService>().As<ICharacterService>();
 
             //error
-            container.Register<IErrorService, ErrorService>();
-            container.Register<ErrorManager>();
+            builder.RegisterType<ErrorService>().As<IErrorService>();
+            builder.RegisterType<ErrorManager>();
 
             //viewmodel
-            container.Register<StartPageViewModel>();
+            builder.RegisterType<StartPageViewModel>();
+            builder.Register<CharacterViewModel>(context =>
+            {
+                var characterProvider = context.Resolve<ICharacterProvider>();
+                return characterProvider.CurrentCharacter;
+            });
 
-            Container = container;
+            Container = builder.Build();
         }
 
         public static bool SaveCurrentCharacter()

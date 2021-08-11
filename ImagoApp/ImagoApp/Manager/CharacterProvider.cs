@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using DryIoc;
 using ImagoApp.Application;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Services;
