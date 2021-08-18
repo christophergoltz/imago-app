@@ -15,19 +15,26 @@
         </Grid.ColumnDefinitions>
 
         <!--  weave talent  -->
-        <StackLayout Grid.Column="0">
-            <Label Margin="30,30,30,20" FontAttributes="Bold"
-               FontSize="{DynamicResource FontSizeSmallCaption}"
-               Text="{Binding WeaveTalent.Name}" />
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="210"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
 
-            <Label Margin="40,10,10,0"
+            <Label Margin="30,30,30,20" Grid.Row="0" FontAttributes="Bold"
+                   FontSize="{DynamicResource FontSizeSmallCaption}"
+                   Text="{Binding WeaveTalent.Name}" />
+
+            <Label Margin="40,10,10,0"  Grid.Row="1"
                FontSize="{DynamicResource FontSizeBigContent}"
                Text="{Binding WeaveTalent.ShortDescription}"
                TextColor="{StaticResource AntiUmbra1}" />
 
             <!--  skills  -->
-            <Frame Margin="30">
-                <CollectionView HeightRequest="150"
+            <Frame Margin="30"  Grid.Row="2">
+                <CollectionView 
                    ItemsSource="{Binding Skills}"
                    SelectedItem="{Binding SelectedSkillModel}"
                    SelectionMode="Single">
@@ -46,11 +53,10 @@
                 </CollectionView>
             </Frame>
 
-            <Editor FontSize="{DynamicResource FontSizeContent}"
-               IsReadOnly="True"
-               Text="{Binding WeaveTalent.Description}"
-               VerticalOptions="FillAndExpand" />
-        </StackLayout>
+            <Editor  Grid.Row="3" FontSize="{DynamicResource FontSizeContent}"
+                     IsReadOnly="True"
+                     Text="{Binding WeaveTalent.Description}"/>
+        </Grid>
 
         <BoxView Grid.Column="1" Color="{StaticResource AntiUmbra}" />
 

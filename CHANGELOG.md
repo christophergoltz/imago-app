@@ -5,6 +5,10 @@
 
 - **Hinzugefügt**: [#96](https://github.com/christophergoltz/imago-app/issues/96) In der Detailansicht einer Webkunst gibt es nun bei der Konzentration die Möglichkeit, die komplette Schwierigkeit über eine Checkbox zu "entfernen"
 
+<!-- -->
+
+- **Behoben**: [#94](https://github.com/christophergoltz/imago-app/issues/94) Ein Darstellungsfehler wurde behoben bei dem die Beschreibung einer Webkunst zu lang war und die Textbox außerhalb der Ansicht reichte
+
 ## 0.2.2 (11.08.2021)
 
 - **Behoben**: Ein Fehler wurde innerhalb des Webbogens behoben bei dem die Detailansicht nicht mehr geöffnet werden konnte
