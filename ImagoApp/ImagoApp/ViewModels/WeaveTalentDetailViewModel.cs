@@ -26,6 +26,7 @@ namespace ImagoApp.ViewModels
         private int _finalValue;
         private List<WeaveTalentSettingModel> _weaveTalentSettings;
         private List<WeaveTalentResultModel> _weaveTalentResults;
+        private bool _allDifficultyRemoved;
         public ICommand CloseCommand { get; set; }
 
         public event EventHandler CloseRequested;
@@ -275,6 +276,16 @@ namespace ImagoApp.ViewModels
             }
         }
 
+        public bool AllDifficultyRemoved
+        {
+            get => _allDifficultyRemoved;
+            set
+            {
+                SetProperty(ref _allDifficultyRemoved, value);
+                RecalculateFinalValue();
+            }
+        }
+
         public int ConcentrationFinalValue => ConcentrationPerAction * ConcentrationQuantity;
 
         private void InitializeTestView()
@@ -320,9 +331,13 @@ namespace ImagoApp.ViewModels
 
             var result = SelectedSkillModel.FinalValue.GetRoundedValue();
 
-            result += ConcentrationFinalValue;
+            if (!AllDifficultyRemoved)
+            {
+                result += ConcentrationFinalValue;
+                result -= Difficulty;
+            }
+
             result += Modification;
-            result -= Difficulty;
 
             //masteries
             if (Masteries != null)

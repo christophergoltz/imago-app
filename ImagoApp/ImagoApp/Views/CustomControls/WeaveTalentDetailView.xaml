@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <ContentView x:Class="ImagoApp.Views.CustomControls.WeaveTalentDetailView" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-   xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application" xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp" x:Name="WeaveTalentDetailViewControl">
+   xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application" xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
+   xmlns:imagoApp="clr-namespace:ImagoApp;assembly=ImagoApp"
+   x:Name="WeaveTalentDetailViewControl">
     <Grid BindingContext="{Binding WeaveTalentDetailViewModel, Source={x:Reference WeaveTalentDetailViewControl}}"
        ColumnSpacing="0" RowSpacing="0"
        Style="{StaticResource SingleGradiantStyle}">
@@ -256,7 +258,7 @@
                        FontSize="{DynamicResource FontSizeSmallContent}"
                        Text="Konzentration" TextColor="white" />
 
-                    <StackLayout Margin="20,5" Orientation="Horizontal">
+                    <StackLayout Margin="20,5" Orientation="Horizontal" IsVisible="{Binding IsChecked, Source={x:Reference AllConcentrationRemovedCheckbox}, Converter={StaticResource InverseBoolConverter}}">
                         <Label FontSize="{DynamicResource FontSizeContent}"
                            Text="Bonus:" VerticalOptions="Center" />
                         <Entry Margin="10,0,0,0"
@@ -280,6 +282,12 @@
                                 </MultiBinding>
                             </Label.Text>
                         </Label>
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal" Margin="20,5">
+                        <CheckBox VerticalOptions="Center" x:Name="AllConcentrationRemovedCheckbox" IsChecked="{Binding AllDifficultyRemoved}"></CheckBox>
+                        <Label  VerticalOptions="Center" Text="Komplette Schwierigkeit durch Konzentration ausgeglichen"  
+                                FontSize="{DynamicResource FontSizeContent}"></Label>
                     </StackLayout>
 
                     <Label Padding="10,5,10,5"

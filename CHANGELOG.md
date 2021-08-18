@@ -1,6 +1,10 @@
 ### [Roadmap](https://github.com/christophergoltz/imago-app/blob/develop/ROADMAP.md) | [Bekannte Fehler](https://github.com/christophergoltz/imago-app/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
 ---
 
+## 0.3 (tba)
+
+- **Hinzugefügt**: [#96](https://github.com/christophergoltz/imago-app/issues/96) In der Detailansicht einer Webkunst gibt es nun bei der Konzentration die Möglichkeit, die komplette Schwierigkeit über eine Checkbox zu "entfernen"
+
 ## 0.2.2 (11.08.2021)
 
 - **Behoben**: Ein Fehler wurde innerhalb des Webbogens behoben bei dem die Detailansicht nicht mehr geöffnet werden konnte
