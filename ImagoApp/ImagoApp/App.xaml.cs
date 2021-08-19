@@ -39,6 +39,8 @@ namespace ImagoApp
             AppCenter.SetUserId(DeviceInfo.Name);
             Crashes.SetEnabledAsync(true);
 
+            Analytics.TrackEvent("Startup");
+
             CreateContainer(localFileService);
 
             ErrorManager = Container.Resolve<ErrorManager>();

@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
 using ImagoApp.Application.Models;
 using ImagoApp.Shared;
 using ImagoApp.ViewModels;
+using Microsoft.AppCenter.Analytics;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -38,6 +40,9 @@ namespace ImagoApp.Views
                     using (UserDialogs.Instance.Loading("Character wird geladen.."))
                     {
                         await Task.Delay(250);
+
+                        Analytics.TrackEvent("Open Character");
+
                         var characterModel = StartPageViewModel.GetCharacter(character);
                         await StartPageViewModel.OpenCharacter(characterModel, false);
                         await Task.Delay(250);

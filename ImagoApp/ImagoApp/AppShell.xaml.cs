@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
 using ImagoApp.ViewModels;
 using ImagoApp.Views;
 using ImagoApp.Views.CustomControls;
+using Microsoft.AppCenter.Analytics;
 using Xamarin.Forms;
 
 namespace ImagoApp
@@ -68,6 +70,11 @@ namespace ImagoApp
                             App.ErrorManager.TrackException(exception,
                                 AppShellViewModel.CharacterInfoPageViewModel.CharacterViewModel.CharacterModel.Name);
                         }
+
+                        Analytics.TrackEvent("Switch detailpage", new Dictionary<string, string>
+                        {
+                            {"Page", flyoutPageItem.NavigationPage.CurrentPage.GetType().ToString() }
+                        });
 
                         await Device.InvokeOnMainThreadAsync(() =>
                         {

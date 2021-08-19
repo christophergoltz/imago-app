@@ -7,6 +7,7 @@ using ImagoApp.Application;
 using ImagoApp.Manager;
 using ImagoApp.Views;
 using ImagoApp.Views.CustomControls;
+using Microsoft.AppCenter.Analytics;
 using Xamarin.Forms;
 
 namespace ImagoApp.ViewModels
@@ -92,6 +93,7 @@ namespace ImagoApp.ViewModels
                         using (UserDialogs.Instance.Loading("Charakter wird gespeichert", null, null, true,
                             MaskType.Black))
                         {
+                            Analytics.TrackEvent("Close Character");
                             await Task.Delay(50);
                             saveResult = App.SaveCurrentCharacter();
                             await Task.Delay(50);
@@ -152,6 +154,9 @@ namespace ImagoApp.ViewModels
                 //check if value is not set by user
                 if (value && _characterViewModel.EditMode)
                     return;
+
+                Analytics.TrackEvent("Edit mode changed",
+                    new Dictionary<string, string>() {{"Value", value.ToString()}});
 
                 if (!value)
                 {

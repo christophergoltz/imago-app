@@ -135,6 +135,7 @@ namespace ImagoApp.ViewModels
         private ICommand _increaseFontSizeCommand;
         public ICommand IncreaseFontSizeCommand => _increaseFontSizeCommand ?? (_increaseFontSizeCommand = new Command(() =>
         {
+            Analytics.TrackEvent("Increase font size");
             var value = Preferences.Get(FontSizePreferenceKey, 100);
             Preferences.Set(FontSizePreferenceKey, value + 10);
             StyleResourceManager.ChangeGlobalFontSize(1);
@@ -144,6 +145,7 @@ namespace ImagoApp.ViewModels
         private ICommand _decreaseFontSizeCommand;
         public ICommand DecreaseFontSizeCommand => _decreaseFontSizeCommand ?? (_decreaseFontSizeCommand = new Command(() =>
         {
+            Analytics.TrackEvent("Decrease font size");
             var value = Preferences.Get(FontSizePreferenceKey, 100);
             Preferences.Set(FontSizePreferenceKey, value - 10);
             StyleResourceManager.ChangeGlobalFontSize(-1);
@@ -155,6 +157,7 @@ namespace ImagoApp.ViewModels
         {
             try
             {
+                Analytics.TrackEvent("Open important notes");
                 Launcher.OpenAsync(WikiConstants.ImportantNotesUrl);
             }
             catch (Exception exception)
@@ -168,6 +171,7 @@ namespace ImagoApp.ViewModels
         {
             try
             {
+                Analytics.TrackEvent("Open roadmap");
                 Launcher.OpenAsync(WikiConstants.RoadmapUrl);
             }
             catch (Exception exception)
@@ -181,6 +185,7 @@ namespace ImagoApp.ViewModels
         {
             try
             {
+                Analytics.TrackEvent("Open appdata folder");
                 _localfileService.OpenFolder(_fileRepository.GetApplicationFolder());
             }
             catch (Exception exception)
@@ -228,6 +233,7 @@ namespace ImagoApp.ViewModels
         {
             try
             {
+                Analytics.TrackEvent("Open changelog");
                 Launcher.OpenAsync(WikiConstants.ChangelogUrl);
             }
             catch (Exception exception)
@@ -242,6 +248,7 @@ namespace ImagoApp.ViewModels
         {
             try
             {
+                Analytics.TrackEvent("Parse wiki data");
                 var logFile = Path.Combine(_fileRepository.GetApplicationFolder(), _logFileName);
                 if (File.Exists(logFile))
                     File.Delete(logFile);
@@ -392,6 +399,8 @@ namespace ImagoApp.ViewModels
                 {
                     try
                     {
+                        Analytics.TrackEvent("Import character");
+
                         await Device.InvokeOnMainThreadAsync(async () =>
                         {
                             var result = await UserDialogs.Instance.PromptAsync(new PromptConfig()
@@ -442,6 +451,8 @@ namespace ImagoApp.ViewModels
             {
                 Task.Run(async () =>
                 {
+                    Analytics.TrackEvent("Create new character");
+
                     try
                     {
                         int? attributePoints = null;
@@ -516,6 +527,8 @@ namespace ImagoApp.ViewModels
         {
             Task.Run(async () =>
             {
+                Analytics.TrackEvent("Export character");
+                
                 try
                 {
                     var json = _characterService.GetCharacterJson(item.Guid);
@@ -549,6 +562,8 @@ namespace ImagoApp.ViewModels
         private ICommand _createBackupCommand;
         public ICommand CreateBackupCommand => _createBackupCommand ?? (_createBackupCommand = new Command<CharacterPreview>(item =>
         {
+            Analytics.TrackEvent("Backup character");
+            
             Device.BeginInvokeOnMainThread(async () =>
             {
                 try
@@ -572,6 +587,8 @@ namespace ImagoApp.ViewModels
         {
             Task.Run(async () =>
             {
+                Analytics.TrackEvent("Try delete character");
+
                 try
                 {
                     await Device.InvokeOnMainThreadAsync(async () =>
@@ -591,6 +608,7 @@ namespace ImagoApp.ViewModels
                         {
                             if (item.Name?.Equals(result.Text) ?? false)
                             {
+                                Analytics.TrackEvent("Deleting character");
                                 _characterService.Delete(item.Guid);
                                 RefreshData(false, true, false);
                             }
