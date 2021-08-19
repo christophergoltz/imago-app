@@ -311,7 +311,7 @@
                                 <Label Grid.Column="8" FontAttributes="Bold" Text="FW" />
                             </Grid>
 
-                            <!--  attribute list header -  -->
+                            <!--  attribute list header - normal  -->
                             <Grid Margin="10,5,10,0" IsVisible="{Binding CharacterViewModel.EditMode, Converter={StaticResource InverseBoolConverter}}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
@@ -325,9 +325,8 @@
                                 <Label Grid.Column="0" Margin="5,0,0,0" FontAttributes="Bold"
                                    Text="Attribut" />
                                 <Label Grid.Column="1" FontAttributes="Bold" Text="NA/NW" />
-                                <Label Grid.Column="2" FontAttributes="Bold" Text="EP" />
-                                <Label Grid.Column="3" FontAttributes="Bold" Text="SW" />
-
+                                <Label Grid.Column="2" FontAttributes="Bold" Text="SW" />
+                                <Label Grid.Column="3" FontAttributes="Bold" Text="EP" />
                                 <Label Grid.Column="4" FontAttributes="Bold"
                                    IsVisible="{Binding CharacterViewModel.EditMode, Converter={StaticResource InverseBoolConverter}}"
                                    Text="Korr" />

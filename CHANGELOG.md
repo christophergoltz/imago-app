@@ -8,6 +8,7 @@
 <!-- -->
 
 - **Behoben**: [#94](https://github.com/christophergoltz/imago-app/issues/94) Ein Darstellungsfehler wurde behoben bei dem die Beschreibung einer Webkunst zu lang war und die Textbox außerhalb der Ansicht reichte
+- **Behoben**: [#103](https://github.com/christophergoltz/imago-app/issues/103) Die Überschriften "SW" und "EP" der Attributsliste haben nun die richtige Reihenfolge
 
 ## 0.2.2 (11.08.2021)
 
