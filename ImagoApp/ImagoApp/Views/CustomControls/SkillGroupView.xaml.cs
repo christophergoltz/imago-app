@@ -14,7 +14,18 @@ namespace ImagoApp.Views.CustomControls
         {
             InitializeComponent();
         }
-       
+
+        public static readonly BindableProperty IconSourceProperty = BindableProperty.Create(
+            "IconSource",        // the name of the bindable property
+            typeof(string),     // the bindable property type
+            typeof(SkillGroupView));
+
+        public string IconSource
+        {
+            get => (string)GetValue(IconSourceProperty);
+            set => SetValue(IconSourceProperty, value);
+        }
+
         public static readonly BindableProperty SkillGroupViewModelProperty = BindableProperty.Create(
             "SkillGroupViewModel",        // the name of the bindable property
             typeof(SkillGroupViewModel),     // the bindable property type

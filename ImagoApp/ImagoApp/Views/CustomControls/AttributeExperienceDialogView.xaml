@@ -24,12 +24,12 @@
 
             <StackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="7"
                Orientation="Horizontal">
-                <Label FontAttributes="Bold"
+                <Label Margin="10,0,0,0" FontAttributes="Bold"
                    FontSize="{DynamicResource FontSizeSmallCaption}"
                    Text="{Binding CharacterModel.OpenAttributeIncreases.Count}" />
                 <Label Margin="5,0,0,30"
                    FontSize="{DynamicResource FontSizeSmallCaption}"
-                   Text="Offene Erfahrungspunkt(e) auf Attribute verteilen" />
+                   Text="offene Erfahrungspunkte auf Attribute verteilen" />
             </StackLayout>
 
             <Button Grid.Row="0" Grid.Column="6" Padding="0,-4,0,0"
@@ -51,10 +51,49 @@
                                     <Frame.GestureRecognizers>
                                         <DragGestureRecognizer DragStarting="OnDragStarting" DropCompleted="DragGestureRecognizer_OnDropCompleted" />
                                     </Frame.GestureRecognizers>
-                                    <Grid BackgroundColor="Red">
-                                        <Label Margin="7,5"
-                                           FontSize="{DynamicResource FontSizeHeader}"
-                                           Text="{Binding ., Converter={StaticResource EnumToDisplayTextConverter}}" />
+                                    <Grid BackgroundColor="{StaticResource Umbra2}">
+                                        <StackLayout>
+                                            <Image Margin="15" HeightRequest="50">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding .}"
+                                                               TargetType="Image" Value="Bewegung">
+                                                                <Setter Property="Source" Value="Images/bewegung.png" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding .}"
+                                                               TargetType="Image" Value="Nahkampf">
+                                                                <Setter Property="Source" Value="Images/nahkampf_2.png" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding .}"
+                                                               TargetType="Image" Value="Heimlichkeit">
+                                                                <Setter Property="Source" Value="Images/heimlichkeit.png" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding .}"
+                                                               TargetType="Image" Value="Fernkampf">
+                                                                <Setter Property="Source" Value="Images/fernkampf.png" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding .}"
+                                                               TargetType="Image" Value="Webkunst">
+                                                                <Setter Property="Source" Value="Images/weben.png" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding .}"
+                                                               TargetType="Image" Value="Wissenschaft">
+                                                                <Setter Property="Source" Value="Images/Wissenschaft.png" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding .}"
+                                                               TargetType="Image" Value="Handwerk">
+                                                                <Setter Property="Source" Value="Images/Handwerk.png" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding .}"
+                                                               TargetType="Image" Value="Soziales">
+                                                                <Setter Property="Source" Value="Images/Soziales.png" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
+                                        </StackLayout>
                                     </Grid>
                                 </Frame>
                             </DataTemplate>

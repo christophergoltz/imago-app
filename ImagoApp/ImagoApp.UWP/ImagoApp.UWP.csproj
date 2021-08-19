@@ -138,6 +138,7 @@
     <Content Include="Assets\Wide310x150Logo.scale-100.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
+    <Content Include="Images\bewegung.png" />
     <Content Include="Images\charakter.png" />
     <Content Include="Images\charakter_weiss.png" />
     <Content Include="Images\erschaffung.png" />
@@ -150,6 +151,7 @@
     <Content Include="Images\handwerk_weiss.png" />
     <Content Include="Images\hauptmenue.png" />
     <Content Include="Images\hauptmenue_weiss.png" />
+    <Content Include="Images\heimlichkeit.png" />
     <Content Include="Images\imago_big.png" />
     <Content Include="Images\imago_logo_white.png" />
     <Content Include="Images\inventar.png" />
@@ -157,6 +159,7 @@
     <Content Include="Images\letter.png" />
     <Content Include="Images\magic.png" />
     <Content Include="Images\nahkampf.png" />
+    <Content Include="Images\nahkampf_2.png" />
     <Content Include="Images\nahkampf_weiss.png" />
     <None Include="ImagoApp.UWP_TemporaryKey.pfx" />
     <None Include="Package.StoreAssociation.xml" />

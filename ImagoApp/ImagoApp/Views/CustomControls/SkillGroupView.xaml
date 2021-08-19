@@ -110,18 +110,23 @@
                     <TapGestureRecognizer Command="{Binding SkillBaseTapCommand, Source={x:Reference SkillGroupViewControl}}" CommandParameter="{Binding SkillGroup}" />
                 </Grid.GestureRecognizers>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="70*" />
-                    <ColumnDefinition Width="30*" />
-                    <ColumnDefinition Width="35*" />
-                    <ColumnDefinition Width="30*" />
-                    <ColumnDefinition Width="30*" />
-                    <ColumnDefinition Width="30*" />
+                    <ColumnDefinition Width="80*" />
+                    <ColumnDefinition Width="25*" />
+                    <ColumnDefinition Width="25*" />
+                    <ColumnDefinition Width="25*" />
+                    <ColumnDefinition Width="25*" />
+                    <ColumnDefinition Width="25*" />
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Column="0" Margin="10,0,0,0" FontAttributes="Bold"
-                   FontSize="{DynamicResource FontSizeHeader}"
-                   Text="{Binding SkillGroup.Type}"
-                   VerticalOptions="Center" />
+                <StackLayout Grid.Column="0" Orientation="Horizontal">
+                    <Image Margin="10,5" HeightRequest="50"
+                       Source="{Binding IconSource, Source={x:Reference SkillGroupViewControl}}"
+                       VerticalOptions="Center" />
+                    <Label Margin="5,0,0,0" FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeHeader}"
+                       Text="{Binding SkillGroup.Type}"
+                       VerticalOptions="Center" />
+                </StackLayout>
 
                 <StackLayout Grid.Column="1" Orientation="Horizontal" VerticalOptions="Center">
                     <Label FontAttributes="Bold"

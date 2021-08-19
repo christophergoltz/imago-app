@@ -137,36 +137,36 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <customControls:SkillGroupView Grid.Row="0" Grid.Column="0"
+                            <customControls:SkillGroupView Grid.Row="0" Grid.Column="0" IconSource="Images/bewegung.png"
                                OpenSkillCommand="{Binding OpenSkillDetailCommand}"
                                OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
                                SkillGroupViewModel="{Binding Bewegung}" />
-                            <customControls:SkillGroupView Grid.Row="1" Grid.Column="0"
+                            <customControls:SkillGroupView Grid.Row="1" Grid.Column="0" IconSource="Images/heimlichkeit.png"
                                OpenSkillCommand="{Binding OpenSkillDetailCommand}"
                                OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
                                SkillGroupViewModel="{Binding Heimlichkeit}" />
-                            <customControls:SkillGroupView Grid.Row="2" Grid.Column="0"
+                            <customControls:SkillGroupView Grid.Row="2" Grid.Column="0" IconSource="Images/weben.png"
                                OpenSkillCommand="{Binding OpenSkillDetailCommand}"
                                OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
                                SkillGroupViewModel="{Binding Webkunst}" />
-                            <customControls:SkillGroupView Grid.Row="3" Grid.Column="0"
+                            <customControls:SkillGroupView Grid.Row="3" Grid.Column="0" IconSource="Images/handwerk.png"
                                OpenSkillCommand="{Binding OpenSkillDetailCommand}"
                                OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
                                SkillGroupViewModel="{Binding Handwerk}" />
 
-                            <customControls:SkillGroupView Grid.Row="0" Grid.Column="1"
+                            <customControls:SkillGroupView Grid.Row="0" Grid.Column="1" IconSource="Images/nahkampf_2.png"
                                OpenSkillCommand="{Binding OpenSkillDetailCommand}"
                                OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
                                SkillGroupViewModel="{Binding Nahkampf}" />
-                            <customControls:SkillGroupView Grid.Row="1" Grid.Column="1"
+                            <customControls:SkillGroupView Grid.Row="1" Grid.Column="1" IconSource="Images/fernkampf.png"
                                OpenSkillCommand="{Binding OpenSkillDetailCommand}"
                                OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
                                SkillGroupViewModel="{Binding Fernkampf}" />
-                            <customControls:SkillGroupView Grid.Row="2" Grid.Column="1"
+                            <customControls:SkillGroupView Grid.Row="2" Grid.Column="1" IconSource="Images/wissenschaft.png"
                                OpenSkillCommand="{Binding OpenSkillDetailCommand}"
                                OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
                                SkillGroupViewModel="{Binding Wissenschaft}" />
-                            <customControls:SkillGroupView Grid.Row="3" Grid.Column="1"
+                            <customControls:SkillGroupView Grid.Row="3" Grid.Column="1" IconSource="Images/soziales.png"
                                OpenSkillCommand="{Binding OpenSkillDetailCommand}"
                                OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
                                SkillGroupViewModel="{Binding Soziales}" />
