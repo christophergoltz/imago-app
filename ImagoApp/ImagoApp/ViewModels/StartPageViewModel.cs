@@ -92,6 +92,13 @@ namespace ImagoApp.ViewModels
             });
         }
 
+        private ICommand _refreshCharactersCommand;
+
+        public ICommand RefreshCharactersCommand => _refreshCharactersCommand ?? (_refreshCharactersCommand = new Command(() =>
+        {
+            RefreshData(false, true, false);
+        }));
+
         private const string FontSizePreferenceKey = "FonzScale";
         private void EnsurePreferences()
         {

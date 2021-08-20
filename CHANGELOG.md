@@ -4,6 +4,7 @@
 ## 0.3 (tba)
 
 - **Hinzugefügt**: [#96](https://github.com/christophergoltz/imago-app/issues/96) In der Detailansicht einer Webkunst gibt es nun bei der Konzentration die Möglichkeit, die komplette Schwierigkeit über eine Checkbox zu "entfernen"
+- **Hinzugefügt**: [#104](https://github.com/christophergoltz/imago-app/issues/104) Die Charakterliste kann nun ohne einen neustart aktualisiert werden
 
 <!-- -->
 
