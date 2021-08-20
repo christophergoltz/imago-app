@@ -25,11 +25,11 @@ namespace ImagoApp.ViewModels
         public ICommand GoToMainMenuCommand { get; }
         private List<FlyoutPageItem> _menuItems;
 
-        public event EventHandler WikiPageOpenRequested;
+        public event EventHandler<Type> SwitchPageRequested;
 
-        public void RaiseWikiPageOpenRequested()
+        public void RaiseSwitchPageRequested(Type requestedPage)
         {
-            WikiPageOpenRequested?.Invoke(this, EventArgs.Empty);
+            SwitchPageRequested?.Invoke(this, requestedPage);
         }
 
         public List<FlyoutPageItem> MenuItems

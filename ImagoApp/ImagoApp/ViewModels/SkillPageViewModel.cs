@@ -27,6 +27,39 @@ namespace ImagoApp.ViewModels
         public SkillGroupViewModel Handwerk => new SkillGroupViewModel(CharacterViewModel.CharacterModel.SkillGroups.First(_ => _.Type == SkillGroupModelType.Handwerk), CharacterViewModel);
         public SkillGroupViewModel Soziales => new SkillGroupViewModel(CharacterViewModel.CharacterModel.SkillGroups.First(_ => _.Type == SkillGroupModelType.Soziales), CharacterViewModel);
 
+        public void OpenSkill(SkillModelType skillModelType)
+        {
+            SkillModel mSkill = null;
+            SkillGroupModel mSkillGroup = null;
+
+            var found = false;
+
+            foreach (var skillGroup in CharacterViewModel.CharacterModel.SkillGroups)
+            {
+                foreach (var skill in skillGroup.Skills)
+                {
+                    if (skill.Type == skillModelType)
+                    {
+                        found = true;
+                        mSkill = skill;
+                        break;
+                    }
+                }
+
+                if (found)
+                {
+                    mSkillGroup = skillGroup;
+                    break;
+                }
+
+            }
+
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                OpenSkillDetailCommand?.Execute((mSkill, mSkillGroup));
+            });
+        }
+
         private ICommand _openSkillDetailCommandCommand;
         public ICommand OpenSkillDetailCommand => _openSkillDetailCommandCommand ?? (_openSkillDetailCommandCommand = new Command<(SkillModel Skill, SkillGroupModel SkillGroup)>(parameter =>
         {

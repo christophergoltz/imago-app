@@ -17,11 +17,11 @@ namespace ImagoApp
 
         public AppShell(AppShellViewModel appShellViewModel)
         {
-            appShellViewModel.WikiPageOpenRequested += (sender, args) =>
+            appShellViewModel.SwitchPageRequested += (sender, requestPageType) =>
             {
-                var wikiPage = AppShellViewModel.MenuItems.First(item => item.PageType == typeof(WikiPage));
+                var page = AppShellViewModel.MenuItems.First(item => item.PageType == requestPageType);
                 //direct access to listview is required to set selection accordingly to ui
-                MainMenuCollectionView.SelectedItem = wikiPage;
+                MainMenuCollectionView.SelectedItem = page;
             };
             BindingContext = AppShellViewModel = appShellViewModel;
             InitializeComponent();

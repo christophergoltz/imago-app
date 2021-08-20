@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <ContentView x:Class="ImagoApp.Views.CustomControls.WeaveTalentDetailView" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-   xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application" xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
-   xmlns:imagoApp="clr-namespace:ImagoApp;assembly=ImagoApp"
+   xmlns:imagoApp="clr-namespace:ImagoApp;assembly=ImagoApp" xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application" xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
    x:Name="WeaveTalentDetailViewControl">
     <Grid BindingContext="{Binding WeaveTalentDetailViewModel, Source={x:Reference WeaveTalentDetailViewControl}}"
        ColumnSpacing="0" RowSpacing="0"
@@ -17,45 +16,54 @@
         <!--  weave talent  -->
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="210"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="210" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <Label Margin="30,30,30,20" Grid.Row="0" FontAttributes="Bold"
-                   FontSize="{DynamicResource FontSizeSmallCaption}"
-                   Text="{Binding WeaveTalent.Name}" />
+            <Label Grid.Row="0" Margin="30,30,30,20" FontAttributes="Bold"
+               FontSize="{DynamicResource FontSizeSmallCaption}"
+               Text="{Binding WeaveTalent.Name}" />
 
-            <Label Margin="40,10,10,0"  Grid.Row="1"
+            <Label Grid.Row="1" Margin="40,10,10,0"
                FontSize="{DynamicResource FontSizeBigContent}"
                Text="{Binding WeaveTalent.ShortDescription}"
                TextColor="{StaticResource AntiUmbra1}" />
 
             <!--  skills  -->
-            <Frame Margin="30"  Grid.Row="2">
-                <CollectionView 
-                   ItemsSource="{Binding Skills}"
+            <Frame Grid.Row="2" Margin="30">
+                <CollectionView ItemsSource="{Binding Skills}"
                    SelectedItem="{Binding SelectedSkillModel}"
                    SelectionMode="Single">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:SkillModel">
                             <StackLayout Margin="10,0" Padding="15,10" Orientation="Horizontal"
                                VerticalOptions="Center">
-                                <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}" />
-                                <Label FontSize="{DynamicResource FontSizeHeader}" Text="FW: " />
+                                <Label FontSize="{DynamicResource FontSizeHeader}"
+                                   Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"
+                                   VerticalOptions="Center" />
+                                <Label FontSize="{DynamicResource FontSizeHeader}"
+                                   Text="FW: " VerticalOptions="Center" />
                                 <Label FontAttributes="Bold"
                                    FontSize="{DynamicResource FontSizeHeader}"
-                                   Text="{Binding FinalValue}" />
+                                   Text="{Binding FinalValue}"
+                                   VerticalOptions="Center" />
+                                <Button Margin="10,0,0,0" Padding="7,0,7,2"
+                                   BorderColor="{StaticResource AntiUmbra1}"
+                                   Command="{Binding OpenSkillCommand, Source={RelativeSource AncestorType={x:Type viewModels:WeaveTalentDetailViewModel}}}"
+                                   CommandParameter="{Binding Type}"
+                                   FontSize="28" Text="➔" />
                             </StackLayout>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </Frame>
 
-            <Editor  Grid.Row="3" FontSize="{DynamicResource FontSizeContent}"
-                     IsReadOnly="True"
-                     Text="{Binding WeaveTalent.Description}"/>
+            <Editor Grid.Row="3"
+               FontSize="{DynamicResource FontSizeContent}"
+               IsReadOnly="True"
+               Text="{Binding WeaveTalent.Description}" />
         </Grid>
 
         <BoxView Grid.Column="1" Color="{StaticResource AntiUmbra}" />
@@ -264,7 +272,9 @@
                        FontSize="{DynamicResource FontSizeSmallContent}"
                        Text="Konzentration" TextColor="white" />
 
-                    <StackLayout Margin="20,5" Orientation="Horizontal" IsVisible="{Binding IsChecked, Source={x:Reference AllConcentrationRemovedCheckbox}, Converter={StaticResource InverseBoolConverter}}">
+                    <StackLayout Margin="20,5"
+                       IsVisible="{Binding IsChecked, Source={x:Reference AllConcentrationRemovedCheckbox}, Converter={StaticResource InverseBoolConverter}}"
+                       Orientation="Horizontal">
                         <Label FontSize="{DynamicResource FontSizeContent}"
                            Text="Bonus:" VerticalOptions="Center" />
                         <Entry Margin="10,0,0,0"
@@ -290,10 +300,12 @@
                         </Label>
                     </StackLayout>
 
-                    <StackLayout Orientation="Horizontal" Margin="20,5">
-                        <CheckBox VerticalOptions="Center" x:Name="AllConcentrationRemovedCheckbox" IsChecked="{Binding AllDifficultyRemoved}"></CheckBox>
-                        <Label  VerticalOptions="Center" Text="Komplette Schwierigkeit durch Konzentration ausgeglichen"  
-                                FontSize="{DynamicResource FontSizeContent}"></Label>
+                    <StackLayout Margin="20,5" Orientation="Horizontal">
+                        <CheckBox x:Name="AllConcentrationRemovedCheckbox"
+                           IsChecked="{Binding AllDifficultyRemoved}"
+                           VerticalOptions="Center" />
+                        <Label FontSize="{DynamicResource FontSizeContent}"
+                           Text="Komplette Schwierigkeit durch Konzentration ausgeglichen" VerticalOptions="Center" />
                     </StackLayout>
 
                     <Label Padding="10,5,10,5"

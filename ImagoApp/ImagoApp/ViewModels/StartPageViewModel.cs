@@ -366,6 +366,16 @@ namespace ImagoApp.ViewModels
                 skillPageViewModel.OpenWikiPageRequested += (sender, url) => OpenWikiPage(url);
                 statusPageViewModel.OpenWikiPageRequested += (sender, url) => OpenWikiPage(url);
                 inventoryViewModel.OpenWikiPageRequested += (sender, url) => OpenWikiPage(url);
+                weaveTalentPageViewModel.OpenSkillPageRequested += (sender, type) =>
+                {
+                    Analytics.TrackEvent("Open SkillPage", new Dictionary<string, string>()
+                    {
+                        {"SkillType", type.ToString()}
+                    });
+
+                    appShellViewModel.RaiseSwitchPageRequested(typeof(SkillPage));
+                    skillPageViewModel.OpenSkill(type);
+                };
 
                 void OpenWikiPage(string url)
                 {
@@ -374,7 +384,7 @@ namespace ImagoApp.ViewModels
                         {"url", url}
                     });
 
-                    appShellViewModel.RaiseWikiPageOpenRequested();
+                    appShellViewModel.RaiseSwitchPageRequested(typeof(WikiPage));
                     wikiPageViewModel.OpenWikiPage(url);
                 }
                 

@@ -43,6 +43,8 @@ namespace ImagoApp.ViewModels
             }
         }
 
+        public event EventHandler<SkillModelType> OpenSkillPageRequested;
+
         public WeaveTalentDetailViewModel(WeaveTalentModel weaveTalent, List<SkillModel> skills, CharacterViewModel characterViewModel, IWikiDataService wikiDataService)
         {
             _characterViewModel = characterViewModel;
@@ -243,6 +245,13 @@ namespace ImagoApp.ViewModels
                 Quantity = 1
             };
         }
+
+        private ICommand _openSkillCommand;
+
+        public ICommand OpenSkillCommand => _openSkillCommand ?? (_openSkillCommand = new Command<SkillModelType>(skill =>
+        {
+            OpenSkillPageRequested?.Invoke(this, skill);
+        }));
 
         public SkillModel SelectedSkillModel
         {

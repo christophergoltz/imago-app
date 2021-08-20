@@ -40,6 +40,8 @@ namespace ImagoApp.ViewModels
 
     public class WeaveTalentPageViewModel : BindableBase
     {
+        public event EventHandler<SkillModelType> OpenSkillPageRequested;
+
         public WeaveTalentDetailViewModel WeaveTalentDetailViewModel
         {
             get => _weaveTalentDetailViewModel;
@@ -59,9 +61,15 @@ namespace ImagoApp.ViewModels
                 try
                 {
                     var weaveTalentList = WeaveTalents.First(list => list.WeaveSourceGroup == weaveTalent.WeaveSource);
-                    var detailViewModel = new WeaveTalentDetailViewModel(weaveTalent, weaveTalentList.Skills,
-                        _characterViewModel, _wikiDataService);
-                    detailViewModel.CloseRequested += (sender, args) => { WeaveTalentDetailViewModel = null; };
+                    var detailViewModel = new WeaveTalentDetailViewModel(weaveTalent, weaveTalentList.Skills, _characterViewModel, _wikiDataService);
+                    detailViewModel.CloseRequested += (sender, args) =>
+                    {
+                        WeaveTalentDetailViewModel = null;
+                    };
+                    detailViewModel.OpenSkillPageRequested += (sender, type) =>
+                    {
+                        OpenSkillPageRequested?.Invoke(sender, type);
+                    };
 
                     WeaveTalentDetailViewModel = detailViewModel;
                 }
