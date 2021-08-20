@@ -45,7 +45,14 @@ namespace ImagoApp.ViewModels
             set
             {
                 var newPercentage = value / (double)BodyPartModel.MaxHitpoints;
+                if (newPercentage > 1)
+                    newPercentage = 1;
+
+                if (newPercentage < 0)
+                    newPercentage = 0;
+
                 BodyPartModel.CurrentHitpointsPercentage = newPercentage;
+                OnPropertyChanged(nameof(CurrentHitpoints));
             }
         }
 
