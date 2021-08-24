@@ -1,7 +1,7 @@
 ### [Roadmap](https://github.com/christophergoltz/imago-app/blob/develop/ROADMAP.md) | [Bekannte Fehler](https://github.com/christophergoltz/imago-app/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
 ---
 
-## 0.3 (tba)
+## 0.2.3 (24.08.2021)
 
 - **Hinzugefügt**: [#96](https://github.com/christophergoltz/imago-app/issues/96) In der Detailansicht einer Webkunst gibt es nun bei der Konzentration die Möglichkeit, die komplette Schwierigkeit über eine Checkbox zu "entfernen"
 - **Hinzugefügt**: [#104](https://github.com/christophergoltz/imago-app/issues/104) Die Charakterliste kann nun ohne einen neustart aktualisiert werden
