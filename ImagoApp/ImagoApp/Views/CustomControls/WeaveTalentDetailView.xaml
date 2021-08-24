@@ -18,7 +18,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="210" />
+                <RowDefinition Height="250" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
@@ -33,31 +33,34 @@
 
             <!--  skills  -->
             <Frame Grid.Row="2" Margin="30">
-                <CollectionView ItemsSource="{Binding Skills}"
-                   SelectedItem="{Binding SelectedSkillModel}"
+                <ListView ItemsSource="{Binding Skills}"
+                   SelectedItem="{Binding SelectedSkillModel, Mode=TwoWay}"
                    SelectionMode="Single">
-                    <CollectionView.ItemTemplate>
+                    <ListView.ItemTemplate>
                         <DataTemplate x:DataType="models:SkillModel">
-                            <StackLayout Margin="10,0" Padding="15,10" Orientation="Horizontal"
-                               VerticalOptions="Center">
-                                <Label FontSize="{DynamicResource FontSizeHeader}"
-                                   Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"
-                                   VerticalOptions="Center" />
-                                <Label FontSize="{DynamicResource FontSizeHeader}"
-                                   Text="FW: " VerticalOptions="Center" />
-                                <Label FontAttributes="Bold"
-                                   FontSize="{DynamicResource FontSizeHeader}"
-                                   Text="{Binding FinalValue}"
-                                   VerticalOptions="Center" />
-                                <Button Margin="10,0,0,0" Padding="7,0,7,2"
-                                   BorderColor="{StaticResource AntiUmbra1}"
-                                   Command="{Binding OpenSkillCommand, Source={RelativeSource AncestorType={x:Type viewModels:WeaveTalentDetailViewModel}}}"
-                                   CommandParameter="{Binding Type}"
-                                   FontSize="28" Text="➔" />
-                            </StackLayout>
+                            <ViewCell>
+                                <StackLayout Margin="10,0" Padding="10" Orientation="Horizontal"
+                                   VerticalOptions="Center">
+                                    <Label FontSize="{DynamicResource FontSizeHeader}"
+                                       Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"
+                                       VerticalOptions="Center" />
+                                    <Label FontSize="{DynamicResource FontSizeHeader}"
+                                       Text="FW: " VerticalOptions="Center" />
+                                    <Label FontAttributes="Bold"
+                                       FontSize="{DynamicResource FontSizeHeader}"
+                                       Text="{Binding FinalValue}"
+                                       VerticalOptions="Center" />
+                                    <Button Margin="10,0,0,0" Padding="7,0,7,2"
+                                       BorderColor="{StaticResource AntiUmbra1}"
+                                       Command="{Binding OpenSkillCommand, Source={RelativeSource AncestorType={x:Type viewModels:WeaveTalentDetailViewModel}}}"
+                                       CommandParameter="{Binding Type}"
+                                       FontSize="28" HorizontalOptions="EndAndExpand" IsVisible="True"
+                                       Text="➔" />
+                                </StackLayout>
+                            </ViewCell>
                         </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                    </ListView.ItemTemplate>
+                </ListView>
             </Frame>
 
             <Editor Grid.Row="3"

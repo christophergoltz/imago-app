@@ -57,13 +57,16 @@ namespace ImagoApp.ViewModels
             {
                 CloseRequested?.Invoke(this, EventArgs.Empty);
             });
-
-            SelectedSkillModel = Skills.First();
-
+            
             InitializeTestView();
             CreateWeaveTalentResults();
             CreateWeaveTalentSettings(weaveTalent.FormulaSettings);
             RecalculateFinalValue();
+
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                SelectedSkillModel = Skills.First();
+            });
         }
 
         private void CreateWeaveTalentResults()
