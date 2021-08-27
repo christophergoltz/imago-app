@@ -1,6 +1,10 @@
 ### [Roadmap](https://github.com/christophergoltz/imago-app/blob/develop/ROADMAP.md) | [Bekannte Fehler](https://github.com/christophergoltz/imago-app/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
 ---
+## 0.3 (tba)
 
+- **Entfernt**: [#108](https://github.com/christophergoltz/imago-app/issues/108) Bei Textboxen wird beim anklicken nicht mehr der komplette Text automatisch ausgewählt
+
+---
 ## 0.2.3 (24.08.2021)
 
 - **Hinzugefügt**: [#96](https://github.com/christophergoltz/imago-app/issues/96) In der Detailansicht einer Webkunst gibt es nun bei der Konzentration die Möglichkeit, die komplette Schwierigkeit über eine Checkbox zu "entfernen"
@@ -17,6 +21,7 @@
 - **Behoben**: [#103](https://github.com/christophergoltz/imago-app/issues/103) Die Überschriften "SW" und "EP" der Attributsliste haben nun die richtige Reihenfolge
 - **Behoben**: Ein Fehler im Kampfbogen wurde behoben bei dem manche Körperteile extreme negative oder positive Lebenspunkte hatten
 
+---
 ## 0.2.2 (11.08.2021)
 
 - **Behoben**: Ein Fehler wurde innerhalb des Webbogens behoben bei dem die Detailansicht nicht mehr geöffnet werden konnte
