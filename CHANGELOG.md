@@ -2,6 +2,10 @@
 ---
 ## 0.3 (tba)
 
+- **Hinzugefügt**: [#98](https://github.com/christophergoltz/imago-app/issues/98) Auf dem Webbogen wird nun bei den 8 Prinzipien das Symbol mit der ensprechenden Farbe angezeigt, wenn dieses erwoben wurde (SW >= 25)
+
+<!-- -->
+
 - **Verbessert**: [#106](https://github.com/christophergoltz/imago-app/issues/106) In der Detailansicht einer Fertigkeit/Webkunst werden nun nur die erworbenen Künste und Meisterschaften für eine bessere Übersichtlichkeit angezeigt
 
 <!-- -->

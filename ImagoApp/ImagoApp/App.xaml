@@ -6,6 +6,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/GlobalConverter.xaml" />
                 <ResourceDictionary Source="Styles/DefaultStyles.xaml" />
+                <ResourceDictionary Source="Styles/PrincipleIcons.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <!--  dynamic resources that will be changed at runtime needs to be at top level  -->
