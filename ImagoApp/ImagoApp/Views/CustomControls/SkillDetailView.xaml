@@ -207,26 +207,27 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-
-            <Label Grid.Row="0" Grid.Column="0" Margin="5,5,0,0"
-               FontAttributes="Bold"
-               FontSize="{DynamicResource FontSizeSmallCaption}"
-               Text="{Binding SkillModel.Type, Converter={StaticResource EnumToDisplayTextConverter}}" />
-
-            <StackLayout Grid.Row="1" Grid.Column="0" Margin="15,0,0,0"
+            <StackLayout Grid.Row="0" Grid.Column="0" Margin="5,5,0,0"
                Orientation="Horizontal" VerticalOptions="Center">
-                <Label FontSize="{DynamicResource FontSizeBigContent}" VerticalOptions="Center">
-                    <Label.Text>
-                        <MultiBinding StringFormat="{}({0})">
-                            <Binding Path="SourceFormula" />
-                        </MultiBinding>
-                    </Label.Text>
-                </Label>
-                <Button Margin="20,8,0,0" Padding="7,3" Background="limegreen"
+                <Label FontAttributes="Bold"
+                   FontSize="{DynamicResource FontSizeSmallCaption}"
+                   Text="{Binding SkillModel.Type, Converter={StaticResource EnumToDisplayTextConverter}}"
+                   VerticalOptions="Center" />
+                <Button Margin="20,5,0,0" Padding="7,3" Background="limegreen"
                    Command="{Binding OpenWikiCommand}"
                    FontSize="{DynamicResource FontSizeBigContent}"
                    Text="Wiki &#8599;" VerticalOptions="Center" />
             </StackLayout>
+
+            <Label Grid.Row="1" Grid.Column="0" Margin="15,0,0,0"
+               FontSize="{DynamicResource FontSizeBigContent}"
+               VerticalOptions="Center">
+                <Label.Text>
+                    <MultiBinding StringFormat="{}({0})">
+                        <Binding Path="SourceFormula" />
+                    </MultiBinding>
+                </Label.Text>
+            </Label>
 
             <StackLayout Grid.Row="0" Grid.Column="1" Margin="25,5"
                Orientation="Horizontal">

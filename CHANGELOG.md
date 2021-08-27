@@ -2,6 +2,10 @@
 ---
 ## 0.3 (tba)
 
+- **Behoben**: [#107](https://github.com/christophergoltz/imago-app/issues/107) Der "Wiki" Button wurde in der Detailansicht einer Fertigkeit an die richtige Position verschoben
+
+<!-- -->
+
 - **Entfernt**: [#108](https://github.com/christophergoltz/imago-app/issues/108) Bei Textboxen wird beim anklicken nicht mehr der komplette Text automatisch ausgewählt
 
 ---
