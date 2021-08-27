@@ -62,18 +62,8 @@
             <Color x:Key="RotesUmbra3">#e65050</Color>
 
             <DataTemplate x:Key="MasteryBaseDetailTemplate" x:DataType="viewModels:MasteryListItemViewModel">
-                <StackLayout Margin="10,5">
+                <StackLayout Margin="10,5" IsVisible="{Binding Available}">
                     <Grid>
-                        <Grid.Style>
-                            <Style TargetType="Grid">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Available}"
-                                       TargetType="Grid" Value="false">
-                                        <Setter Property="BackgroundColor" Value="{DynamicResource AntiUmbra3}" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Grid.Style>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="150" />
@@ -84,102 +74,30 @@
                         <Label Grid.Column="0"
                            FontSize="{DynamicResource FontSizeContent}"
                            Text="{Binding Mastery.Name}"
-                           VerticalOptions="Center">
-                            <Label.Style>
-                                <Style TargetType="Label">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Available}"
-                                           TargetType="Label" Value="False">
-                                            <Setter Property="TextDecorations" Value="Strikethrough" />
-                                            <Setter Property="FontAttributes" Value="Italic" />
-                                            <Setter Property="TextColor" Value="white" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                    <Setter Property="TextDecorations" Value="None" />
-                                    <Setter Property="FontAttributes" Value="None" />
-                                    <Setter Property="TextColor" Value="Black" />
-                                </Style>
-                            </Label.Style>
-                        </Label>
+                           VerticalOptions="Center" />
 
                         <Label Grid.Column="1" FontAttributes="Italic"
                            FontSize="{DynamicResource FontSizeDetail}"
                            Text="{Binding Mastery.PhaseValueMod}"
-                           TextColor="Gray" VerticalOptions="Center">
-                            <Label.Style>
-                                <Style TargetType="Label">
-                                    <Style.Triggers>
-                                        <MultiTrigger TargetType="Label">
-                                            <MultiTrigger.Conditions>
-                                                <BindingCondition Binding="{Binding Available}" Value="True" />
-                                            </MultiTrigger.Conditions>
-                                            <Setter Property="IsVisible" Value="True" />
-                                        </MultiTrigger>
-                                    </Style.Triggers>
-                                    <Setter Property="IsVisible" Value="False" />
-                                </Style>
-                            </Label.Style>
-                        </Label>
+                           TextColor="Gray" VerticalOptions="Center" />
 
                         <Label Grid.Column="2"
                            FontSize="{DynamicResource FontSizeContent}"
+                           IsVisible="{Binding Mastery.Difficulty, Converter={StaticResource ObjectNotNullToBoolConverter}}"
                            Text="{Binding Mastery.Difficulty}"
-                           VerticalOptions="Center">
-                            <Label.Style>
-                                <Style TargetType="Label">
-                                    <Style.Triggers>
-                                        <MultiTrigger TargetType="Label">
-                                            <MultiTrigger.Conditions>
-                                                <BindingCondition Binding="{Binding Mastery.Difficulty, Converter={StaticResource ObjectNotNullToBoolConverter}}" Value="True" />
-                                                <BindingCondition Binding="{Binding Available}" Value="True" />
-                                            </MultiTrigger.Conditions>
-                                            <Setter Property="IsVisible" Value="True" />
-                                        </MultiTrigger>
-                                    </Style.Triggers>
-                                    <Setter Property="IsVisible" Value="False" />
-                                </Style>
-                            </Label.Style>
-                        </Label>
+                           VerticalOptions="Center" />
 
                         <Entry Grid.Column="2"
                            FontSize="{DynamicResource FontSizeContent}"
+                           IsVisible="{Binding Mastery.Difficulty, Converter={StaticResource ObjectNullToBoolConverter}}"
                            Keyboard="Numeric"
                            Text="{Binding DifficultyOverride}"
-                           VerticalOptions="Center">
-                            <Entry.Style>
-                                <Style TargetType="Entry">
-                                    <Style.Triggers>
-                                        <MultiTrigger TargetType="Entry">
-                                            <MultiTrigger.Conditions>
-                                                <BindingCondition Binding="{Binding Mastery.Difficulty}" Value="{x:Null}" />
-                                                <BindingCondition Binding="{Binding Available}" Value="True" />
-                                            </MultiTrigger.Conditions>
-                                            <Setter Property="IsVisible" Value="true" />
-                                        </MultiTrigger>
-                                    </Style.Triggers>
-                                    <Setter Property="IsVisible" Value="False" />
-                                </Style>
-                            </Entry.Style>
-                        </Entry>
+                           VerticalOptions="Center" />
 
                         <CheckBox Grid.Column="3"
                            IsChecked="{Binding InUse}"
-                           VerticalOptions="Center">
-                            <CheckBox.Style>
-                                <Style TargetType="CheckBox">
-                                    <Style.Triggers>
-                                        <MultiTrigger TargetType="CheckBox">
-                                            <MultiTrigger.Conditions>
-                                                <BindingCondition Binding="{Binding Mastery.ActiveUse}" Value="True" />
-                                                <BindingCondition Binding="{Binding Available}" Value="True" />
-                                            </MultiTrigger.Conditions>
-                                            <Setter Property="IsVisible" Value="true" />
-                                        </MultiTrigger>
-                                    </Style.Triggers>
-                                    <Setter Property="IsVisible" Value="False" />
-                                </Style>
-                            </CheckBox.Style>
-                        </CheckBox>
+                           IsVisible="{Binding Mastery.ActiveUse}"
+                           VerticalOptions="Center" />
                     </Grid>
                     <Label Margin="10,0,0,0" FontAttributes="Italic"
                        FontSize="{DynamicResource FontSizeDescription}"

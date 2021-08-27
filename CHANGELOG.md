@@ -2,6 +2,10 @@
 ---
 ## 0.3 (tba)
 
+- **Verbessert**: [#106](https://github.com/christophergoltz/imago-app/issues/106) In der Detailansicht einer Fertigkeit/Webkunst werden nun nur die erworbenen Künste und Meisterschaften für eine bessere Übersichtlichkeit angezeigt
+
+<!-- -->
+
 - **Behoben**: [#107](https://github.com/christophergoltz/imago-app/issues/107) Der "Wiki" Button wurde in der Detailansicht einer Fertigkeit an die richtige Position verschoben
 
 <!-- -->
