@@ -43,7 +43,7 @@
                                         <Label Grid.Column="1"
                                            FontSize="{DynamicResource FontSizeBigContent}"
                                            Text="{Binding ShortDescription}"
-                                           TextColor="{StaticResource AntiUmbra1}" />
+                                           TextColor="{DynamicResource SecondaryFirstDarkColor}" />
                                     </Grid>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>

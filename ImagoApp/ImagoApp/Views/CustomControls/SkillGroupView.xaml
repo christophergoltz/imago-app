@@ -62,7 +62,7 @@
                            VerticalOptions="Center" />
 
                         <Entry Grid.Column="1"
-                           BackgroundColor="{StaticResource GruenesUmbra1}"
+                           BackgroundColor="{DynamicResource SecondarySecondDarkestColor}"
                            FontSize="{DynamicResource FontSizeBigContent}"
                            Keyboard="Numeric"
                            Text="{Binding CreationExperience}"

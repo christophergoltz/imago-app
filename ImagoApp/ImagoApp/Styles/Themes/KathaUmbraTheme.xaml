@@ -1,0 +1,33 @@
+﻿<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:converter="clr-namespace:ImagoApp.Converter;assembly=ImagoApp">
+    <Color x:Key="PrimaryDarkestColor">#735e48</Color>
+    <Color x:Key="PrimaryDarkColor">#9b856e</Color>
+    <Color x:Key="PrimaryMediumColor">#e1d3c5</Color>
+    <Color x:Key="PrimaryLightColor">#fff8f1</Color>
+    <Color x:Key="PrimaryLightestColor">#ffffff</Color>
+
+    <Color x:Key="SecondaryFirstDarkestColor">#202843</Color>
+    <Color x:Key="SecondaryFirstDarkColor">#353b50</Color>
+    <Color x:Key="SecondaryFirstMediumColor">#696e81</Color>
+    <Color x:Key="SecondaryFirstLightColor">#aeb0b7</Color>
+    <Color x:Key="SecondaryFirstLightestColor">#e0e1e2</Color>
+
+    <Color x:Key="SecondarySecondDarkestColor">#1e4a2a</Color>
+    <Color x:Key="SecondarySecondDarkColor">#36593f</Color>
+    <Color x:Key="SecondarySecondMediumColor">#55775A</Color>
+    <Color x:Key="SecondarySecondLightColor">#6e9177</Color>
+    <Color x:Key="SecondarySecondLightestColor">#98b19e</Color>
+
+    <Color x:Key="HitpointMaxColor">#aa1313</Color>
+    <Color x:Key="HitpointMediumColor">#d5b728</Color>
+    <Color x:Key="HitpointMinColor">#1c945a</Color>
+
+    <Color x:Key="ConfirmColor">#1c945a</Color>
+
+    <!--  ?  -->
+    <Color x:Key="RotesUmbra">#830000</Color>
+    <Color x:Key="RotesPrimaryDarkestColor">#aa1313</Color>
+    <Color x:Key="RotesPrimaryDarkColor">#d52828</Color>
+    <Color x:Key="RotesPrimaryMediumColor">#e65050</Color>
+
+
+</ResourceDictionary>

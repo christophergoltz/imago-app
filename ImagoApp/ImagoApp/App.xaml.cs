@@ -164,5 +164,19 @@ namespace ImagoApp
         protected override void OnResume()
         {
         }
+
+        public static object GetAppResourcesByName(string name)
+        {
+            if (Current.Resources.TryGetValue(name, out var result))
+                return result;
+
+            foreach (var mergedDictionary in Current.Resources.MergedDictionaries)
+            {
+                if (mergedDictionary.TryGetValue(name, out result))
+                    return result;
+            }
+
+            throw new KeyNotFoundException(name);
+        }
     }
 }

@@ -191,7 +191,7 @@
                                     <Label Margin="20,5"
                                        FontSize="{DynamicResource FontSizeDetail}"
                                        LineBreakMode="WordWrap" Text="(Per Rechtsklick kann ein Charakter zb. gelöscht werden)"
-                                       TextColor="{StaticResource AntiUmbra1}" />
+                                       TextColor="{DynamicResource SecondaryFirstDarkColor}" />
                                 </StackLayout>
                                 <Button Grid.Row="0" Grid.Column="1" Margin="20"
                                    Command="{Binding CreateNewCharacterCommand}"
@@ -202,7 +202,7 @@
                                    FontSize="{DynamicResource FontSizeContent}"
                                    Text="Charakter importieren" />
                                 <BoxView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
-                                   Color="{StaticResource AntiUmbra1}" />
+                                   Color="{DynamicResource SecondaryFirstDarkColor}" />
                             </Grid>
                         </ListView.Header>
                         <ListView.ItemTemplate>
@@ -236,7 +236,7 @@
                                         <StackLayout Orientation="Horizontal">
                                             <Label FontSize="{DynamicResource FontSizeBigContent}"
                                                Text="{Binding Version}"
-                                               TextColor="{StaticResource AntiUmbra1}"
+                                               TextColor="{DynamicResource SecondaryFirstDarkColor}"
                                                VerticalOptions="Center" />
 
                                             <StackLayout IsVisible="{Binding LastBackup, Converter={StaticResource ObjectNotNullToBoolConverter}}" Orientation="Horizontal">
@@ -244,18 +244,18 @@
                                                 <Label Margin="20,0,0,0"
                                                    FontSize="{DynamicResource FontSizeBigContent}"
                                                    Text="Letztes Backup:"
-                                                   TextColor="{StaticResource GruenesUmbra}"
+                                                   TextColor="{DynamicResource SecondarySecondDarkestColor}"
                                                    VerticalOptions="Center" />
                                                 <Label FontSize="{DynamicResource FontSizeBigContent}"
                                                    Text="{Binding LastBackup, TargetNullValue=''}"
-                                                   TextColor="{StaticResource GruenesUmbra}"
+                                                   TextColor="{DynamicResource SecondarySecondDarkestColor}"
                                                    VerticalOptions="Center" />
                                             </StackLayout>
 
                                             <Label FontSize="{DynamicResource FontSizeBigContent}"
                                                HorizontalOptions="EndAndExpand"
                                                Text="{Binding Guid}"
-                                               TextColor="{StaticResource AntiUmbra1}"
+                                               TextColor="{DynamicResource SecondaryFirstDarkColor}"
                                                VerticalOptions="Center" />
 
                                         </StackLayout>
@@ -267,7 +267,7 @@
 
                     <!--  footer  -->
                     <Frame Grid.Row="1"
-                       BackgroundColor="{DynamicResource AntiUmbra3}"
+                       BackgroundColor="{DynamicResource SecondaryFirstLightColor}"
                        BorderColor="Black">
                         <Label Margin="20" FontAttributes="Bold"
                            FontSize="{DynamicResource FontSizeContent}"
