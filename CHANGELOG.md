@@ -7,6 +7,7 @@
 <!-- -->
 
 - **Behoben**: [#107](https://github.com/christophergoltz/imago-app/issues/107) Der "Wiki" Button wurde in der Detailansicht einer Fertigkeit an die richtige Position verschoben
+- **Behoben**: [#112](https://github.com/christophergoltz/imago-app/issues/112) Wenn über die Navigation des Webbogen zu einer Fertigkeit navigiert wird, werden nun vorher alle noch offenen Dialoge geschlossen
 
 <!-- -->
 
