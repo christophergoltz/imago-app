@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"  x:Name="HealingDetailViewControl"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application"
+             xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
+             xmlns:generic="clr-namespace:System.Collections.Generic;assembly=netstandard"
+             x:Class="ImagoApp.Views.CustomControls.HealingDetailView">
+    <ContentView.Content>
+        <Grid  BindingContext="{Binding HealingDetailViewModel, Source={x:Reference HealingDetailViewControl}}" Style="{StaticResource SingleGradiantStyle}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <!-- healing -->
+            <StackLayout Grid.Column="0">
+                <Label Margin="30,30,30,0" FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeSmallCaption}"
+                       Text="Heilungswurf" />
+
+                <Label Margin="40,10,10,0"
+                       FontSize="{DynamicResource FontSizeBigContent}"
+                       Text="(Ein Wurf pro betroffener Trefferzone)"
+                       TextColor="{StaticResource AntiUmbra1}" />
+            </StackLayout>
+
+
+            <BoxView WidthRequest="1" Grid.Column="1" Margin="0,10" BackgroundColor="{StaticResource AntiUmbra1}"/>
+
+            <!-- healing -->
+            <StackLayout Grid.Column="2">
+                <Label Margin="30,30,30,0" FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeSmallCaption}"
+                       Text="Heilungswurf" />
+
+                <Label Margin="40,10,10,0"
+                       FontSize="{DynamicResource FontSizeBigContent}"
+                       Text="(Ein Wurf pro betroffener Trefferzone)"
+                       TextColor="{StaticResource AntiUmbra1}" />
+            </StackLayout>
+
+            <Button Grid.Column="2" Margin="20" Padding="0,-4,0,0"
+                    BackgroundColor="LightGray"
+                    Command="{Binding CloseCommand}"
+                    FontSize="{DynamicResource FontSizeHeader}"
+                    HeightRequest="35" HorizontalOptions="End" Text="X"
+                    TextColor="Red" VerticalOptions="Start" WidthRequest="35" />
+        </Grid>
+  </ContentView.Content>
+</ContentView>
