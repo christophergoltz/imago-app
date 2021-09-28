@@ -1,4 +1,4 @@
-﻿<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+﻿<ResourceDictionary x:Class="ImagoApp.Styles.DefaultStyles" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     <!--  default style  -->
     <Style TargetType="Frame">
         <Setter Property="BorderColor" Value="{DynamicResource SecondaryFirstDarkColor}" />
@@ -31,25 +31,17 @@
         <Setter Property="TextColor" Value="{DynamicResource SecondaryFirstDarkColor}" />
     </Style>
 
-    <Style x:Key="EvenGradiantStyle" TargetType="Grid">
-        <Setter Property="Background">
-            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                <GradientStop Offset="1" Color="{DynamicResource PrimaryLightestColor}" />
-                <GradientStop Offset="0.9" Color="{DynamicResource PrimaryLightColor}" />
-                <GradientStop Offset="0.7" Color="{DynamicResource PrimaryMediumColor}" />
-                <GradientStop Offset="0.4" Color="{DynamicResource PrimaryDarkColor}" />
-                <GradientStop Offset="0.1" Color="{DynamicResource PrimaryDarkestColor}" />
-            </LinearGradientBrush>
-        </Setter>
-    </Style>
+    <LinearGradientBrush x:Key="EvenPrimaryGradientBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientStop Offset="1" Color="{DynamicResource PrimaryLightestColor}" />
+        <GradientStop Offset="0.9" Color="{DynamicResource PrimaryLightColor}" />
+        <GradientStop Offset="0.7" Color="{DynamicResource PrimaryMediumColor}" />
+        <GradientStop Offset="0.4" Color="{DynamicResource PrimaryDarkColor}" />
+        <GradientStop Offset="0.1" Color="{DynamicResource PrimaryDarkestColor}" />
+    </LinearGradientBrush>
 
-    <Style x:Key="SingleGradiantStyle" TargetType="Grid">
-        <Setter Property="Background">
-            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                <GradientStop Offset="1" Color="{DynamicResource PrimaryLightColor}" />
-                <GradientStop Offset="0.16" Color="{DynamicResource PrimaryDarkColor}" />
-                <GradientStop Offset="0.0" Color="{DynamicResource PrimaryDarkestColor}" />
-            </LinearGradientBrush>
-        </Setter>
-    </Style>
+    <LinearGradientBrush x:Key="SinglePrimaryGradientBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientStop Offset="1" Color="{DynamicResource PrimaryLightColor}" />
+        <GradientStop Offset="0.16" Color="{DynamicResource PrimaryDarkColor}" />
+        <GradientStop Offset="0.0" Color="{DynamicResource PrimaryDarkestColor}" />
+    </LinearGradientBrush>
 </ResourceDictionary>

@@ -236,7 +236,7 @@
 
                 <!--  attributes  -->
                 <Frame Grid.Row="0" Grid.Column="1">
-                    <Grid Style="{StaticResource SingleGradiantStyle}">
+                    <Grid Background="{DynamicResource SinglePrimaryGradientBrush}">
                         <StackLayout>
                             <!--  creation header  -->
                             <StackLayout IsVisible="{Binding CharacterViewModel.EditMode}">
@@ -358,7 +358,7 @@
 
                 <!--  derived attributes  -->
                 <Frame Grid.Row="1" Grid.Column="1">
-                    <Grid Style="{StaticResource SingleGradiantStyle}">
+                    <Grid Background="{DynamicResource SinglePrimaryGradientBrush}">
                         <ListView Margin="15,15,15,0" HasUnevenRows="True"
                            ItemsSource="{Binding CharacterViewModel.CharacterInfoDerivedAttributes}"
                            SelectionMode="None" VerticalOptions="FillAndExpand">
@@ -416,7 +416,7 @@
 
                 <!--  special attributes  -->
                 <Frame Grid.Row="2" Grid.Column="1">
-                    <Grid Style="{StaticResource SingleGradiantStyle}">
+                    <Grid Background="{DynamicResource SinglePrimaryGradientBrush}">
 
                         <ListView Margin="15,15,15,0" HasUnevenRows="True"
                            ItemsSource="{Binding SpecialAttributeViewModels}"
@@ -484,7 +484,7 @@
 
                 <!--  blood carrier  -->
                 <Frame Grid.Row="3" Grid.Column="1">
-                    <Grid Style="{StaticResource SingleGradiantStyle}">
+                    <Grid Background="{DynamicResource SinglePrimaryGradientBrush}">
                         <ListView Margin="15,15,15,0" HasUnevenRows="True"
                            ItemsSource="{Binding CharacterViewModel.CharacterModel.BloodCarrier}"
                            SelectionMode="None" VerticalOptions="FillAndExpand">

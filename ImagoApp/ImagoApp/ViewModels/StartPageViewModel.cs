@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Acr.UserDialogs;
@@ -16,8 +17,10 @@ using ImagoApp.Infrastructure.Entities;
 using ImagoApp.Infrastructure.Repositories;
 using ImagoApp.Manager;
 using ImagoApp.Shared;
+using ImagoApp.Styles.Themes;
 using ImagoApp.Util;
 using ImagoApp.Views;
+using ImagoApp.Views.CustomControls;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
@@ -89,6 +92,8 @@ namespace ImagoApp.ViewModels
 
                 if (VersionTracking.IsFirstLaunchForCurrentBuild || VersionTracking.IsFirstLaunchForCurrentVersion)
                     AlertNewVersion();
+
+                LoadThemes();
             });
         }
 
@@ -102,8 +107,7 @@ namespace ImagoApp.ViewModels
         private const string FontSizePreferenceKey = "FonzScale";
         private void EnsurePreferences()
         {
-            bool hasKey = Preferences.ContainsKey(FontSizePreferenceKey);
-            if (!hasKey)
+            if (!Preferences.ContainsKey(FontSizePreferenceKey))
             {
                 Preferences.Set(FontSizePreferenceKey, 100);
             }
@@ -114,6 +118,67 @@ namespace ImagoApp.ViewModels
                 var t = diff / 10;
                 StyleResourceManager.ChangeGlobalFontSize(t);
             }
+        }
+
+        public List<ThemeItemViewModel> Themes
+        {
+            get => _themes;
+            set => SetProperty(ref _themes, value);
+        }
+
+        public ThemeItemViewModel SelectedTheme
+        {
+            get => _selectedTheme;
+            set
+            {
+                SetProperty(ref _selectedTheme, value);
+                App.SwitchTheme(value.Theme, true);
+            }
+        }
+
+        private void LoadThemes()
+        {
+            var themeNamespace = "ImagoApp.Styles.Themes";
+            var themeTypes = Assembly.GetExecutingAssembly().GetTypes()
+                .Where(t => t.IsClass && t.Namespace == themeNamespace && t.BaseType == typeof(ResourceDictionary));
+
+            var themes = new List<ThemeItemViewModel>();
+
+            foreach (var type in themeTypes)
+            {
+                var theme = (ResourceDictionary)Activator.CreateInstance(type);
+
+                theme.TryGetValue("PrimaryDarkestColor", out var pColor);
+                theme.TryGetValue("SecondaryFirstDarkestColor", out var sColor);
+
+                ApplicationTheme themeType;
+
+                switch (theme)
+                {
+                    case KathaUmbraTheme _:
+                        themeType = ApplicationTheme.KathaUmbra;
+                        break;
+                    case UmbraSecondTheme _:
+                        themeType = ApplicationTheme.UmbraSecond;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(ApplicationTheme));
+                }
+
+                //todo converter
+                var viewModel = new ThemeItemViewModel()
+                {
+                    ResourceDictionary = theme,
+                    Theme = themeType,
+                    PrimaryColor = (Color)pColor,
+                    SecondaryColor = (Color)sColor
+                };
+
+                themes.Add(viewModel);
+            }
+
+            Themes = themes;
+
         }
 
         private void AlertNewVersion()
@@ -387,10 +452,10 @@ namespace ImagoApp.ViewModels
                     appShellViewModel.RaiseSwitchPageRequested(typeof(WikiPage));
                     wikiPageViewModel.OpenWikiPage(url);
                 }
-                
+
                 _attributeCalculationService.RecalculateAllAttributes(characterModel.Attributes, characterModel.SkillGroups);
                 characterViewModel.CalculateInitialValues();
-              
+
                 var appShell = new AppShell(appShellViewModel);
 
                 await Device.InvokeOnMainThreadAsync(() =>
@@ -545,7 +610,7 @@ namespace ImagoApp.ViewModels
             Task.Run(async () =>
             {
                 Analytics.TrackEvent("Export character");
-                
+
                 try
                 {
                     var json = _characterService.GetCharacterJson(item.Guid);
@@ -580,7 +645,7 @@ namespace ImagoApp.ViewModels
         public ICommand CreateBackupCommand => _createBackupCommand ?? (_createBackupCommand = new Command<CharacterPreview>(item =>
         {
             Analytics.TrackEvent("Backup character");
-            
+
             Device.BeginInvokeOnMainThread(async () =>
             {
                 try
@@ -597,8 +662,10 @@ namespace ImagoApp.ViewModels
                 }
             });
         }));
-        
+
         private ICommand _deleteCharacterCommand;
+        private List<ThemeItemViewModel> _themes;
+        private ThemeItemViewModel _selectedTheme;
 
         public ICommand DeleteCharacterCommand => _deleteCharacterCommand ?? (_deleteCharacterCommand = new Command<CharacterPreview>(item =>
         {

@@ -14,7 +14,7 @@
         <!--  header  -->
         <Grid Grid.Row="0" Grid.Column="0" Margin="0,0,-6,-6"
            Padding="15"
-           Style="{StaticResource EvenGradiantStyle}">
+           Background="{DynamicResource EvenPrimaryGradientBrush}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5*" />
                 <ColumnDefinition Width="3*" />

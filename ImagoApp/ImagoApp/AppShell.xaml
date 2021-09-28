@@ -64,11 +64,11 @@
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding EditMode}"
                                    TargetType="StackLayout" Value="True">
-                                    <Setter Property="BackgroundColor" Value="{StaticResource SecondarySecondDarkColor}" />
+                                    <Setter Property="BackgroundColor" Value="{DynamicResource SecondarySecondDarkColor}" />
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding EditMode}"
                                    TargetType="StackLayout" Value="False">
-                                    <Setter Property="BackgroundColor" Value="{StaticResource SecondaryFirstMediumColor}" />
+                                    <Setter Property="BackgroundColor" Value="{DynamicResource SecondaryFirstMediumColor}" />
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>

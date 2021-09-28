@@ -153,10 +153,46 @@
                 </StackLayout>
             </Frame>
 
+            <!--  themes  -->
+            <Frame Grid.Row="3" Grid.Column="0" Margin="10">
+                <StackLayout Padding="5,0,0,20">
+                    <Label Margin="10" FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeTitle}"
+                       Text="Theme" VerticalOptions="Center" />
+
+                    <CollectionView ItemsSource="{Binding Themes}"
+                       SelectedItem="{Binding SelectedTheme}"
+                       SelectionMode="Single">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="viewModels:ThemeItemViewModel">
+                                <Grid Padding="15">
+                                    <Frame>
+                                        <Grid Margin="0" ColumnSpacing="0" RowSpacing="0">
+                                            <StackLayout Orientation="Horizontal">
+                                                <Grid BackgroundColor="{Binding PrimaryColor}"
+                                                   HeightRequest="75" WidthRequest="150" />
+                                                <Grid BackgroundColor="{Binding SecondaryColor}"
+                                                   HeightRequest="75" WidthRequest="150" />
+
+                                            </StackLayout>
+                                            <Label Margin="5" Background="white"
+                                               FontSize="{DynamicResource FontSizeHeader}"
+                                               HorizontalOptions="Start"
+                                               Text="{Binding Theme, Converter={StaticResource EnumToDisplayTextConverter}}"
+                                               VerticalOptions="Start" />
+                                        </Grid>
+                                    </Frame>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </Frame>
+
             <!--  Characters  -->
             <Frame Grid.Row="0" Grid.RowSpan="4" Grid.Column="1"
                Margin="10">
-                <Grid Style="{DynamicResource SingleGradiantStyle}">
+                <Grid Background="{DynamicResource SinglePrimaryGradientBrush}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />

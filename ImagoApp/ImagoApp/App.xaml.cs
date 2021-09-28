@@ -10,12 +10,17 @@ using ImagoApp.Application.Services;
 using ImagoApp.Infrastructure.Database;
 using ImagoApp.Infrastructure.Repositories;
 using ImagoApp.Manager;
+using ImagoApp.Styles;
+using ImagoApp.Styles.Themes;
 using ImagoApp.ViewModels;
 using ImagoApp.Views;
+using ImagoApp.Views.CustomControls;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Xamarin.Essentials;
+using Xamarin.Forms;
+using Device = Xamarin.Forms.Device;
 
 namespace ImagoApp
 {
@@ -41,11 +46,58 @@ namespace ImagoApp
 
             Analytics.TrackEvent("Startup");
 
+            LoadSavedTheme();
+
             CreateContainer(localFileService);
 
             ErrorManager = Container.Resolve<ErrorManager>();
 
             MainPage = new StartPage(Container.Resolve<StartPageViewModel>());
+        }
+
+        private void LoadSavedTheme()
+        {
+            var savedTheme = Preferences.Get(ActiveThemePreferenceKey, 0);
+            SwitchTheme((ApplicationTheme)savedTheme, false);
+        }
+
+        private const string ActiveThemePreferenceKey = "ActiveTheme";
+        
+        public static void SwitchTheme(ApplicationTheme appTheme, bool changedByUser)
+        {
+            Debug.WriteLine($"SwitchTheme: {appTheme.ToString()}, User: {changedByUser}");
+
+            var mergedDictionaries = Current.Resources.MergedDictionaries;
+            if (mergedDictionaries == null) 
+                return;
+
+            mergedDictionaries.Clear();
+
+            mergedDictionaries.Add(new DefaultStyles());
+            mergedDictionaries.Add(new FontSize());
+            mergedDictionaries.Add(new DataTemplates());
+
+            switch (appTheme)
+            {
+                case ApplicationTheme.KathaUmbra:
+                    mergedDictionaries.Add(new KathaUmbraTheme());
+                    break;
+                case ApplicationTheme.UmbraSecond:
+                    mergedDictionaries.Add(new UmbraSecondTheme());
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(appTheme), appTheme, null);
+            }
+
+            if (changedByUser)
+            {
+                Analytics.TrackEvent("Theme changed to: " + appTheme.ToString());
+                Preferences.Set(ActiveThemePreferenceKey, (int)appTheme);
+            }
+            else
+            {
+                Analytics.TrackEvent("Theme: " + appTheme.ToString());
+            }
         }
 
         private IMapper CreateMapper()

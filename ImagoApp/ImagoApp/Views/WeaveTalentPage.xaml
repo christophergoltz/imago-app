@@ -11,7 +11,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Frame Grid.Column="0">
-                    <Grid Style="{StaticResource SingleGradiantStyle}">
+                    <Grid Background="{DynamicResource SinglePrimaryGradientBrush}">
                         <CollectionView x:Name="WeaveTalentCollectionView" IsGrouped="true"
                            ItemsSource="{Binding WeaveTalents}"
                            SelectionChanged="SelectableItemsView_OnSelectionChanged" SelectionMode="Single">

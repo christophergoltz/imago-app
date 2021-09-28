@@ -3,7 +3,7 @@
    xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application" xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp" x:Name="InventoryPageControl"
    Title="Inventar" x:DataType="viewModels:InventoryViewModel">
     <ContentPage.Content>
-        <Grid Style="{StaticResource BackgroundGridStyle}">
+        <Grid Style="{DynamicResource BackgroundGridStyle}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50*" />
                 <ColumnDefinition Width="25*" />
@@ -17,7 +17,7 @@
 
             <!--  equipped items  -->
             <Frame Grid.Row="0" Grid.RowSpan="3" Grid.Column="0">
-                <Grid Style="{StaticResource SingleGradiantStyle}">
+                <Grid Background="{DynamicResource SinglePrimaryGradientBrush}">
                     <ListView Margin="15,15,15,0" HasUnevenRows="True"
                        ItemsSource="{Binding EquippableItemViewModels}"
                        SelectionMode="None" VerticalOptions="FillAndExpand">
@@ -107,11 +107,10 @@
 
             <!--  load  -->
             <Frame Grid.Row="0" Grid.Column="1" VerticalOptions="Start">
-                <Grid Style="{StaticResource SingleGradiantStyle}">
-
+                <Grid Background="{DynamicResource SinglePrimaryGradientBrush}">
                     <ListView Margin="15,15,15,0" HasUnevenRows="True"
-                       ItemsSource="{Binding CharacterViewModel.HandicapAttributes}"
-                       SelectionMode="None" VerticalOptions="FillAndExpand">
+                              ItemsSource="{Binding CharacterViewModel.HandicapAttributes}"
+                              SelectionMode="None" VerticalOptions="FillAndExpand">
                         <ListView.Header>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -157,7 +156,7 @@
 
             <!--  derived attributes  -->
             <Frame Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
-                <Grid Style="{StaticResource SingleGradiantStyle}">
+                <Grid Background="{DynamicResource SinglePrimaryGradientBrush}">
                     <ListView Margin="15,15,15,0" HasUnevenRows="True"
                        ItemsSource="{Binding CharacterViewModel.AdventureDerivedAttributes}"
                        SelectionMode="None" VerticalOptions="FillAndExpand">

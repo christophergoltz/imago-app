@@ -4,7 +4,7 @@
    x:Name="WeaveTalentDetailViewControl">
     <Grid BindingContext="{Binding WeaveTalentDetailViewModel, Source={x:Reference WeaveTalentDetailViewControl}}"
        ColumnSpacing="0" RowSpacing="0"
-       Style="{StaticResource SingleGradiantStyle}">
+       Background="{DynamicResource SinglePrimaryGradientBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="1" />
@@ -343,7 +343,7 @@
                             </Style>
                         </Label.Style>
                     </Label>
-                    <StackLayout BindableLayout.ItemTemplate="{StaticResource MasteryBaseDetailTemplate}" BindableLayout.ItemsSource="{Binding Masteries}" />
+                    <StackLayout BindableLayout.ItemTemplate="{DynamicResource MasteryBaseDetailTemplate}" BindableLayout.ItemsSource="{Binding Masteries}" />
 
                 </StackLayout>
             </ScrollView>

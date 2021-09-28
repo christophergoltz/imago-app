@@ -114,7 +114,7 @@
 
         <!--  header  -->
         <Grid Grid.Row="0" Grid.Column="1" Padding="15"
-           Style="{StaticResource EvenGradiantStyle}">
+           Background="{DynamicResource EvenPrimaryGradientBrush}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
@@ -316,7 +316,7 @@
                             </Style>
                         </Label.Style>
                     </Label>
-                    <StackLayout BindableLayout.ItemTemplate="{StaticResource MasteryBaseDetailTemplate}" BindableLayout.ItemsSource="{Binding Masteries}" />
+                    <StackLayout BindableLayout.ItemTemplate="{DynamicResource MasteryBaseDetailTemplate}" BindableLayout.ItemsSource="{Binding Masteries}" />
 
                     <Label Padding="10,5,10,5"
                        BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"

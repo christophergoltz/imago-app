@@ -77,7 +77,7 @@
                         </Frame>
 
                         <Frame Grid.Row="0">
-                            <Grid Style="{StaticResource SingleGradiantStyle}">
+                            <Grid Background="{DynamicResource SinglePrimaryGradientBrush}">
                                 <ListView Margin="15,15,15,0" HasUnevenRows="True"
                                    ItemsSource="{Binding CharacterViewModel.HandicapAttributes}"
                                    SelectionMode="None" VerticalOptions="FillAndExpand">

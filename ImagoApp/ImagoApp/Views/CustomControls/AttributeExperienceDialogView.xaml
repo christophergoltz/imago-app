@@ -5,7 +5,7 @@
     <ContentView.Content>
         <Grid Padding="20"
            BindingContext="{Binding CharacterViewModel, Source={x:Reference AttributeExperienceDialogViewControl}}"
-           Style="{StaticResource BackgroundGridStyle}">
+           Style="{DynamicResource BackgroundGridStyle}">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />

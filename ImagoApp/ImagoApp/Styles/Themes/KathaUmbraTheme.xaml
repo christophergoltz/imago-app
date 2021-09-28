@@ -1,4 +1,5 @@
-﻿<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:converter="clr-namespace:ImagoApp.Converter;assembly=ImagoApp">
+﻿<ResourceDictionary x:Class="ImagoApp.Styles.Themes.KathaUmbraTheme" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+   xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp">
     <Color x:Key="PrimaryDarkestColor">#735e48</Color>
     <Color x:Key="PrimaryDarkColor">#9b856e</Color>
     <Color x:Key="PrimaryMediumColor">#e1d3c5</Color>
@@ -28,6 +29,4 @@
     <Color x:Key="RotesPrimaryDarkestColor">#aa1313</Color>
     <Color x:Key="RotesPrimaryDarkColor">#d52828</Color>
     <Color x:Key="RotesPrimaryMediumColor">#e65050</Color>
-
-
 </ResourceDictionary>
