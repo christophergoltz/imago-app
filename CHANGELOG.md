@@ -3,6 +3,7 @@
 ## 0.3 (tba)
 
 - **Hinzugefügt**: [#111](https://github.com/christophergoltz/imago-app/issues/111) Eine Auswahl zwischen verschiedenen Farbschemen wurde hinzugefügt
+- **Hinzugefügt**: [#113](https://github.com/christophergoltz/imago-app/issues/113) Bei den Trefferzonen werden nun die entsprechenden Index-Zahlen angezeigt
 
 <!-- -->
 

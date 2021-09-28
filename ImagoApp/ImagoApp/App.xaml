@@ -26,5 +26,6 @@
         <converter:PositiveIntegerToBoolConverter x:Key="PositiveIntegerToBoolConverter" />
         <converter:FileInfoLenghtToSmartFileSizeConverter x:Key="FileInfoLenghtToSmartFileSizeConverter" />
         <converter:BodyPartToCurrentHitpointsColor x:Key="BodyPartToCurrentHitpointsColor" />
+        <converter:EnumToValueConverter x:Key="EnumToValueConverter" />
     </Application.Resources>
 </Application>
