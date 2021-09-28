@@ -27,10 +27,10 @@ namespace ImagoApp.Views
         {
             if (e.SelectedItem == null)
                 return;
-            var character = (CharacterPreview) e.SelectedItem;
+            var character = (CharacterPreview)e.SelectedItem;
 
             //reset listview selection
-            var listView = (ListView) sender;
+            var listView = (ListView)sender;
             listView.SelectedItem = null;
 
             Task.Run(async () =>
@@ -41,7 +41,12 @@ namespace ImagoApp.Views
                     {
                         await Task.Delay(250);
 
-                        Analytics.TrackEvent("Open Character");
+                        Analytics.TrackEvent("Open Character", new Dictionary<string, string>
+                        {
+                            {
+                                "Name", character.Name
+                            }
+                        });
 
                         var characterModel = StartPageViewModel.GetCharacter(character);
                         await StartPageViewModel.OpenCharacter(characterModel, false);
