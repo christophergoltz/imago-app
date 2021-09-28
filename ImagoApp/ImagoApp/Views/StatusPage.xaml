@@ -13,21 +13,21 @@
                     </Grid.ColumnDefinitions>
                     <Label Grid.Row="0" Grid.Column="0"
                        FontSize="{DynamicResource FontSizeDetail}"
-                       Style="{StaticResource LightTextLabel}"
+                       Style="{DynamicResource LightTextLabel}"
                        Text="{Binding Type}" />
                     <Label Grid.Row="0" Grid.Column="1" Margin="0,0,10,0"
                        FontSize="{DynamicResource FontSizeDetail}"
-                       Style="{StaticResource LightTextLabel}"
+                       Style="{DynamicResource LightTextLabel}"
                        Text="{Binding PhaseValue}" />
                     <Label Grid.Row="0" Grid.Column="2"
                        FontSize="{DynamicResource FontSizeDetail}"
-                       Style="{StaticResource LightTextLabel}"
+                       Style="{DynamicResource LightTextLabel}"
                        Text="{Binding DamageFormula}" />
                 </Grid>
             </DataTemplate>
             <DataTemplate x:Key="WeaponQuickViewTemplate" x:DataType="models:WeaponModel">
                 <Frame>
-                    <Grid Padding="0,0,0,15" Style="{StaticResource SingleGradiantStyle}">
+                    <Grid Padding="0,0,0,15" Background="{DynamicResource SinglePrimaryGradientBrush}">
                         <Grid.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding OpenWeaponCommand, Source={RelativeSource AncestorType={x:Type viewModels:StatusPageViewModel}}}" CommandParameter="{Binding .}" />
                         </Grid.GestureRecognizers>
@@ -168,7 +168,7 @@
 
                 <!--  load  -->
                 <Frame Grid.Row="2" Grid.Column="0" VerticalOptions="Start">
-                    <Grid Style="{StaticResource SingleGradiantStyle}">
+                    <Grid Background="{DynamicResource SinglePrimaryGradientBrush}">
                         <ListView Margin="15,15,15,0" HasUnevenRows="True"
                            ItemsSource="{Binding CharacterViewModel.HandicapAttributes}"
                            SelectionMode="None" VerticalOptions="FillAndExpand">
@@ -227,7 +227,7 @@
 
                 <!--  derived attributes  -->
                 <Frame Grid.Row="1" Grid.Column="0">
-                    <Grid Style="{StaticResource SingleGradiantStyle}">
+                    <Grid Background="{DynamicResource SinglePrimaryGradientBrush}">
                         <ListView Margin="15,15,15,0" HasUnevenRows="True"
                            ItemsSource="{Binding CharacterViewModel.FightDerivedAttributes}"
                            SelectionMode="None" VerticalOptions="FillAndExpand">

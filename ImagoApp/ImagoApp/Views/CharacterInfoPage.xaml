@@ -76,19 +76,19 @@
                        Text="{Binding AttributeModel.Type, Converter={StaticResource EnumToDisplayTextConverter}}"
                        VerticalOptions="Center" />
                     <Entry Grid.Column="1" Margin="5,0"
-                       BackgroundColor="{StaticResource GruenesUmbra1}"
+                       BackgroundColor="{DynamicResource SecondarySecondDarkestColor}"
                        FontSize="{DynamicResource FontSizeContent}"
                        HorizontalOptions="Fill"
                        Text="{Binding BaseValue}"
                        TextColor="White" VerticalOptions="Center" />
                     <Entry Grid.Column="2" Margin="5,0"
-                       BackgroundColor="{StaticResource GruenesUmbra1}"
+                       BackgroundColor="{DynamicResource SecondarySecondDarkestColor}"
                        FontSize="{DynamicResource FontSizeContent}"
                        Keyboard="Numeric"
                        Text="{Binding CreationExperience}"
                        TextColor="White" />
                     <Entry Grid.Column="3" Margin="5,0"
-                       BackgroundColor="{StaticResource GruenesUmbra1}"
+                       BackgroundColor="{DynamicResource SecondarySecondDarkestColor}"
                        FontSize="{DynamicResource FontSizeDetail}"
                        HorizontalOptions="Fill"
                        Text="{Binding SpecialExperience}"
@@ -236,12 +236,12 @@
 
                 <!--  attributes  -->
                 <Frame Grid.Row="0" Grid.Column="1">
-                    <Grid Style="{StaticResource SingleGradiantStyle}">
+                    <Grid Background="{DynamicResource SinglePrimaryGradientBrush}">
                         <StackLayout>
                             <!--  creation header  -->
                             <StackLayout IsVisible="{Binding CharacterViewModel.EditMode}">
                                 <StackLayout Padding="10,3"
-                                   BackgroundColor="{StaticResource GruenesUmbra1}"
+                                   BackgroundColor="{DynamicResource SecondarySecondDarkColor}"
                                    Orientation="Horizontal">
                                     <Label FontAttributes="Bold"
                                        FontSize="{DynamicResource FontSizeSmallCaption}"
@@ -266,7 +266,7 @@
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding AttributeExperienceBalance, Converter={StaticResource PositiveIntegerToBoolConverter}}"
                                                        TargetType="Label" Value="True">
-                                                        <Setter Property="TextColor" Value="{StaticResource GruenesUmbra2}" />
+                                                        <Setter Property="TextColor" Value="{DynamicResource SecondarySecondDarkColor}" />
                                                     </DataTrigger>
                                                     <DataTrigger Binding="{Binding AttributeExperienceBalance, Converter={StaticResource PositiveIntegerToBoolConverter}}"
                                                        TargetType="Label" Value="False">
@@ -358,7 +358,7 @@
 
                 <!--  derived attributes  -->
                 <Frame Grid.Row="1" Grid.Column="1">
-                    <Grid Style="{StaticResource SingleGradiantStyle}">
+                    <Grid Background="{DynamicResource SinglePrimaryGradientBrush}">
                         <ListView Margin="15,15,15,0" HasUnevenRows="True"
                            ItemsSource="{Binding CharacterViewModel.CharacterInfoDerivedAttributes}"
                            SelectionMode="None" VerticalOptions="FillAndExpand">
@@ -416,7 +416,7 @@
 
                 <!--  special attributes  -->
                 <Frame Grid.Row="2" Grid.Column="1">
-                    <Grid Style="{StaticResource SingleGradiantStyle}">
+                    <Grid Background="{DynamicResource SinglePrimaryGradientBrush}">
 
                         <ListView Margin="15,15,15,0" HasUnevenRows="True"
                            ItemsSource="{Binding SpecialAttributeViewModels}"
@@ -484,7 +484,7 @@
 
                 <!--  blood carrier  -->
                 <Frame Grid.Row="3" Grid.Column="1">
-                    <Grid Style="{StaticResource SingleGradiantStyle}">
+                    <Grid Background="{DynamicResource SinglePrimaryGradientBrush}">
                         <ListView Margin="15,15,15,0" HasUnevenRows="True"
                            ItemsSource="{Binding CharacterViewModel.CharacterModel.BloodCarrier}"
                            SelectionMode="None" VerticalOptions="FillAndExpand">

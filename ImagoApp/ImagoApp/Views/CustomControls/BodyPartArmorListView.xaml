@@ -3,7 +3,7 @@
    xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application" xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp" x:Name="BodyPartArmorListViewControl">
     <ContentView.Content>
         <Frame Grid.Row="0" Grid.Column="0">
-            <Grid BindingContext="{Binding BodyPartArmorListViewModel, Source={x:Reference BodyPartArmorListViewControl}}" Style="{StaticResource SingleGradiantStyle}">
+            <Grid Background="{DynamicResource SinglePrimaryGradientBrush}" BindingContext="{Binding BodyPartArmorListViewModel, Source={x:Reference BodyPartArmorListViewControl}}">
                 <ListView HasUnevenRows="True"
                    ItemsSource="{Binding BodyPartModel.Armor}"
                    SelectionMode="None" VerticalOptions="FillAndExpand" VerticalScrollBarVisibility="Default">
