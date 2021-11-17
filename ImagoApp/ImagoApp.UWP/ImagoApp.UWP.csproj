@@ -25,8 +25,8 @@
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x64</AppxBundlePlatforms>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-    <PackageCertificateThumbprint>A1F4493736BF8863861B16328FF56F305DAD2CA0</PackageCertificateThumbprint>
-    <PackageCertificateKeyFile />
+    <PackageCertificateThumbprint>682622B066779D92D4CF19BB458D7006BD333504</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile>ImagoApp.UWP_TemporaryKey.pfx</PackageCertificateKeyFile>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
@@ -160,8 +160,6 @@
     <Content Include="Images\nahkampf.png" />
     <Content Include="Images\nahkampf_2.png" />
     <Content Include="Images\nahkampf_weiss.png" />
-    <None Include="ImagoApp.UWP_TemporaryKey.pfx" />
-    <None Include="Package.StoreAssociation.xml" />
     <Content Include="Images\person.png" />
     <Content Include="Images\Wide310x150Logo.scale-200_weiss.png" />
     <Content Include="Properties\Default.rd.xml" />
