@@ -67,7 +67,7 @@
 
         <!--  owned language editor  -->
         <StackLayout Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
-           BackgroundColor="{StaticResource AntiUmbra2}"
+           BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
            VerticalOptions="FillAndExpand">
             <StackLayout.Style>
                 <Style TargetType="StackLayout">
@@ -91,7 +91,7 @@
 
         <!--  header  -->
         <Grid Grid.Row="0" Grid.Column="1" Padding="15"
-           Style="{StaticResource EvenGradiantStyle}">
+           Background="{DynamicResource EvenPrimaryGradientBrush}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
@@ -225,7 +225,7 @@
            Source="{Binding QuickWikiView}" />
 
         <BoxView Grid.Row="0" Grid.RowSpan="2" Grid.Column="2"
-           BackgroundColor="{StaticResource AntiUmbra}" />
+           BackgroundColor="{DynamicResource SecondaryFirstDarkestColor}" />
 
         <!--  probe  -->
         <Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="3">
@@ -256,7 +256,7 @@
             <ScrollView Grid.Row="0">
                 <StackLayout>
                     <Label Padding="10,5,10,5"
-                       BackgroundColor="{StaticResource AntiUmbra2}"
+                       BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
                        FontAttributes="Bold"
                        FontSize="{DynamicResource FontSizeSmallContent}"
                        Text="Behinderung" TextColor="white">
@@ -277,7 +277,7 @@
                        RadioButtonGroup.GroupName="Handicap" />
 
                     <Label Padding="10,5,10,5"
-                       BackgroundColor="{StaticResource AntiUmbra2}"
+                       BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
                        FontAttributes="Bold"
                        FontSize="{DynamicResource FontSizeSmallContent}"
                        Text="Meisterschaften" TextColor="white">
@@ -293,10 +293,10 @@
                             </Style>
                         </Label.Style>
                     </Label>
-                    <StackLayout BindableLayout.ItemTemplate="{StaticResource MasteryBaseDetailTemplate}" BindableLayout.ItemsSource="{Binding Masteries}" />
+                    <StackLayout BindableLayout.ItemTemplate="{DynamicResource MasteryBaseDetailTemplate}" BindableLayout.ItemsSource="{Binding Masteries}" />
 
                     <Label Padding="10,5,10,5"
-                       BackgroundColor="{StaticResource AntiUmbra2}"
+                       BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
                        FontAttributes="Bold"
                        FontSize="{DynamicResource FontSizeSmallContent}"
                        Text="Künste" TextColor="white">

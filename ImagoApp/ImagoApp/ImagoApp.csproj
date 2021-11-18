@@ -30,11 +30,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Styles\DataTemplates.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Styles\DefaultStyles.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Styles\GlobalConverter.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    <EmbeddedResource Update="Styles\FontSize.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Styles\Themes\KathaUmbraTheme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Styles\Themes\UmbraSecondTheme.xaml">
+      <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\CustomControls\AttributeExperienceDialogView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>

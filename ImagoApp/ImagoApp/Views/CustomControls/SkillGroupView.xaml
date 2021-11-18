@@ -62,7 +62,7 @@
                            VerticalOptions="Center" />
 
                         <Entry Grid.Column="1"
-                           BackgroundColor="{StaticResource GruenesUmbra1}"
+                           BackgroundColor="{DynamicResource SecondarySecondDarkestColor}"
                            FontSize="{DynamicResource FontSizeBigContent}"
                            Keyboard="Numeric"
                            Text="{Binding CreationExperience}"
@@ -98,7 +98,7 @@
         </ResourceDictionary>
     </ContentView.Resources>
     <Frame BindingContext="{Binding SkillGroupViewModel, Source={x:Reference SkillGroupViewControl}}">
-        <Grid Padding="0" Style="{StaticResource SingleGradiantStyle}">
+        <Grid Padding="0" Background="{DynamicResource SinglePrimaryGradientBrush}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />

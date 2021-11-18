@@ -34,9 +34,9 @@ namespace ImagoApp.Converter
 
         private Color GetBlendedColor(int percentage)
         {
-            var redHex = (Color)Xamarin.Forms.Application.Current.Resources["RotesUmbra1"];
-            var yellowHex = (Color)Xamarin.Forms.Application.Current.Resources["GelbesUmbra2"];
-            var greenHex = (Color)Xamarin.Forms.Application.Current.Resources["HellGruenesUmbra2"];
+            var redHex = (Color)App.GetAppResourcesByName("HitpointMaxColor");
+            var yellowHex = (Color)App.GetAppResourcesByName("HitpointMediumColor");
+            var greenHex = (Color)App.GetAppResourcesByName("HitpointMinColor");
 
             if (percentage < 50)
                 return Interpolate(redHex, yellowHex, percentage / 50.0);

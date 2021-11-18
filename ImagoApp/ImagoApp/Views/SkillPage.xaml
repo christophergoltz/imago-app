@@ -9,7 +9,7 @@
                 <!--  creation  -->
                 <StackLayout IsVisible="{Binding CharacterViewModel.EditMode}">
                     <StackLayout Padding="10,5"
-                       BackgroundColor="{StaticResource GruenesUmbra1}"
+                       BackgroundColor="{DynamicResource SecondarySecondDarkestColor}"
                        Orientation="Horizontal">
                         <Label FontAttributes="Bold"
                            FontSize="{DynamicResource FontSizeSmallCaption}"
@@ -34,7 +34,7 @@
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding SkillExperienceBalance, Converter={StaticResource PositiveIntegerToBoolConverter}}"
                                            TargetType="Label" Value="True">
-                                            <Setter Property="TextColor" Value="{StaticResource GruenesUmbra2}" />
+                                            <Setter Property="TextColor" Value="{DynamicResource SecondarySecondDarkColor}" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding SkillExperienceBalance, Converter={StaticResource PositiveIntegerToBoolConverter}}"
                                            TargetType="Label" Value="False">
@@ -77,7 +77,7 @@
                         </Frame>
 
                         <Frame Grid.Row="0">
-                            <Grid Style="{StaticResource SingleGradiantStyle}">
+                            <Grid Background="{DynamicResource SinglePrimaryGradientBrush}">
                                 <ListView Margin="15,15,15,0" HasUnevenRows="True"
                                    ItemsSource="{Binding CharacterViewModel.HandicapAttributes}"
                                    SelectionMode="None" VerticalOptions="FillAndExpand">

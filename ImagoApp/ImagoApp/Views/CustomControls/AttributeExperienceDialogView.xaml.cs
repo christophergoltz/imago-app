@@ -119,9 +119,9 @@ namespace ImagoApp.Views.CustomControls
             }
 
             if (allowValue)
-                view.BackgroundColor = (Color)Xamarin.Forms.Application.Current.Resources["HellGruenesUmbra2"];
+                view.BackgroundColor = (Color)App.GetAppResourcesByName("ConfirmColor");
             else
-                view.BackgroundColor = (Color)Xamarin.Forms.Application.Current.Resources["AntiUmbra3"];
+                view.BackgroundColor = (Color)App.GetAppResourcesByName("SecondaryFirstLightColor");
         }
 
         private void DropGestureRecognizer_OnDrop(object sender, DropEventArgs e)

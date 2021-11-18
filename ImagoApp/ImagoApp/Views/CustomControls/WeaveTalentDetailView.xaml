@@ -4,7 +4,7 @@
    x:Name="WeaveTalentDetailViewControl">
     <Grid BindingContext="{Binding WeaveTalentDetailViewModel, Source={x:Reference WeaveTalentDetailViewControl}}"
        ColumnSpacing="0" RowSpacing="0"
-       Style="{StaticResource SingleGradiantStyle}">
+       Background="{DynamicResource SinglePrimaryGradientBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="1" />
@@ -29,7 +29,7 @@
             <Label Grid.Row="1" Margin="40,10,10,0"
                FontSize="{DynamicResource FontSizeBigContent}"
                Text="{Binding WeaveTalent.ShortDescription}"
-               TextColor="{StaticResource AntiUmbra1}" />
+               TextColor="{DynamicResource SecondaryFirstDarkColor}" />
 
             <!--  skills  -->
             <Frame Grid.Row="2" Margin="30">
@@ -51,7 +51,7 @@
                                        Text="{Binding FinalValue}"
                                        VerticalOptions="Center" />
                                     <Button Margin="10,0,0,0" Padding="7,0,7,2"
-                                       BorderColor="{StaticResource AntiUmbra1}"
+                                       BorderColor="{DynamicResource SecondaryFirstDarkColor}"
                                        Command="{Binding OpenSkillCommand, Source={RelativeSource AncestorType={x:Type viewModels:WeaveTalentDetailViewModel}}}"
                                        CommandParameter="{Binding Type}"
                                        FontSize="28" HorizontalOptions="EndAndExpand" IsVisible="True"
@@ -69,7 +69,7 @@
                Text="{Binding WeaveTalent.Description}" />
         </Grid>
 
-        <BoxView Grid.Column="1" Color="{StaticResource AntiUmbra}" />
+        <BoxView Grid.Column="1" Color="{DynamicResource SecondaryFirstDarkestColor}" />
 
         <ScrollView Grid.Column="2">
             <StackLayout>
@@ -145,7 +145,7 @@
                                            FontSize="{DynamicResource FontSizeBigContent}"
                                            HorizontalOptions="EndAndExpand"
                                            Text="{Binding Abbreviation}"
-                                           TextColor="{StaticResource AntiUmbra1}"
+                                           TextColor="{DynamicResource SecondaryFirstDarkColor}"
                                            VerticalOptions="Center" />
                                     </StackLayout>
 
@@ -176,7 +176,7 @@
                                     <Label Margin="20,5"
                                        FontSize="{DynamicResource FontSizeContent}"
                                        Text="{Binding WeaveTalentDetailViewModel.WeaveTalent.StrengthOfTalentDescription, Source={x:Reference WeaveTalentDetailViewControl}}"
-                                       TextColor="{StaticResource AntiUmbra1}">
+                                       TextColor="{DynamicResource SecondaryFirstDarkColor}">
                                         <Label.Style>
                                             <Style TargetType="Label">
                                                 <Setter Property="IsVisible" Value="False" />
@@ -215,7 +215,7 @@
                                         <Label Margin="0,0,5,0"
                                            FontSize="{DynamicResource FontSizeBigContent}"
                                            HorizontalOptions="EndAndExpand"
-                                           TextColor="{StaticResource AntiUmbra1}"
+                                           TextColor="{DynamicResource SecondaryFirstDarkColor}"
                                            VerticalOptions="Center">
                                             <Label.Text>
                                                 <MultiBinding x:DataType="models:WeaveTalentResultModel" StringFormat="{}({0})">
@@ -239,7 +239,7 @@
            HeightRequest="35" HorizontalOptions="End" Text="X"
            TextColor="Red" VerticalOptions="Start" WidthRequest="35" />
 
-        <BoxView Grid.Column="3" Color="{StaticResource AntiUmbra}" />
+        <BoxView Grid.Column="3" Color="{DynamicResource SecondaryFirstDarkestColor}" />
 
         <!--  probe  -->
         <Grid Grid.Column="4" Background="white" VerticalOptions="FillAndExpand">
@@ -270,7 +270,7 @@
             <ScrollView Grid.Row="0">
                 <StackLayout>
                     <Label Padding="10,5,10,5"
-                       BackgroundColor="{StaticResource AntiUmbra2}"
+                       BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
                        FontAttributes="Bold"
                        FontSize="{DynamicResource FontSizeSmallContent}"
                        Text="Konzentration" TextColor="white" />
@@ -312,7 +312,7 @@
                     </StackLayout>
 
                     <Label Padding="10,5,10,5"
-                       BackgroundColor="{StaticResource AntiUmbra2}"
+                       BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
                        FontAttributes="Bold"
                        FontSize="{DynamicResource FontSizeSmallContent}"
                        Text="Positiver oder negativer Modifikator" TextColor="white" />
@@ -327,7 +327,7 @@
                     </StackLayout>
 
                     <Label Padding="10,5,10,5"
-                       BackgroundColor="{StaticResource AntiUmbra2}"
+                       BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
                        FontAttributes="Bold"
                        FontSize="{DynamicResource FontSizeSmallContent}"
                        Text="Meisterschaften" TextColor="white">
@@ -343,7 +343,7 @@
                             </Style>
                         </Label.Style>
                     </Label>
-                    <StackLayout BindableLayout.ItemTemplate="{StaticResource MasteryBaseDetailTemplate}" BindableLayout.ItemsSource="{Binding Masteries}" />
+                    <StackLayout BindableLayout.ItemTemplate="{DynamicResource MasteryBaseDetailTemplate}" BindableLayout.ItemsSource="{Binding Masteries}" />
 
                 </StackLayout>
             </ScrollView>
