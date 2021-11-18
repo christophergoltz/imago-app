@@ -19,13 +19,41 @@ namespace ImagoApp.Application.Models
         public int MaxHitpoints
         {
             get => _maxHitpoints;
-            set => SetProperty(ref _maxHitpoints, value);
+            set
+            {
+                SetProperty(ref _maxHitpoints, value);
+                OnPropertyChanged(nameof(CurrentHitpoints));
+                OnPropertyChanged(nameof(MissingHitpoints));
+            }
         }
 
         public double CurrentHitpointsPercentage
         {
             get => _currentHitpointspercentage;
-            set => SetProperty(ref _currentHitpointspercentage, value);
+            set
+            {
+                SetProperty(ref _currentHitpointspercentage, value);
+                OnPropertyChanged(nameof(CurrentHitpoints));
+                OnPropertyChanged(nameof(MissingHitpoints));
+            }
+        }
+
+        public int MissingHitpoints
+        {
+            get
+            {
+                return MaxHitpoints - CurrentHitpoints;
+            }
+        }
+
+        public int CurrentHitpoints
+        {
+            get
+            {
+                var currentHitpointsFloat = MaxHitpoints * CurrentHitpointsPercentage;
+                var currentHitpoints = currentHitpointsFloat.GetRoundedValue();
+                return currentHitpoints;
+            }
         }
 
         public ObservableCollection<ArmorPartModelModel> Armor

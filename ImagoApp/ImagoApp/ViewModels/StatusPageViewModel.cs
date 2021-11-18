@@ -21,17 +21,58 @@ namespace ImagoApp.ViewModels
             set => SetProperty(ref _weaponDetailViewModel, value);
         }
 
-        private ICommand _openHealingWikiCommand;
 
-        public ICommand OpenHealingWikiCommand => _openHealingWikiCommand ?? (_openHealingWikiCommand = new Command(() =>
+        private TreatmentDetailViewModel _treatmentDetailViewModel;
+        public TreatmentDetailViewModel TreatmentDetailViewModel
         {
-            var url = WikiConstants.HealingUrl;
-            OpenWikiPageRequested?.Invoke(this, url);
+            get => _treatmentDetailViewModel;
+            set => SetProperty(ref _treatmentDetailViewModel, value);
+        }
+
+        private HealingDetailViewModel _healingDetailViewModel;
+        public HealingDetailViewModel HealingDetailViewModel
+        {
+            get => _healingDetailViewModel;
+            set => SetProperty(ref _healingDetailViewModel, value);
+        }
+
+        private ICommand _openTreatmentCommand;
+
+        public ICommand OpenTreamentCommand => _openTreatmentCommand ?? (_openTreatmentCommand = new Command(() =>
+        {
+            try
+            {
+                var vm = new TreatmentDetailViewModel(CharacterViewModel);
+                vm.CloseRequested += (sender, args) => TreatmentDetailViewModel = null;
+                TreatmentDetailViewModel = vm;
+            }
+            catch (Exception exception)
+            {
+                App.ErrorManager.TrackException(exception, CharacterViewModel.CharacterModel.Name);
+            }
+        }));
+
+        private ICommand _openHealingCommand;
+
+        public ICommand OpenHealingCommand => _openHealingCommand ?? (_openHealingCommand = new Command(() =>
+        {
+            try
+            {
+                var vm = new HealingDetailViewModel(CharacterViewModel);
+                vm.CloseRequested += (sender, args) => HealingDetailViewModel = null;
+                HealingDetailViewModel = vm;
+            }
+            catch (Exception exception)
+            {
+                App.ErrorManager.TrackException(exception, CharacterViewModel.CharacterModel.Name);
+            }
         }));
 
         public WeaponListViewModel WeaponListViewModel { get; set; }
 
         private ICommand _openWeaponCommand;
+       
+
         public ICommand OpenWeaponCommand => _openWeaponCommand ?? (_openWeaponCommand = new Command<WeaponModel>(weapon=>
         {
             try

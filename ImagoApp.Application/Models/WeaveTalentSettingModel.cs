@@ -19,6 +19,8 @@ namespace ImagoApp.Application.Models
         ObjectVolume,
         [DisplayText("Produkt Volumen")]
         ProductVolume,
+        [DisplayText("Volumen des Bildes")]
+        ImageVolume,
     }
 
     public class WeaveTalentSettingModel : BindableBase
