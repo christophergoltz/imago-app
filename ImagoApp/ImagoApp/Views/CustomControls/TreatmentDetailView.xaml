@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"  x:Name="TreatmentDetailViewControl"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application"
+             xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
+             xmlns:enums="clr-namespace:ImagoApp.Shared.Enums;assembly=ImagoApp.Shared"
+             x:Class="ImagoApp.Views.CustomControls.TreatmentDetailView">
+    <Grid  BindingContext="{Binding TreatmentDetailViewModel, Source={x:Reference TreatmentDetailViewControl}}" Background="{DynamicResource SinglePrimaryGradientBrush}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <!-- treatment -->
+        <StackLayout Grid.Column="0">
+            <Label Margin="30,30,30,0" FontAttributes="Bold" VerticalOptions="Center"
+                   FontSize="{DynamicResource FontSizeSmallCaption}"
+                   Text="Behandungswurf" />
+
+            <Label  Margin="40,10,10,0"
+                    FontSize="{DynamicResource FontSizeBigContent}"
+                    Text="(Ein Wurf für alle Trefferzonen)"
+                    TextColor="{DynamicResource SecondaryFirstDarkColor}" />
+
+            <!--  skills  -->
+            <Label Padding="10,5,10,5" Margin="0,20,0,0" BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
+                        FontAttributes="Bold"
+                        FontSize="{DynamicResource FontSizeSmallContent}"
+                        Text="Fertigkeit" TextColor="white"/>
+
+            <Frame HeightRequest="125"  Grid.Row="2" Margin="20,0" >
+                <ListView ItemsSource="{Binding TreatmentSkills}"
+                   SelectedItem="{Binding SelectedTreatmentSkillModel, Mode=TwoWay}"
+                   SelectionMode="Single">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="models:SkillModel">
+                            <ViewCell>
+                                <StackLayout Margin="10,0" Padding="10" Orientation="Horizontal"
+                                   VerticalOptions="Center">
+                                    <Label FontSize="{DynamicResource FontSizeHeader}"
+                                       Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"
+                                       VerticalOptions="Center" />
+                                    <Label FontSize="{DynamicResource FontSizeHeader}"
+                                       Text="FW: " VerticalOptions="Center" />
+                                    <Label FontAttributes="Bold"
+                                       FontSize="{DynamicResource FontSizeHeader}"
+                                       Text="{Binding FinalValue}"
+                                       VerticalOptions="Center" />
+                                    <Button Margin="10,0,0,0" Padding="7,0,7,2"
+                                       BorderColor="{DynamicResource SecondaryFirstDarkColor}"
+                                       Command="{Binding OpenSkillCommand, Source={RelativeSource AncestorType={x:Type viewModels:WeaveTalentDetailViewModel}}}"
+                                       CommandParameter="{Binding Type}"
+                                       FontSize="28" HorizontalOptions="EndAndExpand" IsVisible="True"
+                                       Text="➔" />
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Frame>
+
+            <!-- damage status -->
+            <Label  Grid.Row="5" Padding="10,5,10,5" 
+                        BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
+                        FontAttributes="Bold"
+                        FontSize="{DynamicResource FontSizeSmallContent}"
+                        Text="Zustand der betroffenen Trefferzone(n)" TextColor="white"/>
+            <Frame>
+                <StackLayout>
+                    <Grid Background="{DynamicResource SinglePrimaryGradientBrush}" HeightRequest="320">
+                        <CollectionView Margin="15,15,15,0"
+                           ItemsSource="{Binding BodyPartDamageStates}"
+                           SelectionMode="None" VerticalOptions="FillAndExpand">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:BodyPartDamageStateModel">
+                                    <Grid Padding="10,8" RadioButtonGroup.GroupName="{Binding BodyPart}"
+                                          RadioButtonGroup.SelectedValue="{Binding StateType, Mode=TwoWay}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="130" />
+                                            <ColumnDefinition Width="135" />
+                                            <ColumnDefinition Width="95" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0"
+                                               FontSize="{DynamicResource FontSizeContent}"
+                                               Text="{Binding BodyPart, Converter={StaticResource EnumToDisplayTextConverter}}"
+                                               VerticalOptions="Center" />
+
+                                        <RadioButton Content="Normal" Grid.Column="1" IsChecked="True"
+                                                    
+                                                     Value="{x:Static enums:BodyPartDamageStateType.Normal}" 
+                                                    ></RadioButton>
+
+                                        <RadioButton Grid.Column="2"  Content="Ausgefallen"
+                                                     Value="{x:Static enums:BodyPartDamageStateType.Damaged}" 
+                                                     ></RadioButton>
+
+                                        <RadioButton Grid.Column="3" Content="Zerstört"
+                                                     Value="{x:Static enums:BodyPartDamageStateType.Broken}" 
+                                                   ></RadioButton>
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </Grid>
+
+                    <StackLayout Orientation="Horizontal">
+                        <Label Margin="20" Text="Summe Malus:" 
+                               FontSize="{DynamicResource FontSizeContent}"></Label>
+                        <Label Margin="20" Text="{Binding BodyPartDamageStatusMalus}"
+                               FontSize="{DynamicResource FontSizeContent}"></Label>
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+
+            <!-- effect -->
+            <Label Padding="10,5,10,5" BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
+                    FontAttributes="Bold" 
+                    FontSize="{DynamicResource FontSizeSmallContent}"
+                    Text="Effekt auf den Heilungswurf" TextColor="white"/>
+
+            <Image Margin="10" HeightRequest="200" Source="Images/heilung_tabelle.png" HorizontalOptions="Start" VerticalOptions="Start"/>
+
+        </StackLayout>
+
+        <BoxView WidthRequest="1" Grid.Column="1" Margin="0,10" BackgroundColor="{DynamicResource SecondaryFirstDarkColor}"/>
+
+        <StackLayout Grid.Column="2" >
+            <!-- handicap -->
+            <Label  Grid.Row="3" Padding="10,5,10,5" Margin="0,0,80,0" BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
+                    FontAttributes="Bold" 
+                    FontSize="{DynamicResource FontSizeSmallContent}"
+                    Text="Behinderung" TextColor="white"/>
+
+            <StackLayout Grid.Row="4" Margin="0,0,100,0" Padding="10" BindableLayout.ItemTemplate="{DynamicResource HandicapItemTemplate}"
+                         BindableLayout.ItemsSource="{Binding Handicaps}"
+                         RadioButtonGroup.GroupName="Handicap" />
+
+
+            <!-- damage type -->
+            <Label Padding="10,5,10,5" 
+                        BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
+                        FontAttributes="Bold"  
+                        FontSize="{DynamicResource FontSizeSmallContent}"
+                        Text="Schadensart" TextDecorations="Strikethrough" TextColor="white"/>
+
+            <Label TextDecorations="Strikethrough"  FontSize="{DynamicResource FontSizeContent}" Grid.Row="8" Margin="40,0,100,0" Padding="10" Text="Physischer / Energetisch / Betäubung Schaden" />
+
+            <!-- material -->
+            <Label  Grid.Row="9" Padding="10,5,10,5" 
+                        BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
+                        FontAttributes="Bold"
+                        FontSize="{DynamicResource FontSizeSmallContent}"
+                        Text="Material und Werkzeug - Geringster Wert wird verwendet" TextColor="white"/>
+
+            <StackLayout  Padding="10,5,10,5" Margin="20,5" Orientation="Horizontal">
+                <Label FontSize="{DynamicResource FontSizeContent}"
+                           Text="Materialstufe:" VerticalOptions="Center" />
+                <Picker Margin="10,0,0,0" SelectedItem="{Binding SelectedTreatmentMaterialLevel}"
+                           FontSize="{DynamicResource FontSizeContent}"
+                           VerticalOptions="Center"  WidthRequest="90" >
+                    <Picker.Items>
+                        <x:String>-</x:String>
+                        <x:String>1</x:String>
+                        <x:String>2</x:String>
+                        <x:String>3</x:String>
+                        <x:String>4</x:String>
+                        <x:String>5</x:String>
+                        <x:String>6</x:String>
+                    </Picker.Items>
+                </Picker>
+            </StackLayout>
+
+            <StackLayout  Padding="10,5,10,5" Margin="20,5" Orientation="Horizontal">
+                <Label FontSize="{DynamicResource FontSizeContent}"
+                           Text="Werkzeug:" VerticalOptions="Center" />
+                <Picker Margin="10,0,0,0" SelectedItem="{Binding SelectedTreatmentToolLevel}"
+                            FontSize="{DynamicResource FontSizeContent}"
+                            VerticalOptions="Center"  WidthRequest="90" >
+                    <Picker.Items>
+                        <x:String>-</x:String>
+                        <x:String>1</x:String>
+                        <x:String>2</x:String>
+                        <x:String>3</x:String>
+                        <x:String>4</x:String>
+                        <x:String>5</x:String>
+                        <x:String>6</x:String>
+                    </Picker.Items>
+                </Picker>
+            </StackLayout>
+
+            <!-- modifikator -->
+            <Label  Grid.Row="11" Padding="10,5,10,5" 
+                        BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
+                        FontAttributes="Bold"
+                        FontSize="{DynamicResource FontSizeSmallContent}"
+                        Text="Positiver oder negativer Modifikator" TextColor="white"/>
+
+            <StackLayout Grid.Row="12" Padding="10,5,10,5" Margin="20,5" Orientation="Horizontal">
+                <Label FontSize="{DynamicResource FontSizeContent}"
+                           Text="Modifikator:" VerticalOptions="Center" />
+                <Entry Margin="10,0,0,0"
+                           FontSize="{DynamicResource FontSizeContent}"
+                           Text="{Binding Modification}"
+                           VerticalOptions="Center" WidthRequest="90" />
+            </StackLayout>
+
+            <!--  footer  -->
+            <Grid Grid.Row="13" Padding="5" VerticalOptions="EndAndExpand">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <BoxView Grid.Row="0" Color="Black" />
+                <StackLayout Grid.Row="1" Margin="0,0,0,5" HorizontalOptions="Center"
+                                 Orientation="Horizontal">
+                    <Label FontSize="{DynamicResource FontSizeHeader}"
+                               Text="Behandungswurf gegen" VerticalOptions="Center" />
+                    <Label Margin="10,0,0,0" FontAttributes="Bold"
+                               FontSize="{DynamicResource FontSizeTitle}"
+                               Text="{Binding FinalTreatmentValue}"
+                               VerticalOptions="Center" />
+                </StackLayout>
+                <StackLayout Grid.Row="2" Margin="0,0,0,5" HorizontalOptions="Center"
+                             Orientation="Horizontal">
+                    <Label FontSize="{DynamicResource FontSizeHeader}"
+                           Text="Bonus auf den Heilungswurf" VerticalOptions="Center" />
+                    <Label Margin="10,0,0,0" FontAttributes="Bold"
+                           FontSize="{DynamicResource FontSizeTitle}"
+                           Text="{Binding TreatmentBonus}"
+                           VerticalOptions="Center" />
+                </StackLayout>
+            </Grid>
+        </StackLayout>
+
+        <Button Grid.Column="2" Margin="20" Padding="0,-4,0,0"
+                    BackgroundColor="LightGray"
+                    Command="{Binding CloseCommand}"
+                    FontSize="{DynamicResource FontSizeHeader}"
+                    HeightRequest="35" HorizontalOptions="End" Text="X"
+                    TextColor="Red" VerticalOptions="Start" WidthRequest="35" />
+    </Grid>
+</ContentView>

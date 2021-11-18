@@ -3,6 +3,9 @@
 ## 0.3 (tba)
 
 - **Hinzugefügt**: [#98](https://github.com/christophergoltz/imago-app/issues/98) Auf dem Webbogen wird nun bei den 8 Prinzipien das Symbol mit der ensprechenden Farbe angezeigt, wenn dieses erwoben wurde (SW >= 25)
+- **Hinzugefügt**: [#111](https://github.com/christophergoltz/imago-app/issues/111) Eine Auswahl zwischen verschiedenen Farbschemen wurde hinzugefügt
+- **Hinzugefügt**: [#113](https://github.com/christophergoltz/imago-app/issues/113) Bei den Trefferzonen werden nun die entsprechenden Index-Zahlen angezeigt
+- **Hinzugefügt**: [#8](https://github.com/christophergoltz/imago-app/issues/8) Auf dem Kampfbogen wurden eine Hilfe für Behandung und Heilung hinzugefügt
 
 <!-- -->
 
@@ -11,6 +14,7 @@
 <!-- -->
 
 - **Behoben**: [#107](https://github.com/christophergoltz/imago-app/issues/107) Der "Wiki" Button wurde in der Detailansicht einer Fertigkeit an die richtige Position verschoben
+- **Behoben**: [#112](https://github.com/christophergoltz/imago-app/issues/112) Wenn über die Navigation des Webbogen zu einer Fertigkeit navigiert wird, werden nun vorher alle noch offenen Dialoge geschlossen
 
 <!-- -->
 

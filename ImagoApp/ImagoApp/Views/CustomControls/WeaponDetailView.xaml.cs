@@ -25,23 +25,5 @@ namespace ImagoApp.Views.CustomControls
             get => (WeaponDetailViewModel)GetValue(WeaponDetailViewModelProperty);
             set => SetValue(WeaponDetailViewModelProperty, value);
         }
-
-        public static readonly BindableProperty CommandProperty =
-            BindableProperty.Create(nameof(Command), typeof(ICommand), typeof(SkillGroupView), null);
-
-        public ICommand Command
-        {
-            get { return (ICommand)GetValue(CommandProperty); }
-            set { SetValue(CommandProperty, value); }
-        }
-        
-        [Obsolete("?")]
-        public ICommand RemoveWeaponCommand => new Command<WeaponModel>(weapon =>
-        {
-            if (Command.CanExecute(weapon))
-            {
-                Command.Execute(weapon);
-            }
-        });
     }
 }

@@ -191,6 +191,9 @@ namespace ImagoApp.ViewModels
                 case "Vp":
                     type = WeaveTalentSettingModelType.ProductVolume;
                     break;
+                case "VdB":
+                    type = WeaveTalentSettingModelType.ImageVolume;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException("Unknown abbreviation: " + abbreviation);
             }

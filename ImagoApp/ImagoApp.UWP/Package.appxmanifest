@@ -11,7 +11,7 @@
     Publisher="CN=0FC70DBA-1113-4CA2-AF34-17E9BD77CB06"
     Version="0.2.3.0" />
 
-  <mp:PhoneIdentity PhoneProductId="b4a74456-962b-4115-bbd0-8e6891b58ca3" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="6974e592-94af-4257-892e-3558a0bf5348" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>ImagoApp</DisplayName>

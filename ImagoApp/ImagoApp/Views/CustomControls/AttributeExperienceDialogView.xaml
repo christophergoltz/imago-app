@@ -5,7 +5,7 @@
     <ContentView.Content>
         <Grid Padding="20"
            BindingContext="{Binding CharacterViewModel, Source={x:Reference AttributeExperienceDialogViewControl}}"
-           Style="{StaticResource BackgroundGridStyle}">
+           Style="{DynamicResource BackgroundGridStyle}">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -42,7 +42,7 @@
             <Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="7">
                 <ScrollView>
                     <FlexLayout AlignContent="Start" AlignItems="Start"
-                       BackgroundColor="{StaticResource AntiUmbra3}"
+                       BackgroundColor="{DynamicResource SecondaryFirstLightColor}"
                        BindableLayout.ItemsSource="{Binding CharacterModel.OpenAttributeIncreases}"
                        Direction="Row" Wrap="Wrap">
                         <BindableLayout.ItemTemplate>
@@ -51,7 +51,7 @@
                                     <Frame.GestureRecognizers>
                                         <DragGestureRecognizer DragStarting="OnDragStarting" DropCompleted="DragGestureRecognizer_OnDropCompleted" />
                                     </Frame.GestureRecognizers>
-                                    <Grid BackgroundColor="{StaticResource Umbra2}">
+                                    <Grid BackgroundColor="{DynamicResource PrimaryDarkColor}">
                                         <StackLayout>
                                             <Image Margin="15" HeightRequest="50">
                                                 <Image.Style>

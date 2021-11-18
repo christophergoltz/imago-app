@@ -13,21 +13,21 @@
                     </Grid.ColumnDefinitions>
                     <Label Grid.Row="0" Grid.Column="0"
                        FontSize="{DynamicResource FontSizeDetail}"
-                       Style="{StaticResource LightTextLabel}"
+                       Style="{DynamicResource LightTextLabel}"
                        Text="{Binding Type}" />
                     <Label Grid.Row="0" Grid.Column="1" Margin="0,0,10,0"
                        FontSize="{DynamicResource FontSizeDetail}"
-                       Style="{StaticResource LightTextLabel}"
+                       Style="{DynamicResource LightTextLabel}"
                        Text="{Binding PhaseValue}" />
                     <Label Grid.Row="0" Grid.Column="2"
                        FontSize="{DynamicResource FontSizeDetail}"
-                       Style="{StaticResource LightTextLabel}"
+                       Style="{DynamicResource LightTextLabel}"
                        Text="{Binding DamageFormula}" />
                 </Grid>
             </DataTemplate>
             <DataTemplate x:Key="WeaponQuickViewTemplate" x:DataType="models:WeaponModel">
                 <Frame>
-                    <Grid Padding="0,0,0,15" Style="{StaticResource SingleGradiantStyle}">
+                    <Grid Padding="0,0,0,15" Background="{DynamicResource SinglePrimaryGradientBrush}">
                         <Grid.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding OpenWeaponCommand, Source={RelativeSource AncestorType={x:Type viewModels:StatusPageViewModel}}}" CommandParameter="{Binding .}" />
                         </Grid.GestureRecognizers>
@@ -168,7 +168,7 @@
 
                 <!--  load  -->
                 <Frame Grid.Row="2" Grid.Column="0" VerticalOptions="Start">
-                    <Grid Style="{StaticResource SingleGradiantStyle}">
+                    <Grid Background="{DynamicResource SinglePrimaryGradientBrush}">
                         <ListView Margin="15,15,15,0" HasUnevenRows="True"
                            ItemsSource="{Binding CharacterViewModel.HandicapAttributes}"
                            SelectionMode="None" VerticalOptions="FillAndExpand">
@@ -219,15 +219,19 @@
                 <Frame Grid.Row="1" Grid.Column="1">
                     <StackLayout Margin="20">
                         <Button Padding="7,3" Background="limegreen"
-                           Command="{Binding OpenHealingWikiCommand}"
+                           Command="{Binding OpenTreamentCommand}"
                            FontSize="{DynamicResource FontSizeBigContent}"
-                           HorizontalOptions="Start" Text="Heilung &#8599;" VerticalOptions="Center" />
+                           HorizontalOptions="Start" Text="Behandung" VerticalOptions="Center" />
+                        <Button Padding="7,3" Background="limegreen"
+                                Command="{Binding OpenHealingCommand}"
+                                FontSize="{DynamicResource FontSizeBigContent}"
+                                HorizontalOptions="Start" Text="Heilung" VerticalOptions="Center" />
                     </StackLayout>
                 </Frame>
 
                 <!--  derived attributes  -->
                 <Frame Grid.Row="1" Grid.Column="0">
-                    <Grid Style="{StaticResource SingleGradiantStyle}">
+                    <Grid Background="{DynamicResource SinglePrimaryGradientBrush}">
                         <ListView Margin="15,15,15,0" HasUnevenRows="True"
                            ItemsSource="{Binding CharacterViewModel.FightDerivedAttributes}"
                            SelectionMode="None" VerticalOptions="FillAndExpand">
@@ -295,6 +299,34 @@
                    WidthRequest="1000">
                     <customControls:WeaponDetailView HorizontalOptions="Fill" VerticalOptions="Fill"
                        WeaponDetailViewModel="{Binding WeaponDetailViewModel, Source={RelativeSource AncestorType={x:Type viewModels:StatusPageViewModel}}}" />
+                </Frame>
+            </Grid>
+
+            <!--  dialog treatment  -->
+            <Grid IsVisible="{Binding TreatmentDetailViewModel, Converter={StaticResource ObjectNotNullToBoolConverter}}">
+                <ContentView BackgroundColor="black" Opacity="0.6">
+                    <ContentView.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding TreatmentDetailViewModel.CloseCommand}" />
+                    </ContentView.GestureRecognizers>
+                </ContentView>
+                <Frame HeightRequest="1000" HorizontalOptions="Center" VerticalOptions="Center"
+                       WidthRequest="1300">
+                    <customControls:TreatmentDetailView HorizontalOptions="Fill" VerticalOptions="Fill"
+                                                      TreatmentDetailViewModel="{Binding TreatmentDetailViewModel, Source={RelativeSource AncestorType={x:Type viewModels:StatusPageViewModel}}}" />
+                </Frame>
+            </Grid>
+
+            <!--  dialog healing  -->
+            <Grid IsVisible="{Binding HealingDetailViewModel, Converter={StaticResource ObjectNotNullToBoolConverter}}">
+                <ContentView BackgroundColor="black" Opacity="0.6">
+                    <ContentView.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding HealingDetailViewModel.CloseCommand}" />
+                    </ContentView.GestureRecognizers>
+                </ContentView>
+                <Frame HeightRequest="900" HorizontalOptions="Center" VerticalOptions="Center"
+                       WidthRequest="1300">
+                    <customControls:HealingDetailView HorizontalOptions="Fill" VerticalOptions="Fill"
+                                                     HealingDetailViewModel="{Binding HealingDetailViewModel, Source={RelativeSource AncestorType={x:Type viewModels:StatusPageViewModel}}}" />
                 </Frame>
             </Grid>
         </Grid>

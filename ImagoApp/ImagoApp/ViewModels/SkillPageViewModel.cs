@@ -69,6 +69,10 @@ namespace ImagoApp.ViewModels
                 vm.CloseRequested += (sender, args) => { SkillDetailViewModel = null; };
                 vm.OpenWikiPageRequested += (sender, s) => { OpenWikiPageRequested?.Invoke(this, s); };
 
+                //close possible old dialog
+                if (SkillGroupDetailViewModel != null)
+                    SkillGroupDetailViewModel = null;
+
                 SkillDetailViewModel = vm;
             }
             catch (Exception exception)
