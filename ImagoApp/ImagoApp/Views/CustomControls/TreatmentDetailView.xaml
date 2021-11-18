@@ -29,7 +29,7 @@
                         FontSize="{DynamicResource FontSizeSmallContent}"
                         Text="Fertigkeit" TextColor="white"/>
 
-            <Frame HeightRequest="125"  Grid.Row="2" Margin="20,0" >
+            <Frame HeightRequest="125"  Grid.Row="2" Margin="20" >
                 <ListView ItemsSource="{Binding TreatmentSkills}"
                    SelectedItem="{Binding SelectedTreatmentSkillModel, Mode=TwoWay}"
                    SelectionMode="Single">
@@ -60,6 +60,78 @@
                 </ListView>
             </Frame>
 
+            <!-- damage type -->
+            <Label Padding="10,5,10,5" 
+                   BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
+                   FontAttributes="Bold"  
+                   FontSize="{DynamicResource FontSizeSmallContent}"
+                   Text="Schadensart" TextDecorations="Strikethrough" TextColor="white"/>
+
+            <Label TextDecorations="Strikethrough"  FontSize="{DynamicResource FontSizeContent}" Grid.Row="8" Margin="40,0,100,0" Padding="10" Text="Physischer / Energetisch / Betäubung Schaden" />
+
+            <!-- effect -->
+            <Label Padding="10,5,10,5" BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
+                    FontAttributes="Bold" 
+                    FontSize="{DynamicResource FontSizeSmallContent}"
+                    Text="Effekt auf den Heilungswurf" TextColor="white"/>
+
+            <Image Margin="10" HeightRequest="220" Source="Images/heilung_tabelle.png" HorizontalOptions="Start" VerticalOptions="Start"/>
+
+        </StackLayout>
+
+        <BoxView WidthRequest="1" Grid.Column="1" Margin="0,10" BackgroundColor="{DynamicResource SecondaryFirstDarkColor}"/>
+
+        <StackLayout Grid.Column="2" >
+            <!-- handicap -->
+            <Label  Grid.Row="3" Padding="10,5,10,5" Margin="0,0,80,0" BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
+                    FontAttributes="Bold" 
+                    FontSize="{DynamicResource FontSizeSmallContent}"
+                    Text="Behinderung" TextColor="white"/>
+
+            <StackLayout Grid.Row="4" Margin="0,0,100,0" Padding="10" BindableLayout.ItemTemplate="{DynamicResource HandicapItemTemplate}"
+                         BindableLayout.ItemsSource="{Binding Handicaps}"
+                         RadioButtonGroup.GroupName="Handicap" />
+          
+            <!-- material -->
+            <Label  Grid.Row="9" Padding="10,5,10,5" 
+                        BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
+                        FontAttributes="Bold"
+                        FontSize="{DynamicResource FontSizeSmallContent}"
+                        Text="Material und Werkzeug - Geringster Wert wird verwendet" TextColor="white"/>
+
+            <StackLayout  Padding="10,5,10,5" Margin="20,5" Orientation="Horizontal">
+                <Label FontSize="{DynamicResource FontSizeContent}"
+                           Text="Materialstufe:" VerticalOptions="Center" />
+                <Picker Margin="10,0,0,0" SelectedItem="{Binding SelectedTreatmentMaterialLevel}"
+                           FontSize="{DynamicResource FontSizeContent}"
+                           VerticalOptions="Center"  WidthRequest="90" >
+                    <Picker.Items>
+                        <x:String>-</x:String>
+                        <x:String>1</x:String>
+                        <x:String>2</x:String>
+                        <x:String>3</x:String>
+                        <x:String>4</x:String>
+                        <x:String>5</x:String>
+                        <x:String>6</x:String>
+                    </Picker.Items>
+                </Picker>
+
+                <Label FontSize="{DynamicResource FontSizeContent}" HorizontalOptions="EndAndExpand"
+                           Text="Werkzeug:" VerticalOptions="Center" />
+                <Picker Margin="-60,0,100,0" SelectedItem="{Binding SelectedTreatmentToolLevel}"
+                            FontSize="{DynamicResource FontSizeContent}"
+                            VerticalOptions="Center" HorizontalOptions="EndAndExpand"  WidthRequest="90" >
+                    <Picker.Items>
+                        <x:String>-</x:String>
+                        <x:String>1</x:String>
+                        <x:String>2</x:String>
+                        <x:String>3</x:String>
+                        <x:String>4</x:String>
+                        <x:String>5</x:String>
+                        <x:String>6</x:String>
+                    </Picker.Items>
+                </Picker>
+            </StackLayout>
             <!-- damage status -->
             <Label  Grid.Row="5" Padding="10,5,10,5" 
                         BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
@@ -113,82 +185,6 @@
                     </StackLayout>
                 </StackLayout>
             </Frame>
-
-            <!-- effect -->
-            <Label Padding="10,5,10,5" BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
-                    FontAttributes="Bold" 
-                    FontSize="{DynamicResource FontSizeSmallContent}"
-                    Text="Effekt auf den Heilungswurf" TextColor="white"/>
-
-            <Image Margin="10" HeightRequest="200" Source="Images/heilung_tabelle.png" HorizontalOptions="Start" VerticalOptions="Start"/>
-
-        </StackLayout>
-
-        <BoxView WidthRequest="1" Grid.Column="1" Margin="0,10" BackgroundColor="{DynamicResource SecondaryFirstDarkColor}"/>
-
-        <StackLayout Grid.Column="2" >
-            <!-- handicap -->
-            <Label  Grid.Row="3" Padding="10,5,10,5" Margin="0,0,80,0" BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
-                    FontAttributes="Bold" 
-                    FontSize="{DynamicResource FontSizeSmallContent}"
-                    Text="Behinderung" TextColor="white"/>
-
-            <StackLayout Grid.Row="4" Margin="0,0,100,0" Padding="10" BindableLayout.ItemTemplate="{DynamicResource HandicapItemTemplate}"
-                         BindableLayout.ItemsSource="{Binding Handicaps}"
-                         RadioButtonGroup.GroupName="Handicap" />
-
-
-            <!-- damage type -->
-            <Label Padding="10,5,10,5" 
-                        BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
-                        FontAttributes="Bold"  
-                        FontSize="{DynamicResource FontSizeSmallContent}"
-                        Text="Schadensart" TextDecorations="Strikethrough" TextColor="white"/>
-
-            <Label TextDecorations="Strikethrough"  FontSize="{DynamicResource FontSizeContent}" Grid.Row="8" Margin="40,0,100,0" Padding="10" Text="Physischer / Energetisch / Betäubung Schaden" />
-
-            <!-- material -->
-            <Label  Grid.Row="9" Padding="10,5,10,5" 
-                        BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
-                        FontAttributes="Bold"
-                        FontSize="{DynamicResource FontSizeSmallContent}"
-                        Text="Material und Werkzeug - Geringster Wert wird verwendet" TextColor="white"/>
-
-            <StackLayout  Padding="10,5,10,5" Margin="20,5" Orientation="Horizontal">
-                <Label FontSize="{DynamicResource FontSizeContent}"
-                           Text="Materialstufe:" VerticalOptions="Center" />
-                <Picker Margin="10,0,0,0" SelectedItem="{Binding SelectedTreatmentMaterialLevel}"
-                           FontSize="{DynamicResource FontSizeContent}"
-                           VerticalOptions="Center"  WidthRequest="90" >
-                    <Picker.Items>
-                        <x:String>-</x:String>
-                        <x:String>1</x:String>
-                        <x:String>2</x:String>
-                        <x:String>3</x:String>
-                        <x:String>4</x:String>
-                        <x:String>5</x:String>
-                        <x:String>6</x:String>
-                    </Picker.Items>
-                </Picker>
-            </StackLayout>
-
-            <StackLayout  Padding="10,5,10,5" Margin="20,5" Orientation="Horizontal">
-                <Label FontSize="{DynamicResource FontSizeContent}"
-                           Text="Werkzeug:" VerticalOptions="Center" />
-                <Picker Margin="10,0,0,0" SelectedItem="{Binding SelectedTreatmentToolLevel}"
-                            FontSize="{DynamicResource FontSizeContent}"
-                            VerticalOptions="Center"  WidthRequest="90" >
-                    <Picker.Items>
-                        <x:String>-</x:String>
-                        <x:String>1</x:String>
-                        <x:String>2</x:String>
-                        <x:String>3</x:String>
-                        <x:String>4</x:String>
-                        <x:String>5</x:String>
-                        <x:String>6</x:String>
-                    </Picker.Items>
-                </Picker>
-            </StackLayout>
 
             <!-- modifikator -->
             <Label  Grid.Row="11" Padding="10,5,10,5" 
