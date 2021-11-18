@@ -51,13 +51,12 @@ namespace ImagoApp.ViewModels
             set => SetProperty(ref _handicaps, value);
         }
 
-        private List<HandicapListViewItemViewModel> _damageStatus;
-        public List<HandicapListViewItemViewModel> DamageStatus
+        public List<BodyPartDamageStateModel> BodyPartDamageStates
         {
-            get => _damageStatus;
-            set => SetProperty(ref _damageStatus, value);
+            get => _bodyPartDamageStates;
+            set => SetProperty(ref _bodyPartDamageStates , value);
         }
-
+        
         private SkillModel _selectedTreatmentSkillModel;
         public SkillModel SelectedTreatmentSkillModel
         {
@@ -100,6 +99,8 @@ namespace ImagoApp.ViewModels
         private string _selectedTreatmentMaterialLevel;
 
         private int _modification;
+        private List<BodyPartDamageStateModel> _bodyPartDamageStates;
+        private int _bodyPartDamageStatusMalus;
 
 
         public int Modification
@@ -133,6 +134,12 @@ namespace ImagoApp.ViewModels
             set => SetProperty(ref _treatmentBonus, value);
         }
 
+        public int BodyPartDamageStatusMalus
+        {
+            get => _bodyPartDamageStatusMalus;
+            set => SetProperty(ref _bodyPartDamageStatusMalus , value);
+        }
+
         private void RecalculateFinalTreatmentValue()
         {
             if (SelectedTreatmentSkillModel == null)
@@ -150,15 +157,30 @@ namespace ImagoApp.ViewModels
                 }
             }
 
+            BodyPartDamageStatusMalus = 0;
+
             //damage status
-            if (DamageStatus != null)
+            if (BodyPartDamageStates != null)
             {
-                foreach (var damageStatus in DamageStatus)
+                foreach (var damageStatus in BodyPartDamageStates)
                 {
-                    if (damageStatus.IsChecked)
-                        result -= damageStatus.HandiCapValue ?? 0;
+                    switch (damageStatus.StateType)
+                    {
+                        case BodyPartDamageStateType.Damaged:
+                            BodyPartDamageStatusMalus += 30;
+                            continue;
+                        case BodyPartDamageStateType.Broken:
+                            BodyPartDamageStatusMalus += 45;
+                            continue;
+                        case BodyPartDamageStateType.Normal:
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(BodyPartDamageStateType));
+                    }
                 }
             }
+
+            result -= BodyPartDamageStatusMalus;
 
             //modification
             result += Modification;
@@ -205,26 +227,24 @@ namespace ImagoApp.ViewModels
             Handicaps = handicaps;
 
             //damage status
-            var damageStatus = new List<HandicapListViewItemViewModel>();
-            var normal = new HandicapListViewItemViewModel(DerivedAttributeType.Unknown, true, 0, null, "Normal");
-            normal.HandicapValueChanged += (sender, args) => RecalculateFinalTreatmentValue();
-            var failed = new HandicapListViewItemViewModel(DerivedAttributeType.Unknown, false, 30, null, "Ausgefallen");
-            failed.HandicapValueChanged += (sender, args) => RecalculateFinalTreatmentValue();
-            var destroyed = new HandicapListViewItemViewModel(DerivedAttributeType.Unknown, false, 45, null, "Zerstört");
-            destroyed.HandicapValueChanged += (sender, args) => RecalculateFinalTreatmentValue();
+            var bodyPartDamageStates = new List<BodyPartDamageStateModel>()
+            {
+                new BodyPartDamageStateModel(BodyPartType.Kopf),
+                new BodyPartDamageStateModel(BodyPartType.Torso),
+                new BodyPartDamageStateModel(BodyPartType.ArmLinks),
+                new BodyPartDamageStateModel(BodyPartType.ArmRechts),
+                new BodyPartDamageStateModel(BodyPartType.BeinLinks),
+                new BodyPartDamageStateModel(BodyPartType.BeinRechts)
+            };
 
-            damageStatus.Add(normal);
-            damageStatus.Add(failed);
-            damageStatus.Add(destroyed);
-
-            DamageStatus = damageStatus;
-
-
+            foreach (var bodyPartDamageState in bodyPartDamageStates)
+            {
+                bodyPartDamageState.PropertyChanged += (sender, args) => RecalculateFinalTreatmentValue();
+            }
+            
+            BodyPartDamageStates = bodyPartDamageStates;
+            
             RecalculateFinalTreatmentValue();
         }
-
-
-
-
     }
 }

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application"
              xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
+             xmlns:enums="clr-namespace:ImagoApp.Shared.Enums;assembly=ImagoApp.Shared"
              x:Class="ImagoApp.Views.CustomControls.TreatmentDetailView">
     <Grid  BindingContext="{Binding TreatmentDetailViewModel, Source={x:Reference TreatmentDetailViewControl}}" Style="{StaticResource SingleGradiantStyle}">
         <Grid.ColumnDefinitions>
@@ -16,7 +17,7 @@
             <Label Margin="30,30,30,0" FontAttributes="Bold" VerticalOptions="Center"
                    FontSize="{DynamicResource FontSizeSmallCaption}"
                    Text="Behandungswurf" />
-          
+
             <Label  Margin="40,10,10,0"
                     FontSize="{DynamicResource FontSizeBigContent}"
                     Text="(Ein Wurf für alle Trefferzonen)"
@@ -58,14 +59,68 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </Frame>
-      
+
+            <!-- damage status -->
+            <Label  Grid.Row="5" Padding="10,5,10,5" 
+                        BackgroundColor="{StaticResource AntiUmbra2}"
+                        FontAttributes="Bold"
+                        FontSize="{DynamicResource FontSizeSmallContent}"
+                        Text="Zustand der betroffenen Trefferzone(n)" TextColor="white"/>
+            <Frame>
+                <StackLayout>
+                    <Grid Style="{StaticResource SingleGradiantStyle}" HeightRequest="320">
+                        <CollectionView Margin="15,15,15,0"
+                           ItemsSource="{Binding BodyPartDamageStates}"
+                           SelectionMode="None" VerticalOptions="FillAndExpand">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:BodyPartDamageStateModel">
+                                    <Grid Padding="10,8" RadioButtonGroup.GroupName="{Binding BodyPart}"
+                                          RadioButtonGroup.SelectedValue="{Binding StateType, Mode=TwoWay}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="130" />
+                                            <ColumnDefinition Width="135" />
+                                            <ColumnDefinition Width="95" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0"
+                                               FontSize="{DynamicResource FontSizeContent}"
+                                               Text="{Binding BodyPart, Converter={StaticResource EnumToDisplayTextConverter}}"
+                                               VerticalOptions="Center" />
+
+                                        <RadioButton Content="Normal" Grid.Column="1" IsChecked="True"
+                                                    
+                                                     Value="{x:Static enums:BodyPartDamageStateType.Normal}" 
+                                                    ></RadioButton>
+
+                                        <RadioButton Grid.Column="2"  Content="Ausgefallen"
+                                                     Value="{x:Static enums:BodyPartDamageStateType.Damaged}" 
+                                                     ></RadioButton>
+
+                                        <RadioButton Grid.Column="3" Content="Zerstört"
+                                                     Value="{x:Static enums:BodyPartDamageStateType.Broken}" 
+                                                   ></RadioButton>
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </Grid>
+
+                    <StackLayout Orientation="Horizontal">
+                        <Label Margin="20" Text="Summe Malus:" 
+                               FontSize="{DynamicResource FontSizeContent}"></Label>
+                        <Label Margin="20" Text="{Binding BodyPartDamageStatusMalus}"
+                               FontSize="{DynamicResource FontSizeContent}"></Label>
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+
             <!-- effect -->
-            <Label  Grid.Row="3" Padding="10,5,10,5" BackgroundColor="{StaticResource AntiUmbra2}"
+            <Label Padding="10,5,10,5" BackgroundColor="{StaticResource AntiUmbra2}"
                     FontAttributes="Bold" 
                     FontSize="{DynamicResource FontSizeSmallContent}"
-                    Text="Effekt durch die Behandung auf den Heilungswurd" TextColor="white"/>
+                    Text="Effekt durch die Behandung auf den Heilungswurf" TextColor="white"/>
 
-            <Image Margin="20" Source="Images/treatment_healing_roll_effect.png" HorizontalOptions="Start"/>
+            <Image Margin="10" HeightRequest="200" Source="Images/heilung_tabelle.png" HorizontalOptions="Start" VerticalOptions="Start"/>
 
         </StackLayout>
 
@@ -82,25 +137,15 @@
                          BindableLayout.ItemsSource="{Binding Handicaps}"
                          RadioButtonGroup.GroupName="Handicap" />
 
-            <!-- damage status -->
-            <Label  Grid.Row="5" Padding="10,5,10,5" 
-                        BackgroundColor="{StaticResource AntiUmbra2}"
-                        FontAttributes="Bold"
-                        FontSize="{DynamicResource FontSizeSmallContent}"
-                        Text="Zustand des betroffenen Trefferzone(n) - Höchster Wert gilt" TextColor="white"/>
-
-            <StackLayout Margin="0,0,100,0" Padding="10" BindableLayout.ItemTemplate="{StaticResource HandicapItemTemplate}"
-                                 BindableLayout.ItemsSource="{Binding DamageStatus}"
-                                 RadioButtonGroup.GroupName="DamageStatus" />
 
             <!-- damage type -->
             <Label Padding="10,5,10,5" 
                         BackgroundColor="{StaticResource AntiUmbra2}"
-                        FontAttributes="Bold"
+                        FontAttributes="Bold"  
                         FontSize="{DynamicResource FontSizeSmallContent}"
-                        Text="Schadensart" TextColor="white"/>
+                        Text="Schadensart" TextDecorations="Strikethrough" TextColor="white"/>
 
-            <Label  FontSize="{DynamicResource FontSizeContent}" Grid.Row="8" Margin="40,0,100,0" Padding="10" Text="Physischer / Energetisch / Betäubung Schaden" />
+            <Label TextDecorations="Strikethrough"  FontSize="{DynamicResource FontSizeContent}" Grid.Row="8" Margin="40,0,100,0" Padding="10" Text="Physischer / Energetisch / Betäubung Schaden" />
 
             <!-- material -->
             <Label  Grid.Row="9" Padding="10,5,10,5" 
