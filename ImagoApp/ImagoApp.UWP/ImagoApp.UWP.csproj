@@ -151,6 +151,7 @@
     <Content Include="Images\handwerk_weiss.png" />
     <Content Include="Images\hauptmenue.png" />
     <Content Include="Images\hauptmenue_weiss.png" />
+    <Content Include="Images\heilung.png" />
     <Content Include="Images\heilung_tabelle.png" />
     <Content Include="Images\heimlichkeit.png" />
     <Content Include="Images\imago_big.png" />
@@ -163,6 +164,7 @@
     <Content Include="Images\nahkampf_2.png" />
     <Content Include="Images\nahkampf_weiss.png" />
     <Content Include="Images\person.png" />
+    <Content Include="Images\verband.png" />
     <Content Include="Images\Wide310x150Logo.scale-200_weiss.png" />
     <None Include="Package.StoreAssociation.xml" />
     <Content Include="Properties\Default.rd.xml" />
@@ -179,7 +181,6 @@
     <Content Include="Images\wiki_weiss.png" />
     <Content Include="Images\wissenschaft.png" />
     <Content Include="Images\wissenschaft_weiss.png" />
-    <Content Include="Images\xamarin_logo.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

@@ -90,19 +90,19 @@
                     </Grid.RowDefinitions>
 
                     <cc:BodyPartArmorListView Grid.Row="0" Grid.Column="0"
-                                                          BodyPartArmorListViewModel="{Binding KopfViewModel}" />
+                                              BodyPartArmorListViewModel="{Binding KopfViewModel}" />
                     <cc:BodyPartArmorListView Grid.Row="0" Grid.Column="1"
-                                                          BodyPartArmorListViewModel="{Binding TorsoViewModel}" />
+                                              BodyPartArmorListViewModel="{Binding TorsoViewModel}" />
 
                     <cc:BodyPartArmorListView Grid.Row="1" Grid.Column="0"
-                                                          BodyPartArmorListViewModel="{Binding ArmLinksViewModel}" />
+                                              BodyPartArmorListViewModel="{Binding ArmLinksViewModel}" />
                     <cc:BodyPartArmorListView Grid.Row="1" Grid.Column="1"
-                                                          BodyPartArmorListViewModel="{Binding ArmRechtsViewModel}" />
+                                              BodyPartArmorListViewModel="{Binding ArmRechtsViewModel}" />
 
                     <cc:BodyPartArmorListView Grid.Row="2" Grid.Column="0"
-                                                          BodyPartArmorListViewModel="{Binding BeinLinksViewModel}" />
+                                              BodyPartArmorListViewModel="{Binding BeinLinksViewModel}" />
                     <cc:BodyPartArmorListView Grid.Row="2" Grid.Column="1"
-                                                          BodyPartArmorListViewModel="{Binding BeinRechtsViewModel}" />
+                                              BodyPartArmorListViewModel="{Binding BeinRechtsViewModel}" />
                 </Grid>
 
                 <!--  weapons  -->
@@ -129,21 +129,21 @@
                                 Command="{Binding WeaponListViewModel.OpenMeleeWeaponWikiCommand}"></cc:ImageButtonView>
 
                             <cc:ImageButtonView HorizontalOptions="FillAndExpand"
-                                                            Text="Fernkampf"
-                                                            ImageSource="Images/wiki.png"
-                                                            Command="{Binding WeaponListViewModel.OpenRangedWeaponWikiCommand}"></cc:ImageButtonView>
+                                                Text="Fernkampf"
+                                                ImageSource="Images/wiki.png"
+                                                Command="{Binding WeaponListViewModel.OpenRangedWeaponWikiCommand}"></cc:ImageButtonView>
                         </StackLayout>
 
                         <StackLayout  Margin="10,0" Orientation="Horizontal">
                             <cc:ImageButtonView HorizontalOptions="FillAndExpand"
-                                                            Text="Schilde"
-                                                            ImageSource="Images/wiki.png"
-                                                            Command="{Binding WeaponListViewModel.OpenShieldWikiCommand}"></cc:ImageButtonView>
+                                                Text="Schilde"
+                                                ImageSource="Images/wiki.png"
+                                                Command="{Binding WeaponListViewModel.OpenShieldWikiCommand}"></cc:ImageButtonView>
 
                             <cc:ImageButtonView HorizontalOptions="FillAndExpand"
-                                                            Text="Spezial"
-                                                            ImageSource="Images/wiki.png"
-                                                            Command="{Binding WeaponListViewModel.OpenSpecialWeaponWikiCommand}"></cc:ImageButtonView>
+                                                Text="Spezial"
+                                                ImageSource="Images/wiki.png"
+                                                Command="{Binding WeaponListViewModel.OpenSpecialWeaponWikiCommand}"></cc:ImageButtonView>
                         </StackLayout>
 
                         <ScrollView Margin="0,10,0,0">
@@ -202,18 +202,29 @@
                 </Frame>
 
                 <!--  healing  -->
-                <Frame Grid.Row="1" Grid.Column="1">
-                    <StackLayout Margin="20">
-                        <Button Padding="7,3" Background="limegreen"
-                                Command="{Binding OpenTreamentCommand}"
-                                FontSize="{DynamicResource FontSizeBigContent}"
-                                HorizontalOptions="Start" Text="Behandung" VerticalOptions="Center" />
-                        <Button Padding="7,3" Background="limegreen"
-                                Command="{Binding OpenHealingCommand}"
-                                FontSize="{DynamicResource FontSizeBigContent}"
-                                HorizontalOptions="Start" Text="Heilung" VerticalOptions="Center" />
-                    </StackLayout>
-                </Frame>
+                <Grid Grid.Row="1" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Start">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <cc:ImageButtonView Grid.Row="0" Grid.Column="0" ImageSource="Images/verband.png" 
+                                        HorizontalOptions="End" VerticalOptions="Start"
+                                        Command="{Binding OpenTreamentCommand}"
+                                        Text="Behandung">
+                    </cc:ImageButtonView>
+              
+                    <cc:ImageButtonView Grid.Row="0" Grid.Column="1" ImageSource="Images/heilung.png" 
+                                        HorizontalOptions="End" VerticalOptions="Start"
+                                        Command="{Binding OpenHealingCommand}"
+                                        Text="Heilung">
+                    </cc:ImageButtonView>
+                </Grid>
 
                 <!--  derived attributes  -->
                 <Frame Grid.Row="1" Grid.Column="0">
@@ -284,7 +295,7 @@
                 <Frame HeightRequest="600" HorizontalOptions="Center" VerticalOptions="Center"
                        WidthRequest="1000">
                     <cc:WeaponDetailView HorizontalOptions="Fill" VerticalOptions="Fill"
-                                                     WeaponDetailViewModel="{Binding WeaponDetailViewModel, Source={RelativeSource AncestorType={x:Type viewModels:StatusPageViewModel}}}" />
+                                         WeaponDetailViewModel="{Binding WeaponDetailViewModel, Source={RelativeSource AncestorType={x:Type viewModels:StatusPageViewModel}}}" />
                 </Frame>
             </Grid>
 
@@ -298,7 +309,7 @@
                 <Frame HeightRequest="950" HorizontalOptions="Center" VerticalOptions="Center"
                        WidthRequest="1300">
                     <cc:TreatmentDetailView HorizontalOptions="Fill" VerticalOptions="Fill"
-                                                        TreatmentDetailViewModel="{Binding TreatmentDetailViewModel, Source={RelativeSource AncestorType={x:Type viewModels:StatusPageViewModel}}}" />
+                                            TreatmentDetailViewModel="{Binding TreatmentDetailViewModel, Source={RelativeSource AncestorType={x:Type viewModels:StatusPageViewModel}}}" />
                 </Frame>
             </Grid>
 
@@ -312,7 +323,7 @@
                 <Frame HeightRequest="900" HorizontalOptions="Center" VerticalOptions="Center"
                        WidthRequest="1300">
                     <cc:HealingDetailView HorizontalOptions="Fill" VerticalOptions="Fill"
-                                                      HealingDetailViewModel="{Binding HealingDetailViewModel, Source={RelativeSource AncestorType={x:Type viewModels:StatusPageViewModel}}}" />
+                                          HealingDetailViewModel="{Binding HealingDetailViewModel, Source={RelativeSource AncestorType={x:Type viewModels:StatusPageViewModel}}}" />
                 </Frame>
             </Grid>
         </Grid>
