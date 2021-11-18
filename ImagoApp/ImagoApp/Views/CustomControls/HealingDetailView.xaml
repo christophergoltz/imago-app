@@ -23,21 +23,207 @@
                        FontSize="{DynamicResource FontSizeBigContent}"
                        Text="(Ein Wurf pro betroffener Trefferzone)"
                        TextColor="{StaticResource AntiUmbra1}" />
-            </StackLayout>
 
+                <!-- trefferzone -->
+                <Label Padding="10,5,10,5" Margin="0,15,0,0" BackgroundColor="{StaticResource AntiUmbra2}"
+                       FontAttributes="Bold" 
+                       FontSize="{DynamicResource FontSizeSmallContent}"
+                       Text="Zu heilende Trefferzonen" TextColor="white"/>
+
+                <Frame  Margin="20">
+                    <CollectionView ItemsSource="{Binding DamagedBodyParts}"
+                   SelectedItem="{Binding SelectedBodyPartModel, Mode=TwoWay}"
+                   SelectionMode="Single">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:BodyPartModel">
+                                <Grid>
+                                    <ProgressBar Margin="-5" BackgroundColor="Transparent"
+                                                 HorizontalOptions="FillAndExpand"
+                                                 Progress="{Binding CurrentHitpointsPercentage}"
+                                                 ProgressColor="{Binding ., Converter={StaticResource BodyPartToCurrentHitpointsColor}}" />
+
+                                    <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Horizontal"
+                                             VerticalOptions="FillAndExpand">
+                                        <Label Margin="10,0,0,0" FontAttributes="Bold"
+                                               FontSize="{DynamicResource FontSizeContent}"
+                                               Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"
+                                               VerticalOptions="Center" />
+                                        <Label FontAttributes="Bold" HorizontalTextAlignment="End"
+                                                   Text="{Binding CurrentHitpoints}"
+                                                   VerticalOptions="Center" />
+                                        <Label FontAttributes="Bold" Text="/" VerticalOptions="Center" />
+                                        <Label FontAttributes="Bold"
+                                           Text="{Binding MaxHitpoints}"
+                                           VerticalOptions="Center" />
+                                    </StackLayout>
+                                </Grid>
+
+                                <!--<StackLayout Margin="10,0" Padding="10" Orientation="Horizontal"
+                                   VerticalOptions="Center">
+                                        <Label FontSize="{DynamicResource FontSizeHeader}"
+                                       Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"
+                                       VerticalOptions="Center" />
+                                        <Label FontSize="{DynamicResource FontSizeHeader}"
+                                       Text="FW: " VerticalOptions="Center" />
+                                        <Label FontAttributes="Bold"
+                                       FontSize="{DynamicResource FontSizeHeader}"
+                                       Text="{Binding FinalValue}"
+                                       VerticalOptions="Center" />
+                                    </StackLayout>-->
+
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Frame>
+
+                <!-- hinweise -->
+                <Label Padding="10,5,10,5" BackgroundColor="{StaticResource AntiUmbra2}"
+                       FontAttributes="Bold" 
+                       FontSize="{DynamicResource FontSizeSmallContent}"
+                       Text="Hinweise" TextColor="white"/>
+
+                <Label Margin="20,10" FontAttributes="Italic"
+                       FontSize="{DynamicResource FontSizeDetail}"
+                       Text="Charaktere, die krank oder von einer anderen Noxe betroffen sind, marschieren, kämpfen, schwer körperlich arbeiten, hungern oder dursten, haben in solchen Zeiträumen keine Ruhephasen, dürfen also auch keine Heilung wahrnehmen."
+                       TextColor="{StaticResource AntiUmbra1}"  />
+
+                <Label Margin="20,10" FontAttributes="Italic"
+                       FontSize="{DynamicResource FontSizeDetail}"
+                       Text="Ein Charakter, dem so eine Ruhephase verwehrt ist oder nicht behandelt wurden, muss dennoch würfeln, um zu überprüfen, ob sich der Zustand seiner Wunden verschlechtert und er weiter Trefferpunkte verliert."
+                       TextColor="{StaticResource AntiUmbra1}"  />
+              
+                <!-- effect -->
+                <Label Padding="10,5,10,5" BackgroundColor="{StaticResource AntiUmbra2}"
+                       FontAttributes="Bold" 
+                       FontSize="{DynamicResource FontSizeSmallContent}"
+                       Text="Effekt durch die Behandung" TextColor="white"/>
+
+                <Image Margin="10" HeightRequest="200" Source="Images/heilung_tabelle.png" HorizontalOptions="Start" VerticalOptions="Start"/>
+
+
+            </StackLayout>
 
             <BoxView WidthRequest="1" Grid.Column="1" Margin="0,10" BackgroundColor="{StaticResource AntiUmbra1}"/>
 
             <!-- healing -->
-            <StackLayout Grid.Column="2">
-                <Label Margin="30,30,30,0" FontAttributes="Bold"
-                       FontSize="{DynamicResource FontSizeSmallCaption}"
-                       Text="Heilungswurf" />
+            <StackLayout Grid.Column="2" >
+                <!-- attribte -->
+                <Label Padding="10,5,10,5" Margin="0,15,80,0" BackgroundColor="{StaticResource AntiUmbra2}"
+                       FontAttributes="Bold" 
+                       FontSize="{DynamicResource FontSizeSmallContent}"
+                       Text="Attribut" TextColor="white"/>
 
-                <Label Margin="40,10,10,0"
-                       FontSize="{DynamicResource FontSizeBigContent}"
-                       Text="(Ein Wurf pro betroffener Trefferzone)"
-                       TextColor="{StaticResource AntiUmbra1}" />
+                <StackLayout Padding="10,5,10,5" Margin="20,5" Orientation="Horizontal">
+                    <Label FontSize="{DynamicResource FontSizeContent}"
+                           Text="Konstitution:" VerticalOptions="Center" />
+                    <Label Margin="10,0,0,0"
+                           FontSize="{DynamicResource FontSizeContent}"
+                           Text="{Binding CharacterViewModel.KonstitutionAttribute.FinalValue}"
+                           VerticalOptions="Center" WidthRequest="90" />
+                </StackLayout>
+
+                <!-- missing hitpoints-->
+                <Label Padding="10,5,10,5" Margin="0,15,0,0" BackgroundColor="{StaticResource AntiUmbra2}"
+                       FontAttributes="Bold" 
+                       FontSize="{DynamicResource FontSizeSmallContent}"
+                       Text="Malus für fehlenden Trefferpunkte" TextColor="white"/>
+
+                <StackLayout Padding="10,5,10,5" Margin="20,5" Orientation="Horizontal">
+                    <Label FontSize="{DynamicResource FontSizeContent}"
+                           Text="Fehlende TP:" VerticalOptions="Center" />
+                    <Label Margin="10,0,0,0"
+                           FontSize="{DynamicResource FontSizeContent}"
+                           Text="{Binding SelectedBodyPartModel.MissingHitpoints}"
+                           VerticalOptions="Center" WidthRequest="90" />
+                    <Label Margin="10,0" FontSize="{DynamicResource FontSizeContent}"
+                           Text="x 5" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" />
+
+                    <Label VerticalOptions="Center" HorizontalOptions="EndAndExpand">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="= "
+                                      FontSize="{DynamicResource FontSizeContent}"/>
+                                <Span Text="{Binding MissingHitpointsModification}" FontAttributes="Bold"
+                                      FontSize="{DynamicResource FontSizeContent}"></Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </StackLayout>
+
+<!-- destroyed -->
+                <Label Padding="10,5,10,5" 
+                       BackgroundColor="{StaticResource AntiUmbra2}"
+                       FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeSmallContent}"
+                       Text="Malus für zerstörte Trefferzone" TextColor="white"/>
+
+                <StackLayout Padding="10,5,10,5" Margin="20,5" Orientation="Horizontal">
+                    <Label FontSize="{DynamicResource FontSizeContent}"
+                           Text="Trefferzone zerstört?" VerticalOptions="Center" />
+                    <CheckBox Margin="10,0,0,0" IsChecked="{Binding BodyPartDestroyed}"
+                              VerticalOptions="Center" WidthRequest="90" />
+                    <Label VerticalOptions="Center" HorizontalOptions="EndAndExpand" IsVisible="{Binding BodyPartDestroyed}">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="= "
+                                      FontSize="{DynamicResource FontSizeContent}"/>
+                                <Span Text="10" FontAttributes="Bold"
+                                      FontSize="{DynamicResource FontSizeContent}"></Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </StackLayout>
+
+<!-- treatment bonus -->
+                <Label Padding="10,5,10,5" 
+                       BackgroundColor="{StaticResource AntiUmbra2}"
+                       FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeSmallContent}"
+                       Text="Behandlungsbonus" TextColor="white"/>
+
+                <StackLayout Padding="10,5,10,5" Margin="20,5" Orientation="Horizontal">
+                    <Label FontSize="{DynamicResource FontSizeContent}"
+                           Text="Wert:" VerticalOptions="Center" />
+                    <Entry Margin="10,0,0,0"
+                           FontSize="{DynamicResource FontSizeContent}" Keyboard="Numeric"
+                           Text="{Binding TreatmentBonus}"
+                           VerticalOptions="Center" WidthRequest="90" />
+                </StackLayout>
+
+                <!-- modifikator -->
+                <Label Padding="10,5,10,5" 
+                        BackgroundColor="{StaticResource AntiUmbra2}"
+                        FontAttributes="Bold"
+                        FontSize="{DynamicResource FontSizeSmallContent}"
+                        Text="Positiver oder negativer Modifikator" TextColor="white"/>
+
+                <StackLayout Padding="10,5,10,5" Margin="20,5" Orientation="Horizontal">
+                    <Label FontSize="{DynamicResource FontSizeContent}"
+                           Text="Modifikator:" VerticalOptions="Center" />
+                    <Entry Margin="10,0,0,0"
+                           FontSize="{DynamicResource FontSizeContent}"
+                           Text="{Binding Modification}"
+                           VerticalOptions="Center" WidthRequest="90" />
+                </StackLayout>
+
+                <!--  footer  -->
+                <Grid  Padding="5" VerticalOptions="EndAndExpand">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <BoxView Grid.Row="0" Color="Black" />
+                    <StackLayout Grid.Row="1" HorizontalOptions="Center"
+                                 Orientation="Horizontal">
+                        <Label FontSize="{DynamicResource FontSizeHeader}"
+                               Text="Heilungswurf gegen" VerticalOptions="Center" />
+                        <Label Margin="10,0,0,0" FontAttributes="Bold"
+                               FontSize="{DynamicResource FontSizeTitle}"
+                               Text="{Binding FinalHealingValue}"
+                               VerticalOptions="Center" />
+                    </StackLayout>
+                </Grid>
             </StackLayout>
 
             <Button Grid.Column="2" Margin="20" Padding="0,-4,0,0"
@@ -47,5 +233,5 @@
                     HeightRequest="35" HorizontalOptions="End" Text="X"
                     TextColor="Red" VerticalOptions="Start" WidthRequest="35" />
         </Grid>
-  </ContentView.Content>
+    </ContentView.Content>
 </ContentView>

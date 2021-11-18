@@ -118,7 +118,7 @@
             <Label Padding="10,5,10,5" BackgroundColor="{StaticResource AntiUmbra2}"
                     FontAttributes="Bold" 
                     FontSize="{DynamicResource FontSizeSmallContent}"
-                    Text="Effekt durch die Behandung auf den Heilungswurf" TextColor="white"/>
+                    Text="Effekt auf den Heilungswurf" TextColor="white"/>
 
             <Image Margin="10" HeightRequest="200" Source="Images/heilung_tabelle.png" HorizontalOptions="Start" VerticalOptions="Start"/>
 
