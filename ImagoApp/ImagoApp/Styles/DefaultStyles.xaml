@@ -41,39 +41,6 @@
         <GradientStop Offset="0.1" Color="{DynamicResource PrimaryDarkestColor}" />
     </LinearGradientBrush>
 
-    <!--<Style x:Key="SingleGradiantStyle" TargetType="Grid">
-        <Setter Property="Background">
-            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                <GradientStop Offset="1" Color="{DynamicResource Umbra4}" />
-                <GradientStop Offset="0.16" Color="{DynamicResource Umbra2}" />
-                <GradientStop Offset="0.0" Color="{DynamicResource Umbra1}" />
-            </LinearGradientBrush>
-        </Setter>
-    </Style>
-
-    <DataTemplate x:Key="HandicapItemTemplate" x:DataType="viewModels:HandicapListViewItemViewModel">
-        <Grid Margin="10,0,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="80" />
-                <ColumnDefinition Width="60" />
-            </Grid.ColumnDefinitions>
-            <Image Grid.Column="0" HeightRequest="25" HorizontalOptions="Start" VerticalOptions="Center"
-                   Source="{Binding ImageSource}"
-                   WidthRequest="25" />
-            <Label Grid.Column="1" VerticalOptions="Center"
-                   FontSize="{DynamicResource FontSizeContent}"
-                   Text="{Binding Text}" />
-            <Label Grid.Column="2" VerticalOptions="Center"
-                   FontSize="{DynamicResource FontSizeContent}"
-                   Text="{Binding HandiCapValue}" />
-            <RadioButton Grid.Column="3" VerticalOptions="Center"
-                         IsChecked="{Binding IsChecked}"
-                         Value="{Binding Type}" />
-        </Grid>
-    </DataTemplate>-->
-    
     <LinearGradientBrush x:Key="SinglePrimaryGradientBrush" StartPoint="0.5,0" EndPoint="0.5,1">
         <GradientStop Offset="1" Color="{DynamicResource PrimaryLightColor}" />
         <GradientStop Offset="0.16" Color="{DynamicResource PrimaryDarkColor}" />

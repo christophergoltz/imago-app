@@ -6,7 +6,7 @@
              xmlns:generic="clr-namespace:System.Collections.Generic;assembly=netstandard"
              x:Class="ImagoApp.Views.CustomControls.HealingDetailView">
     <ContentView.Content>
-        <Grid  BindingContext="{Binding HealingDetailViewModel, Source={x:Reference HealingDetailViewControl}}" Style="{StaticResource SingleGradiantStyle}">
+        <Grid  BindingContext="{Binding HealingDetailViewModel, Source={x:Reference HealingDetailViewControl}}" Background="{DynamicResource SinglePrimaryGradientBrush}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -22,10 +22,10 @@
                 <Label Margin="40,10,10,0"
                        FontSize="{DynamicResource FontSizeBigContent}"
                        Text="(Ein Wurf pro betroffener Trefferzone)"
-                       TextColor="{StaticResource AntiUmbra1}" />
+                       TextColor="{DynamicResource SecondaryFirstDarkColor}" />
 
                 <!-- trefferzone -->
-                <Label Padding="10,5,10,5" Margin="0,15,0,0" BackgroundColor="{StaticResource AntiUmbra2}"
+                <Label Padding="10,5,10,5" Margin="0,15,0,0" BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
                        FontAttributes="Bold" 
                        FontSize="{DynamicResource FontSizeSmallContent}"
                        Text="Zu heilende Trefferzonen" TextColor="white"/>
@@ -77,7 +77,7 @@
                 </Frame>
 
                 <!-- hinweise -->
-                <Label Padding="10,5,10,5" BackgroundColor="{StaticResource AntiUmbra2}"
+                <Label Padding="10,5,10,5" BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
                        FontAttributes="Bold" 
                        FontSize="{DynamicResource FontSizeSmallContent}"
                        Text="Hinweise" TextColor="white"/>
@@ -85,15 +85,15 @@
                 <Label Margin="20,10" FontAttributes="Italic"
                        FontSize="{DynamicResource FontSizeDetail}"
                        Text="Charaktere, die krank oder von einer anderen Noxe betroffen sind, marschieren, kämpfen, schwer körperlich arbeiten, hungern oder dursten, haben in solchen Zeiträumen keine Ruhephasen, dürfen also auch keine Heilung wahrnehmen."
-                       TextColor="{StaticResource AntiUmbra1}"  />
+                       TextColor="{DynamicResource SecondaryFirstDarkColor}"  />
 
                 <Label Margin="20,10" FontAttributes="Italic"
                        FontSize="{DynamicResource FontSizeDetail}"
                        Text="Ein Charakter, dem so eine Ruhephase verwehrt ist oder nicht behandelt wurden, muss dennoch würfeln, um zu überprüfen, ob sich der Zustand seiner Wunden verschlechtert und er weiter Trefferpunkte verliert."
-                       TextColor="{StaticResource AntiUmbra1}"  />
+                       TextColor="{DynamicResource SecondaryFirstDarkColor}"  />
               
                 <!-- effect -->
-                <Label Padding="10,5,10,5" BackgroundColor="{StaticResource AntiUmbra2}"
+                <Label Padding="10,5,10,5" BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
                        FontAttributes="Bold" 
                        FontSize="{DynamicResource FontSizeSmallContent}"
                        Text="Effekt durch die Behandung" TextColor="white"/>
@@ -103,12 +103,12 @@
 
             </StackLayout>
 
-            <BoxView WidthRequest="1" Grid.Column="1" Margin="0,10" BackgroundColor="{StaticResource AntiUmbra1}"/>
+            <BoxView WidthRequest="1" Grid.Column="1" Margin="0,10" BackgroundColor="{DynamicResource SecondaryFirstDarkColor}"/>
 
             <!-- healing -->
             <StackLayout Grid.Column="2" >
                 <!-- attribte -->
-                <Label Padding="10,5,10,5" Margin="0,15,80,0" BackgroundColor="{StaticResource AntiUmbra2}"
+                <Label Padding="10,5,10,5" Margin="0,15,80,0" BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
                        FontAttributes="Bold" 
                        FontSize="{DynamicResource FontSizeSmallContent}"
                        Text="Attribut" TextColor="white"/>
@@ -123,7 +123,7 @@
                 </StackLayout>
 
                 <!-- missing hitpoints-->
-                <Label Padding="10,5,10,5" Margin="0,15,0,0" BackgroundColor="{StaticResource AntiUmbra2}"
+                <Label Padding="10,5,10,5" Margin="0,15,0,0" BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
                        FontAttributes="Bold" 
                        FontSize="{DynamicResource FontSizeSmallContent}"
                        Text="Malus für fehlenden Trefferpunkte" TextColor="white"/>
@@ -152,7 +152,7 @@
 
 <!-- destroyed -->
                 <Label Padding="10,5,10,5" 
-                       BackgroundColor="{StaticResource AntiUmbra2}"
+                       BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
                        FontAttributes="Bold"
                        FontSize="{DynamicResource FontSizeSmallContent}"
                        Text="Malus für zerstörte Trefferzone" TextColor="white"/>
@@ -176,7 +176,7 @@
 
 <!-- treatment bonus -->
                 <Label Padding="10,5,10,5" 
-                       BackgroundColor="{StaticResource AntiUmbra2}"
+                       BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
                        FontAttributes="Bold"
                        FontSize="{DynamicResource FontSizeSmallContent}"
                        Text="Behandlungsbonus" TextColor="white"/>
@@ -192,7 +192,7 @@
 
                 <!-- modifikator -->
                 <Label Padding="10,5,10,5" 
-                        BackgroundColor="{StaticResource AntiUmbra2}"
+                        BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
                         FontAttributes="Bold"
                         FontSize="{DynamicResource FontSizeSmallContent}"
                         Text="Positiver oder negativer Modifikator" TextColor="white"/>

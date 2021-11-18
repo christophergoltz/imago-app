@@ -272,7 +272,7 @@
                             </Style>
                         </Label.Style>
                     </Label>
-                    <StackLayout BindableLayout.ItemTemplate="{StaticResource HandicapItemTemplate}"
+                    <StackLayout BindableLayout.ItemTemplate="{DynamicResource HandicapItemTemplate}"
                        BindableLayout.ItemsSource="{Binding Handicaps}"
                        RadioButtonGroup.GroupName="Handicap" />
 
