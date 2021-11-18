@@ -2,6 +2,7 @@
 ---
 ## 0.3 (tba)
 
+- **Hinzugefügt**: [#98](https://github.com/christophergoltz/imago-app/issues/98) Auf dem Webbogen wird nun bei den 8 Prinzipien das Symbol mit der ensprechenden Farbe angezeigt, wenn dieses erwoben wurde (SW >= 25)
 - **Hinzugefügt**: [#111](https://github.com/christophergoltz/imago-app/issues/111) Eine Auswahl zwischen verschiedenen Farbschemen wurde hinzugefügt
 - **Hinzugefügt**: [#113](https://github.com/christophergoltz/imago-app/issues/113) Bei den Trefferzonen werden nun die entsprechenden Index-Zahlen angezeigt
 - **Hinzugefügt**: [#8](https://github.com/christophergoltz/imago-app/issues/8) Auf dem Kampfbogen wurden eine Hilfe für Behandung und Heilung hinzugefügt

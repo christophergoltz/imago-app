@@ -309,7 +309,7 @@
                         <TapGestureRecognizer Command="{Binding TreatmentDetailViewModel.CloseCommand}" />
                     </ContentView.GestureRecognizers>
                 </ContentView>
-                <Frame HeightRequest="1000" HorizontalOptions="Center" VerticalOptions="Center"
+                <Frame HeightRequest="950" HorizontalOptions="Center" VerticalOptions="Center"
                        WidthRequest="1300">
                     <customControls:TreatmentDetailView HorizontalOptions="Fill" VerticalOptions="Fill"
                                                       TreatmentDetailViewModel="{Binding TreatmentDetailViewModel, Source={RelativeSource AncestorType={x:Type viewModels:StatusPageViewModel}}}" />

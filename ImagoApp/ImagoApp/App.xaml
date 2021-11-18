@@ -2,19 +2,6 @@
 <Application x:Class="ImagoApp.App" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
    xmlns:converter="clr-namespace:ImagoApp.Converter;assembly=ImagoApp" xmlns:util="clr-namespace:ImagoApp.Util;assembly=ImagoApp" xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp">
     <Application.Resources>
-        <!--<ResourceDictionary>
-            <ResourceDictionary Source="Styles/GlobalConverter.xaml" />
-            <ResourceDictionary Source="Styles/DefaultStyles.xaml" />
-            <ResourceDictionary Source="Styles/DataTemplates.xaml" />
-            <ResourceDictionary Source="Styles/FontSize.xaml" />
-        -->
-        <!--<ResourceDictionary Source="Styles/Themes/KathaUmbraTheme.xaml" />-->
-        <!--
-
-
-
-        </ResourceDictionary>-->
-
         <converter:SkillGroupTypeToAttributeSourceStringConverter x:Key="SkillGroupTypeToAttributeSourceStringConverter" />
         <converter:InverseBoolConverter x:Key="InverseBoolConverter" />
         <converter:EnumToDisplayTextConverter x:Key="EnumToDisplayTextConverter" />

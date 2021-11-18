@@ -76,6 +76,7 @@ namespace ImagoApp
             mergedDictionaries.Add(new DefaultStyles());
             mergedDictionaries.Add(new FontSize());
             mergedDictionaries.Add(new DataTemplates());
+            mergedDictionaries.Add(new PrincipleIcons());
 
             switch (appTheme)
             {
