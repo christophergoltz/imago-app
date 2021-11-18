@@ -27,44 +27,44 @@
                                             <Path.Triggers>
                                                 <DataTrigger Binding="{Binding WeaveSourceGroup}"
                                                    TargetType="Path" Value="Bewusstsein">
-                                                    <Setter Property="Style" Value="{StaticResource BewusstseinIcon}" />
-                                                    <Setter Property="WidthRequest" Value="75" />
+                                                    <Setter Property="Style" Value="{DynamicResource BewusstseinIcon}" />
+                                                    <Setter Property="WidthRequest" Value="65" />
                                                 </DataTrigger>
                                                 <DataTrigger Binding="{Binding WeaveSourceGroup}"
                                                    TargetType="Path" Value="Kontrolle">
-                                                    <Setter Property="Style" Value="{StaticResource KontrolleIcon}" />
-                                                    <Setter Property="WidthRequest" Value="75" />
+                                                    <Setter Property="Style" Value="{DynamicResource KontrolleIcon}" />
+                                                    <Setter Property="WidthRequest" Value="65" />
                                                 </DataTrigger>
                                                 <DataTrigger Binding="{Binding WeaveSourceGroup}"
                                                    TargetType="Path" Value="Struktur">
-                                                    <Setter Property="Style" Value="{StaticResource StrukturIcon}" />
-                                                    <Setter Property="WidthRequest" Value="75" />
+                                                    <Setter Property="Style" Value="{DynamicResource StrukturIcon}" />
+                                                    <Setter Property="WidthRequest" Value="65" />
                                                 </DataTrigger>
                                                 <DataTrigger Binding="{Binding WeaveSourceGroup}"
                                                    TargetType="Path" Value="Materie">
-                                                    <Setter Property="Style" Value="{StaticResource MaterieIcon}" />
-                                                    <Setter Property="WidthRequest" Value="75" />
+                                                    <Setter Property="Style" Value="{DynamicResource MaterieIcon}" />
+                                                    <Setter Property="WidthRequest" Value="65" />
                                                 </DataTrigger>
                                                 <DataTrigger Binding="{Binding WeaveSourceGroup}"
                                                    TargetType="Path" Value="Einfalt">
-                                                    <Setter Property="Style" Value="{StaticResource EinfaltIcon}" />
-                                                    <Setter Property="WidthRequest" Value="75" />
+                                                    <Setter Property="Style" Value="{DynamicResource EinfaltIcon}" />
+                                                    <Setter Property="WidthRequest" Value="65" />
                                                 </DataTrigger>
                                                 <DataTrigger Binding="{Binding WeaveSourceGroup}"
                                                    TargetType="Path" Value="Ekstase">
-                                                    <Setter Property="Style" Value="{StaticResource EkstaseIcon}" />
-                                                    <Setter Property="WidthRequest" Value="75" />
-                                                    <Setter Property="HeightRequest" Value="75" />
+                                                    <Setter Property="Style" Value="{DynamicResource EkstaseIcon}" />
+                                                    <Setter Property="WidthRequest" Value="65" />
+                                                    <Setter Property="HeightRequest" Value="65" />
                                                 </DataTrigger>
                                                 <DataTrigger Binding="{Binding WeaveSourceGroup}"
                                                    TargetType="Path" Value="Chaos">
-                                                    <Setter Property="Style" Value="{StaticResource ChaosIcon}" />
-                                                    <Setter Property="WidthRequest" Value="75" />
+                                                    <Setter Property="Style" Value="{DynamicResource ChaosIcon}" />
+                                                    <Setter Property="WidthRequest" Value="65" />
                                                 </DataTrigger>
                                                 <DataTrigger Binding="{Binding WeaveSourceGroup}"
                                                    TargetType="Path" Value="Leere">
-                                                    <Setter Property="Style" Value="{StaticResource LeereIcon}" />
-                                                    <Setter Property="WidthRequest" Value="75" />
+                                                    <Setter Property="Style" Value="{DynamicResource LeereIcon}" />
+                                                    <Setter Property="WidthRequest" Value="65" />
                                                 </DataTrigger>
                                             </Path.Triggers>
                                         </Path>

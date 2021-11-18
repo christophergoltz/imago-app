@@ -58,7 +58,7 @@
                 <!--  footer  -->
                 <BoxView Grid.Row="4" Color="{DynamicResource SecondaryFirstMediumColor}" />
 
-                <StackLayout Grid.Row="5" Margin="10,10,10,5" Padding="10,20,10,10">
+                <StackLayout  Grid.Row="5" Margin="10,10,10,5" Padding="10,20,10,10">
                     <StackLayout.Style>
                         <Style TargetType="StackLayout">
                             <Style.Triggers>
