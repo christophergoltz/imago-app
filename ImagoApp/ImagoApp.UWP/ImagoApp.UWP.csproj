@@ -148,11 +148,9 @@
     <Content Include="Images\export.png" />
     <Content Include="Images\externer_link.png" />
     <Content Include="Images\fernkampf.png" />
-    <Content Include="Images\fernkampf_weiss.png" />
     <Content Include="Images\fertigkeit.png" />
     <Content Include="Images\fertigkeit_weiss.png" />
     <Content Include="Images\handwerk.png" />
-    <Content Include="Images\handwerk_weiss.png" />
     <Content Include="Images\hauptmenue.png" />
     <Content Include="Images\hauptmenue_weiss.png" />
     <Content Include="Images\heilung.png" />
@@ -179,7 +177,6 @@
     <None Include="Package.StoreAssociation.xml" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Images\soziales.png" />
-    <Content Include="Images\soziales_weiss.png" />
     <Content Include="Images\staerke.png" />
     <Content Include="Images\swords.png" />
     <Content Include="Images\vor_und_nachteile.png" />
