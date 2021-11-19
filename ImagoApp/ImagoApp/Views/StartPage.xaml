@@ -89,12 +89,20 @@
                         <Label FontSize="{DynamicResource FontSizeHeader}"
                                Text="{Binding FontScale}"
                                VerticalOptions="Center" />
-                        <Button Margin="5" Padding="10,-1,10,5"
-                                Command="{Binding IncreaseFontSizeCommand}"
-                                FontSize="26" Text="+" VerticalOptions="Center" />
-                        <Button Margin="5" Padding="15,-1,15,5"
-                                Command="{Binding DecreaseFontSizeCommand}"
-                                FontSize="26" Text="-" VerticalOptions="Center" />
+
+                        <customControls:ImageButtonView  VerticalOptions="Center" Margin="5,0,0,0"
+                                                         ImageSource="Images/plus.png"
+                                                         ImageMargin="8,10,6,6"
+                                                         TextHidden="True" 
+                                                         ImageSize="33" 
+                                                         Command="{Binding IncreaseFontSizeCommand}"/>
+
+                        <customControls:ImageButtonView  VerticalOptions="Center"
+                                                         ImageSource="Images/minus.png"
+                                                         ImageMargin="8,10,6,6"
+                                                         TextHidden="True" 
+                                                         ImageSize="33" 
+                                                         Command="{Binding DecreaseFontSizeCommand}"/>
                     </StackLayout>
                 </StackLayout>
             </Frame>
@@ -109,41 +117,41 @@
 
                     <StackLayout Grid.Column="0">
                         <Label FontAttributes="Bold"
-           FontSize="{DynamicResource FontSizeTitle}"
-           Text="Wiki Datenbank" VerticalOptions="Center" />
+                               FontSize="{DynamicResource FontSizeTitle}"
+                               Text="Wiki Datenbank" VerticalOptions="Center" />
 
                         <StackLayout Orientation="Horizontal">
                             <Label Margin="20,0,0,0"
-                               FontSize="{DynamicResource FontSizeHeader}"
-                               Text="Rüstungen: " />
+                                   FontSize="{DynamicResource FontSizeHeader}"
+                                   Text="Rüstungen: " />
                             <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding DatabaseInfoViewModel.ArmorTemplateCount}" />
                         </StackLayout>
 
                         <StackLayout Orientation="Horizontal">
                             <Label Margin="20,0,0,0"
-                               FontSize="{DynamicResource FontSizeHeader}"
-                               Text="Waffen: " />
+                                   FontSize="{DynamicResource FontSizeHeader}"
+                                   Text="Waffen: " />
                             <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding DatabaseInfoViewModel.WeaponTemplateCount}" />
                         </StackLayout>
 
                         <StackLayout Orientation="Horizontal">
                             <Label Margin="20,0,0,0"
-                               FontSize="{DynamicResource FontSizeHeader}"
-                               Text="Künste: " />
+                                   FontSize="{DynamicResource FontSizeHeader}"
+                                   Text="Künste: " />
                             <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding DatabaseInfoViewModel.TalentTemplateCount}" />
                         </StackLayout>
 
                         <StackLayout Orientation="Horizontal">
                             <Label Margin="20,0,0,0"
-                               FontSize="{DynamicResource FontSizeHeader}"
-                               Text="Webkünste: " />
+                                   FontSize="{DynamicResource FontSizeHeader}"
+                                   Text="Webkünste: " />
                             <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding DatabaseInfoViewModel.WeaveTalentTemplateCount}" />
                         </StackLayout>
 
                         <StackLayout Orientation="Horizontal">
                             <Label Margin="20,0,0,0"
-                               FontSize="{DynamicResource FontSizeHeader}"
-                               Text="Meisterschaften: " />
+                                   FontSize="{DynamicResource FontSizeHeader}"
+                                   Text="Meisterschaften: " />
                             <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding DatabaseInfoViewModel.MasteryTemplateCount}" />
                         </StackLayout>
 
@@ -158,20 +166,20 @@
                             </Grid.ColumnDefinitions>
 
                             <Label Grid.Column="1" Margin="25,0"
-                               FontSize="{DynamicResource FontSizeTitle}"
-                               HorizontalOptions="EndAndExpand"
-                               Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.Length, Converter={StaticResource FileInfoLenghtToSmartFileSizeConverter}}"
-                               VerticalOptions="Center" />
+                                   FontSize="{DynamicResource FontSizeTitle}"
+                                   HorizontalOptions="EndAndExpand"
+                                   Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.Length, Converter={StaticResource FileInfoLenghtToSmartFileSizeConverter}}"
+                                   VerticalOptions="Center" />
                             <Label Grid.Column="2"
-                               FontSize="{DynamicResource FontSizeTitle}"
-                               HorizontalOptions="EndAndExpand"
-                               Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.LastWriteTime, StringFormat='{0:dd.MM.yyyy HH:mm}'}"
-                               VerticalOptions="Center" />
+                                   FontSize="{DynamicResource FontSizeTitle}"
+                                   HorizontalOptions="EndAndExpand"
+                                   Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.LastWriteTime, StringFormat='{0:dd.MM.yyyy HH:mm}'}"
+                                   VerticalOptions="Center" />
                         </Grid>
 
                         <customControls:ImageButtonView Margin="15,5"
                                                         Command="{Binding ParseWikiCommand, Source={RelativeSource AncestorType={x:Type viewModels:StartPageViewModel}}}"
-                                                        ImageSize="45" ImageMargin="4,1,-4,1"
+                                                        ImageSize="37" ImageMargin="11,9,3,7"
                                                         VerticalOptions="Center"
                                                         ImageSource="Images/download.png" 
                                                         HorizontalOptions="EndAndExpand"
@@ -249,7 +257,7 @@
                                                              TextHidden="True" 
                                                              ImageSize="33" 
                                                              Command="{Binding CreateNewCharacterCommand}"
-                            ></customControls:ImageButtonView>
+                                                             ></customControls:ImageButtonView>
 
                             <customControls:ImageButtonView TextHidden="True" ImageSize="28"  ImageMargin="10,8,8,8"
                                                             ImageSource="Images/reload.png"
@@ -279,8 +287,8 @@
 
                     <!--  char list  -->
                     <ListView Grid.Row="1" SelectedItem="{Binding SelectedCharacter, Mode=TwoWay}"
-                                    ItemsSource="{Binding Characters}"
-                                    SelectionMode="Single" HasUnevenRows="True">
+                              ItemsSource="{Binding Characters}"
+                              SelectionMode="Single" HasUnevenRows="True">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="shared:CharacterPreview">
                                 <ViewCell>
@@ -291,40 +299,40 @@
 
                                         <StackLayout Orientation="Horizontal">
                                             <Label FontSize="{DynamicResource FontSizeTitle}"
-                                               Text="{Binding Name}"
-                                               VerticalOptions="Center" />
+                                                   Text="{Binding Name}"
+                                                   VerticalOptions="Center" />
                                             <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal" VerticalOptions="Center">
                                                 <Label Margin="20,0"
-                                                   FontSize="{DynamicResource FontSizeTitle}"
-                                                   Text="{Binding FileSize, Converter={StaticResource FileInfoLenghtToSmartFileSizeConverter}}" />
+                                                       FontSize="{DynamicResource FontSizeTitle}"
+                                                       Text="{Binding FileSize, Converter={StaticResource FileInfoLenghtToSmartFileSizeConverter}}" />
                                                 <Label FontSize="{DynamicResource FontSizeTitle}" Text="{Binding LastEdit, StringFormat='{0:dd.MM.yyyy HH:mm}'}" />
                                             </StackLayout>
 
                                         </StackLayout>
                                         <StackLayout Orientation="Horizontal">
                                             <Label FontSize="{DynamicResource FontSizeBigContent}"
-                                               Text="{Binding Version}"
-                                               TextColor="{DynamicResource SecondaryFirstDarkColor}"
-                                               VerticalOptions="Center" />
+                                                   Text="{Binding Version}"
+                                                   TextColor="{DynamicResource SecondaryFirstDarkColor}"
+                                                   VerticalOptions="Center" />
 
                                             <StackLayout IsVisible="{Binding LastBackup, Converter={StaticResource ObjectNotNullToBoolConverter}}" Orientation="Horizontal">
 
                                                 <Label Margin="20,0,0,0"
-                                                   FontSize="{DynamicResource FontSizeBigContent}"
-                                                   Text="Letztes Backup:"
-                                                   TextColor="{DynamicResource SecondarySecondDarkestColor}"
-                                                   VerticalOptions="Center" />
+                                                       FontSize="{DynamicResource FontSizeBigContent}"
+                                                       Text="Letztes Backup:"
+                                                       TextColor="{DynamicResource SecondarySecondDarkestColor}"
+                                                       VerticalOptions="Center" />
                                                 <Label FontSize="{DynamicResource FontSizeBigContent}"
-                                                   Text="{Binding LastBackup, TargetNullValue=''}"
-                                                   TextColor="{DynamicResource SecondarySecondDarkestColor}"
-                                                   VerticalOptions="Center" />
+                                                       Text="{Binding LastBackup, TargetNullValue=''}"
+                                                       TextColor="{DynamicResource SecondarySecondDarkestColor}"
+                                                       VerticalOptions="Center" />
                                             </StackLayout>
 
                                             <Label FontSize="{DynamicResource FontSizeBigContent}"
-                                               HorizontalOptions="EndAndExpand"
-                                               Text="{Binding Guid}"
-                                               TextColor="{DynamicResource SecondaryFirstDarkColor}"
-                                               VerticalOptions="Center" />
+                                                   HorizontalOptions="EndAndExpand"
+                                                   Text="{Binding Guid}"
+                                                   TextColor="{DynamicResource SecondaryFirstDarkColor}"
+                                                   VerticalOptions="Center" />
 
                                         </StackLayout>
                                     </StackLayout>
