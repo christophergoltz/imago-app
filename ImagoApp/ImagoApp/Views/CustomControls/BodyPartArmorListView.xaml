@@ -65,7 +65,7 @@
                             <Label Grid.Row="0" Grid.Column="4" FontAttributes="Bold"
                                Text="Zustand" VerticalTextAlignment="Center" />
                             <Image Grid.Row="0" Grid.Column="5" Margin="5,5,10,5"
-                               HeightRequest="15" Source="Images/swords.png" VerticalOptions="Center"
+                               HeightRequest="15" Source="Images/nahkampf.png" VerticalOptions="Center"
                                WidthRequest="15" />
                             <Image Grid.Row="0" Grid.Column="6" Margin="5"
                                HeightRequest="15" Source="Images/inventar.png" VerticalOptions="Center"

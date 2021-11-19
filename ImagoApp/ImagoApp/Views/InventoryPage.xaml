@@ -56,7 +56,7 @@
                                 <Label Grid.Row="0" Grid.Column="1" FontAttributes="Bold"
                                    Text="Last" VerticalOptions="Center" />
                                 <Image Grid.Row="0" Grid.Column="2" Margin="10"
-                                   HeightRequest="30" Source="Images/swords.png" VerticalOptions="Center"
+                                   HeightRequest="30" Source="Images/nahkampf.png" VerticalOptions="Center"
                                    WidthRequest="30" />
                                 <Image Grid.Row="0" Grid.Column="3" Margin="10"
                                    HeightRequest="30" Source="Images/inventar.png" VerticalOptions="Center"

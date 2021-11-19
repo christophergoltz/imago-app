@@ -178,7 +178,6 @@
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Images\soziales.png" />
     <Content Include="Images\staerke.png" />
-    <Content Include="Images\swords.png" />
     <Content Include="Images\vor_und_nachteile.png" />
     <Content Include="Images\vor_und_nachteile_weiss.png" />
     <Content Include="Images\weben.png" />
