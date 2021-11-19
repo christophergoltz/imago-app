@@ -1,8 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage x:Class="ImagoApp.Views.StartPage" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-   xmlns:enum="clr-namespace:ImagoApp.Shared.Enums;assembly=ImagoApp.Shared" xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application" xmlns:shared="clr-namespace:ImagoApp.Shared;assembly=ImagoApp.Shared"
-   xmlns:util="clr-namespace:ImagoApp.Util;assembly=ImagoApp" xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp" x:Name="StartPageViewModelControl"
-   Title="Startseite" x:DataType="viewModels:StartPageViewModel">
+             xmlns:enum="clr-namespace:ImagoApp.Shared.Enums;assembly=ImagoApp.Shared" xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application" xmlns:shared="clr-namespace:ImagoApp.Shared;assembly=ImagoApp.Shared"
+             xmlns:util="clr-namespace:ImagoApp.Util;assembly=ImagoApp" xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
+             xmlns:imagoApp="clr-namespace:ImagoApp;assembly=ImagoApp"
+             xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp"
+             x:Name="StartPageViewModelControl"
+             Title="Startseite" x:DataType="viewModels:StartPageViewModel">
     <ContentPage.Content>
         <Grid Style="{DynamicResource BackgroundGridStyle}">
             <Grid.ColumnDefinitions>
@@ -22,41 +25,52 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="50" />
                     </Grid.RowDefinitions>
 
                     <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
                         <Label Margin="10" FontAttributes="Bold"
-                           FontSize="{DynamicResource FontSizeCaption}"
-                           Text="ImagoApp" VerticalOptions="Center" />
-                        <Button Margin="20,15"
-                           Command="{Binding OpenAppDataFolderCommand}"
-                           HorizontalOptions="EndAndExpand" Text="App-Ordner öffnen" VerticalOptions="Center" />
+                               FontSize="{DynamicResource FontSizeCaption}"
+                               Text="ImagoApp" VerticalOptions="Center" />
+
+                        <customControls:ImageButtonView  Command="{Binding OpenAppDataFolderCommand}" 
+                                                         Margin="0,10,20,0" ImageSize="50" ImageMargin="2,1,-2,1"
+                                                         VerticalOptions="Center"
+                                                         
+                                                         ImageSource="Images/ordner.png" 
+                                                         HorizontalOptions="EndAndExpand"
+                                                         Text="App-Verzeichnis"/>
+
                     </StackLayout>
 
                     <StackLayout Grid.Row="1" Orientation="Horizontal" VerticalOptions="FillAndExpand">
                         <Label Margin="20,0,0,0"
-                           FontSize="{DynamicResource FontSizeHeader}"
-                           Text="Version:" VerticalOptions="Center" />
+                               FontSize="{DynamicResource FontSizeHeader}"
+                               Text="Version:" VerticalOptions="Center" />
                         <Label FontSize="{DynamicResource FontSizeHeader}"
-                           Text="{Binding Version}"
-                           VerticalOptions="Center" />
-                        <Label Margin="20,5"
-                           FontSize="{DynamicResource FontSizeHeader}"
-                           HorizontalOptions="EndAndExpand" Text="Regel-Version: 7 (Zeta)" VerticalOptions="Center" />
+                               Text="{Binding Version}"
+                               VerticalOptions="Center" />
+                       
                     </StackLayout>
 
-                    <StackLayout Grid.Row="2" Margin="20,0,0,0" Orientation="Horizontal">
-                        <Button Margin="10,5"
-                           Command="{Binding OpenChangeLogCommand}"
-                           Text="Changelog ↗" VerticalOptions="Center" />
-                        <Button Margin="10,5"
-                           Command="{Binding OpenRoadmapCommand}"
-                           Text="Roadmap ↗" VerticalOptions="Center" />
-                        <Button Margin="20,10" Padding="7,3" Background="limegreen"
-                           Command="{Binding OpenImportantNotesCommand}"
-                           FontSize="{DynamicResource FontSizeBigContent}"
-                           HorizontalOptions="EndAndExpand" Text="Wichtige Benutzungshinweise &#8599;" VerticalOptions="Center" />
+                    <StackLayout Grid.Row="2" Orientation="Horizontal">
+                        <Label Margin="20,5"
+                               FontSize="{DynamicResource FontSizeHeader}"
+                               HorizontalOptions="Start" Text="Regel-Version: 7 (Zeta)" VerticalOptions="Center" />
+
+                        <customControls:ImageButtonView  Command="{Binding OpenChangeLogCommand}" Margin="0,0,-95,0"  HorizontalOptions="EndAndExpand"
+                                                         ImageSource="Images/externer_link.png" ImageSize="23" ImageMargin="10,9,4,7"
+                                                         Text="Changelog"></customControls:ImageButtonView>
+
+                        <customControls:ImageButtonView  Command="{Binding OpenRoadmapCommand}" Margin="0,0,-95,0"   HorizontalOptions="EndAndExpand"
+                                                         ImageSource="Images/externer_link.png" ImageSize="23" ImageMargin="10,9,4,7"
+                                                         Text="Roadmap"></customControls:ImageButtonView>
+
+                        <customControls:ImageButtonView  Command="{Binding OpenImportantNotesCommand}"  Margin="0,0,20,0"
+                                                         ImageSource="Images/externer_link.png"
+                                                         ImageSize="23" ImageMargin="10,9,4,7"
+                                                         HorizontalOptions="EndAndExpand"
+                                                         Text="Benutzungshinweise"></customControls:ImageButtonView>
                     </StackLayout>
                 </Grid>
             </Frame>
@@ -65,22 +79,22 @@
             <Frame Grid.Row="1" Grid.Column="0" Margin="10">
                 <StackLayout Padding="5,0,0,20">
                     <Label Margin="10" FontAttributes="Bold"
-                       FontSize="{DynamicResource FontSizeTitle}"
-                       Text="Anzeige" VerticalOptions="Center" />
+                           FontSize="{DynamicResource FontSizeTitle}"
+                           Text="Anzeige" VerticalOptions="Center" />
 
                     <StackLayout Orientation="Horizontal">
                         <Label Margin="20,0,0,0"
-                           FontSize="{DynamicResource FontSizeHeader}"
-                           Text="Schriftgröße (Experimentell): " VerticalOptions="Center" />
+                               FontSize="{DynamicResource FontSizeHeader}"
+                               Text="Schriftgröße (Experimentell): " VerticalOptions="Center" />
                         <Label FontSize="{DynamicResource FontSizeHeader}"
-                           Text="{Binding FontScale}"
-                           VerticalOptions="Center" />
+                               Text="{Binding FontScale}"
+                               VerticalOptions="Center" />
                         <Button Margin="5" Padding="10,-1,10,5"
-                           Command="{Binding IncreaseFontSizeCommand}"
-                           FontSize="26" Text="+" VerticalOptions="Center" />
+                                Command="{Binding IncreaseFontSizeCommand}"
+                                FontSize="26" Text="+" VerticalOptions="Center" />
                         <Button Margin="5" Padding="15,-1,15,5"
-                           Command="{Binding DecreaseFontSizeCommand}"
-                           FontSize="26" Text="-" VerticalOptions="Center" />
+                                Command="{Binding DecreaseFontSizeCommand}"
+                                FontSize="26" Text="-" VerticalOptions="Center" />
                     </StackLayout>
                 </StackLayout>
             </Frame>
@@ -97,57 +111,61 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="0" FontAttributes="Bold"
-                           FontSize="{DynamicResource FontSizeTitle}"
-                           Text="Wiki Datenbank" VerticalOptions="Center" />
+                               FontSize="{DynamicResource FontSizeTitle}"
+                               Text="Wiki Datenbank" VerticalOptions="Center" />
 
-                        <Button Grid.Column="1" Margin="5"
-                           Command="{Binding ParseWikiCommand, Source={RelativeSource AncestorType={x:Type viewModels:StartPageViewModel}}}"
-                           Text="Daten aus Wiki laden" VerticalOptions="Center" />
-
+                        <customControls:ImageButtonView Grid.Column="1" Margin="15,5"
+                                                        Command="{Binding ParseWikiCommand, Source={RelativeSource AncestorType={x:Type viewModels:StartPageViewModel}}}"
+                                                        ImageSize="45" ImageMargin="4,1,-4,1"
+                                                        VerticalOptions="Center"
+                                                        ImageSource="Images/download.png" 
+                                                        HorizontalOptions="EndAndExpand"
+                                                        Text="Aktualisieren"/>
+                     
                         <Label Grid.Column="3" Margin="25,0"
-                           FontSize="{DynamicResource FontSizeTitle}"
-                           HorizontalOptions="EndAndExpand"
-                           Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.Length, Converter={StaticResource FileInfoLenghtToSmartFileSizeConverter}}"
-                           VerticalOptions="Center" />
+                               FontSize="{DynamicResource FontSizeTitle}"
+                               HorizontalOptions="EndAndExpand"
+                               Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.Length, Converter={StaticResource FileInfoLenghtToSmartFileSizeConverter}}"
+                               VerticalOptions="Center" />
                         <Label Grid.Column="4"
-                           FontSize="{DynamicResource FontSizeTitle}"
-                           HorizontalOptions="EndAndExpand"
-                           Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.LastWriteTime, StringFormat='{0:dd.MM.yyyy HH:mm}'}"
-                           VerticalOptions="Center" />
+                               FontSize="{DynamicResource FontSizeTitle}"
+                               HorizontalOptions="EndAndExpand"
+                               Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.LastWriteTime, StringFormat='{0:dd.MM.yyyy HH:mm}'}"
+                               VerticalOptions="Center" />
                     </Grid>
 
                     <StackLayout Orientation="Horizontal">
                         <Label Margin="20,0,0,0"
-                           FontSize="{DynamicResource FontSizeHeader}"
-                           Text="Rüstungen: " />
+                               FontSize="{DynamicResource FontSizeHeader}"
+                               Text="Rüstungen: " />
                         <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding DatabaseInfoViewModel.ArmorTemplateCount}" />
                     </StackLayout>
 
                     <StackLayout Orientation="Horizontal">
                         <Label Margin="20,0,0,0"
-                           FontSize="{DynamicResource FontSizeHeader}"
-                           Text="Waffen: " />
+                               FontSize="{DynamicResource FontSizeHeader}"
+                               Text="Waffen: " />
                         <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding DatabaseInfoViewModel.WeaponTemplateCount}" />
                     </StackLayout>
 
                     <StackLayout Orientation="Horizontal">
                         <Label Margin="20,0,0,0"
-                           FontSize="{DynamicResource FontSizeHeader}"
-                           Text="Künste: " />
+                               FontSize="{DynamicResource FontSizeHeader}"
+                               Text="Künste: " />
                         <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding DatabaseInfoViewModel.TalentTemplateCount}" />
                     </StackLayout>
 
                     <StackLayout Orientation="Horizontal">
                         <Label Margin="20,0,0,0"
-                           FontSize="{DynamicResource FontSizeHeader}"
-                           Text="Webkünste: " />
+                               FontSize="{DynamicResource FontSizeHeader}"
+                               Text="Webkünste: " />
                         <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding DatabaseInfoViewModel.WeaveTalentTemplateCount}" />
                     </StackLayout>
 
                     <StackLayout Orientation="Horizontal">
                         <Label Margin="20,0,0,0"
-                           FontSize="{DynamicResource FontSizeHeader}"
-                           Text="Meisterschaften: " />
+                               FontSize="{DynamicResource FontSizeHeader}"
+                               Text="Meisterschaften: " />
                         <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding DatabaseInfoViewModel.MasteryTemplateCount}" />
                     </StackLayout>
                 </StackLayout>
@@ -157,12 +175,12 @@
             <Frame Grid.Row="3" Grid.Column="0" Margin="10">
                 <StackLayout Padding="5,0,0,20">
                     <Label Margin="10" FontAttributes="Bold"
-                       FontSize="{DynamicResource FontSizeTitle}"
-                       Text="Theme" VerticalOptions="Center" />
+                           FontSize="{DynamicResource FontSizeTitle}"
+                           Text="Theme" VerticalOptions="Center" />
 
-                    <CollectionView ItemsSource="{Binding Themes}"
-                       SelectedItem="{Binding SelectedTheme}"
-                       SelectionMode="Single">
+                    <CollectionView ItemsSource="{Binding Themes}" 
+                                    SelectedItem="{Binding SelectedTheme}"
+                                    SelectionMode="Single">
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="viewModels:ThemeItemViewModel">
                                 <Grid Padding="15">
@@ -170,16 +188,16 @@
                                         <Grid Margin="0" ColumnSpacing="0" RowSpacing="0">
                                             <StackLayout Orientation="Horizontal">
                                                 <Grid BackgroundColor="{Binding PrimaryColor}"
-                                                   HeightRequest="75" WidthRequest="150" />
+                                                      HeightRequest="75" WidthRequest="150" />
                                                 <Grid BackgroundColor="{Binding SecondaryColor}"
-                                                   HeightRequest="75" WidthRequest="150" />
+                                                      HeightRequest="75" WidthRequest="150" />
 
                                             </StackLayout>
                                             <Label Margin="5" Background="white"
-                                               FontSize="{DynamicResource FontSizeHeader}"
-                                               HorizontalOptions="Start"
-                                               Text="{Binding Theme, Converter={StaticResource EnumToDisplayTextConverter}}"
-                                               VerticalOptions="Start" />
+                                                   FontSize="{DynamicResource FontSizeHeader}"
+                                                   HorizontalOptions="Start"
+                                                   Text="{Binding Theme, Converter={StaticResource EnumToDisplayTextConverter}}"
+                                                   VerticalOptions="Start" />
                                         </Grid>
                                     </Frame>
                                 </Grid>
@@ -191,72 +209,79 @@
 
             <!--  Characters  -->
             <Frame Grid.Row="0" Grid.RowSpan="4" Grid.Column="1"
-               Margin="10">
+                   Margin="10">
                 <Grid Background="{DynamicResource SinglePrimaryGradientBrush}">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
+                    <!-- char header-->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="1" />
+                        </Grid.RowDefinitions>
+
+
+                        
+                        <Label Grid.Row="0" Margin="20,10,10,0"  FontAttributes="Bold"
+                               FontSize="{DynamicResource FontSizeCaption}"
+                               Text="Charaktere" VerticalOptions="Center" />
+                      
+                        <StackLayout VerticalOptions="Center" Orientation="Horizontal" Margin="20" Grid.Row="0" Grid.Column="1">
+                            <customControls:ImageButtonView  VerticalOptions="Center"
+                                                             ImageSource="Images/plus.png"
+                                                             ImageMargin="8,10,6,6"
+                                                             TextHidden="True" 
+                                                             ImageSize="33" 
+                                                             Command="{Binding CreateNewCharacterCommand}"
+                            ></customControls:ImageButtonView>
+
+                            <customControls:ImageButtonView TextHidden="True" ImageSize="28"  ImageMargin="10,8,8,8"
+                                                            ImageSource="Images/reload.png"
+                                                            Command="{Binding RefreshCharactersCommand}">
+
+                            </customControls:ImageButtonView>
+
+                            <customControls:ImageButtonView IsEnabled="False"  VerticalOptions="Center"
+                                                            ImageSource="Images/import.png"    
+                                                            Text="Datei" BackgroundColor="Orange"
+                                                            ImageSize="30" 
+                                                            ImageMargin="11,8,3,8"
+                                                            ></customControls:ImageButtonView>
+
+                            <customControls:ImageButtonView  VerticalOptions="Center"
+                                                             ImageSource="Images/import.png"
+                                                             Text="JSON"  Command="{Binding ImportCharacterCommand}"
+                                                             ImageSize="30" 
+                                                             ImageMargin="11,8,3,8"
+                                                             ></customControls:ImageButtonView>
+
+                        </StackLayout>
+
+                        <BoxView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+                                 Color="{DynamicResource SecondaryFirstDarkColor}" />
+                    </Grid>
 
                     <!--  char list  -->
-                    <ListView Grid.Row="0" ItemSelected="CharacterListView_OnItemSelected"
-                       ItemsSource="{Binding Characters}"
-                       SelectionMode="Single">
-                        <ListView.Header>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="1" />
-                                </Grid.RowDefinitions>
-                                <StackLayout Grid.Row="0" Grid.Column="0">
-                                    <StackLayout Orientation="Horizontal">
-                                        <Label Margin="20,10,10,0" FontAttributes="Bold"
-                                           FontSize="{DynamicResource FontSizeSmallCaption}"
-                                           Text="Charaktere" VerticalOptions="Center" />
-
-                                        <Button Margin="0,10,0,0" Padding="6,-3,6,2"
-                                           Command="{Binding RefreshCharactersCommand}"
-                                           FontSize="28" Text="↺" VerticalOptions="Center" />
-                                    </StackLayout>
-
-                                    <Label Margin="20,5"
-                                       FontSize="{DynamicResource FontSizeDetail}"
-                                       LineBreakMode="WordWrap" Text="(Per Rechtsklick kann ein Charakter zb. gelöscht werden)"
-                                       TextColor="{DynamicResource SecondaryFirstDarkColor}" />
-                                </StackLayout>
-                                <Button Grid.Row="0" Grid.Column="1" Margin="20"
-                                   Command="{Binding CreateNewCharacterCommand}"
-                                   FontSize="{DynamicResource FontSizeContent}"
-                                   Text="Neuer Charakter" />
-                                <Button Grid.Row="0" Grid.Column="2" Margin="20"
-                                   Command="{Binding ImportCharacterCommand}"
-                                   FontSize="{DynamicResource FontSizeContent}"
-                                   Text="Charakter importieren" />
-                                <BoxView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
-                                   Color="{DynamicResource SecondaryFirstDarkColor}" />
-                            </Grid>
-                        </ListView.Header>
+                    <ListView Grid.Row="1" SelectedItem="{Binding SelectedCharacter, Mode=TwoWay}"
+                                    ItemsSource="{Binding Characters}"
+                                    SelectionMode="Single" HasUnevenRows="True">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="shared:CharacterPreview">
                                 <ViewCell>
-                                    <!--  context menü  -->
-                                    <ViewCell.ContextActions>
-                                        <MenuItem Command="{Binding StartPageViewModel.CreateBackupCommand, Source={x:Reference StartPageViewModelControl}}"
-                                           CommandParameter="{Binding .}"
-                                           Text="Backup erstellen" />
-                                        <MenuItem Command="{Binding StartPageViewModel.ExportCharacterCommand, Source={x:Reference StartPageViewModelControl}}"
-                                           CommandParameter="{Binding .}"
-                                           Text="Exportieren" />
-                                        <MenuItem Command="{Binding StartPageViewModel.DeleteCharacterCommand, Source={x:Reference StartPageViewModelControl}}"
-                                           CommandParameter="{Binding .}"
-                                           Text="Charakter löschen" />
-                                    </ViewCell.ContextActions>
                                     <StackLayout Margin="20,10">
+                                        <StackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer NumberOfTapsRequired="2" Tapped="OpenSelectedCharacter"/>
+                                        </StackLayout.GestureRecognizers>
+
                                         <StackLayout Orientation="Horizontal">
                                             <Label FontSize="{DynamicResource FontSizeTitle}"
                                                Text="{Binding Name}"
@@ -301,15 +326,43 @@
                         </ListView.ItemTemplate>
                     </ListView>
 
+                    <!-- selected char buttons-->
+                    <StackLayout Grid.Row="2"  HorizontalOptions="EndAndExpand" Orientation="Horizontal" Margin="20">
+                        <customControls:ImageButtonView VerticalOptions="Center"
+                                                        ImageSource="Images/export.png"
+                                                        Text="Datei" 
+                                                        Enabled="{Binding SelectedCharacter, Converter={StaticResource ObjectNotNullToBoolConverter}}"
+                                                        ImageSize="30" 
+                                                        ImageMargin="11,8,3,8"
+                                                        Command="{Binding CreateBackupCommand}"
+                                                        ></customControls:ImageButtonView>
+
+                        <customControls:ImageButtonView VerticalOptions="Center"
+                                                        Command="{Binding ExportCharacterCommand}"
+                                                        ImageSource="Images/export.png"
+                                                        Text="JSON" 
+                                                        Enabled="{Binding SelectedCharacter, Converter={StaticResource ObjectNotNullToBoolConverter}}"
+                                                        ImageSize="30" 
+                                                        ImageMargin="11,8,3,8"
+                                                        ></customControls:ImageButtonView>
+
+                        <customControls:ImageButtonView VerticalOptions="Center"
+                                                        Command="{Binding DeleteCharacterCommand}"
+                                                        ImageSource="Images/muell.png"
+                                                        TextHidden="True"
+                                                        Enabled="{Binding SelectedCharacter, Converter={StaticResource ObjectNotNullToBoolConverter}}"
+                                                        ImageSize="35" >
+                        </customControls:ImageButtonView>
+                    </StackLayout>
+
                     <!--  footer  -->
-                    <Frame Grid.Row="1"
-                       BackgroundColor="{DynamicResource SecondaryFirstLightColor}"
-                       BorderColor="Black">
+                    <Grid Grid.Row="3" 
+                          BackgroundColor="{DynamicResource SecondaryFirstLightColor}">
                         <Label Margin="20" FontAttributes="Bold"
-                           FontSize="{DynamicResource FontSizeContent}"
-                           Text="Achtung: Die Charakterdatenbank wird unwiederruflich durch Windows bei einer Deinstallation gelöscht!"
-                           TextColor="{DynamicResource RotesUmbra}" />
-                    </Frame>
+                               FontSize="{DynamicResource FontSizeContent}"
+                               Text="Achtung: Alle Charaktere werden unwiederruflich durch Windows bei einer Deinstallation gelöscht!"
+                               TextColor="{DynamicResource RotesUmbra}" />
+                    </Grid>
                 </Grid>
             </Frame>
         </Grid>

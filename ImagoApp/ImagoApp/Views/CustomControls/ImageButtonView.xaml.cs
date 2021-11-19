@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 namespace ImagoApp.Views.CustomControls
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ImageButtonView : ContentView
+    public partial class ImageButtonView
     {
         public ImageButtonView()
         {
@@ -49,5 +49,52 @@ namespace ImagoApp.Views.CustomControls
             get => (ICommand)GetValue(CommandProperty);
             set => SetValue(CommandProperty, value);
         }
+
+        public static readonly BindableProperty ImageMarginProperty = BindableProperty.Create(
+            nameof(ImageMargin), // the name of the bindable property
+            typeof(Thickness), // the bindable property type
+            typeof(ImageButtonView),
+            new Thickness(8,8,6,8), BindingMode.TwoWay);
+
+        public Thickness ImageMargin
+        {
+            get => (Thickness)GetValue(ImageMarginProperty);
+            set => SetValue(ImageMarginProperty, value);
+        }
+
+        public static readonly BindableProperty ImageSizeProperty = BindableProperty.Create(
+            nameof(ImageSize), // the name of the bindable property
+            typeof(double), // the bindable property type
+            typeof(ImageButtonView),
+            (double)35);
+
+        public double ImageSize
+        {
+            get => (double)GetValue(ImageSizeProperty);
+            set => SetValue(ImageSizeProperty, value);
+        }
+
+        public static readonly BindableProperty TextHiddenProperty = BindableProperty.Create(
+            nameof(TextHidden), // the name of the bindable property
+            typeof(bool), // the bindable property type
+            typeof(ImageButtonView));
+
+        public bool TextHidden
+        {
+            get => (bool)GetValue(TextHiddenProperty);
+            set => SetValue(TextHiddenProperty, value);
+        }
+
+        public static readonly BindableProperty EnabledProperty = BindableProperty.Create(
+            nameof(Enabled), // the name of the bindable property
+            typeof(bool), // the bindable property type
+            typeof(ImageButtonView), true);
+
+        public bool Enabled
+        {
+            get => (bool)GetValue(EnabledProperty);
+            set => SetValue(EnabledProperty, value);
+        }
+
     }
 }
