@@ -137,7 +137,7 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <customControls:SkillGroupView Grid.Row="0" Grid.Column="0" IconSource="Images/bewegung.png"
+                            <customControls:SkillGroupView Grid.Row="0" Grid.Column="0" IconSource="Images/staerke.png"
                                OpenSkillCommand="{Binding OpenSkillDetailCommand}"
                                OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
                                SkillGroupViewModel="{Binding Bewegung}" />

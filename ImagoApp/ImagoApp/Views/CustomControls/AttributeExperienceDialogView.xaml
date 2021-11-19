@@ -59,7 +59,7 @@
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding .}"
                                                                TargetType="Image" Value="Bewegung">
-                                                                <Setter Property="Source" Value="Images/bewegung.png" />
+                                                                <Setter Property="Source" Value="Images/staerke.png" />
                                                             </DataTrigger>
                                                             <DataTrigger Binding="{Binding .}"
                                                                TargetType="Image" Value="Nahkampf">

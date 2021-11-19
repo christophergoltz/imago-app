@@ -138,7 +138,6 @@
     <Content Include="Assets\Wide310x150Logo.scale-100.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
-    <Content Include="Images\bewegung.png" />
     <Content Include="Images\charakter.png" />
     <Content Include="Images\charakter_weiss.png" />
     <Content Include="Images\download.png" />
@@ -172,7 +171,6 @@
     <Content Include="Images\nahkampf_2.png" />
     <Content Include="Images\nahkampf_weiss.png" />
     <Content Include="Images\ordner.png" />
-    <Content Include="Images\person.png" />
     <Content Include="Images\plus.png" />
     <Content Include="Images\reload.png" />
     <Content Include="Images\schliessen.png" />
@@ -183,7 +181,6 @@
     <Content Include="Images\soziales.png" />
     <Content Include="Images\soziales_weiss.png" />
     <Content Include="Images\staerke.png" />
-    <Content Include="Images\staerke_weiss.png" />
     <Content Include="Images\swords.png" />
     <Content Include="Images\vor_und_nachteile.png" />
     <Content Include="Images\vor_und_nachteile_weiss.png" />
