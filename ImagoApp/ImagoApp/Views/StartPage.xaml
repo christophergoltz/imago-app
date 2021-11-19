@@ -375,7 +375,7 @@
                           BackgroundColor="{DynamicResource SecondaryFirstLightColor}">
                         <Label Margin="20" FontAttributes="Bold"
                                FontSize="{DynamicResource FontSizeContent}"
-                               Text="Achtung: Alle Charaktere werden unwiederruflich durch Windows bei einer Deinstallation gelöscht!"
+                               Text="Achtung: Alle Charaktere werden unwiederruflich bei einer Deinstallation durch Windows gelöscht!"
                                TextColor="{DynamicResource RotesUmbra}" />
                     </Grid>
                 </Grid>
