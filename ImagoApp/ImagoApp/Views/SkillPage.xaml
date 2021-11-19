@@ -154,7 +154,7 @@
                                OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
                                SkillGroupViewModel="{Binding Handwerk}" />
 
-                            <customControls:SkillGroupView Grid.Row="0" Grid.Column="1" IconSource="Images/nahkampf_2.png"
+                            <customControls:SkillGroupView Grid.Row="0" Grid.Column="1" IconSource="Images/nahkampf.png"
                                OpenSkillCommand="{Binding OpenSkillDetailCommand}"
                                OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
                                SkillGroupViewModel="{Binding Nahkampf}" />

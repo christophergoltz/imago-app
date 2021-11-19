@@ -166,7 +166,7 @@
     <Content Include="Images\minus.png" />
     <Content Include="Images\muell.png" />
     <Content Include="Images\kampf.png" />
-    <Content Include="Images\nahkampf_2.png" />
+    <Content Include="Images\nahkampf.png" />
     <Content Include="Images\kampf_weiss.png" />
     <Content Include="Images\ordner.png" />
     <Content Include="Images\plus.png" />

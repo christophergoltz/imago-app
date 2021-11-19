@@ -63,7 +63,7 @@
                                                             </DataTrigger>
                                                             <DataTrigger Binding="{Binding .}"
                                                                TargetType="Image" Value="Nahkampf">
-                                                                <Setter Property="Source" Value="Images/nahkampf_2.png" />
+                                                                <Setter Property="Source" Value="Images/nahkampf.png" />
                                                             </DataTrigger>
                                                             <DataTrigger Binding="{Binding .}"
                                                                TargetType="Image" Value="Heimlichkeit">
