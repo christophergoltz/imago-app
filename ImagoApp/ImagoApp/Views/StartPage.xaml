@@ -101,74 +101,83 @@
 
             <!--  wiki database  -->
             <Frame Grid.Row="2" Grid.Column="0" Margin="10">
-                <StackLayout Padding="5,0,0,20">
-                    <Grid Margin="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" FontAttributes="Bold"
-                               FontSize="{DynamicResource FontSizeTitle}"
-                               Text="Wiki Datenbank" VerticalOptions="Center" />
+                <Grid Margin="20,20,20,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
 
-                        <customControls:ImageButtonView Grid.Column="1" Margin="15,5"
+                    <StackLayout Grid.Column="0">
+                        <Label FontAttributes="Bold"
+           FontSize="{DynamicResource FontSizeTitle}"
+           Text="Wiki Datenbank" VerticalOptions="Center" />
+
+                        <StackLayout Orientation="Horizontal">
+                            <Label Margin="20,0,0,0"
+                               FontSize="{DynamicResource FontSizeHeader}"
+                               Text="Rüstungen: " />
+                            <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding DatabaseInfoViewModel.ArmorTemplateCount}" />
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal">
+                            <Label Margin="20,0,0,0"
+                               FontSize="{DynamicResource FontSizeHeader}"
+                               Text="Waffen: " />
+                            <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding DatabaseInfoViewModel.WeaponTemplateCount}" />
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal">
+                            <Label Margin="20,0,0,0"
+                               FontSize="{DynamicResource FontSizeHeader}"
+                               Text="Künste: " />
+                            <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding DatabaseInfoViewModel.TalentTemplateCount}" />
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal">
+                            <Label Margin="20,0,0,0"
+                               FontSize="{DynamicResource FontSizeHeader}"
+                               Text="Webkünste: " />
+                            <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding DatabaseInfoViewModel.WeaveTalentTemplateCount}" />
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal">
+                            <Label Margin="20,0,0,0"
+                               FontSize="{DynamicResource FontSizeHeader}"
+                               Text="Meisterschaften: " />
+                            <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding DatabaseInfoViewModel.MasteryTemplateCount}" />
+                        </StackLayout>
+
+                    </StackLayout>
+
+                    <StackLayout Grid.Column="1" Padding="5,0,0,20">
+                        <Grid Margin="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Column="1" Margin="25,0"
+                               FontSize="{DynamicResource FontSizeTitle}"
+                               HorizontalOptions="EndAndExpand"
+                               Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.Length, Converter={StaticResource FileInfoLenghtToSmartFileSizeConverter}}"
+                               VerticalOptions="Center" />
+                            <Label Grid.Column="2"
+                               FontSize="{DynamicResource FontSizeTitle}"
+                               HorizontalOptions="EndAndExpand"
+                               Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.LastWriteTime, StringFormat='{0:dd.MM.yyyy HH:mm}'}"
+                               VerticalOptions="Center" />
+                        </Grid>
+
+                        <customControls:ImageButtonView Margin="15,5"
                                                         Command="{Binding ParseWikiCommand, Source={RelativeSource AncestorType={x:Type viewModels:StartPageViewModel}}}"
                                                         ImageSize="45" ImageMargin="4,1,-4,1"
                                                         VerticalOptions="Center"
                                                         ImageSource="Images/download.png" 
                                                         HorizontalOptions="EndAndExpand"
                                                         Text="Aktualisieren"/>
-                     
-                        <Label Grid.Column="3" Margin="25,0"
-                               FontSize="{DynamicResource FontSizeTitle}"
-                               HorizontalOptions="EndAndExpand"
-                               Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.Length, Converter={StaticResource FileInfoLenghtToSmartFileSizeConverter}}"
-                               VerticalOptions="Center" />
-                        <Label Grid.Column="4"
-                               FontSize="{DynamicResource FontSizeTitle}"
-                               HorizontalOptions="EndAndExpand"
-                               Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.LastWriteTime, StringFormat='{0:dd.MM.yyyy HH:mm}'}"
-                               VerticalOptions="Center" />
-                    </Grid>
-
-                    <StackLayout Orientation="Horizontal">
-                        <Label Margin="20,0,0,0"
-                               FontSize="{DynamicResource FontSizeHeader}"
-                               Text="Rüstungen: " />
-                        <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding DatabaseInfoViewModel.ArmorTemplateCount}" />
                     </StackLayout>
-
-                    <StackLayout Orientation="Horizontal">
-                        <Label Margin="20,0,0,0"
-                               FontSize="{DynamicResource FontSizeHeader}"
-                               Text="Waffen: " />
-                        <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding DatabaseInfoViewModel.WeaponTemplateCount}" />
-                    </StackLayout>
-
-                    <StackLayout Orientation="Horizontal">
-                        <Label Margin="20,0,0,0"
-                               FontSize="{DynamicResource FontSizeHeader}"
-                               Text="Künste: " />
-                        <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding DatabaseInfoViewModel.TalentTemplateCount}" />
-                    </StackLayout>
-
-                    <StackLayout Orientation="Horizontal">
-                        <Label Margin="20,0,0,0"
-                               FontSize="{DynamicResource FontSizeHeader}"
-                               Text="Webkünste: " />
-                        <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding DatabaseInfoViewModel.WeaveTalentTemplateCount}" />
-                    </StackLayout>
-
-                    <StackLayout Orientation="Horizontal">
-                        <Label Margin="20,0,0,0"
-                               FontSize="{DynamicResource FontSizeHeader}"
-                               Text="Meisterschaften: " />
-                        <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding DatabaseInfoViewModel.MasteryTemplateCount}" />
-                    </StackLayout>
-                </StackLayout>
+                </Grid>
             </Frame>
 
             <!--  themes  -->
@@ -228,8 +237,6 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="1" />
                         </Grid.RowDefinitions>
-
-
                         
                         <Label Grid.Row="0" Margin="20,10,10,0"  FontAttributes="Bold"
                                FontSize="{DynamicResource FontSizeCaption}"
