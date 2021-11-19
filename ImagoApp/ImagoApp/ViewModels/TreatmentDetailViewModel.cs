@@ -116,7 +116,7 @@ namespace ImagoApp.ViewModels
         private static readonly List<(DerivedAttributeType Type, string Text, string IconSource)> HandicapDefinition =
             new List<(DerivedAttributeType Type, string Text, string IconSource)>()
             {
-                (DerivedAttributeType.BehinderungKampf, "Kampf", "Images/nahkampf.png"),
+                (DerivedAttributeType.BehinderungKampf, "Kampf", "Images/kampf.png"),
                 (DerivedAttributeType.BehinderungAbenteuer, "Abenteuer / Reise", "Images/inventar.png"),
                 (DerivedAttributeType.BehinderungGesamt, "Gesamt", null),
                 (DerivedAttributeType.Unknown, "Ignorieren", null)

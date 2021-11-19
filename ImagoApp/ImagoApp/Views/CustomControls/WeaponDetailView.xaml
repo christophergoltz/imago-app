@@ -101,7 +101,7 @@
 
             <StackLayout Grid.Row="3" Grid.Column="0" Margin="10"
                Orientation="Horizontal" VerticalOptions="Center">
-                <Image Margin="5,5,10,5" HeightRequest="30" Source="Images/nahkampf.png"
+                <Image Margin="5,5,10,5" HeightRequest="30" Source="Images/kampf.png"
                    VerticalOptions="Center" WidthRequest="30" />
                 <CheckBox IsChecked="{Binding FightValue}" />
 
