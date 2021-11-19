@@ -79,7 +79,7 @@
                                                             </DataTrigger>
                                                             <DataTrigger Binding="{Binding .}"
                                                                TargetType="Image" Value="Wissenschaft">
-                                                                <Setter Property="Source" Value="Images/Wissenschaft.png" />
+                                                                <Setter Property="Source" Value="Images/letter.png" />
                                                             </DataTrigger>
                                                             <DataTrigger Binding="{Binding .}"
                                                                TargetType="Image" Value="Handwerk">

@@ -162,7 +162,7 @@
                                OpenSkillCommand="{Binding OpenSkillDetailCommand}"
                                OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
                                SkillGroupViewModel="{Binding Fernkampf}" />
-                            <customControls:SkillGroupView Grid.Row="2" Grid.Column="1" IconSource="Images/wissenschaft.png"
+                            <customControls:SkillGroupView Grid.Row="2" Grid.Column="1" IconSource="Images/letter.png"
                                OpenSkillCommand="{Binding OpenSkillDetailCommand}"
                                OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
                                SkillGroupViewModel="{Binding Wissenschaft}" />

@@ -191,8 +191,6 @@
     <Content Include="Images\weben_weiss.png" />
     <Content Include="Images\wiki.png" />
     <Content Include="Images\wiki_weiss.png" />
-    <Content Include="Images\wissenschaft.png" />
-    <Content Include="Images\wissenschaft_weiss.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
