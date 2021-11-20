@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Grid xmlns="http://xamarin.com/schemas/2014/forms" HeightRequest="50"
+      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Name="ImageButtonViewControl"
+      x:Class="ImagoApp.Views.CustomControls.ImageButtonView">
+    <Grid.Triggers>
+        <DataTrigger TargetType="Grid" Binding="{Binding Enabled, Source={x:Reference ImageButtonViewControl}}" Value="False">
+            <Setter Property="Opacity" Value="0.35"></Setter>
+        </DataTrigger>
+    </Grid.Triggers>
+
+    <!--  Button Control  -->
+    <Button Command="{Binding Command, Source={x:Reference ImageButtonViewControl}}" 
+            CommandParameter="{Binding CommandParameter, Source={x:Reference ImageButtonViewControl}}" 
+            IsEnabled="{Binding Enabled, Source={x:Reference ImageButtonViewControl}}" 
+            BorderColor="{DynamicResource SecondaryFirstDarkColor}" BorderWidth="1.5">
+    </Button>
+
+    <StackLayout Orientation="Horizontal" InputTransparent="True">
+        <!--  Icon Image  -->
+        <Image 
+            Margin="{Binding ImageMargin, Source={x:Reference ImageButtonViewControl}}"
+            HeightRequest="{Binding ImageSize, Source={x:Reference ImageButtonViewControl}}"
+            HorizontalOptions="Start"
+            InputTransparent="True"
+            Source="{Binding ImageSource, Source={x:Reference ImageButtonViewControl}}"
+            VerticalOptions="Center">
+        </Image>
+        <!--  Text Label  -->
+        <Label 
+            Margin="0,10,10,10"
+            FontSize="{DynamicResource FontSizeContent}"
+            InputTransparent="True"
+            Text="{Binding Text, Source={x:Reference ImageButtonViewControl}}"
+            VerticalOptions="Center" 
+            IsVisible="{Binding TextHidden, Source={x:Reference ImageButtonViewControl}, Converter={StaticResource InverseBoolConverter}}">
+        </Label>
+    </StackLayout>
+</Grid>

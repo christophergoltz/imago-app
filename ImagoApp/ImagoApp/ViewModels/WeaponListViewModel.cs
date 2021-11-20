@@ -119,8 +119,6 @@ namespace ImagoApp.ViewModels
 
                     newWeapon.PropertyChanged += OnWeaponLoadValueChanged;
                     _characterViewModel.RecalculateHandicapAttributes();
-
-                    OpenWeaponRequested?.Invoke(this, newWeapon);
                 }
                 catch (Exception e)
                 {
@@ -128,9 +126,7 @@ namespace ImagoApp.ViewModels
                 }
             });
         }));
-
-        public event EventHandler<WeaponModel> OpenWeaponRequested;
-
+        
         public WeaponListViewModel(CharacterViewModel characterViewModel, IWikiDataService wikiDataService)
         {
             foreach (var weapon in characterViewModel.CharacterModel.Weapons)

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage x:Class="ImagoApp.Views.StatusPage" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-   xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp" xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application" xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
-   Title="Kampfbogen" x:DataType="viewModels:StatusPageViewModel">
+             xmlns:cc="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp" xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application" xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
+             Title="Kampfbogen" x:DataType="viewModels:StatusPageViewModel">
     <ContentPage.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="WeaponStanceQuickViewTemplate" x:DataType="models:WeaponStanceModel">
@@ -12,17 +12,17 @@
                         <ColumnDefinition Width="80" />
                     </Grid.ColumnDefinitions>
                     <Label Grid.Row="0" Grid.Column="0"
-                       FontSize="{DynamicResource FontSizeDetail}"
-                       Style="{DynamicResource LightTextLabel}"
-                       Text="{Binding Type}" />
+                           FontSize="{DynamicResource FontSizeDetail}"
+                           Style="{DynamicResource LightTextLabel}"
+                           Text="{Binding Type}" />
                     <Label Grid.Row="0" Grid.Column="1" Margin="0,0,10,0"
-                       FontSize="{DynamicResource FontSizeDetail}"
-                       Style="{DynamicResource LightTextLabel}"
-                       Text="{Binding PhaseValue}" />
+                           FontSize="{DynamicResource FontSizeDetail}"
+                           Style="{DynamicResource LightTextLabel}"
+                           Text="{Binding PhaseValue}" />
                     <Label Grid.Row="0" Grid.Column="2"
-                       FontSize="{DynamicResource FontSizeDetail}"
-                       Style="{DynamicResource LightTextLabel}"
-                       Text="{Binding DamageFormula}" />
+                           FontSize="{DynamicResource FontSizeDetail}"
+                           Style="{DynamicResource LightTextLabel}"
+                           Text="{Binding DamageFormula}" />
                 </Grid>
             </DataTemplate>
             <DataTemplate x:Key="WeaponQuickViewTemplate" x:DataType="models:WeaponModel">
@@ -41,23 +41,23 @@
                         </Grid.RowDefinitions>
 
                         <Label Grid.Row="0" Grid.Column="0" Margin="10,10,0,0"
-                           FontAttributes="Bold"
-                           FontSize="{DynamicResource FontSizeContent}"
-                           Text="{Binding Name}" />
+                               FontAttributes="Bold"
+                               FontSize="{DynamicResource FontSizeContent}"
+                               Text="{Binding Name}" />
 
                         <StackLayout Grid.Row="0" Grid.Column="1" Orientation="Horizontal"
-                           VerticalOptions="Center">
+                                     VerticalOptions="Center">
                             <Image Margin="10" HeightRequest="25"
-                               IsVisible="{Binding Fight}"
-                               Source="Images/swords.png" VerticalOptions="Center" WidthRequest="25" />
+                                   IsVisible="{Binding Fight}"
+                                   Source="Images/kampf.png" VerticalOptions="Center" WidthRequest="25" />
                             <Image Margin="0,10,10,10" HeightRequest="25"
-                               IsVisible="{Binding Adventure}"
-                               Source="Images/inventar.png" VerticalOptions="Center" WidthRequest="25" />
+                                   IsVisible="{Binding Adventure}"
+                                   Source="Images/inventar.png" VerticalOptions="Center" WidthRequest="25" />
                         </StackLayout>
 
                         <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-                           BindableLayout.ItemTemplate="{StaticResource WeaponStanceQuickViewTemplate}"
-                           BindableLayout.ItemsSource="{Binding WeaponStances}" />
+                                     BindableLayout.ItemTemplate="{StaticResource WeaponStanceQuickViewTemplate}"
+                                     BindableLayout.ItemsSource="{Binding WeaponStances}" />
                     </Grid>
                 </Frame>
             </DataTemplate>
@@ -73,8 +73,8 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="55*" />
-                    <RowDefinition Height="20*" />
-                    <RowDefinition Height="15*" />
+                    <RowDefinition Height="17*" />
+                    <RowDefinition Height="13*" />
                 </Grid.RowDefinitions>
 
                 <!--  armor  -->
@@ -89,89 +89,75 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <customControls:BodyPartArmorListView Grid.Row="0" Grid.Column="0"
-                       BodyPartArmorListViewModel="{Binding KopfViewModel}" />
-                    <customControls:BodyPartArmorListView Grid.Row="0" Grid.Column="1"
-                       BodyPartArmorListViewModel="{Binding TorsoViewModel}" />
+                    <cc:BodyPartArmorListView Grid.Row="0" Grid.Column="0"
+                                              BodyPartArmorListViewModel="{Binding KopfViewModel}" />
+                    <cc:BodyPartArmorListView Grid.Row="0" Grid.Column="1"
+                                              BodyPartArmorListViewModel="{Binding TorsoViewModel}" />
 
-                    <customControls:BodyPartArmorListView Grid.Row="1" Grid.Column="0"
-                       BodyPartArmorListViewModel="{Binding ArmLinksViewModel}" />
-                    <customControls:BodyPartArmorListView Grid.Row="1" Grid.Column="1"
-                       BodyPartArmorListViewModel="{Binding ArmRechtsViewModel}" />
+                    <cc:BodyPartArmorListView Grid.Row="1" Grid.Column="0"
+                                              BodyPartArmorListViewModel="{Binding ArmLinksViewModel}" />
+                    <cc:BodyPartArmorListView Grid.Row="1" Grid.Column="1"
+                                              BodyPartArmorListViewModel="{Binding ArmRechtsViewModel}" />
 
-                    <customControls:BodyPartArmorListView Grid.Row="2" Grid.Column="0"
-                       BodyPartArmorListViewModel="{Binding BeinLinksViewModel}" />
-                    <customControls:BodyPartArmorListView Grid.Row="2" Grid.Column="1"
-                       BodyPartArmorListViewModel="{Binding BeinRechtsViewModel}" />
+                    <cc:BodyPartArmorListView Grid.Row="2" Grid.Column="0"
+                                              BodyPartArmorListViewModel="{Binding BeinLinksViewModel}" />
+                    <cc:BodyPartArmorListView Grid.Row="2" Grid.Column="1"
+                                              BodyPartArmorListViewModel="{Binding BeinRechtsViewModel}" />
                 </Grid>
 
                 <!--  weapons  -->
                 <Frame Grid.Row="0" Grid.RowSpan="3" Grid.Column="2">
-                    <Grid>
-                        <StackLayout>
-                            <Grid Margin="10,10,10,0">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <Label Grid.Row="0" Grid.Column="0" FontAttributes="Bold"
-                                   FontSize="{DynamicResource FontSizeContent}"
+                    <StackLayout>
+
+                        <StackLayout Orientation="Horizontal">
+                            <Label Margin="15" FontAttributes="Bold" 
+                                   FontSize="{DynamicResource FontSizeHeader}"
                                    Text="Waffen" VerticalOptions="Center" />
 
-                                <Button Grid.Row="0" Grid.Column="2" Padding="0,-6,0,0"
-                                   BackgroundColor="LightGray"
-                                   Command="{Binding WeaponListViewModel.AddWeaponCommand}"
-                                   FontSize="{DynamicResource FontSizeHeader}"
-                                   HeightRequest="25" HorizontalOptions="Center" Text="+"
-                                   TextColor="Green" VerticalOptions="Center" WidthRequest="25" />
-
-                                <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
-                                   Orientation="Horizontal">
-                                    <Button Padding="7,3" Background="limegreen"
-                                       Command="{Binding WeaponListViewModel.OpenMeleeWeaponWikiCommand}"
-                                       FontSize="{DynamicResource FontSizeBigContent}"
-                                       Text="Nahkampfwaffen &#8599;" VerticalOptions="Center" />
-                                    <Button Padding="7,3" Background="limegreen"
-                                       Command="{Binding WeaponListViewModel.OpenShieldWikiCommand}"
-                                       FontSize="{DynamicResource FontSizeBigContent}"
-                                       HorizontalOptions="FillAndExpand" Text="Schilde &#8599;" VerticalOptions="Center" />
-                                </StackLayout>
-
-                                <StackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
-                                    <Button Padding="7,3" Background="limegreen"
-                                       Command="{Binding WeaponListViewModel.OpenRangedWeaponWikiCommand}"
-                                       FontSize="{DynamicResource FontSizeBigContent}"
-                                       Text="Fernkampfwaffen &#8599;" VerticalOptions="Center" />
-                                </StackLayout>
-
-                                <StackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3">
-                                    <Button Padding="7,3" Background="limegreen"
-                                       Command="{Binding WeaponListViewModel.OpenSpecialWeaponWikiCommand}"
-                                       FontSize="{DynamicResource FontSizeBigContent}"
-                                       Text="Spezialwaffen &#8599;" VerticalOptions="Center" />
-                                </StackLayout>
-                            </Grid>
-
-                            <ScrollView Margin="0,10,0,0">
-                                <StackLayout BindableLayout.ItemTemplate="{StaticResource WeaponQuickViewTemplate}" BindableLayout.ItemsSource="{Binding CharacterViewModel.CharacterModel.Weapons}" />
-                            </ScrollView>
+                            <cc:ImageButtonView  VerticalOptions="Center" Margin="10,10,10,5"
+                                                             ImageSource="Images/plus.png"
+                                                             ImageMargin="8,8,6,8" HeightRequest="40"
+                                                             TextHidden="True" 
+                                                             ImageSize="33" HorizontalOptions="EndAndExpand"
+                                                             Command="{Binding WeaponListViewModel.AddWeaponCommand}"/>
                         </StackLayout>
-                    </Grid>
+
+                        <StackLayout Margin="10,0" Orientation="Horizontal">
+                            <cc:ImageButtonView
+                                Text="Nahkampf" HorizontalOptions="FillAndExpand"
+                                ImageSource="Images/wiki.png"
+                                Command="{Binding WeaponListViewModel.OpenMeleeWeaponWikiCommand}"></cc:ImageButtonView>
+
+                            <cc:ImageButtonView HorizontalOptions="FillAndExpand"
+                                                Text="Fernkampf"
+                                                ImageSource="Images/wiki.png"
+                                                Command="{Binding WeaponListViewModel.OpenRangedWeaponWikiCommand}"></cc:ImageButtonView>
+                        </StackLayout>
+
+                        <StackLayout  Margin="10,0" Orientation="Horizontal">
+                            <cc:ImageButtonView HorizontalOptions="FillAndExpand"
+                                                Text="Schilde"
+                                                ImageSource="Images/wiki.png"
+                                                Command="{Binding WeaponListViewModel.OpenShieldWikiCommand}"></cc:ImageButtonView>
+
+                            <cc:ImageButtonView HorizontalOptions="FillAndExpand"
+                                                Text="Spezial"
+                                                ImageSource="Images/wiki.png"
+                                                Command="{Binding WeaponListViewModel.OpenSpecialWeaponWikiCommand}"></cc:ImageButtonView>
+                        </StackLayout>
+
+                        <ScrollView Margin="0,10,0,0">
+                            <StackLayout BindableLayout.ItemTemplate="{StaticResource WeaponQuickViewTemplate}" BindableLayout.ItemsSource="{Binding CharacterViewModel.CharacterModel.Weapons}" />
+                        </ScrollView>
+                    </StackLayout>
                 </Frame>
 
                 <!--  load  -->
                 <Frame Grid.Row="2" Grid.Column="0" VerticalOptions="Start">
                     <Grid Background="{DynamicResource SinglePrimaryGradientBrush}">
                         <ListView Margin="15,15,15,0" HasUnevenRows="True"
-                           ItemsSource="{Binding CharacterViewModel.HandicapAttributes}"
-                           SelectionMode="None" VerticalOptions="FillAndExpand">
+                                  ItemsSource="{Binding CharacterViewModel.HandicapAttributes}"
+                                  SelectionMode="None" VerticalOptions="FillAndExpand">
                             <ListView.Header>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -183,11 +169,11 @@
                                         <RowDefinition Height="1" />
                                     </Grid.RowDefinitions>
                                     <Label Grid.Row="0" Grid.Column="0" Margin="5,0,0,0"
-                                       FontAttributes="Bold" Text="Behinderung" />
+                                           FontAttributes="Bold" Text="Behinderung" />
                                     <Label Grid.Row="0" Grid.Column="1" Margin="5,0,0,0"
-                                       FontAttributes="Bold" Text="Last/Traglast" />
+                                           FontAttributes="Bold" Text="Last/Traglast" />
                                     <BoxView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-                                       HeightRequest="1" Color="Black" />
+                                             HeightRequest="1" Color="Black" />
                                 </Grid>
                             </ListView.Header>
                             <ListView.ItemTemplate>
@@ -199,14 +185,14 @@
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
                                             <Label Grid.Column="0"
-                                               FontSize="{DynamicResource FontSizeContent}"
-                                               Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"
-                                               VerticalOptions="Center" />
+                                                   FontSize="{DynamicResource FontSizeContent}"
+                                                   Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"
+                                                   VerticalOptions="Center" />
                                             <Label Grid.Column="1"
-                                               FontSize="{DynamicResource FontSizeContent}"
-                                               HorizontalOptions="Center"
-                                               Text="{Binding FinalValue}"
-                                               VerticalOptions="Center" />
+                                                   FontSize="{DynamicResource FontSizeContent}"
+                                                   HorizontalOptions="Center"
+                                                   Text="{Binding FinalValue}"
+                                                   VerticalOptions="Center" />
                                         </Grid>
                                     </ViewCell>
                                 </DataTemplate>
@@ -216,25 +202,36 @@
                 </Frame>
 
                 <!--  healing  -->
-                <Frame Grid.Row="1" Grid.Column="1">
-                    <StackLayout Margin="20">
-                        <Button Padding="7,3" Background="limegreen"
-                           Command="{Binding OpenTreamentCommand}"
-                           FontSize="{DynamicResource FontSizeBigContent}"
-                           HorizontalOptions="Start" Text="Behandung" VerticalOptions="Center" />
-                        <Button Padding="7,3" Background="limegreen"
-                                Command="{Binding OpenHealingCommand}"
-                                FontSize="{DynamicResource FontSizeBigContent}"
-                                HorizontalOptions="Start" Text="Heilung" VerticalOptions="Center" />
-                    </StackLayout>
-                </Frame>
+                <Grid Grid.Row="1" Grid.Column="1" HorizontalOptions="Start" Margin="20" VerticalOptions="Start">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <cc:ImageButtonView Grid.Row="0" Grid.Column="0" ImageSource="Images/verband.png" 
+                                        HorizontalOptions="End" VerticalOptions="Start"
+                                        Command="{Binding OpenTreamentCommand}"
+                                        Text="Behandung">
+                    </cc:ImageButtonView>
+              
+                    <cc:ImageButtonView Grid.Row="0" Margin="15,0,0,0" Grid.Column="1" ImageSource="Images/heilung.png" 
+                                        HorizontalOptions="End" VerticalOptions="Start"
+                                        Command="{Binding OpenHealingCommand}"
+                                        Text="Heilung">
+                    </cc:ImageButtonView>
+                </Grid>
 
                 <!--  derived attributes  -->
                 <Frame Grid.Row="1" Grid.Column="0">
                     <Grid Background="{DynamicResource SinglePrimaryGradientBrush}">
                         <ListView Margin="15,15,15,0" HasUnevenRows="True"
-                           ItemsSource="{Binding CharacterViewModel.FightDerivedAttributes}"
-                           SelectionMode="None" VerticalOptions="FillAndExpand">
+                                  ItemsSource="{Binding CharacterViewModel.FightDerivedAttributes}"
+                                  SelectionMode="None" VerticalOptions="FillAndExpand">
                             <ListView.Header>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -247,13 +244,13 @@
                                         <RowDefinition Height="1" />
                                     </Grid.RowDefinitions>
                                     <Label Grid.Row="0" Grid.Column="0" Margin="5,0,0,0"
-                                       FontAttributes="Bold" Text="Abgeleitetes Attribut" />
+                                           FontAttributes="Bold" Text="Abgeleitetes Attribut" />
                                     <Label Grid.Row="0" Grid.Column="1" Margin="5,0,0,0"
-                                       FontAttributes="Bold" Text="Formel" />
+                                           FontAttributes="Bold" Text="Formel" />
                                     <Label Grid.Row="0" Grid.Column="2" FontAttributes="Bold"
-                                       Text="FW" />
+                                           Text="FW" />
                                     <BoxView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
-                                       HeightRequest="1" Color="Black" />
+                                             HeightRequest="1" Color="Black" />
                                 </Grid>
                             </ListView.Header>
                             <ListView.ItemTemplate>
@@ -266,19 +263,19 @@
                                                 <ColumnDefinition Width="100" />
                                             </Grid.ColumnDefinitions>
                                             <Label Grid.Column="0"
-                                               FontSize="{DynamicResource FontSizeContent}"
-                                               Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"
-                                               VerticalOptions="Center" />
+                                                   FontSize="{DynamicResource FontSizeContent}"
+                                                   Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"
+                                                   VerticalOptions="Center" />
                                             <Label Grid.Column="1"
-                                               FontSize="{DynamicResource FontSizeContent}"
-                                               HorizontalOptions="Center"
-                                               Text="{Binding Type, Converter={StaticResource EnumToFormulaConverter}}"
-                                               VerticalOptions="Center" />
+                                                   FontSize="{DynamicResource FontSizeContent}"
+                                                   HorizontalOptions="Center"
+                                                   Text="{Binding Type, Converter={StaticResource EnumToFormulaConverter}}"
+                                                   VerticalOptions="Center" />
                                             <Label Grid.Column="2"
-                                               FontSize="{DynamicResource FontSizeContent}"
-                                               HorizontalOptions="Center"
-                                               Text="{Binding FinalValue}"
-                                               VerticalOptions="Center" />
+                                                   FontSize="{DynamicResource FontSizeContent}"
+                                                   HorizontalOptions="Center"
+                                                   Text="{Binding FinalValue}"
+                                                   VerticalOptions="Center" />
                                         </Grid>
                                     </ViewCell>
                                 </DataTemplate>
@@ -296,9 +293,9 @@
                     </ContentView.GestureRecognizers>
                 </ContentView>
                 <Frame HeightRequest="600" HorizontalOptions="Center" VerticalOptions="Center"
-                   WidthRequest="1000">
-                    <customControls:WeaponDetailView HorizontalOptions="Fill" VerticalOptions="Fill"
-                       WeaponDetailViewModel="{Binding WeaponDetailViewModel, Source={RelativeSource AncestorType={x:Type viewModels:StatusPageViewModel}}}" />
+                       WidthRequest="1000">
+                    <cc:WeaponDetailView HorizontalOptions="Fill" VerticalOptions="Fill"
+                                         WeaponDetailViewModel="{Binding WeaponDetailViewModel, Source={RelativeSource AncestorType={x:Type viewModels:StatusPageViewModel}}}" />
                 </Frame>
             </Grid>
 
@@ -311,8 +308,8 @@
                 </ContentView>
                 <Frame HeightRequest="950" HorizontalOptions="Center" VerticalOptions="Center"
                        WidthRequest="1300">
-                    <customControls:TreatmentDetailView HorizontalOptions="Fill" VerticalOptions="Fill"
-                                                      TreatmentDetailViewModel="{Binding TreatmentDetailViewModel, Source={RelativeSource AncestorType={x:Type viewModels:StatusPageViewModel}}}" />
+                    <cc:TreatmentDetailView HorizontalOptions="Fill" VerticalOptions="Fill"
+                                            TreatmentDetailViewModel="{Binding TreatmentDetailViewModel, Source={RelativeSource AncestorType={x:Type viewModels:StatusPageViewModel}}}" />
                 </Frame>
             </Grid>
 
@@ -325,8 +322,8 @@
                 </ContentView>
                 <Frame HeightRequest="900" HorizontalOptions="Center" VerticalOptions="Center"
                        WidthRequest="1300">
-                    <customControls:HealingDetailView HorizontalOptions="Fill" VerticalOptions="Fill"
-                                                     HealingDetailViewModel="{Binding HealingDetailViewModel, Source={RelativeSource AncestorType={x:Type viewModels:StatusPageViewModel}}}" />
+                    <cc:HealingDetailView HorizontalOptions="Fill" VerticalOptions="Fill"
+                                          HealingDetailViewModel="{Binding HealingDetailViewModel, Source={RelativeSource AncestorType={x:Type viewModels:StatusPageViewModel}}}" />
                 </Frame>
             </Grid>
         </Grid>

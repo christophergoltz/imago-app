@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <ContentView x:Class="ImagoApp.Views.CustomControls.WeaponDetailView" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-   xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application" x:Name="WeaponViewControl">
+   xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application"
+   xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp"
+   x:Name="WeaponViewControl">
     <ContentView.Resources>
         <DataTemplate x:Key="WeaponStanceListViewItemTemplate" x:DataType="models:WeaponStanceModel">
             <Grid Padding="10,4">
@@ -54,13 +56,13 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-
-            <Button Grid.Row="0" Grid.Column="1" Padding="0,-4,0,0"
-               BackgroundColor="LightGray"
-               Command="{Binding WeaponDetailViewModel.CloseCommand, Source={x:Reference WeaponViewControl}}"
-               FontSize="{DynamicResource FontSizeHeader}"
-               HeightRequest="35" HorizontalOptions="End" Text="X"
-               TextColor="Red" VerticalOptions="Start" WidthRequest="35" />
+       
+            <customControls:ImageButtonView Grid.Row="0" Grid.Column="1"   VerticalOptions="Start" Margin="5,0,0,0"
+                                            ImageSource="Images/schliessen.png"
+                                            ImageMargin="7,9,7,7"
+                                            TextHidden="True"  
+                                            ImageSize="33"  HorizontalOptions="End"
+                                            Command="{Binding WeaponDetailViewModel.CloseCommand, Source={x:Reference WeaponViewControl}}"/>
 
             <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
                 <Entry FontAttributes="Bold"
@@ -68,11 +70,11 @@
                    Text="{Binding WeaponModel.Name}"
                    WidthRequest="600" />
 
-                <Button Padding="0,-4,0,0" BackgroundColor="LightGray"
-                   Command="{Binding WeaponDetailViewModel.RemoveWeaponCommand, Source={x:Reference WeaponViewControl}}"
-                   FontSize="{DynamicResource FontSizeHeader}"
-                   HeightRequest="45" Text="🗑" TextColor="Red"
-                   VerticalOptions="Center" WidthRequest="45" />
+                <customControls:ImageButtonView VerticalOptions="Center"
+                                                Command="{Binding WeaponDetailViewModel.RemoveWeaponCommand, Source={x:Reference WeaponViewControl}}"
+                                                ImageSource="Images/muell.png"
+                                                TextHidden="True" Margin="5,0,0,0" ImageMargin="10,8,9,8"
+                                                ImageSize="30" />
             </StackLayout>
 
             <StackLayout Grid.Row="1" Grid.Column="0" Margin="10,25,10,10"
@@ -101,7 +103,7 @@
 
             <StackLayout Grid.Row="3" Grid.Column="0" Margin="10"
                Orientation="Horizontal" VerticalOptions="Center">
-                <Image Margin="5,5,10,5" HeightRequest="30" Source="Images/swords.png"
+                <Image Margin="5,5,10,5" HeightRequest="30" Source="Images/kampf.png"
                    VerticalOptions="Center" WidthRequest="30" />
                 <CheckBox IsChecked="{Binding FightValue}" />
 

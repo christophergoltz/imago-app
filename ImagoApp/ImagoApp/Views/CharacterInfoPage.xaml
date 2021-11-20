@@ -509,12 +509,12 @@
                                        Text="Maximale Kap." />
                                     <Label Grid.Row="0" Grid.Column="3" FontAttributes="Bold"
                                        Text="Reg." />
-                                    <Button Grid.Row="0" Grid.Column="4" Padding="0,-6,0,0"
-                                       BackgroundColor="LightGray"
-                                       Command="{Binding AddNewBloodCarrierCommand, Source={RelativeSource AncestorType={x:Type viewModels:CharacterInfoPageViewModel}}}"
-                                       FontSize="{DynamicResource FontSizeHeader}"
-                                       HeightRequest="25" HorizontalOptions="Center" Text="+"
-                                       TextColor="Green" VerticalOptions="Center" WidthRequest="25" />
+                                    <customControls:ImageButtonView  Grid.Row="0" Grid.Column="4" VerticalOptions="Center" Margin="10,0,10,0"
+                                                                     ImageSource="Images/plus.png" 
+                                                                     ImageMargin="6,6,5,6" HeightRequest="30"
+                                                                     TextHidden="True" 
+                                                                     ImageSize="33" HorizontalOptions="EndAndExpand"
+                                                                     Command="{Binding AddNewBloodCarrierCommand, Source={RelativeSource AncestorType={x:Type viewModels:CharacterInfoPageViewModel}}}"/>
                                     <BoxView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5"
                                        HeightRequest="1" Color="Black" />
                                 </Grid>
@@ -549,13 +549,14 @@
                                                Keyboard="Numeric"
                                                Text="{Binding Regeneration}"
                                                VerticalOptions="Center" />
-                                            <Button Grid.Column="4" BackgroundColor="LightGray"
-                                               Command="{Binding RemoveBloodCarrierCommand, Source={RelativeSource AncestorType={x:Type viewModels:CharacterInfoPageViewModel}}}"
-                                               CommandParameter="{Binding .}"
-                                               FontSize="{DynamicResource FontSizeDetail}"
-                                               HeightRequest="35" HorizontalOptions="End" Text="🗑"
-                                               TextColor="Red" VerticalOptions="Start" WidthRequest="35" />
 
+                                            <customControls:ImageButtonView  Grid.Column="4" VerticalOptions="Center" Margin="5,0,0,0"
+                                                                             ImageSource="Images/muell.png"
+                                                                             ImageMargin="6,6,5,6" HeightRequest="30"
+                                                                             TextHidden="True" 
+                                                                             ImageSize="33" HorizontalOptions="EndAndExpand"
+                                                                             Command="{Binding RemoveBloodCarrierCommand, Source={RelativeSource AncestorType={x:Type viewModels:CharacterInfoPageViewModel}}}"
+                                                                             CommandParameter="{Binding .}"/>
                                         </Grid>
                                     </ViewCell>
                                 </DataTemplate>

@@ -45,7 +45,7 @@ namespace ImagoApp.ViewModels
                 new FlyoutPageItem("Images/charakter_weiss.png", typeof(CharacterInfoPage),CreateNavigationPageForContent(new CharacterInfoPage(CharacterInfoPageViewModel))),
                 new FlyoutPageItem("Images/vor_und_nachteile_weiss.png", typeof(PerksPage),CreateNavigationPageForContent(new PerksPage())),
                 new FlyoutPageItem("Images/fertigkeit_weiss.png", typeof(SkillPage),CreateNavigationPageForContent(new SkillPage(_skillPageViewModel))),
-                new FlyoutPageItem("Images/nahkampf_weiss.png", typeof(StatusPage),CreateNavigationPageForContent(new StatusPage(_statusPageViewModel))),
+                new FlyoutPageItem("Images/kampf_weiss.png", typeof(StatusPage),CreateNavigationPageForContent(new StatusPage(_statusPageViewModel))),
                 new FlyoutPageItem("Images/inventar_weiss.png", typeof(InventoryPage),CreateNavigationPageForContent(new InventoryPage(_inventoryViewModel))),
                 new FlyoutPageItem("Images/wiki_weiss.png", typeof(WikiPage),CreateNavigationPageForContent(new WikiPage(_wikiPageViewModel))),
                 new FlyoutPageItem("Images/weben_weiss.png", typeof(WeaveTalentPage),CreateNavigationPageForContent(new WeaveTalentPage(_weaveTalentPageViewModel)))

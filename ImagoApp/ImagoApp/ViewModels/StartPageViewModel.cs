@@ -48,6 +48,15 @@ namespace ImagoApp.ViewModels
 
         public ObservableCollection<CharacterPreview> Characters { get; private set; }
 
+        public CharacterPreview SelectedCharacter
+        {
+            get => _selectedCharacter;
+            set
+            {
+                SetProperty(ref _selectedCharacter, value);
+            }
+        }
+
         public string Version
         {
             get => _version;
@@ -601,19 +610,20 @@ namespace ImagoApp.ViewModels
             }));
 
         private string _version;
-
-
         private ICommand _exportCharacterCommand;
 
-        public ICommand ExportCharacterCommand => _exportCharacterCommand ?? (_exportCharacterCommand = new Command<CharacterPreview>(item =>
+        public ICommand ExportCharacterCommand => _exportCharacterCommand ?? (_exportCharacterCommand = new Command(() =>
         {
+            if (SelectedCharacter == null)
+                return;
+
             Task.Run(async () =>
             {
                 Analytics.TrackEvent("Export character");
 
                 try
                 {
-                    var json = _characterService.GetCharacterJson(item.Guid);
+                    var json = _characterService.GetCharacterJson(SelectedCharacter.Guid);
 
                     await Device.InvokeOnMainThreadAsync(async () =>
                     {
@@ -636,29 +646,32 @@ namespace ImagoApp.ViewModels
                 }
                 catch (Exception e)
                 {
-                    App.ErrorManager.TrackException(e, item.Name);
+                    App.ErrorManager.TrackException(e, SelectedCharacter.Name);
                 }
             });
         }));
 
         private ICommand _createBackupCommand;
-        public ICommand CreateBackupCommand => _createBackupCommand ?? (_createBackupCommand = new Command<CharacterPreview>(item =>
+        public ICommand CreateBackupCommand => _createBackupCommand ?? (_createBackupCommand = new Command(() =>
         {
+            if (SelectedCharacter == null)
+                return;
+
             Analytics.TrackEvent("Backup character");
 
             Device.BeginInvokeOnMainThread(async () =>
             {
                 try
                 {
-                    var dbFile = _characterDatabaseConnection.GetCharacterDatabaseFile(item.Guid);
+                    var dbFile = _characterDatabaseConnection.GetCharacterDatabaseFile(SelectedCharacter.Guid);
                     await _localfileService.SaveFile(dbFile);
 
-                    _characterService.UpdateLastBackup(item.Guid);
+                    _characterService.UpdateLastBackup(SelectedCharacter.Guid);
                     RefreshData(false, true, false);
                 }
                 catch (Exception e)
                 {
-                    App.ErrorManager.TrackException(e, item.Name);
+                    App.ErrorManager.TrackException(e, SelectedCharacter.Name);
                 }
             });
         }));
@@ -666,9 +679,13 @@ namespace ImagoApp.ViewModels
         private ICommand _deleteCharacterCommand;
         private List<ThemeItemViewModel> _themes;
         private ThemeItemViewModel _selectedTheme;
+        private CharacterPreview _selectedCharacter;
 
-        public ICommand DeleteCharacterCommand => _deleteCharacterCommand ?? (_deleteCharacterCommand = new Command<CharacterPreview>(item =>
+        public ICommand DeleteCharacterCommand => _deleteCharacterCommand ?? (_deleteCharacterCommand = new Command(() =>
         {
+            if (SelectedCharacter == null)
+                return;
+
             Task.Run(async () =>
             {
                 Analytics.TrackEvent("Try delete character");
@@ -684,22 +701,22 @@ namespace ImagoApp.ViewModels
                             Title = "Charakter löschen",
                             Message =
                                 $"Das löschen ist endgültig und kann nicht wieder rückgängig gemacht werden{Environment.NewLine}{Environment.NewLine}" +
-                                $"Zum löschen Trage bitte unten den Namen des Charakter \"{item.Name}\" nochmal ein",
+                                $"Zum löschen Trage bitte unten den Namen des Charakter \"{SelectedCharacter.Name}\" nochmal ein",
                             InputType = InputType.Name
                         });
 
                         if (result.Ok)
                         {
-                            if (item.Name?.Equals(result.Text) ?? false)
+                            if (SelectedCharacter.Name?.Equals(result.Text) ?? false)
                             {
                                 Analytics.TrackEvent("Deleting character");
-                                _characterService.Delete(item.Guid);
+                                _characterService.Delete(SelectedCharacter.Guid);
                                 RefreshData(false, true, false);
                             }
                             else
                             {
                                 UserDialogs.Instance.Alert(
-                                    $"Der eingegebene Name stimmt nicht mit \"{item.Name}\" überein",
+                                    $"Der eingegebene Name stimmt nicht mit \"{SelectedCharacter.Name}\" überein",
                                     "Charakter löschen", "OK");
                             }
                         }
@@ -707,7 +724,7 @@ namespace ImagoApp.ViewModels
                 }
                 catch (Exception e)
                 {
-                    App.ErrorManager.TrackException(e, item.Name);
+                    App.ErrorManager.TrackException(e, SelectedCharacter.Name);
                 }
             });
         }));
@@ -728,6 +745,9 @@ namespace ImagoApp.ViewModels
                     {
                         Characters.Add(character);
                     }
+
+                    if (Characters.Any())
+                        SelectedCharacter = Characters.First();
                 });
             }
 

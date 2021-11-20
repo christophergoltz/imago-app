@@ -23,15 +23,10 @@ namespace ImagoApp.Views
             InitializeComponent();
         }
 
-        private void CharacterListView_OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+        private void OpenSelectedCharacter(object sender, EventArgs e)
         {
-            if (e.SelectedItem == null)
-                return;
-            var character = (CharacterPreview)e.SelectedItem;
-
-            //reset listview selection
-            var listView = (ListView)sender;
-            listView.SelectedItem = null;
+            var listview = (StackLayout) sender;
+            var character = (CharacterPreview)listview.BindingContext;
 
             Task.Run(async () =>
             {

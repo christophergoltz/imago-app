@@ -4,6 +4,7 @@
              xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application"
              xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
              xmlns:enums="clr-namespace:ImagoApp.Shared.Enums;assembly=ImagoApp.Shared"
+             xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp"
              x:Class="ImagoApp.Views.CustomControls.TreatmentDetailView">
     <Grid  BindingContext="{Binding TreatmentDetailViewModel, Source={x:Reference TreatmentDetailViewControl}}" Background="{DynamicResource SinglePrimaryGradientBrush}">
         <Grid.ColumnDefinitions>
@@ -29,7 +30,7 @@
                         FontSize="{DynamicResource FontSizeSmallContent}"
                         Text="Fertigkeit" TextColor="white"/>
 
-            <Frame HeightRequest="125"  Grid.Row="2" Margin="20" >
+            <Frame HeightRequest="200" Margin="20" >
                 <ListView ItemsSource="{Binding TreatmentSkills}"
                    SelectedItem="{Binding SelectedTreatmentSkillModel, Mode=TwoWay}"
                    SelectionMode="Single">
@@ -47,12 +48,14 @@
                                        FontSize="{DynamicResource FontSizeHeader}"
                                        Text="{Binding FinalValue}"
                                        VerticalOptions="Center" />
-                                    <Button Margin="10,0,0,0" Padding="7,0,7,2"
-                                       BorderColor="{DynamicResource SecondaryFirstDarkColor}"
-                                       Command="{Binding OpenSkillCommand, Source={RelativeSource AncestorType={x:Type viewModels:WeaveTalentDetailViewModel}}}"
-                                       CommandParameter="{Binding Type}"
-                                       FontSize="28" HorizontalOptions="EndAndExpand" IsVisible="True"
-                                       Text="➔" />
+
+                                    <customControls:ImageButtonView   VerticalOptions="Start" Margin="10,0,0,0"
+                                                                      ImageSource="Images/pfeil_rechts.png"
+                                                                      ImageMargin="10,9,10,7"
+                                                                      TextHidden="True"  HorizontalOptions="EndAndExpand"
+                                                                      ImageSize="28"  
+                                                                      Command="{Binding OpenSkillCommand, Source={RelativeSource AncestorType={x:Type viewModels:WeaveTalentDetailViewModel}}}"
+                                                                      CommandParameter="{Binding Type}"/>
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>
@@ -83,7 +86,7 @@
 
         <StackLayout Grid.Column="2" >
             <!-- handicap -->
-            <Label  Grid.Row="3" Padding="10,5,10,5" Margin="0,0,80,0" BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
+            <Label  Grid.Row="3" Padding="10,5,10,5" Margin="0,0,90,0" BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
                     FontAttributes="Bold" 
                     FontSize="{DynamicResource FontSizeSmallContent}"
                     Text="Behinderung" TextColor="white"/>
@@ -203,7 +206,7 @@
             </StackLayout>
 
             <!--  footer  -->
-            <Grid Grid.Row="13" Padding="5" VerticalOptions="EndAndExpand">
+            <Grid Padding="5" VerticalOptions="EndAndExpand">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1" />
                     <RowDefinition Height="Auto" />
@@ -231,11 +234,12 @@
             </Grid>
         </StackLayout>
 
-        <Button Grid.Column="2" Margin="20" Padding="0,-4,0,0"
-                    BackgroundColor="LightGray"
-                    Command="{Binding CloseCommand}"
-                    FontSize="{DynamicResource FontSizeHeader}"
-                    HeightRequest="35" HorizontalOptions="End" Text="X"
-                    TextColor="Red" VerticalOptions="Start" WidthRequest="35" />
+        <customControls:ImageButtonView  Margin="20" Grid.Column="2"  VerticalOptions="Start" 
+                                         ImageSource="Images/schliessen.png"
+                                         ImageMargin="7,9,7,7"
+                                         TextHidden="True"  
+                                         ImageSize="33"  HorizontalOptions="End"
+                                         Command="{Binding CloseCommand}"/>
+
     </Grid>
 </ContentView>
