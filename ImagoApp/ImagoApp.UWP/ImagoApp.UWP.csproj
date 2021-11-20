@@ -171,6 +171,7 @@
     <Content Include="Images\ordner.png" />
     <Content Include="Images\pfeil_rechts.png" />
     <Content Include="Images\plus.png" />
+    <Content Include="Images\plus_fuenf.png" />
     <Content Include="Images\reload.png" />
     <Content Include="Images\schliessen.png" />
     <Content Include="Images\verband.png" />

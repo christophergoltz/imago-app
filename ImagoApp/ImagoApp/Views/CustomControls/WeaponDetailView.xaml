@@ -70,11 +70,11 @@
                    Text="{Binding WeaponModel.Name}"
                    WidthRequest="600" />
 
-                <Button Padding="0,-4,0,0" BackgroundColor="LightGray"
-                   Command="{Binding WeaponDetailViewModel.RemoveWeaponCommand, Source={x:Reference WeaponViewControl}}"
-                   FontSize="{DynamicResource FontSizeHeader}"
-                   HeightRequest="45" Text="🗑" TextColor="Red"
-                   VerticalOptions="Center" WidthRequest="45" />
+                <customControls:ImageButtonView VerticalOptions="Center"
+                                                Command="{Binding WeaponDetailViewModel.RemoveWeaponCommand, Source={x:Reference WeaponViewControl}}"
+                                                ImageSource="Images/muell.png"
+                                                TextHidden="True" Margin="5,0,0,0" ImageMargin="10,8,9,8"
+                                                ImageSize="30" />
             </StackLayout>
 
             <StackLayout Grid.Row="1" Grid.Column="0" Margin="10,25,10,10"
