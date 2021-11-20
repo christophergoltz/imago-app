@@ -30,7 +30,7 @@
                         FontSize="{DynamicResource FontSizeSmallContent}"
                         Text="Fertigkeit" TextColor="white"/>
 
-            <Frame HeightRequest="125"  Grid.Row="2" Margin="20" >
+            <Frame HeightRequest="200" Margin="20" >
                 <ListView ItemsSource="{Binding TreatmentSkills}"
                    SelectedItem="{Binding SelectedTreatmentSkillModel, Mode=TwoWay}"
                    SelectionMode="Single">
@@ -48,12 +48,14 @@
                                        FontSize="{DynamicResource FontSizeHeader}"
                                        Text="{Binding FinalValue}"
                                        VerticalOptions="Center" />
-                                    <Button Margin="10,0,0,0" Padding="7,0,7,2"
-                                       BorderColor="{DynamicResource SecondaryFirstDarkColor}"
-                                       Command="{Binding OpenSkillCommand, Source={RelativeSource AncestorType={x:Type viewModels:WeaveTalentDetailViewModel}}}"
-                                       CommandParameter="{Binding Type}"
-                                       FontSize="28" HorizontalOptions="EndAndExpand" IsVisible="True"
-                                       Text="➔" />
+
+                                    <customControls:ImageButtonView   VerticalOptions="Start" Margin="10,0,0,0"
+                                                                      ImageSource="Images/pfeil_rechts.png"
+                                                                      ImageMargin="10,9,10,7"
+                                                                      TextHidden="True"  HorizontalOptions="EndAndExpand"
+                                                                      ImageSize="28"  
+                                                                      Command="{Binding OpenSkillCommand, Source={RelativeSource AncestorType={x:Type viewModels:WeaveTalentDetailViewModel}}}"
+                                                                      CommandParameter="{Binding Type}"/>
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>
