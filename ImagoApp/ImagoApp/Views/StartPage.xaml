@@ -267,8 +267,8 @@
 
                             <customControls:ImageButtonView IsEnabled="False"  VerticalOptions="Center"
                                                             ImageSource="Images/import.png"    
-                                                            Text="Datei" BackgroundColor="Orange"
-                                                            ImageSize="30" 
+                                                            Text="Datei" 
+                                                            ImageSize="30"  Enabled="False"
                                                             ImageMargin="11,8,3,8"
                                                             ></customControls:ImageButtonView>
 
