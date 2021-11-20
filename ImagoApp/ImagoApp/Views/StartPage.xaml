@@ -366,8 +366,7 @@
                                                         ImageSource="Images/muell.png"
                                                         TextHidden="True"
                                                         Enabled="{Binding SelectedCharacter, Converter={StaticResource ObjectNotNullToBoolConverter}}"
-                                                        ImageSize="35" >
-                        </customControls:ImageButtonView>
+                                                        ImageSize="35" />
                     </StackLayout>
 
                     <!--  footer  -->

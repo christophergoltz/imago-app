@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <ContentView x:Class="ImagoApp.Views.CustomControls.WeaveTalentDetailView" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
    xmlns:imagoApp="clr-namespace:ImagoApp;assembly=ImagoApp" xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application" xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
+   xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp"
    x:Name="WeaveTalentDetailViewControl">
     <Grid BindingContext="{Binding WeaveTalentDetailViewModel, Source={x:Reference WeaveTalentDetailViewControl}}"
        ColumnSpacing="0" RowSpacing="0"
@@ -232,12 +233,12 @@
             </StackLayout>
         </ScrollView>
 
-        <Button Grid.Column="2" Margin="20" Padding="0,-4,0,0"
-           BackgroundColor="LightGray"
-           Command="{Binding WeaveTalentDetailViewModel.CloseCommand, Source={x:Reference WeaveTalentDetailViewControl}}"
-           FontSize="{DynamicResource FontSizeHeader}"
-           HeightRequest="35" HorizontalOptions="End" Text="X"
-           TextColor="Red" VerticalOptions="Start" WidthRequest="35" />
+        <customControls:ImageButtonView Grid.Column="0" Margin="20"  VerticalOptions="Start" 
+                                        ImageSource="Images/schliessen.png"
+                                        ImageMargin="7,9,7,7"
+                                        TextHidden="True"  
+                                        ImageSize="33"  HorizontalOptions="End"
+                                        Command="{Binding CloseCommand}"/>
 
         <BoxView Grid.Column="3" Color="{DynamicResource SecondaryFirstDarkestColor}" />
 

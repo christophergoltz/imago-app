@@ -4,6 +4,7 @@
              xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application"
              xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
              xmlns:generic="clr-namespace:System.Collections.Generic;assembly=netstandard"
+             xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp"
              x:Class="ImagoApp.Views.CustomControls.HealingDetailView">
     <ContentView.Content>
         <Grid  BindingContext="{Binding HealingDetailViewModel, Source={x:Reference HealingDetailViewControl}}" Background="{DynamicResource SinglePrimaryGradientBrush}">
@@ -57,20 +58,6 @@
                                            VerticalOptions="Center" />
                                     </StackLayout>
                                 </Grid>
-
-                                <!--<StackLayout Margin="10,0" Padding="10" Orientation="Horizontal"
-                                   VerticalOptions="Center">
-                                        <Label FontSize="{DynamicResource FontSizeHeader}"
-                                       Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"
-                                       VerticalOptions="Center" />
-                                        <Label FontSize="{DynamicResource FontSizeHeader}"
-                                       Text="FW: " VerticalOptions="Center" />
-                                        <Label FontAttributes="Bold"
-                                       FontSize="{DynamicResource FontSizeHeader}"
-                                       Text="{Binding FinalValue}"
-                                       VerticalOptions="Center" />
-                                    </StackLayout>-->
-
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
@@ -108,7 +95,7 @@
             <!-- healing -->
             <StackLayout Grid.Column="2" >
                 <!-- attribte -->
-                <Label Padding="10,5,10,5" Margin="0,15,80,0" BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
+                <Label Padding="10,5,10,5" Margin="0,15,90,0" BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
                        FontAttributes="Bold" 
                        FontSize="{DynamicResource FontSizeSmallContent}"
                        Text="Attribut" TextColor="white"/>
@@ -226,12 +213,12 @@
                 </Grid>
             </StackLayout>
 
-            <Button Grid.Column="2" Margin="20" Padding="0,-4,0,0"
-                    BackgroundColor="LightGray"
-                    Command="{Binding CloseCommand}"
-                    FontSize="{DynamicResource FontSizeHeader}"
-                    HeightRequest="35" HorizontalOptions="End" Text="X"
-                    TextColor="Red" VerticalOptions="Start" WidthRequest="35" />
+            <customControls:ImageButtonView Grid.Column="2" Margin="20"  VerticalOptions="Start" 
+                                            ImageSource="Images/schliessen.png"
+                                            ImageMargin="7,9,7,7"
+                                            TextHidden="True"  
+                                            ImageSize="33"  HorizontalOptions="End"
+                                            Command="{Binding CloseCommand}"/>
         </Grid>
     </ContentView.Content>
 </ContentView>

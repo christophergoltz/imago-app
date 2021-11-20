@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <ContentView x:Class="ImagoApp.Views.CustomControls.BodyPartArmorListView" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
    xmlns:enums="clr-namespace:ImagoApp.Shared.Enums;assembly=ImagoApp.Shared" xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application" xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
+   xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp"
    x:Name="BodyPartArmorListViewControl">
     <ContentView.Content>
         <Frame Grid.Row="0" Grid.Column="0">
@@ -18,7 +19,7 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="40" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
@@ -64,18 +65,18 @@
                                FontAttributes="Bold" Text="Last" VerticalTextAlignment="Center" />
                             <Label Grid.Row="0" Grid.Column="4" FontAttributes="Bold"
                                Text="Zustand" VerticalTextAlignment="Center" />
-                            <Image Grid.Row="0" Grid.Column="5" Margin="5,5,10,5"
-                               HeightRequest="15" Source="Images/kampf.png" VerticalOptions="Center"
-                               WidthRequest="15" />
-                            <Image Grid.Row="0" Grid.Column="6" Margin="5"
-                               HeightRequest="15" Source="Images/inventar.png" VerticalOptions="Center"
-                               WidthRequest="15" />
-                            <Button Grid.Row="0" Grid.Column="7" Padding="0,-6,0,0"
-                               BackgroundColor="LightGray"
-                               Command="{Binding AddArmorCommand, Source={RelativeSource AncestorType={x:Type viewModels:BodyPartArmorListViewModel}}}"
-                               FontSize="{DynamicResource FontSizeHeader}"
-                               HeightRequest="25" HorizontalOptions="Center" Text="+"
-                               TextColor="Green" VerticalOptions="Center" WidthRequest="25" />
+                            <Image Grid.Row="0" Grid.Column="5" Margin="5,0,5,0"
+                               HeightRequest="22" Source="Images/kampf.png" VerticalOptions="Center"
+                               WidthRequest="22" />
+                            <Image Grid.Row="0" Grid.Column="6" Margin="4,0,0,0"
+                               HeightRequest="22" Source="Images/inventar.png" VerticalOptions="Center"
+                               WidthRequest="22" />
+                            <customControls:ImageButtonView  Grid.Row="0" Grid.Column="7" VerticalOptions="Center" Margin="10,10,10,5"
+                                                             ImageSource="Images/plus.png"
+                                                             ImageMargin="6,6,5,6" HeightRequest="30"
+                                                             TextHidden="True" 
+                                                             ImageSize="33" HorizontalOptions="EndAndExpand"
+                                                             Command="{Binding AddArmorCommand, Source={RelativeSource AncestorType={x:Type viewModels:BodyPartArmorListViewModel}}}"/>
                             <BoxView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="8"
                                HeightRequest="1" Color="Black" />
                         </Grid>
@@ -124,12 +125,14 @@
                                     <CheckBox Grid.Column="6" HorizontalOptions="Center"
                                        IsChecked="{Binding Adventure}"
                                        VerticalOptions="Center" />
-                                    <Button Grid.Column="7" BackgroundColor="LightGray"
-                                       Command="{Binding RemoveArmorCommand, Source={RelativeSource AncestorType={x:Type viewModels:BodyPartArmorListViewModel}}}"
-                                       CommandParameter="{Binding .}"
-                                       FontSize="{DynamicResource FontSizeDetail}"
-                                       HeightRequest="35" HorizontalOptions="End" Text="🗑"
-                                       TextColor="Red" VerticalOptions="Start" WidthRequest="35" />
+
+                                    <customControls:ImageButtonView  Grid.Column="7" VerticalOptions="Center" Margin="1,0,5,0"
+                                                                     ImageSource="Images/muell.png"
+                                                                     ImageMargin="6,6,5,6" HeightRequest="30"
+                                                                     TextHidden="True" 
+                                                                     ImageSize="33" HorizontalOptions="EndAndExpand"
+                                                                     CommandParameter="{Binding .}"
+                                                                     Command="{Binding AddArmorCommand, Source={RelativeSource AncestorType={x:Type viewModels:BodyPartArmorListViewModel}}}"/>
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>

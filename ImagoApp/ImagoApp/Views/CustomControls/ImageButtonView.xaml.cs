@@ -96,5 +96,17 @@ namespace ImagoApp.Views.CustomControls
             set => SetValue(EnabledProperty, value);
         }
 
+        public static readonly BindableProperty CommandParameterProperty = BindableProperty.Create(
+            nameof(CommandParameter), // the name of the bindable property
+            typeof(object), // the bindable property type
+            typeof(ImageButtonView), true);
+        
+        public object CommandParameter
+        {
+            get { return GetValue(CommandParameterProperty); }
+            set { SetValue(CommandParameterProperty, value); }
+        }
+
+
     }
 }

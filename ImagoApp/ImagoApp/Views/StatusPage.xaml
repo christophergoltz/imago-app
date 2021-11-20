@@ -114,12 +114,12 @@
                                    FontSize="{DynamicResource FontSizeHeader}"
                                    Text="Waffen" VerticalOptions="Center" />
 
-                            <Button  Padding="0,-6,0,0"
-                                     BackgroundColor="LightGray"
-                                     Command="{Binding WeaponListViewModel.AddWeaponCommand}"
-                                     FontSize="{DynamicResource FontSizeHeader}" Margin="15" 
-                                     HeightRequest="25" HorizontalOptions="EndAndExpand" Text="+"
-                                     TextColor="Green" VerticalOptions="Center" WidthRequest="25" />
+                            <cc:ImageButtonView  VerticalOptions="Center" Margin="10,10,10,5"
+                                                             ImageSource="Images/plus.png"
+                                                             ImageMargin="8,8,6,8" HeightRequest="40"
+                                                             TextHidden="True" 
+                                                             ImageSize="33" HorizontalOptions="EndAndExpand"
+                                                             Command="{Binding WeaponListViewModel.AddWeaponCommand}"/>
                         </StackLayout>
 
                         <StackLayout Margin="10,0" Orientation="Horizontal">
