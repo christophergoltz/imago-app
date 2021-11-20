@@ -202,7 +202,7 @@
                 </Frame>
 
                 <!--  healing  -->
-                <Grid Grid.Row="1" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Start">
+                <Grid Grid.Row="1" Grid.Column="1" HorizontalOptions="Start" Margin="20" VerticalOptions="Start">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -219,7 +219,7 @@
                                         Text="Behandung">
                     </cc:ImageButtonView>
               
-                    <cc:ImageButtonView Grid.Row="0" Grid.Column="1" ImageSource="Images/heilung.png" 
+                    <cc:ImageButtonView Grid.Row="0" Margin="15,0,0,0" Grid.Column="1" ImageSource="Images/heilung.png" 
                                         HorizontalOptions="End" VerticalOptions="Start"
                                         Command="{Binding OpenHealingCommand}"
                                         Text="Heilung">

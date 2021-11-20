@@ -32,12 +32,12 @@
                    Text="offene Erfahrungspunkte auf Attribute verteilen" />
             </StackLayout>
 
-            <Button Grid.Row="0" Grid.Column="6" Padding="0,-4,0,0"
-               BackgroundColor="LightGray"
-               Command="{Binding CloseCommand, Source={x:Reference AttributeExperienceDialogViewControl}}"
-               FontSize="{DynamicResource FontSizeHeader}"
-               HeightRequest="35" HorizontalOptions="End" Text="X"
-               TextColor="Red" VerticalOptions="Start" WidthRequest="35" />
+            <customControls:ImageButtonView Grid.Row="0" Grid.Column="6"   VerticalOptions="Start" Margin="5,0,0,0"
+                                            ImageSource="Images/schliessen.png"
+                                            ImageMargin="7,9,7,7"
+                                            TextHidden="True"  
+                                            ImageSize="33"  HorizontalOptions="End"
+                                            Command="{Binding CloseCommand, Source={x:Reference AttributeExperienceDialogViewControl}}"/>
 
             <Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="7">
                 <ScrollView>
