@@ -156,8 +156,6 @@
     <Content Include="Images\heilung.png" />
     <Content Include="Images\heilung_tabelle.png" />
     <Content Include="Images\heimlichkeit.png" />
-    <Content Include="Images\imago_big.png" />
-    <Content Include="Images\imago_logo_white.png" />
     <Content Include="Images\import.png" />
     <Content Include="Images\inventar.png" />
     <Content Include="Images\inventar_weiss.png" />
