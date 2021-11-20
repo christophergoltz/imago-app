@@ -39,8 +39,8 @@
                                 <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Horizontal"
                                              VerticalOptions="Center">
                                     <Label FontAttributes="Bold" Text="Inventar"
-                                           FontSize="{DynamicResource FontSizeHeader}"
-                                           VerticalOptions="Center" />
+                                           FontSize="{DynamicResource FontSizeTitle}"
+                                           VerticalOptions="Center"  Margin="15,0,15,0"/>
                                   
                                     <customControls:ImageButtonView
                                         Text="Alltagsgüter" HorizontalOptions="Start" Margin="5,0,0,0"
