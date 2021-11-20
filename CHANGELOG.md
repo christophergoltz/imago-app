@@ -10,6 +10,7 @@
 <!-- -->
 
 - **Verbessert**: [#106](https://github.com/christophergoltz/imago-app/issues/106) In der Detailansicht einer Fertigkeit/Webkunst werden nun nur die erworbenen Künste und Meisterschaften für eine bessere Übersichtlichkeit angezeigt
+- **Verbessert**: [#117](https://github.com/christophergoltz/imago-app/issues/117) Alle Buttons, Schaltflächen und Icons wurden überarbeitet
 
 <!-- -->
 
@@ -19,6 +20,7 @@
 <!-- -->
 
 - **Entfernt**: [#108](https://github.com/christophergoltz/imago-app/issues/108) Bei Textboxen wird beim anklicken nicht mehr der komplette Text automatisch ausgewählt
+- **Entfernt**: Beim hinzufügen einer Waffe wird diese nun nicht mehr automatisch geöffnet
 
 ---
 ## 0.2.3 (24.08.2021)

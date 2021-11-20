@@ -105,7 +105,6 @@ namespace ImagoApp.ViewModels
             BeinRechtsViewModel = new BodyPartArmorListViewModel(characterViewModel, wikiDataService, CharacterViewModel.CharacterModel.BodyParts.First(_ => _.Type == BodyPartType.BeinRechts));
 
             WeaponListViewModel = new WeaponListViewModel(characterViewModel, wikiDataService);
-            WeaponListViewModel.OpenWeaponRequested += (sender, weapon) => OpenWeaponCommand?.Execute(weapon);
             WeaponListViewModel.OpenWikiPageRequested += (sender, url) => { OpenWikiPageRequested?.Invoke(sender, url); };
         }
 
