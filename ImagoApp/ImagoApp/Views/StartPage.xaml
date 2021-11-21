@@ -74,41 +74,9 @@
                     </StackLayout>
                 </Grid>
             </Frame>
-
-            <!--  display options  -->
-            <Frame Grid.Row="1" Grid.Column="0" Margin="10">
-                <StackLayout Padding="5,0,0,20">
-                    <Label Margin="10" FontAttributes="Bold"
-                           FontSize="{DynamicResource FontSizeTitle}"
-                           Text="Anzeige" VerticalOptions="Center" />
-
-                    <StackLayout Orientation="Horizontal">
-                        <Label Margin="20,0,0,0"
-                               FontSize="{DynamicResource FontSizeHeader}"
-                               Text="Schriftgröße (Experimentell): " VerticalOptions="Center" />
-                        <Label FontSize="{DynamicResource FontSizeHeader}"
-                               Text="{Binding FontScale}"
-                               VerticalOptions="Center" />
-
-                        <customControls:ImageButtonView  VerticalOptions="Center" Margin="5,0,0,0"
-                                                         ImageSource="Images/plus.png"
-                                                         ImageMargin="8,10,6,6"
-                                                         TextHidden="True" 
-                                                         ImageSize="33" 
-                                                         Command="{Binding IncreaseFontSizeCommand}"/>
-
-                        <customControls:ImageButtonView  VerticalOptions="Center"
-                                                         ImageSource="Images/minus.png"
-                                                         ImageMargin="8,10,6,6"
-                                                         TextHidden="True" 
-                                                         ImageSize="33" 
-                                                         Command="{Binding DecreaseFontSizeCommand}"/>
-                    </StackLayout>
-                </StackLayout>
-            </Frame>
-
+       
             <!--  wiki database  -->
-            <Frame Grid.Row="2" Grid.Column="0" Margin="10">
+            <Frame Grid.Row="1" Grid.Column="0" Margin="10">
                 <Grid Margin="20,20,20,20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -188,41 +156,83 @@
                 </Grid>
             </Frame>
 
-            <!--  themes  -->
-            <Frame Grid.Row="3" Grid.Column="0" Margin="10">
-                <StackLayout Padding="5,0,0,20">
-                    <Label Margin="10" FontAttributes="Bold"
-                           FontSize="{DynamicResource FontSizeTitle}"
-                           Text="Theme" VerticalOptions="Center" />
+            <Grid Grid.Column="0" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="45*"></ColumnDefinition>
+                    <ColumnDefinition Width="60*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
 
-                    <CollectionView ItemsSource="{Binding Themes}" 
+                <!--  themes  -->
+                <Frame Grid.Column="0" Margin="10">
+                    <StackLayout Padding="5,0,0,20">
+                        <Label Margin="10" FontAttributes="Bold"
+                           FontSize="{DynamicResource FontSizeTitle}"
+                           Text="Design" VerticalOptions="Center" />
+
+                        <CollectionView ItemsSource="{Binding Themes}" 
                                     SelectedItem="{Binding SelectedTheme}"
                                     SelectionMode="Single">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="viewModels:ThemeItemViewModel">
-                                <Grid Padding="15">
-                                    <Frame>
-                                        <Grid Margin="0" ColumnSpacing="0" RowSpacing="0">
-                                            <StackLayout Orientation="Horizontal">
-                                                <Grid BackgroundColor="{Binding PrimaryColor}"
-                                                      HeightRequest="75" WidthRequest="150" />
-                                                <Grid BackgroundColor="{Binding SecondaryColor}"
-                                                      HeightRequest="75" WidthRequest="150" />
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="viewModels:ThemeItemViewModel">
+                                    <Grid Padding="15,15,20,15">
+                                        <Frame>
+                                            <Grid Margin="0" ColumnSpacing="0" RowSpacing="0">
+                                                <StackLayout Orientation="Horizontal">
+                                                    <Grid BackgroundColor="{Binding PrimaryColor}"
+                                                      HeightRequest="75" HorizontalOptions="FillAndExpand" />
+                                                    <Grid BackgroundColor="{Binding SecondaryColor}"
+                                                      HeightRequest="75" HorizontalOptions="FillAndExpand" />
 
-                                            </StackLayout>
-                                            <Label Margin="5" Background="white"
+                                                </StackLayout>
+                                                <Label Margin="5" Background="black" Opacity="0.75"
                                                    FontSize="{DynamicResource FontSizeHeader}"
-                                                   HorizontalOptions="Start"
+                                                   HorizontalOptions="Start" TextColor="White" Padding="5,3"
                                                    Text="{Binding Theme, Converter={StaticResource EnumToDisplayTextConverter}}"
                                                    VerticalOptions="Start" />
-                                        </Grid>
-                                    </Frame>
-                                </Grid>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </StackLayout>
-            </Frame>
+                                            </Grid>
+                                        </Frame>
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </StackLayout>
+                </Frame>
+
+                <!--  display options  -->
+                <Frame Grid.Column="1" Margin="10">
+                    <StackLayout Padding="5,0,0,20">
+                        <Label Margin="10" FontAttributes="Bold"
+                               FontSize="{DynamicResource FontSizeTitle}"
+                               Text="Anzeige" VerticalOptions="Center" />
+
+                        <StackLayout Orientation="Horizontal">
+                            <Label Margin="20,0,0,0"
+                                   FontSize="{DynamicResource FontSizeHeader}"
+                                   Text="Schriftgröße (Experimentell): " VerticalOptions="Center" />
+                            <Label FontSize="{DynamicResource FontSizeHeader}"
+                                   Text="{Binding FontScale}"
+                                   VerticalOptions="Center" />
+
+                            <customControls:ImageButtonView  VerticalOptions="Center" Margin="5,0,0,0"
+                                                             ImageSource="Images/plus.png"
+                                                             ImageMargin="8,10,6,6" HorizontalOptions="EndAndExpand"
+                                                             TextHidden="True" 
+                                                             ImageSize="33" 
+                                                             Command="{Binding IncreaseFontSizeCommand}"/>
+
+                            <customControls:ImageButtonView  VerticalOptions="Center" HorizontalOptions="EndAndExpand" Margin="-10,0,20,0"
+                                                             ImageSource="Images/minus.png"
+                                                             ImageMargin="8,10,6,6"
+                                                             TextHidden="True" 
+                                                             ImageSize="33" 
+                                                             Command="{Binding DecreaseFontSizeCommand}"/>
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+
+            </Grid>
+
+          
 
             <!--  Characters  -->
             <Frame Grid.Row="0" Grid.RowSpan="4" Grid.Column="1"
