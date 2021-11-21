@@ -7,14 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Fonts\hvd_edding.otf" />
-    <None Remove="Fonts\Kalam-Regular.ttf" />
     <None Remove="Fonts\palitoon.otf" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Fonts\hvd_edding.otf" />
-    <EmbeddedResource Include="Fonts\Kalam-Regular.ttf" />
     <EmbeddedResource Include="Fonts\palitoon.otf" />
   </ItemGroup>
 

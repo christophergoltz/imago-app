@@ -134,12 +134,12 @@
                             </Grid.ColumnDefinitions>
 
                             <Label Grid.Column="1" Margin="25,0"
-                                   FontSize="{DynamicResource FontSizeTitle}"
+                                   FontSize="{DynamicResource FontSizeHeader}"
                                    HorizontalOptions="EndAndExpand"
                                    Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.Length, Converter={StaticResource FileInfoLenghtToSmartFileSizeConverter}}"
                                    VerticalOptions="Center" />
                             <Label Grid.Column="2"
-                                   FontSize="{DynamicResource FontSizeTitle}"
+                                   FontSize="{DynamicResource FontSizeHeader}"
                                    HorizontalOptions="EndAndExpand"
                                    Text="{Binding DatabaseInfoViewModel.WikiDatabaseInfo.LastWriteTime, StringFormat='{0:dd.MM.yyyy HH:mm}'}"
                                    VerticalOptions="Center" />
@@ -313,9 +313,9 @@
                                                    VerticalOptions="Center" />
                                             <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal" VerticalOptions="Center">
                                                 <Label Margin="20,0"
-                                                       FontSize="{DynamicResource FontSizeTitle}"
+                                                       FontSize="{DynamicResource FontSizeHeader}"
                                                        Text="{Binding FileSize, Converter={StaticResource FileInfoLenghtToSmartFileSizeConverter}}" />
-                                                <Label FontSize="{DynamicResource FontSizeTitle}" Text="{Binding LastEdit, StringFormat='{0:dd.MM.yyyy HH:mm}'}" />
+                                                <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding LastEdit, StringFormat='{0:dd.MM.yyyy HH:mm}'}" />
                                             </StackLayout>
 
                                         </StackLayout>

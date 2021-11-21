@@ -3,7 +3,7 @@
 
     <!--  default style  -->
     <Style TargetType="Label">
-        <Setter Property="FontFamily" Value="D" />
+        <Setter Property="FontFamily" Value="Palitoon" />
     </Style>
 
     <Style TargetType="Frame">
@@ -18,17 +18,17 @@
 
     <Style ApplyToDerivedTypes="True" TargetType="Entry">
         <Setter Property="BackgroundColor" Value="{DynamicResource SecondaryFirstLightColor}" />
-        <Setter Property="FontFamily" Value="D" />
+        <Setter Property="FontFamily" Value="Palitoon" />
     </Style>
 
     <Style ApplyToDerivedTypes="True" TargetType="Editor">
         <Setter Property="BackgroundColor" Value="{DynamicResource SecondaryFirstLightColor}" />
-        <Setter Property="FontFamily" Value="D" />
+        <Setter Property="FontFamily" Value="Palitoon" />
     </Style>
 
     <Style ApplyToDerivedTypes="True" TargetType="Button">
         <Setter Property="FontSize" Value="{DynamicResource FontSizeContent}" />
-        <Setter Property="FontFamily" Value="D" />
+        <Setter Property="FontFamily" Value="Palitoon" />
     </Style>
 
     <!--  global explicit styles  -->
