@@ -83,6 +83,20 @@ namespace ImagoApp.ViewModels
 
         public void OpenWikiPage(string url)
         {
+            foreach (var wikiTab in CharacterViewModel.CharacterModel.WikiPages)
+            {
+                if (wikiTab.Url != url) 
+                    continue;
+
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    SelectedWikiTab = wikiTab;
+                });
+
+                return;
+            }
+
+            //no open tab found, add new one
             Device.BeginInvokeOnMainThread(() =>
             {
                 var wikiTabModel = new WikiTabModel(url);
