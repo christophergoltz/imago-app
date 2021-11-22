@@ -480,61 +480,6 @@ namespace ImagoApp.ViewModels
             }
         }
 
-
-        private ICommand _importCharacterCommand;
-
-        public ICommand ImportCharacterCommand => _importCharacterCommand ?? (_importCharacterCommand = new Command(
-            () =>
-            {
-                Task.Run(async () =>
-                {
-                    try
-                    {
-                        Analytics.TrackEvent("Import character");
-
-                        await Device.InvokeOnMainThreadAsync(async () =>
-                        {
-                            var result = await UserDialogs.Instance.PromptAsync(new PromptConfig()
-                            {
-                                CancelText = "Abbrechen",
-                                OkText = "Importieren",
-                                Title = "Charakter importieren (JSON)",
-                                Placeholder = "Json (Type = Character-Entity)",
-                                InputType = InputType.Name
-                            });
-
-                            if (!result.Ok)
-                                return;
-
-                            var json = result.Text;
-                            CharacterEntity entity;
-                            try
-                            {
-                                entity = JsonConvert.DeserializeObject<CharacterEntity>(json);
-                            }
-                            catch (Exception e)
-                            {
-                                UserDialogs.Instance.Alert(
-                                    $"Der eingegebene JSON-Wert stimmt nicht mit dem vorgegeben format überein{Environment.NewLine}{Environment.NewLine}Fehler: {e}",
-                                    "Charakter importieren", "OK");
-                                return;
-                            }
-
-                            var importResult = _characterService.ImportCharacter(entity);
-                            if (importResult)
-                                RefreshData(false, true, false);
-                            else
-                                UserDialogs.Instance.Alert($"Der eingegebene Charakter konnte nicht importiert werden",
-                                    "OK");
-                        });
-                    }
-                    catch (Exception e)
-                    {
-                        App.ErrorManager.TrackException(e);
-                    }
-                });
-            }));
-
         private ICommand _createNewCharacterCommand;
 
         public ICommand CreateNewCharacterCommand => _createNewCharacterCommand ?? (_createNewCharacterCommand =
@@ -610,16 +555,16 @@ namespace ImagoApp.ViewModels
             }));
 
         private string _version;
-        private ICommand _exportCharacterCommand;
+        private ICommand _editCharacterJsonCommand;
 
-        public ICommand ExportCharacterCommand => _exportCharacterCommand ?? (_exportCharacterCommand = new Command(() =>
+        public ICommand EditCharacterJsonCommand => _editCharacterJsonCommand ?? (_editCharacterJsonCommand = new Command(() =>
         {
             if (SelectedCharacter == null)
                 return;
 
             Task.Run(async () =>
             {
-                Analytics.TrackEvent("Export character");
+                Analytics.TrackEvent("Edit Character JSON");
 
                 try
                 {
@@ -634,13 +579,37 @@ namespace ImagoApp.ViewModels
                     {
                         UserDialogs.Instance.Prompt(new PromptConfig
                         {
-                            IsCancellable = false,
-                            OkText = "OK",
-                            Title = "Charakter exportieren",
-                            Message =
-                                $"Der Charakter wurde im JSON-Format in die Zwischenablage kopiert{Environment.NewLine}",
+                            IsCancellable = true,
+                            OkText = "Speichern", CancelText = "Abbrechen",
+                            Title = $"\"{SelectedCharacter.Name}\" bearbeiten (JSON)",
+                            Message = $"{Environment.NewLine}Das direkte Bearbeiten des Charakters kann bei fehlerhafter Benutzung dazu führen, dass die Daten unwiederruflich verloren gehen!{Environment.NewLine}",
                             InputType = InputType.Name,
-                            Text = json
+                            Text = json,
+                            OnAction = result =>
+                            {
+                                if (result.Ok == false)
+                                    return;
+
+                                CharacterEntity entity;
+                                try
+                                {
+                                    entity = JsonConvert.DeserializeObject<CharacterEntity>(result.Text);
+                                }
+                                catch (Exception e)
+                                {
+                                    UserDialogs.Instance.Alert(
+                                        $"Das eingegebene JSON konnte nicht gelesen werden{Environment.NewLine}{Environment.NewLine}Fehler: {e}",
+                                        "Charakter speichern (JSON)", "OK");
+                                    return;
+                                }
+
+                                var importResult = _characterService.SaveCharacter(entity);
+                                if (importResult)
+                                    RefreshData(false, true, true);
+                                else
+                                    UserDialogs.Instance.Alert($"Das eingegebene JSON konnte nicht gespeichert werden",
+                                        "OK");
+                            }
                         });
                     });
                 }

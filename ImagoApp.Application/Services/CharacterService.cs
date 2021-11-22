@@ -25,6 +25,7 @@ namespace ImagoApp.Application.Services
         void UpdateLastBackup(Guid guid);
         CharacterPreview GetCharacterPreview(string dbFile);
         CharacterPreview GetCharacterPreview(Guid guid);
+        bool SaveCharacter(CharacterEntity characterEntity);
     }
 
     public class CharacterService : ICharacterService
@@ -93,6 +94,14 @@ namespace ImagoApp.Application.Services
             {
                 yield return _characterRepository.GetItemAsPreview(characterDatabaseFile);
             }
+        }
+
+        public bool SaveCharacter(CharacterEntity characterEntity)
+        {
+            Debug.WriteLine("Start saving..");
+            var result = _characterRepository.UpdateItem(characterEntity);
+            Debug.WriteLine("Done saving: " + result);
+            return result;
         }
 
         public bool SaveCharacter(CharacterModel characterModel)

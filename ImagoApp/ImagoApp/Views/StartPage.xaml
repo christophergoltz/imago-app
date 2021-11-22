@@ -281,14 +281,6 @@
                                                             ImageSize="30" 
                                                             ImageMargin="11,8,3,8"
                                                             ></customControls:ImageButtonView>
-
-                            <customControls:ImageButtonView  VerticalOptions="Center"
-                                                             ImageSource="Images/import.png"
-                                                             Text="JSON"  Command="{Binding ImportCharacterCommand}"
-                                                             ImageSize="30" 
-                                                             ImageMargin="11,8,3,8"
-                                                             ></customControls:ImageButtonView>
-
                         </StackLayout>
 
                         <BoxView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
@@ -363,8 +355,8 @@
                                                         ></customControls:ImageButtonView>
 
                         <customControls:ImageButtonView VerticalOptions="Center"
-                                                        Command="{Binding ExportCharacterCommand}"
-                                                        ImageSource="Images/export.png"
+                                                        Command="{Binding EditCharacterJsonCommand}"
+                                                        ImageSource="Images/erschaffung.png"
                                                         Text="JSON" 
                                                         Enabled="{Binding SelectedCharacter, Converter={StaticResource ObjectNotNullToBoolConverter}}"
                                                         ImageSize="30" 
