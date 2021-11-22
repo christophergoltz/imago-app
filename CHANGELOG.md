@@ -6,6 +6,7 @@
 - **Hinzugefügt**: [#111](https://github.com/christophergoltz/imago-app/issues/111) Eine Auswahl zwischen verschiedenen Farbschemen wurde hinzugefügt
 - **Hinzugefügt**: [#113](https://github.com/christophergoltz/imago-app/issues/113) Bei den Trefferzonen werden nun die entsprechenden Index-Zahlen angezeigt
 - **Hinzugefügt**: [#8](https://github.com/christophergoltz/imago-app/issues/8) Auf dem Kampfbogen wurden eine Hilfe für Behandung und Heilung hinzugefügt
+- **Hinzugefügt**: [#115](https://github.com/christophergoltz/imago-app/issues/155) Ein Charakter kann nun direkt aus einer Datei wiederhergestellt werden
 
 <!-- -->
 
