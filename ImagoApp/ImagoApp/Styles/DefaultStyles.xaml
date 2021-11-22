@@ -2,6 +2,10 @@
                     xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp">
 
     <!--  default style  -->
+    <Style TargetType="Label">
+        <Setter Property="FontFamily" Value="Palitoon" />
+    </Style>
+
     <Style TargetType="Frame">
         <Setter Property="BorderColor" Value="{DynamicResource SecondaryFirstDarkColor}" />
         <Setter Property="CornerRadius" Value="0" />
@@ -14,14 +18,17 @@
 
     <Style ApplyToDerivedTypes="True" TargetType="Entry">
         <Setter Property="BackgroundColor" Value="{DynamicResource SecondaryFirstLightColor}" />
+        <Setter Property="FontFamily" Value="Palitoon" />
     </Style>
 
     <Style ApplyToDerivedTypes="True" TargetType="Editor">
         <Setter Property="BackgroundColor" Value="{DynamicResource SecondaryFirstLightColor}" />
+        <Setter Property="FontFamily" Value="Palitoon" />
     </Style>
 
     <Style ApplyToDerivedTypes="True" TargetType="Button">
         <Setter Property="FontSize" Value="{DynamicResource FontSizeContent}" />
+        <Setter Property="FontFamily" Value="Palitoon" />
     </Style>
 
     <!--  global explicit styles  -->

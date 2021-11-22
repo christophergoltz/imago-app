@@ -11,6 +11,7 @@
 
 - **Verbessert**: [#106](https://github.com/christophergoltz/imago-app/issues/106) In der Detailansicht einer Fertigkeit/Webkunst werden nun nur die erworbenen Künste und Meisterschaften für eine bessere Übersichtlichkeit angezeigt
 - **Verbessert**: [#117](https://github.com/christophergoltz/imago-app/issues/117) Alle Buttons, Schaltflächen und Icons wurden überarbeitet
+- **Verbessert**: [#119](https://github.com/christophergoltz/imago-app/issues/119) Falls ein Wiki-Link schon offen sein sollte, wird dieser angewählt anstatt ein duplikat anzulegen
 
 <!-- -->
 

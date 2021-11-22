@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Fonts\palitoon.otf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Fonts\palitoon.otf" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Acr.UserDialogs" Version="7.1.0.514" />
     <PackageReference Include="Autofac" Version="6.2.0" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.34" />
