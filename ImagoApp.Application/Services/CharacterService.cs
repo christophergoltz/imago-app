@@ -23,6 +23,8 @@ namespace ImagoApp.Application.Services
         string GetCharacterJson(Guid guid);
         bool ImportCharacter(CharacterEntity characterEntity);
         void UpdateLastBackup(Guid guid);
+        CharacterPreview GetCharacterPreview(string dbFile);
+        CharacterPreview GetCharacterPreview(Guid guid);
     }
 
     public class CharacterService : ICharacterService
@@ -72,6 +74,16 @@ namespace ImagoApp.Application.Services
         public string GetCharacterJson(Guid guid)
         {
             return _characterRepository.GetCharacterJson(guid);
+        }
+        
+        public CharacterPreview GetCharacterPreview(string dbFile)
+        {
+            return _characterRepository.GetItemAsPreview(dbFile);
+        }
+
+        public CharacterPreview GetCharacterPreview(Guid guid)
+        {
+            return _characterRepository.GetItemAsPreview(guid);
         }
 
         public IEnumerable<CharacterPreview> GetAllQuick()

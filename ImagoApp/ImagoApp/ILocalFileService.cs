@@ -6,5 +6,6 @@ namespace ImagoApp
     {
         void OpenFolder(string path);
         Task SaveFile(string sourceFile);
+        Task<string> OpenAndCopyFileToFolder(string folder);
     }
 }

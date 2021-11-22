@@ -61,5 +61,30 @@ namespace ImagoApp.UWP
             // Completing updates may require Windows to ask for user input.
             await CachedFileManager.CompleteUpdatesAsync(selectedTarget);
         }
+
+        /// <summary>
+        /// https://docs.microsoft.com/en-us/windows/uwp/files/quickstart-using-file-and-folder-pickers
+        /// </summary>
+        public async Task<string> OpenAndCopyFileToFolder(string folder)
+        {
+            var picker = new Windows.Storage.Pickers.FileOpenPicker
+            {
+                ViewMode = Windows.Storage.Pickers.PickerViewMode.List,
+                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop
+            };
+
+            picker.FileTypeFilter.Add(".imagodb");
+
+
+            var selectedFile = await picker.PickSingleFileAsync();
+            if (selectedFile == null)
+                return null;
+
+            var temp = await StorageFolder.GetFolderFromPathAsync(folder);
+
+            var copiedFile = await selectedFile.CopyAsync(temp);
+
+            return copiedFile.Path;
+        }
     }
 }

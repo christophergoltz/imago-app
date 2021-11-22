@@ -20,6 +20,7 @@ namespace ImagoApp.Infrastructure.Repositories
         CharacterEntity GetItem(Guid guid);
         string GetCharacterJson(Guid guid);
         CharacterPreview GetItemAsPreview(string databaseFile);
+        CharacterPreview GetItemAsPreview(Guid guid);
         void UpdateLastBackup(Guid guid);
     }
 
@@ -85,6 +86,23 @@ namespace ImagoApp.Infrastructure.Repositories
             {
                 var collection = db.GetCollection<CharacterEntity>(CollectionName);
                 return collection.FindById(guid);
+            }
+        }
+
+        public CharacterPreview GetItemAsPreview(Guid guid)
+        {
+            var databaseFile = _characterDatabaseConnection.GetCharacterDatabaseFile(guid);
+            if (!File.Exists(databaseFile))
+                return null;
+
+            using (var db = new LiteDatabase($"filename={databaseFile}"))
+            {
+                var collection = db.GetCollection<CharacterEntity>(CollectionName);
+                var res = collection.Query().First();
+                var fileInfo = new FileInfo(databaseFile);
+
+                return new CharacterPreview(res.Guid, res.Name, res.Version, res.LastEdit, databaseFile,
+                    fileInfo.Length, res.LastBackup);
             }
         }
 

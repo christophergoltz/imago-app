@@ -651,6 +651,100 @@ namespace ImagoApp.ViewModels
             });
         }));
 
+        private ICommand _restoreBackupCommand;
+        public ICommand RestoreBackupCommand => _restoreBackupCommand ?? (_restoreBackupCommand = new Command(() =>
+        {
+            Analytics.TrackEvent("Restore character");
+
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                try
+                {
+                    var tmp = App.TempFolder;
+
+                    //check if temp folder exisits
+                    if (!Directory.Exists(tmp))
+                        Directory.CreateDirectory(tmp);
+
+                    var oldTmpFiles = Directory.GetFiles(tmp);
+                    if (oldTmpFiles.Any())
+                    {
+                        foreach (var file in oldTmpFiles)
+                            File.Delete(file);
+                    }
+
+                    //select file
+                    var backupFile = await _localfileService.OpenAndCopyFileToFolder(tmp);
+                    if (backupFile == null)
+                        return;
+
+                    //try read
+                    CharacterPreview characterPreviewToRestore;
+                    try
+                    {
+                        characterPreviewToRestore = _characterService.GetCharacterPreview(backupFile);
+
+                        if (characterPreviewToRestore == null)
+                            throw new ArgumentNullException(nameof(characterPreviewToRestore));
+                    }
+                    catch (Exception e)
+                    {
+                        App.ErrorManager.TrackExceptionSilent(e);
+                        UserDialogs.Instance.Alert("Das Backup konnte nicht gelesen werden." +
+                            $"{Environment.NewLine}{Environment.NewLine}Fehler:{Environment.NewLine}{e}", "Charakter aus Backup laden",
+                            "OK");
+                        return;
+                    }
+
+                    //check to replace existing
+                    var existingCharacter = _characterService.GetCharacterPreview(characterPreviewToRestore.Guid);
+                    if (existingCharacter != null)
+                    {
+                        if (characterPreviewToRestore.LastEdit == existingCharacter.LastEdit
+                            && characterPreviewToRestore.Version == existingCharacter.Version)
+                        {
+                            UserDialogs.Instance.Alert("Das Backup ist identisch zum Speicherstand.", $"\"{characterPreviewToRestore.Name}\" aus Backup laden",
+                                "OK");
+
+                            return;
+                        }
+
+                        var backupFileInfo = "";
+                        if (existingCharacter.LastEdit > characterPreviewToRestore.LastEdit)
+                            backupFileInfo = "(Älter)";
+                        else if (existingCharacter.LastEdit < characterPreviewToRestore.LastEdit)
+                            backupFileInfo = "(Neuer)";
+
+                        //ask to override
+                        var result =
+                        await UserDialogs.Instance.ConfirmAsync(
+                            $"{Environment.NewLine}Soll der bestehende Speicherstand überschrieben werden?" +
+                            $"{Environment.NewLine}{Environment.NewLine}Speicherstand:" +
+                            $"{Environment.NewLine}Letzte Änderung: {existingCharacter.LastEdit}" +
+                            $"{Environment.NewLine}Version: {existingCharacter.Version}" +
+                            $"{Environment.NewLine}{Environment.NewLine}Backup-Datei {backupFileInfo}:" +
+                            $"{Environment.NewLine}Letzte Änderung: {characterPreviewToRestore.LastEdit}" +
+                            $"{Environment.NewLine}Version: {characterPreviewToRestore.Version}" +
+                            $"{Environment.NewLine}{Environment.NewLine}Das Überschreiben des Charakters ist endgültig und kann nicht rückgägnig gemacht werden!",
+                            $"\"{characterPreviewToRestore.Name}\" aus Backup laden", "Speicherstand überschreiben", "Abbrechen");
+
+                        if (!result)
+                            return;
+                    }
+
+                    //replace file in characters folder
+                    _characterDatabaseConnection.ImportCharacterBackup(backupFile);
+
+                    //refresh
+                    RefreshData(false, true, false);
+                }
+                catch (Exception e)
+                {
+                    App.ErrorManager.TrackException(e, SelectedCharacter.Name);
+                }
+            });
+        }));
+
         private ICommand _createBackupCommand;
         public ICommand CreateBackupCommand => _createBackupCommand ?? (_createBackupCommand = new Command(() =>
         {

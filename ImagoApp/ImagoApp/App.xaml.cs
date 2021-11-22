@@ -31,6 +31,8 @@ namespace ImagoApp
 
         public static IContainer Container;
 
+        public static string TempFolder;
+
         public App(ILocalFileService localFileService)
         {
             InitializeComponent();
@@ -127,6 +129,8 @@ namespace ImagoApp
         {
             var applicationDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             var wikiDatabaseFile = Path.Combine(applicationDataFolder, "ImagoApp_Wikidata.db");
+
+            TempFolder = Path.Combine(applicationDataFolder, "Temp");
 
             var builder = new ContainerBuilder();
 

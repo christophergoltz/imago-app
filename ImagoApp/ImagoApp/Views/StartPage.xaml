@@ -275,10 +275,10 @@
 
                             </customControls:ImageButtonView>
 
-                            <customControls:ImageButtonView IsEnabled="False"  VerticalOptions="Center"
+                            <customControls:ImageButtonView  VerticalOptions="Center"
                                                             ImageSource="Images/import.png"    
-                                                            Text="Datei" 
-                                                            ImageSize="30"  Enabled="False"
+                                                            Text="Backup laden" Command="{Binding RestoreBackupCommand}"
+                                                            ImageSize="30" 
                                                             ImageMargin="11,8,3,8"
                                                             ></customControls:ImageButtonView>
 
@@ -355,7 +355,7 @@
                     <StackLayout Grid.Row="2"  HorizontalOptions="EndAndExpand" Orientation="Horizontal" Margin="20">
                         <customControls:ImageButtonView VerticalOptions="Center"
                                                         ImageSource="Images/export.png"
-                                                        Text="Datei" 
+                                                        Text="Backup erstellen" 
                                                         Enabled="{Binding SelectedCharacter, Converter={StaticResource ObjectNotNullToBoolConverter}}"
                                                         ImageSize="30" 
                                                         ImageMargin="11,8,3,8"
