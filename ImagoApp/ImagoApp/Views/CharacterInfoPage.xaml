@@ -31,16 +31,11 @@
                        HorizontalOptions="Center"
                        Text="{Binding AttributeModel.IncreaseValueCache}"
                        VerticalOptions="Center" />
-                    <Label Grid.Column="3"
-                       FontSize="{DynamicResource FontSizeContent}"
-                       HorizontalOptions="Center" VerticalOptions="Center">
-                        <Label.Text>
-                            <MultiBinding StringFormat="{}{0}/{1}">
-                                <Binding Path="AttributeModel.LeftoverExperienceCache" Source="{RelativeSource AncestorType={x:Type viewModels:AttributeViewModel}}" />
-                                <Binding Path="AttributeModel.ExperienceForNextIncreasedRequiredCache" Source="{RelativeSource AncestorType={x:Type viewModels:AttributeViewModel}}" />
-                            </MultiBinding>
-                        </Label.Text>
-                    </Label>
+
+                    <customControls:TallyMarker HorizontalOptions="Start" Grid.Column="3"
+                                                 CurrentValue="{Binding AttributeModel.LeftoverExperienceCache}"
+                                                 MaximumValue="{Binding AttributeModel.ExperienceForNextIncreasedRequiredCache}"></customControls:TallyMarker>
+                
                     <Entry Grid.Column="4" Margin="5,0"
                        FontSize="{DynamicResource FontSizeDetail}"
                        HorizontalOptions="Fill"

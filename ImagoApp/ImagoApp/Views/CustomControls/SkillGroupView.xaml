@@ -1,14 +1,16 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <ContentView x:Class="ImagoApp.Views.CustomControls.SkillGroupView" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-   xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp" x:Name="SkillGroupViewControl">
+   xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
+   xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp"
+   x:Name="SkillGroupViewControl">
     <ContentView.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="SkillModelListItemTemplate" x:DataType="viewModels:SkillViewModel">
                 <ViewCell>
                     <Grid Margin="0,3" Padding="10,3,10,5">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="160" />
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="75" />
                             <ColumnDefinition Width="50" />
                             <ColumnDefinition Width="50" />
                             <ColumnDefinition Width="50" />
@@ -17,16 +19,11 @@
                            FontSize="{DynamicResource FontSizeBigContent}"
                            Text="{Binding Skill.Type, Converter={StaticResource EnumToDisplayTextConverter}}"
                            VerticalOptions="Center" />
-                        <Label Grid.Column="1"
-                           FontSize="{DynamicResource FontSizeBigContent}"
-                           HorizontalOptions="Center" VerticalOptions="Center">
-                            <Label.Text>
-                                <MultiBinding StringFormat="{}{0}/{1}">
-                                    <Binding Path="Skill.LeftoverExperienceCache" Source="{RelativeSource AncestorType={x:Type viewModels:SkillViewModel}}" />
-                                    <Binding Path="Skill.ExperienceForNextIncreasedRequiredCache" Source="{RelativeSource AncestorType={x:Type viewModels:SkillViewModel}}" />
-                                </MultiBinding>
-                            </Label.Text>
-                        </Label>
+
+                        <customControls:TallyMarker HorizontalOptions="Start" Grid.Column="1" Margin="5,0,5,0"
+                                                    CurrentValue="{Binding Skill.LeftoverExperienceCache}"
+                                                    MaximumValue="{Binding Skill.ExperienceForNextIncreasedRequiredCache}"></customControls:TallyMarker>
+
                         <Label Grid.Column="2"
                            FontSize="{DynamicResource FontSizeBigContent}"
                            HorizontalOptions="Center"
