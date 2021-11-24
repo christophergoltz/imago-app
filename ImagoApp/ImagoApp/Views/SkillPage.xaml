@@ -1,209 +1,88 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage x:Class="ImagoApp.Views.SkillPage" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-   xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp" xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application" xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
-   Title="Fertigkeiten" x:DataType="viewModels:SkillPageViewModel">
-    <ContentPage.Content>
+<ContentPage x:Class="ImagoApp.Views.SkillPage" xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"  
+             BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
+             xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp" 
+             xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application" 
+             xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
+             xmlns:tabs="http://sharpnado.com"
+             Title="Fertigkeiten" x:DataType="viewModels:SkillPageViewModel">
+    <ContentPage.Resources>
+        <Style x:Key="BottomTabItemStyle" TargetType="tabs:BottomTabItem">
+            <Setter Property="FontFamily" Value="Palitoon"></Setter>
+            <Setter Property="SelectedTabColor" Value="{DynamicResource PrimaryDarkColor}"></Setter>
+            <Setter Property="UnselectedLabelColor" Value="White"></Setter>
+            <Setter Property="UnselectedIconColor" Value="White"></Setter>
+            <Setter Property="IconSize" Value="40"></Setter>
+        </Style>
+    </ContentPage.Resources>
+
+    <Grid>
         <Grid>
-            <!--  list groups  -->
-            <StackLayout>
-                <!--  creation  -->
-                <StackLayout IsVisible="{Binding CharacterViewModel.EditMode}">
-                    <StackLayout Padding="10,5"
-                       BackgroundColor="{DynamicResource SecondarySecondDarkestColor}"
-                       Orientation="Horizontal">
-                        <Label FontAttributes="Bold"
-                           FontSize="{DynamicResource FontSizeSmallCaption}"
-                           Text="Fertigkeiten" VerticalOptions="Center" />
+            <Grid.RowDefinitions>
+                <RowDefinition Height="120"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <tabs:TabHostView Grid.Row="0" TabType="Fixed" 
+                          BackgroundColor="{DynamicResource SecondaryFirstDarkColor}"
+                          SelectedIndex="{Binding Source={x:Reference Switcher}, Path=SelectedIndex, Mode=TwoWay}">
+                <tabs:TabHostView.Tabs>
+                    <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/start_weiss.png"   Label="Start" />
+                    <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/staerke_weiss.png" Label="Bewegung"  />
+                    <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/nahkampf_weiss.png"  Label="Nahkampf" />
+                    <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/fernkampf_weiss.png"  Label="Fernkampf"  />
+                    <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/heimlichkeit_weiss.png"   Label="Heimlichkeit" />
+                    <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/handwerk_weiss.png"   Label="Handwerk" />
+                    <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/weben_weiss.png"   Label="Weben" />
+                    <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/letter_weiss.png"   Label="Wissenschaft" />
+                    <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/soziales_weiss.png"   Label="Soziales" />
+                </tabs:TabHostView.Tabs>
+            </tabs:TabHostView>
 
-                        <Label Margin="50,0,0,0"
-                           FontSize="{DynamicResource FontSizeHeader}"
-                           Text="Erfahrungspunkte" VerticalOptions="Center" />
-                        <Entry FontSize="{DynamicResource FontSizeHeader}"
-                           Keyboard="Numeric"
-                           Text="{Binding TotalSkillExperience}"
-                           VerticalOptions="Center" WidthRequest="100" />
-                        <Label Margin="50,0,0,0"
-                           FontSize="{DynamicResource FontSizeHeader}"
-                           Text="Bilanz" VerticalOptions="Center" />
-                        <Label FontAttributes="Bold"
-                           FontSize="{DynamicResource FontSizeHeader}"
-                           Text="{Binding SkillExperienceBalance}"
-                           VerticalOptions="Center">
-                            <Label.Style>
-                                <Style TargetType="Label">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding SkillExperienceBalance, Converter={StaticResource PositiveIntegerToBoolConverter}}"
-                                           TargetType="Label" Value="True">
-                                            <Setter Property="TextColor" Value="{DynamicResource SecondarySecondDarkColor}" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding SkillExperienceBalance, Converter={StaticResource PositiveIntegerToBoolConverter}}"
-                                           TargetType="Label" Value="False">
-                                            <Setter Property="TextColor" Value="Crimson" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Label.Style>
-                        </Label>
-                    </StackLayout>
-
-                    <customControls:SkillExperienceTable Margin="0,-10,0,-5" Padding="0,5,0,5" />
-                </StackLayout>
-
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="400" />
-                    </Grid.ColumnDefinitions>
-
-                    <!--  Header  -->
-                    <Grid Grid.Column="1">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="150" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-
-                        <Frame Grid.Row="1">
-                            <StackLayout>
-                                <StackLayout Margin="10" Orientation="Horizontal" VerticalOptions="Center">
-                                    <Label FontAttributes="Bold"
-                                       FontSize="{DynamicResource FontSizeContent}"
-                                       Text="Freie Ep: " VerticalOptions="Center" />
-                                    <Entry FontSize="{DynamicResource FontSizeContent}"
-                                       Keyboard="Numeric"
-                                       Text="{Binding CharacterViewModel.CharacterModel.FreeSkillExperience}"
-                                       VerticalOptions="Center" WidthRequest="100" />
-                                </StackLayout>
-                            </StackLayout>
-                        </Frame>
-
-                        <Frame Grid.Row="0">
-                            <Grid Background="{DynamicResource SinglePrimaryGradientBrush}">
-                                <ListView Margin="15,15,15,0" HasUnevenRows="True"
-                                   ItemsSource="{Binding CharacterViewModel.HandicapAttributes}"
-                                   SelectionMode="None" VerticalOptions="FillAndExpand">
-                                    <ListView.Header>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="150" />
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="1" />
-                                            </Grid.RowDefinitions>
-                                            <Label Grid.Row="0" Grid.Column="0" Margin="5,0,0,0"
-                                               FontAttributes="Bold" Text="Behinderung" />
-                                            <Label Grid.Row="0" Grid.Column="1" Margin="5,0,0,0"
-                                               FontAttributes="Bold" Text="Last/Traglast" />
-                                            <BoxView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-                                               HeightRequest="1" Color="Black" />
-                                        </Grid>
-                                    </ListView.Header>
-                                    <ListView.ItemTemplate>
-                                        <DataTemplate x:DataType="models:DerivedAttributeModel">
-                                            <ViewCell>
-                                                <Grid Padding="10,4">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="*" />
-                                                        <ColumnDefinition Width="150" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <Label Grid.Column="0"
-                                                       FontSize="{DynamicResource FontSizeContent}"
-                                                       Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"
-                                                       VerticalOptions="Center" />
-                                                    <Label Grid.Column="1"
-                                                       FontSize="{DynamicResource FontSizeContent}"
-                                                       HorizontalOptions="Center"
-                                                       Text="{Binding FinalValue}"
-                                                       VerticalOptions="Center" />
-                                                </Grid>
-                                            </ViewCell>
-                                        </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
-                            </Grid>
-                        </Frame>
-                    </Grid>
-
-                    <ScrollView Grid.Column="0" IsTabStop="true">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <customControls:SkillGroupView Grid.Row="0" Grid.Column="0" IconSource="Images/staerke.png"
-                               OpenSkillCommand="{Binding OpenSkillDetailCommand}"
-                               OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
-                               SkillGroupViewModel="{Binding Bewegung}" />
-                            <customControls:SkillGroupView Grid.Row="1" Grid.Column="0" IconSource="Images/heimlichkeit.png"
-                               OpenSkillCommand="{Binding OpenSkillDetailCommand}"
-                               OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
-                               SkillGroupViewModel="{Binding Heimlichkeit}" />
-                            <customControls:SkillGroupView Grid.Row="2" Grid.Column="0" IconSource="Images/weben.png"
-                               OpenSkillCommand="{Binding OpenSkillDetailCommand}"
-                               OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
-                               SkillGroupViewModel="{Binding Webkunst}" />
-                            <customControls:SkillGroupView Grid.Row="3" Grid.Column="0" IconSource="Images/handwerk.png"
-                               OpenSkillCommand="{Binding OpenSkillDetailCommand}"
-                               OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
-                               SkillGroupViewModel="{Binding Handwerk}" />
-
-                            <customControls:SkillGroupView Grid.Row="0" Grid.Column="1" IconSource="Images/nahkampf.png"
-                               OpenSkillCommand="{Binding OpenSkillDetailCommand}"
-                               OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
-                               SkillGroupViewModel="{Binding Nahkampf}" />
-                            <customControls:SkillGroupView Grid.Row="1" Grid.Column="1" IconSource="Images/fernkampf.png"
-                               OpenSkillCommand="{Binding OpenSkillDetailCommand}"
-                               OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
-                               SkillGroupViewModel="{Binding Fernkampf}" />
-                            <customControls:SkillGroupView Grid.Row="2" Grid.Column="1" IconSource="Images/letter.png"
-                               OpenSkillCommand="{Binding OpenSkillDetailCommand}"
-                               OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
-                               SkillGroupViewModel="{Binding Wissenschaft}" />
-                            <customControls:SkillGroupView Grid.Row="3" Grid.Column="1" IconSource="Images/soziales.png"
-                               OpenSkillCommand="{Binding OpenSkillDetailCommand}"
-                               OpenSkillGroupCommand="{Binding OpenSkillGroupDetailCommand}"
-                               SkillGroupViewModel="{Binding Soziales}" />
-                        </Grid>
-                    </ScrollView>
-                </Grid>
-            </StackLayout>
-
-            <!--  dialog skill  -->
-            <Grid IsVisible="{Binding SkillDetailViewModel, Converter={StaticResource ObjectNotNullToBoolConverter}}">
-                <ContentView BackgroundColor="black" Opacity="0.6">
-                    <ContentView.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding SkillDetailViewModel.CloseCommand}" />
-                    </ContentView.GestureRecognizers>
+            <tabs:ViewSwitcher Grid.Row="1" Margin="5,0,5,5" x:Name="Switcher">
+                <ContentView>
+                    <Grid BackgroundColor="red"></Grid>
                 </ContentView>
-                <Frame HeightRequest="900" HorizontalOptions="Center" VerticalOptions="Center"
-                   WidthRequest="1600">
-                    <customControls:SkillDetailView HorizontalOptions="Fill"
-                       SkillDetailViewModel="{Binding SkillDetailViewModel}"
-                       VerticalOptions="Fill" />
-                </Frame>
-            </Grid>
-
-            <!--  dialog skillgroup  -->
-            <Grid IsVisible="{Binding SkillGroupDetailViewModel, Converter={StaticResource ObjectNotNullToBoolConverter}}">
-                <ContentView BackgroundColor="black" Opacity="0.6">
-                    <ContentView.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding SkillGroupDetailViewModel.CloseCommand}" />
-                    </ContentView.GestureRecognizers>
+                <ContentView>
+                    <customControls:SkillGroupView SkillGroupViewModel="{Binding Bewegung}" />
                 </ContentView>
-                <Frame HeightRequest="850" HorizontalOptions="Center" VerticalOptions="Center"
-                   WidthRequest="1200">
-                    <customControls:SkillGroupDetailView HorizontalOptions="Fill"
-                       SkillGroupDetailViewModel="{Binding SkillGroupDetailViewModel, Source={RelativeSource AncestorType={x:Type viewModels:SkillPageViewModel}}}"
-                       VerticalOptions="Fill" />
-                </Frame>
-            </Grid>
+                <ContentView>
+                    <customControls:SkillGroupView SkillGroupViewModel="{Binding Nahkampf}" />
+                </ContentView>
+                <ContentView>
+                    <customControls:SkillGroupView SkillGroupViewModel="{Binding Fernkampf}" />
+                </ContentView>
+                <ContentView>
+                    <customControls:SkillGroupView SkillGroupViewModel="{Binding Heimlichkeit}" />
+                </ContentView>
+                <ContentView>
+                    <customControls:SkillGroupView SkillGroupViewModel="{Binding Handwerk}" />
+                </ContentView>
+                <ContentView>
+                    <customControls:SkillGroupView SkillGroupViewModel="{Binding Webkunst}" />
+                </ContentView>
+                <ContentView>
+                    <customControls:SkillGroupView SkillGroupViewModel="{Binding Wissenschaft}" />
+                </ContentView>
+                <ContentView>
+                    <customControls:SkillGroupView SkillGroupViewModel="{Binding Soziales}" />
+                </ContentView>
+            </tabs:ViewSwitcher>
         </Grid>
-    </ContentPage.Content>
+
+        <!--  dialog skill  -->
+        <Grid IsVisible="{Binding SkillDetailViewModel, Converter={StaticResource ObjectNotNullToBoolConverter}}">
+            <ContentView BackgroundColor="black" Opacity="0.6">
+                <ContentView.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SkillDetailViewModel.CloseCommand}" />
+                </ContentView.GestureRecognizers>
+            </ContentView>
+            <Frame HeightRequest="900" HorizontalOptions="Center" VerticalOptions="Center"
+                   WidthRequest="1600">
+                <customControls:SkillDetailView HorizontalOptions="Fill"
+                                                SkillDetailViewModel="{Binding SkillDetailViewModel}"
+                                                VerticalOptions="Fill" />
+            </Frame>
+        </Grid>
+    </Grid>
 </ContentPage>

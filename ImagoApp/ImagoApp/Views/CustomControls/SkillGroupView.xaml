@@ -1,230 +1,409 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <ContentView x:Class="ImagoApp.Views.CustomControls.SkillGroupView" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-   xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
-   xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp"
-   x:Name="SkillGroupViewControl">
-    <ContentView.Resources>
-        <ResourceDictionary>
-            <DataTemplate x:Key="SkillModelListItemTemplate" x:DataType="viewModels:SkillViewModel">
-                <ViewCell>
-                    <Grid Margin="0,3" Padding="10,3,10,5">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="160" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="50" />
-                            <ColumnDefinition Width="50" />
-                            <ColumnDefinition Width="50" />
-                        </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0"
-                           FontSize="{DynamicResource FontSizeBigContent}"
-                           Text="{Binding Skill.Type, Converter={StaticResource EnumToDisplayTextConverter}}"
-                           VerticalOptions="Center" />
+             xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
+             xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp"
+             xmlns:system="clr-namespace:System;assembly=netstandard"
+             x:Name="SkillGroupViewControl">
+    <Grid Padding="0"  BindingContext="{Binding SkillGroupViewModel, Source={x:Reference SkillGroupViewControl}}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="900"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
 
-                        <customControls:TallyMarker HorizontalOptions="Start" Grid.Column="1" Margin="5,0,5,0"
-                                                    CurrentValue="{Binding Skill.LeftoverExperienceCache}"
-                                                    MaximumValue="{Binding Skill.ExperienceForNextIncreasedRequiredCache}"></customControls:TallyMarker>
-
-                        <Label Grid.Column="2"
-                           FontSize="{DynamicResource FontSizeBigContent}"
-                           HorizontalOptions="Center"
-                           Text="{Binding Skill.IncreaseValueCache}"
-                           VerticalOptions="Center" />
-                        <Label Grid.Column="3"
-                           FontSize="{DynamicResource FontSizeBigContent}"
-                           HorizontalOptions="Center"
-                           Text="{Binding Skill.ModificationValue}"
-                           VerticalOptions="Center" />
-                        <Label Grid.Column="4"
-                           FontSize="{DynamicResource FontSizeBigContent}"
-                           HorizontalOptions="Center"
-                           Text="{Binding Skill.FinalValue}"
-                           VerticalOptions="Center" />
-                    </Grid>
-                </ViewCell>
-            </DataTemplate>
-            <DataTemplate x:Key="SkillModelListEditItemTemplate" x:DataType="viewModels:SkillViewModel">
-                <ViewCell>
-                    <Grid Margin="0,2" Padding="10,0,10,3">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="75" />
-                            <ColumnDefinition Width="50" />
-                            <ColumnDefinition Width="50" />
-                            <ColumnDefinition Width="50" />
-                        </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0"
-                           FontSize="{DynamicResource FontSizeBigContent}"
-                           Text="{Binding Skill.Type, Converter={StaticResource EnumToDisplayTextConverter}}"
-                           VerticalOptions="Center" />
-
-                        <Entry Grid.Column="1"
-                           BackgroundColor="{DynamicResource SecondarySecondDarkestColor}"
-                           FontSize="{DynamicResource FontSizeBigContent}"
-                           Keyboard="Numeric"
-                           Text="{Binding CreationExperience}"
-                           TextColor="White" />
-                        <Label Grid.Column="2"
-                           FontSize="{DynamicResource FontSizeBigContent}"
-                           HorizontalOptions="Center" VerticalOptions="Center">
-                            <Label.Text>
-                                <MultiBinding StringFormat="{}{0}/{1}">
-                                    <Binding Path="Skill.LeftoverExperienceCache" Source="{RelativeSource AncestorType={x:Type viewModels:SkillViewModel}}" />
-                                    <Binding Path="Skill.ExperienceForNextIncreasedRequiredCache" Source="{RelativeSource AncestorType={x:Type viewModels:SkillViewModel}}" />
-                                </MultiBinding>
-                            </Label.Text>
-                        </Label>
-                        <Label Grid.Column="3"
-                           FontSize="{DynamicResource FontSizeBigContent}"
-                           HorizontalOptions="Center"
-                           Text="{Binding Skill.IncreaseValueCache}"
-                           VerticalOptions="Center" />
-                        <Label Grid.Column="4"
-                           FontSize="{DynamicResource FontSizeBigContent}"
-                           HorizontalOptions="Center"
-                           Text="{Binding Skill.ModificationValue}"
-                           VerticalOptions="Center" />
-                        <Label Grid.Column="5"
-                           FontSize="{DynamicResource FontSizeBigContent}"
-                           HorizontalOptions="Center"
-                           Text="{Binding Skill.FinalValue}"
-                           VerticalOptions="Center" />
-                    </Grid>
-                </ViewCell>
-            </DataTemplate>
-        </ResourceDictionary>
-    </ContentView.Resources>
-    <Frame BindingContext="{Binding SkillGroupViewModel, Source={x:Reference SkillGroupViewControl}}">
-        <Grid Padding="0" Background="{DynamicResource SinglePrimaryGradientBrush}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-
-            <!--  header  -->
-            <Grid Grid.Row="0" Grid.Column="0" Margin="0,5">
-                <Grid.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding SkillBaseTapCommand, Source={x:Reference SkillGroupViewControl}}" CommandParameter="{Binding SkillGroup}" />
-                </Grid.GestureRecognizers>
+        <!--  header  -->
+        <Frame Grid.Row="0" Grid.Column="0" >
+            <Grid Background="{DynamicResource EvenPrimaryGradientBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80*" />
-                    <ColumnDefinition Width="25*" />
-                    <ColumnDefinition Width="25*" />
-                    <ColumnDefinition Width="25*" />
-                    <ColumnDefinition Width="25*" />
-                    <ColumnDefinition Width="25*" />
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <StackLayout Grid.Column="0" Orientation="Horizontal">
-                    <Image Margin="10,5" HeightRequest="50"
-                       Source="{Binding IconSource, Source={x:Reference SkillGroupViewControl}}"
-                       VerticalOptions="Center" />
-                    <Label Margin="5,0,0,0" FontAttributes="Bold"
-                       FontSize="{DynamicResource FontSizeHeader}"
-                       Text="{Binding SkillGroup.Type}"
-                       VerticalOptions="Center" />
+                <!-- name -->
+                <StackLayout Grid.Column="0" Orientation="Horizontal" Grid.Row="0"  Margin="30,20,30,10">
+                    <Label  FontAttributes="Bold" VerticalOptions="Center"
+                           FontSize="{DynamicResource FontSizeCaption}"
+                           Text="{Binding SkillGroup.Type, Converter={StaticResource EnumToDisplayTextConverter}}" />
+
+                    <customControls:ImageButtonView  VerticalOptions="Center"  Margin="15,0"
+                                                     ImageSource="Images/wiki.png"
+                                                     ImageMargin="7,9,7,7" Command="{Binding OpenSkillGroupWikiCommand}"
+                                                     TextHidden="True"  
+                                                     ImageSize="33"  HorizontalOptions="End"
+                    />
                 </StackLayout>
 
-                <StackLayout Grid.Column="1" Orientation="Horizontal" VerticalOptions="Center">
+                <!-- gw -->
+                <StackLayout Grid.Column="2" Grid.Row="0" Orientation="Horizontal"  Margin="30,20,30,10">
                     <Label FontAttributes="Bold"
-                       FontSize="{DynamicResource FontSizeDetail}"
-                       Text="GW: " />
-                    <Label FontSize="{DynamicResource FontSizeDetail}" Text="{Binding SkillGroup.BaseValue}" />
+                           FontSize="{DynamicResource FontSizeBigContent}"
+                           Text="GW: " VerticalOptions="Center" />
+                    <Label FontSize="{DynamicResource FontSizeBigContent}"
+                           Text="{Binding SkillGroup.BaseValue}"
+                           VerticalOptions="Center" />
                 </StackLayout>
 
-                <StackLayout Grid.Column="2" Orientation="Horizontal" VerticalOptions="Center">
+                <!-- mod-->
+                <StackLayout Grid.Column="3"  Grid.Row="0" Orientation="Horizontal"  Margin="30,20,30,10">
                     <Label FontAttributes="Bold"
-                       FontSize="{DynamicResource FontSizeDetail}"
-                       Text="EP: " />
-                    <Label FontSize="{DynamicResource FontSizeDetail}">
-                        <Label.Text>
-                            <MultiBinding StringFormat="{}{0}/{1}">
-                                <Binding Path="SkillGroup.LeftoverExperienceCache" Source="{RelativeSource AncestorType={x:Type viewModels:SkillGroupViewModel}}" />
-                                <Binding Path="SkillGroup.ExperienceForNextIncreasedRequiredCache" Source="{RelativeSource AncestorType={x:Type viewModels:SkillGroupViewModel}}" />
-                            </MultiBinding>
-                        </Label.Text>
-                    </Label>
+                           FontSize="{DynamicResource FontSizeBigContent}"
+                           Text="Mod: " VerticalOptions="Center" />
+                    <Entry FontSize="{DynamicResource FontSizeContent}"
+                           Keyboard="Numeric"
+                           Text="{Binding SkillGroupModificationValue}"
+                           VerticalOptions="Center" />
                 </StackLayout>
 
-                <StackLayout Grid.Column="3" Orientation="Horizontal" VerticalOptions="Center">
+                <!-- source -->
+                <Label Grid.Row="1" Grid.Column="0" Margin="30,10,30,20"
+                       FontAttributes="Bold"
+                       FontSize="{DynamicResource FontSizeBigContent}"
+                       Text="{Binding SkillGroupViewModel.SkillGroup.Type, Source={x:Reference SkillGroupViewControl}, Converter={StaticResource SkillGroupTypeToAttributeSourceStringConverter}}" />
+
+                <!-- ep -->
+                <StackLayout Grid.Column="1" Grid.Row="1" Orientation="Horizontal"  Margin="30,10,30,20">
                     <Label FontAttributes="Bold"
-                       FontSize="{DynamicResource FontSizeDetail}"
-                       Text="Mod: " />
-                    <Label FontSize="{DynamicResource FontSizeDetail}" Text="{Binding SkillGroup.ModificationValue}" />
+                           FontSize="{DynamicResource FontSizeBigContent}"
+                           Text="EP: " VerticalOptions="Center" />
+                    <customControls:TallyMarker HorizontalOptions="Start" 
+                                                CurrentValue="{Binding SkillGroup.LeftoverExperienceCache}"
+                                                MaximumValue="{Binding SkillGroup.ExperienceForNextIncreasedRequiredCache}"/>
                 </StackLayout>
 
-
-                <StackLayout Grid.Column="4" Orientation="Horizontal" VerticalOptions="Center">
+                <!-- sw -->
+                <StackLayout Grid.Row="1" Grid.Column="2" Orientation="Horizontal"  Margin="30,10,30,20">
                     <Label FontAttributes="Bold"
-                       FontSize="{DynamicResource FontSizeDetail}"
-                       Text="SW: " />
-                    <Label FontSize="{DynamicResource FontSizeDetail}" Text="{Binding SkillGroup.IncreaseValueCache}" />
+                           FontSize="{DynamicResource FontSizeBigContent}"
+                           Text="SW: " VerticalOptions="Center" />
+                    <Label FontSize="{DynamicResource FontSizeBigContent}"
+                           Text="{Binding SkillGroup.IncreaseValueCache}"
+                           VerticalOptions="Center" />
                 </StackLayout>
 
-
-                <StackLayout Grid.Column="5" Orientation="Horizontal" VerticalOptions="Center">
+                <!-- fw-->
+                <StackLayout Grid.Row="1" Grid.Column="3" Orientation="Horizontal"  Margin="30,10,30,20">
                     <Label FontAttributes="Bold"
-                       FontSize="{DynamicResource FontSizeDetail}"
-                       Text="FW: " />
-                    <Label FontSize="{DynamicResource FontSizeDetail}" Text="{Binding SkillGroup.FinalValue}" />
+                           FontSize="{DynamicResource FontSizeBigContent}"
+                           Text="FW: " VerticalOptions="Center" />
+                    <Label FontSize="{DynamicResource FontSizeBigContent}"
+                           Text="{Binding SkillGroup.FinalValue}"
+                           VerticalOptions="Center" />
                 </StackLayout>
             </Grid>
+        </Frame>
 
-            <!--  skills  -->
-            <ListView Grid.Row="1" Margin="10,0,10,10" HeightRequest="400"
-               ItemSelected="ListView_OnItemSelected"
-               ItemsSource="{Binding Skills}"
-               SelectionMode="Single" VerticalOptions="Start">
-                <ListView.Header>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="125" />
-                            <ColumnDefinition Width="60" />
-                            <ColumnDefinition Width="50" />
-                            <ColumnDefinition Width="50" />
-                            <ColumnDefinition Width="50" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Label Grid.Row="0" Grid.Column="0" Margin="5,0,0,0"
+        <!--  normal skills  -->
+        <Frame Grid.Row="1" Grid.Column="0" Background="{DynamicResource SinglePrimaryGradientBrush}" IsVisible="{Binding CharacterViewModel.EditMode, Converter={StaticResource InverseBoolConverter}}">
+            <StackLayout>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="280" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="150" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="1" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Margin="10,5"
+                           FontAttributes="Bold"
+                           FontSize="{DynamicResource FontSizeContent}"
+                           Text="Fertigkeit" />
+                    <Label Grid.Row="0" Grid.Column="1" FontAttributes="Bold" Margin="5"
+                           FontSize="{DynamicResource FontSizeContent}"
+                           Text="EP" />
+                    <Label Grid.Row="0" Grid.Column="2" FontAttributes="Bold" Margin="5"
+                           FontSize="{DynamicResource FontSizeContent}"
+                           Text="SW" />
+                    <Label Grid.Row="0" Grid.Column="3" FontAttributes="Bold" Margin="5"
+                           FontSize="{DynamicResource FontSizeContent}"
+                           Text="Mod" />
+                    <Label Grid.Row="0" Grid.Column="4" FontAttributes="Bold" Margin="5"
+                           FontSize="{DynamicResource FontSizeContent}"
+                           Text="FW" />
+
+                    <BoxView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5"
+                             BackgroundColor="{DynamicResource SecondaryFirstDarkestColor}" Margin="15,0" />
+                </Grid>
+
+                <CollectionView Margin="15" SelectedItem="{Binding SelectedSkill}"
+                                ItemsSource="{Binding Skills}" 
+                                SelectionMode="Single" VerticalOptions="Start">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,3" Padding="10,3,10,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="250" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0"
+                                       FontSize="{DynamicResource FontSizeTitle}"
+                                       Text="{Binding Skill.Type, Converter={StaticResource EnumToDisplayTextConverter}}"
+                                       VerticalOptions="Center" />
+
+                                <customControls:TallyMarker HorizontalOptions="Start" Grid.Column="1" Margin="5,0,5,0"
+                                                            CurrentValue="{Binding Skill.LeftoverExperienceCache}"
+                                                            MaximumValue="{Binding Skill.ExperienceForNextIncreasedRequiredCache}"></customControls:TallyMarker>
+
+                                <Label Grid.Column="2"
+                                       FontSize="{DynamicResource FontSizeBigContent}"
+                                       HorizontalOptions="Center"
+                                       Text="{Binding Skill.IncreaseValueCache}"
+                                       VerticalOptions="Center" >
+                                    <Label.Triggers>
+                                        <DataTrigger TargetType="Label" Binding="{Binding Skill.IncreaseValueCache}" Value="0">
+                                            <Setter Property="Opacity" Value="0.3"></Setter>
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
+                                <Label Grid.Column="3"
+                                       FontSize="{DynamicResource FontSizeBigContent}"
+                                       HorizontalOptions="Center"
+                                       Text="{Binding Skill.ModificationValue}"
+                                       VerticalOptions="Center"  >
+                                    <Label.Triggers>
+                                        <DataTrigger TargetType="Label" Binding="{Binding Skill.ModificationValue}" Value="0">
+                                            <Setter Property="Opacity" Value="0.3"></Setter>
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
+                                <Label Grid.Column="4"
+                                       FontSize="{DynamicResource FontSizeBigContent}"
+                                       HorizontalOptions="Center"
+                                       Text="{Binding Skill.FinalValue}"
+                                       VerticalOptions="Center" />
+
+                                <customControls:ImageButtonView VerticalOptions="Center" Grid.Column="5" Margin="10,0,0,0"
+                                                                ImageSource="Images/wuerfel.png" Enabled="False"
+                                                                TextHidden="True" ImageMargin="8"
+                                                                ImageSize="35" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+        </Frame>
+
+        <!--  editmode skills  -->
+        <Frame Grid.Row="1" Grid.Column="0" Background="{DynamicResource SinglePrimaryGradientBrush}" IsVisible="{Binding CharacterViewModel.EditMode}">
+            <StackLayout>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="125" />
+                        <ColumnDefinition Width="60" />
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="50" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Margin="5,0,0,0"
                            FontAttributes="Bold"
                            FontSize="{DynamicResource FontSizeSmallContent}"
                            Text="{Binding SkillGroupViewModel.SkillGroup.Type, Source={x:Reference SkillGroupViewControl}, Converter={StaticResource SkillGroupTypeToAttributeSourceStringConverter}}" />
-                        <Label Grid.Row="0" Grid.Column="1" FontAttributes="Bold"
+                    <Label Grid.Row="0" Grid.Column="1" FontAttributes="Bold"
                            FontSize="{DynamicResource FontSizeSmallContent}"
-                           IsVisible="{Binding CharacterViewModel.EditMode}"
+                           
                            Text="Erschaffungs-EP" />
-                        <Label Grid.Row="0" Grid.Column="2" FontAttributes="Bold"
+                    <Label Grid.Row="0" Grid.Column="2" FontAttributes="Bold"
                            FontSize="{DynamicResource FontSizeSmallContent}"
                            Text="EP" />
-                        <Label Grid.Row="0" Grid.Column="3" FontAttributes="Bold"
+                    <Label Grid.Row="0" Grid.Column="3" FontAttributes="Bold"
                            FontSize="{DynamicResource FontSizeSmallContent}"
                            Text="SW" />
-                        <Label Grid.Row="0" Grid.Column="4" FontAttributes="Bold"
+                    <Label Grid.Row="0" Grid.Column="4" FontAttributes="Bold"
                            FontSize="{DynamicResource FontSizeSmallContent}"
                            Text="Mod" />
-                        <Label Grid.Row="0" Grid.Column="5" FontAttributes="Bold"
+                    <Label Grid.Row="0" Grid.Column="5" FontAttributes="Bold"
                            FontSize="{DynamicResource FontSizeSmallContent}"
                            Text="FW" />
-                    </Grid>
-                </ListView.Header>
-                <ListView.Style>
-                    <Style TargetType="ListView">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding CharacterViewModel.EditMode}"
-                               TargetType="ListView" Value="False">
-                                <Setter Property="ItemTemplate" Value="{StaticResource SkillModelListItemTemplate}" />
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding CharacterViewModel.EditMode}"
-                               TargetType="ListView" Value="True">
-                                <Setter Property="ItemTemplate" Value="{StaticResource SkillModelListEditItemTemplate}" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </ListView.Style>
-            </ListView>
-        </Grid>
-    </Frame>
+                </Grid>
+
+                <CollectionView Margin="15"
+                                ItemsSource="{Binding Skills}"
+                                SelectionMode="None" VerticalOptions="Start">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate >
+                            <Grid Margin="0,2" Padding="10,0,10,3">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="75" />
+                                    <ColumnDefinition Width="50" />
+                                    <ColumnDefinition Width="50" />
+                                    <ColumnDefinition Width="50" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0"
+                                       FontSize="{DynamicResource FontSizeBigContent}"
+                                       Text="{Binding Skill.Type, Converter={StaticResource EnumToDisplayTextConverter}}"
+                                       VerticalOptions="Center" />
+
+                                <Entry Grid.Column="1"
+                                       BackgroundColor="{DynamicResource SecondarySecondDarkestColor}"
+                                       FontSize="{DynamicResource FontSizeBigContent}"
+                                       Keyboard="Numeric"
+                                       Text="{Binding CreationExperience}"
+                                       TextColor="White" />
+                                <Label Grid.Column="2"
+                                       FontSize="{DynamicResource FontSizeBigContent}"
+                                       HorizontalOptions="Center" VerticalOptions="Center">
+                                    <Label.Text>
+                                        <MultiBinding StringFormat="{}{0}/{1}">
+                                            <Binding Path="Skill.LeftoverExperienceCache" Source="{RelativeSource AncestorType={x:Type viewModels:SkillViewModel}}" />
+                                            <Binding Path="Skill.ExperienceForNextIncreasedRequiredCache" Source="{RelativeSource AncestorType={x:Type viewModels:SkillViewModel}}" />
+                                        </MultiBinding>
+                                    </Label.Text>
+                                </Label>
+                                <Label Grid.Column="3"
+                                       FontSize="{DynamicResource FontSizeBigContent}"
+                                       HorizontalOptions="Center"
+                                       Text="{Binding Skill.IncreaseValueCache}"
+                                       VerticalOptions="Center" />
+                                <Label Grid.Column="4"
+                                       FontSize="{DynamicResource FontSizeBigContent}"
+                                       HorizontalOptions="Center"
+                                       Text="{Binding Skill.ModificationValue}"
+                                       VerticalOptions="Center" />
+                                <Label Grid.Column="5"
+                                       FontSize="{DynamicResource FontSizeBigContent}"
+                                       HorizontalOptions="Center"
+                                       Text="{Binding Skill.FinalValue}"
+                                       VerticalOptions="Center" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+        </Frame>
+
+        <!-- detail -->
+        <Frame  Grid.Row="0" Grid.RowSpan="2" Grid.Column="1">
+            <StackLayout Spacing="0">
+                <Grid Background="{DynamicResource EvenPrimaryGradientBrush}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- name -->
+                    <StackLayout Grid.Column="0" Orientation="Horizontal" Grid.Row="0"  Margin="30,20,30,10">
+                        <Label  FontAttributes="Bold" VerticalOptions="Center"
+                           FontSize="{DynamicResource FontSizeCaption}"
+                           Text="{Binding SelectedSkill.Skill.Type, Converter={StaticResource EnumToDisplayTextConverter}}" />
+
+                        <customControls:ImageButtonView  VerticalOptions="Center"  Margin="15,0"
+                                                     ImageSource="Images/wiki.png"
+                                                     ImageMargin="7,9,7,7"
+                                                     TextHidden="True"   Command="{Binding OpenSkillWikiCommand}"
+                                                     ImageSize="33"  HorizontalOptions="End" />
+                    </StackLayout>
+
+                    <!-- mod-->
+                    <StackLayout Grid.Column="3"  Grid.Row="0" Orientation="Horizontal"  Margin="30,20,30,10">
+                        <Label FontAttributes="Bold"
+                           FontSize="{DynamicResource FontSizeBigContent}"
+                           Text="Mod: " VerticalOptions="Center" />
+                        <Entry FontSize="{DynamicResource FontSizeContent}"
+                           Keyboard="Numeric"
+                           Text="{Binding SelectedSkillModification}"
+                           VerticalOptions="Center" />
+                    </StackLayout>
+
+                    <!-- ep -->
+                    <StackLayout Grid.Column="0" Grid.Row="1" Orientation="Horizontal"  Margin="30,10,30,20">
+                        <Label FontAttributes="Bold"
+                           FontSize="{DynamicResource FontSizeBigContent}"
+                           Text="EP: " VerticalOptions="Center" />
+                        <customControls:TallyMarker HorizontalOptions="Start" 
+                                                CurrentValue="{Binding SelectedSkill.Skill.LeftoverExperienceCache}"
+                                                MaximumValue="{Binding SelectedSkill.Skill.ExperienceForNextIncreasedRequiredCache}"/>
+
+                        <customControls:ImageButtonView Margin="3,0,0,0"  VerticalOptions="Center"
+                                                        ImageSource="Images/minus.png"
+                                                        ImageMargin="8,10,6,6"
+                                                        TextHidden="True" 
+                                                        ImageSize="33" 
+                                                        Command="{Binding DecreaseExperienceCommand}">
+                            <customControls:ImageButtonView.Triggers>
+                                <DataTrigger Binding="{Binding SelectedSkill.Skill.ExperienceValue}"
+                                             TargetType="customControls:ImageButtonView" Value="0">
+                                    <Setter Property="Enabled" Value="False" />
+                                </DataTrigger>
+                            </customControls:ImageButtonView.Triggers>
+                        </customControls:ImageButtonView>
+
+
+                        <customControls:ImageButtonView VerticalOptions="Center" Margin="5,0,0,0"
+                                                        ImageSource="Images/plus.png"
+                                                        ImageMargin="8,10,6,6"
+                                                        TextHidden="True" 
+                                                        ImageSize="33" 
+                                                        Command="{Binding IncreaseExperienceCommand}">
+                            <customControls:ImageButtonView.CommandParameter>
+                                <system:Int32>1</system:Int32>
+                            </customControls:ImageButtonView.CommandParameter>
+                        </customControls:ImageButtonView>
+
+                        <customControls:ImageButtonView VerticalOptions="Center" Margin="5,0,0,0"
+                                                        ImageSource="Images/plus_fuenf.png"
+                                                        ImageMargin="7,0,-2,0"
+                                                        TextHidden="True" WidthRequest="55"
+                                                        ImageSize="40" 
+                                                        Command="{Binding IncreaseExperienceCommand}">
+                            <customControls:ImageButtonView.CommandParameter>
+                                <system:Int32>5</system:Int32>
+                            </customControls:ImageButtonView.CommandParameter>
+                        </customControls:ImageButtonView>
+                    </StackLayout>
+
+                    <!-- sw -->
+                    <StackLayout Grid.Row="1" Grid.Column="2" Orientation="Horizontal"  Margin="30,10,30,20">
+                        <Label FontAttributes="Bold"
+                           FontSize="{DynamicResource FontSizeBigContent}"
+                           Text="SW: " VerticalOptions="Center" />
+                        <Label FontSize="{DynamicResource FontSizeBigContent}"
+                           Text="{Binding SelectedSkill.Skill.IncreaseValueCache}"
+                           VerticalOptions="Center" />
+                    </StackLayout>
+
+                    <!-- fw-->
+                    <StackLayout Grid.Row="1" Grid.Column="3" Orientation="Horizontal"  Margin="30,10,30,20">
+                        <Label FontAttributes="Bold"
+                           FontSize="{DynamicResource FontSizeBigContent}"
+                           Text="FW: " VerticalOptions="Center" />
+                        <Label FontSize="{DynamicResource FontSizeBigContent}"
+                           Text="{Binding SelectedSkill.Skill.FinalValue}"
+                           VerticalOptions="Center" />
+                    </StackLayout>
+                </Grid>
+
+
+                <WebView Navigating="WebView_OnNavigating" BackgroundColor="Transparent" VerticalOptions="FillAndExpand"
+                         Source="{Binding SkillWikiSource}" />
+            </StackLayout>
+        </Frame>
+    </Grid>
 </ContentView>

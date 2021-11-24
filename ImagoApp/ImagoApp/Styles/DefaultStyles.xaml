@@ -31,6 +31,10 @@
         <Setter Property="FontFamily" Value="Palitoon" />
     </Style>
 
+    <Style TargetType="Span" ApplyToDerivedTypes="True" >
+        <Setter Property="FontFamily" Value="Palitoon" />
+    </Style>
+
     <!--  global explicit styles  -->
     <Style x:Key="BackgroundGridStyle" TargetType="Grid">
         <Setter Property="BackgroundColor" Value="{DynamicResource SecondaryFirstMediumColor}" />

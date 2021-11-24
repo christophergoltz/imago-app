@@ -30,61 +30,7 @@ namespace ImagoApp.ViewModels
 
         public event EventHandler<string> OpenWikiPageRequested;
 
-        private ICommand _increaseExperienceCommand;
-
-        public ICommand IncreaseExperienceCommand => _increaseExperienceCommand ?? (_increaseExperienceCommand = new Command<int>(experienceValue =>
-        {
-            try
-            {
-                _characterViewModel.AddExperienceToSkill(SkillModel, _parent, experienceValue);
-                UpdateTalentRequirements();
-                RecalcTestValue();
-            }
-            catch (Exception exception)
-            {
-                App.ErrorManager.TrackException(exception, _characterViewModel.CharacterModel.Name, new Dictionary<string, string>()
-                {
-                    { "Experience Value", experienceValue.ToString()}
-                });
-            }
-        }));
-
-        private ICommand _decreaseExperienceCommand;
-        public ICommand DecreaseExperienceCommand => _decreaseExperienceCommand ?? (_decreaseExperienceCommand = new Command(() =>
-        {
-            try
-            {   
-                //todo -1 by parameter; 
-                _characterViewModel.AddExperienceToSkill(SkillModel, _parent, -1);
-            }
-            catch (Exception exception)
-            {
-                App.ErrorManager.TrackException(exception, _characterViewModel.CharacterModel.Name);
-            }
-        }));
-
-        private ICommand _openWikiCommand;
-
-        public ICommand OpenWikiCommand => _openWikiCommand ?? (_openWikiCommand = new Command(() =>
-        {
-            try
-            {
-                var url = _wikiService.GetWikiUrl(SkillModel.Type);
-
-                if (string.IsNullOrWhiteSpace(url))
-                {
-                    App.ErrorManager.TrackExceptionSilent(new InvalidOperationException($"No url found for {SkillModel.Type}"));
-                    UserDialogs.Instance.Alert($"Uups, für {SkillModel.Type} ist wohl nichts hinterlegt..", "Fehlender Link", "OK");
-                    return;
-                }
-
-                OpenWikiPageRequested?.Invoke(this, url);
-            }
-            catch (Exception exception)
-            {
-                App.ErrorManager.TrackException(exception, _characterViewModel.CharacterModel.Name);
-            }
-        }));
+      
 
         private ICommand _closeCommand;
 

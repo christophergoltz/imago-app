@@ -12,7 +12,7 @@
 
             <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
                 <Button Command="{Binding CloseTabWrapCommand, Source={x:Reference WikiTabViewControl}}" Text="Schließen" />
-                <Entry HorizontalOptions="FillAndExpand" IsReadOnly="True"
+                <Entry HorizontalOptions="FillAndExpand" IsReadOnly="True" FontSize="{DynamicResource FontSizeContent}"
                    Text="{Binding Url}" />
             </StackLayout>
 

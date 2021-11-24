@@ -114,7 +114,8 @@
                                                  ImageMargin="7,9,7,7"
                                                  TextHidden="True"  
                                                  ImageSize="33"  HorizontalOptions="End"
-                                                 Command="{Binding OpenWikiCommand}"/>
+                                                 />
+                <!--Command="{Binding OpenWikiCommand}"-->
             </StackLayout>
 
             <Label Grid.Row="1" Grid.Column="0" Margin="15,0,0,0"
@@ -173,42 +174,7 @@
                     </Label.Text>
                 </Label>
 
-                <customControls:ImageButtonView Margin="3,0,0,0"  VerticalOptions="Center"
-                                                 ImageSource="Images/minus.png"
-                                                 ImageMargin="8,10,6,6"
-                                                 TextHidden="True" 
-                                                 ImageSize="33" 
-                                                 Command="{Binding DecreaseExperienceCommand}">
-                    <customControls:ImageButtonView.Triggers>
-                                <DataTrigger Binding="{Binding SkillModel.ExperienceValue}"
-                                             TargetType="customControls:ImageButtonView" Value="0">
-                                    <Setter Property="Enabled" Value="False" />
-                                </DataTrigger>
-                            </customControls:ImageButtonView.Triggers>
-                </customControls:ImageButtonView>
-
-
-                <customControls:ImageButtonView VerticalOptions="Center" Margin="5,0,0,0"
-                                                 ImageSource="Images/plus.png"
-                                                 ImageMargin="8,10,6,6"
-                                                 TextHidden="True" 
-                                                 ImageSize="33" 
-                                                 Command="{Binding IncreaseExperienceCommand}">
-                    <customControls:ImageButtonView.CommandParameter>
-                        <system:Int32>1</system:Int32>
-                    </customControls:ImageButtonView.CommandParameter>
-                </customControls:ImageButtonView>
-
-                <customControls:ImageButtonView VerticalOptions="Center" Margin="5,0,0,0"
-                                                ImageSource="Images/plus_fuenf.png"
-                                                ImageMargin="7,0,-2,0"
-                                                TextHidden="True" WidthRequest="55"
-                                                ImageSize="40" 
-                                                Command="{Binding IncreaseExperienceCommand}">
-                    <customControls:ImageButtonView.CommandParameter>
-                        <system:Int32>5</system:Int32>
-                    </customControls:ImageButtonView.CommandParameter>
-                </customControls:ImageButtonView>
+             
                 </StackLayout>
 
             <StackLayout Grid.Row="1" Grid.Column="3" Margin="25,5"

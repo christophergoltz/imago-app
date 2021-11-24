@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Linq;
+using System.Windows.Input;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Models.Base;
 using ImagoApp.ViewModels;
@@ -15,17 +16,6 @@ namespace ImagoApp.Views.CustomControls
             InitializeComponent();
         }
 
-        public static readonly BindableProperty IconSourceProperty = BindableProperty.Create(
-            "IconSource",        // the name of the bindable property
-            typeof(string),     // the bindable property type
-            typeof(SkillGroupView));
-
-        public string IconSource
-        {
-            get => (string)GetValue(IconSourceProperty);
-            set => SetValue(IconSourceProperty, value);
-        }
-
         public static readonly BindableProperty SkillGroupViewModelProperty = BindableProperty.Create(
             "SkillGroupViewModel",        // the name of the bindable property
             typeof(SkillGroupViewModel),     // the bindable property type
@@ -37,64 +27,10 @@ namespace ImagoApp.Views.CustomControls
             set => SetValue(SkillGroupViewModelProperty, value);
         }
         
-        public static readonly BindableProperty OpenSkillCommandProperty = BindableProperty.Create(
-            "OpenSkillCommand", 
-            typeof(ICommand), 
-            typeof(SkillGroupView), 
-            null);
-
-        public ICommand OpenSkillCommand
+        private void WebView_OnNavigating(object sender, WebNavigatingEventArgs e)
         {
-            get { return (ICommand)GetValue(OpenSkillCommandProperty); }
-            set { SetValue(OpenSkillCommandProperty, value); }
-        }
-
-        public static readonly BindableProperty OpenSkillGroupCommandProperty = BindableProperty.Create(
-            "OpenSkillGroupCommand",
-            typeof(ICommand),
-            typeof(SkillGroupView),
-            null);
-
-        public ICommand OpenSkillGroupCommand
-        {
-            get { return (ICommand)GetValue(OpenSkillGroupCommandProperty); }
-            set { SetValue(OpenSkillGroupCommandProperty, value); }
-        }
-        
-        public ICommand SkillBaseTapCommand => new Command<DependentBaseModel>(parameter =>
-        {
-            if (parameter is SkillGroupModel group)
-            {
-                if (OpenSkillGroupCommand == null) 
-                    return;
-             
-                if (OpenSkillGroupCommand.CanExecute(group))
-                    OpenSkillGroupCommand.Execute(group);
-
-                return;
-            }
-            
-            if (parameter is SkillModel skill)
-            {
-                if (OpenSkillCommand == null)
-                    return;
-
-                if (OpenSkillCommand.CanExecute((skill, SkillGroupViewModel.SkillGroup)))
-                    OpenSkillCommand.Execute((skill, SkillGroupViewModel.SkillGroup));
-            }
-        });
-        
-        private void ListView_OnItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            if (e.SelectedItem == null )
-                return;
-            var selectedSkill = (SkillViewModel)e.SelectedItem;
-
-            //reset listview selection
-            var listView = (ListView)sender;
-            listView.SelectedItem = null;
-
-            SkillBaseTapCommand?.Execute(selectedSkill.Skill);
+            if (e.Url != SkillGroupViewModel.SkillWikiSource.BaseUrl)
+                e.Cancel = true;
         }
     }
 }

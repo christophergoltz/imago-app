@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Reflection;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Sharpnado.Shades.UWP;
+using Sharpnado.Tabs.Uwp;
 
 namespace ImagoApp.UWP
 {
@@ -47,7 +50,14 @@ namespace ImagoApp.UWP
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
                 Xamarin.Forms.Forms.SetFlags("Shell_UWP_Experimental");
-                Xamarin.Forms.Forms.Init(e);
+
+                var rendererAssemblies = new[]
+                {
+                    typeof(UWPShadowsRenderer).GetTypeInfo().Assembly,
+                    typeof(UwpTintableImageEffect).GetTypeInfo().Assembly,
+                };
+
+                Xamarin.Forms.Forms.Init(e, rendererAssemblies);
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {

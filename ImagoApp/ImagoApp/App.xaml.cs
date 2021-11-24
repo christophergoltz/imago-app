@@ -37,6 +37,9 @@ namespace ImagoApp
         {
             InitializeComponent();
 
+            Sharpnado.Tabs.Initializer.Initialize(false, false);
+            Sharpnado.Shades.Initializer.Initialize(loggerEnable: false);
+
             //configure appcenter
 #if DEBUG
             AppCenter.Start("uwp=4350071e-000b-4ab6-bfae-369afc829008;", typeof(Analytics), typeof(Crashes));

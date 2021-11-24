@@ -20,29 +20,7 @@ namespace ImagoApp.ViewModels
         private readonly IWikiService _wikiService;
         public SkillGroupModel SkillGroupModel { get; }
         public event EventHandler CloseRequested;
-
-        private ICommand _openWikiCommand;
-
-        public ICommand OpenWikiCommand => _openWikiCommand ?? (_openWikiCommand = new Command(() =>
-        {
-            try
-            {
-                var url = _wikiService.GetWikiUrl(SkillGroupModel.Type);
-
-                if (string.IsNullOrWhiteSpace(url))
-                {
-                    App.ErrorManager.TrackExceptionSilent(new InvalidOperationException($"No url found for {SkillGroupModel.Type}"));
-                    UserDialogs.Instance.Alert($"Uups, für {SkillGroupModel.Type} ist wohl nichts hinterlegt..", "Fehlender Link", "OK");
-                    return;
-                }
-
-                OpenWikiPageRequested?.Invoke(this, url);
-            }
-            catch (Exception exception)
-            {
-                App.ErrorManager.TrackException(exception, _characterViewModel.CharacterModel.Name);
-            }
-        }));
+        
 
         private ICommand _closeCommand;
 
@@ -57,10 +35,8 @@ namespace ImagoApp.ViewModels
                 App.ErrorManager.TrackException(exception, _characterViewModel.CharacterModel.Name);
             }
         }));
-
-
+        
         private HtmlWebViewSource _quickWikiView;
-        public event EventHandler<string> OpenWikiPageRequested;
 
         public HtmlWebViewSource QuickWikiView
         {
