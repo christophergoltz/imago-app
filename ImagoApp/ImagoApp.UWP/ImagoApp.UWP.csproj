@@ -185,6 +185,7 @@
     <Content Include="Images\Wide310x150Logo.scale-200_weiss.png" />
     <None Include="Package.StoreAssociation.xml" />
     <Content Include="Images\wuerfel.png" />
+    <Content Include="Images\wuerfel_weiss.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Images\soziales.png" />
     <Content Include="Images\staerke.png" />

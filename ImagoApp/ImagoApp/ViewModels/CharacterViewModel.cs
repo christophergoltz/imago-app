@@ -84,7 +84,11 @@ namespace ImagoApp.ViewModels
             {
                 new SpecialAttributeModel(SpecialAttributeType.Initiative)
             };
+
+            LoadoutViewModel = new LoadoutViewModel(HandicapAttributes);
         }
+
+        public LoadoutViewModel LoadoutViewModel { get; set; }
 
         public List<SpecialAttributeModel> SpecialAttributes { get; }
         public List<DerivedAttributeModel> DerivedAttributes { get; }

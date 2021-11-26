@@ -1,5 +1,9 @@
-﻿using ImagoApp.Application;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows.Input;
+using ImagoApp.Application;
 using ImagoApp.Application.Models;
+using Xamarin.Forms;
 
 namespace ImagoApp.ViewModels
 {
@@ -34,5 +38,46 @@ namespace ImagoApp.ViewModels
                 }
             }
         }
+
+        public int ModificationValue
+        {
+            get => Skill?.ModificationValue ?? 0;
+            set
+            {
+                _characterViewModel.SetModification(Skill, value);
+                OnPropertyChanged(nameof(ModificationValue));
+            }
+        }
+
+        private ICommand _increaseExperienceCommand;
+
+        public ICommand IncreaseExperienceCommand => _increaseExperienceCommand ?? (_increaseExperienceCommand = new Command<int>(experienceValue =>
+        {
+            try
+            {
+                _characterViewModel.AddExperienceToSkill(Skill, _skillGroup, experienceValue);
+            }
+            catch (Exception exception)
+            {
+                App.ErrorManager.TrackException(exception, _characterViewModel.CharacterModel.Name, new Dictionary<string, string>()
+                {
+                    { "Experience Value", experienceValue.ToString()}
+                });
+            }
+        }));
+
+        private ICommand _decreaseExperienceCommand;
+        public ICommand DecreaseExperienceCommand => _decreaseExperienceCommand ?? (_decreaseExperienceCommand = new Command(() =>
+        {
+            try
+            {
+                //todo -1 by parameter; 
+                _characterViewModel.AddExperienceToSkill(Skill, _skillGroup, -1);
+            }
+            catch (Exception exception)
+            {
+                App.ErrorManager.TrackException(exception, _characterViewModel.CharacterModel.Name);
+            }
+        }));
     }
 }

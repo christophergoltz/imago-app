@@ -40,6 +40,12 @@
                                                      TextHidden="True"  
                                                      ImageSize="33"  HorizontalOptions="End"
                     />
+
+                    <customControls:ImageButtonView VerticalOptions="Center" Margin="0,0,0,0"
+                                                    ImageSource="Images/wuerfel.png"
+                                                    Command="{Binding SkillGroupDiceCommand, Source={RelativeSource AncestorType={x:Type viewModels:SkillGroupViewModel}}}"
+                                                    TextHidden="True" ImageMargin="8"
+                                                    ImageSize="35" />
                 </StackLayout>
 
                 <!-- gw -->
@@ -70,10 +76,7 @@
                        Text="{Binding SkillGroupViewModel.SkillGroup.Type, Source={x:Reference SkillGroupViewControl}, Converter={StaticResource SkillGroupTypeToAttributeSourceStringConverter}}" />
 
                 <!-- ep -->
-                <StackLayout Grid.Column="1" Grid.Row="1" Orientation="Horizontal"  Margin="30,10,30,20">
-                    <Label FontAttributes="Bold"
-                           FontSize="{DynamicResource FontSizeBigContent}"
-                           Text="EP: " VerticalOptions="Center" />
+                <StackLayout Grid.Column="1" Grid.Row="0" Orientation="Horizontal"  Margin="30,20,30,10">
                     <customControls:TallyMarker HorizontalOptions="Start" 
                                                 CurrentValue="{Binding SkillGroup.LeftoverExperienceCache}"
                                                 MaximumValue="{Binding SkillGroup.ExperienceForNextIncreasedRequiredCache}"/>
@@ -102,7 +105,8 @@
         </Frame>
 
         <!--  normal skills  -->
-        <Frame Grid.Row="1" Grid.Column="0" Background="{DynamicResource SinglePrimaryGradientBrush}" IsVisible="{Binding CharacterViewModel.EditMode, Converter={StaticResource InverseBoolConverter}}">
+        <Frame Grid.Row="1" Grid.Column="0" Background="{DynamicResource SinglePrimaryGradientBrush}"
+               IsVisible="{Binding CharacterViewModel.EditMode, Converter={StaticResource InverseBoolConverter}}">
             <StackLayout>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -189,7 +193,8 @@
                                        VerticalOptions="Center" />
 
                                 <customControls:ImageButtonView VerticalOptions="Center" Grid.Column="5" Margin="10,0,0,0"
-                                                                ImageSource="Images/wuerfel.png" Enabled="False"
+                                                                ImageSource="Images/wuerfel.png"
+                                                                Command="{Binding SkillDiceCommand, Source={RelativeSource AncestorType={x:Type viewModels:SkillGroupViewModel}}}"
                                                                 TextHidden="True" ImageMargin="8"
                                                                 ImageSize="35" />
                             </Grid>
@@ -328,25 +333,22 @@
                            Text="Mod: " VerticalOptions="Center" />
                         <Entry FontSize="{DynamicResource FontSizeContent}"
                            Keyboard="Numeric"
-                           Text="{Binding SelectedSkillModification}"
+                           Text="{Binding SelectedSkill.ModificationValue}"
                            VerticalOptions="Center" />
                     </StackLayout>
 
                     <!-- ep -->
                     <StackLayout Grid.Column="0" Grid.Row="1" Orientation="Horizontal"  Margin="30,10,30,20">
-                        <Label FontAttributes="Bold"
-                           FontSize="{DynamicResource FontSizeBigContent}"
-                           Text="EP: " VerticalOptions="Center" />
                         <customControls:TallyMarker HorizontalOptions="Start" 
-                                                CurrentValue="{Binding SelectedSkill.Skill.LeftoverExperienceCache}"
-                                                MaximumValue="{Binding SelectedSkill.Skill.ExperienceForNextIncreasedRequiredCache}"/>
+                                                    CurrentValue="{Binding SelectedSkill.Skill.LeftoverExperienceCache}"
+                                                    MaximumValue="{Binding SelectedSkill.Skill.ExperienceForNextIncreasedRequiredCache}"/>
 
                         <customControls:ImageButtonView Margin="3,0,0,0"  VerticalOptions="Center"
                                                         ImageSource="Images/minus.png"
                                                         ImageMargin="8,10,6,6"
                                                         TextHidden="True" 
                                                         ImageSize="33" 
-                                                        Command="{Binding DecreaseExperienceCommand}">
+                                                        Command="{Binding SelectedSkill.DecreaseExperienceCommand}">
                             <customControls:ImageButtonView.Triggers>
                                 <DataTrigger Binding="{Binding SelectedSkill.Skill.ExperienceValue}"
                                              TargetType="customControls:ImageButtonView" Value="0">
@@ -361,7 +363,7 @@
                                                         ImageMargin="8,10,6,6"
                                                         TextHidden="True" 
                                                         ImageSize="33" 
-                                                        Command="{Binding IncreaseExperienceCommand}">
+                                                        Command="{Binding SelectedSkill.IncreaseExperienceCommand}">
                             <customControls:ImageButtonView.CommandParameter>
                                 <system:Int32>1</system:Int32>
                             </customControls:ImageButtonView.CommandParameter>
@@ -372,7 +374,7 @@
                                                         ImageMargin="7,0,-2,0"
                                                         TextHidden="True" WidthRequest="55"
                                                         ImageSize="40" 
-                                                        Command="{Binding IncreaseExperienceCommand}">
+                                                        Command="{Binding SelectedSkill.IncreaseExperienceCommand}">
                             <customControls:ImageButtonView.CommandParameter>
                                 <system:Int32>5</system:Int32>
                             </customControls:ImageButtonView.CommandParameter>

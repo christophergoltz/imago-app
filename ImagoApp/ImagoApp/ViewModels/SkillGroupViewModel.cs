@@ -16,6 +16,8 @@ namespace ImagoApp.ViewModels
         private readonly IWikiService _wikiService;
         private SkillGroupModel _skillGroup;
         private List<SkillViewModel> _skills;
+        public event EventHandler<(DiceSearchModelType type,object value)> DiceRollRequested;
+
 
         public SkillGroupModel SkillGroup
         {
@@ -37,10 +39,37 @@ namespace ImagoApp.ViewModels
             set
             {
                 SetProperty(ref _selectedSkill, value);
-                OnPropertyChanged(nameof(SelectedSkillModification));
                 Task.Run(LoadWikiPage);
             }
         }
+
+        private ICommand _skillDiceCommand;
+        public ICommand SkillDiceCommand => _skillDiceCommand ?? (_skillDiceCommand = new Command(() =>
+        {
+            try
+            {
+                DiceRollRequested?.Invoke(this,(DiceSearchModelType.Skill, SelectedSkill.Skill.Type));
+             
+            }
+            catch (Exception exception)
+            {
+                App.ErrorManager.TrackException(exception, CharacterViewModel.CharacterModel.Name);
+            }
+        }));
+
+        private ICommand _skillGroupDiceCommand;
+        public ICommand SkillGroupDiceCommand => _skillGroupDiceCommand ?? (_skillGroupDiceCommand = new Command(() =>
+        {
+            try
+            {
+                DiceRollRequested?.Invoke(this, (DiceSearchModelType.SkillGroup, SkillGroup.Type));
+
+            }
+            catch (Exception exception)
+            {
+                App.ErrorManager.TrackException(exception, CharacterViewModel.CharacterModel.Name);
+            }
+        }));
 
         public SkillGroupViewModel(IWikiService wikiService, SkillGroupModel skillGroup, CharacterViewModel characterViewModel)
         {
@@ -51,38 +80,7 @@ namespace ImagoApp.ViewModels
 
             SelectedSkill = Skills.First();
         }
-
-        private ICommand _increaseExperienceCommand;
-
-        public ICommand IncreaseExperienceCommand => _increaseExperienceCommand ?? (_increaseExperienceCommand = new Command<int>(experienceValue =>
-        {
-            try
-            {
-                CharacterViewModel.AddExperienceToSkill(SelectedSkill.Skill, SkillGroup, experienceValue);
-            }
-            catch (Exception exception)
-            {
-                App.ErrorManager.TrackException(exception, CharacterViewModel.CharacterModel.Name, new Dictionary<string, string>()
-                {
-                    { "Experience Value", experienceValue.ToString()}
-                });
-            }
-        }));
-
-        private ICommand _decreaseExperienceCommand;
-        public ICommand DecreaseExperienceCommand => _decreaseExperienceCommand ?? (_decreaseExperienceCommand = new Command(() =>
-        {
-            try
-            {
-                //todo -1 by parameter; 
-                CharacterViewModel.AddExperienceToSkill(SelectedSkill.Skill, SkillGroup, -1);
-            }
-            catch (Exception exception)
-            {
-                App.ErrorManager.TrackException(exception, CharacterViewModel.CharacterModel.Name);
-            }
-        }));
-
+        
         private ICommand _openSkillWikiCommand;
 
         public ICommand OpenSkillWikiCommand => _openSkillWikiCommand ?? (_openSkillWikiCommand = new Command(() =>
@@ -148,17 +146,7 @@ namespace ImagoApp.ViewModels
             get => _skillWikiSource;
             set => SetProperty(ref _skillWikiSource, value);
         }
-
-        public int SelectedSkillModification
-        {
-            get => SelectedSkill?.Skill?.ModificationValue ?? 0;
-            set
-            {
-                CharacterViewModel.SetModification(SelectedSkill.Skill, value);
-                OnPropertyChanged(nameof(SelectedSkillModification));
-            }
-        }
-
+        
         private void LoadWikiPage()
         {
             var html = _wikiService.GetTalentHtml(SelectedSkill.Skill.Type, SkillGroup.Type);

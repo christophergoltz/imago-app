@@ -2,54 +2,7 @@
 <ContentView x:Class="ImagoApp.Views.CustomControls.SkillDetailView" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
    xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp" xmlns:enums="clr-namespace:ImagoApp.Shared.Enums;assembly=ImagoApp.Shared" xmlns:system="clr-namespace:System;assembly=netstandard"
    xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp" x:Name="SkillDetailViewControl">
-    <ContentView.Resources>
-        <ResourceDictionary>
-            <DataTemplate x:Key="TalentBaseDetailTemplate" x:DataType="viewModels:TalentListItemViewModel">
-                <StackLayout Margin="10,5" IsVisible="{Binding Available}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="150" />
-                            <ColumnDefinition Width="80" />
-                            <ColumnDefinition Width="50" />
-                        </Grid.ColumnDefinitions>
-
-                        <Label Grid.Column="0"
-                           FontSize="{DynamicResource FontSizeContent}"
-                           Text="{Binding Talent.Name}"
-                           VerticalOptions="Center" />
-
-                        <Label Grid.Column="1" FontAttributes="Italic"
-                           FontSize="{DynamicResource FontSizeDetail}"
-                           Text="{Binding Talent.PhaseValueMod}"
-                           TextColor="Gray" VerticalOptions="Center" />
-
-                        <Label Grid.Column="2"
-                           FontSize="{DynamicResource FontSizeContent}"
-                           IsVisible="{Binding Talent.Difficulty, Converter={StaticResource ObjectNotNullToBoolConverter}}"
-                           Text="{Binding Talent.Difficulty}"
-                           VerticalOptions="Center" />
-
-                        <Entry Grid.Column="2"
-                           FontSize="{DynamicResource FontSizeContent}"
-                           IsVisible="{Binding Talent.Difficulty, Converter={StaticResource ObjectNullToBoolConverter}}"
-                           Keyboard="Numeric"
-                           Text="{Binding DifficultyOverride}"
-                           VerticalOptions="Center" />
-
-                        <CheckBox Grid.Column="3"
-                           IsChecked="{Binding InUse}"
-                           IsVisible="{Binding Talent.ActiveUse}"
-                           VerticalOptions="Center" />
-                    </Grid>
-                    <Label Margin="10,0,0,0" FontAttributes="Italic"
-                       FontSize="{DynamicResource FontSizeDescription}"
-                       Text="{Binding Talent.Description}"
-                       TextColor="DimGray" />
-                </StackLayout>
-            </DataTemplate>
-        </ResourceDictionary>
-    </ContentView.Resources>
+   
 
     <Grid x:DataType="viewModels:SkillDetailViewModel" BackgroundColor="White"
        BindingContext="{Binding SkillDetailViewModel, Source={x:Reference SkillDetailViewControl}}"
@@ -226,69 +179,7 @@
                 </StackLayout>
             </Grid>
 
-            <!--  talent and mastery list  -->
-            <ScrollView Grid.Row="0">
-                <StackLayout>
-                    <Label Padding="10,5,10,5"
-                       BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
-                       FontAttributes="Bold"
-                       FontSize="{DynamicResource FontSizeSmallContent}"
-                       Text="Behinderung" TextColor="white">
-                        <Label.Style>
-                            <Style TargetType="Label">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Handicaps.Count}"
-                                       TargetType="Label" Value="0">
-                                        <Setter Property="IsVisible" Value="False" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                                <Setter Property="IsVisible" Value="True" />
-                            </Style>
-                        </Label.Style>
-                    </Label>
-                    <StackLayout BindableLayout.ItemTemplate="{DynamicResource HandicapItemTemplate}"
-                       BindableLayout.ItemsSource="{Binding Handicaps}"
-                       RadioButtonGroup.GroupName="Handicap" />
-
-                    <Label Padding="10,5,10,5"
-                       BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
-                       FontAttributes="Bold"
-                       FontSize="{DynamicResource FontSizeSmallContent}"
-                       Text="Meisterschaften" TextColor="white">
-                        <Label.Style>
-                            <Style TargetType="Label">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Masteries.Count}"
-                                       TargetType="Label" Value="0">
-                                        <Setter Property="IsVisible" Value="False" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                                <Setter Property="IsVisible" Value="True" />
-                            </Style>
-                        </Label.Style>
-                    </Label>
-                    <StackLayout BindableLayout.ItemTemplate="{DynamicResource MasteryBaseDetailTemplate}" BindableLayout.ItemsSource="{Binding Masteries}" />
-
-                    <Label Padding="10,5,10,5"
-                       BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
-                       FontAttributes="Bold"
-                       FontSize="{DynamicResource FontSizeSmallContent}"
-                       Text="Künste" TextColor="white">
-                        <Label.Style>
-                            <Style TargetType="Label">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Talents.Count}"
-                                       TargetType="Label" Value="0">
-                                        <Setter Property="IsVisible" Value="False" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                                <Setter Property="IsVisible" Value="True" />
-                            </Style>
-                        </Label.Style>
-                    </Label>
-                    <StackLayout BindableLayout.ItemTemplate="{StaticResource TalentBaseDetailTemplate}" BindableLayout.ItemsSource="{Binding Talents}" />
-                </StackLayout>
-            </ScrollView>
+     
         </Grid>
     </Grid>
 </ContentView>

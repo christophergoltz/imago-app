@@ -28,6 +28,7 @@ namespace ImagoApp.ViewModels
             get => _isChecked;
             set
             {
+                //todo why is this set twice when radio button value changed?
                 SetProperty(ref _isChecked, value);
                 HandicapValueChanged?.Invoke(this, EventArgs.Empty);
             }

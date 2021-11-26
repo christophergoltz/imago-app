@@ -35,6 +35,17 @@
         <Setter Property="FontFamily" Value="Palitoon" />
     </Style>
 
+    <Style TargetType="SearchBar" ApplyToDerivedTypes="True" >
+        <Setter Property="FontFamily" Value="Palitoon" />
+    </Style>
+
+    <Style TargetType="Grid"  >
+        <Setter Property="RowSpacing" Value="0" />
+        <Setter Property="ColumnSpacing" Value="0" />
+    </Style>
+
+    
+
     <!--  global explicit styles  -->
     <Style x:Key="BackgroundGridStyle" TargetType="Grid">
         <Setter Property="BackgroundColor" Value="{DynamicResource SecondaryFirstMediumColor}" />
@@ -51,6 +62,20 @@
         <GradientStop Offset="0.4" Color="{DynamicResource PrimaryDarkColor}" />
         <GradientStop Offset="0.1" Color="{DynamicResource PrimaryDarkestColor}" />
     </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="EvenPrimaryGradientBrush2" StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientStop Offset="1" Color="{DynamicResource PrimaryLightColor}" />
+        <GradientStop Offset="0.7" Color="{DynamicResource PrimaryMediumColor}" />
+        <GradientStop Offset="0.4" Color="{DynamicResource PrimaryDarkColor}" />
+        <GradientStop Offset="0.1" Color="{DynamicResource PrimaryDarkestColor}" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="EvenPrimaryGradientBrush3" StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientStop Offset="1" Color="{DynamicResource PrimaryMediumColor}" />
+        <GradientStop Offset="0.5" Color="{DynamicResource PrimaryDarkColor}" />
+        <GradientStop Offset="0.1" Color="{DynamicResource PrimaryDarkestColor}" />
+    </LinearGradientBrush>
+
 
     <LinearGradientBrush x:Key="SinglePrimaryGradientBrush" StartPoint="0.5,0" EndPoint="0.5,1">
         <GradientStop Offset="1" Color="{DynamicResource PrimaryLightColor}" />

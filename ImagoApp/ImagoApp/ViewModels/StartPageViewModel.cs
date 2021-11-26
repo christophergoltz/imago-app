@@ -431,13 +431,15 @@ namespace ImagoApp.ViewModels
                 var statusPageViewModel = new StatusPageViewModel(characterViewModel, _wikiDataService);
                 var inventoryViewModel = new InventoryViewModel(characterViewModel);
                 var weaveTalentPageViewModel = new WeaveTalentPageViewModel(characterViewModel, _wikiDataService);
+                var dicePageViewModel = new DicePageViewModel(characterViewModel, _wikiService, _wikiDataService);
                 var appShellViewModel = new AppShellViewModel(characterViewModel, characterInfoPageViewModel, skillPageViewModel,
-                    statusPageViewModel, inventoryViewModel, wikiPageViewModel, weaveTalentPageViewModel, _characterProvider);
+                    statusPageViewModel, inventoryViewModel, wikiPageViewModel, weaveTalentPageViewModel, dicePageViewModel, _characterProvider);
 
                 //notify the main menu that editmode may have changed
                 appShellViewModel.RaiseEditModeChanged();
 
                 skillPageViewModel.OpenWikiPageRequested += (sender, url) => OpenWikiPage(url);
+                skillPageViewModel.DiceRollRequested += (sender, value) => OpenDicePage(value.type, value.value);
                 statusPageViewModel.OpenWikiPageRequested += (sender, url) => OpenWikiPage(url);
                 inventoryViewModel.OpenWikiPageRequested += (sender, url) => OpenWikiPage(url);
                 weaveTalentPageViewModel.OpenSkillPageRequested += (sender, type) =>
@@ -460,6 +462,17 @@ namespace ImagoApp.ViewModels
 
                     appShellViewModel.RaiseSwitchPageRequested(typeof(WikiPage));
                     wikiPageViewModel.OpenWikiPage(url);
+                }
+
+                void OpenDicePage(DiceSearchModelType type,object value)
+                {
+                    Analytics.TrackEvent("Open DiceRoll", new Dictionary<string, string>()
+                    {
+                        {"type", value.ToString()}
+                    });
+
+                    appShellViewModel.RaiseSwitchPageRequested(typeof(DicePage));
+                    dicePageViewModel.SetSelection(type,value);
                 }
 
                 _attributeCalculationService.RecalculateAllAttributes(characterModel.Attributes, characterModel.SkillGroups);
