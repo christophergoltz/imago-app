@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 using ImagoApp.Application;
-using ImagoApp.Application.Constants;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Services;
 using ImagoApp.Shared.Attributes;
@@ -15,6 +11,16 @@ using Xamarin.Forms;
 
 namespace ImagoApp.ViewModels
 {
+    public class DiceSearchModelGroup : List<DiceSearchModel>
+    {
+        public string Name { get; private set; }
+
+        public DiceSearchModelGroup(string name, List<DiceSearchModel> models) : base(models)
+        {
+            Name = name;
+        }
+    }
+
     public class DiceSearchModel
     {
         public object Value { get; set; }
@@ -49,15 +55,16 @@ namespace ImagoApp.ViewModels
             Search(string.Empty);
         }
 
-        private List<DiceSearchModel> CreateSearchList()
+        private List<DiceSearchModelGroup> CreateSearchList()
         {
-            var result = new List<DiceSearchModel>();
+            var skills = new List<DiceSearchModel>();
+            var skillGroups = new List<DiceSearchModel>();
 
             foreach (var skillGroup in CharacterViewModel.CharacterModel.SkillGroups)
             {
                 //skillgroup
                 var skillGroupNameAttribute = Util.EnumExtensions.GetAttribute<DisplayTextAttribute>(skillGroup.Type);
-                result.Add(new DiceSearchModel()
+                skillGroups.Add(new DiceSearchModel()
                 {
                     Value = skillGroup.Type,
                     DisplayText = skillGroupNameAttribute?.Text ?? skillGroup.Type.ToString(),
@@ -68,7 +75,7 @@ namespace ImagoApp.ViewModels
                 {
                     //skill
                     var skillNameAttribute = Util.EnumExtensions.GetAttribute<DisplayTextAttribute>(skill.Type);
-                    result.Add(new DiceSearchModel()
+                    skills.Add(new DiceSearchModel()
                     {
                         Value = skill.Type,
                         DisplayText = skillNameAttribute?.Text ?? skill.Type.ToString(),
@@ -77,13 +84,17 @@ namespace ImagoApp.ViewModels
                 }
             }
 
-            return result.OrderBy(model => model.DisplayText).ToList();
+            return new List<DiceSearchModelGroup>()
+            {
+                new DiceSearchModelGroup("Fertigkeit", skills.OrderBy(model => model.DisplayText).ToList()),
+                new DiceSearchModelGroup("Fertigkeitsgruppe", skillGroups.OrderBy(model => model.DisplayText).ToList())
+            };
         }
 
-        private readonly List<DiceSearchModel> _selectableDiceTypes;
-        private List<DiceSearchModel> _searchResults;
+        private readonly List<DiceSearchModelGroup> _selectableDiceTypes;
+        private List<DiceSearchModelGroup> _searchResults;
 
-        public List<DiceSearchModel> SearchResults
+        public List<DiceSearchModelGroup> SearchResults
         {
             get => _searchResults;
             set => SetProperty(ref _searchResults, value);
@@ -167,7 +178,7 @@ namespace ImagoApp.ViewModels
 
         public void SetSelection(DiceSearchModelType type, object value)
         {
-            var z = _selectableDiceTypes
+            var z = _selectableDiceTypes.SelectMany(group => group)
                 .Where(model => model.Type == type)
                 .First(model => (SkillModelType) model.Value == (SkillModelType) value);
 
@@ -289,25 +300,39 @@ namespace ImagoApp.ViewModels
 
         public void Search(string searchValue)
         {
-            var newList = new List<DiceSearchModel>(_selectableDiceTypes);
-
             if (string.IsNullOrWhiteSpace(searchValue))
             {
                 //show all
-                SearchResults = newList;
+                var searchResult = new List<DiceSearchModelGroup>();
+
+                //copy list into searchresults to prevent ref removing
+                foreach (var group in _selectableDiceTypes)
+                {
+                    searchResult.Add(new DiceSearchModelGroup(group.Name, group));
+                }
+
+                SearchResults = searchResult;
                 return;
             }
-
-            foreach (var possibleHit in _selectableDiceTypes)
+            
+            var result = new List<DiceSearchModelGroup>();
+            //copy list into searchresults to prevent ref removing
+            foreach (var group in _selectableDiceTypes)
             {
-                var match = CultureInfo.InvariantCulture.CompareInfo.IndexOf(possibleHit.DisplayText, searchValue,
-                    CompareOptions.IgnoreCase) >= 0;
+                var newGroup = new DiceSearchModelGroup(group.Name, group);
+                foreach (var possibleHit in group)
+                {
+                    var match = CultureInfo.InvariantCulture.CompareInfo.IndexOf(possibleHit.DisplayText, searchValue,
+                        CompareOptions.IgnoreCase) >= 0;
 
-                if (!match)
-                    newList.Remove(possibleHit);
+                    if (!match)
+                        newGroup.Remove(possibleHit);
+                }
+
+                result.Add(newGroup);
             }
 
-            SearchResults = newList;
+            SearchResults = result;
         }
 
         private void RecalculateFinalDiceValue()

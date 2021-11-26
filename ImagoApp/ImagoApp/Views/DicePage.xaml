@@ -443,8 +443,20 @@
                 </ContentView.GestureRecognizers>
             </ContentView>
 
-            <CollectionView Margin="150,0,1300,125" HorizontalOptions="Start" VerticalOptions="Start" SelectionMode="Single" SelectionChanged="SelectableItemsView_OnSelectionChanged" Background="{DynamicResource SinglePrimaryGradientBrush}"
-                            ItemsSource="{Binding SearchResults}" >
+            <CollectionView Margin="150,0,1300,125" HorizontalOptions="Start" VerticalOptions="Start" 
+                            SelectionMode="Single" SelectionChanged="SelectableItemsView_OnSelectionChanged" 
+                            Background="{DynamicResource SinglePrimaryGradientBrush}"
+                            ItemsSource="{Binding SearchResults}"
+                            IsGrouped="True">
+                <CollectionView.GroupHeaderTemplate>
+                    <DataTemplate x:DataType="viewModels:DiceSearchModelGroup">
+                        <Label Padding="10,7"
+                               BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
+                               FontAttributes="Bold" Margin="-20,0"
+                               FontSize="{DynamicResource FontSizeHeader}"
+                               Text="{Binding Name}" TextColor="white"/>
+                    </DataTemplate>
+                </CollectionView.GroupHeaderTemplate>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="viewModels:DiceSearchModel">
                         <Grid Margin="0,3" Padding="20,3,10,5">
