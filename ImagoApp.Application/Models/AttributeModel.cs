@@ -36,7 +36,13 @@ namespace ImagoApp.Application.Models
         public int ExperienceBySkillGroup
         {
             get => _experienceBySkillGroup;
-            set => SetProperty(ref _experienceBySkillGroup, value);
+            set
+            {
+                SetProperty(ref _experienceBySkillGroup, value);
+                OnPropertyChanged(nameof(IncreaseValueCache));
+                OnPropertyChanged(nameof(ExperienceForNextIncreasedRequiredCache));
+                OnPropertyChanged(nameof(LeftoverExperienceCache));
+            }
         }
     }
 }
