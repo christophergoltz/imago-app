@@ -14,9 +14,8 @@ namespace ImagoApp.Tests.Services
 
         public SkillGroupCalculationServiceTests()
         {
-            var increaseCalculationService = new IncreaseCalculationService();
-            var skillCalculationService = new SkillCalculationService(increaseCalculationService);
-            _skillGroupCalculationService = new SkillGroupCalculationService(skillCalculationService,increaseCalculationService);
+            var skillCalculationService = new SkillCalculationService();
+            _skillGroupCalculationService = new SkillGroupCalculationService(skillCalculationService);
         }
 
         [Theory]

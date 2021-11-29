@@ -16,12 +16,10 @@ namespace ImagoApp.Application.Services
     public class SkillGroupCalculationService : ISkillGroupCalculationService
     {
         private readonly ISkillCalculationService _skillCalculationService;
-        private readonly IIncreaseCalculationService _increaseCalculationService;
 
-        public SkillGroupCalculationService(ISkillCalculationService skillCalculationService, IIncreaseCalculationService increaseCalculationService)
+        public SkillGroupCalculationService(ISkillCalculationService skillCalculationService)
         {
             _skillCalculationService = skillCalculationService;
-            _increaseCalculationService = increaseCalculationService;
         }
 
         public void UpdateNewBaseValueToSkillsOfGroup(SkillGroupModel skillGroup)
@@ -65,10 +63,12 @@ namespace ImagoApp.Application.Services
 
         public (bool FinalValueChanged, int IncreaseValueChange) AddExperience(SkillGroupModel target, int experience)
         {
+            var oldIncreaseValue = target.IncreaseValueCache;
             target.ExperienceValue += experience;
+            var newIncreaseValue = target.IncreaseValueCache;
 
             //recalculate increase info
-            var increaseValueChanged = _increaseCalculationService.RecalculateIncreaseInfo(target);
+            var increaseValueChanged = newIncreaseValue - oldIncreaseValue;
             if (increaseValueChanged == 0)
                 return (false, 0);
 

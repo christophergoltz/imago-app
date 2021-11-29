@@ -156,7 +156,6 @@ namespace ImagoApp
             builder.RegisterType<WikiService>().As<IWikiService>();
             builder.RegisterType<WikiParseService>().As<IWikiParseService>();
             builder.RegisterType<CharacterCreationService>().As<ICharacterCreationService>();
-            builder.RegisterType<IncreaseCalculationService>().As<IIncreaseCalculationService>();
             builder.RegisterType<SkillCalculationService>().As<ISkillCalculationService>();
             builder.RegisterType<SkillGroupCalculationService>().As<ISkillGroupCalculationService>();
             builder.RegisterType<AttributeCalculationService>().As<IAttributeCalculationService>();

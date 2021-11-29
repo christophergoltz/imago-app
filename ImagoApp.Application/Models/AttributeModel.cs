@@ -1,4 +1,5 @@
 ﻿using ImagoApp.Application.Models.Base;
+using ImagoApp.Application.Services;
 using ImagoApp.Shared.Enums;
 
 namespace ImagoApp.Application.Models
@@ -6,12 +7,12 @@ namespace ImagoApp.Application.Models
     public class AttributeModel : CreationExperienceBaseModel
     {
         //required for deserialization
-        public AttributeModel()
+        public AttributeModel() : base(IncreaseType.Attribute)
         {
             
         }
 
-        public AttributeModel(AttributeType type)
+        public AttributeModel(AttributeType type) : base(IncreaseType.Attribute)
         {
             Type = type;
         }

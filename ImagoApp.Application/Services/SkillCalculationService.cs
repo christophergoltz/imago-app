@@ -15,13 +15,6 @@ namespace ImagoApp.Application.Services
 
     public class SkillCalculationService : ISkillCalculationService
     {
-        private readonly IIncreaseCalculationService _increaseCalculationService;
-
-        public SkillCalculationService(IIncreaseCalculationService increaseCalculationService)
-        {
-            _increaseCalculationService = increaseCalculationService;
-        }
-
         public bool RecalculateFinalValue(SkillModel skillModel)
         {
             var oldFinalValue = skillModel.FinalValue;
@@ -31,7 +24,6 @@ namespace ImagoApp.Application.Services
 
             //todo update masteries and talents
         }
-
 
         public bool SetModification(SkillModel target, int modification)
         {
@@ -43,10 +35,12 @@ namespace ImagoApp.Application.Services
 
         public (bool FinalValueChanged, int IncreaseValueChange) SetCreationExperience(SkillModel target, int creationExperience)
         {
+            var oldIncreaseValue = target.IncreaseValueCache;
             target.CreationExperience = creationExperience;
-
+            var newIncreaseValue = target.IncreaseValueCache;
+            
             //recalculate increase info
-            var increaseValueChanged = _increaseCalculationService.RecalculateIncreaseInfo(target);
+            var increaseValueChanged = newIncreaseValue - oldIncreaseValue;
             if (increaseValueChanged == 0)
                 return (false, 0);
 
@@ -57,10 +51,12 @@ namespace ImagoApp.Application.Services
 
         public (bool FinalValueChanged, int IncreaseValueChange) AddExperience(SkillModel target, int experience)
         {
+            var oldIncreaseValue = target.IncreaseValueCache;
             target.ExperienceValue += experience;
+            var newIncreaseValue = target.IncreaseValueCache;
 
             //recalculate increase info
-            var increaseValueChanged = _increaseCalculationService.RecalculateIncreaseInfo(target);
+            var increaseValueChanged = newIncreaseValue - oldIncreaseValue;
             if (increaseValueChanged == 0)
                 return (false, 0);
 

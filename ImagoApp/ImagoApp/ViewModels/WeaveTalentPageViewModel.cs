@@ -61,7 +61,7 @@ namespace ImagoApp.ViewModels
                 try
                 {
                     var weaveTalentList = WeaveTalents.First(list => list.WeaveSourceGroup == weaveTalent.WeaveSource);
-                    var detailViewModel = new WeaveTalentDetailViewModel(weaveTalent, weaveTalentList.Skills, _characterViewModel, _wikiDataService);
+                    var detailViewModel = new WeaveTalentDetailViewModel(weaveTalent, weaveTalentList.Skills);
                     detailViewModel.CloseRequested += (sender, args) =>
                     {
                         WeaveTalentDetailViewModel = null;
@@ -87,82 +87,12 @@ namespace ImagoApp.ViewModels
             InitializeWeaveTalentList();
         }
         
-        private List<SkillModel> GetSkillsFromRequirements(List<SkillRequirementModel> requirements)
-        {
-            var result = new List<SkillModel>();
-            foreach (var requirementModel in requirements)
-            {
-                if (requirementModel.Type == SkillModelType.Philosophie)
-                    continue;
-
-                var item = _characterViewModel.CharacterModel.SkillGroups.SelectMany(model => model.Skills)
-                    .First(model => model.Type == requirementModel.Type);
-                result.Add(item);
-            }
-
-            return result;
-        }
-        
+     
         public void InitializeWeaveTalentList()
         {
             lock (WeaveTalents)
             {
-                var allWeaveTalents = _wikiDataService.GetAllWeaveTalents();
-                foreach (var weaveTalent in allWeaveTalents)
-                {
-                    var available = _characterViewModel.CheckTalentRequirement(weaveTalent.Requirements);
-                    if (available)
-                    {
-                        //add
-                        var list = WeaveTalents.FirstOrDefault(talentList =>
-                            talentList.WeaveSourceGroup == weaveTalent.WeaveSource);
-
-                        if (list == null)
-                        {
-                            //add new
-                            var talentList = new WeaveTalentList
-                            {
-                                WeaveSourceGroup = weaveTalent.WeaveSource,
-                                Skills = GetSkillsFromRequirements(weaveTalent.Requirements)
-                            };
-                            talentList.Talents.Add(weaveTalent);
-
-                            WeaveTalents.Add(talentList);
-                        }
-                        else
-                        {
-                            //extend existing, if required
-                            if (list.All(model => model.Name != weaveTalent.Name))
-                            {
-                                list.Add(weaveTalent);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        //remove
-                        var weaveTalentList = WeaveTalents.FirstOrDefault(list => list.WeaveSourceGroup == weaveTalent.WeaveSource);
-                        if (weaveTalentList != null)
-                        {
-                            var elementToRemove = weaveTalentList.FirstOrDefault(model => model.Name == weaveTalent.Name);
-                            if (elementToRemove != null)
-                            {
-                                weaveTalentList.Remove(elementToRemove);
-                            }
-
-                            if (weaveTalentList.Talents.Count == 0)
-                            {
-                                WeaveTalents.Remove(weaveTalentList);
-                            }
-                        }
-                    }
-
-                    OnPropertyChanged(nameof(WeaveTalents));
-                    foreach (var group in WeaveTalents)
-                    {
-                        group.RaiseOnPropertyChanged(nameof(WeaveTalentList.Talents));
-                    }
-                }
+                
             }
         }
     }

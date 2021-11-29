@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ImagoApp.Application.Models.Base;
+using ImagoApp.Application.Services;
 using ImagoApp.Shared.Enums;
 
 namespace ImagoApp.Application.Models
@@ -8,9 +9,12 @@ namespace ImagoApp.Application.Models
     {
         public SkillGroupModelType Type { get; set; }
 
-        public SkillGroupModel() { }
+        public SkillGroupModel() : base(IncreaseType.SkillGroup)
+        {
 
-        public SkillGroupModel(SkillGroupModelType type)
+        }
+
+        public SkillGroupModel(SkillGroupModelType type) : base(IncreaseType.SkillGroup)
         {
             Type = type;
         }

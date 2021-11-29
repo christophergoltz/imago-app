@@ -19,24 +19,23 @@ namespace ImagoApp.Application.Services
 
     public class AttributeCalculationService : IAttributeCalculationService
     {
-        private readonly IIncreaseCalculationService _increaseCalculationService;
         private readonly ISkillGroupCalculationService _skillGroupCalculationService;
 
-        public AttributeCalculationService(IIncreaseCalculationService increaseCalculationService, ISkillGroupCalculationService skillGroupCalculationService)
+        public AttributeCalculationService(ISkillGroupCalculationService skillGroupCalculationService)
         {
-            _increaseCalculationService = increaseCalculationService;
             _skillGroupCalculationService = skillGroupCalculationService;
         }
 
         public bool SetCreationExperience(AttributeModel target, int creationExperience, List<AttributeModel> attributes, List<SkillGroupModel> skillGroups)
         {
+            var oldIncreaseValue = target.IncreaseValueCache;
             target.CreationExperience = creationExperience;
+            var newIncreaseValue = target.IncreaseValueCache;
 
             //recalculate increase info
-            var increaseValueChanged = _increaseCalculationService.RecalculateIncreaseInfo(target);
-            if (increaseValueChanged == 0)
+            if (newIncreaseValue == oldIncreaseValue)
                 return false;
-
+            
             return RecalculateFinalValue(target, attributes, skillGroups);
         }
 
@@ -60,11 +59,12 @@ namespace ImagoApp.Application.Services
     
         public bool SetExperience(AttributeModel target, int experience, List<AttributeModel> attributes, List<SkillGroupModel> skillGroups)
         {
+            var oldIncreaseValue = target.IncreaseValueCache;
             target.ExperienceValue = experience;
+            var newIncreaseValue = target.IncreaseValueCache;
 
             //recalculate increase info
-            var increaseValueChanged = _increaseCalculationService.RecalculateIncreaseInfo(target);
-            if (increaseValueChanged == 0)
+            if (newIncreaseValue == oldIncreaseValue)
                 return false;
             
             return RecalculateFinalValue(target, attributes, skillGroups);
@@ -72,11 +72,12 @@ namespace ImagoApp.Application.Services
         
         public bool AddSkillGroupExperience(AttributeModel target, int skillGroupExperienceChange, List<AttributeModel> attributes, List<SkillGroupModel> skillGroups)
         {
+            var oldIncreaseValue = target.IncreaseValueCache;
             target.ExperienceBySkillGroup += skillGroupExperienceChange;
-
+            var newIncreaseValue = target.IncreaseValueCache;
+ 
             //recalculate increase info
-            var increaseValueChanged = _increaseCalculationService.RecalculateIncreaseInfo(target);
-            if (increaseValueChanged == 0)
+            if (newIncreaseValue == oldIncreaseValue)
                 return false;
 
             //recalculate final value
@@ -85,19 +86,20 @@ namespace ImagoApp.Application.Services
        
         public void RecalculateAllAttributes(List<AttributeModel> attributes, List<SkillGroupModel> skillGroups)
         {
-            foreach (var skillGroup in skillGroups)
-            {
-                _increaseCalculationService.RecalculateIncreaseInfo(skillGroup);
+            //todo =??
+            //foreach (var skillGroup in skillGroups)
+            //{
+            //    _increaseCalculationService.RecalculateIncreaseInfo(skillGroup);
 
-                foreach (var skill in skillGroup.Skills)
-                {
-                    _increaseCalculationService.RecalculateIncreaseInfo(skill);
-                }
-            }
+            //    foreach (var skill in skillGroup.Skills)
+            //    {
+            //        _increaseCalculationService.RecalculateIncreaseInfo(skill);
+            //    }
+            //}
 
             foreach (var attribute in attributes)
             {
-                _increaseCalculationService.RecalculateIncreaseInfo(attribute);
+               // _increaseCalculationService.RecalculateIncreaseInfo(attribute);
                 RecalculateFinalValue(attribute, attributes, skillGroups, true);
             }
         }
