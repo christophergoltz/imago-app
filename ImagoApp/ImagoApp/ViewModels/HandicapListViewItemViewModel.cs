@@ -1,28 +1,19 @@
 ﻿using System;
+using System.Diagnostics;
 using ImagoApp.Application;
+using ImagoApp.Application.Models;
 using ImagoApp.Shared.Enums;
 
 namespace ImagoApp.ViewModels
 {
     public class HandicapListViewItemViewModel : BindableBase
     {
-        private DerivedAttributeType _type;
         private bool _isChecked;
-        private int? _handiCapValue;
         private string _imageSource;
         private string _text;
+        private DerivedAttributeModel _value;
         public event EventHandler HandicapValueChanged;
-
-        public DerivedAttributeType Type
-        {
-            get => _type;
-            set
-            {
-                SetProperty(ref _type, value);
-                HandicapValueChanged?.Invoke(this, EventArgs.Empty);
-            }
-        }
-
+        
         public bool IsChecked
         {
             get => _isChecked;
@@ -33,17 +24,7 @@ namespace ImagoApp.ViewModels
                 HandicapValueChanged?.Invoke(this, EventArgs.Empty);
             }
         }
-
-        public int? HandiCapValue
-        {
-            get => _handiCapValue;
-            set
-            {
-                SetProperty(ref _handiCapValue, value);
-                HandicapValueChanged?.Invoke(this, EventArgs.Empty);
-            }
-        }
-
+        
         public string ImageSource
         {
             get => _imageSource;
@@ -56,11 +37,16 @@ namespace ImagoApp.ViewModels
             set => SetProperty(ref _text, value);
         }
 
-        public HandicapListViewItemViewModel(DerivedAttributeType type, bool isChecked, int? handiCapValue, string imageSource, string text)
+        public DerivedAttributeModel Value
         {
-            Type = type;
+            get => _value;
+            set => SetProperty(ref _value ,value);
+        }
+
+        public HandicapListViewItemViewModel(DerivedAttributeModel value, bool isChecked, string imageSource, string text)
+        {
+            Value = value;
             IsChecked = isChecked;
-            HandiCapValue = handiCapValue;
             ImageSource = imageSource;
             Text = text;
         }

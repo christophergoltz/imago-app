@@ -39,7 +39,7 @@
                 </tabs:TabHostView.Tabs>
             </tabs:TabHostView>
 
-            <tabs:ViewSwitcher Grid.Row="1" Margin="5,0,5,5" x:Name="Switcher">
+            <tabs:ViewSwitcher Grid.Row="1" x:Name="Switcher">
                 <ContentView>
                     <Grid BackgroundColor="red"></Grid>
                 </ContentView>

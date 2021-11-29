@@ -668,7 +668,7 @@
                                    FontAttributes="Bold"
                                    FontSize="{DynamicResource FontSizeSmallContent}"
                                    Text="Behinderung" TextColor="white"/>
-                            <StackLayout BindableLayout.ItemTemplate="{DynamicResource HandicapItemTemplate}" Margin="5"
+                            <StackLayout BindableLayout.ItemTemplate="{StaticResource HandicapItemTemplate}" Margin="5"
                                          BindableLayout.ItemsSource="{Binding CharacterViewModel.LoadoutViewModel.Handicaps}"
                                          RadioButtonGroup.GroupName="Handicap" />
                         </StackLayout>

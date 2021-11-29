@@ -1,72 +1,84 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using ImagoApp.Application;
-using ImagoApp.Application.Constants;
 using ImagoApp.Application.Models;
+using ImagoApp.Application.Models.Base;
 using ImagoApp.Shared.Enums;
 
 namespace ImagoApp.ViewModels
 {
     public class LoadoutViewModel : BindableBase
     {
-        private readonly List<DerivedAttributeModel> _handicapAttributes;
         public event EventHandler LoadoutValueChanged;
 
         public LoadoutViewModel(List<DerivedAttributeModel> handicapAttributes)
         {
-            _handicapAttributes = handicapAttributes;
-
-            InitializeHandicaps();
+            Handicaps = CreateHandicaps(handicapAttributes);
         }
 
         private List<HandicapListViewItemViewModel> _handicaps;
         public List<HandicapListViewItemViewModel> Handicaps
         {
             get => _handicaps;
-            set {
-                SetProperty(ref _handicaps, value);
-            }
+            set => SetProperty(ref _handicaps, value);
         }
 
         public int GetLoadoutValue()
         {
-            return Handicaps.FirstOrDefault(model => model.IsChecked)?.HandiCapValue ?? 0;
+            return Handicaps.FirstOrDefault(model => model.IsChecked)?.Value?.FinalValue.GetRoundedValue() ?? 0;
         }
-
-        private static readonly List<(DerivedAttributeType Type, string Text, string IconSource)> HandicapDefinition =
-            new List<(DerivedAttributeType Type, string Text, string IconSource)>()
-            {
-                (DerivedAttributeType.BehinderungKampf, "Kampf", "Images/kampf.png"),
-                (DerivedAttributeType.BehinderungAbenteuer, "Abenteuer / Reise", "Images/inventar.png"),
-                (DerivedAttributeType.BehinderungGesamt, "Gesamt", null),
-                (DerivedAttributeType.Unknown, "Ignorieren", null)
-            };
-
-        private void InitializeHandicaps()
+        
+        private List<HandicapListViewItemViewModel> CreateHandicaps(List<DerivedAttributeModel> handicapAttributes)
         {
-            List<HandicapListViewItemViewModel> handicaps = new List<HandicapListViewItemViewModel>();
+            handicapAttributes.Add(new DerivedAttributeModel(DerivedAttributeType.Unknown));
 
-            //only add handicap for attributessource with Geschicklichkeit
-            foreach (var tuple in HandicapDefinition)
+            var result = new List<HandicapListViewItemViewModel>();
+            foreach (var handicap in handicapAttributes)
             {
-                var handicapValue = tuple.Type == DerivedAttributeType.Unknown
-                    ? (int?)null
-                    : _handicapAttributes.First(attribute => attribute.Type == tuple.Type).FinalValue.GetRoundedValue();
+                string title = null;
+                string imageSource = null;
+                var isChecked = false;
 
-                //todo converter
-                var vm = new HandicapListViewItemViewModel(tuple.Type, false, handicapValue, tuple.IconSource,
-                    tuple.Text);
+                switch (handicap.Type)
+                {
+                    case DerivedAttributeType.Unknown:
+                    {
+                        title = "Ignorieren";
+                        break;
+                    }
+                    case DerivedAttributeType.BehinderungKampf:
+                    {
+                        title = "Kampf";
+                        imageSource = "Images/kampf.png";
+                            break;
+                    }
+                    case DerivedAttributeType.BehinderungAbenteuer:
+                    {
+                        title = "Abenteuer / Reise";
+                        imageSource = "Images/inventar.png";
+                        isChecked = true;
+                            break;
+                    }
+                    case DerivedAttributeType.BehinderungGesamt:
+                    {
+                        title = "Gesamt";
+                            break;
+                    }
+                }
+
+                handicap.PropertyChanged += (sender, args) =>
+                {
+                    if(args.PropertyName == nameof(CalculableBaseModel.FinalValue))
+                        LoadoutValueChanged?.Invoke(this, EventArgs.Empty);
+                };
+                var vm = new HandicapListViewItemViewModel(handicap, isChecked, imageSource, title);
                 vm.HandicapValueChanged += (sender, args) => LoadoutValueChanged?.Invoke(this, EventArgs.Empty);
 
-                if (vm.Type == DerivedAttributeType.BehinderungAbenteuer)
-                    vm.IsChecked = true;
-
-                handicaps.Add(vm);
+                result.Add(vm);
             }
 
-            Handicaps = handicaps;
+            return result;
         }
     }
 }

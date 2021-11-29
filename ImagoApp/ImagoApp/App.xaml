@@ -2,17 +2,38 @@
 <Application x:Class="ImagoApp.App" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
    xmlns:converter="clr-namespace:ImagoApp.Converter;assembly=ImagoApp" xmlns:util="clr-namespace:ImagoApp.Util;assembly=ImagoApp" xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp">
     <Application.Resources>
-        <converter:SkillGroupTypeToAttributeSourceStringConverter x:Key="SkillGroupTypeToAttributeSourceStringConverter" />
-        <converter:InverseBoolConverter x:Key="InverseBoolConverter" />
-        <converter:EnumToDisplayTextConverter x:Key="EnumToDisplayTextConverter" />
-        <converter:EnumToAbbreviationTextConverter x:Key="EnumToAbbreviationTextConverter" />
-        <converter:ObjectNullToBoolConverter x:Key="ObjectNullToBoolConverter" />
-        <converter:ObjectNotNullToBoolConverter x:Key="ObjectNotNullToBoolConverter" />
-        <converter:DicionaryToBodyPartConverter x:Key="DicionaryToBodyPartConverter" />
-        <converter:EnumToFormulaConverter x:Key="EnumToFormulaConverter" />
-        <converter:PositiveIntegerToBoolConverter x:Key="PositiveIntegerToBoolConverter" />
-        <converter:FileInfoLenghtToSmartFileSizeConverter x:Key="FileInfoLenghtToSmartFileSizeConverter" />
-        <converter:BodyPartToCurrentHitpointsColor x:Key="BodyPartToCurrentHitpointsColor" />
-        <converter:EnumToValueConverter x:Key="EnumToValueConverter" />
+        <ResourceDictionary>
+            <!-- dynamic resources that will be changed at runtime needs to be at top level -->
+            <x:Double x:Key="FontSizeCaption">38</x:Double>
+            <x:Double x:Key="FontSizeSmallCaption">34</x:Double>
+            <x:Double x:Key="FontSizeTitle">28</x:Double>
+            <x:Double x:Key="FontSizeHeader">26</x:Double>
+            <x:Double x:Key="FontSizeBigContent">24</x:Double>
+            <x:Double x:Key="FontSizeContent">24</x:Double>
+            <x:Double x:Key="FontSizeDetail">22</x:Double>
+            <x:Double x:Key="FontSizeSmallContent">20</x:Double>
+            <x:Double x:Key="FontSizeDescription">18</x:Double>
+          
+            <converter:SkillGroupTypeToAttributeSourceStringConverter x:Key="SkillGroupTypeToAttributeSourceStringConverter" />
+            <converter:InverseBoolConverter x:Key="InverseBoolConverter" />
+            <converter:EnumToDisplayTextConverter x:Key="EnumToDisplayTextConverter" />
+            <converter:EnumToAbbreviationTextConverter x:Key="EnumToAbbreviationTextConverter" />
+            <converter:ObjectNullToBoolConverter x:Key="ObjectNullToBoolConverter" />
+            <converter:ObjectNotNullToBoolConverter x:Key="ObjectNotNullToBoolConverter" />
+            <converter:DicionaryToBodyPartConverter x:Key="DicionaryToBodyPartConverter" />
+            <converter:EnumToFormulaConverter x:Key="EnumToFormulaConverter" />
+            <converter:PositiveIntegerToBoolConverter x:Key="PositiveIntegerToBoolConverter" />
+            <converter:FileInfoLenghtToSmartFileSizeConverter x:Key="FileInfoLenghtToSmartFileSizeConverter" />
+            <converter:BodyPartToCurrentHitpointsColor x:Key="BodyPartToCurrentHitpointsColor" />
+            <converter:EnumToValueConverter x:Key="EnumToValueConverter" />
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/Themes/KathaUmbraTheme.xaml" />
+                <ResourceDictionary Source="Styles/DataTemplates.xaml" />
+                <ResourceDictionary Source="Styles/DefaultStyles.xaml" />
+                <ResourceDictionary Source="Styles/PrincipleIcons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
+  
 </Application>

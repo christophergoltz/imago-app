@@ -101,8 +101,6 @@ namespace ImagoApp.ViewModels
 
                 if (VersionTracking.IsFirstLaunchForCurrentBuild || VersionTracking.IsFirstLaunchForCurrentVersion)
                     AlertNewVersion();
-
-                LoadThemes();
             });
         }
 
@@ -128,68 +126,7 @@ namespace ImagoApp.ViewModels
                 StyleResourceManager.ChangeGlobalFontSize(t);
             }
         }
-
-        public List<ThemeItemViewModel> Themes
-        {
-            get => _themes;
-            set => SetProperty(ref _themes, value);
-        }
-
-        public ThemeItemViewModel SelectedTheme
-        {
-            get => _selectedTheme;
-            set
-            {
-                SetProperty(ref _selectedTheme, value);
-                App.SwitchTheme(value.Theme, true);
-            }
-        }
-
-        private void LoadThemes()
-        {
-            var themeNamespace = "ImagoApp.Styles.Themes";
-            var themeTypes = Assembly.GetExecutingAssembly().GetTypes()
-                .Where(t => t.IsClass && t.Namespace == themeNamespace && t.BaseType == typeof(ResourceDictionary));
-
-            var themes = new List<ThemeItemViewModel>();
-
-            foreach (var type in themeTypes)
-            {
-                var theme = (ResourceDictionary)Activator.CreateInstance(type);
-
-                theme.TryGetValue("PrimaryDarkestColor", out var pColor);
-                theme.TryGetValue("SecondaryFirstDarkestColor", out var sColor);
-
-                ApplicationTheme themeType;
-
-                switch (theme)
-                {
-                    case KathaUmbraTheme _:
-                        themeType = ApplicationTheme.KathaUmbra;
-                        break;
-                    case UmbraSecondTheme _:
-                        themeType = ApplicationTheme.UmbraSecond;
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(ApplicationTheme));
-                }
-
-                //todo converter
-                var viewModel = new ThemeItemViewModel()
-                {
-                    ResourceDictionary = theme,
-                    Theme = themeType,
-                    PrimaryColor = (Color)pColor,
-                    SecondaryColor = (Color)sColor
-                };
-
-                themes.Add(viewModel);
-            }
-
-            Themes = themes;
-
-        }
-
+    
         private void AlertNewVersion()
         {
             UserDialogs.Instance.Confirm(new ConfirmConfig
@@ -742,8 +679,6 @@ namespace ImagoApp.ViewModels
         }));
 
         private ICommand _deleteCharacterCommand;
-        private List<ThemeItemViewModel> _themes;
-        private ThemeItemViewModel _selectedTheme;
         private CharacterPreview _selectedCharacter;
 
         public ICommand DeleteCharacterCommand => _deleteCharacterCommand ?? (_deleteCharacterCommand = new Command(() =>

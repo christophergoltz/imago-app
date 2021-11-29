@@ -16,10 +16,10 @@
                    Text="{Binding Text}" />
             <Label Grid.Column="2" VerticalOptions="Center"
                    FontSize="{DynamicResource FontSizeContent}"
-                   Text="{Binding HandiCapValue}" />
+                   Text="{Binding Value.FinalValue}" />
             <RadioButton Grid.Column="3" VerticalOptions="Center"
                          IsChecked="{Binding IsChecked}"
-                         Value="{Binding Type}" />
+                         Value="{Binding Value.Type}" />
         </Grid>
     </DataTemplate>
 </ResourceDictionary>

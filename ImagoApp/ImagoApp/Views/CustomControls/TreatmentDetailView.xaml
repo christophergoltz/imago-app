@@ -8,9 +8,9 @@
              x:Class="ImagoApp.Views.CustomControls.TreatmentDetailView">
     <Grid  BindingContext="{Binding TreatmentDetailViewModel, Source={x:Reference TreatmentDetailViewControl}}" Background="{DynamicResource SinglePrimaryGradientBrush}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <!-- treatment -->
@@ -62,7 +62,7 @@
                    FontSize="{DynamicResource FontSizeSmallContent}"
                    Text="Schadensart" TextDecorations="Strikethrough" TextColor="white"/>
 
-            <Label TextDecorations="Strikethrough"  FontSize="{DynamicResource FontSizeContent}" Grid.Row="8" Margin="40,0,100,0" Padding="10" Text="Physischer / Energetisch / Betäubung Schaden" />
+            <Label TextDecorations="Strikethrough"  FontSize="{DynamicResource FontSizeContent}" Margin="40,0,100,0" Padding="10" Text="Physischer / Energetisch / Betäubung Schaden" />
 
             <!-- effect -->
             <Label Padding="10,5,10,5" BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
@@ -78,21 +78,21 @@
 
         <StackLayout Grid.Column="2" >
             <!-- handicap -->
-            <Label  Grid.Row="3" Padding="10,5,10,5" Margin="0,0,90,0" BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
-                    FontAttributes="Bold" 
-                    FontSize="{DynamicResource FontSizeSmallContent}"
-                    Text="Behinderung" TextColor="white"/>
+            <Label Padding="10,5,10,5" Margin="0,0,90,0" BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
+                   FontAttributes="Bold" 
+                   FontSize="{DynamicResource FontSizeSmallContent}"
+                   Text="Behinderung" TextColor="white"/>
 
-            <StackLayout Grid.Row="4" Margin="0,0,100,0" Padding="10" BindableLayout.ItemTemplate="{DynamicResource HandicapItemTemplate}"
-                         BindableLayout.ItemsSource="{Binding Handicaps}"
+            <StackLayout Margin="0,0,100,0" Padding="10" BindableLayout.ItemTemplate="{DynamicResource HandicapItemTemplate}"
+                         BindableLayout.ItemsSource="{Binding CharacterViewModel.LoadoutViewModel.Handicaps}"
                          RadioButtonGroup.GroupName="Handicap" />
           
             <!-- material -->
-            <Label  Grid.Row="9" Padding="10,5,10,5" 
-                        BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
-                        FontAttributes="Bold"
-                        FontSize="{DynamicResource FontSizeSmallContent}"
-                        Text="Material und Werkzeug - Geringster Wert wird verwendet" TextColor="white"/>
+            <Label Padding="10,5,10,5" 
+                   BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
+                   FontAttributes="Bold"
+                   FontSize="{DynamicResource FontSizeSmallContent}"
+                   Text="Material und Werkzeug - Geringster Wert wird verwendet" TextColor="white"/>
 
             <StackLayout  Padding="10,5,10,5" Margin="20,5" Orientation="Horizontal">
                 <Label FontSize="{DynamicResource FontSizeContent}"
@@ -128,11 +128,11 @@
                 </Picker>
             </StackLayout>
             <!-- damage status -->
-            <Label  Grid.Row="5" Padding="10,5,10,5" 
-                        BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
-                        FontAttributes="Bold"
-                        FontSize="{DynamicResource FontSizeSmallContent}"
-                        Text="Zustand der betroffenen Trefferzone(n)" TextColor="white"/>
+            <Label Padding="10,5,10,5" 
+                   BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
+                   FontAttributes="Bold"
+                   FontSize="{DynamicResource FontSizeSmallContent}"
+                   Text="Zustand der betroffenen Trefferzone(n)" TextColor="white"/>
             <Frame>
                 <StackLayout>
                     <Grid Background="{DynamicResource SinglePrimaryGradientBrush}" HeightRequest="320">
@@ -156,16 +156,13 @@
 
                                         <RadioButton Content="Normal" Grid.Column="1" IsChecked="True"
                                                     
-                                                     Value="{x:Static enums:BodyPartDamageStateType.Normal}" 
-                                                    ></RadioButton>
+                                                     Value="{x:Static enums:BodyPartDamageStateType.Normal}" />
 
                                         <RadioButton Grid.Column="2"  Content="Ausgefallen"
-                                                     Value="{x:Static enums:BodyPartDamageStateType.Damaged}" 
-                                                     ></RadioButton>
+                                                     Value="{x:Static enums:BodyPartDamageStateType.Damaged}" />
 
                                         <RadioButton Grid.Column="3" Content="Zerstört"
-                                                     Value="{x:Static enums:BodyPartDamageStateType.Broken}" 
-                                                   ></RadioButton>
+                                                     Value="{x:Static enums:BodyPartDamageStateType.Broken}" />
                                     </Grid>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
@@ -174,21 +171,21 @@
 
                     <StackLayout Orientation="Horizontal">
                         <Label Margin="20" Text="Summe Malus:" 
-                               FontSize="{DynamicResource FontSizeContent}"></Label>
+                               FontSize="{DynamicResource FontSizeContent}" />
                         <Label Margin="20" Text="{Binding BodyPartDamageStatusMalus}"
-                               FontSize="{DynamicResource FontSizeContent}"></Label>
+                               FontSize="{DynamicResource FontSizeContent}" />
                     </StackLayout>
                 </StackLayout>
             </Frame>
 
             <!-- modifikator -->
-            <Label  Grid.Row="11" Padding="10,5,10,5" 
-                        BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
-                        FontAttributes="Bold"
-                        FontSize="{DynamicResource FontSizeSmallContent}"
-                        Text="Positiver oder negativer Modifikator" TextColor="white"/>
+            <Label Padding="10,5,10,5" 
+                   BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
+                   FontAttributes="Bold"
+                   FontSize="{DynamicResource FontSizeSmallContent}"
+                   Text="Positiver oder negativer Modifikator" TextColor="white"/>
 
-            <StackLayout Grid.Row="12" Padding="10,5,10,5" Margin="20,5" Orientation="Horizontal">
+            <StackLayout Padding="10,5,10,5" Margin="20,5" Orientation="Horizontal">
                 <Label FontSize="{DynamicResource FontSizeContent}"
                            Text="Modifikator:" VerticalOptions="Center" />
                 <Entry Margin="10,0,0,0"

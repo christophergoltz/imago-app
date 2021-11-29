@@ -15,8 +15,8 @@
         </Grid.ColumnDefinitions>
 
         <!--  header  -->
-        <Frame Grid.Row="0" Grid.Column="0" >
-            <Grid Background="{DynamicResource EvenPrimaryGradientBrush}">
+        <Frame Grid.Row="0" Grid.Column="0" Margin="0,0,0,5">
+            <Grid Background="{StaticResource EvenPrimaryGradientBrush}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
@@ -105,9 +105,9 @@
         </Frame>
 
         <!--  normal skills  -->
-        <Frame Grid.Row="1" Grid.Column="0" Background="{DynamicResource SinglePrimaryGradientBrush}"
+        <Frame Grid.Row="1" Grid.Column="0"  
                IsVisible="{Binding CharacterViewModel.EditMode, Converter={StaticResource InverseBoolConverter}}">
-            <StackLayout>
+            <StackLayout Background="{DynamicResource SinglePrimaryGradientBrush}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="280" />
@@ -299,7 +299,7 @@
         </Frame>
 
         <!-- detail -->
-        <Frame  Grid.Row="0" Grid.RowSpan="2" Grid.Column="1">
+        <Frame Margin="5,0,0,0" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1">
             <StackLayout Spacing="0">
                 <Grid Background="{DynamicResource EvenPrimaryGradientBrush}">
                     <Grid.RowDefinitions>

@@ -158,48 +158,12 @@
 
             <Grid Grid.Column="0" Grid.Row="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="45*"></ColumnDefinition>
-                    <ColumnDefinition Width="60*"></ColumnDefinition>
+                    <ColumnDefinition Width="55*"></ColumnDefinition>
+                    <ColumnDefinition Width="50*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <!--  themes  -->
-                <Frame Grid.Column="0" Margin="10">
-                    <StackLayout Padding="5,0,0,20">
-                        <Label Margin="10" FontAttributes="Bold"
-                           FontSize="{DynamicResource FontSizeTitle}"
-                           Text="Design" VerticalOptions="Center" />
-
-                        <CollectionView ItemsSource="{Binding Themes}" 
-                                    SelectedItem="{Binding SelectedTheme}"
-                                    SelectionMode="Single">
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate x:DataType="viewModels:ThemeItemViewModel">
-                                    <Grid Padding="15,15,20,15">
-                                        <Frame>
-                                            <Grid Margin="0" ColumnSpacing="0" RowSpacing="0">
-                                                <StackLayout Orientation="Horizontal">
-                                                    <Grid BackgroundColor="{Binding PrimaryColor}"
-                                                      HeightRequest="75" HorizontalOptions="FillAndExpand" />
-                                                    <Grid BackgroundColor="{Binding SecondaryColor}"
-                                                      HeightRequest="75" HorizontalOptions="FillAndExpand" />
-
-                                                </StackLayout>
-                                                <Label Margin="5" Background="black" Opacity="0.75"
-                                                   FontSize="{DynamicResource FontSizeHeader}"
-                                                   HorizontalOptions="Start" TextColor="White" Padding="5,3"
-                                                   Text="{Binding Theme, Converter={StaticResource EnumToDisplayTextConverter}}"
-                                                   VerticalOptions="Start" />
-                                            </Grid>
-                                        </Frame>
-                                    </Grid>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
-                    </StackLayout>
-                </Frame>
-
                 <!--  display options  -->
-                <Frame Grid.Column="1" Margin="10">
+                <Frame Grid.Column="0" Margin="10">
                     <StackLayout Padding="5,0,0,20">
                         <Label Margin="10" FontAttributes="Bold"
                                FontSize="{DynamicResource FontSizeTitle}"
