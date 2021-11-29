@@ -77,7 +77,7 @@
 
                 <!-- ep -->
                 <StackLayout Grid.Column="1" Grid.Row="0" Orientation="Horizontal"  Margin="30,20,30,10">
-                    <customControls:TallyMarker HorizontalOptions="Start" 
+                    <customControls:TallyMarker HorizontalOptions="Start" x:DataType="viewModels:SkillGroupViewModel"
                                                 CurrentValue="{Binding SkillGroup.LeftoverExperienceCache}"
                                                 MaximumValue="{Binding SkillGroup.ExperienceForNextIncreasedRequiredCache}"/>
                 </StackLayout>
@@ -145,7 +145,7 @@
                                 ItemsSource="{Binding Skills}" 
                                 SelectionMode="Single" VerticalOptions="Start">
                     <CollectionView.ItemTemplate>
-                        <DataTemplate>
+                        <DataTemplate x:DataType="viewModels:SkillViewModel">
                             <Grid Margin="0,3" Padding="10,3,10,5">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="250" />
@@ -339,7 +339,7 @@
 
                     <!-- ep -->
                     <StackLayout Grid.Column="0" Grid.Row="1" Orientation="Horizontal"  Margin="30,10,30,20">
-                        <customControls:TallyMarker HorizontalOptions="Start" 
+                        <customControls:TallyMarker HorizontalOptions="Start" x:DataType="viewModels:SkillGroupViewModel"
                                                     CurrentValue="{Binding SelectedSkill.Skill.LeftoverExperienceCache}"
                                                     MaximumValue="{Binding SelectedSkill.Skill.ExperienceForNextIncreasedRequiredCache}"/>
 
