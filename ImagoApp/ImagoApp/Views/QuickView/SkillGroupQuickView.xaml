@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp"
+             xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
+             Background="{StaticResource EvenPrimaryGradientBrush3}"
+             x:Class="ImagoApp.Views.QuickView.SkillGroupQuickView" x:Name="SkillGroupQuickViewControl">
+    <Frame BindingContext="{Binding SkillGroupViewModel, Source={x:Reference SkillGroupQuickViewControl}}">
+        <Grid>
+            <Button Command="{Binding Command, Source={x:Reference SkillGroupQuickViewControl}}"
+                    CommandParameter="{Binding TabIndex, Source={x:Reference SkillGroupQuickViewControl}}"></Button>
+
+            <Grid InputTransparent="True">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <!-- name -->
+                <StackLayout Grid.Column="0" Orientation="Horizontal" Grid.Row="0" Margin="20,20,0,10">
+                    <Image Source="Images/nahkampf.png" WidthRequest="50" Margin="0,0,15,0" VerticalOptions="Center">
+                        <Image.Triggers>
+                            <DataTrigger TargetType="Image" Binding="{Binding SkillGroup.Type}" Value="Nahkampf">
+                                <Setter Property="Source" Value="Images/nahkampf.png"></Setter>
+                            </DataTrigger>
+                            <DataTrigger TargetType="Image" Binding="{Binding SkillGroup.Type}" Value="Heimlichkeit">
+                                <Setter Property="Source" Value="Images/heimlichkeit.png"></Setter>
+                            </DataTrigger>
+                            <DataTrigger TargetType="Image" Binding="{Binding SkillGroup.Type}" Value="Fernkampf">
+                                <Setter Property="Source" Value="Images/fernkampf.png"></Setter>
+                            </DataTrigger>
+                            <DataTrigger TargetType="Image" Binding="{Binding SkillGroup.Type}" Value="Bewegung">
+                                <Setter Property="Source" Value="Images/staerke.png"></Setter>
+                            </DataTrigger>
+                            <DataTrigger TargetType="Image" Binding="{Binding SkillGroup.Type}" Value="Webkunst">
+                                <Setter Property="Source" Value="Images/weben.png"></Setter>
+                            </DataTrigger>
+                            <DataTrigger TargetType="Image" Binding="{Binding SkillGroup.Type}" Value="Wissenschaft">
+                                <Setter Property="Source" Value="Images/letter.png"></Setter>
+                            </DataTrigger>
+                            <DataTrigger TargetType="Image" Binding="{Binding SkillGroup.Type}" Value="Handwerk">
+                                <Setter Property="Source" Value="Images/handwerk.png"></Setter>
+                            </DataTrigger>
+                            <DataTrigger TargetType="Image" Binding="{Binding SkillGroup.Type}" Value="Soziales">
+                                <Setter Property="Source" Value="Images/soziales.png"></Setter>
+                            </DataTrigger>
+                        </Image.Triggers>
+                    </Image>
+
+                    <Label  FontAttributes="Bold" VerticalOptions="Center" 
+                            FontSize="{DynamicResource FontSizeCaption}"
+                            Text="{Binding SkillGroup.Type, Converter={StaticResource EnumToDisplayTextConverter}}" />
+                </StackLayout>
+
+                <!-- gw -->
+                <StackLayout Grid.Column="1" Grid.Row="0" Orientation="Horizontal"  Margin="30,20,30,10">
+                    <Label FontAttributes="Bold"
+                           FontSize="{DynamicResource FontSizeBigContent}"
+                           Text="GW: " VerticalOptions="Center" />
+                    <Label FontSize="{DynamicResource FontSizeBigContent}"
+                           Text="{Binding SkillGroup.BaseValue}"
+                           VerticalOptions="Center" />
+                </StackLayout>
+
+                <!-- source -->
+                <Label Grid.Row="2" Grid.Column="0" Margin="30,10,30,20"
+                       FontAttributes="Bold"
+                      TextColor="{StaticResource SecondaryFirstDarkestColor}">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="("  FontSize="{DynamicResource FontSizeBigContent}"/>
+                            <Span  FontSize="{DynamicResource FontSizeBigContent}"
+                                   Text="{Binding SkillGroup.Type, Converter={StaticResource SkillGroupTypeToAttributeSourceStringConverter}}"  ></Span>
+                            <Span Text=")"  FontSize="{DynamicResource FontSizeBigContent}"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <!-- ep -->
+                <StackLayout Grid.Column="0" Grid.Row="1" Orientation="Horizontal"  Margin="30,20,30,10">
+                    <customControls:TallyMarker HorizontalOptions="Start" x:DataType="viewModels:SkillGroupViewModel"
+                                                CurrentValue="{Binding SkillGroup.LeftoverExperienceCache}"
+                                                MaximumValue="{Binding SkillGroup.ExperienceForNextIncreasedRequiredCache}"/>
+                </StackLayout>
+
+                <!-- sw -->
+                <StackLayout Grid.Row="1" Grid.Column="1" Orientation="Horizontal"  Margin="30,10,30,20">
+                    <StackLayout.Triggers>
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding SkillGroup.IncreaseValueCache}" Value="0">
+                            <Setter Property="Opacity" Value="0.3"></Setter>
+                        </DataTrigger>
+                    </StackLayout.Triggers>
+                    <Label FontAttributes="Bold"
+                           FontSize="{DynamicResource FontSizeBigContent}"
+                           Text="SW: " VerticalOptions="Center" />
+                    <Label FontSize="{DynamicResource FontSizeBigContent}"
+                           Text="{Binding SkillGroup.IncreaseValueCache}"
+                           VerticalOptions="Center" />
+                </StackLayout>
+
+                <!-- fw-->
+                <StackLayout Grid.Row="2" Grid.Column="1" Orientation="Horizontal"  Margin="30,10,30,20">
+                    <Label FontAttributes="Bold"
+                           FontSize="{DynamicResource FontSizeBigContent}"
+                           Text="FW: " VerticalOptions="Center" />
+                    <Label FontSize="{DynamicResource FontSizeBigContent}"
+                           Text="{Binding SkillGroup.FinalValue}"
+                           VerticalOptions="Center" />
+                </StackLayout>
+            </Grid>
+        </Grid>
+    </Frame>
+</ContentView>

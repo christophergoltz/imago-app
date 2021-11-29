@@ -29,8 +29,21 @@ namespace ImagoApp.ViewModels
         public SkillGroupViewModel Handwerk { get; set; }
         public SkillGroupViewModel Soziales { get; set; }
 
+        public int SelectedTabIndex
+        {
+            get => _selectedTabIndex;
+            set => SetProperty(ref _selectedTabIndex, value);
+        }
+
+        private ICommand _switchTabCommand;
+        public ICommand SwitchTabCommand => _switchTabCommand ?? (_switchTabCommand = new Command<int>(parameter =>
+        {
+            SelectedTabIndex = parameter;
+        }));
+
         public void OpenSkill(SkillModelType skillModelType)
         {
+            //todo obsolete?
             SkillModel mSkill = null;
             SkillGroupModel mSkillGroup = null;
 
@@ -63,6 +76,8 @@ namespace ImagoApp.ViewModels
         }
 
         private ICommand _openSkillDetailCommandCommand;
+        private int _selectedTabIndex;
+
         public ICommand OpenSkillDetailCommand => _openSkillDetailCommandCommand ?? (_openSkillDetailCommandCommand = new Command<(SkillModel Skill, SkillGroupModel SkillGroup)>(parameter =>
         {
             try

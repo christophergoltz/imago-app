@@ -6,6 +6,7 @@
              xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application" 
              xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
              xmlns:tabs="clr-namespace:Sharpnado.Tabs;assembly=Sharpnado.Tabs"
+             xmlns:quickView="clr-namespace:ImagoApp.Views.QuickView;assembly=ImagoApp"
              Title="Fertigkeiten" x:DataType="viewModels:SkillPageViewModel">
     <ContentPage.Resources>
         <Style x:Key="BottomTabItemStyle" TargetType="tabs:BottomTabItem">
@@ -25,48 +26,67 @@
             </Grid.RowDefinitions>
             <tabs:TabHostView Grid.Row="0" TabType="Fixed" 
                           BackgroundColor="{DynamicResource SecondaryFirstDarkColor}"
-                          SelectedIndex="{Binding Source={x:Reference Switcher}, Path=SelectedIndex, Mode=TwoWay}">
+                          SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}">
                 <tabs:TabHostView.Tabs>
                     <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/start_weiss.png"   Label="Start" />
                     <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/staerke_weiss.png" Label="Bewegung"  />
                     <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/nahkampf_weiss.png"  Label="Nahkampf" />
-                    <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/fernkampf_weiss.png"  Label="Fernkampf"  />
                     <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/heimlichkeit_weiss.png"   Label="Heimlichkeit" />
-                    <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/handwerk_weiss.png"   Label="Handwerk" />
+                    <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/fernkampf_weiss.png"  Label="Fernkampf"  />
                     <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/weben_weiss.png"   Label="Weben" />
                     <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/letter_weiss.png"   Label="Wissenschaft" />
+                    <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/handwerk_weiss.png"   Label="Handwerk" />
                     <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/soziales_weiss.png"   Label="Soziales" />
                 </tabs:TabHostView.Tabs>
             </tabs:TabHostView>
 
-            <tabs:ViewSwitcher Grid.Row="1" x:Name="Switcher">
+            <tabs:ViewSwitcher Grid.Row="1" x:Name="Switcher" SelectedIndex="{Binding SelectedTabIndex}">
+                <!-- start page -->
                 <ContentView>
-                    <Grid BackgroundColor="red"></Grid>
+                    <Grid RowSpacing="5" ColumnSpacing="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <quickView:SkillGroupQuickView Grid.Row="0" Grid.Column="0" SkillGroupViewModel="{Binding Bewegung}"
+                                                       Command="{Binding SwitchTabCommand}" TabIndex="1"/>
+                        <quickView:SkillGroupQuickView Grid.Row="1" Grid.Column="0" SkillGroupViewModel="{Binding Heimlichkeit}"
+                                                       Command="{Binding SwitchTabCommand}" TabIndex="3"/>
+                        <quickView:SkillGroupQuickView Grid.Row="2" Grid.Column="0" SkillGroupViewModel="{Binding Webkunst}"
+                                                       Command="{Binding SwitchTabCommand}" TabIndex="5"/>
+                        <quickView:SkillGroupQuickView Grid.Row="3" Grid.Column="0" SkillGroupViewModel="{Binding Handwerk}"
+                                                       Command="{Binding SwitchTabCommand}" TabIndex="7"/>
+
+                        <quickView:SkillGroupQuickView Grid.Row="0" Grid.Column="1" SkillGroupViewModel="{Binding Nahkampf}" 
+                                                       Command="{Binding SwitchTabCommand}" TabIndex="2"/>
+                        <quickView:SkillGroupQuickView Grid.Row="1" Grid.Column="1" SkillGroupViewModel="{Binding Fernkampf}"
+                                                       Command="{Binding SwitchTabCommand}" TabIndex="4"/>
+                        <quickView:SkillGroupQuickView Grid.Row="2" Grid.Column="1" SkillGroupViewModel="{Binding Wissenschaft}"
+                                                       Command="{Binding SwitchTabCommand}" TabIndex="6"/>
+                        <quickView:SkillGroupQuickView Grid.Row="3" Grid.Column="1" SkillGroupViewModel="{Binding Soziales}"
+                                                       Command="{Binding SwitchTabCommand}" TabIndex="8"/>
+
+                        <Frame Grid.Column="2" Grid.Row="0" Grid.RowSpan="4"></Frame>
+                    </Grid>
                 </ContentView>
-                <ContentView>
-                    <customControls:SkillGroupView SkillGroupViewModel="{Binding Bewegung}" />
-                </ContentView>
-                <ContentView>
-                    <customControls:SkillGroupView SkillGroupViewModel="{Binding Nahkampf}" />
-                </ContentView>
-                <ContentView>
-                    <customControls:SkillGroupView SkillGroupViewModel="{Binding Fernkampf}" />
-                </ContentView>
-                <ContentView>
-                    <customControls:SkillGroupView SkillGroupViewModel="{Binding Heimlichkeit}" />
-                </ContentView>
-                <ContentView>
-                    <customControls:SkillGroupView SkillGroupViewModel="{Binding Handwerk}" />
-                </ContentView>
-                <ContentView>
-                    <customControls:SkillGroupView SkillGroupViewModel="{Binding Webkunst}" />
-                </ContentView>
-                <ContentView>
-                    <customControls:SkillGroupView SkillGroupViewModel="{Binding Wissenschaft}" />
-                </ContentView>
-                <ContentView>
-                    <customControls:SkillGroupView SkillGroupViewModel="{Binding Soziales}" />
-                </ContentView>
+
+                <customControls:SkillGroupView SkillGroupViewModel="{Binding Bewegung}"  />
+                <customControls:SkillGroupView SkillGroupViewModel="{Binding Nahkampf}" />
+                <customControls:SkillGroupView SkillGroupViewModel="{Binding Fernkampf}" />
+                <customControls:SkillGroupView SkillGroupViewModel="{Binding Heimlichkeit}" />
+                <customControls:SkillGroupView SkillGroupViewModel="{Binding Handwerk}" />
+                <customControls:SkillGroupView SkillGroupViewModel="{Binding Webkunst}" />
+                <customControls:SkillGroupView SkillGroupViewModel="{Binding Wissenschaft}" />
+                <customControls:SkillGroupView SkillGroupViewModel="{Binding Soziales}" />
             </tabs:ViewSwitcher>
         </Grid>
 
