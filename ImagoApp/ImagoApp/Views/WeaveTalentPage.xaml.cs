@@ -20,16 +20,5 @@ namespace ImagoApp.Views
             BindingContext = ViewModel = weaveTalentPageViewModel;
             InitializeComponent();
         }
-        
-        private void SelectableItemsView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (!e.CurrentSelection.Any())
-                return;
-
-            var selectedItem = (WeaveTalentModel)e.CurrentSelection.First();
-            ViewModel.OpenWeaveTalentCommand?.Execute(selectedItem);
-
-            Device.BeginInvokeOnMainThread(() => WeaveTalentCollectionView.SelectedItem = null);
-        }
     }
 }

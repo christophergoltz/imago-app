@@ -30,9 +30,7 @@ namespace ImagoApp.Application.Models.Base
         public int IncreaseValueCache => GetIncreaseInfo().IncreaseLevel;
         public int ExperienceForNextIncreasedRequiredCache => GetIncreaseInfo().ExperienceForNextIncrease;
         public int LeftoverExperienceCache => GetIncreaseInfo().LeftoverExperience;
-
-        private static long _ell;
-
+        
         private IncreaseInfoModel _oldIncreaseInfo;
         private IncreaseInfoModel GetIncreaseInfo()
         {
@@ -54,17 +52,10 @@ namespace ImagoApp.Application.Models.Base
 
             if (_oldIncreaseInfo != null && _oldIncreaseInfo.TotalExperience == totalExperience)
                 return _oldIncreaseInfo;
-
-            var st = Stopwatch.StartNew();
-
-            //ex got changed, recalc
+            
+            //exp got changed, recalc
             var info = IncreaseCalculationService.GetIncreaseInfo(_increaseType, totalExperience);
             _oldIncreaseInfo = info;
-            st.Stop();
-            _ell += st.ElapsedTicks;
-
-            Debug.WriteLine($"### GetIncreaseInfo {ToString()}, Value: {info.IncreaseLevel}, T: {st.ElapsedTicks}, Time:{_ell} ticks");
-
             return info;
         }
     }

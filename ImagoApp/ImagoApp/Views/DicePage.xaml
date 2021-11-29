@@ -12,39 +12,53 @@
                 <StackLayout Margin="10,5" IsVisible="{Binding Available}">
                     <Grid>
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="150" />
-                            <ColumnDefinition Width="80" />
-                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="90" />
                         </Grid.ColumnDefinitions>
 
-                        <Label Grid.Column="0"
+                        <CheckBox Grid.Column="0" 
+                                  IsEnabled="{Binding Talent.ActiveUse}"
+                                  VerticalOptions="Center" >
+                            <CheckBox.Style>
+                                <Style TargetType="CheckBox">
+                                    <Style.Triggers>
+                                        <DataTrigger TargetType="CheckBox" Binding="{Binding Talent.ActiveUse}" 
+                                                     Value="True">
+                                            <Setter Property="IsChecked" Value="{Binding InUse}"></Setter>
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="CheckBox" Binding="{Binding Talent.ActiveUse}" 
+                                                     Value="False">
+                                            <Setter Property="IsChecked" Value="True"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </CheckBox.Style>
+                        </CheckBox>
+
+                        <Label Grid.Column="1"
                                FontSize="{DynamicResource FontSizeContent}"
                                Text="{Binding Talent.Name}"
                                VerticalOptions="Center" />
 
-                        <Label Grid.Column="1" FontAttributes="Italic"
+                        <Label Grid.Column="2" FontAttributes="Italic"
                                FontSize="{DynamicResource FontSizeDetail}"
                                Text="{Binding Talent.PhaseValueMod}"
                                TextColor="{DynamicResource SecondaryFirstDarkestColor}" VerticalOptions="Center" />
 
-                        <Label Grid.Column="2"
+                        <Label Grid.Column="3"
                                FontSize="{DynamicResource FontSizeContent}"
                                IsVisible="{Binding Talent.Difficulty, Converter={StaticResource ObjectNotNullToBoolConverter}}"
                                Text="{Binding Talent.Difficulty}"
                                VerticalOptions="Center" />
 
-                        <Entry Grid.Column="2"
+                        <Entry Grid.Column="3"
                                FontSize="{DynamicResource FontSizeContent}"
                                IsVisible="{Binding Talent.Difficulty, Converter={StaticResource ObjectNullToBoolConverter}}"
                                Keyboard="Numeric" HorizontalOptions="Start"
                                Text="{Binding DifficultyOverride}"
                                VerticalOptions="Center" />
-
-                        <CheckBox Grid.Column="3" IsEnabled="False"
-                                  IsChecked="{Binding InUse}"
-                                  IsVisible="{Binding Talent.ActiveUse}"
-                                  VerticalOptions="Center" />
                     </Grid>
                     <Label Margin="10,0,0,0" FontAttributes="Italic"
                            FontSize="{DynamicResource FontSizeDescription}"
@@ -56,39 +70,53 @@
                 <StackLayout Margin="10,5" IsVisible="{Binding Available}">
                     <Grid>
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="150" />
-                            <ColumnDefinition Width="80" />
-                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="90" />
                         </Grid.ColumnDefinitions>
 
-                        <Label Grid.Column="0"
+                        <CheckBox Grid.Column="0"
+                                  IsEnabled="{Binding Mastery.ActiveUse}"
+                                  VerticalOptions="Center" >
+                            <CheckBox.Style>
+                                <Style TargetType="CheckBox">
+                                    <Style.Triggers>
+                                        <DataTrigger TargetType="CheckBox" Binding="{Binding Mastery.ActiveUse}" 
+                                                     Value="True">
+                                            <Setter Property="IsChecked" Value="{Binding InUse}"></Setter>
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="CheckBox" Binding="{Binding Mastery.ActiveUse}" 
+                                                     Value="False">
+                                            <Setter Property="IsChecked" Value="True"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </CheckBox.Style>
+                        </CheckBox>
+
+                        <Label Grid.Column="1"
                                FontSize="{DynamicResource FontSizeContent}"
                                Text="{Binding Mastery.Name}"
                                VerticalOptions="Center" />
 
-                        <Label Grid.Column="1" FontAttributes="Italic"
+                        <Label Grid.Column="2" FontAttributes="Italic"
                                FontSize="{DynamicResource FontSizeDetail}"
                                Text="{Binding Mastery.PhaseValueMod}"
                                TextColor="Gray" VerticalOptions="Center" />
 
-                        <Label Grid.Column="2"
+                        <Label Grid.Column="3"
                                FontSize="{DynamicResource FontSizeContent}"
                                IsVisible="{Binding Mastery.Difficulty, Converter={StaticResource ObjectNotNullToBoolConverter}}"
                                Text="{Binding Mastery.Difficulty}"
                                VerticalOptions="Center" />
 
-                        <Entry Grid.Column="2" HorizontalOptions="Start"
+                        <Entry Grid.Column="3" 
                                FontSize="{DynamicResource FontSizeContent}"
                                IsVisible="{Binding Mastery.Difficulty, Converter={StaticResource ObjectNullToBoolConverter}}"
                                Keyboard="Numeric"
                                Text="{Binding DifficultyOverride}"
                                VerticalOptions="Center" />
-
-                        <CheckBox Grid.Column="3"
-                                  IsChecked="{Binding InUse}"
-                                  IsVisible="{Binding Mastery.ActiveUse}"
-                                  VerticalOptions="Center" />
                     </Grid>
                     <Label Margin="10,0,0,0" FontAttributes="Italic"
                            FontSize="{DynamicResource FontSizeDescription}"

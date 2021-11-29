@@ -13,8 +13,7 @@
                 <Frame Grid.Column="0">
                     <Grid Background="{DynamicResource SinglePrimaryGradientBrush}">
                         <CollectionView x:Name="WeaveTalentCollectionView" IsGrouped="true"
-                           ItemsSource="{Binding WeaveTalents}"
-                           SelectionChanged="SelectableItemsView_OnSelectionChanged" SelectionMode="Single">
+                           ItemsSource="{Binding WeaveTalents}" SelectionMode="Single">
                             <CollectionView.GroupHeaderTemplate>
                                 <DataTemplate x:DataType="viewModels:WeaveTalentList">
                                     <Grid Padding="20">
@@ -96,20 +95,6 @@
                             </CollectionView.ItemTemplate>
                         </CollectionView>
                     </Grid>
-                </Frame>
-            </Grid>
-
-            <!--  dialog  -->
-            <Grid IsVisible="{Binding WeaveTalentDetailViewModel, Converter={StaticResource ObjectNotNullToBoolConverter}}">
-                <ContentView BackgroundColor="black" Opacity="0.6">
-                    <ContentView.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding WeaveTalentDetailViewModel.CloseCommand}" />
-                    </ContentView.GestureRecognizers>
-                </ContentView>
-                <Frame HeightRequest="800" HorizontalOptions="Center" VerticalOptions="Center"
-                   WidthRequest="1600">
-                    <customControls:WeaveTalentDetailView HorizontalOptions="Fill" VerticalOptions="Fill"
-                       WeaveTalentDetailViewModel="{Binding WeaveTalentDetailViewModel, Source={RelativeSource AncestorType={x:Type viewModels:WeaveTalentPageViewModel}}}" />
                 </Frame>
             </Grid>
         </Grid>

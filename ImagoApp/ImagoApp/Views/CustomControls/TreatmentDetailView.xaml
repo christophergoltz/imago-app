@@ -48,14 +48,6 @@
                                        FontSize="{DynamicResource FontSizeHeader}"
                                        Text="{Binding FinalValue}"
                                        VerticalOptions="Center" />
-
-                                    <customControls:ImageButtonView   VerticalOptions="Start" Margin="10,0,0,0"
-                                                                      ImageSource="Images/pfeil_rechts.png"
-                                                                      ImageMargin="10,9,10,7"
-                                                                      TextHidden="True"  HorizontalOptions="EndAndExpand"
-                                                                      ImageSize="28"  
-                                                                      Command="{Binding OpenSkillCommand, Source={RelativeSource AncestorType={x:Type viewModels:WeaveTalentDetailViewModel}}}"
-                                                                      CommandParameter="{Binding Type}"/>
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>

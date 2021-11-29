@@ -42,42 +42,10 @@ namespace ImagoApp.ViewModels
     {
         public event EventHandler<SkillModelType> OpenSkillPageRequested;
 
-        public WeaveTalentDetailViewModel WeaveTalentDetailViewModel
-        {
-            get => _weaveTalentDetailViewModel;
-            set => SetProperty(ref _weaveTalentDetailViewModel, value);
-        }
-
+     
         private readonly CharacterViewModel _characterViewModel;
         private readonly IWikiDataService _wikiDataService;
-        private WeaveTalentDetailViewModel _weaveTalentDetailViewModel;
         public ObservableCollection<WeaveTalentList> WeaveTalents { get; set; }
-
-        private ICommand _openWeaponCommand;
-
-        public ICommand OpenWeaveTalentCommand => _openWeaponCommand ?? (_openWeaponCommand =
-            new Command<WeaveTalentModel>(weaveTalent =>
-            {
-                try
-                {
-                    var weaveTalentList = WeaveTalents.First(list => list.WeaveSourceGroup == weaveTalent.WeaveSource);
-                    var detailViewModel = new WeaveTalentDetailViewModel(weaveTalent, weaveTalentList.Skills);
-                    detailViewModel.CloseRequested += (sender, args) =>
-                    {
-                        WeaveTalentDetailViewModel = null;
-                    };
-                    detailViewModel.OpenSkillPageRequested += (sender, type) =>
-                    {
-                        OpenSkillPageRequested?.Invoke(sender, type);
-                    };
-
-                    WeaveTalentDetailViewModel = detailViewModel;
-                }
-                catch (Exception exception)
-                {
-                    App.ErrorManager.TrackException(exception, _characterViewModel.CharacterModel.Name);
-                }
-            }));
 
         public WeaveTalentPageViewModel(CharacterViewModel characterViewModel, IWikiDataService wikiDataService)
         {
