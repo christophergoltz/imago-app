@@ -20,7 +20,6 @@ namespace ImagoApp.ViewModels
         private readonly StatusPageViewModel _statusPageViewModel;
         private readonly InventoryViewModel _inventoryViewModel;
         private readonly WikiPageViewModel _wikiPageViewModel;
-        private readonly WeaveTalentPageViewModel _weaveTalentPageViewModel;
         private readonly DicePageViewModel _dicePageViewModel;
         private readonly ICharacterProvider _characterProvider;
         public ICommand GoToMainMenuCommand { get; }
@@ -49,7 +48,6 @@ namespace ImagoApp.ViewModels
                 new FlyoutPageItem("Images/kampf_weiss.png", typeof(StatusPage),CreateNavigationPageForContent(new StatusPage(_statusPageViewModel))),
                 new FlyoutPageItem("Images/inventar_weiss.png", typeof(InventoryPage),CreateNavigationPageForContent(new InventoryPage(_inventoryViewModel))),
                 new FlyoutPageItem("Images/wiki_weiss.png", typeof(WikiPage),CreateNavigationPageForContent(new WikiPage(_wikiPageViewModel))),
-                new FlyoutPageItem("Images/weben_weiss.png", typeof(WeaveTalentPage),CreateNavigationPageForContent(new WeaveTalentPage(_weaveTalentPageViewModel))),
                 new FlyoutPageItem("Images/wuerfel_weiss.png", typeof(DicePage),CreateNavigationPageForContent(new DicePage(_dicePageViewModel)))
             };
 
@@ -72,7 +70,6 @@ namespace ImagoApp.ViewModels
             StatusPageViewModel statusPageViewModel,
             InventoryViewModel inventoryViewModel, 
             WikiPageViewModel wikiPageViewModel,
-            WeaveTalentPageViewModel weaveTalentPageViewModel,
             DicePageViewModel dicePageViewModel,
             ICharacterProvider characterProvider)
         {
@@ -82,7 +79,6 @@ namespace ImagoApp.ViewModels
             _statusPageViewModel = statusPageViewModel;
             _inventoryViewModel = inventoryViewModel;
             _wikiPageViewModel = wikiPageViewModel;
-            _weaveTalentPageViewModel = weaveTalentPageViewModel;
             _dicePageViewModel = dicePageViewModel;
             _characterProvider = characterProvider;
 

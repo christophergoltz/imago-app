@@ -23,35 +23,10 @@ namespace ImagoApp.Views
             InitializeComponent();
         }
 
-        private void InputView_OnTextChanged(object sender, TextChangedEventArgs e)
-        {
-            DicePageViewModel.Search(e.NewTextValue);
-        }
-
         private void WebView_OnNavigating(object sender, WebNavigatingEventArgs e)
         {
             //if (e.Url != DicePageViewModel.SkillWikiSource.BaseUrl)
             //    e.Cancel = true;
-        }
-
-        private void SelectableItemsView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var t = e.CurrentSelection;
-            if (!t.Any())
-            {
-                DicePageViewModel.SetSelectedItem(null);
-                return;
-            }
-
-            var ee = t.First();
-
-            if(ee is DiceSearchModel diceSearchModel)
-                DicePageViewModel.SetSelectedItem(diceSearchModel);
-        }
-
-        private void VisualElement_OnFocused(object sender, FocusEventArgs e)
-        {
-            DicePageViewModel.SearchresultVisible = true;
         }
     }
 }

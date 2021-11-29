@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp" BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
+             x:Class="ImagoApp.Views.Dialogs.DiceSearchDialog" x:Name="DiceSearchDialogControl">
+    <StackLayout Padding="20" BindingContext="{Binding DiceSearchDialogViewModel, Source={x:Reference DiceSearchDialogControl}}" >
+        <Frame>
+            <SearchBar Placeholder="suchen.." FontSize="{DynamicResource FontSizeTitle}"
+                       VerticalOptions="Center" Text="{Binding SearchText}">
+            </SearchBar>
+        </Frame>
+        <Frame>
+            <CollectionView HorizontalOptions="Start" VerticalOptions="Start" 
+                            SelectionMode="Single" SelectionChanged="SelectableItemsView_OnSelectionChanged" 
+                            Background="{DynamicResource SinglePrimaryGradientBrush}" 
+                            ItemsSource="{Binding SearchResults}" 
+                            IsGrouped="True">
+                <CollectionView.GroupHeaderTemplate>
+                    <DataTemplate x:DataType="viewModels:DiceSearchModelGroup">
+                        <Grid Padding="10" BackgroundColor="{DynamicResource SecondaryFirstMediumColor}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Path Margin="0,0,30,0" Aspect="Uniform" Stroke="Black" 
+                                  StrokeThickness="0.5" VerticalOptions="Center">
+                                <Path.Triggers>
+                                    <DataTrigger Binding="{Binding Name}"
+                                                   TargetType="Path" Value="Bewusstsein">
+                                        <Setter Property="Style" Value="{DynamicResource BewusstseinIcon}" />
+                                        <Setter Property="WidthRequest" Value="65" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Name}"
+                                                   TargetType="Path" Value="Kontrolle">
+                                        <Setter Property="Style" Value="{DynamicResource KontrolleIcon}" />
+                                        <Setter Property="WidthRequest" Value="65" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Name}"
+                                                   TargetType="Path" Value="Struktur">
+                                        <Setter Property="Style" Value="{DynamicResource StrukturIcon}" />
+                                        <Setter Property="WidthRequest" Value="65" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Name}"
+                                                   TargetType="Path" Value="Materie">
+                                        <Setter Property="Style" Value="{DynamicResource MaterieIcon}" />
+                                        <Setter Property="WidthRequest" Value="65" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Name}"
+                                                   TargetType="Path" Value="Einfalt">
+                                        <Setter Property="Style" Value="{DynamicResource EinfaltIcon}" />
+                                        <Setter Property="WidthRequest" Value="65" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Name}"
+                                                   TargetType="Path" Value="Ekstase">
+                                        <Setter Property="Style" Value="{DynamicResource EkstaseIcon}" />
+                                        <Setter Property="WidthRequest" Value="65" />
+                                        <Setter Property="HeightRequest" Value="65" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Name}"
+                                                   TargetType="Path" Value="Chaos">
+                                        <Setter Property="Style" Value="{DynamicResource ChaosIcon}" />
+                                        <Setter Property="WidthRequest" Value="65" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Name}"
+                                                   TargetType="Path" Value="Leere">
+                                        <Setter Property="Style" Value="{DynamicResource LeereIcon}" />
+                                        <Setter Property="WidthRequest" Value="65" />
+                                    </DataTrigger>
+                                </Path.Triggers>
+                            </Path>
+
+                            <Label Grid.Column="1" Padding="10,7" VerticalOptions="Center"
+                                   FontAttributes="Bold" Margin="-20,0"
+                                   FontSize="{DynamicResource FontSizeHeader}"
+                                   Text="{Binding Name}" TextColor="white"/>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.GroupHeaderTemplate>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="viewModels:DiceSearchModel">
+                        <StackLayout Margin="0,3" Padding="20,3,10,5">
+                            <Label
+                                FontSize="{DynamicResource FontSizeTitle}"
+                                Text="{Binding DisplayText}"
+                                VerticalOptions="Center" />
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Frame>
+    </StackLayout>
+   
+</ContentView>

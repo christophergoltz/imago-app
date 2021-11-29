@@ -181,6 +181,7 @@
     <Content Include="Images\staerke_weiss.png" />
     <Content Include="Images\start.png" />
     <Content Include="Images\start_weiss.png" />
+    <Content Include="Images\suchen.png" />
     <Content Include="Images\verband.png" />
     <Content Include="Images\Wide310x150Logo.scale-200_weiss.png" />
     <None Include="Package.StoreAssociation.xml" />

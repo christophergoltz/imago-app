@@ -10,6 +10,7 @@ using ImagoApp.Application.Models;
 using ImagoApp.Application.Services;
 using ImagoApp.Shared.Attributes;
 using ImagoApp.Shared.Enums;
+using ImagoApp.ViewModels.Dialog;
 using Xamarin.Forms;
 
 namespace ImagoApp.ViewModels
@@ -54,88 +55,13 @@ namespace ImagoApp.ViewModels
 
             _wikiService = wikiService;
             _wikiDataService = wikiDataService;
-            _selectableDiceTypes = CreateSearchList();
 
-            Search(string.Empty);
+            DiceSearchDialogViewModel = new DiceSearchDialogViewModel(characterViewModel, wikiDataService);
+            DiceSearchDialogViewModel.OnSearchCompleted += (sender, model) => SetSelectedItem(model);
+
+            SearchVisible = true;
         }
-
-        private List<DiceSearchModelGroup> CreateSearchList()
-        {
-            var skills = new List<DiceSearchModel>();
-            var skillGroups = new List<DiceSearchModel>();
-
-            //skills and skillgroups
-            foreach (var skillGroup in CharacterViewModel.CharacterModel.SkillGroups)
-            {
-                //skillgroup
-                var skillGroupNameAttribute = Util.EnumExtensions.GetAttribute<DisplayTextAttribute>(skillGroup.Type);
-                skillGroups.Add(new DiceSearchModel()
-                {
-                    Value = skillGroup.Type,
-                    DisplayText = skillGroupNameAttribute?.Text ?? skillGroup.Type.ToString(),
-                    Type = DiceSearchModelType.SkillGroup
-                });
-
-                foreach (var skill in skillGroup.Skills)
-                {
-                    //skill
-                    var skillNameAttribute = Util.EnumExtensions.GetAttribute<DisplayTextAttribute>(skill.Type);
-                    skills.Add(new DiceSearchModel()
-                    {
-                        Value = skill.Type,
-                        DisplayText = skillNameAttribute?.Text ?? skill.Type.ToString(),
-                        Type = DiceSearchModelType.Skill
-                    });
-                }
-            }
-
-            var result = new List<DiceSearchModelGroup>()
-            {
-                new DiceSearchModelGroup("Fertigkeit", skills.OrderBy(model => model.DisplayText).ToList()),
-                new DiceSearchModelGroup("Fertigkeitsgruppe", skillGroups.OrderBy(model => model.DisplayText).ToList())
-            };
-
-            //weave talents
-            var allWeaveTalents = _wikiDataService.GetAllWeaveTalents();
-            var weaveTalentGroups = allWeaveTalents.GroupBy(model => model.WeaveSource).ToList();
-            foreach (var weaveTalentGroup in weaveTalentGroups)
-            {
-                //group
-                var weaveTalents = new List<DiceSearchModel>();
-
-                foreach (var weaveTalent in weaveTalentGroup)
-                {
-                    //talent
-                    var available = CharacterViewModel.CheckTalentRequirement(weaveTalent.Requirements);
-                    if (!available)
-                        continue;
-
-                    weaveTalents.Add(new DiceSearchModel()
-                    {
-                        Type = DiceSearchModelType.WeaveTalent,
-                        DisplayText = weaveTalent.Name,
-                        Value = weaveTalent
-                    });
-                }
-
-                if (weaveTalents.Any())
-                {
-                    result.Add(new DiceSearchModelGroup(weaveTalentGroup.Key, weaveTalents));
-                }
-            }
-
-            return result;
-        }
-
-        private readonly List<DiceSearchModelGroup> _selectableDiceTypes;
-        private List<DiceSearchModelGroup> _searchResults;
-
-        public List<DiceSearchModelGroup> SearchResults
-        {
-            get => _searchResults;
-            set => SetProperty(ref _searchResults, value);
-        }
-
+        
         private HtmlWebViewSource _wikiSource;
         private SkillGroupModel _selectedSkillGroup;
         private SkillViewModel _selectedSkill;
@@ -143,7 +69,7 @@ namespace ImagoApp.ViewModels
         private TalentViewModel _talentViewModel;
         private MasteryViewModel _masteryViewModel;
         private int _finalDiceValue;
-        private bool _searchresultVisible;
+        private bool _searchVisible;
 
         public HtmlWebViewSource WikiSource
         {
@@ -163,13 +89,16 @@ namespace ImagoApp.ViewModels
 
         public ICommand CloseSearchbarCommand => _closeSearchbarCommand ?? (_closeSearchbarCommand = new Command(() =>
         {
-            SearchresultVisible = false;
+            if (SelectedSkill == null && SelectedSkillGroup == null && SelectedWeaveTalent == null)
+                return; //nothing selected, cancel closing
+
+            SearchVisible = false;
         }));
 
-        public bool SearchresultVisible
+        public bool SearchVisible
         {
-            get => _searchresultVisible;
-            set => SetProperty(ref _searchresultVisible, value);
+            get => _searchVisible;
+            set => SetProperty(ref _searchVisible, value);
         }
 
         public SkillViewModel SelectedSkill
@@ -212,15 +141,7 @@ namespace ImagoApp.ViewModels
             }
         }
 
-        public void SetSelection(DiceSearchModelType type, object value)
-        {
-            var z = _selectableDiceTypes.SelectMany(group => group)
-                .Where(model => model.Type == type)
-                .First(model => (SkillModelType)model.Value == (SkillModelType)value);
-
-            SetSelectedItem(z);
-        }
-
+      
         private bool _allDifficultyRemoved;
         private int _concentrationPerAction;
         private int _concentrationQuantity;
@@ -285,6 +206,18 @@ namespace ImagoApp.ViewModels
             }
         }
 
+        private ICommand _openDiceSearchCommand;
+        public ICommand OpenDiceSearchCommand => _openDiceSearchCommand ?? (_openDiceSearchCommand = new Command(() =>
+        {
+            try
+            {
+                SearchVisible = true;
+            }
+            catch (Exception exception)
+            {
+                App.ErrorManager.TrackException(exception, CharacterViewModel.CharacterModel.Name);
+            }
+        }));
 
         public int ConcentrationFinalValue => ConcentrationPerAction * ConcentrationQuantity;
 
@@ -295,9 +228,16 @@ namespace ImagoApp.ViewModels
             private set => SetProperty(ref _weaveSourceSkills, value);
         }
 
+        public DiceSearchDialogViewModel DiceSearchDialogViewModel { get; private set; }
+
+        public void SetSelection(DiceSearchModelType type, object value)
+        {
+            DiceSearchDialogViewModel.SetSelection(type, value);
+        }
+
         public void SetSelectedItem(DiceSearchModel selection)
         {
-            SearchresultVisible = false;
+            SearchVisible = false;
             DiceModification = 0;
 
             //reset all
@@ -607,43 +547,6 @@ namespace ImagoApp.ViewModels
                 Unit = unit,
                 Quantity = 1
             };
-        }
-
-        public void Search(string searchValue)
-        {
-            if (string.IsNullOrWhiteSpace(searchValue))
-            {
-                //show all
-                var searchResult = new List<DiceSearchModelGroup>();
-
-                //copy list into searchresults to prevent ref removing
-                foreach (var group in _selectableDiceTypes)
-                {
-                    searchResult.Add(new DiceSearchModelGroup(group.Name, group));
-                }
-
-                SearchResults = searchResult;
-                return;
-            }
-
-            var result = new List<DiceSearchModelGroup>();
-            //copy list into searchresults to prevent ref removing
-            foreach (var group in _selectableDiceTypes)
-            {
-                var newGroup = new DiceSearchModelGroup(group.Name, group);
-                foreach (var possibleHit in group)
-                {
-                    var match = CultureInfo.InvariantCulture.CompareInfo.IndexOf(possibleHit.DisplayText, searchValue,
-                        CompareOptions.IgnoreCase) >= 0;
-
-                    if (!match)
-                        newGroup.Remove(possibleHit);
-                }
-
-                result.Add(newGroup);
-            }
-
-            SearchResults = result;
         }
 
         private void RecalculateFinalDiceValue()

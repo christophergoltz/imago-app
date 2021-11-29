@@ -430,10 +430,9 @@ namespace ImagoApp.ViewModels
                 var skillPageViewModel = new SkillPageViewModel(characterViewModel, _wikiService, _wikiDataService);
                 var statusPageViewModel = new StatusPageViewModel(characterViewModel, _wikiDataService);
                 var inventoryViewModel = new InventoryViewModel(characterViewModel);
-                var weaveTalentPageViewModel = new WeaveTalentPageViewModel(characterViewModel, _wikiDataService);
                 var dicePageViewModel = new DicePageViewModel(characterViewModel, _wikiService, _wikiDataService);
                 var appShellViewModel = new AppShellViewModel(characterViewModel, characterInfoPageViewModel, skillPageViewModel,
-                    statusPageViewModel, inventoryViewModel, wikiPageViewModel, weaveTalentPageViewModel, dicePageViewModel, _characterProvider);
+                    statusPageViewModel, inventoryViewModel, wikiPageViewModel, dicePageViewModel, _characterProvider);
 
                 //notify the main menu that editmode may have changed
                 appShellViewModel.RaiseEditModeChanged();
@@ -442,17 +441,7 @@ namespace ImagoApp.ViewModels
                 skillPageViewModel.DiceRollRequested += (sender, value) => OpenDicePage(value.type, value.value);
                 statusPageViewModel.OpenWikiPageRequested += (sender, url) => OpenWikiPage(url);
                 inventoryViewModel.OpenWikiPageRequested += (sender, url) => OpenWikiPage(url);
-                weaveTalentPageViewModel.OpenSkillPageRequested += (sender, type) =>
-                {
-                    Analytics.TrackEvent("Open SkillPage", new Dictionary<string, string>()
-                    {
-                        {"SkillType", type.ToString()}
-                    });
-
-                    appShellViewModel.RaiseSwitchPageRequested(typeof(SkillPage));
-                    skillPageViewModel.OpenSkill(type);
-                };
-
+        
                 void OpenWikiPage(string url)
                 {
                     Analytics.TrackEvent("Open WikiPage", new Dictionary<string, string>()
