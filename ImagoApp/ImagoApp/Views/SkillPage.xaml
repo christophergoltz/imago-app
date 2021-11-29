@@ -5,7 +5,7 @@
              xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp" 
              xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application" 
              xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
-             xmlns:tabs="http://sharpnado.com"
+             xmlns:tabs="clr-namespace:Sharpnado.Tabs;assembly=Sharpnado.Tabs"
              Title="Fertigkeiten" x:DataType="viewModels:SkillPageViewModel">
     <ContentPage.Resources>
         <Style x:Key="BottomTabItemStyle" TargetType="tabs:BottomTabItem">
