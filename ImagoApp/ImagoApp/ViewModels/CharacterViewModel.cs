@@ -459,7 +459,7 @@ namespace ImagoApp.ViewModels
                         {
                             if (loadLimit == 0)
                             {
-                                handicapAttribute.FinalValue = -1;
+                                handicapAttribute.FinalValue = 0;
                                 break;
                             }
 
