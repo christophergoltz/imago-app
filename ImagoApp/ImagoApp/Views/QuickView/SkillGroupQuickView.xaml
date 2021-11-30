@@ -7,7 +7,7 @@
              x:Class="ImagoApp.Views.QuickView.SkillGroupQuickView" x:Name="SkillGroupQuickViewControl">
     <Frame BindingContext="{Binding SkillGroupViewModel, Source={x:Reference SkillGroupQuickViewControl}}">
         <Grid>
-            <Button Command="{Binding Command, Source={x:Reference SkillGroupQuickViewControl}}"
+            <Button Opacity="0.7" Command="{Binding Command, Source={x:Reference SkillGroupQuickViewControl}}"
                     CommandParameter="{Binding TabIndex, Source={x:Reference SkillGroupQuickViewControl}}"></Button>
 
             <Grid InputTransparent="True">

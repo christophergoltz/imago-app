@@ -75,7 +75,13 @@
                         <quickView:SkillGroupQuickView Grid.Row="3" Grid.Column="1" SkillGroupViewModel="{Binding Soziales}"
                                                        Command="{Binding SwitchTabCommand}" TabIndex="8"/>
 
-                        <Frame Grid.Column="2" Grid.Row="0" Grid.RowSpan="4"></Frame>
+                        <Frame Grid.Column="2" Grid.Row="0" Grid.RowSpan="4" Background="{StaticResource EvenPrimaryGradientBrush2}">
+                            <StackLayout Orientation="Horizontal" Margin="20" VerticalOptions="Start" HorizontalOptions="Start">
+                                <Label VerticalOptions="Center" FontAttributes="Bold"   FontSize="{DynamicResource FontSizeTitle}" Text="Freie EP: " />
+                                <Entry WidthRequest="75" VerticalOptions="Center" Keyboard="Numeric"   FontSize="{DynamicResource FontSizeTitle}"
+                                       Text="{Binding CharacterViewModel.CharacterModel.FreeSkillExperience}" />
+                            </StackLayout>
+                        </Frame>
                     </Grid>
                 </ContentView>
 
