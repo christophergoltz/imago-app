@@ -25,8 +25,8 @@
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <tabs:TabHostView Grid.Row="0" TabType="Fixed" 
-                          BackgroundColor="{DynamicResource SecondaryFirstDarkColor}"
-                          SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}">
+                              BackgroundColor="{DynamicResource SecondaryFirstDarkColor}"
+                              SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}">
                 <tabs:TabHostView.Tabs>
                     <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/start_weiss.png"   Label="Start" />
                     <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/staerke_weiss.png" Label="Bewegung"  />
@@ -76,10 +76,17 @@
                                                        Command="{Binding SwitchTabCommand}" TabIndex="8"/>
 
                         <Frame Grid.Column="2" Grid.Row="0" Grid.RowSpan="4" Background="{StaticResource EvenPrimaryGradientBrush2}">
-                            <StackLayout Orientation="Horizontal" Margin="20" VerticalOptions="Start" HorizontalOptions="Start">
-                                <Label VerticalOptions="Center" FontAttributes="Bold"   FontSize="{DynamicResource FontSizeTitle}" Text="Freie EP: " />
-                                <Entry WidthRequest="75" VerticalOptions="Center" Keyboard="Numeric"   FontSize="{DynamicResource FontSizeTitle}"
-                                       Text="{Binding CharacterViewModel.CharacterModel.FreeSkillExperience}" />
+                            <StackLayout>
+                                <StackLayout Orientation="Horizontal" Margin="20" VerticalOptions="Start" HorizontalOptions="Start">
+                                    <Label VerticalOptions="Center" FontAttributes="Bold"   FontSize="{DynamicResource FontSizeTitle}" Text="Freie EP: " />
+                                    <Entry WidthRequest="75" VerticalOptions="Center" Keyboard="Numeric"   FontSize="{DynamicResource FontSizeTitle}"
+                                           Text="{Binding CharacterViewModel.CharacterModel.FreeSkillExperience}" />
+                                </StackLayout>
+                                <Label Margin="20,10" VerticalOptions="Center" FontAttributes="Bold"   FontSize="{DynamicResource FontSizeTitle}" Text="Sprachen:" />
+
+                                <Editor HeightRequest="250" Margin="10"
+                                        FontSize="{DynamicResource FontSizeContent}"
+                                        Text="{Binding CharacterViewModel.CharacterModel.OwnedLanguages}" />
                             </StackLayout>
                         </Frame>
                     </Grid>
