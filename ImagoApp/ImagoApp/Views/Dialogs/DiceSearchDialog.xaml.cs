@@ -21,7 +21,16 @@ namespace ImagoApp.Views.Dialogs
 
         private void SelectableItemsView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (e.CurrentSelection == null || !e.CurrentSelection.Any())
+                return;
+            
             var t = e.CurrentSelection;
+
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                ((CollectionView)sender).SelectedItem = null;
+            });
+           
             if (!t.Any())
             {
                 DiceSearchDialogViewModel.SetSelectedItem(null);

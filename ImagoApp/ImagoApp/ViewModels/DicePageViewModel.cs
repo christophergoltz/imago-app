@@ -18,10 +18,12 @@ namespace ImagoApp.ViewModels
     public class DiceSearchModelGroup : List<DiceSearchModel>
     {
         public string Name { get; private set; }
+        public DiceSearchModelType Type { get; private set; }
 
-        public DiceSearchModelGroup(string name, List<DiceSearchModel> models) : base(models)
+        public DiceSearchModelGroup(string name, DiceSearchModelType type , List<DiceSearchModel> models) : base(models)
         {
             Name = name;
+            Type = type;
         }
     }
 
@@ -36,7 +38,8 @@ namespace ImagoApp.ViewModels
     {
         Skill,
         SkillGroup,
-        WeaveTalent
+        WeaveTalent,
+        WeaveTalentMultiple
     }
 
     public class DicePageViewModel : BindableBase

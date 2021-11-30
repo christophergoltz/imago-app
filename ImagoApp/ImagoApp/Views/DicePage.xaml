@@ -788,7 +788,8 @@
                 </ContentView.GestureRecognizers>
             </ContentView>
 
-            <dialogs:DiceSearchDialog Margin="200,100" DiceSearchDialogViewModel="{Binding DiceSearchDialogViewModel}" />
+            <dialogs:DiceSearchDialog WidthRequest="1600" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="850"
+                                      DiceSearchDialogViewModel="{Binding DiceSearchDialogViewModel}" />
         </Grid>
     </Grid>
 </ContentPage>

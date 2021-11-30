@@ -74,8 +74,8 @@ namespace ImagoApp.ViewModels.Dialog
 
             var result = new List<DiceSearchModelGroup>()
             {
-                new DiceSearchModelGroup("Fertigkeit", skills.OrderBy(model => model.DisplayText).ToList()),
-                new DiceSearchModelGroup("Fertigkeitsgruppe", skillGroups.OrderBy(model => model.DisplayText).ToList())
+                new DiceSearchModelGroup("Fertigkeit", DiceSearchModelType.Skill, skills.OrderBy(model => model.DisplayText).ToList()),
+                new DiceSearchModelGroup("Fertigkeitsgruppe", DiceSearchModelType.SkillGroup, skillGroups.OrderBy(model => model.DisplayText).ToList())
             };
 
             //weave talents
@@ -93,9 +93,11 @@ namespace ImagoApp.ViewModels.Dialog
                     if (!available)
                         continue;
 
+                    var weaveForm = weaveTalent.Requirements.Count == 3;
+
                     weaveTalents.Add(new DiceSearchModel()
                     {
-                        Type = DiceSearchModelType.WeaveTalent,
+                        Type = weaveForm ? DiceSearchModelType.WeaveTalentMultiple : DiceSearchModelType.WeaveTalent,
                         DisplayText = weaveTalent.Name,
                         Value = weaveTalent
                     });
@@ -103,7 +105,7 @@ namespace ImagoApp.ViewModels.Dialog
 
                 if (weaveTalents.Any())
                 {
-                    result.Add(new DiceSearchModelGroup(weaveTalentGroup.Key, weaveTalents));
+                    result.Add(new DiceSearchModelGroup(weaveTalentGroup.Key, weaveTalents.First().Type, weaveTalents));
                 }
             }
 
@@ -139,7 +141,7 @@ namespace ImagoApp.ViewModels.Dialog
                 //copy list into searchresults to prevent ref removing
                 foreach (var group in _allSelectableDiceTypes)
                 {
-                    searchResult.Add(new DiceSearchModelGroup(group.Name, group));
+                    searchResult.Add(new DiceSearchModelGroup(group.Name, group.Type, group));
                 }
 
                 SearchResults = searchResult;
@@ -150,7 +152,7 @@ namespace ImagoApp.ViewModels.Dialog
             //copy list into searchresults to prevent ref removing
             foreach (var group in _allSelectableDiceTypes)
             {
-                var newGroup = new DiceSearchModelGroup(group.Name, group);
+                var newGroup = new DiceSearchModelGroup(group.Name,group.Type, group);
                 foreach (var possibleHit in group)
                 {
                     var match = CultureInfo.InvariantCulture.CompareInfo.IndexOf(possibleHit.DisplayText, searchValue,
@@ -160,7 +162,8 @@ namespace ImagoApp.ViewModels.Dialog
                         newGroup.Remove(possibleHit);
                 }
 
-                result.Add(newGroup);
+                if(newGroup.Any())
+                    result.Add(newGroup);
             }
 
             SearchResults = result;
