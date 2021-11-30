@@ -33,7 +33,7 @@
                     <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/nahkampf_weiss.png"  Label="Nahkampf" />
                     <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/heimlichkeit_weiss.png"   Label="Heimlichkeit" />
                     <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/fernkampf_weiss.png"  Label="Fernkampf"  />
-                    <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/weben_weiss.png"   Label="Weben" />
+                    <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/weben_weiss.png"   Label="Webkunst" />
                     <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/letter_weiss.png"   Label="Wissenschaft" />
                     <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/handwerk_weiss.png"   Label="Handwerk" />
                     <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/soziales_weiss.png"   Label="Soziales" />
@@ -94,11 +94,11 @@
 
                 <customControls:SkillGroupView SkillGroupViewModel="{Binding Bewegung}"  />
                 <customControls:SkillGroupView SkillGroupViewModel="{Binding Nahkampf}" />
-                <customControls:SkillGroupView SkillGroupViewModel="{Binding Fernkampf}" />
                 <customControls:SkillGroupView SkillGroupViewModel="{Binding Heimlichkeit}" />
-                <customControls:SkillGroupView SkillGroupViewModel="{Binding Handwerk}" />
+                <customControls:SkillGroupView SkillGroupViewModel="{Binding Fernkampf}" />
                 <customControls:SkillGroupView SkillGroupViewModel="{Binding Webkunst}" />
                 <customControls:SkillGroupView SkillGroupViewModel="{Binding Wissenschaft}" />
+                <customControls:SkillGroupView SkillGroupViewModel="{Binding Handwerk}" />
                 <customControls:SkillGroupView SkillGroupViewModel="{Binding Soziales}" />
             </tabs:ViewSwitcher>
         </Grid>
