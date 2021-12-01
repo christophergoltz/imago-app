@@ -8,20 +8,10 @@
              xmlns:tabs="clr-namespace:Sharpnado.Tabs;assembly=Sharpnado.Tabs"
              xmlns:quickView="clr-namespace:ImagoApp.Views.QuickView;assembly=ImagoApp"
              Title="Fertigkeiten" x:DataType="viewModels:SkillPageViewModel">
-    <ContentPage.Resources>
-        <Style x:Key="BottomTabItemStyle" TargetType="tabs:BottomTabItem">
-            <Setter Property="FontFamily" Value="Palitoon"></Setter>
-            <Setter Property="SelectedTabColor" Value="{DynamicResource PrimaryDarkColor}"></Setter>
-            <Setter Property="UnselectedLabelColor" Value="White"></Setter>
-            <Setter Property="UnselectedIconColor" Value="White"></Setter>
-            <Setter Property="IconSize" Value="40"></Setter>
-        </Style>
-    </ContentPage.Resources>
-
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="120"></RowDefinition>
+                <RowDefinition Height="100"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <tabs:TabHostView Grid.Row="0" TabType="Fixed" 

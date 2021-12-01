@@ -19,6 +19,7 @@ using ImagoApp.Manager;
 using ImagoApp.Shared;
 using ImagoApp.Styles.Themes;
 using ImagoApp.Util;
+using ImagoApp.ViewModels.Page;
 using ImagoApp.Views;
 using ImagoApp.Views.CustomControls;
 using Microsoft.AppCenter.Analytics;
@@ -365,20 +366,18 @@ namespace ImagoApp.ViewModels
                 var characterInfoPageViewModel = new CharacterInfoPageViewModel(characterViewModel);
                 var wikiPageViewModel = new WikiPageViewModel(characterViewModel);
                 var skillPageViewModel = new SkillPageViewModel(characterViewModel, _wikiService, _wikiDataService);
-                var statusPageViewModel = new StatusPageViewModel(characterViewModel, _wikiDataService);
-                var inventoryViewModel = new InventoryViewModel(characterViewModel);
+                var equipmentPageViewModel = new EquipmentPageViewModel(characterViewModel, _wikiDataService);
                 var dicePageViewModel = new DicePageViewModel(characterViewModel, _wikiService, _wikiDataService);
                 var appShellViewModel = new AppShellViewModel(characterViewModel, characterInfoPageViewModel, skillPageViewModel,
-                    statusPageViewModel, inventoryViewModel, wikiPageViewModel, dicePageViewModel, _characterProvider);
+                    equipmentPageViewModel, wikiPageViewModel, dicePageViewModel, _characterProvider);
 
                 //notify the main menu that editmode may have changed
                 appShellViewModel.RaiseEditModeChanged();
 
+                equipmentPageViewModel.OpenWikiPageRequested += (sender, url) => OpenWikiPage(url);
                 skillPageViewModel.OpenWikiPageRequested += (sender, url) => OpenWikiPage(url);
                 skillPageViewModel.DiceRollRequested += (sender, value) => OpenDicePage(value.type, value.value);
-                statusPageViewModel.OpenWikiPageRequested += (sender, url) => OpenWikiPage(url);
-                inventoryViewModel.OpenWikiPageRequested += (sender, url) => OpenWikiPage(url);
-        
+               
                 void OpenWikiPage(string url)
                 {
                     Analytics.TrackEvent("Open WikiPage", new Dictionary<string, string>()

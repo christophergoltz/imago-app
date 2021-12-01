@@ -151,6 +151,8 @@
     <Content Include="Images\fernkampf_weiss.png" />
     <Content Include="Images\fertigkeit.png" />
     <Content Include="Images\fertigkeit_weiss.png" />
+    <Content Include="Images\fight.png" />
+    <Content Include="Images\fight_weiss.png" />
     <Content Include="Images\handwerk.png" />
     <Content Include="Images\handwerk_weiss.png" />
     <Content Include="Images\hauptmenue.png" />
@@ -177,6 +179,8 @@
     <Content Include="Images\plus_fuenf.png" />
     <Content Include="Images\reload.png" />
     <Content Include="Images\schliessen.png" />
+    <Content Include="Images\shield.png" />
+    <Content Include="Images\shield_weiss.png" />
     <Content Include="Images\soziales_weiss.png" />
     <Content Include="Images\staerke_weiss.png" />
     <Content Include="Images\start.png" />
