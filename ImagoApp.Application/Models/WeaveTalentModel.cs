@@ -79,5 +79,10 @@ namespace ImagoApp.Application.Models
             get => _strengthOfTalentDescription;
             set => SetProperty(ref _strengthOfTalentDescription, value);
         }
+
+        public override string ToString()
+        {
+            return WeaveSource + " - " + Name;
+        }
     }
 }

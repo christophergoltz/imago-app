@@ -9,8 +9,7 @@
     </Grid.Triggers>
 
     <!--  Button Control  -->
-    <Button Command="{Binding Command, Source={x:Reference ImageButtonViewControl}}" 
-            CommandParameter="{Binding CommandParameter, Source={x:Reference ImageButtonViewControl}}" 
+    <Button Clicked="Button_OnClicked"
             IsEnabled="{Binding Enabled, Source={x:Reference ImageButtonViewControl}}" 
             BorderColor="{DynamicResource SecondaryFirstDarkColor}" BorderWidth="1.5">
     </Button>

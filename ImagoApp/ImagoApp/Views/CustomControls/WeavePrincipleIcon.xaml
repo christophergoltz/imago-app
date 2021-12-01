@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Path xmlns="http://xamarin.com/schemas/2014/forms"  StrokeThickness="0.5" HeightRequest="50" WidthRequest="50"
+      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"  Aspect="Uniform" Stroke="Black" 
+      x:Class="ImagoApp.Views.CustomControls.WeavePrincipleIcon"  
+   
+      x:Name="WeavePrincipleIconControl">
+   
+    <Path.Triggers>
+        <DataTrigger Binding="{Binding Name, Source={x:Reference WeavePrincipleIconControl}}" 
+                     TargetType="Path" Value="Bewusstsein">
+            <Setter Property="Style" Value="{DynamicResource BewusstseinIcon}" />
+            <Setter Property="IsVisible" Value="True"/>
+        </DataTrigger>
+        <DataTrigger Binding="{Binding Name, Source={x:Reference WeavePrincipleIconControl}}" 
+                     TargetType="Path" Value="Kontrolle">
+            <Setter Property="Style" Value="{DynamicResource KontrolleIcon}" />
+            <Setter Property="IsVisible" Value="True"/>
+        </DataTrigger>
+        <DataTrigger Binding="{Binding Name, Source={x:Reference WeavePrincipleIconControl}}" 
+                     TargetType="Path" Value="Struktur">
+            <Setter Property="Style" Value="{DynamicResource StrukturIcon}" />
+            <Setter Property="IsVisible" Value="True"/>
+        </DataTrigger>
+        <DataTrigger Binding="{Binding Name, Source={x:Reference WeavePrincipleIconControl}}" 
+                     TargetType="Path" Value="Materie">
+            <Setter Property="Style" Value="{DynamicResource MaterieIcon}" />
+            <Setter Property="IsVisible" Value="True"/>
+        </DataTrigger>
+        <DataTrigger Binding="{Binding Name, Source={x:Reference WeavePrincipleIconControl}}" 
+                     TargetType="Path" Value="Einfalt">
+            <Setter Property="Style" Value="{DynamicResource EinfaltIcon}" />
+            <Setter Property="IsVisible" Value="True"/>
+        </DataTrigger>
+        <DataTrigger Binding="{Binding Name, Source={x:Reference WeavePrincipleIconControl}}" 
+                     TargetType="Path" Value="Ekstase">
+            <Setter Property="Style" Value="{DynamicResource EkstaseIcon}" />
+            <Setter Property="IsVisible" Value="True"/>
+        </DataTrigger>
+        <DataTrigger Binding="{Binding Name, Source={x:Reference WeavePrincipleIconControl}}" 
+                     TargetType="Path" Value="Chaos">
+            <Setter Property="Style" Value="{DynamicResource ChaosIcon}" />
+            <Setter Property="IsVisible" Value="True"/>
+        </DataTrigger>
+        <DataTrigger Binding="{Binding Name, Source={x:Reference WeavePrincipleIconControl}}" 
+                     TargetType="Path" Value="Leere">
+            <Setter Property="Style" Value="{DynamicResource LeereIcon}" />
+            <Setter Property="IsVisible" Value="True"/>
+        </DataTrigger>
+    </Path.Triggers>
+</Path>

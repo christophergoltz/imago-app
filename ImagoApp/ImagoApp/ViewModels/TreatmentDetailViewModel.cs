@@ -13,12 +13,14 @@ namespace ImagoApp.ViewModels
 {
     public class TreatmentDetailViewModel : BindableBase
     {
-        private readonly CharacterViewModel _characterViewModel;
+        public CharacterViewModel CharacterViewModel { get; private set; }
         public event EventHandler CloseRequested;
 
         public TreatmentDetailViewModel(CharacterViewModel characterViewModel)
         {
-            _characterViewModel = characterViewModel;
+            CharacterViewModel = characterViewModel;
+            CharacterViewModel.LoadoutViewModel.LoadoutValueChanged += (sender, args) => RecalculateFinalTreatmentValue();
+
             CloseCommand = new Command(() =>
             {
                 CloseRequested?.Invoke(this, EventArgs.Empty);
@@ -41,22 +43,15 @@ namespace ImagoApp.ViewModels
         }
 
         public ICommand CloseCommand { get; set; }
-
-        private List<HandicapListViewItemViewModel> _handicaps;
+        
         private int _finalTreatmentValue;
-
-        public List<HandicapListViewItemViewModel> Handicaps
-        {
-            get => _handicaps;
-            set => SetProperty(ref _handicaps, value);
-        }
 
         public List<BodyPartDamageStateModel> BodyPartDamageStates
         {
             get => _bodyPartDamageStates;
-            set => SetProperty(ref _bodyPartDamageStates , value);
+            set => SetProperty(ref _bodyPartDamageStates, value);
         }
-        
+
         private SkillModel _selectedTreatmentSkillModel;
         public SkillModel SelectedTreatmentSkillModel
         {
@@ -137,7 +132,7 @@ namespace ImagoApp.ViewModels
         public int BodyPartDamageStatusMalus
         {
             get => _bodyPartDamageStatusMalus;
-            set => SetProperty(ref _bodyPartDamageStatusMalus , value);
+            set => SetProperty(ref _bodyPartDamageStatusMalus, value);
         }
 
         private void RecalculateFinalTreatmentValue()
@@ -148,15 +143,8 @@ namespace ImagoApp.ViewModels
             var result = SelectedTreatmentSkillModel.FinalValue.GetRoundedValue();
 
             //handicap
-            if (Handicaps != null)
-            {
-                foreach (var handicap in Handicaps)
-                {
-                    if (handicap.IsChecked)
-                        result -= handicap.HandiCapValue ?? 0;
-                }
-            }
-
+            result -= CharacterViewModel.LoadoutViewModel.GetLoadoutValue();
+       
             BodyPartDamageStatusMalus = 0;
 
             //damage status
@@ -205,27 +193,6 @@ namespace ImagoApp.ViewModels
 
         private void InitializeHealingView()
         {
-            //handicap
-            var handicaps = new List<HandicapListViewItemViewModel>();
-            foreach (var (type, text, iconSource) in HandicapDefinition)
-            {
-                var handicapValue = type == DerivedAttributeType.Unknown
-                    ? (int?)null
-                    : _characterViewModel.DerivedAttributes.First(attribute => attribute.Type == type).FinalValue.GetRoundedValue();
-
-                //todo converter
-                var vm = new HandicapListViewItemViewModel(type, false, handicapValue, iconSource,
-                    text);
-                vm.HandicapValueChanged += (sender, args) => RecalculateFinalTreatmentValue();
-
-                if (vm.Type == DerivedAttributeType.BehinderungAbenteuer)
-                    vm.IsChecked = true;
-
-                handicaps.Add(vm);
-            }
-
-            Handicaps = handicaps;
-
             //damage status
             var bodyPartDamageStates = new List<BodyPartDamageStateModel>()
             {
@@ -241,9 +208,9 @@ namespace ImagoApp.ViewModels
             {
                 bodyPartDamageState.PropertyChanged += (sender, args) => RecalculateFinalTreatmentValue();
             }
-            
+
             BodyPartDamageStates = bodyPartDamageStates;
-            
+
             RecalculateFinalTreatmentValue();
         }
     }

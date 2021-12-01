@@ -1,0 +1,795 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:ImagoApp.ViewModels;assembly=ImagoApp"
+             xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp"
+             xmlns:system="clr-namespace:System;assembly=netstandard"
+             xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application"
+             xmlns:dialogs="clr-namespace:ImagoApp.Views.Dialogs;assembly=ImagoApp"
+             x:Class="ImagoApp.Views.DicePage" x:DataType="viewModels:DicePageViewModel">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="TalentBaseDetailTemplate" x:DataType="viewModels:TalentListItemViewModel">
+                <StackLayout Margin="10,5" IsVisible="{Binding Available}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="90" />
+                        </Grid.ColumnDefinitions>
+
+                        <CheckBox Grid.Column="0" 
+                                  IsEnabled="{Binding Talent.ActiveUse}"
+                                  VerticalOptions="Center" >
+                            <CheckBox.Style>
+                                <Style TargetType="CheckBox">
+                                    <Style.Triggers>
+                                        <DataTrigger TargetType="CheckBox" Binding="{Binding Talent.ActiveUse}" 
+                                                     Value="True">
+                                            <Setter Property="IsChecked" Value="{Binding InUse}"></Setter>
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="CheckBox" Binding="{Binding Talent.ActiveUse}" 
+                                                     Value="False">
+                                            <Setter Property="IsChecked" Value="True"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </CheckBox.Style>
+                        </CheckBox>
+
+                        <Label Grid.Column="1"
+                               FontSize="{DynamicResource FontSizeContent}"
+                               Text="{Binding Talent.Name}"
+                               VerticalOptions="Center" />
+
+                        <Label Grid.Column="2" FontAttributes="Italic"
+                               FontSize="{DynamicResource FontSizeDetail}"
+                               Text="{Binding Talent.PhaseValueMod}"
+                               TextColor="{DynamicResource SecondaryFirstDarkestColor}" VerticalOptions="Center" />
+
+                        <Label Grid.Column="3"
+                               FontSize="{DynamicResource FontSizeContent}"
+                               IsVisible="{Binding Talent.Difficulty, Converter={StaticResource ObjectNotNullToBoolConverter}}"
+                               Text="{Binding Talent.Difficulty}"
+                               VerticalOptions="Center" />
+
+                        <Entry Grid.Column="3"
+                               FontSize="{DynamicResource FontSizeContent}"
+                               IsVisible="{Binding Talent.Difficulty, Converter={StaticResource ObjectNullToBoolConverter}}"
+                               Keyboard="Numeric" HorizontalOptions="Start"
+                               Text="{Binding DifficultyOverride}"
+                               VerticalOptions="Center" />
+                    </Grid>
+                    <Label Margin="10,0,0,0" FontAttributes="Italic"
+                           FontSize="{DynamicResource FontSizeDescription}"
+                           Text="{Binding Talent.Description}"
+                           TextColor="{DynamicResource SecondaryFirstDarkestColor}" />
+                </StackLayout>
+            </DataTemplate>
+            <DataTemplate x:Key="MasteryBaseDetailTemplate" x:DataType="viewModels:MasteryListItemViewModel">
+                <StackLayout Margin="10,5" IsVisible="{Binding Available}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="90" />
+                        </Grid.ColumnDefinitions>
+
+                        <CheckBox Grid.Column="0"
+                                  IsEnabled="{Binding Mastery.ActiveUse}"
+                                  VerticalOptions="Center" >
+                            <CheckBox.Style>
+                                <Style TargetType="CheckBox">
+                                    <Style.Triggers>
+                                        <DataTrigger TargetType="CheckBox" Binding="{Binding Mastery.ActiveUse}" 
+                                                     Value="True">
+                                            <Setter Property="IsChecked" Value="{Binding InUse}"></Setter>
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="CheckBox" Binding="{Binding Mastery.ActiveUse}" 
+                                                     Value="False">
+                                            <Setter Property="IsChecked" Value="True"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </CheckBox.Style>
+                        </CheckBox>
+
+                        <Label Grid.Column="1"
+                               FontSize="{DynamicResource FontSizeContent}"
+                               Text="{Binding Mastery.Name}"
+                               VerticalOptions="Center" />
+
+                        <Label Grid.Column="2" FontAttributes="Italic"
+                               FontSize="{DynamicResource FontSizeDetail}"
+                               Text="{Binding Mastery.PhaseValueMod}"
+                               TextColor="Gray" VerticalOptions="Center" />
+
+                        <Label Grid.Column="3"
+                               FontSize="{DynamicResource FontSizeContent}"
+                               IsVisible="{Binding Mastery.Difficulty, Converter={StaticResource ObjectNotNullToBoolConverter}}"
+                               Text="{Binding Mastery.Difficulty}"
+                               VerticalOptions="Center" />
+
+                        <Entry Grid.Column="3" 
+                               FontSize="{DynamicResource FontSizeContent}"
+                               IsVisible="{Binding Mastery.Difficulty, Converter={StaticResource ObjectNullToBoolConverter}}"
+                               Keyboard="Numeric"
+                               Text="{Binding DifficultyOverride}"
+                               VerticalOptions="Center" />
+                    </Grid>
+                    <Label Margin="10,0,0,0" FontAttributes="Italic"
+                           FontSize="{DynamicResource FontSizeDescription}"
+                           Text="{Binding Mastery.Description}"
+                           TextColor="{DynamicResource SecondaryFirstDarkestColor}"/>
+                </StackLayout>
+            </DataTemplate>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="550" />
+                <ColumnDefinition Width="1" />
+                <ColumnDefinition Width="550" />
+            </Grid.ColumnDefinitions>
+
+            <!-- detail -->
+            <Frame Grid.Column="0" Margin="0,0,0,0">
+                <StackLayout>
+                    <!-- skillmodel -->
+                    <StackLayout Spacing="0" IsVisible="{Binding SelectedSkill, Converter={StaticResource ObjectNotNullToBoolConverter}}">
+                        <Grid Background="{DynamicResource EvenPrimaryGradientBrush}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <!--name-->
+                            <StackLayout Grid.Column="0" Orientation="Horizontal" Grid.Row="0"  Margin="30,20,30,10">
+                                <customControls:ImageButtonView ImageSource="Images/suchen.png"
+                                                                Margin="-10,0,5,0"  VerticalOptions="Center"
+                                                                TextHidden="True" ImageMargin="10,8,8,8"
+                                                                ImageSize="30" 
+                                                                Command="{Binding OpenDiceSearchCommand}"></customControls:ImageButtonView>
+
+                                <Label  FontAttributes="Bold" VerticalOptions="Center"
+                                        FontSize="{DynamicResource FontSizeCaption}"
+                                        Text="{Binding SelectedSkill.Skill.Type, Converter={StaticResource EnumToDisplayTextConverter}}" />
+
+
+                            </StackLayout>
+
+                            <!--mod-->
+                            <StackLayout Grid.Column="3"  Grid.Row="0" Orientation="Horizontal"  Margin="30,20,30,10">
+                                <Label FontAttributes="Bold"
+                                       FontSize="{DynamicResource FontSizeBigContent}"
+                                       Text="Mod: " VerticalOptions="Center" />
+                                <Entry FontSize="{DynamicResource FontSizeContent}"
+                                       Keyboard="Numeric"
+                                       Text="{Binding SelectedSkill.ModificationValue}"
+                                       VerticalOptions="Center" />
+                            </StackLayout>
+
+                            <!--ep-->
+                            <StackLayout Grid.Column="0" Grid.Row="1" Orientation="Horizontal" Grid.ColumnSpan="3"  Margin="30,10,30,20">
+                                <customControls:TallyMarker HorizontalOptions="Start" 
+                                                            CurrentValue="{Binding SelectedSkill.Skill.LeftoverExperienceCache}"
+                                                            MaximumValue="{Binding SelectedSkill.Skill.ExperienceForNextIncreasedRequiredCache}"/>
+
+                                <customControls:ImageButtonView Margin="3,0,0,0"  VerticalOptions="Center"
+                                                                ImageSource="Images/minus.png"
+                                                                ImageMargin="8,10,6,6"
+                                                                TextHidden="True" 
+                                                                ImageSize="33" 
+                                                                Command="{Binding SelectedSkill.DecreaseExperienceCommand}">
+                                    <customControls:ImageButtonView.Triggers>
+                                        <DataTrigger Binding="{Binding SelectedSkill.Skill.ExperienceValue}"
+                                                     TargetType="customControls:ImageButtonView" Value="0">
+                                            <Setter Property="Enabled" Value="False" />
+                                        </DataTrigger>
+                                    </customControls:ImageButtonView.Triggers>
+                                </customControls:ImageButtonView>
+
+
+                                <customControls:ImageButtonView VerticalOptions="Center" Margin="5,0,0,0"
+                                                                ImageSource="Images/plus.png"
+                                                                ImageMargin="8,10,6,6"
+                                                                TextHidden="True" 
+                                                                ImageSize="33" 
+                                                                Command="{Binding SelectedSkill.IncreaseExperienceCommand}">
+                                    <customControls:ImageButtonView.CommandParameter>
+                                        <system:Int32>1</system:Int32>
+                                    </customControls:ImageButtonView.CommandParameter>
+                                </customControls:ImageButtonView>
+
+                                <customControls:ImageButtonView VerticalOptions="Center" Margin="5,0,0,0"
+                                                                ImageSource="Images/plus_fuenf.png"
+                                                                ImageMargin="7,0,-2,0"
+                                                                TextHidden="True" WidthRequest="55"
+                                                                ImageSize="40" 
+                                                                Command="{Binding SelectedSkill.IncreaseExperienceCommand}">
+                                    <customControls:ImageButtonView.CommandParameter>
+                                        <system:Int32>5</system:Int32>
+                                    </customControls:ImageButtonView.CommandParameter>
+                                </customControls:ImageButtonView>
+                            </StackLayout>
+
+                            <!-- gw -->
+                            <StackLayout Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalOptions="EndAndExpand" Margin="30,20,30,10">
+                                <Label FontAttributes="Bold"
+                                       FontSize="{DynamicResource FontSizeBigContent}"
+                                       Text="GW: " VerticalOptions="Center" />
+                                <Label FontSize="{DynamicResource FontSizeBigContent}"
+                                       Text="{Binding SelectedSkill.Skill.BaseValue}"
+                                       VerticalOptions="Center" />
+                            </StackLayout>
+
+                            <!-- sw -->
+                            <StackLayout Grid.Row="0" Grid.Column="2" Orientation="Horizontal"  Margin="30,20,30,10">
+                                <Label FontAttributes="Bold"
+                                       FontSize="{DynamicResource FontSizeBigContent}"
+                                       Text="SW: " VerticalOptions="Center" />
+                                <Label FontSize="{DynamicResource FontSizeBigContent}"
+                                       Text="{Binding SelectedSkill.Skill.IncreaseValueCache}"
+                                       VerticalOptions="Center" />
+                            </StackLayout>
+
+                            <!-- fw -->
+                            <StackLayout Grid.Row="1" Grid.Column="3" Orientation="Horizontal"  Margin="30,10,30,20">
+                                <Label FontAttributes="Bold"
+                                       FontSize="{DynamicResource FontSizeBigContent}"
+                                       Text="FW: " VerticalOptions="Center" />
+                                <Label FontSize="{DynamicResource FontSizeBigContent}"
+                                       Text="{Binding SelectedSkill.Skill.FinalValue}"
+                                       VerticalOptions="Center" />
+                            </StackLayout>
+                        </Grid>
+                    </StackLayout>
+
+                    <!-- skillgroup -->
+                    <StackLayout Spacing="0" IsVisible="{Binding SelectedSkillGroup, Converter={StaticResource ObjectNotNullToBoolConverter}}">
+                        <Grid Background="{DynamicResource EvenPrimaryGradientBrush}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- name -->
+                            <StackLayout Grid.Column="0" Orientation="Horizontal" Grid.Row="0"  Margin="30,20,30,10">
+                                <customControls:ImageButtonView ImageSource="Images/suchen.png"
+                                                                Margin="-10,0,5,0"  VerticalOptions="Center"
+                                                                TextHidden="True" ImageMargin="10,8,8,8"
+                                                                ImageSize="30" 
+                                                                Command="{Binding OpenDiceSearchCommand}"></customControls:ImageButtonView>
+
+                                <Label  FontAttributes="Bold" VerticalOptions="Center"
+                                        FontSize="{DynamicResource FontSizeCaption}"
+                                        Text="{Binding SelectedSkillGroup.Type, Converter={StaticResource EnumToDisplayTextConverter}}" />
+                            </StackLayout>
+
+                            <!-- gw -->
+                            <StackLayout Grid.Column="2" Grid.Row="0" Orientation="Horizontal"  Margin="30,20,30,10">
+                                <Label FontAttributes="Bold"
+                                       FontSize="{DynamicResource FontSizeBigContent}"
+                                       Text="GW: " VerticalOptions="Center" />
+                                <Label FontSize="{DynamicResource FontSizeBigContent}"
+                                       Text="{Binding SelectedSkillGroup.BaseValue}"
+                                       VerticalOptions="Center" />
+                            </StackLayout>
+
+                            <!-- mod-->
+                            <StackLayout Grid.Column="3"  Grid.Row="0" Orientation="Horizontal"  Margin="30,20,30,10">
+                                <Label FontAttributes="Bold"
+                                       FontSize="{DynamicResource FontSizeBigContent}"
+                                       Text="Mod: " VerticalOptions="Center" />
+                                <Entry FontSize="{DynamicResource FontSizeContent}"
+                                       Keyboard="Numeric"
+                                       Text="{Binding SelectedSkillGroup.ModificationValue}"
+                                       VerticalOptions="Center" />
+                            </StackLayout>
+
+                            <!-- ep -->
+                            <StackLayout Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal"  Margin="30,20,30,10">
+                                <customControls:TallyMarker HorizontalOptions="Start" 
+                                                            CurrentValue="{Binding SelectedSkillGroup.LeftoverExperienceCache}"
+                                                            MaximumValue="{Binding SelectedSkillGroup.ExperienceForNextIncreasedRequiredCache}"/>
+                            </StackLayout>
+
+                            <!-- sw -->
+                            <StackLayout Grid.Row="1" Grid.Column="2" Orientation="Horizontal"  Margin="30,10,30,20">
+                                <Label FontAttributes="Bold"
+                                       FontSize="{DynamicResource FontSizeBigContent}"
+                                       Text="SW: " VerticalOptions="Center" />
+                                <Label FontSize="{DynamicResource FontSizeBigContent}"
+                                       Text="{Binding SelectedSkillGroup.IncreaseValueCache}"
+                                       VerticalOptions="Center" />
+                            </StackLayout>
+
+                            <!-- fw-->
+                            <StackLayout Grid.Row="1" Grid.Column="3" Orientation="Horizontal"  Margin="30,10,30,20">
+                                <Label FontAttributes="Bold"
+                                       FontSize="{DynamicResource FontSizeBigContent}"
+                                       Text="FW: " VerticalOptions="Center" />
+                                <Label FontSize="{DynamicResource FontSizeBigContent}"
+                                       Text="{Binding SelectedSkillGroup.FinalValue}"
+                                       VerticalOptions="Center" />
+                            </StackLayout>
+                        </Grid>
+                    </StackLayout>
+
+                    <!-- weave talent -->
+                    <StackLayout Spacing="0" IsVisible="{Binding SelectedWeaveTalent, Converter={StaticResource ObjectNotNullToBoolConverter}}">
+                        <Grid Background="{DynamicResource EvenPrimaryGradientBrush}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <!--name-->
+                            <StackLayout Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Grid.Row="0"  Margin="30,20,30,10">
+                                <customControls:ImageButtonView ImageSource="Images/suchen.png"
+                                                                Margin="-10,0,5,0"  VerticalOptions="Center"
+                                                                TextHidden="True" ImageMargin="10,8,8,8"
+                                                                ImageSize="30" 
+                                                                Command="{Binding OpenDiceSearchCommand}"></customControls:ImageButtonView>
+                                
+                                <Label  FontAttributes="Bold" VerticalOptions="Center"
+                                        FontSize="{DynamicResource FontSizeCaption}"
+                                        Text="{Binding SelectedWeaveTalent.Name}" />
+                            </StackLayout>
+
+                            <!-- short description -->
+                            <Label Margin="30,20,30,10" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+                                   FontSize="{DynamicResource FontSizeBigContent}"
+                                   Text="{Binding SelectedWeaveTalent.ShortDescription}"
+                                   TextColor="{DynamicResource SecondaryFirstDarkColor}" />
+
+                            <Frame Margin="5" Grid.Row="1" Grid.Column="0" Grid.RowSpan="2"  HeightRequest="125" WidthRequest="250">
+                                <ListView  ItemsSource="{Binding WeaveSourceSkills}" 
+                                           SelectedItem="{Binding SelectedWeaveSkillModel, Mode=TwoWay}"
+                                           SelectionMode="Single">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate x:DataType="viewModels:SkillViewModel">
+                                            <ViewCell>
+                                                <StackLayout Margin="10,0" Padding="10" Orientation="Horizontal"
+                                                             VerticalOptions="Center">
+                                                    <Label FontSize="{DynamicResource FontSizeHeader}"
+                                                           Text="{Binding Skill.Type, Converter={StaticResource EnumToDisplayTextConverter}}"
+                                                           VerticalOptions="Center" />
+                                                    <Label FontSize="{DynamicResource FontSizeHeader}" HorizontalOptions="EndAndExpand"
+                                                           Text="FW: " VerticalOptions="Center" />
+                                                    <Label FontAttributes="Bold" 
+                                                           FontSize="{DynamicResource FontSizeHeader}"
+                                                           Text="{Binding Skill.FinalValue}"
+                                                           VerticalOptions="Center" />
+                                                </StackLayout>
+                                            </ViewCell>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </Frame>
+
+                            <!--mod-->
+                            <StackLayout Grid.Column="3"  Grid.Row="2" Orientation="Horizontal"  Margin="30,20,30,10">
+                                <Label FontAttributes="Bold"
+                                       FontSize="{DynamicResource FontSizeBigContent}"
+                                       Text="Mod: " VerticalOptions="Center" />
+                                <Entry FontSize="{DynamicResource FontSizeContent}"
+                                       Keyboard="Numeric"
+                                       Text="{Binding SelectedWeaveSkillModel.ModificationValue}"
+                                       VerticalOptions="Center" />
+                            </StackLayout>
+
+                            <!--ep-->
+                            <StackLayout Grid.Column="0" Grid.Row="3" Orientation="Horizontal" Grid.ColumnSpan="3"  Margin="30,10,30,20">
+                                <customControls:TallyMarker HorizontalOptions="Start" 
+                                                            CurrentValue="{Binding SelectedWeaveSkillModel.Skill.LeftoverExperienceCache}"
+                                                            MaximumValue="{Binding SelectedWeaveSkillModel.Skill.ExperienceForNextIncreasedRequiredCache}"/>
+
+                                <customControls:ImageButtonView Margin="3,0,0,0"  VerticalOptions="Center"
+                                                                ImageSource="Images/minus.png"
+                                                                ImageMargin="8,10,6,6"
+                                                                TextHidden="True" 
+                                                                ImageSize="33" 
+                                                                Command="{Binding SelectedWeaveSkillModel.DecreaseExperienceCommand}">
+                                    <customControls:ImageButtonView.Triggers>
+                                        <DataTrigger Binding="{Binding SelectedSkill.Skill.ExperienceValue}"
+                                                     TargetType="customControls:ImageButtonView" Value="0">
+                                            <Setter Property="Enabled" Value="False" />
+                                        </DataTrigger>
+                                    </customControls:ImageButtonView.Triggers>
+                                </customControls:ImageButtonView>
+
+
+                                <customControls:ImageButtonView VerticalOptions="Center" Margin="5,0,0,0"
+                                                                ImageSource="Images/plus.png"
+                                                                ImageMargin="8,10,6,6"
+                                                                TextHidden="True" 
+                                                                ImageSize="33" 
+                                                                Command="{Binding SelectedWeaveSkillModel.IncreaseExperienceCommand}">
+                                    <customControls:ImageButtonView.CommandParameter>
+                                        <system:Int32>1</system:Int32>
+                                    </customControls:ImageButtonView.CommandParameter>
+                                </customControls:ImageButtonView>
+
+                                <customControls:ImageButtonView VerticalOptions="Center" Margin="5,0,0,0"
+                                                                ImageSource="Images/plus_fuenf.png"
+                                                                ImageMargin="7,0,-2,0"
+                                                                TextHidden="True" WidthRequest="55"
+                                                                ImageSize="40" 
+                                                                Command="{Binding SelectedWeaveSkillModel.IncreaseExperienceCommand}">
+                                    <customControls:ImageButtonView.CommandParameter>
+                                        <system:Int32>5</system:Int32>
+                                    </customControls:ImageButtonView.CommandParameter>
+                                </customControls:ImageButtonView>
+                            </StackLayout>
+
+                            <!-- gw -->
+                            <StackLayout Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalOptions="EndAndExpand" Margin="30,20,30,10">
+                                <Label FontAttributes="Bold"
+                                       FontSize="{DynamicResource FontSizeBigContent}"
+                                       Text="GW: " VerticalOptions="Center" />
+                                <Label FontSize="{DynamicResource FontSizeBigContent}"
+                                       Text="{Binding SelectedWeaveSkillModel.Skill.BaseValue}"
+                                       VerticalOptions="Center" />
+                            </StackLayout>
+
+                            <!-- sw -->
+                            <StackLayout Grid.Row="3" Grid.Column="3" Orientation="Horizontal"  Margin="30,20,20,10">
+                                <Label FontAttributes="Bold"
+                                       FontSize="{DynamicResource FontSizeBigContent}"
+                                       Text="SW: " VerticalOptions="Center" />
+                                <Label FontSize="{DynamicResource FontSizeBigContent}"
+                                       Text="{Binding SelectedWeaveSkillModel.Skill.IncreaseValueCache}"
+                                       VerticalOptions="Center" />
+                            </StackLayout>
+                        </Grid>
+
+                        <Editor HeightRequest="200"
+                                FontSize="{DynamicResource FontSizeSmallContent}"
+                                IsReadOnly="True"
+                                Text="{Binding SelectedWeaveTalent.Description}" />
+                    </StackLayout>
+
+                    <WebView Navigating="WebView_OnNavigating" Margin="0,-6,0,0" BackgroundColor="Transparent" VerticalOptions="FillAndExpand"
+                             Source="{Binding WikiSource}" />
+                </StackLayout>
+            </Frame>
+
+            <!-- middle -->
+            <Grid Grid.Row="0" Grid.Column="1" Background="{DynamicResource EvenPrimaryGradientBrush3}">
+                <ScrollView>
+                    <StackLayout>
+                        <!-- weave talent konfig -->
+                        <StackLayout IsVisible="{Binding SelectedWeaveTalent, Converter={StaticResource ObjectNotNullToBoolConverter}}">
+                            <Label Margin="20,20,20,5" FontAttributes="Bold"
+                                   FontSize="{DynamicResource FontSizeHeader}"
+                                   Text="Einstellungen">
+                                <Label.Style>
+                                    <Style TargetType="Label">
+                                        <Setter Property="IsVisible" Value="True" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding WeaveTalentSettings.Count, TargetNullValue=0, FallbackValue=0}"
+                                                         TargetType="Label" Value="0">
+                                                <Setter Property="IsVisible" Value="False" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+
+                            <!--  settings  -->
+                            <StackLayout BindableLayout.ItemsSource="{Binding WeaveTalentSettings}">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate x:DataType="models:WeaveTalentSettingModel">
+                                        <Frame Margin="20,10,20,0">
+                                            <StackLayout Padding="10">
+                                                <!--  (Name) (FinalValue) (Abbreviation)  -->
+                                                <StackLayout Orientation="Horizontal">
+                                                    <Label FontSize="{DynamicResource FontSizeHeader}"
+                                                           Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"
+                                                           VerticalOptions="Center" />
+                                                    <Label FontSize="{DynamicResource FontSizeHeader}"
+                                                           Text=":" VerticalOptions="Center" />
+
+                                                    <Label FontAttributes="Bold"
+                                                           FontSize="{DynamicResource FontSizeHeader}"
+                                                           Text="{Binding FinalValue}"
+                                                           VerticalOptions="Center">
+                                                        <Label.Style>
+                                                            <Style TargetType="Label">
+                                                                <Setter Property="IsVisible" Value="True" />
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding StepValue}"
+                                                                                 TargetType="Label" Value="1">
+                                                                        <Setter Property="IsVisible" Value="False" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Label.Style>
+                                                    </Label>
+
+                                                    <Entry FontAttributes="Bold"
+                                                           FontSize="{DynamicResource FontSizeContent}"
+                                                           Text="{Binding Quantity}"
+                                                           VerticalOptions="Center" WidthRequest="80">
+                                                        <Entry.Style>
+                                                            <Style TargetType="Entry">
+                                                                <Setter Property="IsVisible" Value="False" />
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding StepValue}"
+                                                                                 TargetType="Entry" Value="1">
+                                                                        <Setter Property="IsVisible" Value="True" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Entry.Style>
+                                                    </Entry>
+
+                                                    <Label FontAttributes="Bold"
+                                                           FontSize="{DynamicResource FontSizeHeader}"
+                                                           Text="{Binding Unit}"
+                                                           VerticalOptions="Center" />
+                                                    <Label Margin="0,0,5,0" FontAttributes="Bold"
+                                                           FontSize="{DynamicResource FontSizeBigContent}"
+                                                           HorizontalOptions="EndAndExpand"
+                                                           Text="{Binding Abbreviation}"
+                                                           TextColor="{DynamicResource SecondaryFirstDarkColor}"
+                                                           VerticalOptions="Center" />
+                                                </StackLayout>
+
+                                                <!--  (quantity) * (step)  -->
+                                                <StackLayout Margin="20,0,0,0" Orientation="Horizontal" VerticalOptions="Center">
+                                                    <StackLayout.Style>
+                                                        <Style TargetType="StackLayout">
+                                                            <Setter Property="IsVisible" Value="True" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding StepValue}"
+                                                                             TargetType="StackLayout" Value="1">
+                                                                    <Setter Property="IsVisible" Value="False" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </StackLayout.Style>
+
+                                                    <Entry FontSize="{DynamicResource FontSizeContent}"
+                                                           Text="{Binding Quantity}"
+                                                           VerticalOptions="Center" WidthRequest="80" />
+                                                    <Label FontSize="{DynamicResource FontSizeContent}"
+                                                           Text="*" VerticalOptions="Center" />
+                                                    <Label FontSize="{DynamicResource FontSizeContent}"
+                                                           Text="{Binding StepValue}"
+                                                           VerticalOptions="Center" />
+                                                </StackLayout>
+
+                                                <Label Margin="20,5"
+                                                       FontSize="{DynamicResource FontSizeContent}"
+                                                       Text="{Binding SelectedWeaveTalent.StrengthOfTalentDescription, Source={RelativeSource AncestorType={x:Type viewModels:DicePageViewModel}}}"
+                                                       TextColor="{DynamicResource SecondaryFirstDarkColor}">
+                                                    <Label.Style>
+                                                        <Style TargetType="Label">
+                                                            <Setter Property="IsVisible" Value="False" />
+
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Type}"
+                                                                             TargetType="Label" Value="StrengthOfTalent">
+                                                                    <Setter Property="IsVisible" Value="True" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Label.Style>
+                                                </Label>
+                                            </StackLayout>
+                                        </Frame>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </StackLayout>
+
+                            <Label Margin="20,20,20,5" FontAttributes="Bold"
+                                   FontSize="{DynamicResource FontSizeHeader}"
+                                   Text="Werte" />
+
+                            <!--  results  -->
+                            <StackLayout BindableLayout.ItemsSource="{Binding WeaveTalentResults}">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate x:DataType="models:WeaveTalentResultModel">
+                                        <Frame Margin="20,10,20,0">
+                                            <StackLayout Padding="10">
+                                                <StackLayout Orientation="Horizontal">
+                                                    <Label FontSize="{DynamicResource FontSizeHeader}" Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}" />
+                                                    <Label FontSize="{DynamicResource FontSizeHeader}" Text=":" />
+                                                    <Label FontAttributes="Bold"
+                                                           FontSize="{DynamicResource FontSizeHeader}"
+                                                           Text="{Binding FinalValue}" />
+                                                    <Label Margin="0,0,5,0"
+                                                           FontSize="{DynamicResource FontSizeBigContent}"
+                                                           HorizontalOptions="EndAndExpand"
+                                                           TextColor="{DynamicResource SecondaryFirstDarkColor}"
+                                                           VerticalOptions="Center">
+                                                        <Label.Text>
+                                                            <MultiBinding x:DataType="models:WeaveTalentResultModel" StringFormat="{}({0})">
+                                                                <Binding Path="Formula" />
+                                                            </MultiBinding>
+                                                        </Label.Text>
+                                                    </Label>
+                                                </StackLayout>
+                                            </StackLayout>
+                                        </Frame>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </StackLayout>
+                        </StackLayout>
+
+                        <!-- behinderung -->
+                        <StackLayout>
+                            <StackLayout.Style>
+                                <Style TargetType="StackLayout">
+                                    <Style.Triggers>
+                                        <DataTrigger TargetType="StackLayout"
+                                                     Binding="{Binding SelectedSkill, Converter={StaticResource ObjectNotNullToBoolConverter}}"
+                                                     Value="True">
+                                            <Setter Property="IsVisible" Value="True" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="StackLayout"
+                                                     Binding="{Binding SelectedSkillGroup, Converter={StaticResource ObjectNotNullToBoolConverter}}"
+                                                     Value="True">
+                                            <Setter Property="IsVisible" Value="True" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                    <Setter Property="IsVisible" Value="False" />
+                                </Style>
+                            </StackLayout.Style>
+
+                            <Label Padding="10,5,10,5"
+                                   BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
+                                   FontAttributes="Bold"
+                                   FontSize="{DynamicResource FontSizeSmallContent}"
+                                   Text="Behinderung" TextColor="white"/>
+                            <StackLayout BindableLayout.ItemTemplate="{StaticResource HandicapItemTemplate}" Margin="5"
+                                         BindableLayout.ItemsSource="{Binding CharacterViewModel.LoadoutViewModel.Handicaps}"
+                                         RadioButtonGroup.GroupName="Handicap" />
+                        </StackLayout>
+
+                        <Label Padding="10,5,10,5"
+                               BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
+                               FontAttributes="Bold"
+                               FontSize="{DynamicResource FontSizeSmallContent}"
+                               Text="Konzentration" TextColor="white" />
+
+                        <!-- konzentration-->
+                        <StackLayout Margin="20,5" Orientation="Horizontal" IsVisible="{Binding AllDifficultyRemoved, Converter={StaticResource InverseBoolConverter}}">
+                            <Label FontSize="{DynamicResource FontSizeContent}"
+                                   Text="Bonus:" VerticalOptions="Center" />
+                            <Entry Margin="10,0,0,0"
+                                   FontSize="{DynamicResource FontSizeContent}"
+                                   Text="{Binding ConcentrationPerAction}"
+                                   VerticalOptions="Center" WidthRequest="70" />
+
+                            <Label Margin="35,0,0,0"
+                                   FontSize="{DynamicResource FontSizeContent}"
+                                   Text="Phasen:" VerticalOptions="Center" />
+                            <Entry Margin="10,0,0,0"
+                                   FontSize="{DynamicResource FontSizeContent}"
+                                   Text="{Binding ConcentrationQuantity}"
+                                   VerticalOptions="Center" WidthRequest="70" />
+
+                            <Label FontSize="{DynamicResource FontSizeHeader}"
+                                   HorizontalOptions="EndAndExpand" VerticalOptions="Center">
+                                <Label.Text>
+                                    <MultiBinding x:DataType="viewModels:DicePageViewModel" StringFormat="{}= {0}">
+                                        <Binding Path="ConcentrationFinalValue" />
+                                    </MultiBinding>
+                                </Label.Text>
+                            </Label>
+                        </StackLayout>
+
+                        <StackLayout Margin="20,5" Orientation="Horizontal" IsVisible="{Binding SelectedWeaveTalent, Converter={StaticResource ObjectNotNullToBoolConverter}}">
+                            <CheckBox IsChecked="{Binding AllDifficultyRemoved}"
+                                      VerticalOptions="Center" />
+                            <Label FontSize="{DynamicResource FontSizeContent}"
+                                   Text="Komplette Schwierigkeit durch Konzentration ausgeglichen" VerticalOptions="Center" />
+                        </StackLayout>
+
+                        <!-- mod -->
+                        <Label Padding="10,5,10,5"
+                               BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
+                               FontAttributes="Bold"
+                               FontSize="{DynamicResource FontSizeSmallContent}"
+                               Text="Positiver oder negativer Modifikator" TextColor="white" />
+
+                        <StackLayout Margin="20,5" Orientation="Horizontal">
+                            <Label FontSize="{DynamicResource FontSizeContent}"
+                                   Text="Modifikator:" VerticalOptions="Center" />
+                            <Entry Margin="10,0,0,0"
+                                   FontSize="{DynamicResource FontSizeContent}"
+                                   Text="{Binding DiceModification}"
+                                   VerticalOptions="Center" WidthRequest="90" />
+                        </StackLayout>
+                    </StackLayout>
+                </ScrollView>
+            </Grid>
+
+            <BoxView BackgroundColor="{DynamicResource SecondaryFirstDarkColor}" Grid.Row="0" Grid.Column="2" />
+
+            <!-- right -->
+            <StackLayout Grid.Row="0" Grid.Column="3" Background="{DynamicResource EvenPrimaryGradientBrush3}">
+                <Grid>
+                    <!--  talent and mastery list  -->
+                    <ScrollView Grid.Row="0">
+                        <StackLayout>
+                            <Label Padding="10,5,10,5"
+                                   BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
+                                   FontAttributes="Bold"
+                                   FontSize="{DynamicResource FontSizeSmallContent}"
+                                   Text="Meisterschaften" TextColor="white"/>
+                            <StackLayout BindableLayout.ItemTemplate="{StaticResource MasteryBaseDetailTemplate}"
+                                         BindableLayout.ItemsSource="{Binding MasteryViewModel.Masteries}" />
+
+                            <StackLayout IsVisible="{Binding SelectedSkill, Converter={StaticResource ObjectNotNullToBoolConverter}}">
+                                <Label Padding="10,5,10,5"
+                                       BackgroundColor="{DynamicResource SecondaryFirstMediumColor}"
+                                       FontAttributes="Bold"
+                                       FontSize="{DynamicResource FontSizeSmallContent}"
+                                       Text="Künste" TextColor="white"/>
+                                <StackLayout BindableLayout.ItemTemplate="{StaticResource TalentBaseDetailTemplate}" 
+                                             BindableLayout.ItemsSource="{Binding TalentViewModel.Talents}" />
+                            </StackLayout>
+                        </StackLayout>
+                    </ScrollView>
+                </Grid>
+
+                <!-- footer -->
+                <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand"
+                             BackgroundColor="{DynamicResource SecondaryFirstMediumColor}">
+                    <Label FontSize="{DynamicResource FontSizeCaption}"
+                           Margin="30,20" >
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Wurf gegen "
+                                      FontSize="{DynamicResource FontSizeCaption}"/>
+                                <Span Text="{Binding FinalDiceValue}" FontAttributes="Bold"
+                                      FontSize="{DynamicResource FontSizeCaption}"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </StackLayout>
+
+            </StackLayout>
+        </Grid>
+
+        <!-- dialog - skill select -->
+        <Grid IsVisible="{Binding SearchVisible}">
+            <ContentView BackgroundColor="black" Opacity="0.6">
+                <ContentView.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding CloseSearchbarCommand}"/>
+                </ContentView.GestureRecognizers>
+            </ContentView>
+
+            <dialogs:DiceSearchDialog WidthRequest="1600" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="850"
+                                      DiceSearchDialogViewModel="{Binding DiceSearchDialogViewModel}" />
+        </Grid>
+    </Grid>
+</ContentPage>

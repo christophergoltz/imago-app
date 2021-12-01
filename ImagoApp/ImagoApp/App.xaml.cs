@@ -37,6 +37,9 @@ namespace ImagoApp
         {
             InitializeComponent();
 
+            Sharpnado.Tabs.Initializer.Initialize(false, false);
+            Sharpnado.Shades.Initializer.Initialize(loggerEnable: false);
+
             //configure appcenter
 #if DEBUG
             AppCenter.Start("uwp=4350071e-000b-4ab6-bfae-369afc829008;", typeof(Analytics), typeof(Crashes));
@@ -47,62 +50,14 @@ namespace ImagoApp
             Crashes.SetEnabledAsync(true);
 
             Analytics.TrackEvent("Startup");
-
-            LoadSavedTheme();
-
+            
             CreateContainer(localFileService);
 
             ErrorManager = Container.Resolve<ErrorManager>();
 
             MainPage = new StartPage(Container.Resolve<StartPageViewModel>());
         }
-
-        private void LoadSavedTheme()
-        {
-            var savedTheme = Preferences.Get(ActiveThemePreferenceKey, 0);
-            SwitchTheme((ApplicationTheme)savedTheme, false);
-        }
-
-        private const string ActiveThemePreferenceKey = "ActiveTheme";
         
-        public static void SwitchTheme(ApplicationTheme appTheme, bool changedByUser)
-        {
-            Debug.WriteLine($"SwitchTheme: {appTheme.ToString()}, User: {changedByUser}");
-
-            var mergedDictionaries = Current.Resources.MergedDictionaries;
-            if (mergedDictionaries == null) 
-                return;
-
-            mergedDictionaries.Clear();
-
-            mergedDictionaries.Add(new DefaultStyles());
-            mergedDictionaries.Add(new FontSize());
-            mergedDictionaries.Add(new DataTemplates());
-            mergedDictionaries.Add(new PrincipleIcons());
-
-            switch (appTheme)
-            {
-                case ApplicationTheme.KathaUmbra:
-                    mergedDictionaries.Add(new KathaUmbraTheme());
-                    break;
-                case ApplicationTheme.UmbraSecond:
-                    mergedDictionaries.Add(new UmbraSecondTheme());
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(appTheme), appTheme, null);
-            }
-
-            if (changedByUser)
-            {
-                Analytics.TrackEvent("Theme changed to: " + appTheme.ToString());
-                Preferences.Set(ActiveThemePreferenceKey, (int)appTheme);
-            }
-            else
-            {
-                Analytics.TrackEvent("Theme: " + appTheme.ToString());
-            }
-        }
-
         private IMapper CreateMapper()
         {
             var config = new MapperConfiguration(cfg =>
@@ -153,7 +108,6 @@ namespace ImagoApp
             builder.RegisterType<WikiService>().As<IWikiService>();
             builder.RegisterType<WikiParseService>().As<IWikiParseService>();
             builder.RegisterType<CharacterCreationService>().As<ICharacterCreationService>();
-            builder.RegisterType<IncreaseCalculationService>().As<IIncreaseCalculationService>();
             builder.RegisterType<SkillCalculationService>().As<ISkillCalculationService>();
             builder.RegisterType<SkillGroupCalculationService>().As<ISkillGroupCalculationService>();
             builder.RegisterType<AttributeCalculationService>().As<IAttributeCalculationService>();

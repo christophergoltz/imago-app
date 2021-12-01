@@ -101,8 +101,6 @@ namespace ImagoApp.ViewModels
 
                 if (VersionTracking.IsFirstLaunchForCurrentBuild || VersionTracking.IsFirstLaunchForCurrentVersion)
                     AlertNewVersion();
-
-                LoadThemes();
             });
         }
 
@@ -128,68 +126,7 @@ namespace ImagoApp.ViewModels
                 StyleResourceManager.ChangeGlobalFontSize(t);
             }
         }
-
-        public List<ThemeItemViewModel> Themes
-        {
-            get => _themes;
-            set => SetProperty(ref _themes, value);
-        }
-
-        public ThemeItemViewModel SelectedTheme
-        {
-            get => _selectedTheme;
-            set
-            {
-                SetProperty(ref _selectedTheme, value);
-                App.SwitchTheme(value.Theme, true);
-            }
-        }
-
-        private void LoadThemes()
-        {
-            var themeNamespace = "ImagoApp.Styles.Themes";
-            var themeTypes = Assembly.GetExecutingAssembly().GetTypes()
-                .Where(t => t.IsClass && t.Namespace == themeNamespace && t.BaseType == typeof(ResourceDictionary));
-
-            var themes = new List<ThemeItemViewModel>();
-
-            foreach (var type in themeTypes)
-            {
-                var theme = (ResourceDictionary)Activator.CreateInstance(type);
-
-                theme.TryGetValue("PrimaryDarkestColor", out var pColor);
-                theme.TryGetValue("SecondaryFirstDarkestColor", out var sColor);
-
-                ApplicationTheme themeType;
-
-                switch (theme)
-                {
-                    case KathaUmbraTheme _:
-                        themeType = ApplicationTheme.KathaUmbra;
-                        break;
-                    case UmbraSecondTheme _:
-                        themeType = ApplicationTheme.UmbraSecond;
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(ApplicationTheme));
-                }
-
-                //todo converter
-                var viewModel = new ThemeItemViewModel()
-                {
-                    ResourceDictionary = theme,
-                    Theme = themeType,
-                    PrimaryColor = (Color)pColor,
-                    SecondaryColor = (Color)sColor
-                };
-
-                themes.Add(viewModel);
-            }
-
-            Themes = themes;
-
-        }
-
+    
         private void AlertNewVersion()
         {
             UserDialogs.Instance.Confirm(new ConfirmConfig
@@ -430,27 +367,18 @@ namespace ImagoApp.ViewModels
                 var skillPageViewModel = new SkillPageViewModel(characterViewModel, _wikiService, _wikiDataService);
                 var statusPageViewModel = new StatusPageViewModel(characterViewModel, _wikiDataService);
                 var inventoryViewModel = new InventoryViewModel(characterViewModel);
-                var weaveTalentPageViewModel = new WeaveTalentPageViewModel(characterViewModel, _wikiDataService);
+                var dicePageViewModel = new DicePageViewModel(characterViewModel, _wikiService, _wikiDataService);
                 var appShellViewModel = new AppShellViewModel(characterViewModel, characterInfoPageViewModel, skillPageViewModel,
-                    statusPageViewModel, inventoryViewModel, wikiPageViewModel, weaveTalentPageViewModel, _characterProvider);
+                    statusPageViewModel, inventoryViewModel, wikiPageViewModel, dicePageViewModel, _characterProvider);
 
                 //notify the main menu that editmode may have changed
                 appShellViewModel.RaiseEditModeChanged();
 
                 skillPageViewModel.OpenWikiPageRequested += (sender, url) => OpenWikiPage(url);
+                skillPageViewModel.DiceRollRequested += (sender, value) => OpenDicePage(value.type, value.value);
                 statusPageViewModel.OpenWikiPageRequested += (sender, url) => OpenWikiPage(url);
                 inventoryViewModel.OpenWikiPageRequested += (sender, url) => OpenWikiPage(url);
-                weaveTalentPageViewModel.OpenSkillPageRequested += (sender, type) =>
-                {
-                    Analytics.TrackEvent("Open SkillPage", new Dictionary<string, string>()
-                    {
-                        {"SkillType", type.ToString()}
-                    });
-
-                    appShellViewModel.RaiseSwitchPageRequested(typeof(SkillPage));
-                    skillPageViewModel.OpenSkill(type);
-                };
-
+        
                 void OpenWikiPage(string url)
                 {
                     Analytics.TrackEvent("Open WikiPage", new Dictionary<string, string>()
@@ -460,6 +388,17 @@ namespace ImagoApp.ViewModels
 
                     appShellViewModel.RaiseSwitchPageRequested(typeof(WikiPage));
                     wikiPageViewModel.OpenWikiPage(url);
+                }
+
+                void OpenDicePage(DiceSearchModelType type,object value)
+                {
+                    Analytics.TrackEvent("Open DiceRoll", new Dictionary<string, string>()
+                    {
+                        {"type", value.ToString()}
+                    });
+
+                    appShellViewModel.RaiseSwitchPageRequested(typeof(DicePage));
+                    dicePageViewModel.SetSelection(type,value);
                 }
 
                 _attributeCalculationService.RecalculateAllAttributes(characterModel.Attributes, characterModel.SkillGroups);
@@ -740,8 +679,6 @@ namespace ImagoApp.ViewModels
         }));
 
         private ICommand _deleteCharacterCommand;
-        private List<ThemeItemViewModel> _themes;
-        private ThemeItemViewModel _selectedTheme;
         private CharacterPreview _selectedCharacter;
 
         public ICommand DeleteCharacterCommand => _deleteCharacterCommand ?? (_deleteCharacterCommand = new Command(() =>

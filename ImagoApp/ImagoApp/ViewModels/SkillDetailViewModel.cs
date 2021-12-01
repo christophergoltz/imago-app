@@ -30,61 +30,7 @@ namespace ImagoApp.ViewModels
 
         public event EventHandler<string> OpenWikiPageRequested;
 
-        private ICommand _increaseExperienceCommand;
-
-        public ICommand IncreaseExperienceCommand => _increaseExperienceCommand ?? (_increaseExperienceCommand = new Command<int>(experienceValue =>
-        {
-            try
-            {
-                _characterViewModel.AddExperienceToSkill(SkillModel, _parent, experienceValue);
-                UpdateTalentRequirements();
-                RecalcTestValue();
-            }
-            catch (Exception exception)
-            {
-                App.ErrorManager.TrackException(exception, _characterViewModel.CharacterModel.Name, new Dictionary<string, string>()
-                {
-                    { "Experience Value", experienceValue.ToString()}
-                });
-            }
-        }));
-
-        private ICommand _decreaseExperienceCommand;
-        public ICommand DecreaseExperienceCommand => _decreaseExperienceCommand ?? (_decreaseExperienceCommand = new Command(() =>
-        {
-            try
-            {   
-                //todo -1 by parameter; 
-                _characterViewModel.AddExperienceToSkill(SkillModel, _parent, -1);
-            }
-            catch (Exception exception)
-            {
-                App.ErrorManager.TrackException(exception, _characterViewModel.CharacterModel.Name);
-            }
-        }));
-
-        private ICommand _openWikiCommand;
-
-        public ICommand OpenWikiCommand => _openWikiCommand ?? (_openWikiCommand = new Command(() =>
-        {
-            try
-            {
-                var url = _wikiService.GetWikiUrl(SkillModel.Type);
-
-                if (string.IsNullOrWhiteSpace(url))
-                {
-                    App.ErrorManager.TrackExceptionSilent(new InvalidOperationException($"No url found for {SkillModel.Type}"));
-                    UserDialogs.Instance.Alert($"Uups, für {SkillModel.Type} ist wohl nichts hinterlegt..", "Fehlender Link", "OK");
-                    return;
-                }
-
-                OpenWikiPageRequested?.Invoke(this, url);
-            }
-            catch (Exception exception)
-            {
-                App.ErrorManager.TrackException(exception, _characterViewModel.CharacterModel.Name);
-            }
-        }));
+      
 
         private ICommand _closeCommand;
 
@@ -109,8 +55,6 @@ namespace ImagoApp.ViewModels
         }
 
         private string _sourceFormula;
-        private List<TalentListItemViewModel> _talents;
-        private List<MasteryListItemViewModel> _masteries;
         private int _finalTestValue;
         private List<HandicapListViewItemViewModel> _handicaps;
 
@@ -129,19 +73,7 @@ namespace ImagoApp.ViewModels
                 OnPropertyChanged(nameof(SelectedSkillModification));
             }
         }
-
-        public List<TalentListItemViewModel> Talents
-        {
-            get => _talents;
-            set => SetProperty(ref _talents, value);
-        }
-
-        public List<MasteryListItemViewModel> Masteries
-        {
-            get => _masteries;
-            set => SetProperty(ref _masteries, value);
-        }
-
+        
         public List<HandicapListViewItemViewModel> Handicaps
         {
             get => _handicaps;
@@ -160,7 +92,6 @@ namespace ImagoApp.ViewModels
             SourceFormula = _converter.Convert(parent.Type, null, null, CultureInfo.InvariantCulture).ToString();
             
             Task.Run(LoadWikiPage);
-            Task.Run(InitializeTestView);
         }
 
         public int FinalTestValue
@@ -169,76 +100,6 @@ namespace ImagoApp.ViewModels
             set => SetProperty(ref _finalTestValue, value);
         }
         
-        private void RecalcTestValue()
-        {
-            var result = SkillModel.FinalValue.GetRoundedValue();
-
-            //handicap
-            if (Handicaps != null)
-            {
-                foreach (var handicap in Handicaps)
-                {
-                    if (handicap.IsChecked)
-                        result -= handicap.HandiCapValue ?? 0;
-                }
-            }
-
-            //masteries
-            if (Masteries != null)
-            {
-                foreach (var mastery in Masteries)
-                {
-                    if (!mastery.Available)
-                        continue;
-
-                    if (mastery.Mastery.ActiveUse == false || mastery.Mastery.ActiveUse && mastery.InUse)
-                        result -= mastery.Mastery.Difficulty ?? mastery.DifficultyOverride ?? 0;
-                }
-            }
-
-            //talents
-            if (Talents != null)
-            {
-                foreach (var talent in Talents)
-                {
-                    if (!talent.Available)
-                        continue;
-
-                    if (talent.Talent.ActiveUse == false || talent.Talent.ActiveUse && talent.InUse)
-                        result -= talent.Talent.Difficulty ?? talent.DifficultyOverride ?? 0;
-                }
-            }
-
-            FinalTestValue = result;
-        }
-        
-        public void UpdateTalentRequirements()
-        {
-            if (Masteries != null)
-            {
-                foreach (var mastery in Masteries)
-                {
-                    if (mastery.Mastery is MasteryModel model)
-                    {
-                        var avaiable = _characterViewModel.CheckMasteryRequirement(model.Requirements);
-                        mastery.Available = avaiable;
-                    }
-                }
-            }
-
-            if (Talents != null)
-            {
-                foreach (var talent in Talents)
-                {
-                    if (talent.Talent is TalentModel model)
-                    {
-                        var avaiable = _characterViewModel.CheckTalentRequirement(model.Requirements);
-                        talent.Available = avaiable;
-                    }
-                }
-            }
-        }
-
         private static readonly List<(DerivedAttributeType Type, string Text, string IconSource)> HandicapDefinition =
             new List<(DerivedAttributeType Type, string Text, string IconSource)>()
             {
@@ -247,77 +108,6 @@ namespace ImagoApp.ViewModels
                 (DerivedAttributeType.BehinderungGesamt, "Gesamt", null),
                 (DerivedAttributeType.Unknown, "Ignorieren", null)
             };
-
-        private void InitializeTestView()
-        {
-            //masteries
-            var masteries = new List<MasteryListItemViewModel>();
-            var allMasteries = _wikiDataService.GetAllMasteries();
-            foreach (var mastery in allMasteries)
-            {
-                if (mastery.TargetSkill != _parent.Type)
-                    continue;
-
-                var avaiable = _characterViewModel.CheckMasteryRequirement(mastery.Requirements);
-
-                var vm = new MasteryListItemViewModel(mastery)
-                {
-                    Available = avaiable
-                };
-                vm.TalentValueChanged += (sender, args) => RecalcTestValue();
-                masteries.Add(vm);
-            }
-
-            Masteries = masteries;
-
-            //talents
-            var talents = new List<TalentListItemViewModel>();
-            var allTalents = _wikiDataService.GetAllTalents();
-            foreach (var talent in allTalents)
-            {
-                if (talent.TargetSkillModel != SkillModel.Type)
-                    continue;
-
-                var avaiable = _characterViewModel.CheckTalentRequirement(talent.Requirements);
-
-                var vm = new TalentListItemViewModel(talent)
-                {
-                    Available = avaiable
-                };
-                vm.TalentValueChanged += (sender, args) => RecalcTestValue();
-                talents.Add(vm);
-            }
-
-            Talents = talents;
-
-            //handicap
-            var handicaps = new List<HandicapListViewItemViewModel>();
-            if (RuleConstants.GetSkillGroupSources(_parent.Type).Contains(AttributeType.Geschicklichkeit))
-            {
-                //only add handicap for attributessource with Geschicklichkeit
-                foreach (var tuple in HandicapDefinition)
-                {
-                    var handicapValue = tuple.Type == DerivedAttributeType.Unknown
-                        ? (int?) null
-                        : _characterViewModel.DerivedAttributes.First(attribute => attribute.Type == tuple.Type).FinalValue.GetRoundedValue();
-
-                    //todo converter
-                    var vm = new HandicapListViewItemViewModel(tuple.Type, false, handicapValue, tuple.IconSource,
-                        tuple.Text);
-                    vm.HandicapValueChanged += (sender, args) => RecalcTestValue();
-
-                    if (vm.Type == DerivedAttributeType.BehinderungAbenteuer)
-                        vm.IsChecked = true;
-
-                    handicaps.Add(vm);
-                }
-            }
-
-            Handicaps = handicaps;
-
-            UpdateTalentRequirements();
-            RecalcTestValue();
-        }
 
         private void LoadWikiPage()
         {

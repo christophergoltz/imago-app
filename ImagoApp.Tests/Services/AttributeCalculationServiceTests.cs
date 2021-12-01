@@ -14,12 +14,9 @@ namespace ImagoApp.Tests.Services
 
         public AttributeCalculationServiceTests()
         {
-            var increaseCalculationService = new IncreaseCalculationService();
-            var skillCalculationService = new SkillCalculationService(increaseCalculationService);
-            var skillGroupCalculationService =
-                new SkillGroupCalculationService(skillCalculationService, increaseCalculationService);
-            _attributeCalculationService =
-                new AttributeCalculationService(increaseCalculationService, skillGroupCalculationService);
+            var skillCalculationService = new SkillCalculationService();
+            var skillGroupCalculationService = new SkillGroupCalculationService(skillCalculationService);
+            _attributeCalculationService = new AttributeCalculationService(skillGroupCalculationService);
         }
 
         [Theory]

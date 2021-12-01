@@ -9,7 +9,7 @@ namespace ImagoApp.Application.Models
 {
     public enum WeaveTalentResultType
     {
-        [DisplayText("Korrosion (Gerundet)")]
+        [DisplayText("Korrosion")]
         Corrosion,
         [DisplayText("Dauer")]
         Duration,

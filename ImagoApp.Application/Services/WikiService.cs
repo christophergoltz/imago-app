@@ -42,6 +42,7 @@ namespace ImagoApp.Application.Services
         
         private string GetHtmlDocumentContent(string url, bool killLinks, params string[] titlesToRemove)
         {
+            //todo logger null
             var document = WikiHelper.LoadDocumentFromUrl(url, null);
             if (document == null)
                 return string.Empty;

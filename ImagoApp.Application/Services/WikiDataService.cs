@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using AutoMapper;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Models.Template;
@@ -20,10 +21,9 @@ namespace ImagoApp.Application.Services
         List<ArmorPartTemplateModel> GetAllArmor();
         void DeleteAllArmor();
         void AddMasteries(List<MasteryModel> items);
-        List<MasteryModel> GetAllMasteries();
         void DeleteAllMasteries();
         void AddTalents(List<TalentModel> items);
-        List<TalentModel> GetAllTalents();
+        List<TalentModel> GetAllTalents(SkillModelType skillModelType);
         void DeleteAllTalents();
         WeaponModel GetWeaponFromTemplate(WeaponTemplateModel model);
         ArmorPartModelModel GetArmorFromTemplate(ArmorPartTemplateModel model);
@@ -154,14 +154,7 @@ namespace ImagoApp.Application.Services
             var entities = _mapper.Map<List<MasteryEntity>>(items);
             _masteryRepository.InsertBulk(entities);
         }
-
-        public List<MasteryModel> GetAllMasteries()
-        {
-            var entites = _masteryRepository.GetAllItems();
-            var weapons = _mapper.Map<List<MasteryModel>>(entites);
-            return weapons;
-        }
-
+        
         public List<MasteryModel> GetAllMasteries(SkillGroupModelType groupModelType)
         {
             var entites = _masteryRepository.GetAllMasteries(groupModelType);
@@ -184,11 +177,11 @@ namespace ImagoApp.Application.Services
             _talentRepository.InsertBulk(entities);
         }
 
-        public List<TalentModel> GetAllTalents()
+        public List<TalentModel> GetAllTalents(SkillModelType skillModelType)
         {
             var entities = _talentRepository.GetAllItems();
             var talents = _mapper.Map<List<TalentModel>>(entities);
-            return talents;
+            return talents.Where(model => model.TargetSkillModel == skillModelType).ToList();
         }
 
         public void DeleteAllTalents()

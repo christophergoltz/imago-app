@@ -89,11 +89,6 @@ namespace ImagoApp
                                 oldItem.IsSelected = false;
                             }
                         });
-
-                        if (flyoutPageItem.NavigationPage.CurrentPage is WeaveTalentPage weaveTalentPage)
-                        {
-                            weaveTalentPage.ViewModel.InitializeWeaveTalentList();
-                        }
                     });
                 }
             }

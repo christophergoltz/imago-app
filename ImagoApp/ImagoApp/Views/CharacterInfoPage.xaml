@@ -31,16 +31,11 @@
                        HorizontalOptions="Center"
                        Text="{Binding AttributeModel.IncreaseValueCache}"
                        VerticalOptions="Center" />
-                    <Label Grid.Column="3"
-                       FontSize="{DynamicResource FontSizeContent}"
-                       HorizontalOptions="Center" VerticalOptions="Center">
-                        <Label.Text>
-                            <MultiBinding StringFormat="{}{0}/{1}">
-                                <Binding Path="AttributeModel.LeftoverExperienceCache" Source="{RelativeSource AncestorType={x:Type viewModels:AttributeViewModel}}" />
-                                <Binding Path="AttributeModel.ExperienceForNextIncreasedRequiredCache" Source="{RelativeSource AncestorType={x:Type viewModels:AttributeViewModel}}" />
-                            </MultiBinding>
-                        </Label.Text>
-                    </Label>
+
+                    <customControls:TallyMarker HorizontalOptions="Start" Grid.Column="3"
+                                                 CurrentValue="{Binding AttributeModel.LeftoverExperienceCache}"
+                                                 MaximumValue="{Binding AttributeModel.ExperienceForNextIncreasedRequiredCache}"></customControls:TallyMarker>
+
                     <Entry Grid.Column="4" Margin="5,0"
                        FontSize="{DynamicResource FontSizeDetail}"
                        HorizontalOptions="Fill"
@@ -145,91 +140,84 @@
                 <Grid Grid.Row="0" Grid.RowSpan="4" Grid.Column="0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <StackLayout Grid.Column="0" Margin="10">
-                        <StackLayout Margin="10" Orientation="Horizontal" VerticalOptions="Center">
-                            <Label FontAttributes="Bold"
-                               FontSize="{DynamicResource FontSizeContent}"
-                               Text="Name: " VerticalOptions="Center" />
-                            <Entry FontSize="{DynamicResource FontSizeContent}"
-                               Text="{Binding CharacterViewModel.CharacterModel.Name}"
-                               VerticalOptions="Center" WidthRequest="275" />
-                        </StackLayout>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
 
-                        <StackLayout Margin="10" Orientation="Horizontal" VerticalOptions="Center">
-                            <Label FontAttributes="Bold"
-                               FontSize="{DynamicResource FontSizeContent}"
-                               Text="Rasse: " VerticalOptions="Center" />
-                            <Label FontSize="{DynamicResource FontSizeContent}"
-                               Text="-" VerticalOptions="Center" />
-                        </StackLayout>
+                    <Label FontAttributes="Bold" Grid.Row="0" Grid.Column="0" Margin="10" HorizontalOptions="End"
+                           FontSize="{DynamicResource FontSizeContent}"
+                           Text="Name" VerticalOptions="Center" />
+                    <Entry FontSize="{DynamicResource FontSizeContent}"  Grid.Row="0" Grid.Column="1"  Margin="10"
+                           Text="{Binding CharacterViewModel.CharacterModel.Name}"
+                           VerticalOptions="Center" WidthRequest="275" />
 
-                        <StackLayout Margin="10" Orientation="Horizontal" VerticalOptions="Center">
-                            <Label FontAttributes="Bold"
-                               FontSize="{DynamicResource FontSizeContent}"
-                               Text="Größe: " VerticalOptions="Center" />
-                            <Entry FontSize="{DynamicResource FontSizeContent}"
-                               Text="{Binding CharacterViewModel.CharacterModel.Height}"
-                               VerticalOptions="Center" WidthRequest="125" />
-                        </StackLayout>
+                    <Label FontAttributes="Bold" Grid.Row="1" Grid.Column="0"  Margin="10"  HorizontalOptions="End"
+                           FontSize="{DynamicResource FontSizeContent}"
+                           Text="Rasse" VerticalOptions="Center" />
+                    <Label FontSize="{DynamicResource FontSizeContent}" Grid.Row="1" Grid.Column="1"  Margin="10"
+                           Text="-" VerticalOptions="Center" />
 
-                        <StackLayout Margin="10" Orientation="Horizontal" VerticalOptions="Center">
-                            <Label FontAttributes="Bold"
-                               FontSize="{DynamicResource FontSizeContent}"
-                               Text="Gewicht: " VerticalOptions="Center" />
-                            <Entry FontSize="{DynamicResource FontSizeContent}"
-                               Text="{Binding CharacterViewModel.CharacterModel.Weight}"
-                               VerticalOptions="Center" WidthRequest="100" />
-                        </StackLayout>
+                    <Label FontAttributes="Bold" Grid.Row="2" Grid.Column="0"  Margin="10"  HorizontalOptions="End"
+                           FontSize="{DynamicResource FontSizeContent}"
+                           Text="Größe" VerticalOptions="Center" />
+                    <Entry FontSize="{DynamicResource FontSizeContent}" Grid.Row="2" Grid.Column="1"  Margin="10"
+                           Text="{Binding CharacterViewModel.CharacterModel.Height}"
+                           VerticalOptions="Center" WidthRequest="125" />
 
-                        <StackLayout Margin="10" Orientation="Horizontal" VerticalOptions="Center">
-                            <Label FontAttributes="Bold"
-                               FontSize="{DynamicResource FontSizeContent}"
-                               Text="Göttliche Seele: " VerticalOptions="Center" />
-                            <Entry FontSize="{DynamicResource FontSizeContent}"
-                               Text="{Binding CharacterViewModel.CharacterModel.DivineSoul}"
-                               VerticalOptions="Center" WidthRequest="75" />
-                        </StackLayout>
+                    <Label FontAttributes="Bold"  Grid.Row="3" Grid.Column="0"
+                           FontSize="{DynamicResource FontSizeContent}"  Margin="10"  HorizontalOptions="End"
+                           Text="Gewicht" VerticalOptions="Center" />
+                    <Entry FontSize="{DynamicResource FontSizeContent}"  Grid.Row="3" Grid.Column="1"  Margin="10"
+                           Text="{Binding CharacterViewModel.CharacterModel.Weight}"
+                           VerticalOptions="Center" WidthRequest="100" />
 
-                        <StackLayout Margin="10" Orientation="Horizontal" VerticalOptions="Center">
-                            <Label FontAttributes="Bold"
-                               FontSize="{DynamicResource FontSizeContent}"
-                               Text="Augenfarbe: " VerticalOptions="Center" />
-                            <Entry FontSize="{DynamicResource FontSizeContent}"
-                               Text="{Binding CharacterViewModel.CharacterModel.EyeColor}"
-                               VerticalOptions="Center" WidthRequest="150" />
-                        </StackLayout>
+                    <Label FontAttributes="Bold"  Grid.Row="4" Grid.Column="0"  Margin="10"  HorizontalOptions="End"
+                           FontSize="{DynamicResource FontSizeContent}"
+                           Text="Göttliche Seele" VerticalOptions="Center" />
+                    <Entry FontSize="{DynamicResource FontSizeContent}"  Grid.Row="4" Grid.Column="1"  Margin="10"
+                           Text="{Binding CharacterViewModel.CharacterModel.DivineSoul}"
+                           VerticalOptions="Center" WidthRequest="75" />
 
-                        <StackLayout Margin="10" Orientation="Horizontal" VerticalOptions="Center">
-                            <Label FontAttributes="Bold"
-                               FontSize="{DynamicResource FontSizeContent}"
-                               Text="Haarfarbe: " VerticalOptions="Center" />
-                            <Entry FontSize="{DynamicResource FontSizeContent}"
-                               Text="{Binding CharacterViewModel.CharacterModel.HairColor}"
-                               VerticalOptions="Center" WidthRequest="150" />
-                        </StackLayout>
+                    <Label FontAttributes="Bold" Grid.Row="5" Grid.Column="0"
+                           FontSize="{DynamicResource FontSizeContent}"  Margin="10"  HorizontalOptions="End"
+                           Text="Augenfarbe" VerticalOptions="Center" />
+                    <Entry FontSize="{DynamicResource FontSizeContent}" Grid.Row="5" Grid.Column="1"  Margin="10"
+                           Text="{Binding CharacterViewModel.CharacterModel.EyeColor}"
+                           VerticalOptions="Center" WidthRequest="150" />
 
-                        <StackLayout Margin="10" Orientation="Horizontal" VerticalOptions="Center">
-                            <Label FontAttributes="Bold"
-                               FontSize="{DynamicResource FontSizeContent}"
-                               Text="Hautfarbe / Schuppenfarbe: " VerticalOptions="Center" />
-                            <Entry FontSize="{DynamicResource FontSizeContent}"
-                               Text="{Binding CharacterViewModel.CharacterModel.SkinColor}"
-                               VerticalOptions="Center" WidthRequest="250" />
-                        </StackLayout>
+                    <Label FontAttributes="Bold"  Grid.Row="6" Grid.Column="0"  Margin="10"  HorizontalOptions="End"
+                           FontSize="{DynamicResource FontSizeContent}"
+                           Text="Haarfarbe" VerticalOptions="Center" />
+                    <Entry FontSize="{DynamicResource FontSizeContent}"  Grid.Row="6" Grid.Column="1"  Margin="10"
+                           Text="{Binding CharacterViewModel.CharacterModel.HairColor}"
+                           VerticalOptions="Center" WidthRequest="150" />
 
-                        <StackLayout Margin="10" Orientation="Horizontal" VerticalOptions="Center">
-                            <Label FontAttributes="Bold"
-                               FontSize="{DynamicResource FontSizeContent}"
-                               Text="Alter: " VerticalOptions="Center" />
-                            <Entry FontSize="{DynamicResource FontSizeContent}"
-                               Text="{Binding CharacterViewModel.CharacterModel.Age}"
-                               VerticalOptions="Center" WidthRequest="75" />
-                        </StackLayout>
-                    </StackLayout>
+                    <Label FontAttributes="Bold"  Grid.Row="7" Grid.Column="0"  HorizontalOptions="End"
+                           FontSize="{DynamicResource FontSizeContent}"  Margin="10"
+                           Text="Hautfarbe / Schuppenfarbe" VerticalOptions="Center" />
+                    <Entry FontSize="{DynamicResource FontSizeContent}"  Grid.Row="7" Grid.Column="1"  Margin="10"
+                           Text="{Binding CharacterViewModel.CharacterModel.SkinColor}"
+                           VerticalOptions="Center" WidthRequest="250" />
 
-                    <Editor Grid.Row="1" Margin="5,5,0,5"
+                    <Label FontAttributes="Bold"  Grid.Row="8" Grid.Column="0"  Margin="10"  HorizontalOptions="End"
+                           FontSize="{DynamicResource FontSizeContent}"
+                           Text="Alter" VerticalOptions="Center" />
+                    <Entry FontSize="{DynamicResource FontSizeContent}"  Grid.Row="8" Grid.Column="1"  Margin="10"
+                           Text="{Binding CharacterViewModel.CharacterModel.Age}"
+                           VerticalOptions="Center" WidthRequest="75" />
+
+                    <Editor Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" Placeholder="Notizen" Margin="0,5,0,0"
                        FontSize="{DynamicResource FontSizeContent}"
                        Text="{Binding CharacterViewModel.CharacterModel.Note}" />
                 </Grid>

@@ -106,7 +106,11 @@ namespace ImagoApp.Views.CustomControls
             get { return GetValue(CommandParameterProperty); }
             set { SetValue(CommandParameterProperty, value); }
         }
-
-
+        
+        private void Button_OnClicked(object sender, EventArgs e)
+        {
+            //event handler required or IsEnabled doenst work
+            Command.Execute(CommandParameter);
+        }
     }
 }

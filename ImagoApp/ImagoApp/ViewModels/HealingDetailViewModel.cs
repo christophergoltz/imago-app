@@ -17,7 +17,7 @@ namespace ImagoApp.ViewModels
         public CharacterViewModel CharacterViewModel
         {
             get => _characterViewModel;
-            set => SetProperty(ref _characterViewModel , value);
+            set => SetProperty(ref _characterViewModel, value);
         }
 
         public event EventHandler CloseRequested;
@@ -55,8 +55,8 @@ namespace ImagoApp.ViewModels
         }
 
         private int _finalHealingValue;
-        
-        public int MissingHitpointsModification => SelectedBodyPartModel.MissingHitpoints * 5;
+
+        public int MissingHitpointsModification => SelectedBodyPartModel?.MissingHitpoints ?? 0 * 5;
 
         private int _modification;
         private CharacterViewModel _characterViewModel;

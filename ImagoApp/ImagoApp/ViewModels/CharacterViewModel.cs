@@ -84,7 +84,11 @@ namespace ImagoApp.ViewModels
             {
                 new SpecialAttributeModel(SpecialAttributeType.Initiative)
             };
+
+            LoadoutViewModel = new LoadoutViewModel(HandicapAttributes);
         }
+
+        public LoadoutViewModel LoadoutViewModel { get; set; }
 
         public List<SpecialAttributeModel> SpecialAttributes { get; }
         public List<DerivedAttributeModel> DerivedAttributes { get; }
@@ -455,7 +459,7 @@ namespace ImagoApp.ViewModels
                         {
                             if (loadLimit == 0)
                             {
-                                handicapAttribute.FinalValue = -1;
+                                handicapAttribute.FinalValue = 0;
                                 break;
                             }
 

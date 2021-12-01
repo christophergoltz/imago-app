@@ -56,7 +56,7 @@
                 </Grid>
 
                 <!--  footer  -->
-                <BoxView Grid.Row="4" Color="{DynamicResource SecondaryFirstMediumColor}" />
+                <BoxView Grid.Row="4" Color="{StaticResource SecondaryFirstMediumColor}" />
 
                 <StackLayout Grid.Row="5"
                              Margin="10,10,10,10" 
@@ -64,17 +64,17 @@
                     <StackLayout.Triggers>
                         <DataTrigger Binding="{Binding EditMode}"
                                      TargetType="StackLayout" Value="False">
-                            <Setter Property="BackgroundColor" Value="{DynamicResource SecondaryFirstMediumColor}" />
+                            <Setter Property="BackgroundColor" Value="{StaticResource SecondaryFirstMediumColor}" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding EditMode}"
                                      TargetType="StackLayout" Value="True">
-                            <Setter Property="BackgroundColor" Value="{DynamicResource SecondarySecondDarkColor}" />
+                            <Setter Property="BackgroundColor" Value="{StaticResource SecondarySecondDarkColor}" />
                         </DataTrigger>
                     </StackLayout.Triggers>
                     <Image Source="Images/erschaffung_weiss.png" WidthRequest="35" />
                     <Switch Margin="0,5,0,0"
                        IsToggled="{Binding EditMode}"
-                       OnColor="{DynamicResource SecondarySecondLightColor}"
+                       OnColor="{StaticResource SecondarySecondLightColor}"
                        ThumbColor="White" />
                 </StackLayout>
             </Grid>

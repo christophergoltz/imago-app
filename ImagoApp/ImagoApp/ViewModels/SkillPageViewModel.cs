@@ -18,17 +18,32 @@ namespace ImagoApp.ViewModels
         private SkillGroupDetailViewModel _skillGroupDetailViewModel;
         private SkillDetailViewModel _skillDetailViewModel;
         public event EventHandler<string> OpenWikiPageRequested;
-        public SkillGroupViewModel Bewegung => new SkillGroupViewModel(CharacterViewModel.CharacterModel.SkillGroups.First(_=>_.Type == SkillGroupModelType.Bewegung), CharacterViewModel);
-        public SkillGroupViewModel Nahkampf => new SkillGroupViewModel(CharacterViewModel.CharacterModel.SkillGroups.First(_ => _.Type == SkillGroupModelType.Nahkampf), CharacterViewModel);
-        public SkillGroupViewModel Heimlichkeit => new SkillGroupViewModel(CharacterViewModel.CharacterModel.SkillGroups.First(_ => _.Type == SkillGroupModelType.Heimlichkeit), CharacterViewModel);
-        public SkillGroupViewModel Fernkampf => new SkillGroupViewModel(CharacterViewModel.CharacterModel.SkillGroups.First(_ => _.Type == SkillGroupModelType.Fernkampf), CharacterViewModel);
-        public SkillGroupViewModel Webkunst => new SkillGroupViewModel(CharacterViewModel.CharacterModel.SkillGroups.First(_ => _.Type == SkillGroupModelType.Webkunst), CharacterViewModel);
-        public SkillGroupViewModel Wissenschaft => new SkillGroupViewModel(CharacterViewModel.CharacterModel.SkillGroups.First(_ => _.Type == SkillGroupModelType.Wissenschaft), CharacterViewModel);
-        public SkillGroupViewModel Handwerk => new SkillGroupViewModel(CharacterViewModel.CharacterModel.SkillGroups.First(_ => _.Type == SkillGroupModelType.Handwerk), CharacterViewModel);
-        public SkillGroupViewModel Soziales => new SkillGroupViewModel(CharacterViewModel.CharacterModel.SkillGroups.First(_ => _.Type == SkillGroupModelType.Soziales), CharacterViewModel);
+        public event EventHandler<(DiceSearchModelType type, object value)> DiceRollRequested;
+
+        public SkillGroupViewModel Bewegung { get; set; }
+        public SkillGroupViewModel Nahkampf { get; set; }
+        public SkillGroupViewModel Heimlichkeit { get; set; }
+        public SkillGroupViewModel Fernkampf { get; set; }
+        public SkillGroupViewModel Webkunst { get; set; }
+        public SkillGroupViewModel Wissenschaft { get; set; }
+        public SkillGroupViewModel Handwerk { get; set; }
+        public SkillGroupViewModel Soziales { get; set; }
+
+        public int SelectedTabIndex
+        {
+            get => _selectedTabIndex;
+            set => SetProperty(ref _selectedTabIndex, value);
+        }
+
+        private ICommand _switchTabCommand;
+        public ICommand SwitchTabCommand => _switchTabCommand ?? (_switchTabCommand = new Command<int>(parameter =>
+        {
+            SelectedTabIndex = parameter;
+        }));
 
         public void OpenSkill(SkillModelType skillModelType)
         {
+            //todo obsolete?
             SkillModel mSkill = null;
             SkillGroupModel mSkillGroup = null;
 
@@ -61,6 +76,8 @@ namespace ImagoApp.ViewModels
         }
 
         private ICommand _openSkillDetailCommandCommand;
+        private int _selectedTabIndex;
+
         public ICommand OpenSkillDetailCommand => _openSkillDetailCommandCommand ?? (_openSkillDetailCommandCommand = new Command<(SkillModel Skill, SkillGroupModel SkillGroup)>(parameter =>
         {
             try
@@ -85,28 +102,6 @@ namespace ImagoApp.ViewModels
             }
         }));
 
-        private ICommand _openSkillGroupDetailCommand;
-
-        public ICommand OpenSkillGroupDetailCommand => _openSkillGroupDetailCommand ?? (_openSkillGroupDetailCommand =
-            new Command<SkillGroupModel>(group =>
-            {
-                try
-                {
-                    var vm = new SkillGroupDetailViewModel(group, CharacterViewModel, _wikiService);
-                    vm.CloseRequested += (sender, args) => { SkillGroupDetailViewModel = null; };
-                    vm.OpenWikiPageRequested += (sender, s) => { OpenWikiPageRequested?.Invoke(this, s); };
-                    SkillGroupDetailViewModel = vm;
-                }
-                catch (Exception exception)
-                {
-                    App.ErrorManager.TrackException(exception, CharacterViewModel.CharacterModel.Name,
-                        new Dictionary<string, string>()
-                        {
-                            {"SkillGroup", group.Type.ToString()}
-                        });
-                }
-            }));
-        
         public SkillDetailViewModel SkillDetailViewModel
         {
             get => _skillDetailViewModel;
@@ -118,7 +113,7 @@ namespace ImagoApp.ViewModels
             get => _skillGroupDetailViewModel;
             set => SetProperty(ref _skillGroupDetailViewModel, value);
         }
-        
+
         public int TotalSkillExperience
         {
             get => CharacterViewModel.CharacterModel.CharacterCreationSkillPoints;
@@ -132,7 +127,7 @@ namespace ImagoApp.ViewModels
         public int SkillExperienceBalance => TotalSkillExperience - CharacterViewModel.CharacterModel.SkillGroups
                                                  .SelectMany(model => model.Skills)
                                                  .Sum(model => model.CreationExperience);
-        
+
         public SkillPageViewModel(CharacterViewModel characterViewModel, IWikiService wikiService, IWikiDataService wikiDataService)
         {
             _wikiService = wikiService;
@@ -149,6 +144,38 @@ namespace ImagoApp.ViewModels
                     }
                 };
             }
+
+            Bewegung = new SkillGroupViewModel(_wikiService, CharacterViewModel.CharacterModel.SkillGroups.First(_ => _.Type == SkillGroupModelType.Bewegung), CharacterViewModel);
+            Bewegung.OpenWikiPageRequested += (sender, s) => OpenWikiPageRequested?.Invoke(sender, s);
+            Bewegung.DiceRollRequested += (sender, s) => DiceRollRequested?.Invoke(sender, s);
+           
+            Nahkampf = new SkillGroupViewModel(_wikiService, CharacterViewModel.CharacterModel.SkillGroups.First(_ => _.Type == SkillGroupModelType.Nahkampf), CharacterViewModel);
+            Nahkampf.OpenWikiPageRequested += (sender, s) => OpenWikiPageRequested?.Invoke(sender, s);
+            Nahkampf.DiceRollRequested += (sender, s) => DiceRollRequested?.Invoke(sender, s);
+          
+            Heimlichkeit = new SkillGroupViewModel(_wikiService, CharacterViewModel.CharacterModel.SkillGroups.First(_ => _.Type == SkillGroupModelType.Heimlichkeit), CharacterViewModel);
+            Heimlichkeit.OpenWikiPageRequested += (sender, s) => OpenWikiPageRequested?.Invoke(sender, s);
+            Heimlichkeit.DiceRollRequested += (sender, s) => DiceRollRequested?.Invoke(sender, s);
+          
+            Fernkampf = new SkillGroupViewModel(_wikiService, CharacterViewModel.CharacterModel.SkillGroups.First(_ => _.Type == SkillGroupModelType.Fernkampf), CharacterViewModel);
+            Fernkampf.OpenWikiPageRequested += (sender, s) => OpenWikiPageRequested?.Invoke(sender, s);
+            Fernkampf.DiceRollRequested += (sender, s) => DiceRollRequested?.Invoke(sender, s);
+           
+            Webkunst = new SkillGroupViewModel(_wikiService, CharacterViewModel.CharacterModel.SkillGroups.First(_ => _.Type == SkillGroupModelType.Webkunst), CharacterViewModel);
+            Webkunst.OpenWikiPageRequested += (sender, s) => OpenWikiPageRequested?.Invoke(sender, s);
+            Webkunst.DiceRollRequested += (sender, s) => DiceRollRequested?.Invoke(sender, s);
+          
+            Wissenschaft = new SkillGroupViewModel(_wikiService, CharacterViewModel.CharacterModel.SkillGroups.First(_ => _.Type == SkillGroupModelType.Wissenschaft), CharacterViewModel);
+            Wissenschaft.OpenWikiPageRequested += (sender, s) => OpenWikiPageRequested?.Invoke(sender, s);
+            Wissenschaft.DiceRollRequested += (sender, s) => DiceRollRequested?.Invoke(sender, s);
+           
+            Handwerk = new SkillGroupViewModel(_wikiService, CharacterViewModel.CharacterModel.SkillGroups.First(_ => _.Type == SkillGroupModelType.Handwerk), CharacterViewModel);
+            Handwerk.OpenWikiPageRequested += (sender, s) => OpenWikiPageRequested?.Invoke(sender, s);
+            Handwerk.DiceRollRequested += (sender, s) => DiceRollRequested?.Invoke(sender, s);
+          
+            Soziales = new SkillGroupViewModel(_wikiService, CharacterViewModel.CharacterModel.SkillGroups.First(_ => _.Type == SkillGroupModelType.Soziales), CharacterViewModel);
+            Soziales.OpenWikiPageRequested += (sender, s) => OpenWikiPageRequested?.Invoke(sender, s);
+            Soziales.DiceRollRequested += (sender, s) => DiceRollRequested?.Invoke(sender, s);
         }
     }
 }
