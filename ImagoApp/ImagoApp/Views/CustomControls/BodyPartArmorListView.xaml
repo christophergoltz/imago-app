@@ -132,7 +132,7 @@
                                                                      TextHidden="True" 
                                                                      ImageSize="33" HorizontalOptions="EndAndExpand"
                                                                      CommandParameter="{Binding .}"
-                                                                     Command="{Binding AddArmorCommand, Source={RelativeSource AncestorType={x:Type viewModels:BodyPartArmorListViewModel}}}"/>
+                                                                     Command="{Binding RemoveArmorCommand, Source={RelativeSource AncestorType={x:Type viewModels:BodyPartArmorListViewModel}}}"/>
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>

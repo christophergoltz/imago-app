@@ -365,7 +365,7 @@ namespace ImagoApp.ViewModels
                 //create all required dependencies
                 var characterInfoPageViewModel = new CharacterInfoPageViewModel(characterViewModel);
                 var wikiPageViewModel = new WikiPageViewModel(characterViewModel);
-                var skillPageViewModel = new SkillPageViewModel(characterViewModel, _wikiService, _wikiDataService);
+                var skillPageViewModel = new SkillPageViewModel(characterViewModel, _wikiService);
                 var equipmentPageViewModel = new EquipmentPageViewModel(characterViewModel, _wikiDataService);
                 var dicePageViewModel = new DicePageViewModel(characterViewModel, _wikiService, _wikiDataService);
                 var appShellViewModel = new AppShellViewModel(characterViewModel, characterInfoPageViewModel, skillPageViewModel,
