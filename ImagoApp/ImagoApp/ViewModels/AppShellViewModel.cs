@@ -5,8 +5,10 @@ using System.Windows.Input;
 using Acr.UserDialogs;
 using ImagoApp.Application;
 using ImagoApp.Manager;
+using ImagoApp.ViewModels.Page;
 using ImagoApp.Views;
 using ImagoApp.Views.CustomControls;
+using ImagoApp.Views.Page;
 using Microsoft.AppCenter.Analytics;
 using Xamarin.Forms;
 
@@ -17,8 +19,7 @@ namespace ImagoApp.ViewModels
         private readonly CharacterViewModel _characterViewModel;
         public readonly CharacterInfoPageViewModel CharacterInfoPageViewModel;
         private readonly SkillPageViewModel _skillPageViewModel;
-        private readonly StatusPageViewModel _statusPageViewModel;
-        private readonly InventoryViewModel _inventoryViewModel;
+        private readonly EquipmentPageViewModel _equipmentPageViewModel;
         private readonly WikiPageViewModel _wikiPageViewModel;
         private readonly DicePageViewModel _dicePageViewModel;
         private readonly ICharacterProvider _characterProvider;
@@ -45,16 +46,15 @@ namespace ImagoApp.ViewModels
                 new FlyoutPageItem("Images/charakter_weiss.png", typeof(CharacterInfoPage),CreateNavigationPageForContent(new CharacterInfoPage(CharacterInfoPageViewModel))),
                 new FlyoutPageItem("Images/vor_und_nachteile_weiss.png", typeof(PerksPage),CreateNavigationPageForContent(new PerksPage())),
                 new FlyoutPageItem("Images/fertigkeit_weiss.png", typeof(SkillPage),CreateNavigationPageForContent(new SkillPage(_skillPageViewModel))),
-                new FlyoutPageItem("Images/kampf_weiss.png", typeof(StatusPage),CreateNavigationPageForContent(new StatusPage(_statusPageViewModel))),
-                new FlyoutPageItem("Images/inventar_weiss.png", typeof(InventoryPage),CreateNavigationPageForContent(new InventoryPage(_inventoryViewModel))),
-                new FlyoutPageItem("Images/wiki_weiss.png", typeof(WikiPage),CreateNavigationPageForContent(new WikiPage(_wikiPageViewModel))),
+                new FlyoutPageItem("Images/fight_weiss.png", typeof(EquipmentPageViewModel),CreateNavigationPageForContent(new EquipmentPage(_equipmentPageViewModel))),
+             new FlyoutPageItem("Images/wiki_weiss.png", typeof(WikiPage),CreateNavigationPageForContent(new WikiPage(_wikiPageViewModel))),
                 new FlyoutPageItem("Images/wuerfel_weiss.png", typeof(DicePage),CreateNavigationPageForContent(new DicePage(_dicePageViewModel)))
             };
 
             return result;
         }
 
-        private NavigationPage CreateNavigationPageForContent(Page page)
+        private NavigationPage CreateNavigationPageForContent(Xamarin.Forms.Page page)
         {
             var newDetail = new NavigationPage(page);
             Device.BeginInvokeOnMainThread(() =>
@@ -66,9 +66,8 @@ namespace ImagoApp.ViewModels
 
         public AppShellViewModel(CharacterViewModel characterViewModel,
             CharacterInfoPageViewModel characterInfoPageViewModel,
-            SkillPageViewModel skillPageViewModel, 
-            StatusPageViewModel statusPageViewModel,
-            InventoryViewModel inventoryViewModel, 
+            SkillPageViewModel skillPageViewModel,
+            EquipmentPageViewModel equipmentPageViewModel,
             WikiPageViewModel wikiPageViewModel,
             DicePageViewModel dicePageViewModel,
             ICharacterProvider characterProvider)
@@ -76,13 +75,12 @@ namespace ImagoApp.ViewModels
             _characterViewModel = characterViewModel;
             CharacterInfoPageViewModel = characterInfoPageViewModel;
             _skillPageViewModel = skillPageViewModel;
-            _statusPageViewModel = statusPageViewModel;
-            _inventoryViewModel = inventoryViewModel;
+            _equipmentPageViewModel = equipmentPageViewModel;
             _wikiPageViewModel = wikiPageViewModel;
             _dicePageViewModel = dicePageViewModel;
             _characterProvider = characterProvider;
 
-            Device.BeginInvokeOnMainThread(() => { MenuItems = CreateMainMenu(); });
+            Device.InvokeOnMainThreadAsync(() => { MenuItems = CreateMainMenu(); }).Wait();
 
             GoToMainMenuCommand = new Command(() =>
             {

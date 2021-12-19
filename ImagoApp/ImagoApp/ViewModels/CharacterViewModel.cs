@@ -11,7 +11,7 @@ using Microsoft.AppCenter.Crashes;
 
 namespace ImagoApp.ViewModels
 {
-    public class CharacterViewModel : BindableBase, IInitialCalculationViewModel
+    public class CharacterViewModel : BindableBase
     {
         private readonly IAttributeCalculationService _attributeCalculationService;
         private readonly ISkillGroupCalculationService _skillGroupCalculationService;
@@ -93,16 +93,12 @@ namespace ImagoApp.ViewModels
         public List<SpecialAttributeModel> SpecialAttributes { get; }
         public List<DerivedAttributeModel> DerivedAttributes { get; }
 
-        public List<DerivedAttributeModel> FightDerivedAttributes => DerivedAttributes
-            .Where(_ => _.Type == DerivedAttributeType.SprungreichweiteKampf ||
+        public List<DerivedAttributeModel> EquipmentDerivedAttributes => DerivedAttributes
+            .Where(_ => _.Type == DerivedAttributeType.Traglast ||
+                        _.Type == DerivedAttributeType.SprungreichweiteKampf ||
                         _.Type == DerivedAttributeType.SprunghoeheKampf ||
                         _.Type == DerivedAttributeType.Sprintreichweite ||
-                        _.Type == DerivedAttributeType.TaktischeBewegung)
-            .ToList();
-
-        public List<DerivedAttributeModel> AdventureDerivedAttributes => DerivedAttributes
-            .Where(_ => _.Type == DerivedAttributeType.SprungreichweiteKampf ||
-                        _.Type == DerivedAttributeType.SprunghoeheKampf ||
+                        _.Type == DerivedAttributeType.TaktischeBewegung ||
                         _.Type == DerivedAttributeType.SprungreichweiteAbenteuer ||
                         _.Type == DerivedAttributeType.SprunghoeheAbenteuer ||
                         _.Type == DerivedAttributeType.SprungreichweiteGesamt ||

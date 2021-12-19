@@ -107,16 +107,7 @@ namespace ImagoApp.ViewModels
                 RecalculateFinalTreatmentValue();
             }
         }
-
-        private static readonly List<(DerivedAttributeType Type, string Text, string IconSource)> HandicapDefinition =
-            new List<(DerivedAttributeType Type, string Text, string IconSource)>()
-            {
-                (DerivedAttributeType.BehinderungKampf, "Kampf", "Images/kampf.png"),
-                (DerivedAttributeType.BehinderungAbenteuer, "Abenteuer / Reise", "Images/inventar.png"),
-                (DerivedAttributeType.BehinderungGesamt, "Gesamt", null),
-                (DerivedAttributeType.Unknown, "Ignorieren", null)
-            };
-
+        
         public int FinalTreatmentValue
         {
             get => _finalTreatmentValue;

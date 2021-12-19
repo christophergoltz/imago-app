@@ -7,6 +7,7 @@ using Xunit;
 
 namespace ImagoApp.Tests.Services
 {
+    //todo obsolete oder fehlen tests?
     public class IncreaseCalculationServiceTests
     {
         private readonly ICharacterCreationService _characterCreationService;
