@@ -80,7 +80,7 @@ namespace ImagoApp.ViewModels
             _dicePageViewModel = dicePageViewModel;
             _characterProvider = characterProvider;
 
-            Device.BeginInvokeOnMainThread(() => { MenuItems = CreateMainMenu(); });
+            Device.InvokeOnMainThreadAsync(() => { MenuItems = CreateMainMenu(); }).Wait();
 
             GoToMainMenuCommand = new Command(() =>
             {
