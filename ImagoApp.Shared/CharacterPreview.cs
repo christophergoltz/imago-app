@@ -26,6 +26,17 @@ namespace ImagoApp.Shared
         public string Version { get; set; }
         public DateTime LastEdit { get; set; }
         public DateTime? LastBackup { get; set; }
+        public int? LastBackupDaysAgo
+        {
+            get
+            {
+                if(LastBackup == null)
+                    return null;
+
+                return (DateTime.Today - LastBackup.Value).Days;
+            }
+        }
+
         public string FilePath { get; set; }
         public long FileSize { get; set; }
     }

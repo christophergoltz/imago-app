@@ -283,18 +283,21 @@
                                                    TextColor="{DynamicResource SecondaryFirstDarkColor}"
                                                    VerticalOptions="Center" />
 
-                                            <StackLayout IsVisible="{Binding LastBackup, Converter={StaticResource ObjectNotNullToBoolConverter}}" Orientation="Horizontal">
-
-                                                <Label Margin="20,0,0,0"
+                                            <Label Margin="20,0,0,0" IsVisible="{Binding LastBackup, Converter={StaticResource ObjectNotNullToBoolConverter}}"
                                                        FontSize="{DynamicResource FontSizeBigContent}"
-                                                       Text="Letztes Backup:"
                                                        TextColor="{DynamicResource SecondarySecondDarkestColor}"
-                                                       VerticalOptions="Center" />
-                                                <Label FontSize="{DynamicResource FontSizeBigContent}"
-                                                       Text="{Binding LastBackup, TargetNullValue=''}"
-                                                       TextColor="{DynamicResource SecondarySecondDarkestColor}"
-                                                       VerticalOptions="Center" />
-                                            </StackLayout>
+                                                       VerticalOptions="Center" >
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="Letztes Backup vor "
+                                                                  FontSize="{DynamicResource FontSizeBigContent}"/>
+                                                        <Span Text="{Binding LastBackupDaysAgo}" 
+                                                                  FontSize="{DynamicResource FontSizeBigContent}"/>
+                                                        <Span Text=" Tagen"
+                                                                  FontSize="{DynamicResource FontSizeBigContent}"/>
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
 
                                             <Label FontSize="{DynamicResource FontSizeBigContent}"
                                                    HorizontalOptions="EndAndExpand"
