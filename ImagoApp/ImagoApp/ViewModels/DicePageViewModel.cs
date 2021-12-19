@@ -594,7 +594,7 @@ namespace ImagoApp.ViewModels
         }
 
         private List<SkillModel> GetSkillsFromRequirements(List<SkillRequirementModel> requirements)
-        {  //todo obsolete?
+        {
             var result = new List<SkillModel>();
             foreach (var requirementModel in requirements)
             {
