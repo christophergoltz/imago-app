@@ -50,7 +50,7 @@
                         <Label FontSize="{DynamicResource FontSizeHeader}"
                                Text="{Binding Version}"
                                VerticalOptions="Center" />
-                       
+
                     </StackLayout>
 
                     <StackLayout Grid.Row="2" Orientation="Horizontal">
@@ -58,23 +58,25 @@
                                FontSize="{DynamicResource FontSizeHeader}"
                                HorizontalOptions="Start" Text="Regel-Version: 7 (Zeta)" VerticalOptions="Center" />
 
-                        <customControls:ImageButtonView  Command="{Binding OpenChangeLogCommand}" Margin="0,0,-95,0"  HorizontalOptions="EndAndExpand"
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" Margin="0,0,20,0">
+                            <customControls:ImageButtonView  Command="{Binding OpenChangeLogCommand}"
                                                          ImageSource="Images/externer_link.png" ImageSize="23" ImageMargin="10,9,4,7"
                                                          Text="Changelog"></customControls:ImageButtonView>
 
-                        <customControls:ImageButtonView  Command="{Binding OpenRoadmapCommand}" Margin="0,0,-95,0"   HorizontalOptions="EndAndExpand"
+                            <customControls:ImageButtonView Margin="10,0,10,0" Command="{Binding OpenRoadmapCommand}" 
                                                          ImageSource="Images/externer_link.png" ImageSize="23" ImageMargin="10,9,4,7"
                                                          Text="Roadmap"></customControls:ImageButtonView>
 
-                        <customControls:ImageButtonView  Command="{Binding OpenImportantNotesCommand}"  Margin="0,0,20,0"
+                            <customControls:ImageButtonView  Command="{Binding OpenImportantNotesCommand}"  
                                                          ImageSource="Images/externer_link.png"
                                                          ImageSize="23" ImageMargin="10,9,4,7"
-                                                         HorizontalOptions="EndAndExpand"
+                                                         
                                                          Text="Benutzungshinweise"></customControls:ImageButtonView>
+                        </StackLayout>
                     </StackLayout>
                 </Grid>
             </Frame>
-       
+
             <!--  wiki database  -->
             <Frame Grid.Row="1" Grid.Column="0" Margin="10">
                 <Grid Margin="20,20,20,20">
@@ -196,7 +198,7 @@
 
             </Grid>
 
-          
+
 
             <!--  Characters  -->
             <Frame Grid.Row="0" Grid.RowSpan="4" Grid.Column="1"
@@ -219,11 +221,11 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="1" />
                         </Grid.RowDefinitions>
-                        
+
                         <Label Grid.Row="0" Margin="20,10,10,0"  FontAttributes="Bold"
                                FontSize="{DynamicResource FontSizeCaption}"
                                Text="Charaktere" VerticalOptions="Center" />
-                      
+
                         <StackLayout VerticalOptions="Center" Orientation="Horizontal" Margin="20" Grid.Row="0" Grid.Column="1">
                             <customControls:ImageButtonView  VerticalOptions="Center"
                                                              ImageSource="Images/plus.png"
