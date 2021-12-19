@@ -209,85 +209,8 @@
                 </ContentView>
             </tabs:ViewSwitcher>
 
-            <BoxView Grid.Column="1" Grid.Row="0" BackgroundColor="{DynamicResource SecondaryFirstDarkColor}" HeightRequest="72"></BoxView>
-
             <!-- right -->
-            <StackLayout Grid.Row="1" Grid.Column="1" Margin="5,0,0,0">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="85"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                    </Grid.RowDefinitions>
-
-                    <!-- healing and treatment -->
-                    <Frame  Padding="10" Grid.Row="0"  Margin="0,5,0,5" Background="{StaticResource EvenPrimaryGradientBrush3}">
-                        <StackLayout Orientation="Horizontal">
-
-                            <customControls:ImageButtonView ImageSource="Images/verband.png" 
-                                                            HorizontalOptions="FillAndExpand"
-                                                            Command="{Binding OpenTreamentCommand}"
-                                                            Text="Behandung">
-                            </customControls:ImageButtonView>
-
-                            <customControls:ImageButtonView Margin="15,0,0,0" ImageSource="Images/heilung.png" 
-                                                            HorizontalOptions="FillAndExpand"
-                                                            Command="{Binding OpenHealingCommand}"
-                                                            Text="Heilung">
-                            </customControls:ImageButtonView>
-                        </StackLayout>
-                    </Frame>
-
-                    <!-- handicap -->
-                    <Frame Grid.Row="1">
-                        <Grid Background="{DynamicResource SinglePrimaryGradientBrush}">
-                            <ListView Margin="15,15,15,0" HasUnevenRows="True"
-                                      ItemsSource="{Binding CharacterViewModel.HandicapAttributes}"
-                                      SelectionMode="None" VerticalOptions="FillAndExpand">
-                                <ListView.Header>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="1" />
-                                        </Grid.RowDefinitions>
-                                        <Label Grid.Row="0" Grid.Column="0" Margin="5,0,0,0"
-                                               FontAttributes="Bold" Text="Behinderung" />
-                                        <Label Grid.Row="0" Grid.Column="1" Margin="5,0,0,0"
-                                               FontAttributes="Bold" Text="Last/Traglast" />
-                                        <BoxView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-                                                 HeightRequest="1" Color="Black" />
-                                    </Grid>
-                                </ListView.Header>
-                                <ListView.ItemTemplate>
-                                    <DataTemplate x:DataType="models:DerivedAttributeModel">
-                                        <ViewCell>
-                                            <Grid Padding="10,4">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="Auto" />
-                                                </Grid.ColumnDefinitions>
-                                                <Label Grid.Column="0"
-                                                       FontSize="{DynamicResource FontSizeContent}"
-                                                       Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"
-                                                       VerticalOptions="Center" />
-                                                <Label Grid.Column="1"
-                                                       FontSize="{DynamicResource FontSizeContent}"
-                                                       HorizontalOptions="Center"
-                                                       Text="{Binding FinalValue}"
-                                                       VerticalOptions="Center" />
-                                            </Grid>
-                                        </ViewCell>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                        </Grid>
-                    </Frame>
-
-                </Grid>
-
+            <StackLayout Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Margin="5,0,0,0">
                 <!--derived attributes-->
                 <Frame>
                     <Grid Background="{DynamicResource SinglePrimaryGradientBrush}">
@@ -345,6 +268,81 @@
                         </ListView>
                     </Grid>
                 </Frame>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="85"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <!-- healing and treatment -->
+                    <Frame  Padding="10" Grid.Row="0" Background="{StaticResource EvenPrimaryGradientBrush3}">
+                        <StackLayout Orientation="Horizontal">
+
+                            <customControls:ImageButtonView ImageSource="Images/verband.png" 
+                                                            HorizontalOptions="FillAndExpand"
+                                                            Command="{Binding OpenTreamentCommand}"
+                                                            Text="Behandung">
+                            </customControls:ImageButtonView>
+
+                            <customControls:ImageButtonView Margin="15,0,0,0" ImageSource="Images/heilung.png" 
+                                                            HorizontalOptions="FillAndExpand"
+                                                            Command="{Binding OpenHealingCommand}"
+                                                            Text="Heilung">
+                            </customControls:ImageButtonView>
+                        </StackLayout>
+                    </Frame>
+
+                    <!-- handicap -->
+                    <Frame Grid.Row="1" Margin="0,5,0,0">
+                        <Grid Background="{DynamicResource SinglePrimaryGradientBrush}">
+                            <ListView Margin="15,15,15,0" HasUnevenRows="True"
+                                      ItemsSource="{Binding CharacterViewModel.HandicapAttributes}"
+                                      SelectionMode="None" VerticalOptions="FillAndExpand">
+                                <ListView.Header>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="1" />
+                                        </Grid.RowDefinitions>
+                                        <Label Grid.Row="0" Grid.Column="0" Margin="5,0,0,0"
+                                               FontAttributes="Bold" Text="Behinderung" />
+                                        <Label Grid.Row="0" Grid.Column="1" Margin="5,0,0,0"
+                                               FontAttributes="Bold" Text="Last/Traglast" />
+                                        <BoxView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                                 HeightRequest="1" Color="Black" />
+                                    </Grid>
+                                </ListView.Header>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate x:DataType="models:DerivedAttributeModel">
+                                        <ViewCell>
+                                            <Grid Padding="10,4">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Column="0"
+                                                       FontSize="{DynamicResource FontSizeContent}"
+                                                       Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"
+                                                       VerticalOptions="Center" />
+                                                <Label Grid.Column="1"
+                                                       FontSize="{DynamicResource FontSizeContent}"
+                                                       HorizontalOptions="Center"
+                                                       Text="{Binding FinalValue}"
+                                                       VerticalOptions="Center" />
+                                            </Grid>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Grid>
+                    </Frame>
+
+                </Grid>
             </StackLayout>
         </Grid>
 
