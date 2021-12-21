@@ -71,7 +71,7 @@
 
                 <Label Margin="20,10" FontAttributes="Italic"
                        FontSize="{DynamicResource FontSizeDetail}"
-                       Text="Charaktere, die krank oder von einer anderen Noxe betroffen sind, marschieren, kämpfen, schwer körperlich arbeiten, hungern oder dursten, haben in solchen Zeiträumen keine Ruhephasen, dürfen also auch keine Heilung wahrnehmen."
+                       Text="Charaktere, die krank oder von einer anderen Noxen betroffen sind, marschieren, kämpfen, schwer körperlich arbeiten, hungern oder dursten, haben in solchen Zeiträumen keine Ruhephasen, dürfen also auch keine Heilung wahrnehmen."
                        TextColor="{DynamicResource SecondaryFirstDarkColor}"  />
 
                 <Label Margin="20,10" FontAttributes="Italic"
