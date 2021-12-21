@@ -8,10 +8,17 @@
     <ContentView.Resources>
         <ResourceDictionary>
             <DataTemplate x:DataType="viewModels:DiceSearchModel" x:Key="DiceSearchItemTemplate">
-                <Label Margin="0,3,0,3" Padding="10,5"
+                <StackLayout>
+                    <Label Margin="0,3,0,3" Padding="10,5"
                        FontSize="{DynamicResource FontSizeTitle}"
                        Text="{Binding DisplayText}"
                        VerticalOptions="Center" />
+                    <Label Margin="20,-10,0,3" Padding="10,0,0,10" IsVisible="{Binding Description, Converter={StaticResource ObjectNotNullToBoolConverter}}"
+                       FontSize="{DynamicResource FontSizeDetail}"
+                       Text="{Binding Description}"
+                       VerticalOptions="Center" 
+                       TextColor="{DynamicResource SecondaryFirstDarkColor}" />
+                </StackLayout>
             </DataTemplate>
             <DataTemplate x:DataType="viewModels:DiceSearchModelGroup" x:Key="DiceSearchGroupTemplate">
                 <Frame Background="{StaticResource EvenPrimaryGradientBrush3}">
@@ -55,7 +62,6 @@
                     </StackLayout>
                 </Frame>
             </DataTemplate>
-
         </ResourceDictionary>
     </ContentView.Resources>
 
@@ -67,31 +73,10 @@
         </Frame>
 
         <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Always">
-        <StackLayout BindableLayout.ItemsSource="{Binding SearchResults}"  
+            <StackLayout BindableLayout.ItemsSource="{Binding SearchResults}"  
                    Orientation="Horizontal"
                              BindableLayout.ItemTemplate="{StaticResource DiceSearchGroupTemplate}">
             </StackLayout>
         </ScrollView>
-        <!--<CollectionView HorizontalOptions="Start" VerticalOptions="Start" 
-                 SelectionMode="Single" SelectionChanged="SelectableItemsView_OnSelectionChanged" 
-                 Background="{DynamicResource SinglePrimaryGradientBrush}" 
-                 ItemsSource="{Binding SearchResults}" 
-                 IsGrouped="True">
-                 <CollectionView.GroupHeaderTemplate>
-                 <DataTemplate x:DataType="viewModels:DiceSearchModelGroup">
-                 
-                 </DataTemplate>
-                 </CollectionView.GroupHeaderTemplate>
-                 <CollectionView.ItemTemplate>
-                 <DataTemplate x:DataType="viewModels:DiceSearchModel">
-                 <StackLayout Margin="0,3" Padding="20,3,10,5">
-                 <Label
-                 FontSize="{DynamicResource FontSizeTitle}"
-                 Text="{Binding DisplayText}"
-                 VerticalOptions="Center" />
-                 </StackLayout>
-                 </DataTemplate>
-                 </CollectionView.ItemTemplate>
-                 </CollectionView>-->
     </StackLayout>
 </ContentView>

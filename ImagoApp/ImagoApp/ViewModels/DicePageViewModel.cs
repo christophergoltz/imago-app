@@ -29,9 +29,18 @@ namespace ImagoApp.ViewModels
 
     public class DiceSearchModel
     {
-        public object Value { get; set; }
-        public string DisplayText { get; set; }
-        public DiceSearchModelType Type { get; set; }
+        public DiceSearchModel(object value, string displayText, string description, DiceSearchModelType type) 
+        {
+            Value = value;
+            DisplayText = displayText;
+            Type = type;
+            Description = description;
+        }
+
+        public object Value { get; private set; }
+        public string DisplayText { get; private set; }
+        public string Description { get; private set; }
+        public DiceSearchModelType Type { get; private set; }
     }
 
     public enum DiceSearchModelType
