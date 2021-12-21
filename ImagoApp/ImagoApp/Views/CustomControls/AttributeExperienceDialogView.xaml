@@ -102,49 +102,49 @@
                 </ScrollView>
             </Frame>
 
-            <customControls:AttributeExperienceItem x:Name="Charisma" Grid.Row="2" Grid.Column="0"
+            <customControls:AttributeExperienceItem x:Name="Charisma" Grid.Row="2" Grid.Column="0" Margin="0,5,5,0"
                BindingContext="{Binding CharismaAttribute}">
                 <customControls:AttributeExperienceItem.GestureRecognizers>
                     <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_OnDrop" />
                 </customControls:AttributeExperienceItem.GestureRecognizers>
             </customControls:AttributeExperienceItem>
 
-            <customControls:AttributeExperienceItem x:Name="Geschicklichkeit" Grid.Row="2" Grid.Column="1"
+            <customControls:AttributeExperienceItem x:Name="Geschicklichkeit" Grid.Row="2" Grid.Column="1" Margin="0,5,5,0"
                BindingContext="{Binding GeschicklichkeitAttribute}">
                 <customControls:AttributeExperienceItem.GestureRecognizers>
                     <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_OnDrop" />
                 </customControls:AttributeExperienceItem.GestureRecognizers>
             </customControls:AttributeExperienceItem>
 
-            <customControls:AttributeExperienceItem x:Name="Intelligenz" Grid.Row="2" Grid.Column="2"
+            <customControls:AttributeExperienceItem x:Name="Intelligenz" Grid.Row="2" Grid.Column="2" Margin="0,5,5,0"
                BindingContext="{Binding IntelligenzAttribute}">
                 <customControls:AttributeExperienceItem.GestureRecognizers>
                     <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_OnDrop" />
                 </customControls:AttributeExperienceItem.GestureRecognizers>
             </customControls:AttributeExperienceItem>
 
-            <customControls:AttributeExperienceItem x:Name="Konstitution" Grid.Row="2" Grid.Column="3"
+            <customControls:AttributeExperienceItem x:Name="Konstitution" Grid.Row="2" Grid.Column="3" Margin="0,5,5,0"
                BindingContext="{Binding KonstitutionAttribute}">
                 <customControls:AttributeExperienceItem.GestureRecognizers>
                     <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_OnDrop" />
                 </customControls:AttributeExperienceItem.GestureRecognizers>
             </customControls:AttributeExperienceItem>
 
-            <customControls:AttributeExperienceItem x:Name="Staerke" Grid.Row="2" Grid.Column="4"
+            <customControls:AttributeExperienceItem x:Name="Staerke" Grid.Row="2" Grid.Column="4" Margin="0,5,5,0"
                BindingContext="{Binding StaerkeAttribute}">
                 <customControls:AttributeExperienceItem.GestureRecognizers>
                     <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_OnDrop" />
                 </customControls:AttributeExperienceItem.GestureRecognizers>
             </customControls:AttributeExperienceItem>
 
-            <customControls:AttributeExperienceItem x:Name="Wahrnehmung" Grid.Row="2" Grid.Column="5"
+            <customControls:AttributeExperienceItem x:Name="Wahrnehmung" Grid.Row="2" Grid.Column="5" Margin="0,5,5,0"
                BindingContext="{Binding WahrnehmungAttribute}">
                 <customControls:AttributeExperienceItem.GestureRecognizers>
                     <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_OnDrop" />
                 </customControls:AttributeExperienceItem.GestureRecognizers>
             </customControls:AttributeExperienceItem>
 
-            <customControls:AttributeExperienceItem x:Name="Willenskraft" Grid.Row="2" Grid.Column="6"
+            <customControls:AttributeExperienceItem x:Name="Willenskraft" Grid.Row="2" Grid.Column="6" Margin="0,5,0,0"
                BindingContext="{Binding WillenskraftAttribute}">
                 <customControls:AttributeExperienceItem.GestureRecognizers>
                     <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_OnDrop" />
