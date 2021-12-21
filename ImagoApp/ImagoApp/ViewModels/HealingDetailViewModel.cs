@@ -56,7 +56,7 @@ namespace ImagoApp.ViewModels
 
         private int _finalHealingValue;
 
-        public int MissingHitpointsModification => SelectedBodyPartModel?.MissingHitpoints ?? 0 * 5;
+        public int MissingHitpointsModification => (SelectedBodyPartModel?.MissingHitpoints ?? 0) * 5;
 
         private int _modification;
         private CharacterViewModel _characterViewModel;
