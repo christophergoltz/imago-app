@@ -18,7 +18,7 @@
                               SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}">
             <tabs:TabHostView.Tabs>
                 <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/start_weiss.png"   Label="Start" />
-                <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/staerke_weiss.png" Label="Bewegung"  />
+                <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/bewegung_weiss.png" Label="Bewegung"  />
                 <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/nahkampf_weiss.png"  Label="Nahkampf" />
                 <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/heimlichkeit_weiss.png"   Label="Heimlichkeit" />
                 <tabs:BottomTabItem Style="{StaticResource BottomTabItemStyle}" LabelSize="22" IconImageSource="Images/fernkampf_weiss.png"  Label="Fernkampf"  />

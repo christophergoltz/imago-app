@@ -138,6 +138,8 @@
     <Content Include="Assets\Wide310x150Logo.scale-100.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
+    <Content Include="Images\bewegung.png" />
+    <Content Include="Images\bewegung_weiss.png" />
     <Content Include="Images\charakter.png" />
     <Content Include="Images\charakter_weiss.png" />
     <Content Include="Images\download.png" />
@@ -182,7 +184,6 @@
     <Content Include="Images\shield.png" />
     <Content Include="Images\shield_weiss.png" />
     <Content Include="Images\soziales_weiss.png" />
-    <Content Include="Images\staerke_weiss.png" />
     <Content Include="Images\start.png" />
     <Content Include="Images\start_weiss.png" />
     <Content Include="Images\suchen.png" />
@@ -193,7 +194,6 @@
     <Content Include="Images\wuerfel_weiss.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Images\soziales.png" />
-    <Content Include="Images\staerke.png" />
     <Content Include="Images\vor_und_nachteile.png" />
     <Content Include="Images\vor_und_nachteile_weiss.png" />
     <Content Include="Images\weben.png" />
