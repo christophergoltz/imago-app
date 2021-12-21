@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Acr.UserDialogs;
@@ -17,11 +15,8 @@ using ImagoApp.Infrastructure.Entities;
 using ImagoApp.Infrastructure.Repositories;
 using ImagoApp.Manager;
 using ImagoApp.Shared;
-using ImagoApp.Styles.Themes;
-using ImagoApp.Util;
 using ImagoApp.ViewModels.Page;
 using ImagoApp.Views;
-using ImagoApp.Views.CustomControls;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
@@ -127,7 +122,7 @@ namespace ImagoApp.ViewModels
                 StyleResourceManager.ChangeGlobalFontSize(t);
             }
         }
-    
+
         private void AlertNewVersion()
         {
             UserDialogs.Instance.Confirm(new ConfirmConfig
@@ -377,7 +372,7 @@ namespace ImagoApp.ViewModels
                 equipmentPageViewModel.OpenWikiPageRequested += (sender, url) => OpenWikiPage(url);
                 skillPageViewModel.OpenWikiPageRequested += (sender, url) => OpenWikiPage(url);
                 skillPageViewModel.DiceRollRequested += (sender, value) => OpenDicePage(value.type, value.value);
-               
+
                 void OpenWikiPage(string url)
                 {
                     Analytics.TrackEvent("Open WikiPage", new Dictionary<string, string>()
@@ -389,7 +384,7 @@ namespace ImagoApp.ViewModels
                     wikiPageViewModel.OpenWikiPage(url);
                 }
 
-                void OpenDicePage(DiceSearchModelType type,object value)
+                void OpenDicePage(DiceSearchModelType type, object value)
                 {
                     Analytics.TrackEvent("Open DiceRoll", new Dictionary<string, string>()
                     {
@@ -397,7 +392,7 @@ namespace ImagoApp.ViewModels
                     });
 
                     appShellViewModel.RaiseSwitchPageRequested(typeof(DicePage));
-                    dicePageViewModel.SetSelection(type,value);
+                    dicePageViewModel.SetSelection(type, value);
                 }
 
                 _attributeCalculationService.RecalculateAllAttributes(characterModel.Attributes, characterModel.SkillGroups);
@@ -518,7 +513,8 @@ namespace ImagoApp.ViewModels
                         UserDialogs.Instance.Prompt(new PromptConfig
                         {
                             IsCancellable = true,
-                            OkText = "Speichern", CancelText = "Abbrechen",
+                            OkText = "Speichern",
+                            CancelText = "Abbrechen",
                             Title = $"\"{SelectedCharacter.Name}\" bearbeiten (JSON)",
                             Message = $"{Environment.NewLine}Das direkte Bearbeiten des Charakters kann bei fehlerhafter Benutzung dazu führen, dass die Daten unwiederruflich verloren gehen!{Environment.NewLine}",
                             InputType = InputType.Name,
@@ -660,12 +656,14 @@ namespace ImagoApp.ViewModels
 
             Analytics.TrackEvent("Backup character");
 
-            Device.BeginInvokeOnMainThread(async () =>
+            Device.InvokeOnMainThreadAsync(async () =>
             {
                 try
                 {
                     var dbFile = _characterDatabaseConnection.GetCharacterDatabaseFile(SelectedCharacter.Guid);
-                    await _localfileService.SaveFile(dbFile);
+                    var saved = await _localfileService.SaveFileWithDialog(dbFile);
+                    if (!saved)
+                        return;
 
                     _characterService.UpdateLastBackup(SelectedCharacter.Guid);
                     RefreshData(false, true, false);

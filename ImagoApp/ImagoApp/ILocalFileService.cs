@@ -5,7 +5,7 @@ namespace ImagoApp
     public interface ILocalFileService
     {
         void OpenFolder(string path);
-        Task SaveFile(string sourceFile);
+        Task<bool> SaveFileWithDialog(string sourceFile);
         Task<string> OpenAndCopyFileToFolder(string folder);
     }
 }

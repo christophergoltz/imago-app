@@ -29,13 +29,13 @@ namespace ImagoApp.UWP
                 });
             }
         }
-
+        
         /// <summary>
         /// https://docs.microsoft.com/en-us/windows/uwp/files/quickstart-save-a-file-with-a-picker
         /// </summary>
         /// <param name="sourceFile"></param>
         /// <returns></returns>
-        public async Task SaveFile(string sourceFile)
+        public async Task<bool> SaveFileWithDialog(string sourceFile)
         {
             var savePicker = new Windows.Storage.Pickers.FileSavePicker
             {
@@ -49,7 +49,7 @@ namespace ImagoApp.UWP
 
             var selectedTarget = await savePicker.PickSaveFileAsync();
             if (selectedTarget == null)
-                return;
+                return false;
 
             // Prevent updates to the remote version of the file until
             // we finish making changes and call CompleteUpdatesAsync.
@@ -60,6 +60,8 @@ namespace ImagoApp.UWP
             // the other app can update the remote version of the file.
             // Completing updates may require Windows to ask for user input.
             await CachedFileManager.CompleteUpdatesAsync(selectedTarget);
+
+            return true;
         }
 
         /// <summary>
