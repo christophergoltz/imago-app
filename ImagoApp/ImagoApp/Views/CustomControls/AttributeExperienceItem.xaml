@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <ContentView x:Class="ImagoApp.Views.CustomControls.AttributeExperienceItem" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-   xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application" x:Name="AttributeExperienceItemControl" x:DataType="models:AttributeModel">
+   xmlns:models="clr-namespace:ImagoApp.Application.Models;assembly=ImagoApp.Application"
+   xmlns:customControls="clr-namespace:ImagoApp.Views.CustomControls;assembly=ImagoApp"
+   x:Name="AttributeExperienceItemControl" x:DataType="models:AttributeModel">
     <ContentView.Content>
         <Frame>
             <StackLayout>
@@ -10,17 +12,13 @@
                    Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"
                    VerticalOptions="Center" />
 
-                <StackLayout HorizontalOptions="Center" Orientation="Horizontal" VerticalOptions="Center">
+                <customControls:TallyMarker HorizontalOptions="Center"
+                                            CurrentValue="{Binding LeftoverExperienceCache}"
+                                            MaximumValue="{Binding ExperienceForNextIncreasedRequiredCache}"></customControls:TallyMarker>
+
+                <StackLayout HorizontalOptions="Center" Orientation="Horizontal" VerticalOptions="Center" Margin="0,5,0,10">
                     <Label FontSize="{DynamicResource FontSizeContent}" Text="SW: " />
                     <Label FontSize="{DynamicResource FontSizeContent}" Text="{Binding IncreaseValueCache}" />
-                </StackLayout>
-
-                <StackLayout Margin="0,0,0,20" HorizontalOptions="Center" Orientation="Horizontal"
-                   VerticalOptions="Center">
-                    <Label FontSize="{DynamicResource FontSizeContent}" Text="EP: " />
-                    <Label FontSize="{DynamicResource FontSizeContent}" Text="{Binding LeftoverExperienceCache}" />
-                    <Label FontSize="{DynamicResource FontSizeContent}" Text="/" />
-                    <Label FontSize="{DynamicResource FontSizeContent}" Text="{Binding ExperienceForNextIncreasedRequiredCache}" />
                 </StackLayout>
             </StackLayout>
         </Frame>
