@@ -193,7 +193,7 @@
                                        VerticalOptions="Center" />
 
                                 <customControls:ImageButtonView VerticalOptions="Center" Grid.Column="5" Margin="10,0,0,0"
-                                                                ImageSource="Images/wuerfel.png"
+                                                                ImageSource="Images/wuerfel.png" CommandParameter="{Binding Skill.Type}"
                                                                 Command="{Binding SkillDiceCommand, Source={RelativeSource AncestorType={x:Type viewModels:SkillGroupViewModel}}}"
                                                                 TextHidden="True" ImageMargin="8"
                                                                 ImageSize="35" />

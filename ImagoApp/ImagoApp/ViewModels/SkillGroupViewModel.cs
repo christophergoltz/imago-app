@@ -7,6 +7,7 @@ using Acr.UserDialogs;
 using ImagoApp.Application;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Services;
+using ImagoApp.Shared.Enums;
 using Xamarin.Forms;
 
 namespace ImagoApp.ViewModels
@@ -44,12 +45,11 @@ namespace ImagoApp.ViewModels
         }
 
         private ICommand _skillDiceCommand;
-        public ICommand SkillDiceCommand => _skillDiceCommand ?? (_skillDiceCommand = new Command(() =>
+        public ICommand SkillDiceCommand => _skillDiceCommand ?? (_skillDiceCommand = new Command<SkillModelType>(skillType =>
         {
             try
             {
-                DiceRollRequested?.Invoke(this,(DiceSearchModelType.Skill, SelectedSkill.Skill.Type));
-             
+                DiceRollRequested?.Invoke(this,(DiceSearchModelType.Skill, skillType));
             }
             catch (Exception exception)
             {
