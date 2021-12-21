@@ -49,7 +49,7 @@
                                                FontSize="{DynamicResource FontSizeContent}"
                                                Text="{Binding Type, Converter={StaticResource EnumToDisplayTextConverter}}"
                                                VerticalOptions="Center" />
-                                        <Label FontAttributes="Bold" HorizontalTextAlignment="End"
+                                        <Label FontAttributes="Bold" HorizontalTextAlignment="End" Margin="10,0,0,0"
                                                    Text="{Binding CurrentHitpoints}"
                                                    VerticalOptions="Center" />
                                         <Label FontAttributes="Bold" Text="/" VerticalOptions="Center" />
@@ -201,7 +201,7 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <BoxView Grid.Row="0" Color="Black" />
-                    <StackLayout Grid.Row="1" HorizontalOptions="Center"
+                    <StackLayout Grid.Row="1" HorizontalOptions="Center" Margin="5"
                                  Orientation="Horizontal">
                         <Label FontSize="{DynamicResource FontSizeHeader}"
                                Text="Heilungswurf gegen" VerticalOptions="Center" />
