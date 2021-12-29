@@ -2,4 +2,4 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
-[assembly: ExportFont("palitoon.otf", Alias = "Palitoon")]
+[assembly: ExportFont("palitoon.ttf", Alias = "Palitoon")]

@@ -8,10 +8,11 @@
 
   <ItemGroup>
     <None Remove="Fonts\palitoon.otf" />
+    <None Remove="Fonts\palitoon.ttf" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Fonts\palitoon.otf" />
+    <EmbeddedResource Include="Fonts\palitoon.ttf" />
   </ItemGroup>
 
   <ItemGroup>

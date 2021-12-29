@@ -53,6 +53,7 @@ namespace ImagoApp.UWP
 
                 var rendererAssemblies = new[]
                 {
+                    typeof(Fonts.Palitoon).Assembly,
                     typeof(UWPShadowsRenderer).GetTypeInfo().Assembly,
                     typeof(UwpTintableImageEffect).GetTypeInfo().Assembly,
                 };
