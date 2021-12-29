@@ -1,20 +1,18 @@
 ### [Changelog](https://github.com/christophergoltz/imago-app/blob/develop/CHANGELOG.md) | [Bekannte Fehler](https://github.com/christophergoltz/imago-app/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
 
 ---
-## 0.3
-- Charakterdatenbank manuell speichern/wiederherstellen
-- Heilung
+## 0.4
 - Zerstörte und ausgefallene Trefferzonen
 
 ---
-## 0.4
+## 0.5
+- Wahltalente
 - Rassenunterstützung
 - Vor- und Nachteile
 
 ---
-## 0.5
+## 0.6
 - Restliche Webkünste von Formen
-- Wahltalente
 
 ---
 ## Zukunftsmusik

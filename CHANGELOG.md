@@ -1,6 +1,6 @@
 ### [Roadmap](https://github.com/christophergoltz/imago-app/blob/develop/ROADMAP.md) | [Bekannte Fehler](https://github.com/christophergoltz/imago-app/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
 ---
-## 0.3 (tba)
+## 0.3 (29.12.2021)
 
 - **Hinzugefügt**: [#98](https://github.com/christophergoltz/imago-app/issues/98) Auf dem Webbogen wird nun bei den 8 Prinzipien das Symbol mit der ensprechenden Farbe angezeigt, wenn dieses erwoben wurde (SW >= 25)
 - **Hinzugefügt**: [#111](https://github.com/christophergoltz/imago-app/issues/111) Eine Auswahl zwischen verschiedenen Farbschemen wurde hinzugefügt
