@@ -84,7 +84,7 @@ namespace ImagoApp.Application.Services
                 return result;
 
             //parse complete table
-            foreach (var table in doc.DocumentNode.SelectNodes("//table[@class='wikitable']"))
+            foreach (var table in doc.DocumentNode.SelectNodes("//table[@class='wikitable']/tbody"))
             {
                 var armorName = string.Empty;
                 try
@@ -152,7 +152,7 @@ namespace ImagoApp.Application.Services
                 return result;
 
             //parse complete table
-            foreach (var table in doc.DocumentNode.SelectNodes("//table[@class='wikitable']"))
+            foreach (var table in doc.DocumentNode.SelectNodes("//table[@class='wikitable']/tbody"))
             {
                 var weaponName = string.Empty;
                 try
@@ -277,7 +277,7 @@ namespace ImagoApp.Application.Services
 
             var descriptions = GetTalentDescriptions(doc);
 
-            var table = doc.DocumentNode.SelectSingleNode("//table[@class='wikitable']");
+            var table = doc.DocumentNode.SelectSingleNode("//table[@class='wikitable']/tbody");
             if (table == null)
             {
                 logger.Warning($"Keine Tabelle mit Werten auf \"{url}\" gefunden");
@@ -462,7 +462,7 @@ namespace ImagoApp.Application.Services
             var descriptions = GetTalentDescriptions(doc);
 
 
-            var table = doc.DocumentNode.SelectSingleNode("//table[@class='wikitable']");
+            var table = doc.DocumentNode.SelectSingleNode("//table[@class='wikitable']/tbody");
             if (table == null)
             {
                 logger.Warning($"Keine Tabelle mit Werten auf \"{url}\" gefunden");
@@ -563,7 +563,7 @@ namespace ImagoApp.Application.Services
 
             var descriptions = GetTalentDescriptions(doc);
 
-            var table = doc.DocumentNode.SelectSingleNode("//table[@class='wikitable']");
+            var table = doc.DocumentNode.SelectSingleNode("//table[@class='wikitable']/tbody");
 
             var rows = table.SelectNodes("tr");
             foreach (var row in rows.Skip(1))
@@ -627,7 +627,7 @@ namespace ImagoApp.Application.Services
                 return weaveTalents;
 
             //parse complete table
-            foreach (var table in doc.DocumentNode.SelectNodes("//table[@class='wikitable']"))
+            foreach (var table in doc.DocumentNode.SelectNodes("//table[@class='wikitable']/tbody"))
             {
                 var rows = table.SelectNodes("tr");
                 var header = rows[0];
