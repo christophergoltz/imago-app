@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using HtmlAgilityPack;
 using ImagoApp.Application.Models;
 using ImagoApp.Application.Models.Template;
@@ -210,7 +211,14 @@ namespace ImagoApp.Application.Services
 
         private string CleanUpString(string value)
         {
-            return value.Replace("\n", "").Replace("\r", "").Trim();
+            value = HttpUtility.HtmlDecode(value);
+
+            //replace leftover newlines
+            var trimmedValue = value.Replace("\n", "").Replace("\r", "").Trim();
+
+            //sometimes whitespace is "NO-BREAK SPACE"
+            trimmedValue = trimmedValue.Replace('\u00A0', ' ');
+            return trimmedValue;
         }
 
         private List<TalentModel> ParseTalentsFromUrls(Dictionary<SkillModelType, string> urls, Logger logger)
