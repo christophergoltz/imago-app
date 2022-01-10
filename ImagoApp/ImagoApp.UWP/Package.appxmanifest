@@ -9,7 +9,7 @@
   <Identity
     Name="19969ChristopherGoltz.ImagoApp"
     Publisher="CN=0FC70DBA-1113-4CA2-AF34-17E9BD77CB06"
-    Version="0.3.0.0" />
+    Version="0.3.1.0" />
 
   <mp:PhoneIdentity PhoneProductId="6974e592-94af-4257-892e-3558a0bf5348" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
