@@ -1,7 +1,7 @@
 ## Einleitung
 Die ImagoApp ist eine digitale Hilfe u.a. für die automatisierte Berechnung von Attributen, Fertigkeitskategorien und Fertigkeiten.  
 
-- [Online Wiki](http://imago-rp.de/)
+- [Online Wiki](https://imago-rp.de/)
 
 ## Herunterladen
 - [Microsoft Store (Webseite)](https://www.microsoft.com/store/apps/9NVB1XLC33G3)
