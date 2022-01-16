@@ -48,6 +48,17 @@ namespace ImagoApp.Views.CustomControls
                 null,
                 (bindable, value, newValue) => ((TallyMarker)bindable).Redraw());
 
+        private readonly Random _rnd = new Random();
+
+        private readonly double[] _markRotations = {
+            -3,
+            -2, -2,
+            -1, -1,
+            1, 1,
+            2, 2,
+            3
+        };
+
         private void Redraw()
         {
             //clean up old
@@ -70,7 +81,8 @@ namespace ImagoApp.Views.CustomControls
                     Fill = Brush.Black,
                     Style = strichStyle,
                     Aspect = Stretch.Uniform,
-                    HeightRequest = 35
+                    HeightRequest = 35,
+                    Rotation = _markRotations[_rnd.Next(0, _markRotations.Length)]
                 };
 
                 marks.Enqueue(p);
@@ -84,7 +96,8 @@ namespace ImagoApp.Views.CustomControls
                     Style = strichStyle,
                     Aspect = Stretch.Uniform,
                     HeightRequest = 35,
-                    Opacity = 0.35
+                    Opacity = 0.3,
+                    Rotation = _markRotations[_rnd.Next(0, _markRotations.Length)]
                 };
 
                 marks.Enqueue(p);

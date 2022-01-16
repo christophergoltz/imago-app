@@ -1,5 +1,12 @@
 ### [Roadmap](https://github.com/christophergoltz/imago-app/blob/develop/ROADMAP.md) | [Bekannte Fehler](https://github.com/christophergoltz/imago-app/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
 
+# ?? (10.01.2022)
+
+### **Verbessert**
+- Die Erfahrungsstrichlisten wurden optisch angepasst, sodass diese nun natürlicher wirkern
+
+<br /> 
+
 # 0.3.1 (10.01.2022)
 Hotfix für das neue Imago-Wiki unter https://imago-rp.de/wiki/Hauptseite
 
