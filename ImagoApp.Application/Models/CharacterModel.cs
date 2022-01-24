@@ -25,6 +25,9 @@ namespace ImagoApp.Application.Models
         public string Owner { get; set; }
         public string Note { get; set; }
         public int FreeSkillExperience { get; set; }
+        public string OwnedLanguages { get; set; }
+        public int CharacterCreationAttributePoints { get; set; }
+        public int CharacterCreationSkillPoints { get; set; }
 
         public List<AttributeModel> Attributes { get; set; }
         public List<SkillGroupModel> SkillGroups { get; set; }
@@ -40,10 +43,5 @@ namespace ImagoApp.Application.Models
         public ObservableCollection<BloodCarrierModel> BloodCarrier { get; set; }
         
         public ObservableCollection<WikiTabModel> WikiPages { get; set; }
-
-        public string OwnedLanguages { get; set; }
-
-        public int CharacterCreationAttributePoints { get; set; }
-        public int CharacterCreationSkillPoints { get; set; }
     }
 }

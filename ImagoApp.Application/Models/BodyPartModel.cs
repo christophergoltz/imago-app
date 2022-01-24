@@ -38,23 +38,8 @@ namespace ImagoApp.Application.Models
             }
         }
 
-        public int MissingHitpoints
-        {
-            get
-            {
-                return MaxHitpoints - CurrentHitpoints;
-            }
-        }
-
-        public int CurrentHitpoints
-        {
-            get
-            {
-                var currentHitpointsFloat = MaxHitpoints * CurrentHitpointsPercentage;
-                var currentHitpoints = currentHitpointsFloat.GetRoundedValue();
-                return currentHitpoints;
-            }
-        }
+        public int MissingHitpoints => MaxHitpoints - CurrentHitpoints;
+        public int CurrentHitpoints => (MaxHitpoints * CurrentHitpointsPercentage).GetRoundedValue();
 
         public ObservableCollection<ArmorPartModelModel> Armor
         {
