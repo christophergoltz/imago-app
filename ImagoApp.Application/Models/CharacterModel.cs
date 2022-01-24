@@ -35,7 +35,7 @@ namespace ImagoApp.Application.Models
 
         public ObservableCollection<WeaponModel> Weapons { get; set; }
 
-        public ObservableCollection<EquipableItemModel> EquippedItems { get; set; }
+        public ObservableCollection<EquippableItemModel> EquippedItems { get; set; }
         
         public ObservableCollection<BloodCarrierModel> BloodCarrier { get; set; }
         

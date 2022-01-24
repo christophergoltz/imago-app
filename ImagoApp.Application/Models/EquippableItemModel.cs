@@ -1,15 +1,15 @@
 ﻿namespace ImagoApp.Application.Models
 {
-    public class EquipableItemModel : WeightItemModel
+    public class EquippableItemModel : WeightItemModel
     {
         private bool _fight;
         private bool _adventure;
 
-        public EquipableItemModel()
+        public EquippableItemModel()
         {
         }
 
-        public EquipableItemModel(string name, int loadValue, bool adventure, bool fight) : base(loadValue, name)
+        public EquippableItemModel(string name, int loadValue, bool adventure, bool fight) : base(loadValue, name)
         {
             Adventure = adventure;
             Fight = fight;

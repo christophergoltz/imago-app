@@ -5,27 +5,27 @@ namespace ImagoApp.ViewModels
 {
     public class EquippableItemViewModel : BindableBase
     {
-        private EquipableItemModel _equipableItemModel;
+        private EquippableItemModel _equippableItemModel;
         private readonly CharacterViewModel _characterViewModel;
 
-        public EquippableItemViewModel(EquipableItemModel equipableItemModel, CharacterViewModel characterViewModel)
+        public EquippableItemViewModel(EquippableItemModel equippableItemModel, CharacterViewModel characterViewModel)
         {
-            _equipableItemModel = equipableItemModel;
+            _equippableItemModel = equippableItemModel;
             _characterViewModel = characterViewModel;
         }
 
-        public EquipableItemModel EquipableItemModel
+        public EquippableItemModel EquippableItemModel
         {
-            get => _equipableItemModel;
-            set => SetProperty(ref _equipableItemModel, value);
+            get => _equippableItemModel;
+            set => SetProperty(ref _equippableItemModel, value);
         }
 
         public int LoadValue
         {
-            get => _equipableItemModel.LoadValue;
+            get => _equippableItemModel.LoadValue;
             set
             {
-                _equipableItemModel.LoadValue = value;
+                _equippableItemModel.LoadValue = value;
                 OnPropertyChanged(nameof(LoadValue));
                 _characterViewModel.RecalculateHandicapAttributes();
             }
@@ -33,10 +33,10 @@ namespace ImagoApp.ViewModels
 
         public bool Fight
         {
-            get => _equipableItemModel.Fight;
+            get => _equippableItemModel.Fight;
             set
             {
-                _equipableItemModel.Fight = value;
+                _equippableItemModel.Fight = value;
                 OnPropertyChanged(nameof(Fight));
                 _characterViewModel.RecalculateHandicapAttributes();
             }
@@ -44,10 +44,10 @@ namespace ImagoApp.ViewModels
 
         public bool Adventure
         {
-            get => _equipableItemModel.Adventure;
+            get => _equippableItemModel.Adventure;
             set
             {
-                _equipableItemModel.Adventure = value;
+                _equippableItemModel.Adventure = value;
                 OnPropertyChanged(nameof(Adventure));
                 _characterViewModel.RecalculateHandicapAttributes();
             }

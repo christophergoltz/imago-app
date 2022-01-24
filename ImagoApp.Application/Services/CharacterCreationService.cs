@@ -511,7 +511,7 @@ namespace ImagoApp.Application.Services
                 OpenAttributeIncreases = new ObservableCollection<SkillGroupModelType>(),
                 BodyParts = CreateBodyParts(),
                 Weapons = new ObservableCollection<WeaponModel>(),
-                EquippedItems = new ObservableCollection<EquipableItemModel>(),
+                EquippedItems = new ObservableCollection<EquippableItemModel>(),
                 BloodCarrier = new ObservableCollection<BloodCarrierModel>()
             };
 

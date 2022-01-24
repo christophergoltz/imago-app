@@ -140,7 +140,7 @@ namespace ImagoApp.ViewModels.Page
                 try
                 {
                     EquippableItemViewModels.Remove(item);
-                    CharacterViewModel.CharacterModel.EquippedItems.Remove(item.EquipableItemModel);
+                    CharacterViewModel.CharacterModel.EquippedItems.Remove(item.EquippableItemModel);
                     CharacterViewModel.RecalculateHandicapAttributes();
                 }
                 catch (Exception e)
@@ -185,7 +185,7 @@ namespace ImagoApp.ViewModels.Page
         {
             try
             {
-                var equipableItem = new EquipableItemModel(string.Empty, 0, false, false);
+                var equipableItem = new EquippableItemModel(string.Empty, 0, false, false);
                 CharacterViewModel.CharacterModel.EquippedItems.Add(equipableItem);
                 EquippableItemViewModels.Add(new EquippableItemViewModel(equipableItem, CharacterViewModel));
             }

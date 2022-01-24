@@ -66,7 +66,7 @@ namespace ImagoApp.Application.MappingProfiles
                 .IncludeAllDerived();
             CreateMap<ArmorPartEntity, ArmorPartModelModel>()
                 .IncludeAllDerived();
-            CreateMap<EquipableItemEntity, EquipableItemModel>()
+            CreateMap<EquipableItemEntity, EquippableItemModel>()
                 .IncludeAllDerived();
             CreateMap<WikiTabEntity, WikiTabModel>();
 
@@ -100,7 +100,7 @@ namespace ImagoApp.Application.MappingProfiles
             CreateMap<BodyPartModel, BodyPartEntity>();
             CreateMap<WeaponStanceModel, WeaponStanceEntity>();
             CreateMap<ArmorPartModelModel, ArmorPartEntity>();
-            CreateMap<EquipableItemModel, EquipableItemEntity>();
+            CreateMap<EquippableItemModel, EquipableItemEntity>();
             CreateMap<WikiTabModel, WikiTabEntity>();
         }
     }

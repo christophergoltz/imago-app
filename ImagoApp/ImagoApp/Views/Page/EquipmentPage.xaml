@@ -176,7 +176,7 @@
                                                 </Grid.ColumnDefinitions>
                                                 <Entry Grid.Column="0"
                                                        FontSize="{DynamicResource FontSizeContent}"
-                                                       Text="{Binding EquipableItemModel.Name}"
+                                                       Text="{Binding EquippableItemModel.Name}"
                                                        VerticalOptions="Center" />
                                                 <Entry Grid.Column="1"
                                                        FontSize="{DynamicResource FontSizeContent}"
